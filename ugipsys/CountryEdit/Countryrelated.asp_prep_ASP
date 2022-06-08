@@ -1,0 +1,28 @@
+﻿:  response.contenttype = "text/xml" 
+
+
+  
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+ country = request("country")
+ response.write country & "<br/>"
+ sql = "select mcode from codemain " & _
+  "where mvalue='"&country&"' and codemetaid='country_edit' order by mcode"
+ response.write sql
+ set rs = conn.execute(sql)
+ while not rs.eof
+  response.write "<row><mcode>" & rs("mcode") & "</mcode><mvalue><![cdata[" & rs("mcode") & "]]></mvalue></row>" & vbcrlf
+  rs.movenext
+ wend
+ 
+ 

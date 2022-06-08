@@ -1,0 +1,431 @@
+﻿: @ codepage = 65001 
+
+
+
+
+
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+ subjectid = request("subjectid")
+ ctnode = request("ctnode")
+ if subjectid = "" then
+  response.write "<script language='javascript'>history.go(-1);</script>"
+  response.write "]]></phtml></hpmain>"
+  response.end
+ end if
+ 
+ 
+ sql = "select m011_notetype, m011_subject from m011 where m011_subjectid = " & subjectid
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "<script language='javascript'>alert('操作錯誤！');history.go(-1);</script>"
+  response.write "]]></phtml></hpmain>"
+  response.end
+ end if
+ notetype = trim(rs("m011_notetype"))
+ subject = trim(rs("m011_subject"))
+ 
+ 
+ set ts = conn.execute("select count(*) from m012 where m012_subjectid = " & subjectid)
+ if ts(0) = 0 then
+  response.write "<script language='javascript'>alert('無調查問題！');history.go(-1);</script>"
+  response.write "]]></phtml></hpmain>"
+  response.end
+ end if
+ 
+ 
+ sql = "" & _
+  " select '*' + ltrim(str(m015_questionid)) + '*' + ltrim(str(m015_answerid)) + '*' " & _
+  " from m015 where m015_subjectid = " & subjectid
+ set rs3 = conn.execute(sql)
+ while not rs3.eof
+  open_str = open_str & rs3(0) & ","
+  rs3.movenext
+ wend
+ 
+ 
+ sql2 = "select top 1 * from m012 where m012_subjectid = " & subjectid & " order by m012_questionid"
+ set rs2 = conn.execute(sql2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   if subjectid = 1672 then 
+                                                                             =ctnode
+   else 
+                                                                             =ctnode
+   end if 
+
+                                                      = subjectid 
+                                                   = mailid 
+                                                = rs2("m012_questionid") 
+
+
+                                          =trim(rs("m011_subject"))
+
+  
+ if subjectid = 1672 then
+
+
+
+
+  
+ notetype = trim(rs("m011_notetype"))
+ 
+ if mid(notetype, 9, 1) = "1" then
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ end if
+ 
+ if mid(notetype, 10, 1) = "1" then
+
+
+
+
+
+
+
+   
+ end if 
+ 
+ if mid(notetype, 11, 1) = "1" then
+
+
+
+
+
+
+
+   
+ end if 
+
+
+
+
+  
+ if mid(notetype, 5, 1) = "1" then
+
+
+
+
+
+
+
+
+   
+ end if
+ 
+ if mid(notetype, 6, 1) = "1" then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ end if 
+ 
+ if mid(notetype, 7, 1) = "1" then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ end if
+ 
+ if mid(notetype, 8, 1) = "1" then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ end if
+
+   else 
+
+
+
+  
+ notetype = trim(rs("m011_notetype"))
+ 
+ if mid(notetype, 1, 1) = "1" then
+
+
+
+
+
+
+
+  
+ else
+  response.write "<input type=""hidden"" name=""name"" value=""none"">"
+ end if
+ 
+ if mid(notetype, 2, 1) = "1" then
+
+
+
+
+
+
+
+   
+ else
+  response.write "<input type=""hidden"" name=""email"" value=""@."">"
+ end if 
+ 
+ if mid(notetype, 3, 1) = "1" then
+
+
+
+
+
+
+
+   
+ end if 
+ 
+ if mid(notetype, 4, 1) = "1" then
+
+
+
+
+
+
+
+   
+ end if
+ 
+ if mid(notetype, 5, 1) = "1" then
+
+
+
+
+
+
+
+
+   
+ end if
+ 
+ if mid(notetype, 6, 1) = "1" then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ end if 
+ 
+ if mid(notetype, 7, 1) = "1" then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ end if
+ 
+ if mid(notetype, 8, 1) = "1" then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ end if
+
+   end if 
+
+
+
+
+
+
+
+
+
+  
+ while not rs2.eof
+  answertype = trim(rs2("m012_type"))
+  if answertype = "1" or answertype = "" then
+   sel = ""
+   seltype = "radio"
+  else
+   sel = "（本題為複選題）"
+   seltype = "checkbox"
+  end if
+
+
+
+
+                                             = rs2("m012_questionid") :     = trim(rs2("m012_title")) :   = sel 
+
+
+
+
+  
+  sql = "" & _
+   " select * from m013 where m013_subjectid = " & subjectid & _
+   " and m013_questionid = " & rs2("m012_questionid") & _
+   " order by m013_answerid "
+  set rs3 = conn.execute(sql)
+  while not rs3.eof
+
+
+                  = seltype :                 = rs2("m012_questionid") :            = rs3("m013_answerid") :     if trim(rs3("m013_default")) <> "" then :            end if 
+     = trim(rs3("m013_title")) 
+
+  
+   if instr(open_str, "*" & rs2("m012_questionid") & "*" & rs3("m013_answerid") & "*") > 0 then
+    response.write "   <input type='text' name='open_content" & rs2("m012_questionid") & "_" & rs3("m013_answerid") & "' size='30' maxlength='512'>"
+   end if
+
+
+  
+   rs3.movenext
+  wend
+
+
+
+  
+  rs2.movenext
+ wend
+ 

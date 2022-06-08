@@ -1,0 +1,36 @@
+﻿
+
+
+
+
+
+
+
+
+      function opennew(url) {
+             window.open(url, '', 'width=700,height=400,resizable=yes,toolbar=no');
+         }
+    
+
+
+
+
+
+
+function href___1808661260() {opennew("/logoselection/fullimage.aspx?fileName=Cx_0dummy.jpg")}
+
+
+
+
+                                            function OnClick___590981852() {UploadLogoA_Click}
+
+
+
+
+
+
+
+
+
+
+ 

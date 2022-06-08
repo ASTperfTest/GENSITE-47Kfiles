@@ -1,0 +1,348 @@
+﻿: response.expires=0
+
+  
+
+const cmaxmessagelevel = 10
+myid = "a"
+xxkind = "d"
+
+const cid = 1
+const cname = 2
+const ename = 2
+const cparent = 3
+const ckind = 4
+const cplevel = 5
+const cseq = 6
+const cchild = 7
+const cjchild = 15
+const cmaxforum = 2000
+'redim aryforum(cforumattributes,cmaxforum)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     =title:                       =htprogcap:                                        =uid
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+sqlcom = "select d.*,(select count(*) from deptorg as d2 where d.verid=d2.verid and d.deptid=d2.parent and kind='j') from deptorg as d where d.verid=(select verid from orgversion where vertype='org' and expiredate is null) order by d.plevel, d.kind desc, d.seq"
+set rs= conn.execute(sqlcom)
+
+ leadstring = "　　　　　　　　　　　　　　　"
+
+if not rs.eof then
+   aryforum = rs.getrows(cmaxforum)
+
+' response.write "<table border>"
+' for xi = 0 to ubound(aryforum,2)
+'  response.write "<tr>"
+'  for xj = 0 to ubound(aryforum,1)
+'   response.write "<td>" & aryforum(xj,xi)
+'  next
+' next
+' response.write "</table>"
+
+   glastmsglevel = 0
+  xgenlist 0, 1, true
+  xexpandfrom 0, 1
+ for intindex = 1 to glastmsglevel
+  response.write "</ul>"
+ next
+else
+   response.write "<b>目前還沒有任何資料!!</b>"
+end if
+
+''conn.close
+
+sub xexpandfrom (pidx, xlevel)
+ xcid = aryforum(cid, pidx)
+ childcount = 0
+ for i = 0 to ubound(aryforum,2)
+  if aryforum(cparent,i) = xcid then
+   childcount = childcount + 1
+     if aryforum(ckind,i)="d" then
+   if childcount = aryforum(cchild, pidx) then
+    call xgenlist (i, xlevel+1, true)
+   else
+    call xgenlist (i, xlevel+1, false)
+   end if
+   xexpandfrom i, xlevel + 1
+      end if
+  end if
+ next
+end sub
+
+sub xgenlist(xidx, xlevel, lastchild)
+  dim intindex
+
+' response.write xidx & "," & xlevel & "," & lastchild & "<hr>"
+' exit sub
+ 
+ intnewmsglevel = xlevel
+  for intindex = glastmsglevel to intnewmsglevel - 1
+    response.write "<ul type=square>" & vbcrlf
+  next
+  for intindex = intnewmsglevel to glastmsglevel - 1
+    response.write "</ul>"
+  next
+  if intnewmsglevel > 0 then
+
+ introw = xidx
+ if (aryforum(cchild, introw) - aryforum(cjchild, introw)) > 0 then
+  strli = "<li id=s" & aryforum(cid, introw) & " style=""background-color:#" & hex(15-aryforum(cplevel,introw)*3) & hex(15-aryforum(cplevel,introw)*2) & "c"">"
+  strli = "<li id=s" & aryforum(cid, introw)
+  xxkind=" mykind=f"
+  iconprefix = "tv_plusdots"
+  iconfolder = "iconxml.gif"
+  xxanchorurl = "elemedit.asp"
+  pmtag = " id=pms" &  aryforum(cid, introw)
+ else
+  iconprefix = "tv_dots"
+  strli = "<li class=leaf id=s" & aryforum(cid, introw) & " style=""background-color:white"">"
+  strli = "<li class=leaf id=s" & aryforum(cid, introw)
+  if aryforum(ckind, introw) = "a" then
+   iconfolder = "iconattr.gif"
+   xxanchorurl = "attredit.asp"
+   xxkind=" mykind=a"
+  else
+   xxkind=" mykind=f"
+   iconfolder = "iconxml.gif"
+   xxanchorurl = "elemedit.asp"
+  end if
+  pmtag = ""
+ end if
+ if xlevel > 0 then 
+  xxstr = left(leadstring,xlevel-1)
+  xxstr = replace(xxstr,"│", "<img src=../images/tv_dotsl.gif align=absmiddle>")
+  xxstr = replace(xxstr,"　", "<img src=../images/tv_space.gif align=absmiddle>")
+  response.write strli & ">" & xxstr
+
+  if lastchild then
+   response.write "<img" & pmtag & " src=../images/" & iconprefix & "b.gif align=absmiddle>"
+   leadstring = left(leadstring,xlevel-1) & "　" & mid(leadstring,xlevel)
+  else
+   response.write "<img" & pmtag & " src=../images/" & iconprefix & ".gif align=absmiddle>"
+   leadstring = left(leadstring,xlevel-1) & "│" & mid(leadstring,xlevel)
+  end if
+ else
+  response.write "<li id=s1><img id=pms1 src=../images/tv_space.gif width=0>"
+
+ end if
+' response.write "<a href=" & xxanchorurl & "?nodeid=" & aryforum(cid, introw) & "><img src=../images/" & iconfolder & " align=absmiddle border=0>&nbsp;<span id=hls" & aryforum(cid, introw) &">" & aryforum(1,xidx) & "</span></a>" & vbcrlf
+ response.write "<img src=../images/" & iconfolder & " align=absmiddle border=0>&nbsp;"
+ if aryforum(ckind, introw) = "d" then
+  response.write "<input type=checkbox name=mdlselected" & aryforum(cid, introw) & ">"
+ end if
+ response.write "&nbsp;<span id=hls" & aryforum(cid, introw) & xxkind & " title=""" & aryforum(cname,xidx) & """>" & aryforum(ename,xidx) & "</span>" & vbcrlf
+  end if
+  glastmsglevel = intnewmsglevel
+end sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               =myid 

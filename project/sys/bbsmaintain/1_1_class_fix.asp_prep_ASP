@@ -1,0 +1,58 @@
+﻿:  
+ response.expires = 0
+ htprogcap = "�q�ױm��"
+ htprogfunc = "�q�ױm�Ϻ��@"
+ htprogcode = "bbs010"
+ htprogprefix = "msession" 
+ response.expires = 0 
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+ 
+ id = trim(request("id"))
+ if id = "" then
+  response.write "<script language='javascript'>history.go(-1);</script>"
+  response.end
+ end if
+ 
+ 
+ sql = "select * from talk05 where id = " & pkstr(id, "")
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "<script language='javascript'>history.go(-1);</script>"
+  response.end
+ end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                          = id 
+
+
+                                                                      = rs("seq") 
+
+
+
+                                                = trim(rs("name")) 
+
+
+
+                                                   =trim(rs("master"))  

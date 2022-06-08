@@ -1,0 +1,428 @@
+@charset "utf-8";
+/* 農委會蝴蝶蘭主題館 */
+/* CSS Document for all pages */
+
+/* --------------------------------------------------------- Body */
+body {
+	margin: 0px;
+	padding: 0px;
+	color: #333333;
+	background-image: url(../images/webtitle.jpg);
+	background-repeat: no-repeat;
+	background-position: left top;
+	background-color: #FCFEE9;
+	font-family: "新細明體";
+}
+
+/* --------------------------------------------------------- 排版表格, 兩欄三欄共用 */
+.Layout {
+	margin: 0px;
+	border-collapse:collapse;
+	width: 100%;
+	border: none;
+}
+.Layout .Left {
+	width: 165px;
+	vertical-align: top;
+	padding: 0px 0px 40px;
+	margin: 0px;
+}
+.Layout .Center {
+	vertical-align: top;
+	width: auto;
+	margin: 0px;
+	padding: 0px 20px 40px;
+}
+
+/* 網站標題 */
+.WebTitle {
+	height: 175px;
+	text-align: left;
+}
+
+/* 導覽列 */
+.TopLink {
+	font-size: 80%;
+	top: 0px;
+	right: 0px;
+	position: absolute;
+	padding: 10px 3px 4px 25px;
+	font-family: "新細明體";
+	margin: 0px;
+}
+.TopLink li {
+	display: inline;
+	margin-right: 0.5em;
+}
+.TopLink a {
+	text-decoration: none;
+	background: url(../images/bullet3.gif) no-repeat 0px 2px;
+	padding-left: 14px;
+	color: #962F34;
+}
+.TopLink a:hover {
+	color: #000000;
+	text-decoration: underline;
+}
+/* --------------------------------------------------------- 選單 */
+.Menu {
+	margin: 0px;
+	background-image: url(../images/menu_head.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	padding-top: 20px;
+	padding-bottom: 15px;
+	width: 165px;
+}
+
+.Menu li{
+	list-style-type: none;
+	margin: 0px;
+	width: 165px;
+}
+html > body .Menu li {
+	margin-left: -40px;
+}
+*+html > body .Menu li {
+	margin-left: 0px;
+}
+.Menu li a {
+	font-size: 80%;
+	line-height: 145%;
+	color: #580005;
+	text-decoration: none;
+	padding-top: 10px;
+	padding-bottom: 5px;
+	background-image: url(../images/icon_men01.gif);
+	background-repeat: no-repeat;
+	background-position: 6px 13px;
+	padding-left: 25px;
+	padding-right: 5px;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	letter-spacing: 0.05em;
+	margin-right: 10px;
+	margin-left: 10px;
+	width: 145px;
+	border-bottom: 1px dashed #666666;
+	display: block;
+}
+html > body .Menu li a {
+	width: 116px;
+	background-position: 8px 15px;
+}
+
+.Menu li a:hover {
+	background: url(../images/icon_men01_1.gif) no-repeat 11px 13px;
+	text-decoration: none;
+	color: #135E6F;
+	padding-left: 25px;
+	padding-right: 5px;
+}
+html > body .Menu li a:hover {
+	width: 116px;
+	background-position: 12px 15px;
+}
+.Menu ul {
+	margin: 0px;
+}
+.Menu li li a {
+	display: block;
+	font-size: 80%;
+	line-height: 145%;
+	letter-spacing: .05em;
+	color: #747402;
+	text-decoration: none;
+	padding-top: 10px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+	padding-left: 40px;
+	margin: 0px 10px;
+	background-image: url(../images/icon_men02.gif);
+	border-top-style: none;
+	background-repeat: no-repeat;
+	background-position: 16px 13px;
+	background-color: #FDFDE3;
+	width: 145px;
+}
+html > body .Menu li li a{
+	width: 100px;
+	background-position: 22px 13px;
+	margin-right: -40px;
+}
+.Menu li li a:hover {
+	text-decoration: none;
+	color: #990000;
+	background-image: url(../images/icon_men02_1.gif);
+	background-repeat: no-repeat;
+	background-position: 25px 13px;
+	margin-top: 0px;
+	margin-right: 10px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+	padding-top: 10px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+	padding-left: 40px;
+	background-color: #FCFCCD;
+}
+html > body .Menu li li a:hover {
+	width: 100px;
+	background-position: 28px 13px;
+}
+.Menu_Foot {
+	background-image: url(../images/menu_foot.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	height: 93px;
+}
+/* --------------------------------------------------------- 單元頁標題 */
+.PageTitle {
+	font-size: 100%;
+	line-height: 135%;
+	color: #F96C10;
+	background: url(../images/pagetitle.gif) no-repeat 5px 9px;
+	margin: 0px;
+	padding: 5px 10px 4px 30px;
+	letter-spacing: .05em;
+	font-weight: bold;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #27331B;
+	border-top-width: 1px;
+	border-top-style: dashed;
+	border-top-color: #222F11;
+}
+
+/* --------------------------------------------------------- 瀏覽路徑 */
+.Path {
+	font-size: 80%;
+	margin: 3px 10px 0px 20px;
+	padding-top: 3px;
+	padding-right: 0px;
+	padding-bottom: 2px;
+}
+.Path a {
+	color: #296D30;
+}
+.Path a:hover {
+	color: #990000;
+	text-decoration: underline;
+}
+.Path img {
+	margin-right: 4px;
+	margin-left: 4px;
+	margin-top: 1px;
+}
+/* --------------------------------------------------------- 分頁 */
+.Page {
+	font-size: 80%;
+	text-align: right;
+	margin: 0px 25px 0px 0px;
+	padding: 0px;
+}
+.Page select {
+	vertical-align: -5%;
+}
+.Page img {
+	border: none;
+	margin-right: 2px;
+	margin-left: 2px;
+}
+.Page .Number {
+	vertical-align: 15%;
+	padding-right: 3px;
+	padding-left: 3px;
+	color: #0A5363;
+}
+
+/* --------------------------------------------------------- 分類 */
+.Category {
+	font-size: 80%;
+	line-height: 150%;
+	border-bottom: 1px dashed #CC6633;
+	padding: 0px 8px 2px 0px;
+	margin: 8px 25px 8px 20px;
+	padding: 0px 8px 2px 0px;
+}
+.Category li {
+	display: inline;
+	background: url(../images/bullet5.gif) no-repeat right top;
+	margin-left: 5px;
+	padding-right: 5px;
+}
+
+/* ------------------------------------------------------- RSS，查詢本單元 */
+.Function2 {
+	margin: -25px 25px 9px 0px;
+	padding: 0px;
+	list-style: none;
+	text-align: right;
+}
+.Function2 li {
+	font-size: 80%;
+	display: inline;
+	margin-left: 5px;
+}
+.Function2 li a.RSS {
+	background: url(../images/icon_rss.gif) no-repeat 3px 3px;
+	padding-left: 22px;
+
+}
+.Function2 li a.GIPsearch {
+	background: url(../images/icon_search.gif) no-repeat 6px 0px;
+	padding-left: 22px;
+}
+
+/* --------------------------------------------------------- 頁尾資訊 */
+.Bottom {
+ font-size: 80%;
+ line-height: 115%;
+ background: #FBD52C url(../images/bottom_bg.gif) no-repeat left bottom;
+ padding: 0 0 25px;
+ margin: 0;
+ border-top-width: 2px;
+ border-top-style: solid;
+ border-top-color: #CC9900;
+ text-align: center;
+}
+.Bottom p {
+	margin: 25px 0px 0px;
+	padding: 0px;
+	color: #663300;
+	line-height: 150%;
+}
+.Bottom img {
+  float: right;
+  margin: 0 50px 0 0;  
+}
+
+/* --------------------------------------------------------- form */
+
+form input.Text {
+	font-size: 12px;
+	background: #FFFFFF;
+	border: 1px solid #666666;
+	font-family: Arial, Helvetica, sans-serif;
+}
+form input.Button {
+	font-size: 12px;
+	line-height: 12px;
+	height: 20px;
+	padding-top: 2px;
+	background: #58A1DD;
+	color: #FFFFFF;
+	border: 1px solid #999999;
+}
+
+
+/* --------------------------------------------------------- 連結共用 */
+a {
+	color: #E17E06;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+	color: #730000;
+}
+
+/* --------------------------------------------------------- 更多,詳細內容 */
+.More {
+	text-align: right;
+}
+.More a {
+	font-size: 70%;
+	background: url(../images/icon_men02_1.gif) no-repeat left 1px;
+	text-decoration: none;
+	padding-left: 13px;
+	letter-spacing: 0.04em;
+	color: #CC6600;
+}
+.More1 {
+	text-align: right;
+	float: right;
+	margin-top: 10px;
+	margin-right: 5px;
+	margin-bottom: 7px;
+	margin-left: 0px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #D4D4D4;
+}
+html >body .More1 {
+	text-align: right;
+	float: right;
+	border: none;
+	margin-top: 15px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-left: 0px;
+	padding-bottom: 0px;
+	padding-right: 5px;
+}
+.More2 {
+	text-align: right;
+	float: right;
+	margin-top: 15px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-left: 0px;
+	padding-bottom: 1px;
+}
+
+.Date {
+	margin-left: 0.8em;
+	color: #BD5F00;
+	font-size: 100%;
+}
+.green {
+	color: #009900;
+}
+.ash {
+	color: #333333;
+}
+
+/* --------------------------------------------------------- Accesskey 導盲磚 */
+.Accesskey {
+	filter: Alpha(Opacity=5);
+	font-size: 10px;
+	position: absolute;
+	background: url(none);
+}
+.Accesskey a {
+	color: #FFFFFF;
+}
+
+/* --------------------------------------------------------- search */
+.search {
+ color: #561010;
+ position: absolute;
+ top: 25px;
+ text-align: left;
+ padding: 0;
+ right: 10px;
+ margin-top: 8px;
+ vertical-align: middle;
+}
+.search form {
+ margin: 0;
+ padding: 0;
+ font-size: 80%;
+}
+.search .input {
+ color: #999999;
+ border: 1px solid #CC6600;
+ padding: 2px 5px 0px;
+}
+.button {
+ background: #C0A021;
+ font-size: 13px;
+ color: #FFFFFF;
+ padding: 0px;
+ border: 1px solid #4F1718;
+ margin-right: 3px;
+ height: 19px;
+ margin-top: -18px;
+}

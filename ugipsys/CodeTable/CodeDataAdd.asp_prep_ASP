@@ -1,0 +1,150 @@
+﻿: @ codepage = 65001 
+  response.expires=0
+htprogcap="代碼維護"
+htprogcode="pn90m02"
+htprogprefix="codedata" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+                               =htprogprefix
+
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+tasklable="新增" & htprogcap
+ sql="select * from codemetadef where codeid=n'" & session("codeid") & "'" 
+ set rscode=conn.execute(sql)
+if request("submittask")="新增存檔" then
+   if isnull(rscode("codesrcfld")) then
+ sql="select * from " & rscode("codetblname") & " where " & rscode("codevaluefld") & "=n'" & request("tfx_value") & "'"
+   else 
+ sql="select * from " & rscode("codetblname") & " where " & rscode("codesrcfld") & "=n'" & rscode("codesrcitem") & "' and " & rscode("codevaluefld") & "=n'" & request("tfx_value") & "'"
+   end if
+   set rsvalidate=conn.execute(sql)    
+   if not rsvalidate.eof then 
+
+
+
+
+   else 
+ if rscode("codetblname")="paounitm" then
+  sql="insert into " & rscode("codetblname") & " (org," & rscode("codevaluefld") & "," & rscode("codedisplayfld") & "," & rscode("codesortfld") & ") values(n'310905500q',n'" & request("tfx_value") & "',n'" &  request("tfx_display") & "',n'" & request("tfx_fldsort") & "')"   
+ elseif isnull(rscode("codesrcfld")) then
+  if isnull(rscode("codesortfld")) then
+   sql="insert into " & rscode("codetblname") & " (" & rscode("codevaluefld") & "," & rscode("codedisplayfld") & ") values(n'" & request("tfx_value") & "',n'" &  request("tfx_display") & "')"   
+  else
+   if request("tfx_fldsort")="" then
+    sql="insert into " & rscode("codetblname") & " (" & rscode("codevaluefld") & "," & rscode("codedisplayfld") & "," & rscode("codesortfld") & ") values(n'" & request("tfx_value") & "',n'" &  request("tfx_display") & "',null)"   
+   else
+    sql="insert into " & rscode("codetblname") & " (" & rscode("codevaluefld") & "," & rscode("codedisplayfld") & "," & rscode("codesortfld") & ") values(n'" & request("tfx_value") & "',n'" &  request("tfx_display") & "',n'" & request("tfx_fldsort") & "')"  
+   end if
+  end if   
+ else
+  if isnull(rscode("codesortfld")) then
+   sql="insert into " & rscode("codetblname") & " (" & rscode("codesrcfld") & "," & rscode("codevaluefld") & "," & rscode("codedisplayfld") & ") values(n'" & rscode("codesrcitem") & "',n'" & request("tfx_value") & "',n'" &  request("tfx_display") & "')"   
+  else
+   if request("tfx_fldsort")="" then
+    sql="insert into " & rscode("codetblname") & " (" & rscode("codesrcfld") & "," & rscode("codevaluefld") & "," & rscode("codedisplayfld") & "," & rscode("codesortfld") & ") values(n'" & rscode("codesrcitem") & "',n'" & request("tfx_value") & "',n'" &  request("tfx_display") & "',null)"   
+   else
+    '判斷為"國家與地區"代碼時，新增"地區"至mref欄位 
+    if session("codeid") = "country_edit" then
+     sql="insert into " & rscode("codetblname") & " (" & rscode("codesrcfld") & "," & rscode("codevaluefld") & "," & rscode("codedisplayfld") & "," & rscode("codesortfld") & ", mref) values(n'" & rscode("codesrcitem") & "',n'" & request("tfx_value") & "',n'" &  request("tfx_display") & "',n'" & request("tfx_fldsort") & "',n'" &  request("tfx_mref") & "')"  
+    else
+     sql="insert into " & rscode("codetblname") & " (" & rscode("codesrcfld") & "," & rscode("codevaluefld") & "," & rscode("codedisplayfld") & "," & rscode("codesortfld") & ") values(n'" & rscode("codesrcitem") & "',n'" & request("tfx_value") & "',n'" &  request("tfx_display") & "',n'" & request("tfx_fldsort") & "')"  
+    end if
+   end if
+  end if   
+ end if
+'response.write sql 
+ conn.execute(sql)
+
+
+                                                   =session("codeid"):             =session("codename")
+
+   response.end
+   end if
+else
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if 
+
+
+   sub initform() 
+
+   end sub '---- initform() ----
+
+   sub showform() 
+
+   CxMethod_ASP_codedataform_230473223()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+                                                    =title
+
+
+
+
+
+
+
+                                                 =session("codeid"):         =session("codename")
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+   sub showhtmltail() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmltail() ------ 

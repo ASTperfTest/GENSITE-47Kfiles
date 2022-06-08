@@ -1,0 +1,24 @@
+﻿
+
+  
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+ ibasedsd = request("ibasedsd")
+ sql = "select ctunitid,ctunitname from ctunit where ibasedsd='"&ibasedsd&"' order by ctunitid"
+ set rs = conn.execute(sql)
+ while not rs.eof
+  response.write "<row><mcode>" & rs("ctunitid") & "</mcode><mvalue><![cdata[" & rs("ctunitname") & "]]></mvalue></row>" & vbcrlf
+  rs.movenext
+ wend
+ 
+ 

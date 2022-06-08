@@ -1,0 +1,95 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_server_2075167351()
+  
+function checkdateok( fieldy, fieldm, fieldd )
+   session("dateok") = true
+
+   if isnumeric(fieldy)=true and isnumeric(fieldm)=true and isnumeric(fieldd)=true then
+      if cint(fieldm)<1 or cint(fieldm)>12 then
+         session("dateok") = false
+      else
+         if cint(fieldm)=1 or cint(fieldm)=3 or cint(fieldm)=5 or cint(fieldm)=7 or cint(fieldm)=8 or cint(fieldm)=10 or cint(fieldm)=12 then
+            if cint(fieldd)<1 or cint(fieldd)>31 then
+               session("dateok") = false
+            end if
+         elseif cint(fieldm)=4 or cint(fieldm)=6 or cint(fieldm)=9 or cint(fieldm)=11 then
+            if cint(fieldd)<1 or cint(fieldd)>30 then
+               session("dateok") = false
+            end if
+         elseif cint(fieldm) = 2 then
+            if (cint(fieldy)+1911) mod 4 = 0 then
+               if cint(fieldd)<1 or cint(fieldd)>29 then
+                  session("dateok") = false
+               end if
+            else
+               if cint(fieldd)<1 or cint(fieldd)>28 then
+                  session("dateok") = false
+               end if
+            end if
+         end if
+      end if
+   else
+      session("dateok") = false
+   end if
+end function
+
+         flag = true
+         checkdateok request("textfield2"),request("textfield22"),request("textfield23")
+         if session("dateok") = true then
+            temp = 1911 + cint(request("textfield2"))
+            startday = dateserial(temp,request("textfield22"),request("textfield23"))
+         else
+            response.write "<font color='#993300'>開始日期應為有效數字，請重新輸入！</font><br>"
+            flag = false
+         end if
+
+         checkdateok request("textfield24"),request("textfield25"),request("textfield26")
+         if session("dateok") = true then
+            temp = 1911 + cint(request("textfield24"))
+            endday = dateserial(temp,request("textfield25"),request("textfield26"))
+         else
+            response.write "<font color='#993300'>結束日期應為有效數字，請重新輸入！</font><br>"
+            flag = false
+         end if
+
+         if flag = true then
+            if startday > endday then
+               response.write "<font color='#993300'>日期先後錯誤，請重新輸入！</font><br>"
+               flag = false
+            else
+               sqldata = "select * from prosecute where date>='" & startday & " 0:0:0' and date<='" & endday & " 23:59:59' order by date"
+               set rsdata = conn.execute(sqldata)
+               if not rsdata.eof then
+                  set fs= server.createobject("scripting.filesystemobject")
+                  filename = uploadtemppath & replace(startday,"/","_") & "~" & replace(endday,"/","_") & ".csv"
+                  exportfile = server.mappath(filename)
+                  set txtf = fs.createtextfile(exportfile)
+   
+                  datatemp = "編號,類別,文號,來信日期,姓名,聯絡電話,電子郵件信箱,聯絡地址,意見內容,回應單位,回應內容,回應日期,回應期限"
+                  txtf.writeline datatemp
+                  counter1=1
+                  while not rsdata.eof
+                     datatemp = counter1 & "," & trim(rsdata("classname")) & "," & trim(rsdata("docid")) &"," & trim(rsdata("date")) & "," & trim(rsdata("name")) & "," & trim(rsdata("tele")) & "," & trim(rsdata("email")) & "," & trim(rsdata("addr")) & "," & trim(rsdata("context")) & "," & rsdata("unit") & "," & trim(rsdata("reply")) & "," & rsdata("replydate") & "," & rsdata("dateline")
+
+                     txtf.writeline datatemp
+                     counter1=counter1+1
+                     rsdata.movenext
+                  wend
+                  response.redirect filename
+               else
+                  response.write "<font color='#993300'>本段日期無資料可供匯出，請重新輸入！</font><br>"
+                  flag = false
+               end if
+            end if
+         end if
+
+         if flag = false then
+
+
+
+
+
+  
+         end if
+     
+ 

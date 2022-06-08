@@ -1,0 +1,26 @@
+﻿: @ codepage = 65001 
+   
+ response.expires = 0
+   htprogcode = "gc1ap5"
+  catalogueframe = "220,*"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_xdbutil_1468464061()
+  
+if left(session("public"),6)="/site/" and left(session("uploadpath"),6)<>"/site/" then
+ session("uploadpath") = left(session("public"),len(session("public"))-8) & session("uploadpath")
+end if
+if "" & session("pwd") <> "" and "" & session("uploadpath")="" then
+    session("uploadpath")="/"
+end if
+
+
+
+
+
+
+
+
+
+                  =catalogueframe
+                                                                                               =session("uploadpath") 

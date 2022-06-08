@@ -1,0 +1,57 @@
+﻿
+
+
+
+
+   
+ for each param in allmodel2.selectnodes("//fieldlist/field[formlist!='']") 
+     if not (nulltext(param.selectsinglenode("fieldname"))="fctupublic" and session("checkyn")="y") then
+        if nulltext(param.selectsinglenode("inputtype"))<>"hidden" then
+      response.write "<tr><td class=""label"" align=""right"">"
+      if nulltext(param.selectsinglenode("cannull")) = "n" then _
+   response.write "<span class=""must"">*</span>"
+      response.write nulltext(param.selectsinglenode("fieldlabel")) & "</td>"
+      if nulltext(param.selectsinglenode("fieldrefedityn"))="y" then
+       response.write "<td class=""etablecontent"">"
+       processparamfield param 
+       response.write "</td></tr>"                   
+      else
+       response.write "<td class=""etablecontent"" id=""x"&nulltext(param.selectsinglenode("fieldname"))&"""></td></tr>" 
+   orginputtype = param.selectsinglenode("inputtype").text
+   param.selectsinglenode("inputtype").text = "hidden"
+   processparamfield param
+   param.selectsinglenode("inputtype").text = orginputtype            
+      end if
+  else
+       processparamfield param      
+        end if
+     end if
+ next
+
+
+
+
+
+
+
+
+
+
+     if session("codeid")="7" then 
+
+        end if 
+
+     if session("checkyn")="y" then 
+
+        end if 
+
+
+            if (htprogright and 4)<>0 then 
+                if nulltext(allmodel.selectsinglenode("//sbasedsdxml/addyn"))="" then 
+
+         end if
+            end if
+
+            if (htprogright and 4)<>0  then 
+
+            end if 

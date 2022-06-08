@@ -1,0 +1,885 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*2008套版時暫用的common.css */
+
+/*----------------------------------------------------------------主題館條列頁使用
+以下移至 i_subjectlist.css 2008/12/18 by chiung
+.subjectcata{
+	clear:both;
+	height:23px;
+	margin:0;
+	padding:17px 0 0 10px;
+/*	background: url(../images_temp/groupBg.gif) repeat-x 0 0;
+}
+.subjectcata li{
+	display: block;
+	background: url(../images_temp/tableft2.gif) no-repeat top left;
+	float:left;
+	margin:0 1px;
+	padding-left:0.5em;}
+
+.subjectcata a{
+	display:block;
+	background: url(../images_temp/tabright2.gif) no-repeat top right;
+	margin-left:1em;
+	padding:6px 1.5em 4px 0;
+	text-align:right;
+	text-decoration:none;
+	color:#666666;}
+
+.subjectcata a:hover{
+	color: #003333;}
+	
+.subjectcata li.active{
+	background: url(../images_temp/tableft.gif) no-repeat top left;
+}
+.subjectcata li.active a{
+	color:#000;
+	background: url(../images_temp/tabright.gif) no-repeat top right;}
+
+.subjectlist{
+	margin:0;
+	padding:0;
+}
+
+.subjectlist ul{
+	list-style:none;
+	margin: 0px;
+	padding:0;
+	border-top: 2px solid #CCC;
+}
+
+.subjectlist hr{
+	clear:both;
+	height:1px;
+	color:#AAA;
+	background-color: #AAA;
+	margin:0px;
+	padding:0px;
+}
+
+.subjectlist li{
+	list-style:none;
+	line-height:1.5;
+	margin:5px 0px 0px 0px; /*修正上下間距
+	padding: 0px;
+/*	border-bottom:1px solid #CCC;
+	color:#999;
+	clear:both;
+}
+	
+html>body .subjectlist li{
+	margin:10px;
+}
+*+html>body .subjectlist li{
+	margin:0 10px;
+}
+	
+.subjectlist li img{
+	float:left;
+	margin:3px 6px 3px 0px ;
+	width:142px;
+	height:62px;
+	border: 1px solid #DDDCDC;
+}
+	
+html>body .subjectlist li img{
+	margin-top:0;
+}
+*+html>body .subjectlist li img{
+	margin:3px 6px 0 0 ;
+}
+
+.subjectlist li span{
+	display:block;
+	color:#666;
+	padding-left:0px;
+	line-height:130%;
+}
+
+.subjectlist li a{
+/*	display:block;*/ /*1017修改日期和標題要在同一列
+	font-weight:bold;
+	color:#069;
+	margin: 5px 10px 5px 0px;
+	padding-bottom:5px;
+	padding-left:0px; /*修正左邊間距
+}
+html>body .subjectlist li a{
+	margin:0;
+}
+*+html>body .subjectlist li a{
+	margin:-3px 0 0 0;
+}
+
+
+.subjectlist .more{}
+
+.subjectlist .more a{}
+
+以上移至 i_subjectlist.css 2008/12/18 by chiung
+----------------------------------------------------------------list end*/
+
+/*----------------------------------------------------------------知識統計 star
+.sta{
+	width:185px;
+	text-align:center;
+	margin:10px auto 0;
+	clear: both;
+}
+
+.sta h2{
+	background:url(../images_temp/staBg.gif) no-repeat center 0;
+	width:185px;
+	height:29px;
+	text-align:center;
+	text-indent:-6000px;
+	margin:0;}
+	
+.sta p{
+	margin: 1px 10px;
+	}
+*/	
+/*----------------------------------------------------------------知識統計 end*/
+
+.space {
+	clear: both;
+}
+/*----------------------------------------------------------------我要發問 star
+.ask{
+	float: right;
+	margin-top: -40px;/*1009修正了發問的位置
+	margin-right: 16px;
+}
+html>body .ask{
+/*	margin-top: -65px;
+}
+
+/*1009修正了IE7我要發問
+*+html>body .ask {
+	margin-top: -40px;
+	margin-right: 16px;
+}
+*/
+/*----------------------------------------------------------------我要發問 end*/
+
+
+
+
+/*----------------------------------------------------------------rbox star (style B)*/
+.rbox2 {
+	padding-bottom:1.5em;
+	margin-left:6px;
+	margin-top:1em;
+	background:url(../images_temp/hr.gif) no-repeat bottom center;
+	padding-left: 8px;
+	}
+	
+/*----------------------------------------------------------------rbox End*/
+
+
+
+
+
+
+/* --------------------------------------------------------- 最新發問TAB LIST 
+以下移到 i_magazine.css 2008/12/18
+
+#Magazine {
+	margin:0;
+	background: #FFF;
+	padding-right: 20px;
+	padding-bottom: 5px;
+	padding-left: 20px;
+	clear: both;
+	width:auto;
+}
+
+#Magazine h4 {
+	background: url(../images_temp/h4_bg.gif) no-repeat left top;
+	padding-left: 45px;
+	color: #083D65;
+	clear: both;
+	font-size: 16px;
+	height: 38px;
+	line-height: 190%;
+}
+#Magazine .Event {
+	clear: left;
+	padding: 12px 0px 5px 0px;
+	border-bottom: 1px solid #CCCCCC;
+	width: 100%;
+}
+
+#Magazine .Event h5 {
+	color: #083D65;
+	margin: 0px 0px 10px;
+	padding: 0px;
+	font-size: 125%;
+	font-weight: bold;
+}
+#Magazine .Event h5 img {
+	vertical-align: middle;
+	margin-left: 5px;
+}
+
+#Magazine .Event p {
+	line-height: 160%;
+	margin: 0px 0px 1em;
+	padding: 0px;
+}
+#Magazine .Event .Phoimg {
+	padding: 0px;
+	float: left;
+	margin: 0px 10px 5px 5px;
+	border: 1px solid #666666;
+	height: 120px;
+	width: 90px;
+}
+
+#Magazine .Event .More {
+	text-align: right;
+	padding: 0px;
+	margin: 0px;
+	font-size: 13px;
+}
+#Magazine .Event .More a {
+	font-weight: bold;
+	color: #FF7E00;
+	background: url(../images_temp/icom03.gif) no-repeat 2px 1px;
+	padding-left: 18px;
+}
+#Magazine .Event .More a:hover {
+	color: #800D0D;
+	text-decoration: underline;
+}
+
+
+以上移到 i_magazine.css 2008/12/18
+
+*/
+
+/*- MagTabs--------------------------- 
+
+#MagTabs {
+	clear:both;
+	width:100%;
+	font-size:100%;
+	line-height:normal;
+	border-bottom:1px solid #083D65;
+	font-weight: bold;
+	font-family: "新細明體", "細明體";
+	background-color: #FFF;
+ }
+html>body #MagTabs {
+	min-height:26px;}
+		  
+#MagTabs ul {
+	margin:0;
+	padding:0px;
+	list-style:none;
+	font-size: 15px;
+}
+#MagTabs li {
+  display:inline;
+  margin:0;
+  padding:0;
+}
+#MagTabs a {
+	float:left;
+	background:url("../images_temp/tableft3.gif") no-repeat left top;
+	margin:0;
+	padding:0 0 0 4px;
+	text-decoration:none;
+}
+#MagTabs a span {
+	float:left;
+	display:block;
+	background:url("../images_temp/tabright3.gif") no-repeat right top;
+	padding:5px 15px 6px 6px;
+	color: #3E3A39;
+	vertical-align: middle;
+}
+*+html>body #MagTabs a span {
+	padding:3px 15px 8px 6px;
+}
+*/	  
+/* Commented Backslash Hack hides rule from IE5-Mac \
+#MagTabs a span {float:none;}
+/* End IE5-Mac hack 
+#MagTabs a:hover span {
+  color:#FFFFFF;
+}
+#MagTabs a:hover {
+  background-position:0% -42px;
+  color:#FFFFFF;
+}
+#MagTabs a:hover span {
+  background-position:100% -42px;
+}
+	  
+#MagTabs .current a {
+  background-position:0% -42px;
+}
+#MagTabs .current a span {
+  background-position:100% -42px;
+ 	color:#FFFFFF;
+}
+*/  
+	  
+
+
+/* --------------------------------------------------------- Staricon STAR */
+.staricon {
+	white-space: nowrap;
+	vertical-align: top;
+	display: inline;
+}
+
+.staricon2 {
+	white-space: nowrap;
+	vertical-align: top;
+	display: inline;
+}
+/* --------------------------------------------------------- Staricon END */
+
+/*----------------------------------------------------------------depdate star (style C)
+.depdate {
+	margin:2px 2px 2px 20px;
+	float: left;
+	color: #646464;
+	background: url(../images_temp/depdate.gif) no-repeat 0px center;
+	padding-left: 20px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+*/
+/*----------------------------------------------------------------depdate end*/
+
+
+
+/*----------------------------------------------------------------DisContent star */
+.DisContent {
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+.DisContent h4 {
+	color: #006699;
+	background: url(../images_temp/icom_i02.gif) no-repeat 2px 6px;
+	padding-left: 18px;
+}
+.DisContent h4 a {
+	color: #006699;
+	font-size: 125%;
+	line-height: 150%;
+}
+.DisContent h4 a:hover {
+	color: #CC6600;
+}
+
+/*----------------------------------------------------------------DisContent end */
+
+
+/*----------------------------------------------------------------slider star */
+.slidertable {
+	background: #F4F2EC;
+	text-align: left;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+.slidertable td {
+	vertical-align: middle;
+}
+.slider {
+	background: url(../images_temp/bg_slider.gif) no-repeat center center;
+	height: 29px;
+	width: 80px;
+	white-space: nowrap;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+.slider img {
+}
+/*----------------------------------------------------------------slider end */
+
+/*----------------------------------------------------------------Issued star 
+.Issued {
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background: #FCF8EE;
+}
+.Issued li {
+	display: inline;
+	margin-right: 0.5em;
+}
+
+.Issued2 {
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background: #EEEEEE;
+}
+.Issued2 li {
+	display: inline;
+	margin-right: 0.5em;
+}
+*/
+
+/*----------------------------------------------------------------Issued end */
+
+/*----------------------------------------------------------------DisList star 
+.DisList {
+	border-bottom: 1px dashed #CCCCCC;
+	padding: 5px 0px;
+}
+.DisList a {
+}
+.DisList a:hover {
+}
+.DisList p {
+	padding: 5px;
+}
+
+*/
+/*----------------------------------------------------------------DisList end */
+
+/*----------------------------------------------------------------DisText star */
+.DisText {
+	border-bottom: 1px dashed #CCCCCC;
+	padding: 5px 0px;
+}
+.DisText a {
+	color: #006699;
+}
+.DisText a:hover {
+	color: #CC6600;
+}
+.DisText p {
+	padding: 5px;
+	font-size: 125%;
+}
+
+
+/*----------------------------------------------------------------DisList end */
+
+
+/*---------------------------------------------------------------評價顯示 star */
+#ratingAndStatsDiv {
+	padding: 10px;
+	background-color: #FBFCEB;
+	border: 3px double #ECECBD;
+}
+#ratingAndStatsDiv #ratingDiv {
+}
+#ratingAndStatsDiv #ratingDiv .footerMessage {
+	MARGIN-LEFT: 47px
+}
+#ratingAndStatsDiv .rating {
+	VERTICAL-ALIGN: middle;
+	HEIGHT: auto;
+}
+#ratingAndStatsDiv .statLabel {
+	FONT-WEIGHT: bold; FONT-SIZE: 16px; MARGIN: 0px 4px 0px 0px; COLOR: #666
+}
+#ratingAndStatsDiv .ratingCount {
+	FONT-SIZE: 11px; MARGIN: 0px 0px 0px 4px; COLOR: #333
+}
+#ratingAndStatsDiv #viewsDiv {
+	PADDING-RIGHT: 80px; FLOAT: right; PADDING-TOP: 3px
+}
+#ratingAndStatsDiv #statsDiv {
+	FONT-SIZE: 11px; FLOAT: right; TEXT-ALIGN: right
+}
+#ratingAndStatsDiv .statsLabel {
+	FONT-WEIGHT: bold; COLOR: #333
+}
+#ratingAndStatsDiv .statsValue {
+	PADDING-LEFT: 2px; FLOAT: right; TEXT-ALIGN: left
+}
+#vrParentDiv {
+	BORDER-RIGHT: #fc3 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #fc3 1px solid; PADDING-LEFT: 5px; FONT-WEIGHT: bold; BACKGROUND: #ffc; PADDING-BOTTOM: 5px; MARGIN: 5px 0px; BORDER-LEFT: #fc3 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #fc3 1px solid
+}
+#videoStatsDiv {
+	BORDER-RIGHT: #ccc 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #ccc 1px solid; PADDING-LEFT: 5px; FONT-SIZE: 11px; PADDING-BOTTOM: 5px; BORDER-LEFT: #ccc 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #ccc 1px solid
+}
+/*---------------------------------------------------------------評價顯示 end */
+
+
+/*---------------------------------------------------------------按鈕 star 
+.btn2 {
+	background: url(../images_temp/btn_bg.gif) repeat-x left center;
+	border: 1px solid #999999;
+	padding-top: 2px;
+	height: 20px;
+	font-size: 12px;
+	color: #333333;
+	margin: 5px 2px;
+	padding-right: 2px;
+	padding-left: 2px;
+}
+*/
+/*---------------------------------------------------------------按鈕 end */
+
+
+
+
+/*---------------------------------------------------------------瀏覽排序 star */
+
+.View {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-bottom: 1px dashed #99CC66;
+}
+.View img {
+	vertical-align: middle;
+}
+.View a {
+	margin-right: 5px;
+	margin-left: 5px;
+	color: #353535;
+}
+.View a:hover {
+	color: #CC6600;
+}
+/*---------------------------------------------------------------瀏覽排序 end */
+
+/*---------------------------------------------------------------搜尋我的知識 star */
+
+.mysearch {
+	vertical-align: text-bottom;
+	background: #eeeeee url(../images_temp/mysearch.gif) no-repeat 5px 8px;
+	padding-left: 30px;
+	padding-bottom: 5px;
+	padding-top: 2px;
+}
+
+.mysearch .btn2 {
+	margin-bottom: 1px;
+}
+
+/*---------------------------------------------------------------搜尋我的知識 end */
+
+.number2 {
+	font-weight: bold;
+	color: #FF3300;
+	font-family: Arial, Helvetica, sans-serif;
+	margin-right: 5px;
+}
+
+
+
+.depsort {
+	clear: both;
+	color: #646464;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background: url(../images_temp/folder_01.gif) no-repeat 0px 0px;
+	padding-left: 22px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+.mycp {
+	padding:10px;
+	background: #EDF9FF;
+	margin:0 20px;
+/*	width:100%;*/ /*1009修正了我的知識的位置會偏掉*/
+}
+
+html>body .mycp {
+	width:auto;
+}
+/*
+*+html>body .mycp {
+	border:1px solid #F00;
+	margin:0 20px;
+}
+*/
+.mycp h4 {
+	font-size: 125%;
+	color: #006699;
+	clear: both;
+	background: url(../images_temp/icom_i02.gif) no-repeat 2px 5px;
+	padding-left: 18px;
+	line-height: 150%;
+	border-bottom: 1px dashed #99CC66;
+	padding-bottom: 2px;
+	font-weight: bold;
+	margin: 0px 0px 5px;
+}
+.mycp h5 {
+	font-size: 125%;
+	color: #353535;
+	clear: both;
+	padding-left: 20px;
+	line-height: 150%;
+	border-bottom: 1px dashed #cccccc;
+	padding-bottom: 2px;
+	font-weight: normal;
+	margin: 20px 0px 0px;
+	padding-top: 5px;
+	background: #FFFFFF url(../images_temp/h5_bg.gif) repeat-x left top;
+}
+.mycp .table1 {
+	border-top: 1px solid #99CC99;
+	border-right: 0px solid #99CC99;
+	border-bottom: 0px solid #99CC99;
+	border-left: 1px solid #99CC99;
+	background: #FFFFFF;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 97%;
+}
+html>body .mycp .table1 {
+	width: 100%;
+}
+.mycp .table1 td {
+	padding: 8px;
+	border-top: 0px solid #99CC99;
+	border-right: 1px solid #99CC99;
+	border-bottom: 1px solid #99CC99;
+	border-left: 0px solid #99CC99;
+}
+
+.mycp .problem2 {
+	color: #353535;
+	background: #EEEEEE;
+	line-height: 150%;
+	margin-bottom: 10px;
+	background-color: #FBFCEB;
+	padding: 10px 10px 5px;
+	border: 3px double #ECECBD;
+}
+
+.mycp .problem3 {
+	color: #006699;
+	background: #EEEEEE;
+	padding: 10px;
+	line-height: 150%;
+	margin-bottom: 10px;
+	border: 3px double #CCCCCC;
+}
+.mycp .adddate3 {
+	padding: 5px 10px;
+	line-height: 150%;
+	margin-bottom: 0px;
+	border: 0px dashed #99CC66;
+	color: #464646;
+	background: #FFFFFF;
+}
+
+.mycp .add {
+	padding: 0px 10px 10px;
+	border: 1px dashed #99CC99;
+	background: #FFFFFF;
+}
+
+.mycp .add form {
+	padding: 10px 10px 1px;
+}
+
+.mycp .add .addtextfield {
+	width: 100%;
+}
+.mycp .add textarea {
+	height: 10.2em;
+	width: 100%;
+}
+
+.mycp .add label {
+	color: #353535;
+	line-height: 150%;
+	background: url(../images_temp/ckbBg.gif) no-repeat 2px 3px;
+	padding-left: 18px;
+	font-weight: normal;
+	font-size: 110%;
+	display: block;
+}
+
+
+
+.mycp .mydis {
+	padding: 10px;
+	border: 1px dashed #99CC99;
+	background: #FFFFFF;
+	margin-top: 10px;
+}
+
+.mycp .mydis form {
+}
+
+.mycp .mydis textarea {
+	height: 10.2em;
+	width: 99%;
+}
+
+.mycp .mydis label {
+	color: #353535;
+	line-height: 150%;
+	background: url(../images_temp/ckbBg.gif) no-repeat 2px 3px;
+	padding-left: 18px;
+	font-weight: normal;
+	font-size: 110%;
+	display: block;
+}
+
+.mycp .mydis .title2 {
+	font-size: 115%;
+	color: #006699;
+	font-weight: bold;
+}
+
+.btnCenter {
+	text-align: center;
+}
+
+#Magazine .Event .download h5{
+	font-size:100%;
+	color:#6b82bc;}
+/*----------------------------------------------------------------download end*/
+
+/*----------------------------------------------------------------menu2 star (style A)*/
+/*知識家的主選單 removed by chiung 2008/12/26
+.menu2{
+	width:185px;
+	text-align:center;
+	margin:13px 0 0;
+	clear: both;
+}
+
+.menu2 h2{
+	background:url(../images_temp/catgBg.gif) no-repeat center 0;
+	width:185px;
+	height:29px;
+	text-align:center;
+	text-indent:-6000px;
+	margin:0;}
+
+.menu2 li{
+	display:inline;}
+
+.menu2 li a{
+	display:block;
+	background: #9eb020 url(../images_temp/menuIcon.gif) no-repeat 110px center;
+	color:#FFF;
+	text-decoration:none;
+	margin:0;
+	padding:6px 24px;
+	border:1px solid #9eb020;
+	border-color:#c7d17e #646f14 #424a0d #b3c14f;}
+
+.menu2 li a:hover{
+	background-color: #bfd524;
+	color:#060;}
+*/
+
+.menu2 .sort{
+	clear: both;
+	padding: 10px;
+}
+.menu2 .sort ul{
+}
+
+.menu2 .sort li{
+	line-height:1.5em;}
+.menu2 .sort li a{
+	color: #009966;
+	text-decoration: underline;
+	background: url(none);
+	width: auto;
+	border-style: none;
+	margin: 0px 0px 5px;
+	padding: 0px 5px 5px 0px;
+	display: inline;
+}
+.menu2 .sort li a:hover{
+	color: #CC6600;
+	text-decoration: none;
+}
+
+
+.menu2 .sort2{
+	clear: both;
+	padding: 10px;
+	background: #FFFFFF;
+}
+.menu2 .sort2 ul{
+}
+.menu2 .sort2 ul ul{
+	margin-left: 1em;
+}
+
+.menu2 .sort2 li{
+	line-height:1.5em;}
+.menu2 .sort2 li a{
+	color: #009966;
+	text-decoration: underline;
+	background: url(../images_temp/listIcon.gif) no-repeat 2px 3px;
+	width: auto;
+	border-style: none;
+	margin: 0px 0px 5px;
+	padding: 0px 5px 5px 12px;
+	line-height: 130%;
+}
+.menu2 .sort2 li a:hover{
+	color: #CC6600;
+	text-decoration: none;
+}
+
+.menu2 .sort2 li li a{
+	color: #646464;
+	text-decoration: underline;
+	background: url(../images_temp/arrow_right.gif) no-repeat 2px 3px;
+	width: auto;
+	border-style: none;
+	margin: 0px 0px 5px;
+	padding: 0px 5px 5px 12px;
+	line-height: 130%;
+}
+
+.active2 a{
+	font-weight: bold;
+}
+	
+/*.menu2 ul li a{
+	background: #e4ecf2;}*/
+/*----------------------------------------------------------------menu2 end*/
+
+/*----------------------------------------------------------------group star (style G)
+.group{
+	clear:both;
+	height:37px; /*修正了頁籤連結的位置
+	margin:0;
+	padding:17px 0 0 20px;
+	background: url(../images_temp/groupBg.gif) repeat-x 0 0;
+}
+
+.group li{
+	display: block;
+	background: url(../images_temp/tableft2.gif) no-repeat top left;
+	float:left;
+	margin:0 1px;
+	padding-left:0.5em;}
+
+.group a{
+	display:block;
+	background: url(../images_temp/tabright2.gif) no-repeat top right;
+	margin-left:1em;
+	padding:6px 1.5em 4px 0;
+	text-align:right;
+	text-decoration:none;
+	color:#666666;}
+
+.group a:hover{
+	color: #003333;}
+	
+.group li.active{
+	background: url(../images_temp/tableft.gif) no-repeat top left;
+}
+.group li.active a{
+	color:#000;
+	background: url(../images_temp/tabright.gif) no-repeat top right;}
+*/
+/*----------------------------------------------------------------group End*/

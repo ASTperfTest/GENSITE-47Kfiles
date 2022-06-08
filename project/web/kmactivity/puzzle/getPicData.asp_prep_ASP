@@ -1,0 +1,48 @@
+﻿:                      codepage="65001"
+    
+ function getsecureval(param)
+  if isempty(param) or param = "" then
+   getsecureval = param
+   exit function
+  end if
+ 
+  if isnumeric(param) then
+   getsecureval = clng(param)
+  else
+   getsecureval = replace(cstr(param), "'", "''")
+  end if
+ end function
+ 
+ if getsecureval(request("token"))="" then 
+  response.write "請先登入會員！"  
+  response.end()
+ end if
+ 
+ set conn = server.createobject("adodb.connection")
+ conn.connectionstring = application("connstrpuzzle")
+ conn.connectiontimeout=0
+ conn.cursorlocation = 3
+ conn.open
+ 
+ '取得登入時間
+ sql = "select * from sso where token='"& getsecureval(request("token")) &"' "  
+ set rs = conn.execute (sql)
+ 
+ if not rs.eof then 
+  if dateadd("n",30,rs("lastactivetime"))<now() then 
+   response.write "登入時間過久，請重新登入！"
+  else   
+   sql = "select * from gamelog where login_id = '"& rs("login_id") &"' order by ser_no desc  "  
+   set rs1 = conn.execute (sql)
+   if not rs1.eof then
+    response.write rs1("pic1") & "<->" & rs1("pic2") & "<->" & rs1("pic3") & "<->" & rs1("pic4") & "<->" & rs1("pic5") & "<->" & rs1("pic6") & "<->" & rs1("pic7") & "<->" & rs1("pic8") & "<->" & rs1("pic9") & "<->" & rs1("pic10") & "<->" & rs1("pic11") & "<->" & rs1("pic12") & "<->" & rs1("pic13") & "<->" & rs1("pic14") & "<->" & rs1("pic15") & "<->" & rs1("pic16") & "<->" & rs1("pic17") & "<->" & rs1("pic18") & "<->" & rs1("pic19") & "<->" & rs1("pic20") & "<->" & rs1("pic21") & "<->" & rs1("pic22") & "<->" & rs1("pic23") & "<->" & rs1("pic24") & "<->" & rs1("pic25") & "<->" & rs1("pic26") & "<->" & rs1("pic27") & "<->" & rs1("pic28") & "<->" & rs1("pic29") & "<->" & rs1("pic30") & "<->" & rs1("pic31") & "<->" & rs1("pic32") & "<->" & rs1("pic33") & "<->" & rs1("pic34") & "<->" & rs1("pic35") & "<->" & rs1("pic36") 
+   else
+    response.write "資料不同步，請按f5重新整理！"
+   end if
+  end if
+ else
+  response.write "您還未登入！"
+ end if
+ 
+ conn.close()
+ 

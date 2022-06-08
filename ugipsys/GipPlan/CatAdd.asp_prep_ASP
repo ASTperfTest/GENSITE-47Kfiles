@@ -1,0 +1,49 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "ge1t21" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+  
+ catid = request.querystring("catid")
+
+  sql = "select * from cattreenode where ctnodeid = "& catid
+  set rs = conn.execute(sql)
+   if rs.eof then
+    datatop = 0
+    dataparent = 0
+    datalevel = 1
+   else
+    datatop = 0
+    dataparent = catid
+    datalevel = rs("datalevel") + 1
+   end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                   =itemid
+                                             =datatop
+                                                =dataparent
+                                               =datalevel 

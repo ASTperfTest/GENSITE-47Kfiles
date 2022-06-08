@@ -1,0 +1,35 @@
+﻿<script language=VBScript runat=server>
+sub session_onstart()
+	session("ODBCDSN")="Provider=SQLOLEDB;Data Source=127.0.0.1;User ID=hygip;Password=hyweb;Initial Catalog=mGIPcoanew"
+	session("KMDBConnStr")="Provider=SQLOLEDB;Data Source=127.0.0.1;User ID=hygip;Password=hyweb;Initial Catalog=coa"	
+	session("mySiteID") = "coa"
+    	session("Public") = "site/coa/public/"
+	session("PageCount") = 10
+	session("PediaCtUnitId") = 2155
+	
+end sub
+' session("contactmail")="test@hinet.com.tw"
+sub Application_OnStart
+
+	Application("HyftdServer") = "127.0.0.1"
+	Application("HyftdPort") = 2816
+	Application("HyftdGroupName") = "Intra"
+	Application("HyftdAssociateDataName") = "brief"
+	
+	Application("SiteUnitId") = "1"
+	Application("KnowledgeTankId") = "0"
+	Application("KnowledgeHomeId") = "3"
+	Application("TopicId") = "2"
+	
+	Application("SiteCatTreeRoot") = "34"
+	
+	Application("KnowledgeTankDatabaseId") = "DB020"
+	
+	Application("ShowCursorIconId") = "274310"
+	
+end sub
+
+Sub Application_OnEnd()
+
+End Sub
+</script>

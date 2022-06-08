@@ -1,0 +1,34 @@
+﻿
+
+  
+function pkstr (s, endchar)
+  if s="" then
+ pkstr = "null" & endchar
+  else
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ pkstr="'" & s & "'" & endchar
+  end if
+end function
+ xkeyword=pkstr(request.querystring("actor"),"")
+ set conn=server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'        conn.open session("odbcdsn")
+set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+'----------hyweb gip db connection patch----------
+
+         '----新增主表
+         sqlim="set nocount on;insert into cudtgeneric(ibasedsd,ictunit,fctupublic,idept,stitle,xpostdate) " & _
+      "values(42,35,'n','0',"&xkeyword&",n'"&date()&"'); select @@identity as newid;"
+         set rsx = conn.execute(sqlim)
+         xnewidentity = rsx(0)      
+         '----新增演職人員表
+         sqlis="insert into actorinformation(gicuitem) values("&xnewidentity&")"
+         conn.execute(sqlis) 
+ response.write "<xkeywordstr>done</xkeywordstr>"        
+ 

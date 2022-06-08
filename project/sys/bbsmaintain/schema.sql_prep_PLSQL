@@ -1,0 +1,77 @@
+﻿if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[article]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[article]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[talk02]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[talk02]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[talk03]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[talk03]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[talk05]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[talk05]
+go
+
+create table [dbo].[article] (
+ [id] [int] not null ,
+ [mid] [int] not null ,
+ [sid] [int] not null ,
+ [title] [char] (100) collate chinese_taiwan_stroke_ci_as not null ,
+ [message] [text] collate chinese_taiwan_stroke_ci_as not null ,
+ [date] [datetime] not null ,
+ [bid] [int] not null ,
+ [authorid] [int] not null ,
+ [nickname] [char] (30) collate chinese_taiwan_stroke_ci_as null ,
+ [ip] [char] (20) collate chinese_taiwan_stroke_ci_as null ,
+ [isethics] [char] (1) collate chinese_taiwan_stroke_ci_as null ,
+ [cnt] [int] null 
+) on [primary] textimage_on [primary]
+go
+
+create table [dbo].[talk02] (
+ [content] [text] collate chinese_taiwan_stroke_ci_as null ,
+ [updatetime] [datetime] null ,
+ [updatename] [char] (20) collate chinese_taiwan_stroke_ci_as null 
+) on [primary] textimage_on [primary]
+go
+
+create table [dbo].[talk03] (
+ [content] [text] collate chinese_taiwan_stroke_ci_as null ,
+ [updatetime] [datetime] null ,
+ [updatename] [char] (20) collate chinese_taiwan_stroke_ci_as null 
+) on [primary] textimage_on [primary]
+go
+
+create table [dbo].[talk05] (
+ [id] [int] not null ,
+ [name] [varchar] (250) collate chinese_taiwan_stroke_ci_as null ,
+ [master] [varchar] (250) collate chinese_taiwan_stroke_ci_as null ,
+ [updatetime] [datetime] null ,
+ [seq] [int] null 
+) on [primary]
+go
+
+alter table [dbo].[article] with nocheck add 
+ constraint [pk_article] primary key  clustered 
+ (
+  [id],
+  [mid],
+  [sid]
+ )  on [primary] 
+go
+
+alter table [dbo].[talk05] with nocheck add 
+ constraint [pk_talk05] primary key  clustered 
+ (
+  [id]
+ )  on [primary] 
+go
+
+alter table [dbo].[article] add 
+ constraint [df_article_cnt] default (0) for [cnt]
+go
+
+
+ 

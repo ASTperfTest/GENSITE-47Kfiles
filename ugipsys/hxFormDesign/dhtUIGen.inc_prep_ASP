@@ -1,0 +1,8 @@
+﻿: 
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+ 

@@ -1,0 +1,32 @@
+﻿
+
+
+
+
+
+
+  
+   ' step 1: 使用 createobject 產生 object. dll name: hysdk, class name: hyft
+   set obj = server.createobject("hysdk.hyft.1")
+
+   ' step 2: 呼叫 hyft_connect 連結 hyftd
+   x = obj.hyft_connect("10.10.5.77", 2816, "hykix", "", "")
+
+   ' hyft_connect() 傳回值為連線 id, 存放於 obj.ret_val 中
+   id = obj.ret_val
+   if id = -1 then
+      '若是連線失敗, 則錯誤訊息存放於 obj.errmsg
+      response.write "連線 hyftd 發生錯誤, 錯誤訊息: " & obj.errmsg & "<br><br>"
+      response.end
+   else
+      response.write "連線 hyftd 成功! id = " & id & "<br><br>"
+   end if
+
+
+     
+ '----刪除
+     x = obj.hyft_delete(id, "aa?report_id=1001")
+
+    
+  set obj=nothing 
+ 

@@ -1,0 +1,149 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+   response.charset="utf-8"
+   htprogcode = "webgeb1"
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+'response.write request("id")
+sqlcom = "select count(*) from infouser where usertype= 'h'"
+set rs = conn.execute(sqlcom)
+set rsreg = server.createobject("adodb.recordset")
+nowpage=request.querystring("nowpage")  '現在頁數  
+if nowpage="" then
+ session("querysql") = ""
+     sql = "select i.*, d.deptname from infouser i left join dept as d on d.deptid=i.deptid " _
+      & " where 1=1 " _
+      & " and i.deptid like n'" & session("deptid") & "%'"
+ for each x in request.form
+  if request(x) <> "" then
+   if mid(x,2,3) = "fx_" then
+  select case left(x,1)
+    case "s"
+     if x="sfx_ugrpid" then
+    sql = sql & " and (''''+replace(i.ugrpid,', ',''',''')+'''' like n'%''" & request(x) & "''%')" 
+     elseif x="sfx_deptid" then   
+    sql = sql & " and i." & mid(x,5) & " like n'" & request(x) & "%'"
+     else    
+    sql = sql & " and " & mid(x,5) & "=" & pkstr(request(x),"")
+   end if
+    case else
+   sql = sql & " and " & mid(x,5) & " like n'%" & request(x) & "%'"
+  end select
+   end if
+  end if
+ next
+ sql = sql & " order by i.deptid"
+ session("querysql") = sql
+else
+ sql = session("querysql")
+end if
+'response.write sql & "<hr>"
+'response.end
+'rsreg.open sql,conn,1,1
+set rsreg = conn.execute(sql)
+
+        if rsreg.eof then
+
+
+                                             =request("id"):         =request("type")
+
+  
+  response.end
+ else
+
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=9999 
+      end if 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+      strsql=server.urlencode(fsql)
+   end if    
+  
+ end if
+ 
+'檢查主題館上稿權限的使用者
+sql_ch = "select subject_user,owner from nodeinfo where ctrootid='"&request("id")&"'"
+set rs_ch = conn.execute(sql_ch)
+subject_user= rs_ch("subject_user")
+owner= rs_ch("owner")
+
+
+
+
+
+
+
+                                                           =request("id")
+                                        =request("type")
+                                          =request("sfx_deptid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+         if (htprogright and 2)=2 then
+                                    =request("id"):         =request("type")
+          end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     
+    for i=1 to perpagesize                  
+
+
+   if request("type") = 1 then
+                                                                              =rsreg("userid"):     if instr(owner,rsreg("userid"))>0 then response.write "checked" end if
+   elseif request("type") = 2 then
+                                                                                 =rsreg("userid"):     if instr(subject_user,rsreg("userid"))>0 then response.write "checked" end if
+   end if
+                            =rsreg("userid")
+                            =rsreg("username")
+                            =rsreg("deptname")
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+
+
+     if request("type") = 1 then
+
+     elseif request("type") = 2 then
+
+     end if 

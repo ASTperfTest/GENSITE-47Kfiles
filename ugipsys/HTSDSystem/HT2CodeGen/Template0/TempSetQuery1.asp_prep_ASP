@@ -1,0 +1,45 @@
+﻿:  CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_453315802()
+  
+ if request.querystring("returnap") <> "" then
+  xstr = request.servervariables("query_string")
+  xpos = instr(xstr,"&")
+  if xpos>0 then  xqstr = mid(xstr,xpos+1)
+  session("pickreturnapuri")=request.querystring("returnap")&".asp?"&xqstr
+  pkcondition = ""
+  setpkeyfield = ""
+  setpkeyvalue = ""
+  pkarray = split(xqstr,"&")
+  if ubound(pkarray) > 0 then
+    for xi=0 to ubound(pkarray)
+     xpstr = pkarray(xi)
+   xpos = instr(xpstr,"=")
+   pkcondition = pkcondition & " and " & left(xpstr,xpos-1) & "=" & pkstr(mid(xpstr,xpos+1),"")
+   setpkeyfield = setpkeyfield & "," & left(xpstr,xpos-1)
+   setpkeyvalue = setpkeyvalue & "," & pkstr(mid(xpstr,xpos+1),"")
+    next
+  else
+     xpstr = xqstr
+   xpos = instr(xpstr,"=")
+   pkcondition = pkcondition & " and " & left(xpstr,xpos-1) & "=" & pkstr(mid(xpstr,xpos+1),"")
+   setpkeyfield = setpkeyfield & "," & left(xpstr,xpos-1)
+   setpkeyvalue = setpkeyvalue & "," & pkstr(mid(xpstr,xpos+1),"")
+  end if
+  if len(pkcondition) > 0 then pkcondition = mid(pkcondition,6)
+  session("pkcondition") = pkcondition
+  if len(setpkeyfield) > 0 then setpkeyfield = mid(setpkeyfield,2)
+  session("setpkeyfield") = setpkeyfield
+  if len(setpkeyvalue) > 0 then setpkeyvalue = mid(setpkeyvalue,2)
+  session("setpkeyvalue") = setpkeyvalue
+ end if
+
+tasklable="�d��" & htprogcap
+
+ showhtmlhead()
+ formfunction = "query"
+ showform()
+ initform()
+ showhtmltail()
+
+
+   sub initform()  

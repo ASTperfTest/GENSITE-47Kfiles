@@ -1,0 +1,49 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_server_1606199358()
+       sql = "select * from datacat where language = '"& language &"' and datatype = '"& datatype &"' and catname = "& nohtmlcode(request.querystring("catname")) 
+       set rs = conn.execute(sql) 
+        if not rs.eof then 
+
+
+
+
+
+      response.end
+     end if
+
+     sql1 = "select * from datacat where language = n'"& language &"' and datatype = n'"& datatype &"' order by catshoworder"
+     set rs1 = conn.execute(sql1)
+  if not rs1.eof then
+       itemorder = 1
+    do while not rs1.eof
+      itemorder = itemorder + 1
+      sql2 = "update datacat set catshoworder =" & itemorder & " where catid =" & rs1("catid")
+      set rs2 = conn.execute(sql2)
+    rs1.movenext
+    loop
+  end if
+
+    sql = "insert into datacat (language, datatype, catname, edituserid, editdate, catshoworder) values (n'"& language &"',n'"& datatype &"',"& nohtmlcode(request.querystring("catname")) &",n'"& session("userid") &"',n'"& date() &"',1)"
+    conn.execute(sql) 
+    
+ sql = "select catid from datacat where language = n'"& language &"' and datatype = n'"& datatype &"' and catname = "& nohtmlcode(request.querystring("catname"))
+ set rs = conn.execute(sql) 
+
+
+                                                     =rs("catid")
+                                                          =request.querystring("catname")
+
+
+
+  
+function nohtmlcode(datacode)
+  newdata = "" 
+  if datacode <> "" then
+   newdate = replace(datacode,"'","''")
+   newdate = replace(newdate,"<","&lt;")
+   newdate = replace(newdate,">","&gt;")
+   nohtmlcode = "'" & newdate & "'"
+  end if
+end function
+  

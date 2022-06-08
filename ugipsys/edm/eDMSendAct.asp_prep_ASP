@@ -1,0 +1,72 @@
+﻿: @ codepage = 65001 
+   
+ response.expires = 0
+ response.charset="utf-8"
+ htprogcode = "dataedm"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+   
+ dim basedsdid : basedsdid = "7"
+ dim ctunitid : ctunitid = "2162"
+
+ dim smtpserver : smtpserver = "mail.coa.gov.tw"
+ dim smtpserverport : smtpserverport = 25
+ dim smtpssendusing : smtpssendusing = 2
+ dim smtpusername : smtpusername = "taft_km"
+ dim smtppassword : smtppassword = "p@ssw0rd"
+ dim smtpauthenticate : smtpauthenticate = "1"
+
+ dim eptreeid : eptreeid = "21"  
+ dim sender : sender = "km@mail.coa.gov.tw"
+ 
+ server.scripttimeout = 2000
+ on error resume next
+
+ function send_email_authenticate(s_email,r_email,re_sbj,re_body)
+     set objemail = createobject("cdo.message")
+     objemail.bodypart.charset = response.charset
+     objemail.from       = s_email
+     objemail.to         = r_email
+     objemail.subject    = re_sbj
+     objemail.htmlbody   = re_body
+     objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/sendusing") = smtpssendusing
+     objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/smtpserver") = smtpserver
+     objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/smtpserverport") = smtpserverport
+ 
+     if smtpusername <> "" then
+       objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/sendusername") = smtpusername
+       objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/sendpassword") = smtppassword
+       objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/smtpauthenticate") = smtpauthenticate
+     end if
+ 
+     objemail.configuration.fields.update
+     objemail.send
+     set objemail = nothing
+ end function
+
+ dim scount : scount = 0
+ dim stitle : stitle = ""
+ dim xbody : xbody = ""
+ sql = "select top 1 * from cudtgeneric where ictunit = " & ctunitid & " order by xpostdate desc"
+ set rs = conn.execute(sql)
+ if not rs.eof then 
+  stitle = rs("stitle")
+  xbody = rs("xbody")
+ end if
+ rs.close
+ set rs = nothing
+  
+ sql = "select email from epaper where ctrootid = " & eptreeid
+  
+ set rs = conn.execute(sql)  
+ while not rs.eof
+  scount = scount + 1
+  call send_email_authenticate(sender, trim(rs("email")), stitle, xbody)
+  rs.movenext
+ wend
+ rs.close
+ set rs = nothing
+
+
+                    =scount 

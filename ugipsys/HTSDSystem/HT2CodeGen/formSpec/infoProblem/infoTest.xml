@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="big5"?>
+<htPage>
+	<HTProgPrefix>infoTest</HTProgPrefix>
+	<HTProgCode>IP101</HTProgCode>
+	<HTUploadPath>/public/</HTUploadPath>
+	<HTProgPath>/infoProblem</HTProgPath>
+	<HTGenPattern>genAdd</HTGenPattern>
+	<htForm>
+		<formModel id="infoTest">
+			<fieldList>
+				<tableName>InfoProblem</tableName>
+				<fkLink>
+					<joinType>LEFT</joinType>
+					<asAlias>htj1</asAlias>
+					<refTable></refTable>
+					<fkFieldList>
+						<refField></refField>
+						<myField></myField>
+					</fkFieldList>
+				</fkLink>
+				<field>
+					<fieldName>infoProbIID</fieldName>
+					<fieldLabel>內碼</fieldLabel>
+					<dataType>int</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>4</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>hidden</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>ipDate</fieldName>
+					<fieldLabel>叫修日期</fieldLabel>
+					<dataType>smalldatetime</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>popDate</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>askUser</fieldName>
+					<fieldLabel>叫修者</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>readonly</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>refUser</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>Phone</fieldName>
+					<fieldLabel>叫修者電話</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>phoneExt</fieldName>
+					<fieldLabel>分機</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>5</dataLen>
+					<inputLen>5</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>deptID</fieldName>
+					<fieldLabel>單位</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>refDept</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>srvType</fieldName>
+					<fieldLabel>選擇叫修服務方式</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>ipSrvType</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>ipOS</fieldName>
+					<fieldLabel>故障作業系統</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>ipOS</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>urgentLevel</fieldName>
+					<fieldLabel>維修類別 狀態</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refRadio</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>ipUrgent</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>srvTarget</fieldName>
+					<fieldLabel>維修標的</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>100</dataLen>
+					<inputLen>100</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refCheckbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>ipSrvTarget</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>description</fieldName>
+					<fieldLabel>報修事由描述</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>800</dataLen>
+					<inputLen>800</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textarea</inputType>
+					<fieldDesc>請狀故障的情況詳述....</fieldDesc>
+					<refLookup></refLookup>
+					<rows>5</rows>
+					<cols>60</cols>
+				</field>
+				<field>
+					<fieldName>attachFile</fieldName>
+					<fieldLabel>附件檔案</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>30</dataLen>
+					<inputLen>30</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>file</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+			<anchorList>
+				<anchor>
+					<type></type>
+					<funcLabel></funcLabel>
+					<url></url>
+					<action></action>
+				</anchor>
+			</anchorList>
+		</formModel>
+	</htForm>
+	<pageSpec>
+		<pageHead>tewst</pageHead>
+		<pageFunction>test</pageFunction>
+		<aidLinkList>
+			<Anchor>
+				<AnchorLabel>查詢</AnchorLabel>
+				<AnchorType>A</AnchorType>
+				<AnchorDesc>重設查詢條件</AnchorDesc>
+				<AnchorURI>xxQuery.asp</AnchorURI>
+				<checkRight>1</checkRight>
+				<AnchorPos>Top</AnchorPos>
+				<AnchorWPK></AnchorWPK>
+			</Anchor>
+			<Anchor>
+				<AnchorLabel>新增</AnchorLabel>
+				<AnchorType>A</AnchorType>
+				<AnchorDesc>新增</AnchorDesc>
+				<AnchorURI>xxAdd.asp</AnchorURI>
+				<checkRight>4</checkRight>
+				<AnchorPos>Top</AnchorPos>
+				<AnchorWPK></AnchorWPK>
+			</Anchor>
+			<Anchor>
+				<AnchorLabel>回前頁</AnchorLabel>
+				<AnchorType>Back</AnchorType>
+				<AnchorDesc>回前頁</AnchorDesc>
+				<AnchorURI></AnchorURI>
+				<checkRight></checkRight>
+				<AnchorPos>Top</AnchorPos>
+			</Anchor>
+		</aidLinkList>
+		<formUI ref="infoTest">
+			<pxHTML>
+				<CENTER>
+					<TABLE border="0" class="eTable" cellspacing="1" cellpadding="2" width="90%">
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>叫修日期：</TD>
+							<TD class="eTableContent"><refField>InfoProblem/ipDate</refField><refField>InfoProblem/infoProbIID</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>叫修者：</TD>
+							<TD class="eTableContent"><refField>InfoProblem/askUser</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>叫修者電話：</TD>
+							<TD class="eTableContent"><refField>InfoProblem/Phone</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">分機：</TD>
+							<TD class="eTableContent"><refField>InfoProblem/phoneExt</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>單位：</TD>
+							<TD class="eTableContent"><refField>InfoProblem/deptID</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>選擇叫修服務方式：</TD>
+							<TD class="eTableContent"><refField>InfoProblem/srvType</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>故障作業系統：</TD>
+							<TD class="eTableContent"><refField>InfoProblem/ipOS</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>維修類別 狀態：</TD>
+							<TD class="eTableContent"><refField>InfoProblem/urgentLevel</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">維修標的：</TD>
+							<TD class="eTableContent"><refField>InfoProblem/srvTarget</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">報修事由描述：</TD>
+							<TD class="eTableContent"><refField>InfoProblem/description</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">附件檔案：</TD>
+							<TD class="eTableContent"><refField>InfoProblem/attachFile</refField></TD>
+						</TR>
+					</TABLE>
+				</CENTER>
+			</pxHTML>
+			<scriptCode><![CDATA[
+<SCRIPT LANGUAGE="vbs">
+
+</SCRIPT>
+		]]></scriptCode>
+		</formUI>
+		<UINotes>
+		</UINotes>
+	</pageSpec>
+</htPage>

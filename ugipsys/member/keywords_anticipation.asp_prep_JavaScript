@@ -1,0 +1,196 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function script___978796850() {src("../Scripts/AC_ActiveX.js");}
+function script____1102929678() {src("../Scripts/AC_RunActiveContent.js");}
+
+
+
+
+
+
+
+
+
+
+                             function href____1470241313() {window.history.back();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   function onClick____30647765() {formSubmit()}
+                              function onClick___1657291224() {formReset()}
+                              function onClick___1283611761() {formCancel()}
+
+
+
+
+
+
+
+
+
+ 
+ function formSubmit() 
+ {
+  document.getElementById("iForm").submit();  
+  }
+ function formReset() 
+ {
+  window.location.href = "keywords_anticipation.asp?memberId=Cx_0dummy&nowPage=Cx_0dummy&pagesize=Cx_0dummy";
+  }
+ function formCancel() 
+ {
+  window.location.href = "keywords_set.asp?memberId=Cx_0dummy&nowPage=Cx_0dummy&pagesize=Cx_0dummy";
+  }
+
+
+
+
+ 

@@ -1,0 +1,130 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "gc1ap3" 
+   CxMethod_ASP_server_1606199358()
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+function nctabchar(n)
+ if ctabchar = "" then
+  nctabchar = ""
+ else
+  nctabchar = string(n,ctabchar)
+ end if
+end function
+function blen(xs)              '檢測中英文夾雜字串實際長度
+  xl = len(xs)
+  for i=1 to len(xs)
+ if asc(mid(xs,i,1))<0 then xl = xl + 1
+  next
+  blen = xl
+end function
+
+sub traversefolder(mmofoldername,treeid,mmositeid)
+ xmmositeid=mmositeid
+ xtreeid=treeid
+ xmmofoldername=mmofoldername
+     sql="select m.mmofoldername,m.mmofolderdesc,m.mmofoldernameshow " & _
+      "from mmofolder m " & _ 
+      "where m.mmositeid='"&xmmositeid&"' and substring(m.mmofoldername, 1, "&len(xmmofoldername)&")='"&xmmofoldername&"' and m.mmofolderparent='"& xmmofoldername & "' " & _
+      " and (m.deptid is null or m.deptid like '" & session("deptid") & "%' or m.deptid = left('" & session("deptid") & "',len(m.deptid))) order by m.mmofolderid"
+ set rsd=conn2.execute(sql)  
+ if not rsd.eof then
+     while not rsd.eof
+  ymmofoldername=rsd(0) 
+  ymmofolderdesc=rsd(1) 
+  if left(ymmofoldername,1)="/" then yymmofoldername = mid(ymmofoldername,2) '---為跑後面原有程式,將目錄路徑左方/去除
+      sqlcount="select count(m2.mmofolderid) from mmofolder m2 where (m2.deptid is null or m2.deptid like '" & session("deptid") & "%' or m2.deptid = left('" & session("deptid") & "',len(m2.deptid))) and m2.mmositeid='"&xmmositeid&"' and substring(m2.mmofoldername, 1, "&len(ymmofoldername)&")='"&ymmofoldername&"' and m2.mmofolderparent='"& ymmofoldername & "'"
+     'response.write sqlcount
+  set rscoount=conn2.execute(sqlcount)     
+  ychildcount=rscoount(0)
+  if ychildcount>=1 then
+   response.write replace(xmmositeid&ymmofoldername,"/","") & " = insfld("&xtreeid&", gfld(""forumtoc"", """& rsd("mmofoldernameshow") &""", ""mmoeditfolder.asp?mmositeid="&xmmositeid&"&xpath="&yymmofoldername&""","""&ymmofolderdesc&"""))" & vbcrlf  
+   traversefolder ymmofoldername, replace(xmmositeid&ymmofoldername,"/",""),xmmositeid
+  else
+   response.write "insdoc("&xtreeid&", glnk(""forumtoc"", """& rsd("mmofoldernameshow")&""", ""mmoeditfolder.asp?mmositeid="&xmmositeid&"&xpath="&yymmofoldername&""","""&ymmofolderdesc&"""))" & vbcrlf   
+  end if
+  rsd.movenext
+     wend 
+ end if 
+end sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+response.write "treeroot = gfld(""forumtoc"", ""多媒體物件　　　　　<a href='mmositeadd.asp' target='forumtoc'>新增站台</a>"", """",""多媒體物件根目錄"")" & vbcrlf
+sqlmmo="select m.* " & _
+ ",(select count(*) from mmofolder where mmositeid=m.mmositeid and (deptid is null or deptid like '" & session("deptid") & "%' or deptid = left('" & session("deptid") & "',len(deptid)))) mmositechildcount " & _
+ "from mmosite m  " & _
+ "where (deptid is null or deptid like '" & session("deptid") & "%' or deptid = left('" & session("deptid") & "',len(deptid))) order by m.mmositeid"
+set rsmmo=conn.execute(sqlmmo)
+'response.write sqlmmo & vbcrlf
+
+if not rsmmo.eof then
+
+    while not rsmmo.eof
+
+ if rsmmo("mmositechildcount") > 0 then
+
+     set conn2 = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'     conn2.open session("odbcdsn")
+'set conn2 = server.createobject("hywebdb3.dbexecute")
+conn2.connectionstring = session("odbcdsn")
+conn2.connectiontimeout=0
+conn2.cursorlocation = 3
+conn2.open
+'----------hyweb gip db connection patch----------
+
+     sql="select ms.mmositeid,ms.mmositename " & _
+      ",(select count(m2.mmofolderid) from mmofolder m2 where m2.mmositeid=ms.mmositeid and (m2.deptid is null or m2.deptid like '" & session("deptid") & "%' or m2.deptid = left('" & session("deptid") & "',len(m2.deptid)))) childcount " & _
+      ",m.mmofoldername " & _
+      "from mmosite ms left join mmofolder m on ms.mmositeid=m.mmositeid " & _ 
+      "where (m.deptid is null or m.deptid like '" & session("deptid") & "%' or m.deptid = left('" & session("deptid") & "',len(m.deptid))) and ms.mmositeid='"&rsmmo("mmositeid")&"' and substring(m.mmofoldername, 2, len(m.mmofoldername) - 1)=''"
+ set rsf=conn2.execute(sql) 
+
+ if not rsf.eof then
+   while not rsf.eof   
+     zmmositeid=rsf("mmositeid")
+     zmmositename=rsf("mmositename")
+     zchildcount=rsf("childcount") 
+     zmmofoldername=rsf("mmofoldername")  
+     if zchildcount > 1 then
+  response.write zmmositeid & " = insfld(treeroot, gfld(""forumtoc"", """& zmmositename &""", ""mmositeedit.asp?mmositeid="&zmmositeid&""","""&zmmositeid&"""))" & vbcrlf  
+  traversefolder zmmofoldername, zmmositeid ,rsmmo("mmositeid")
+     else
+  response.write "insdoc(treeroot, glnk(""forumtoc"", """& zmmositename &""", ""mmositeedit.asp?mmositeid="&zmmositeid&""","""&zmmositeid&"""))" & vbcrlf 
+     end if
+     rsf.movenext
+   wend
+ end if 
+      else
+
+ response.write "insdoc(treeroot, glnk(""forumtoc"", """& rsmmo("mmositename") &""", ""mmositeedit.asp?mmositeid="&rsmmo("mmositeid")&""","""&rsmmo("mmositeid")&"""))" & vbcrlf 
+      end if
+      rsmmo.movenext
+    wend
+
+end if
+nowcount = 0
+
+
+ 

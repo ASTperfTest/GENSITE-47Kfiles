@@ -1,0 +1,323 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="資料物件欄位管理"
+htprogfunc="新增資料物件欄位"
+htprogcode="ht011"
+htprogprefix="htdfield" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+if request("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+   sub initform() 
+
+
+
+
+
+
+
+                            =request("entityid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_htdfieldform_214410458()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+
+   sub showhtmltail() 
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' sql = "select * from client where clientid = '"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "「客戶編號」重複!!請重新建立客戶編號!"
+'  exit sub
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "insert into htdfield("
+ sqlvalue = ") values("
+ if request("htx_xfieldname") <> "" then
+  sql = sql & "xfieldname" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_xfieldname"),",")
+ end if
+ if request("htx_entityid") <> "" then
+  sql = sql & "entityid" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_entityid"),",")
+ end if
+ if request("htx_xfieldlabel") <> "" then
+  sql = sql & "xfieldlabel" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_xfieldlabel"),",")
+ end if
+ if request("htx_xfielddesc") <> "" then
+  sql = sql & "xfielddesc" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_xfielddesc"),",")
+ end if
+ if request("htx_xfieldseq") <> "" then
+  sql = sql & "xfieldseq" & ","
+  sqlvalue = sqlvalue & drn("htx_xfieldseq")
+ end if  
+ if request("htx_xdatatype") <> "" then
+  sql = sql & "xdatatype" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_xdatatype"),",")
+ end if
+ if request("htx_xdatalen") <> "" then
+  sql = sql & "xdatalen" & ","
+  sqlvalue = sqlvalue & drn("htx_xdatalen")
+ end if
+ if request("htx_xinputlen") <> "" then
+  sql = sql & "xinputlen" & ","
+  sqlvalue = sqlvalue & drn("htx_xinputlen")
+ end if 
+ if request("htx_xcannull") <> "" then
+  sql = sql & "xcannull" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_xcannull"),",")
+ end if
+ if request("htx_xisprimarykey") <> "" then
+  sql = sql & "xisprimarykey" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_xisprimarykey"),",")
+ end if
+ if request("htx_xidentity") <> "" then
+  sql = sql & "xidentity" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_xidentity"),",")
+ end if
+ if request("htx_xdefaultvalue") <> "" then
+  sql = sql & "xdefaultvalue" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_xdefaultvalue"),",")
+ end if
+ if request("htx_xclientdefault") <> "" then
+  sql = sql & "xclientdefault" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_xclientdefault"),",")
+ end if
+ if request("htx_xinputtype") <> "" then
+  sql = sql & "xinputtype" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_xinputtype"),",")
+ end if
+ if request("htx_xreflookup") <> "" then
+  sql = sql & "xreflookup" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_xreflookup"),",")
+ end if  
+ if request("htx_xrows") <> "" then
+  sql = sql & "xrows" & ","
+  sqlvalue = sqlvalue & drn("htx_xrows")
+ end if 
+ if request("htx_xcols") <> "" then
+  sql = sql & "xcols" & ","
+  sqlvalue = sqlvalue & drn("htx_xcols")
+ end if  
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+
+ 'response.write sql & "<hr>"
+ conn.execute(sql)  
+end sub '---- doupdatedb() ----
+
+
+
+   sub showdonebox() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                             =htprogprefix:            =request.servervariables("query_string")
+
+
+
+   end sub '---- showdonebox() ----  

@@ -1,0 +1,349 @@
+﻿: @ codepage = 65001 
+  
+response.expires = 0
+htprogcap=""
+htprogfunc=""
+htprogcode="kforumlist"
+htprogprefix = "knowledgediscuss" 
+dim ictunitid : ictunitid = "933"
+
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_selecttree_859552413()
+   CxMethod_ASP_kpifunction_280790202()
+  
+dim questionid : questionid = request.querystring("questionid")
+dim discussid : discussid = request.querystring("discussid")
+
+if request("submittask") = "reset" then
+ showform
+elseif request("submittask") = "edit" then
+
+ dim xbody : xbody = pkstr(request("xbody"), "")
+ dim xurl : xurl = pkstr(request("xurl"), "")
+ dim xnewwindow : xnewwindow = pkstr(request("xnewwindow"), "")
+ dim fctupublic : fctupublic = pkstr(request("fctupublic"), "")
+ dim vgroup : vgroup = pkstr(request("vgroup"), "")
+ dim xkeyword : xkeyword = pkstr(request("xkeyword"), "")
+ dim ximportant : ximportant = request("ximportant")
+ dim idept : idept = pkstr(request("idept"), "")
+ dim kstatus : kstatus = pkstr(request("kstatus"), "")
+ if ximportant = "" then ximportant = 0
+ 
+ sql = "update cudtgeneric set xbody = " & xbody & ", xurl = " & xurl & ", xnewwindow = " & xnewwindow & ", " & _
+    "fctupublic = " & fctupublic & ", vgroup = " & vgroup & ", xkeyword = " & xkeyword & ", ximportant = " & ximportant & ", " & _
+    "idept = " & idept & " where icuitem = " & discussid
+ conn.execute(sql)
+ '刪除救回
+ sql2_1 = "select * from knowledgeforum where gicuitem = " & discussid
+ set rs2_1 = conn.execute(sql2_1)
+ if request("kstatus") = "n" and rs2_1("status") <> kstatus then
+  sql3 = "update knowledgeforum set discusscount = discusscount +1 where gicuitem = " & questionid
+  conn.execute(sql3)
+ elseif request("kstatus") = "d" and rs2_1("status") <> kstatus then
+  sql3 = "update knowledgeforum set discusscount = discusscount -1 where gicuitem = " & questionid
+  conn.execute(sql3)
+ end if
+ sql2 = "update knowledgeforum set status = "& kstatus &" where gicuitem = " & discussid
+ conn.execute(sql2)
+ '刪除救回end
+ showdonebox "資料更新成功！"
+ 
+elseif request("submittask") = "delete" then
+
+ sql = "select status from knowledgeforum where gicuitem = " & questionid 
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  if rs("status") = "d" then 
+   response.write "<script>alert('article can not be deleted!!');window.location.href='knowledgeforumlist.asp';</script>"
+   response.end
+  end if
+ end if
+ sql = "select status from knowledgeforum where gicuitem = " & discussid 
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  if rs("status") = "d" then 
+   response.write "<script>alert('article can not be deleted!!');window.location.href='knowledgeforumlist.asp';</script>"
+   response.end
+  end if
+ end if
+ 
+ 'deletecommend discussid '---刪除評價--- 
+ 'deleteopinion discussid '---刪除意見---   
+ deletediscuss discussid '---刪除討論---  
+  
+ '---更新parent的count---    
+ sql = "select * from knowledgeforum where gicuitem = " & discussid
+ set delrs = conn.execute(sql)
+ while not delrs.eof 
+  commandcount = cint(delrs("commandcount"))
+  gradecount = cint(delrs("gradecount"))
+  gradepersoncount = cint(delrs("gradepersoncount"))
+  parenticuitem = delrs("parenticuitem")     
+  sql = "update knowledgeforum set discusscount = discusscount - 1, commandcount = commandcount - " & commandcount & ", " & _
+     "gradecount = gradecount - " & gradecount & ", gradepersoncount = gradepersoncount - " & gradepersoncount & " " & _
+     "where gicuitem = " & questionid   
+  conn.execute(sql)     
+  delrs.movenext     
+ wend    
+ delrs.close
+ set delrs = nothing
+  
+ showdonebox "刪除完成！"
+else
+ showform
+end if
+
+  
+ function pkstr (s, endchar)
+  if s = "" then
+   pkstr = "''" & endchar  
+  else
+   pos = instr(s, "'")
+   while pos > 0
+    s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+    pos = instr(pos + 2, s, "'")
+   wend          
+   pkstr = "n'" & s & "'" & endchar  
+  end if
+ end function
+
+   sub showdonebox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+                              =htprogprefix:                       =questionid
+
+
+
+   end sub 
+  
+sub showform
+
+ '-------------------------------------------------------------
+ dim questiontitle
+ sql = "select stitle from cudtgeneric where icuitem = " & questionid
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  questiontitle = rs("stitle")
+ end if
+ rs.close
+ set rs = nothing
+ '-------------------------------------------------------------
+
+ sql = "select *, knowledgeforum.status as kstatus from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem " & _
+    "inner join member on cudtgeneric.ieditor = member.account  " & _
+    "where (cudtgeneric.icuitem = " & discussid & ") and (cudtgeneric.ictunit = " & ictunitid & ") " 
+ set rs = conn.execute(sql)   
+ if rs.eof then
+  response.write "<script>alert('找不到資料');history.back();</script>"
+  response.end
+ else  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                =request.querystring("questionid"):              =request.querystring("discussid"):            =request.querystring("nowpage"):             =request.querystring("pagesize")
+                                            =discussid:            =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+                                                                   =questionid:            =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+                                                              =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+
+
+
+
+
+
+                                                                                            =questionid:              =discussid
+
+
+
+
+
+                                                                      =questiontitle
+
+
+
+
+
+                                                                      =rs("xbody")
+
+
+
+
+                                                                              =rs("xurl")
+
+
+
+
+
+
+                          if rs("xnewwindow") = "y" then :              end if 
+                          if rs("xnewwindow") = "n" then :              end if 
+
+
+
+
+
+
+
+
+                          if rs("fctupublic") = "y" then :              end if 
+                          if rs("fctupublic") = "n" then :              end if 
+
+
+
+
+
+
+
+
+                                                           if rs("vgroup") = "a" then :             end if 
+
+
+
+
+
+
+                                                                                     =rs("xkeyword")
+
+
+
+                                                                                                =rs("ximportant")
+
+
+
+
+                           
+    response.write "<select name=""idept"" size=""1"">" & vbcrlf 
+    sqlcom = "select d.deptid,d.deptname,d.parent,len(d.deptid)-1,d.seq," & _
+         "(select count(*) from dept where parent=d.deptid and nodekind='d') " & _
+         "from dept as d where d.nodekind='d' " & _
+         "and d.deptid like '" & session("deptid") & "%'" & _
+         "order by len(d.deptid), d.parent, d.seq "    
+    set rss = conn.execute(sqlcom)
+    if not rss.eof then
+     arydept = rss.getrows(300)
+     glastmsglevel = 0
+     genlist 0, 0, 1, 0
+       expandfrom arydept(cid, 0), 0, 0
+    end if
+    response.write "</select>"   
+   
+
+
+
+
+
+                                                  =trim(rs("ieditor"))
+                                                   =trim(rs("realname"))
+                                                   =trim(rs("nickname"))
+
+
+
+
+
+
+                                                                                 =rs("discusscount")
+
+                                                                                 =rs("commandcount")
+
+                                                                                =rs("browsecount")
+
+
+
+
+
+                                                                               =rs("tracecount")
+
+                                                                               =rs("gradecount")
+
+                                                                                     =rs("gradepersoncount")
+
+
+    
+   sql = "select picstatus from knowledgepicinfo where parenticuitem = " & discussid
+    set rs5 = conn.execute(sql)
+    dim counter : counter = 1
+  
+
+
+
+       while not rs5.eof 
+       if (counter mod 6) = 0 then response.write "<br>" 
+      =counter:                                if trim(rs5("picstatus"))="w" then:        end if:   if trim(rs5("picstatus"))="n" then:        end if:   if trim(rs5("picstatus"))="y" then:       end if
+       
+      counter=counter + 1
+      rs5.movenext 
+     wend
+     rs5.close
+     set rs5 = nothing
+    
+
+
+
+
+
+                                                              =rs("kstatus")
+
+                       if rs("kstatus") = "n" then response.write "selected" end if
+                       if rs("kstatus") = "d" then response.write "selected" end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                =questionid
+
+
+  
+ end if
+ rs.close
+ set rs = nothing
+end sub
+ 

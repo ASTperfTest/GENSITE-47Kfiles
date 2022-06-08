@@ -1,0 +1,180 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="電子報管理"
+htprogfunc="電子報發行清單"
+htprogcode="gw1m51"
+htprogprefix="epub"
+
+   CxMethod_ASP_epublistparam_1087716033()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+ '---vincent---for 2008 epaper---
+ dim eflag
+ 'if request("eptreeid") = "143" then
+ if request("eptreeid") = "21" then
+  eflag = true
+ else
+  eflag = false
+ end if
+ '-------------------------------
+ 
+  set rsreg = server.createobject("adodb.recordset")
+  fsql = request.querystring("strsql")
+  response.write request.querystring("strsql") & "<hr>"
+  if request.querystring("eptreeid") <> "" then session("eptreeid") = request.querystring("eptreeid")
+  if request.querystring("epapername") <> "" then session("epapername") = request.querystring("epapername")
+ if fsql = "" then
+  fsql = "select htx.epubid, htx.pubdate, htx.title, htx.dbdate, htx.dedate, htx.maxno" _
+   & ", (select count(*) from epsend where epsend.epubid=htx.epubid and epsend.ctrootid = htx.ctrootid ) as sendcount " _
+   & " from eppub as htx" _
+   & " where htx.ctrootid=" & session("eptreeid")
+  xpcondition
+ end if
+
+ nowpage = request.querystring("nowpage")  '現在頁數
+
+
+'----------hyweb gip db connection patch----------
+' rsreg.open fsql,conn,3,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+ if not rsreg.eof then 
+   totrec = rsreg.recordcount       '總筆數
+   if totrec > 0 then 
+      perpagesize = cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize = 10  
+      end if 
+      
+      rsreg.pagesize = perpagesize       '每頁筆數
+
+      if cint(nowpage) < 1 then 
+         nowpage = 1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage = nowpage
+      totpage = rsreg.pagecount       '總頁數
+      strsql = server.urlencode(fsql)
+    end if    
+ end if   
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc:     =session("epapername")
+
+      if (htprogright and 4)=4 then
+                                               =request("eptreeid")
+      end if
+                                      =session("eptreeid")
+
+
+
+
+
+
+
+                                          =htprogprefix
+
+      if not rsreg.eof then
+
+                                         =nowpage:    =totpage
+                                           =totrec
+
+
+             for ipage=1 to totpage
+                              =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+              next
+
+
+            if cint(nowpage) <>1 then 
+                        =htprogprefix:                    =(nowpage-1):           =strsql:             =perpagesize
+           end if
+
+            if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):           =strsql:             =perpagesize
+           end if
+
+
+                               if perpagesize=10 then:            end if
+                                if perpagesize=20 then:            end if
+                                if perpagesize=30 then:            end if
+                                if perpagesize=50 then:            end if
+
+
+
+
+
+
+
+
+
+
+
+        if eflag = true then 
+
+        end if 
+
+       for i=1 to perpagesize 
+
+       
+      pkey = ""
+      pkey = pkey & "&epubid=" & rsreg("epubid") & "&eptreeid=" & request("eptreeid")
+      if pkey<>"" then  pkey = mid(pkey,2)
+
+                              =pkey:                =rsreg("pubdate")
+                                             =rsreg("title")
+                                             =rsreg("dbdate")
+                                             =rsreg("dedate")
+                                             =rsreg("maxno")
+                                                                    =pkey:     =rsreg("sendcount")
+         if eflag = true then 
+                                                                                                                                                  =pkey
+         end if 
+
+
+        
+           rsreg.movenext
+           if rsreg.eof then exit for 
+       next 
+     
+
+
+
+
+
+
+
+
+
+
+
+   else 
+
+
+
+
+   end if 
+
+
+
+
+
+                              =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                              =htprogprefix:                    =nowpage:                =strsql 

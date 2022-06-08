@@ -1,0 +1,52 @@
+﻿: @ codepage = 65001 
+
+  
+act = request("submittask")
+ xpath =request("xxpath")
+ uppath = session("uploadpath") & xpath
+ if right(uppath,1)<>"/" then uppath = uppath & "/"
+' response.write uppath & "<hr>"
+' response.write act & (act= "刪檔") & "<hr>"
+
+if act = "delfiles" then 
+' response.write request("insertfiles")
+' response.write "<hr>"
+ 
+ set fso = createobject("scripting.filesystemobject")
+
+ flist = split(request("insertfiles"),", ")
+ for x = 0 to ubound(flist,1)
+'  response.write flist(x) & "<hr>"
+  fso.deletefile(server.mappath(uppath & flist(x)))
+ next
+
+
+              =ubound(flist,1)+1
+                                      =xpath
+
+   
+ response.end
+elseif act = "deldir" then 
+ if right(uppath,1)<>"/" then uppath = uppath & "/"
+ uppath = left(uppath, len(uppath)-1)
+ response.write uppath & "<hr>"
+ xpos = instrrev(uppath, "/")
+ if xpos < 1 then response.end
+ 
+ parentpath = left(uppath, xpos-1)
+ set fso = createobject("scripting.filesystemobject")
+ fso.deletefolder(server.mappath(uppath)) 
+
+
+
+
+                                       =parentpath
+
+   
+ 
+' response.write uppath & "<hr>"
+ response.end
+end if
+
+
+ 

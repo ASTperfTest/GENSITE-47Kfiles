@@ -1,0 +1,168 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function script___1189113315() {src("/KnowledgeForum/moveloc.js");}
+
+
+
+var pickElement = top.opener.document.getElementById("experts"); 
+var olds = new Array();
+
+window.onload = init;
+
+String.prototype.trim= function() {  
+    return this.replace(/(^\s*)|(\s*$)/g, "");  
+}
+//---initial---
+function init(){
+ var oldFields = top.opener.document.getElementById("expertSelected").value; 
+ var oldFieldsValue = top.opener.document.getElementById("experts").value;
+ fields = oldFields.split(",");
+ fieldsValue = oldFieldsValue.split(","); 
+ for ( i = 0; i < fields.length; i++ ) {  
+   var old = new Array(fields[i].trim(), fieldsValue[i].trim());
+  olds[i] = old;  
+ }
+ copyoldIDV(document.getElementById("mylocation"),olds);
+ loadLoc(document.getElementById("mylocation"));
+}
+
+//---確認送出---
+function pick(){
+ var myloc = document.getElementById("mylocation"); 
+ var picker = "";
+ var pickerVal = "";
+ for ( i = 0; i < myloc.length; i++ ) {
+  var myopt = myloc.options[i];
+  picker += myopt.text+",";
+  pickerVal += myopt.value+",";
+ }
+ picker = picker.substring(0,picker.lastIndexOf(","));
+ pickerVal = pickerVal.substring(0,pickerVal.lastIndexOf(",")); 
+ top.opener.document.getElementById("expertSelected").value = picker; 
+ top.opener.document.getElementById("experts").value = pickerVal; 
+ window.top.close();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                             function onclick___1016031105() {QueryClick()}
+
+
+
+                                     function onDblClick___266461218() {addloc(document.all.location,document.all.mylocation)}
+
+
+
+
+
+
+
+
+
+
+function onclick___266461218() {addloc(document.all.location,document.all.mylocation)}
+function onclick___299299920() {delloc(document.all.location,document.all.mylocation)}
+
+
+
+
+
+                                                                        function onclick____1200577756() {pick()}
+
+
+
+
+
+
+ function QueryClick()
+ {
+  var myloc = document.getElementById("mylocation"); 
+  var picker = "";
+  var pickerVal = "";
+  for ( i = 0; i < myloc.length; i++ ) {
+   var myopt = myloc.options[i];
+   picker += myopt.text+",";
+   pickerVal += myopt.value+",";
+  }
+  picker = picker.substring(0,picker.lastIndexOf(","));
+  pickerVal = pickerVal.substring(0,pickerVal.lastIndexOf(",")); 
+  top.opener.document.getElementById("expertSelected").value = picker; 
+  top.opener.document.getElementById("experts").value = pickerVal; 
+  
+  window.location.href = "/KnowledgeForum/ExpertSelect.asp?queryType=" + document.getElementById("queryType").value + 
+              "&queryText=" + document.getElementById("queryText").value;
+ }
+
+
+
+ 

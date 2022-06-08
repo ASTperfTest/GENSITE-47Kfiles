@@ -1,0 +1,60 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "pn03m04" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+  
+ catid = request.querystring("catid")
+ linkck = request.querystring("linkck")
+   if catid <> 0 then
+       sqlcom = "select count(forumid) from forum where catid = "& catid
+    set rscom = conn.execute(sqlcom)
+     itemcount = rscom(0)
+    sqlcom = "select * from forum where catid = "& catid &" order by forumshoworder"
+    set rs2 = conn.execute(sqlcom)
+   else
+       sqlcom = "select count(forumid) from forum where itemid = n'"& itemid &"'"
+    set rscom = conn.execute(sqlcom)
+     itemcount = rscom(0)
+    sqlcom = "select * from forum where itemid = n'"& itemid &"' order by forumshoworder"
+    set rs2 = conn.execute(sqlcom)
+   end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              =itemid:          =catid:                          =linkck
+                                                    =catid
+                                                =linkck
+
+
+        if not rs2.eof then 
+                           =itemcount
+          do while not rs2.eof 
+                           =rs2("forumid"):     =rs2("forumname")
+         rs2.movenext
+       loop 
+
+        end if  

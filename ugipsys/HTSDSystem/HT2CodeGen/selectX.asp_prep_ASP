@@ -1,0 +1,30 @@
+﻿: 
+ ' http://embin.hometown.com.tw/embcodegen/xdb1.asp?createschema=y&xml=�q�l��
+ ' �s�d������ƪ�&formid=epnewstyp
+ 
+ 
+ set fso = createobject("scripting.filesystemobject")
+ set f = fso.getfolder(server.mappath(".") & "\xmlspec\")
+ set fc = f.files
+ for each f1 in fc
+  if ucase(right(trim(f1.name), 3))="xml" then
+   set xmldoc=server.createobject("microsoft.xmldom")
+   xp = server.mappath(".") & "\xmlspec\"   
+   xv = xmldoc.load(xp+f1.name)
+
+  =f1.name
+  
+   set formdom = xmldoc.selectsinglenode("dataschemadef/dstable/tablename")
+
+                                                                               =left(f1.name, len(f1.name)-4)
+          =formdom.text
+
+
+
+  
+   set xmldoc=nothing
+   set formdom=nothing
+  end if
+ next
+ 
+ 

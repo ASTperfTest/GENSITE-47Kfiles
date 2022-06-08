@@ -1,0 +1,124 @@
+﻿:  CxMethod_ASP_client_1900334733()
+   CxMethod_ASP_des_1640704468()
+  
+ dim email,token,returnurl,updatememid,key
+
+ email = request("email")
+ token = request("token")
+ returnurl = request("returnurl")
+ updatememid = request("id")
+
+ key = session("webdeskey")   '加解密金鑰(len=14)
+ set descrypt = new cls_des
+ token = descrypt.des(token,key,1) '解密
+ set descrypt = nothing
+
+ if (token <> email or instr(updatememid,"'")>0 ) then 
+     response.write "<html><head><meta http-equiv='content-type' content='text/html; charset=utf-8'></head><body bgcolor='#ffffff'>"
+     response.write "<script language='javascript'>"
+     response.write "alert(' email 認證失敗！請重新申請或尋求協助！\n" & email & "');"
+     response.write "this.close();"
+     response.write "</script>"
+     response.write "</body></html>"
+     response.end()  
+  
+ elseif (token = email and returnurl <> "") then
+
+  '新會員加入
+  session("checkcodeformail") = email
+  response.write "<html><head><meta http-equiv='content-type' content='text/html; charset=utf-8'></head><body bgcolor='#ffffff'>"
+  response.write "<script language='javascript'>"
+  response.write "alert(' email 認證成功！您現在可以繼續流程，開始輸入您的個人資料！');"
+  response.write "location.replace('" + returnurl + "');"
+  response.write "</script>"
+    response.write "</body></html>"
+  response.end()
+
+ elseif (token = email and updatememid <> "") then
+  
+  '舊會員重新認證
+  dim mcode
+  set rs = conn.execute("select mcode from member where email='"& email &"' and (account = '" & updatememid & "')") 
+  if not rs.eof then  
+  
+   mcode = rs("mcode")
+   if isnull(mcode) then
+    conn.execute("update member set mcode='y' where (account = '" & updatememid & "')") 
+    
+    
+                '增加kpi 邀請 & 被邀請                
+                sqlstr="select * from invitefriends_head where invitationcode in ("
+                sqlstr=sqlstr & vbcrlf &"select invitationcode from invitefriends_detail where inviteaccount='" & updatememid & "' and isactive=0)"
+                
+                set rsinviter = conn.execute(sqlstr)
+                if not rsinviter.eof then
+                    ' 當日日期
+                    datenow = year(now()) & "/" & month(now()) & "/" & day(now())
+                    ' 取出邀請者帳號
+                    strinviteraccount = trim(rsinviter("account"))
+                    
+                    invitationcode=rsinviter("invitationcode")
+                    
+                    ' 取得 邀請 & 被邀請 kpi贈與分數  ''' kpi代號
+                    set rsinviterscore = conn.execute("select * from kpi_set_score where rank0_2 = 'st_315'")
+                      intinviterscore = trim(rsinviterscore("rank0_1"))
+                    set rsisinvitedscore = conn.execute("select * from kpi_set_score where rank0_2 = 'st_316'")
+                      intisinvitedscore = trim(rsisinvitedscore("rank0_1"))
+
+                    sno=0
+                    ' 檢查邀請者當日是否有登入紀錄
+                    set rsinvite = conn.execute("select * from membergradelogin where memberid = '" & strinviteraccount & "' and convert(varchar, logindate, 111) = convert(varchar, getdate(), 111) order by sno desc")
+                    if not rsinvite.eof then
+                        ' 有紀錄，update當日紀錄
+                       sno = trim(rsinvite("sno"))
+                       intorilogininvite = trim(rsinvite("logininvite"))
+                       intnewlogininvite = cint(intorilogininvite) + cint(intinviterscore)
+                       strsqlmodiinviterkpi = "update membergradelogin set logininvite = " & _
+                                               intnewlogininvite & " where memberid = '" & strinviteraccount & _
+                                               "' and sno = " & sno
+                       'response.write(strsqlmodiinviterkpi & "<br/>")
+                       conn.execute(strsqlmodiinviterkpi)
+                    else
+                        ' 無紀錄，insert當日紀錄
+                        strsqladdinviterkpi = "insert into membergradelogin (memberid, logininterdate,logininvite) " & _
+                                              "values ('" & strinviteraccount & "', getdate(), " & intinviterscore & ")"
+                        'response.write(strsqladdinviterkpi & "<br/>")
+                        conn.execute(strsqladdinviterkpi)
+                        
+                        set rsinvite = conn.execute("select sno from membergradelogin where memberid = '" & strinviteraccount & "' and convert(varchar, logindate, 111) = convert(varchar, getdate(), 111) order by sno desc")
+                        sno = trim(rsinvite("sno"))
+                    end if
+
+                    ' 增加被邀請者的kpi
+                    strsqladdisinvited = "insert into membergradelogin (memberid, logininterdate,loginisinvited) " & _
+                                              "values ('" & updatememid & "', getdate(), " & intisinvitedscore & ")"
+                    'response.write(strsqladdisinvited & "<br/>")
+                    conn.execute(strsqladdisinvited)
+                    
+                    
+                    strsqladdisinvited="update invitefriends_detail set isactive=1 , kpiaddedsno=" & sno & ", inviter_kpipointe ="& intinviterscore &"  where inviteaccount='" & updatememid & "' and isactive=0 and invitationcode=" & invitationcode
+                    
+                    conn.execute(strsqladdisinvited)
+                end if
+   end if
+   
+   response.write "<html><head><meta http-equiv='content-type' content='text/html; charset=utf-8'></head><body bgcolor='#ffffff'>"
+   response.write "<script language='javascript'>"
+   response.write "alert(' email 認證成功！您現在可以重新登入，開始使用入口網！');"
+   response.write "location.replace('/mp.asp?mp=1');"
+   response.write "</script>"
+   response.write "</body></html>"
+   response.end()
+  end if
+
+ end if
+
+ '認證失敗
+ response.write "<html><head><meta http-equiv='content-type' content='text/html; charset=utf-8'></head><body bgcolor='#ffffff'>"
+ response.write "<script language='javascript'>"
+ response.write "alert(' email 認證失敗！請重新申請或尋求協助！\n" & email & "');"
+ response.write "this.close();"
+ response.write "</script>"
+ response.write "</body></html>"
+ response.end()
+ 

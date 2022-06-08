@@ -1,0 +1,386 @@
+﻿:  CxMethod_ASP_exam_class_1551061325()
+  
+'取得題目主題
+function getcudtgeneric(oconnection, icuitem)
+ dim ocudtgeneric
+ dim sqldtgeneric, rsdtgeneric
+
+ sqldtgeneric = "select * from cudtgeneric where icuitem = " & icuitem
+ set rsdtgeneric = server.createobject("adodb.recordset")
+
+'----------hyweb gip db connection patch----------
+' rsdtgeneric.open sqldtgeneric, oconnection, 1, 1
+set rsdtgeneric =  oconnection.execute(sqldtgeneric)
+
+'----------hyweb gip db connection patch----------
+
+ 
+ if not rsdtgeneric.eof then
+  set ocudtgeneric = new cudtgeneric
+  ocudtgeneric.setfield "id", rsdtgeneric.fields("icuitem").value
+  ocudtgeneric.setfield "title", rsdtgeneric.fields("stitle").value
+  ocudtgeneric.setfield "topcat", rsdtgeneric.fields("topcat").value
+ else
+  err.raise vbobjecterror + 1, "", "主題不存在"
+ end if
+ 
+ rsdtgeneric.close
+ set rsdtgeneric = nothing
+ 
+ set getcudtgeneric = ocudtgeneric
+end function
+
+'取得腔調
+' 0:全部  1:交集  2:差集
+function gettunelist(oconnection, icuitem, ifiltertype)
+ dim arraylist()
+ 
+ sqltunelist = "select c.codemetaid, c.mcode, c.mvalue, c.msortvalue, t.et_id " & _
+               "from codemain c " & _
+               "left join hakkaexamtopic t on t.tune_id = c.mcode and t.icuitem = " & icuitem & "" & _
+               "where c.codemetaid = 'hakkalangtone' " & _
+               "order by c.msortvalue asc"
+ set rstunelist = server.createobject("adodb.recordset")
+
+'----------hyweb gip db connection patch----------
+' rstunelist.open sqltunelist, oconnection, 1, 1
+set rstunelist =  oconnection.execute(sqltunelist)
+
+'----------hyweb gip db connection patch----------
+
+ 
+ if not rstunelist.eof then
+  redim arraylist(1, rstunelist.recordcount - 1)
+  itunelist = 0
+  while not rstunelist.eof
+   
+   if ifiltertype = 0 or (ifiltertype = 1 and not isnull(rstunelist.fields("et_id").value)) or (ifiltertype = 2 and isnull(rstunelist.fields("et_id").value)) then
+    arraylist(0, itunelist) = rstunelist("mcode")
+    arraylist(1, itunelist) = rstunelist("mvalue")
+    itunelist = itunelist + 1
+   end if
+   
+   rstunelist.movenext
+  wend
+  
+  if itunelist <> 0 then
+   redim preserve arraylist(1, itunelist - 1)
+  else
+   err.raise vbobjecterror + 1, "", "無法取得腔調"
+  end if
+ else
+  err.raise vbobjecterror + 1, "", "無法取得腔調"
+ end if
+ 
+ rstunelist.close
+ set rstunelist = nothing
+ 
+ gettunelist = arraylist
+end function
+
+'取得題目類型
+function getexamtype(oconnection)
+ dim arraylist()
+ 
+ sqlexamtypelist = "select codemetaid, mcode, mvalue, msortvalue " & _
+               "from codemain " & _
+               "where codemetaid = 'exam_topcat' " & _
+               "order by msortvalue asc"
+ set rsexamtypelist = server.createobject("adodb.recordset")
+
+'----------hyweb gip db connection patch----------
+' rsexamtypelist.open sqlexamtypelist, oconnection, 1, 1
+set rsexamtypelist =  oconnection.execute(sqlexamtypelist)
+
+'----------hyweb gip db connection patch----------
+
+ 
+ if not rsexamtypelist.eof then
+  redim arraylist(1, rstunelist.recordcount - 1)
+  for iexamtypelist = 0 to ubound(arraylist)
+   arraylist(0, itunelist) = rsexamtypelist("mcode")
+   arraylist(1, itunelist) = rsexamtypelist("mvalue")
+   rsexamtypelist.movenext
+  next
+ else
+  err.raise vbobjecterror + 1, "", "無法取得題目類型"
+ end if
+ 
+ rsexamtypelist.close
+ set rsexamtypelist = nothing
+ 
+ getexamtype = arraylist
+end function
+
+' 取得腔調題目
+function gettopic(oconnection, itopicid)
+ dim oexamtopic
+ dim sqltopic, rstopic
+ 
+ sqltopic = "select * from hakkalangexamtopic where et_id = " & itopicid & ""
+ set rstopic = server.createobject("adodb.recordset")
+
+'----------hyweb gip db connection patch----------
+' rstopic.open sqltopic, oconnection, 1, 1
+set rstopic =  oconnection.execute(sqltopic)
+
+'----------hyweb gip db connection patch----------
+
+
+ if not rstopic.eof then
+  set oexamtopic = new examtopic
+  oexamtopic.setfield "id", rstopic.fields("et_id").value
+  oexamtopic.setfield "cuitemid", rstopic.fields("icuitem").value
+  oexamtopic.setfield "tuneid", rstopic.fields("tune_id").value
+  oexamtopic.setfield "correct", rstopic.fields("et_correct").value
+ else
+  err.raise vbobjecterror + 1, "", "無法取得腔調題目"
+ end if
+
+ rstopic.close
+ set rstopic = nothing
+ 
+ set gettopic = oexamtopic
+end function
+
+' 取得腔調題目 by gicuitem
+function gettopicbycuitem(oconnection, icuitem)
+ dim oexamtopic
+ dim sqltopic, rstopic
+ 
+ sqltopic = "select * from hakkalangexamtopic where gicuitem = " & icuitem & ""
+ set rstopic = server.createobject("adodb.recordset")
+
+'----------hyweb gip db connection patch----------
+' rstopic.open sqltopic, oconnection, 1, 1
+set rstopic =  oconnection.execute(sqltopic)
+
+'----------hyweb gip db connection patch----------
+
+
+ if not rstopic.eof then
+  set oexamtopic = new examtopic
+  oexamtopic.setfield "id", rstopic.fields("et_id").value
+  oexamtopic.setfield "cuitemid", rstopic.fields("gicuitem").value
+  oexamtopic.setfield "tuneid", rstopic.fields("tune_id").value
+  oexamtopic.setfield "correct", rstopic.fields("et_correct").value
+ else
+  err.raise vbobjecterror + 1, "", "無法取得腔調題目"
+ end if
+
+ rstopic.close
+ set rstopic = nothing
+ 
+ set gettopicbycuitem = oexamtopic
+end function
+
+' 新增腔調題目
+function createtopic(oconnection, oexamtopic)
+ dim sqltopic, rstopic
+ 
+ oexamtopic.validate
+ 
+ sqltopic = "hakkalangexamtopic"
+ set rstopic = server.createobject("adodb.recordset")
+
+'----------hyweb gip db connection patch----------
+' rstopic.open sqltopic, oconnection, 1, 3
+set rstopic =  oconnection.execute(sqltopic)
+
+'----------hyweb gip db connection patch----------
+
+ 
+ rstopic.addnew
+ rstopic("gicuitem") = oexamtopic.getfield("cuitemid")
+ rstopic("tune_id") = oexamtopic.getfield("tuneid")
+ rstopic("et_correct") = oexamtopic.getfield("correct")
+ rstopic.update
+ 
+ oexamtopic.setfield "id", rstopic.fields("et_id").value
+ 
+ rstopic.close
+ set rstopic = nothing
+end function
+
+
+' 更新腔調題目
+function updatetopic(oconnection, oexamtopic)
+ dim sqltopic, rstopic
+ 
+ oexamtopic.validate
+ 
+ sqltopic = "select * from hakkalangexamtopic where et_id = " & oexamtopic.getfield("id") & ""
+ set rstopic = server.createobject("adodb.recordset")
+
+'----------hyweb gip db connection patch----------
+' rstopic.open sqltopic, oconnection, 1, 3
+set rstopic =  oconnection.execute(sqltopic)
+
+'----------hyweb gip db connection patch----------
+
+ 
+ if not rstopic.eof then
+  'rstopic("gicuitem") = oexamtopic.getfield("cuitemid")
+  'rstopic("tune_id") = oexamtopic.getfield("tuneid")
+  rstopic("et_correct") = oexamtopic.getfield("correct")
+  rstopic.update
+ else
+  err.raise vbobjecterror + 1, "", "題目不存在"
+ end if
+ 
+ rstopic.close
+ set rstopic = nothing
+end function
+
+' 刪除腔調題目
+function deltopic(oconnection, oexamtopic)
+ dim sqltopic
+ 
+ sqltopic = "delete from hakkalangexamtopic where et_id = " & oexamtopic.getfield("id")
+ oconnection.execute(sqltopic)
+end function
+
+' 取得題目選項
+function getoption(oconnection, ioptionid, ioptionsort)
+ dim oexamoption
+ dim sqloption, rsoption
+ 
+ sqloption = "select * from hakkalangexamoption where eo_id = " & ioptionid & " and eo_sort = " & ioptionsort & " order by eo_sort asc"
+ set rsoption = server.createobject("adodb.recordset")
+
+'----------hyweb gip db connection patch----------
+' rsoption.open sqloption, oconnection, 1, 1
+set rsoption =  oconnection.execute(sqloption)
+
+'----------hyweb gip db connection patch----------
+
+ 
+ if not rsoption.eof then
+  set oexamoption = new examoption
+  oexamoption.setfield "topicid", rsoption.fields("et_id").value
+  oexamoption.setfield "title", rsoption.fields("eo_title").value
+  oexamoption.setfield "answer", rsoption.fields("eo_answer").value
+  oexamoption.setfield "sort", rsoption.fields("eo_sort").value
+ else
+  err.raise vbobjecterror + 1, "", "無法取得題目選項"
+ end if
+ 
+ rsoption.close
+ set rsoption = nothing
+ 
+ set getoption = oexamoption
+end function
+
+' 取得題目所有選項
+function getalloption(oconnection, itopicid)
+ dim dexamoptions
+ dim oexamoption
+ dim sqlalloptions, rsalloption
+ 
+ set dexamoptions = server.createobject("scripting.dictionary")
+ 
+ sqlalloptions = "select * from hakkalangexamoption where et_id = " & itopicid & " order by eo_sort asc"
+ set rsalloption = server.createobject("adodb.recordset")
+
+'----------hyweb gip db connection patch----------
+' rsalloption.open sqlalloptions, oconnection, 1, 1
+set rsalloption =  oconnection.execute(sqlalloptions)
+
+'----------hyweb gip db connection patch----------
+
+ 
+ if not rsalloption.eof then
+  while not rsalloption.eof
+   set oexamoption = new examoption
+   oexamoption.setfield "topicid", rsalloption.fields("et_id").value
+   oexamoption.setfield "title", rsalloption.fields("eo_title").value
+   oexamoption.setfield "answer", rsalloption.fields("eo_answer").value
+   oexamoption.setfield "sort", rsalloption.fields("eo_sort").value
+   dexamoptions.add dexamoptions.count, oexamoption
+   rsalloption.movenext
+  wend
+ else
+  err.raise vbobjecterror + 1, "", "無法取得題目選項"
+ end if
+ 
+ rsalloption.close
+ set rsalloption = nothing
+ 
+ set getalloption = dexamoptions
+end function
+
+' 新增題目選項
+function createoption(oconnection, oexamoption)
+ dim sqloption, rsoption
+ 
+ oexamoption.validate
+ 
+ sqloption = "hakkalangexamoption"
+ set rsoption = server.createobject("adodb.recordset")
+
+'----------hyweb gip db connection patch----------
+' rsoption.open sqloption, oconnection, 1, 3
+set rsoption =  oconnection.execute(sqloption)
+
+'----------hyweb gip db connection patch----------
+
+ 
+ rsoption.addnew
+ rsoption("et_id") = oexamoption.getfield("topicid")
+ rsoption("eo_title") = oexamoption.getfield("title")
+ rsoption("eo_answer") = oexamoption.getfield("answer")
+ rsoption("eo_sort") = oexamoption.getfield("sort")
+ rsoption.update
+ 
+ rsoption.close
+ set rsoption = nothing
+end function
+
+' 更新題目選項
+function updateoption(oconnection, oexamoption)
+ dim sqloption, rsoption
+ 
+ oexamoption.validate
+ 
+ sqloption = "select * from hakkalangexamoption where et_id = " & oexamoption.getfield("topicid") & " and eo_sort = " & oexamoption.getfield("sort") & ""
+ response.write sqloption
+ set rsoption = server.createobject("adodb.recordset")
+
+'----------hyweb gip db connection patch----------
+' rsoption.open sqloption, oconnection, 1, 3
+set rsoption =  oconnection.execute(sqloption)
+
+'----------hyweb gip db connection patch----------
+
+ 
+ if not rsoption.eof then
+  rsoption("et_id") = oexamoption.getfield("topicid")
+  rsoption("eo_title") = oexamoption.getfield("title")
+  rsoption("eo_answer") = oexamoption.getfield("answer")
+  rsoption("eo_sort") = oexamoption.getfield("sort")
+  rsoption.update
+ else
+  err.raise vbobjecterror + 1, "", "選項不存在"
+ end if
+ 
+ rsoption.close
+ set rsoption = nothing
+end function
+
+' 刪除題目選項
+function deloption(oconnection, oexamoption)
+ dim sqloption
+ 
+ sqloption = "delete from hakkalangexamoption where et_id = " & oexamoption.getfield("topicid") & " and eo_sort = " & oexamoption.getfield("sort") & ""
+ oconnection.execute(sqloption)
+end function
+
+
+' 刪除題目所有選項
+function delalloption(oconnection, oexamtopic)
+ dim sqloption
+ 
+ sqloption = "delete from hakkalangexamoption where et_id = " & oexamtopic.getfield("id")
+ oconnection.execute(sqloption)
+end function
+ 

@@ -1,0 +1,127 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ function PassValidate(id) 
+ {
+     document.getElementById("picId").value = id;
+  document.getElementById("submitTask").value = "Pass";
+  document.getElementById("reg").submit();
+ }
+ function NoPassValidate(id) {
+     document.getElementById("picId").value = id;
+  document.getElementById("submitTask").value = "NoPass";
+  document.getElementById("reg").submit();
+ }
+
+
+
+
+
+
+ 

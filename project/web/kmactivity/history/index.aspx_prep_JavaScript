@@ -1,0 +1,120 @@
+﻿
+
+
+
+
+
+        var kmurl = "Cx_0dummy";
+        function hitHint(id) {
+            window.open(kmurl + "/Century/Picture_Detail.aspx?ctNodeId=" + id);
+            $("#hitNode").val(id);
+            $("#hideAnswer").val("");
+            $("#aspnetForm").submit();
+        }
+        function CheckAnswer() {
+            $("#answerButton").attr("disabled", true);
+            var node = $("input[name='historyanswer']:checked").val();
+            if (node == undefined || node == null) {
+                alert("�п�ܵ���!!");
+                $("#answerButton").attr("disabled", false);
+                return;
+            }
+            $("#hitNode").val("");
+            $("#hideAnswer").val(node);
+            $("#aspnetForm").submit();
+        }
+        function NextQuestionsubmit() {
+            $("#hitNode").val("");
+            $("#hideAnswer").val("");
+            $("#NextQuestion").val("true");
+            $("#aspnetForm").submit();
+        }
+       
+        var openPicture = "Cx_0dummy";
+        var canAnswer = "Cx_0dummy";
+        $(document).ready(function (e) {
+            
+            if (openPicture == "true") {
+
+            }
+            if (canAnswer == "false") {
+                $("#nextButton").show();
+                $("#hispicarea").show();
+                $("#answerButton").hide();
+            }
+        })
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   function onclick____1512427044() {CheckAnswer();}
+                 function onclick____1838715161() {NextQuestionsubmit();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DataTran>
+	<targetDB>uGIPwebey</targetDB>
+	<sourceDB>Webey</sourceDB>
+	<SQLStr><![CDATA[Select LN.seq*100+LL.seq xImportant
+,Case when LN.law_nowid < 10 then convert(varchar(1),LN.law_nowid-1) when LN.law_nowid = 10 then '9' else char(LN.law_nowid+54) END topCat,LL.* 
+from [Webey].dbo.law_now LN Left Join [Webey].dbo.law_link LL ON LN.law_nowid=LL.law_nowid]]></SQLStr>
+	<CtUintTranList>
+		<CtUintTran>
+			<targetField>ximportant</targetField>
+			<sourceField>xImportant</sourceField>
+		</CtUintTran>
+		<CtUintTran>
+			<targetField>stitle</targetField>
+			<sourceField>webtitle</sourceField>
+		</CtUintTran>
+		<CtUintTran>
+			<targetField>xpostDate</targetField>
+			<sourceField>createtime</sourceField>
+		</CtUintTran>
+		<CtUintTran>
+			<targetField>topCat</targetField>
+			<sourceField>topCat</sourceField>
+		</CtUintTran>		
+		<CtUintTran>
+			<targetField>xurl</targetField>
+			<sourceField>weburl</sourceField>
+		</CtUintTran>				
+		<CtUintTran>
+			<targetField>createdDate</targetField>
+			<sourceField>createtime</sourceField>
+		</CtUintTran>
+		<CtUintTran>
+			<targetField>deditDate</targetField>
+			<sourceField>modifytime</sourceField>
+		</CtUintTran>
+		<CtUintTran>
+			<targetField>ieditor</targetField>
+			<sourceField>modifyuser</sourceField>
+		</CtUintTran>
+	</CtUintTranList>
+	<whereCondition>where 1=1</whereCondition>
+	<orderby>order by xImportant desc</orderby>
+	<updateFieldList>
+		<updateField>law_linkid</updateField>
+	</updateFieldList>
+</DataTran>

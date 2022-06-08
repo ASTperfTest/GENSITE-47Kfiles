@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MpDataSet>
+    <MenuTree>173</MenuTree>
+    <MpStyle>Style1</MpStyle>
+    <DataSet>
+        <DataLable>BlockA</DataLable>
+        <DataRemark>認識稻米</DataRemark>
+        <DataNode>2700</DataNode>
+        <SqlCondition />
+        <SqlOrderBy />
+        <SqlTop>6</SqlTop>
+        <WithContent>N</WithContent>
+        <ContentData>N</ContentData>
+        <ContentLength>100</ContentLength>
+        <IsTitle>Y</IsTitle>
+        <IsPic>Y</IsPic>
+        <IsPostDate>Y</IsPostDate>
+        <IsExcerpt>Y</IsExcerpt>
+        <ShowStyle>Style1</ShowStyle>
+        <mpShow>Y</mpShow>
+    </DataSet>
+    <DataSet>
+        <DataLable>BlockB</DataLable>
+        <DataRemark>稻米好好吃</DataRemark>
+        <DataNode>2716</DataNode>
+        <SqlCondition />
+        <SqlOrderBy />
+        <SqlTop>6</SqlTop>
+        <WithContent>N</WithContent>
+        <ContentData>N</ContentData>
+        <ContentLength>100</ContentLength>
+        <IsTitle>Y</IsTitle>
+        <IsPic>Y</IsPic>
+        <IsPostDate>Y</IsPostDate>
+        <IsExcerpt>Y</IsExcerpt>
+        <ShowStyle>Style2</ShowStyle>
+        <mpShow>Y</mpShow>
+    </DataSet>
+    <DataSet>
+        <DataLable>BlockC</DataLable>
+        <DataRemark>稻米好好種</DataRemark>
+        <DataNode>2702</DataNode>
+        <SqlCondition />
+        <SqlOrderBy />
+        <SqlTop>6</SqlTop>
+        <WithContent>N</WithContent>
+        <ContentData>N</ContentData>
+        <ContentLength>100</ContentLength>
+        <IsTitle>Y</IsTitle>
+        <IsPic>Y</IsPic>
+        <IsPostDate>Y</IsPostDate>
+        <IsExcerpt>Y</IsExcerpt>
+        <ShowStyle>Style1</ShowStyle>
+        <mpShow>Y</mpShow>
+    </DataSet>
+    <DataSet>
+        <DataLable>BlockD</DataLable>
+        <DataRemark>稻米好好玩</DataRemark>
+        <DataNode>2720</DataNode>
+        <SqlCondition />
+        <SqlOrderBy />
+        <SqlTop>6</SqlTop>
+        <WithContent>N</WithContent>
+        <ContentData>N</ContentData>
+        <ContentLength>100</ContentLength>
+        <IsTitle>Y</IsTitle>
+        <IsPic>Y</IsPic>
+        <IsPostDate>Y</IsPostDate>
+        <IsExcerpt>Y</IsExcerpt>
+        <ShowStyle>Style1</ShowStyle>
+        <mpShow>Y</mpShow>
+    </DataSet>
+    <DataSet>
+        <DataLable>BlockE</DataLable>
+        <DataRemark>快樂當農夫</DataRemark>
+        <DataNode>2684</DataNode>
+        <SqlCondition />
+        <SqlOrderBy />
+        <SqlTop />
+        <WithContent>N</WithContent>
+        <ContentData>N</ContentData>
+        <ContentLength>500</ContentLength>
+        <IsTitle>Y</IsTitle>
+        <IsPic>Y</IsPic>
+        <IsPostDate>Y</IsPostDate>
+        <IsExcerpt>Y</IsExcerpt>
+        <ShowStyle>Style3</ShowStyle>
+        <mpShow>Y</mpShow>
+    </DataSet>
+	<DataSet>
+		<DataLable>BlockF</DataLable>
+		<DataRemark>主題報導</DataRemark>
+		<DataNode></DataNode>
+		<SqlCondition />
+		<SqlOrderBy />
+		<SqlTop>4</SqlTop>
+		<WithContent>N</WithContent>
+		<ContentData>N</ContentData>
+		<ContentLength>80</ContentLength>
+		<IsTitle>Y</IsTitle>
+		<IsPic>Y</IsPic>
+		<IsPostDate>N</IsPostDate>
+		<IsExcerpt>Y</IsExcerpt>
+		<ShowStyle>Style2</ShowStyle>
+		<mpShow>Y</mpShow>
+	  </DataSet>
+</MpDataSet>

@@ -1,0 +1,145 @@
+@charset "utf-8";
+body {
+	background-color: #E0C48D;
+	margin: 0px;
+	padding: 0px;
+}
+#wrap {
+	margin: 0 auto;
+	width: 960px;
+	font-size:100%;
+
+}
+#wrap #header {
+	background: url(../images/COA_PlantGrowth_01-3.jpg) no-repeat;
+	height: 403px;
+	width: 960px;
+	position: relative;
+
+}
+#wrap #header #menu {
+	position: absolute;
+	bottom: 0px!important;bottom: -1px;
+	left:0px!important;left:-40px;
+}
+#wrap #header #coaTime {
+	font: 110px Arial, Helvetica, sans-serif;
+	position: absolute;
+	top: 20px;
+	right: 60px;
+	color: #FFFF00;
+}
+#wrap #header #menu ul li {
+	list-style: none;
+	background: #FFC;
+	width: 147px;
+	height: 54px;
+	float: left;
+	margin-right: 3px;
+	cursor: hand;
+}
+#wrap #header #menu ul .btnDistrict {
+	width: 147px;
+	height: 54px;
+	float: left;
+}
+#wrap #header #menu ul .btnstyle01 {
+	background: url(../images/COA_PlantGrowth_btn_01.gif) no-repeat 0px -54px;
+}
+#wrap #header #menu ul .btnstyle01 a:hover {
+	background: url(../images/COA_PlantGrowth_btn_01.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul .btnstyle01 .now {
+	background: url(../images/COA_PlantGrowth_btn_01.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul .btnstyle02 {
+	background: url(../images/COA_PlantGrowth_btn_02.gif) no-repeat 0px -54px;
+}
+#wrap #header #menu ul .btnstyle02 a:hover {
+display:inline-block;
+	background: url(../images/COA_PlantGrowth_btn_02.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul .btnstyle02 .now {
+	background: url(../images/COA_PlantGrowth_btn_02.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul .btnstyle03 {
+	background: url(../images/COA_PlantGrowth_btn_05.gif) no-repeat 0px -54px;
+}
+#wrap #header #menu ul .btnstyle03 a:hover {
+	background: url(../images/COA_PlantGrowth_btn_05.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul .btnstyle03 .now {
+	background: url(../images/COA_PlantGrowth_btn_05.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul .btnstyle04 {
+	background: url(../images/COA_PlantGrowth_btn_04.gif) no-repeat 0px -54px;
+}
+#wrap #header #menu ul .btnstyle04 a:hover {
+	background: url(../images/COA_PlantGrowth_btn_04.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul .btnstyle04 .now {
+	background: url(../images/COA_PlantGrowth_btn_04.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul li:hover {
+
+}
+#wrap #header #menu ul {
+	padding-left: 10px;
+}
+
+
+#wrap #content {
+	background: #FFF url(../images/COA_PlantGrowth_02.jpg) no-repeat top;
+	padding: 50px 30px;
+}
+#wrap #content p,
+#wrap #content ol li,
+#wrap #content ul li{
+	line-height: 1.5em;
+	color: #333;
+	margin-left: 50px;
+}
+
+#wrap #content ul li {
+	list-style: square;
+}
+#wrap #content ol ol ul li {
+	margin-left: 0px;
+}
+#wrap #content ol li ul li{
+	margin-left: -20px;	
+}
+.datestyle {
+	color: #F00;
+}
+.center {
+	text-align: center;
+}
+/*--------20090929 add---------------*/
+
+#wrap #content .gird-down tr .gridt05 table tr .grilline ol li {
+	margin-left: -20px;
+}
+
+.joinname {
+	font-weight: bold;
+	color: #3366CC;
+	margin: 0px;
+	padding: 0px;
+}
+.grilline {
+	padding-left: 20px;
+	border-left: 1px solid #E7E7E7;
+}
+.gridt04 {
+	background: url(../images/table-A04.gif) bottom;
+}
+.gridt05 {
+	background: #FFFFFF url(../images/table-A05.gif) repeat-x bottom;
+}
+.gridt06 {
+	background: url(../images/table-A06.gif) bottom;
+}
+.gird-down {
+	margin-bottom: 10px;
+}

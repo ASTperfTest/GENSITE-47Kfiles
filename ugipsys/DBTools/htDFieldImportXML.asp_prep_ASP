@@ -1,0 +1,331 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="資料物件欄位管理"
+htprogfunc="欄位資料匯入"
+htprogcode="ht011"
+htprogprefix="htdfield" 
+   response.expires = 0 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+
+dim mpkey, dpkey
+dim rsmaster, rslist
+masterref="htdentity"
+detailref="htdfield"
+
+ sqlcom = "select * from htdentity where entityid=" & pkstr(request.querystring("entityid"),"")
+ set rsmaster = conn.execute(sqlcom)
+ mpkey = ""
+ mpkey = mpkey & "&entityid=" & rsmaster("entityid")
+ if mpkey<>"" then  mpkey = mid(mpkey,2)
+
+
+if request("submittask") = "import" then 
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  editinbothcase()
+ else
+  doupdatedb()
+  showdonebox("資料更新成功！")
+ end if
+else
+
+ deleteflag=false
+ sqldeletecheck="select * from htdfield where entityid=" & pkstr(request.querystring("entityid"),"")
+ set rsdeletecheck=conn.execute(sqldeletecheck)
+ if rsdeletecheck.eof then deleteflag=true
+end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          if (htprogright and 4) <> 0 and deleteflag then 
+
+         end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+function qqrs(fldname)
+ xvalue = rsmaster(fldname)
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+
+
+
+
+
+
+
+                                    =qqrs("dbid")
+                                        =qqrs("entityid")
+                                         =qqrs("tablename")
+                                          =qqrs("entitydesc")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  sub showerrbox() 
+
+              =errmsg
+
+
+  
+    end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' if request("tfx_taxid") <> "" then
+'   sql = "select * from client where taxid = '"& request("tfx_taxid") &"'"
+'   set rsreg = conn.execute(sql)
+'   if not rsreg.eof then
+'  if trim(rsreg("clientid")) <> request("pfx_clientid") then
+'   errmsg = "「統一編號」重複!!請重新輸入客戶統一編號!"
+'   exit sub
+'  end if
+'   end if
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "update htdentity set "
+  sql = sql & "dbid=" & pkstr(request("htx_dbid"),",")
+  sql = sql & "tablename=" & pkstr(request("htx_tablename"),",")
+  sql = sql & "entitydesc=" & pkstr(request("htx_entitydesc"),",")
+  sql = sql & "entityuri=" & pkstr(request("htx_entityuri"),",")
+ sql = left(sql,len(sql)-1) & " where entityid=" & pkstr(request.querystring("entityid"),"")
+
+' conn.execute(sql)  
+
+'on error resume next
+
+ xseq = 0
+ xtable = request("htx_tablename")
+
+   set fxml = server.createobject("microsoft.xmldom")
+   fxml.async = false
+   fxml.setproperty "serverhttprequest", true
+   loadxml = server.mappath("/htsdsystem/xmlspec/" & xtable & ".xml")
+   
+   xv = fxml.load(loadxml)
+     if fxml.parseerror.reason <> "" then
+       response.write(xtable & ".xml parseerror on line " &  fxml.parseerror.line)
+       response.write("<br>reason: " &  fxml.parseerror.reason)
+       response.end()
+     end if
+
+ for each xfnode in fxml.selectnodes("//dstable[tablename='" & xtable & "']/fieldlist/field")
+  xseq = xseq + 10
+  xdatatype = ""
+  xodatatype = nulltext(xfnode.selectsinglenode("datatype"))
+  rsql = "select mcode from codemain where codemetaid='htddatatype' and mvalue = " & pkstr(xodatatype,"")
+'  response.write rsql & "<hr>"
+  set rsr = conn.execute(rsql)
+  if not rsr.eof then  xdatatype = rsr("mcode")
+  xinputtype = nulltext(xfnode.selectsinglenode("inputtype"))
+  xidentity = nulltext(xfnode.selectsinglenode("identity"))
+  xisprimarykey = nulltext(xfnode.selectsinglenode("isprimarykey"))
+  xsql = "insert into htdfield(entityid, xfieldname, xfieldseq, xfieldlabel, xdatatype, xdatalen, " _
+   & "xinputlen, xcannull, xisprimarykey, xidentity, xinputtype, " _
+   & "xdefaultvalue, xreflookup, xrows, xcols"
+  xvalue = ") values(" _
+   & dfn(request.querystring("entityid")) _
+   & dfs(nulltext(xfnode.selectsinglenode("fieldname"))) _
+   & dfn(xseq) _
+   & dfs(nulltext(xfnode.selectsinglenode("fieldlabel"))) _
+   & dfs(xdatatype) _
+   & dfs(nulltext(xfnode.selectsinglenode("datalen"))) _
+   & dfs(nulltext(xfnode.selectsinglenode("inputlen"))) _
+   & dfs(nulltext(xfnode.selectsinglenode("cannull"))) _
+   & dfs(xisprimarykey) _
+   & dfs(xidentity) _
+   & dfs(xinputtype) _
+   & dfs(nulltext(xfnode.selectsinglenode("defaultvalue"))) _
+   & dfs(nulltext(xfnode.selectsinglenode("reflookup"))) _
+   & dfs(nulltext(xfnode.selectsinglenode("rows"))) _
+   & dfs(nulltext(xfnode.selectsinglenode("cols"))) 
+  xsql = xsql & left(xvalue,len(xvalue)-1) & ")"
+  response.write xsql & "<hr>"
+  conn.execute xsql
+ next
+end sub '---- doupdatedb() ----
+
+  sub showdonebox(lmsg) 
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+                 =lmsg
+                                                 =mpkey
+
+
+
+  end sub '---- showdonebox() ---- 
+  
+ xtable = rsmaster("tablename")
+
+   set fxml = server.createobject("microsoft.xmldom")
+   fxml.async = false
+   fxml.setproperty "serverhttprequest", true
+   loadxml = server.mappath("/htsdsystem/xmlspec/" & xtable & ".xml")
+   'response.write loadxml
+   xv = fxml.load(loadxml)
+     if fxml.parseerror.reason <> "" then
+       response.write(xtable & ".xml parseerror on line " &  fxml.parseerror.line)
+       response.write("<br>reason: " &  fxml.parseerror.reason)
+       response.end()
+     end if
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+ for each xfnode in fxml.selectnodes("//dstable[tablename='" & xtable & "']/fieldlist/field")
+
+
+
+  =nulltext(xfnode.selectsinglenode("fieldname"))
+
+
+  =nulltext(xfnode.selectsinglenode("fieldlabel"))
+
+
+  =nulltext(xfnode.selectsinglenode("datatype"))
+
+
+  =nulltext(xfnode.selectsinglenode("datalen"))
+
+
+  =nulltext(xfnode.selectsinglenode("isprimarykey"))
+
+
+  =nulltext(xfnode.selectsinglenode("cannull"))
+
+
+      
+    next
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

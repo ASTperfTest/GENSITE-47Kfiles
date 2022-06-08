@@ -1,0 +1,142 @@
+/*	
+	國工局全球網 - All Rights Reserved.
+	
+	Produicted By 凌網科技 HyWeb Tech. Co., Ltd.2004.
+	http://www.hyweb.com.tw　
+	HyWeb CSS Style(writed by m10/Carol13 Chen) 2004/02/26
+*/
+
+/* --------    fast 單元快速連結     ------- */
+#fast .Top {
+	width:186px;
+	height: 10px;
+	background-image: url(../images/fast_top.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+
+}
+
+#fast .Down {
+	height: 10px;
+	width:186px;
+	background-image: url(../images/fast_down.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin-bottom: 15px;
+
+
+}
+
+#fast .text {
+	text-align: left;
+	margin-left: 15px;
+	width: 90%;
+}
+#fast .text a {
+	font-size: 15px;
+	color: #7E746D;
+	text-decoration: none;
+	font-family: "Times New Roman", "Times", "serif";
+	background-image: url(../images/fast_sep.gif);
+	background-repeat: repeat-x;
+	background-position: bottom;
+	width:90%;
+	padding-top: 5px;
+	padding-bottom: 3px;
+}
+
+#fast .text a:hover {
+	color: #000000;
+	background-color: #FFFFFF;
+
+}
+
+
+/* --------    fast_yellow 單元快速連結     ------- */
+#fast_yellow .Top {
+	width:186px;
+	height: 10px;
+	background-image: url(../images/fast_top_yellow.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+
+}
+
+#fast_yellow .Down {
+	height: 10px;
+	width:186px;
+	background-image: url(../images/fast_down_yellow.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin-bottom: 15px;
+
+
+}
+
+#fast_yellow .textList {
+	font-size: 13px;
+	color: #BD6A2F;
+	list-style-image: url(../images/point2.gif);
+	line-height: 18px;
+	text-align: left;
+	margin-right: 20px;
+	margin-left: 20px;
+	
+}
+
+#fast_yellow .textList a {
+	font-size: 13px;
+	color: #7E746D;
+	text-decoration: none;
+}
+#fast_yellow .textList a:hover {
+	color: #000000;
+}
+#fast_yellow .img {
+	margin-left: 5px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+/* --------    fast_green 單元快速連結     ------- */
+#fast_green .Top {
+	width:186px;
+	height: 10px;
+	background-image: url(../images/fast_top_green.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+
+}
+
+#fast_green .Down {
+	height: 10px;
+	width:186px;
+	background-image: url(../images/fast_down_green.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin-bottom: 15px;
+}
+#fast_green .textList {
+	font-size: 13px;
+	color: #BD6A2F;
+	list-style-image: url(../images/point2.gif);
+	line-height: 18px;
+	text-align: left;
+	margin-right: 20px;
+	margin-left: 20px;
+	
+}
+
+#fast_green .textList a {
+	font-size: 13px;
+	color: #7E746D;
+	text-decoration: none;
+}
+#fast_green .textList a:hover {
+	color: #000000;
+}
+#fast_green .img {
+	margin-left: 5px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}

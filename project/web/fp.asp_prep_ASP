@@ -1,0 +1,69 @@
+﻿: @ codepage = 65001 
+  
+ response.cachecontrol = "no-cache" 
+ response.addheader "pragma", "no-cache" 
+ response.expires = -1
+
+
+   CxMethod_ASP_dbfunc_874801204()
+   CxMethod_ASP_web_sqlinjection_176928617()
+    CxMethod_ASP_checkurl_1283041507()
+
+
+  
+call checkurl(request.querystring)
+ mp = getmpvalue() 
+ 
+ qstr = request.querystring
+ if instr(qstr, "mp=") = 0 then qstr = qstr & "&mp=" & mp
+ 
+ call lpsqlinjectioncheck()
+
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty("serverhttprequest") = true 
+ set oxsl = server.createobject("microsoft.xmldom")
+ 
+ xv = oxml.load(session("myxdurl") & "/wsxd2/xdcp.asp?" & qstr)
+
+  if oxml.parseerror.reason <> "" then 
+    response.write("htpagedom parseerror on line " &  oxml.parseerror.line)
+    response.write("<br>reason: " &  oxml.parseerror.reason)
+    response.end()
+  end if
+  
+  xmystyle=nulltext(oxml.selectsinglenode("//hpmain/mystyle"))
+  if xmystyle="" then xmystyle=session("mystyle")  
+ oxsl.load(server.mappath("xslgip/" & xmystyle & "/fp.xsl"))
+ 
+  fstyle = oxml.selectsinglenode("//xsldata").text
+  if fstyle <> "" then
+ set fxsl = server.createobject("microsoft.xmldom")
+ fxsl.load(server.mappath("xslgip/" & fstyle & ".xsl"))
+ 'response.write "/xslgip/" & fstyle & ".xsl"
+ set oxroot = oxsl.selectsinglenode("xsl:stylesheet")
+ 
+ on error resume next
+ for each xs in fxsl.selectnodes("//xsl:template")
+  set nx = xs.clonenode(true)
+  'response.write "aaa"
+   ckstr = "@match='" & nx.getattribute("match") & "'"
+   if nx.getattribute("mode")<>"" then  ckstr = ckstr & " and @mode='" & nx.getattribute("mode") & "'"
+   set orgex = oxroot.selectsinglenode("//xsl:template[" & ckstr & "]")
+   oxroot.removechild orgex
+   oxroot.appendchild nx
+  next
+ end if  
+
+ response.contenttype = "text/html" 
+ outstring = replace(oxml.transformnode(oxsl),"<meta http-equiv=""content-type"" content=""text/html; charset=utf-16"">","")
+ outstring = replace(outstring," xmlns=""""","")
+ response.write replace(outstring,"&amp;","&")
+
+ function nulltext(xnode)
+   on error resume next
+   xstr = ""
+   xstr = xnode.text
+   nulltext = xstr
+ end function
+ 

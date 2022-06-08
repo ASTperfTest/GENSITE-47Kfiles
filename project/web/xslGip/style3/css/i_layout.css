@@ -1,0 +1,66 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*三欄排版表格*/
+
+.layout {
+	border-collapse: collapse;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+.layout td.left {
+	vertical-align: top;
+	width: 230px;
+	padding: 178px 0 20px;
+}
+.layout td.center {
+	vertical-align: top;
+	padding: 20px 12px 10px;
+}
+.layout td.right {
+	vertical-align: top;
+	width: 230px;
+	padding: 0 0 20px;
+}
+
+
+/*首頁中欄再分兩欄*/
+table.sublayout {
+	border-collapse: collapse;
+}
+.sublayout td {
+	line-height: 150%;
+	width: 50%;
+	vertical-align: top;
+}
+.sublayout td h4 {
+	font-weight: normal;
+	line-height: 130%;
+	margin: 0 0 .8em;
+	*margin: 0 0 .5em;
+	padding: 0;
+}
+.sublayout .col1 {
+	padding: 8px 15px 10px 3px;
+}
+.sublayout .col2 {
+	padding: 8px 3px 10px 15px;
+}
+.sublayout img {
+	float: left;
+	width: 100px;
+	height: 100px;
+	border: 1px solid #aaa;
+	margin: 0 8px 3px 0;
+}
+.sublayout td p {
+	padding: 0;
+	margin: 8px 0;
+}
+
+/*知識家的首頁 <div class="sublayout"> */
+.sublayout {
+	clear: both;
+	margin: 20px 0 0;
+}

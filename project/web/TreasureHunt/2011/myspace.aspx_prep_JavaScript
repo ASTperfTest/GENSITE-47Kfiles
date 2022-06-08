@@ -1,0 +1,362 @@
+﻿
+
+
+
+                                    var GB_ROOT_DIR = "/js/greybox/";
+function script____997983094() {src("/js/greybox.js");}
+function script____1260426135() {src("/js/greybox/AJS.js");}
+function script____1572724626() {src("/js/greybox/AJS_fx.js");}
+function script____347687241() {src("/js/greybox/gb_scripts.js");}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        var buttonDisable = "Cx_0dummy";
+        var voteDisplay = "Cx_0dummy";
+        var treasurebox;
+        var changeflag = false;
+        jQuery(document).ready(function () {
+            if (buttonDisable == "false") {
+                jQuery("#submitLotteryA").attr("disabled", false);
+                jQuery("#submitLotteryB").attr("disabled", false);
+                jQuery("#submitLotteryC").attr("disabled", false);
+            }
+            if (voteDisplay == "true") {
+                jQuery("#present").show();
+            }
+
+            $('#Cx_0dummy').change(function () {
+                checkchange(this, "#Cx_0dummy");
+            });
+            $('#Cx_0dummy').change(function () {
+                checkchange(this, "#Cx_0dummy");
+            });
+            if (!treasurebox && $("#hitb").val() != undefined) {
+                treasurebox = $.parseJSON(decodeURIComponent($("#hitb").val()));
+            }
+
+        });
+
+        function checkchange(obj, id2) {
+            if (treasurebox[$(obj).val().toString()].Piece == 1) {
+                if ($(obj).val() == $(id2).val()) {
+                    alert("您沒有兩個<" + treasurebox[$(obj).val().toString()].TreasureName + ">喔!!");
+                    $(obj)[0].selectedIndex = 0;
+                    return;
+                }
+                $(id2).children().each(function () {
+                    if ($(this).val() == $(obj).val()) {
+                        $(this).hide()
+                    } else {
+                        $(this).show()
+                    }
+                });
+            } else {
+                $(id2).children().each(function () {
+                        $(this).show()
+                });
+                }
+        }
+
+        function check() {
+            if($('#Cx_0dummy').val() == 0 || $('#Cx_0dummy').val() ==0 ){
+                 alert("請確認選擇要兌換的寶物是否正確!!");
+                 return false;
+             }
+             temp = "";
+             if ($('#Cx_0dummy').val() == $('#Cx_0dummy').val()) {
+                 temp = "您確認要使用兩個<" + $('#Cx_0dummy option:selected').text() + ">交換隨機的一個寶物嗎?交換後不可以反悔喔!!"
+             } else {
+                temp = "您確認要使用一個<" + $('#Cx_0dummy option:selected').text() + ">" + "與一個<" + $('#Cx_0dummy option:selected').text() + ">交換隨機的一個寶物嗎?交換後不可以反悔喔!!";
+             }
+            if (confirm(temp))
+             __doPostBack('ctl00$ContentPlaceHolder1$randomChangeTreasure', '');
+        }
+
+        function VoteLottery(objectId,voteValue){
+            disableButton=  document.getElementById(objectId);
+            if(confirm("兌換過後就不可反悔喔!!"))
+            {
+                disableButton.disabled = (disableButton.disabled == "" ? "disabled" : "");
+                document.getElementById("hideVote").value=voteValue;
+                document.forms[0].submit();
+            }
+        }
+        function changeTreasure(id, icon,obj) {
+            if (!changeflag)
+                return;
+            if ($('#Cx_0dummy').val() == 0) {
+                if (treasurebox[id].Piece == 1) {
+                    if ($('#Cx_0dummy').val() == id)
+                        return;
+                    if (treasurebox[id].Piece < 1)
+                        return;
+                }
+                $('#Cx_0dummy').children().each(function () {
+                    if ($(this).val() == id) {
+                        $(this).attr("selected", "selected");
+                        $('#Img3').attr("src", "image/" + icon);
+                        $('#Img1').fadeOut('slow', function () {
+
+                        });
+                        $('#Img3').fadeIn('slow', function () {
+                            // 淡入動畫完成後會進來這
+                        });
+                        $(obj).addClass("trhdivchoose");
+                    }
+                });
+
+            } else if ($('#Cx_0dummy').val() == 0) {
+                if (treasurebox[id].Piece == 1) {
+                    if ($('#Cx_0dummy').val() == id)
+                        return;
+                    if(treasurebox[id].Piece < 1)
+                        return;
+                }
+                $('#Cx_0dummy').children().each(function () {
+                    if ($(this).val() == id) {
+                        $(this).attr("selected", "selected");
+                        $('#Img4').attr("src", "image/" + icon);
+                        $('#Img2').fadeOut('slow', function () {
+
+                        });
+                        $('#Img4').fadeIn('slow', function () {
+                            
+                        });
+                        $(obj).addClass("trhdivchoose");
+                    }
+                });
+            }
+        }
+        function cancelThisT(id, se,id2) {
+            if ($('#' + se).val() != 0) {
+                $('#trediv' + $('#' + se).val()).removeClass("trhdivchoose");
+                $('#' + se).val(0);
+                $('#' + id).attr("src", "image/bean_q.gif");
+                $('#' + id2).fadeOut('slow', function () {
+
+                });
+                $('#' + id).fadeIn('slow', function () {
+                    // 淡入動畫完成後會進來這
+                });
+            }
+        }
+        function IwantChange(obj) {
+            $(obj).hide();
+            $('#changety').show();
+            changeflag = true;
+            tra =  $('[name=changetreasure]');
+            $(tra).each(function () {
+                $(this).addClass("pointer");
+                $(this).mouseover(function () {
+                    $(this).addClass("trhdivover");
+                });
+                $(this).mouseleave(function () {
+                    $(this).removeClass("trhdivover");
+                });
+            });
+        }
+        function calcelChangeTreasure() {
+            cancelThisT('Img1', 'Cx_0dummy', 'Img3')
+            cancelThisT('Img2', 'Cx_0dummy', 'Img4'); 
+            $('#iwantChangei').show();
+            $('#changety').hide();
+            
+            changeflag = false;
+            tra = document.getElementsByName("changetreasure");
+            $(tra).each(function () {
+                $(this).removeClass("pointer");
+               
+                $(this).removeClass("trhdivchoose");
+                $(this).unbind();
+            });
+
+        }
+        function doView(baseurl1, title) {
+            // var baseurl = ""+baseurl1;
+
+
+            GB_showCenter(title, baseurl1, /* optional */395, 490)
+        }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                  function onclick___1900342919() {VoteLottery('submitLotteryA','D');}
+
+
+
+                                                                  function onclick___1900520393() {VoteLottery('submitLotteryB','E');}
+
+
+
+                                                                  function onclick___1900414727() {VoteLottery('submitLotteryC','F');}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 function onclick___226247229() {cancelThisT('Img1','Cx_0dummy','Img3');}
+
+
+
+
+
+
+
+                                function onclick___2052795359() {cancelThisT('Img2','Cx_0dummy','Img4');}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                          function onclick____198083716() {calcelChangeTreasure()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $(document).ready(function (e) {
+            doView('Cx_0dummy', "");
+        });
+    
+
+
+
+
+ 

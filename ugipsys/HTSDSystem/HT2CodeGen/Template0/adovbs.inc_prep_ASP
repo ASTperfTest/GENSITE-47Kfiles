@@ -1,0 +1,376 @@
+﻿: 
+'--------------------------------------------------------------------
+' microsoft ado
+'
+' (c) 1996-1998 microsoft corporation.  all rights reserved.
+'
+'
+'
+' ado constants include file for vbscript
+'
+'--------------------------------------------------------------------
+
+'---- cursortypeenum values ----
+const adopenforwardonly = 0
+const adopenkeyset = 1
+const adopendynamic = 2
+const adopenstatic = 3
+
+'---- cursoroptionenum values ----
+const adholdrecords = &h00000100
+const admoveprevious = &h00000200
+const adaddnew = &h01000400
+const addelete = &h01000800
+const adupdate = &h01008000
+const adbookmark = &h00002000
+const adapproxposition = &h00004000
+const adupdatebatch = &h00010000
+const adresync = &h00020000
+const adnotify = &h00040000
+const adfind = &h00080000
+const adseek = &h00400000
+const adindex = &h00800000
+
+'---- locktypeenum values ----
+const adlockreadonly = 1
+const adlockpessimistic = 2
+const adlockoptimistic = 3
+const adlockbatchoptimistic = 4
+
+'---- executeoptionenum values ----
+const adrunasync = &h00000010
+const adasyncexecute = &h00000010
+const adasyncfetch = &h00000020
+const adasyncfetchnonblocking = &h00000040
+const adexecutenorecords = &h00000080
+
+'---- connectoptionenum values ----
+const adasyncconnect = &h00000010
+
+'---- objectstateenum values ----
+const adstateclosed = &h00000000
+const adstateopen = &h00000001
+const adstateconnecting = &h00000002
+const adstateexecuting = &h00000004
+const adstatefetching = &h00000008
+
+'---- cursorlocationenum values ----
+const aduseserver = 2
+const aduseclient = 3
+
+'---- datatypeenum values ----
+const adempty = 0
+const adtinyint = 16
+const adsmallint = 2
+const adinteger = 3
+const adbigint = 20
+const adunsignedtinyint = 17
+const adunsignedsmallint = 18
+const adunsignedint = 19
+const adunsignedbigint = 21
+const adsingle = 4
+const addouble = 5
+const adcurrency = 6
+const addecimal = 14
+const adnumeric = 131
+const adboolean = 11
+const aderror = 10
+const aduserdefined = 132
+const advariant = 12
+const adidispatch = 9
+const adiunknown = 13
+const adguid = 72
+const addate = 7
+const addbdate = 133
+const addbtime = 134
+const addbtimestamp = 135
+const adbstr = 8
+const adchar = 129
+const advarchar = 200
+const adlongvarchar = 201
+const adwchar = 130
+const advarwchar = 202
+const adlongvarwchar = 203
+const adbinary = 128
+const advarbinary = 204
+const adlongvarbinary = 205
+const adchapter = 136
+const adfiletime = 64
+const addbfiletime = 137
+const adpropvariant = 138
+const advarnumeric = 139
+
+'---- fieldattributeenum values ----
+const adfldmaydefer = &h00000002
+const adfldupdatable = &h00000004
+const adfldunknownupdatable = &h00000008
+const adfldfixed = &h00000010
+const adfldisnullable = &h00000020
+const adfldmaybenull = &h00000040
+const adfldlong = &h00000080
+const adfldrowid = &h00000100
+const adfldrowversion = &h00000200
+const adfldcachedeferred = &h00001000
+const adfldkeycolumn = &h00008000
+
+'---- editmodeenum values ----
+const adeditnone = &h0000
+const adeditinprogress = &h0001
+const adeditadd = &h0002
+const adeditdelete = &h0004
+
+'---- recordstatusenum values ----
+const adrecok = &h0000000
+const adrecnew = &h0000001
+const adrecmodified = &h0000002
+const adrecdeleted = &h0000004
+const adrecunmodified = &h0000008
+const adrecinvalid = &h0000010
+const adrecmultiplechanges = &h0000040
+const adrecpendingchanges = &h0000080
+const adreccanceled = &h0000100
+const adreccantrelease = &h0000400
+const adrecconcurrencyviolation = &h0000800
+const adrecintegrityviolation = &h0001000
+const adrecmaxchangesexceeded = &h0002000
+const adrecobjectopen = &h0004000
+const adrecoutofmemory = &h0008000
+const adrecpermissiondenied = &h0010000
+const adrecschemaviolation = &h0020000
+const adrecdbdeleted = &h0040000
+
+'---- getrowsoptionenum values ----
+const adgetrowsrest = -1
+
+'---- positionenum values ----
+const adposunknown = -1
+const adposbof = -2
+const adposeof = -3
+
+'---- enum values ----
+const adbookmarkcurrent = 0
+const adbookmarkfirst = 1
+const adbookmarklast = 2
+
+'---- marshaloptionsenum values ----
+const admarshalall = 0
+const admarshalmodifiedonly = 1
+
+'---- affectenum values ----
+const adaffectcurrent = 1
+const adaffectgroup = 2
+const adaffectall = 3
+const adaffectallchapters = 4
+
+'---- resyncenum values ----
+const adresyncunderlyingvalues = 1
+const adresyncallvalues = 2
+
+'---- compareenum values ----
+const adcomparelessthan = 0
+const adcompareequal = 1
+const adcomparegreaterthan = 2
+const adcomparenotequal = 3
+const adcomparenotcomparable = 4
+
+'---- filtergroupenum values ----
+const adfilternone = 0
+const adfilterpendingrecords = 1
+const adfilteraffectedrecords = 2
+const adfilterfetchedrecords = 3
+const adfilterpredicate = 4
+const adfilterconflictingrecords = 5
+
+'---- searchdirectionenum values ----
+const adsearchforward = 1
+const adsearchbackward = -1
+
+'---- persistformatenum values ----
+const adpersistadtg = 0
+const adpersistxml = 1
+
+'---- stringformatenum values ----
+const adstringxml = 0
+const adstringhtml = 1
+const adclipstring = 2
+
+'---- connectpromptenum values ----
+const adpromptalways = 1
+const adpromptcomplete = 2
+const adpromptcompleterequired = 3
+const adpromptnever = 4
+
+'---- connectmodeenum values ----
+const admodeunknown = 0
+const admoderead = 1
+const admodewrite = 2
+const admodereadwrite = 3
+const admodesharedenyread = 4
+const admodesharedenywrite = 8
+const admodeshareexclusive = &hc
+const admodesharedenynone = &h10
+
+'---- isolationlevelenum values ----
+const adxactunspecified = &hffffffff
+const adxactchaos = &h00000010
+const adxactreaduncommitted = &h00000100
+const adxactbrowse = &h00000100
+const adxactcursorstability = &h00001000
+const adxactreadcommitted = &h00001000
+const adxactrepeatableread = &h00010000
+const adxactserializable = &h00100000
+const adxactisolated = &h00100000
+
+'---- xactattributeenum values ----
+const adxactcommitretaining = &h00020000
+const adxactabortretaining = &h00040000
+
+'---- propertyattributesenum values ----
+const adpropnotsupported = &h0000
+const adproprequired = &h0001
+const adpropoptional = &h0002
+const adpropread = &h0200
+const adpropwrite = &h0400
+
+'---- errorvalueenum values ----
+const aderrinvalidargument = &hbb9
+const aderrnocurrentrecord = &hbcd
+const aderrillegaloperation = &hc93
+const aderrintransaction = &hcae
+const aderrfeaturenotavailable = &hcb3
+const aderritemnotfound = &hcc1
+const aderrobjectincollection = &hd27
+const aderrobjectnotset = &hd5c
+const aderrdataconversion = &hd5d
+const aderrobjectclosed = &he78
+const aderrobjectopen = &he79
+const aderrprovidernotfound = &he7a
+const aderrboundtocommand = &he7b
+const aderrinvalidparaminfo = &he7c
+const aderrinvalidconnection = &he7d
+const aderrnotreentrant = &he7e
+const aderrstillexecuting = &he7f
+const aderroperationcancelled = &he80
+const aderrstillconnecting = &he81
+const aderrnotexecuting = &he83
+const aderrunsafeoperation = &he84
+
+'---- parameterattributesenum values ----
+const adparamsigned = &h0010
+const adparamnullable = &h0040
+const adparamlong = &h0080
+
+'---- parameterdirectionenum values ----
+const adparamunknown = &h0000
+const adparaminput = &h0001
+const adparamoutput = &h0002
+const adparaminputoutput = &h0003
+const adparamreturnvalue = &h0004
+
+'---- commandtypeenum values ----
+const adcmdunknown = &h0008
+const adcmdtext = &h0001
+const adcmdtable = &h0002
+const adcmdstoredproc = &h0004
+const adcmdfile = &h0100
+const adcmdtabledirect = &h0200
+
+'---- eventstatusenum values ----
+const adstatusok = &h0000001
+const adstatuserrorsoccurred = &h0000002
+const adstatuscantdeny = &h0000003
+const adstatuscancel = &h0000004
+const adstatusunwantedevent = &h0000005
+
+'---- eventreasonenum values ----
+const adrsnaddnew = 1
+const adrsndelete = 2
+const adrsnupdate = 3
+const adrsnundoupdate = 4
+const adrsnundoaddnew = 5
+const adrsnundodelete = 6
+const adrsnrequery = 7
+const adrsnresynch = 8
+const adrsnclose = 9
+const adrsnmove = 10
+const adrsnfirstchange = 11
+const adrsnmovefirst = 12
+const adrsnmovenext = 13
+const adrsnmoveprevious = 14
+const adrsnmovelast = 15
+
+'---- schemaenum values ----
+const adschemaproviderspecific = -1
+const adschemaasserts = 0
+const adschemacatalogs = 1
+const adschemacharactersets = 2
+const adschemacollations = 3
+const adschemacolumns = 4
+const adschemacheckconstraints = 5
+const adschemaconstraintcolumnusage = 6
+const adschemaconstrainttableusage = 7
+const adschemakeycolumnusage = 8
+const adschemareferentialconstraints = 9
+const adschematableconstraints = 10
+const adschemacolumnsdomainusage = 11
+const adschemaindexes = 12
+const adschemacolumnprivileges = 13
+const adschematableprivileges = 14
+const adschemausageprivileges = 15
+const adschemaprocedures = 16
+const adschemaschemata = 17
+const adschemasqllanguages = 18
+const adschemastatistics = 19
+const adschematables = 20
+const adschematranslations = 21
+const adschemaprovidertypes = 22
+const adschemaviews = 23
+const adschemaviewcolumnusage = 24
+const adschemaviewtableusage = 25
+const adschemaprocedureparameters = 26
+const adschemaforeignkeys = 27
+const adschemaprimarykeys = 28
+const adschemaprocedurecolumns = 29
+const adschemadbinfokeywords = 30
+const adschemadbinfoliterals = 31
+const adschemacubes = 32
+const adschemadimensions = 33
+const adschemahierarchies = 34
+const adschemalevels = 35
+const adschemameasures = 36
+const adschemaproperties = 37
+const adschemamembers = 38
+
+'---- seekenum values ----
+const adseekfirsteq = &h1
+const adseeklasteq = &h2
+const adseekaftereq = &h4
+const adseekafter = &h8
+const adseekbeforeeq = &h10
+const adseekbefore = &h20
+
+'---- adcprop_updatecriteria_enum values ----
+const adcriteriakey = 0
+const adcriteriaallcols = 1
+const adcriteriaupdcols = 2
+const adcriteriatimestamp = 3
+
+'---- adcprop_asyncthreadpriority_enum values ----
+const adprioritylowest = 1
+const adprioritybelownormal = 2
+const adprioritynormal = 3
+const adpriorityabovenormal = 4
+const adpriorityhighest = 5
+
+'---- ceresyncenum values ----
+const adresyncnone = 0
+const adresyncautoincrement = 1
+const adresyncconflicts = 2
+const adresyncupdates = 4
+const adresyncinserts = 8
+const adresyncall = 15
+
+'---- adcprop_autorecalc_enum values ----
+const adrecalcupfront = 0
+const adrecalcalways = 1
+ 

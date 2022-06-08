@@ -1,0 +1,53 @@
+@charset "UTF-8";
+/* CSS Document 分類頁籤 */
+
+.category {
+	clear: both;
+	font-size: 13px;
+	line-height: 14px;
+	margin: 8px 0;
+}
+.category .cateName {
+	float: left;
+	margin: 5px 0 0;
+	padding: 0 15px 5px 3px;
+	background: #FFFFFF url(../images/arrow2.gif) no-repeat right 3px;
+	color: #666666;
+	line-height: 18px;
+}
+.category ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	_width: 100%;
+	/*background: url(../images/tab_ul_bg.gif) repeat-x left bottom;*/
+}
+.category li {
+	background: url(../images/cate2_bg2.gif) no-repeat right top;
+	float: left;
+	margin: 0 2px 0 0;
+	padding: 0 10px 0 0;
+	white-space: nowrap;
+	list-style-type: none;
+}
+.category li a {
+	background: url(../images/cate2_bg1.gif) no-repeat left top;
+	display: block;
+	padding: 4px 0 5px 12px;
+	*padding: 5px 0 4px 12px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.category li a:hover {
+	color: #FFFF00;
+	text-decoration: none;
+}
+
+.category li.Now {
+	background: url(../images/cate2_now_bg2.gif) no-repeat right top;
+}
+.category li.Now a {
+	background: url(../images/cate2_now_bg1.gif) no-repeat left top;
+	color: #444444;
+}

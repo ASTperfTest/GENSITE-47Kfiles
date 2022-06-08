@@ -1,0 +1,284 @@
+﻿:  CxMethod_ASP_client_1527114747()
+   CxMethod_ASP_dbfunc_1170075012()
+   CxMethod_ASP_exam_class_789638872()
+
+  
+'隨機抽題,取得題目主題id
+
+
+
+function getexamitemlist(ocount,otypeid,oseason,ocity)  '題數,題型,季節,區域城市
+ dim arraylist  'arraylist()不要用括號 
+' dim arr_all
+ dim arr_temp 
+ dim ocudtgeneric
+ dim sqldtgeneric, rsdtgeneric
+ dim strparm 
+ 
+   select case (oseason)
+   case "a":
+       '春 3,4,5
+    sqlxabstract="(gx.xabstract like '%3%') or (gx.xabstract like '%4%') or (gx.xabstract like '%5%')"
+   case "b":
+       '夏6,7,8
+       sqlxabstract="(gx.xabstract like '%6%') or (gx.xabstract like '%7%') or (gx.xabstract like '%8%')" 
+   case "c":
+       '秋9,10,11 
+          sqlxabstract="(gx.xabstract like '%9%') or (gx.xabstract like '%10%') or (gx.xabstract like '%11%')" 
+   case "d":
+       '冬,12,1,2
+       sqlxabstract="(gx.xabstract like '%12%') or (gx.xabstract like '%1%') or (gx.xabstract like '%2%')" 
+   case else:
+   
+   end select
+
+ sqldtgeneric = " select  gx.icuitem, gx.stitle,gx.topcat,gx.xabstract,gx.xbody, tx.tune_id, tx.et_id ,tx.et_correct " & _
+                 " from cudtgeneric gx inner join hakkalangexamtopic tx on gx.icuitem = tx.gicuitem " & _
+       " where  (gx.ictunit<>'633') and (gx.fctupublic='y') " 
+
+ if  otypeid<>"0" then sqldtgeneric=sqldtgeneric & " and (gx.topcat = " &  pkstr(otypeid,"") & ")"
+   sqldtgeneric=sqldtgeneric & " order by  newid() desc"
+  
+    'response.write sqldtgeneric & "<br>" 
+     
+   set rsexamlist = server.createobject("adodb.recordset")
+   
+ rsexamlist.open sqldtgeneric, conn, 1, 1
+
+ dim filterok  
+  if not rsexamlist.eof then
+ icount=0
+
+    while not rsexamlist.eof
+  
+   season_filterok="n"
+   city_filterok="n"
+   arrseason=""
+   arrcity=""
+         arrseason=split(rsexamlist("xabstract"),",")
+   arrcity=split(rsexamlist("xbody"),",")
+             
+   
+   for s=0 to ubound(arrseason) 
+    
+           select case int(arrseason(s))
+      case 3,4,5: '春
+           if oseason="a" then season_filterok="y"   
+     'exit for
+      case 6,7,8: '夏           
+           if oseason="b" then season_filterok="y"
+     'exit for 
+      case 9,10,11:'秋          
+           if oseason="c" then season_filterok="y"
+     'exit for
+      case 12,1,2:'冬
+           if oseason="d" then season_filterok="y"  
+                    'exit for           
+           end select   
+         next 
+'response.write "2" & season_filterok & rsexamlist("xabstract")
+'response.end
+   
+     for c=0 to ubound(arrcity) 
+         if int(arrcity(c))=int(ocity) then city_filterok="y"
+     next 
+        
+         
+   
+   
+          if (season_filterok="y"  and city_filterok="y") then 
+     icount=icount+1  
+    if sid="" then
+     sid=rsexamlist.fields("icuitem").value
+    else
+     sid= sid & "," &  rsexamlist.fields("icuitem").value
+    end if
+    end if
+    
+   ' redim arraylist(icount-1)  
+    ' for i = 0 to ubound(arraylist)
+     ' arraylist(i) = rsexamlist.fields("icuitem").value
+    ' next
+    
+  rsexamlist.movenext               
+ wend
+     
+          
+ else
+  err.raise vbobjecterror + 1, "", "抽題失敗"
+   
+ end if
+
+     arraylist=split(sid,",")
+   ' if icount > 0 then
+     ' arraylist(0)=arr_all(0)
+   ' end if
+ 
+ rsexamlist.close
+ set rsexamlist = nothing
+ getexamitemlist=arraylist
+ 
+end function
+
+
+function getexamitemlist_old(ocount,otypeid,otuneid)  '題數,題型,腔調
+ dim arraylist  'arraylist()不要用括號
+ 
+ dim ocudtgeneric
+ dim sqldtgeneric, rsdtgeneric
+ 
+ sqldtgeneric = "select  top " & ocount & " gx.icuitem, gx.stitle,gx.topcat, tx.tune_id, tx.et_id ,tx.et_correct " & _
+                         "from cudtgeneric gx inner join hakkalangexamtopic tx on gx.icuitem = tx.gicuitem " & _
+          "where  (gx.ictunit<>'633') and  (tx.tune_id = " & pkstr(otuneid,"") & ") and (gx.fctupublic='y') " 
+    
+ if  otypeid<>"0" then sqldtgeneric=sqldtgeneric & " and (gx.topcat = " &  pkstr(otypeid,"") & ")"
+   sqldtgeneric=sqldtgeneric & " order by  newid() desc"
+   
+   set rsexamlist = server.createobject("adodb.recordset")
+ rsexamlist.open sqldtgeneric, conn, 1, 1
+
+ '  response.write sqldtgeneric & "<br>"
+  if not rsexamlist.eof then
+  'redim arraylist(rsexamlist.recordcount - 1,3 )  '重設array把變動的放後面 
+  'redim arraylist(7, rsexamlist.recordcount - 1)  
+  redim arraylist(rsexamlist.recordcount - 1)  
+    for i = 0 to ubound(arraylist)
+     arraylist(i) = rsexamlist.fields("icuitem").value
+            
+      rsexamlist.movenext               
+     
+   next  
+ else
+  err.raise vbobjecterror + 1, "", "抽題失敗"
+ end if
+ 
+ rsexamlist.close
+ set rsexamlist = nothing
+ getexamitemlist=arraylist
+ 
+end function
+
+
+ 
+
+function gethazarditemlist(ocount)  '題數,題型,腔調
+ dim arraylist  'arraylist()不要用括號
+ 
+ dim ocudtgeneric
+ dim sqldtgeneric, rsdtgeneric
+ 
+ sqldtgeneric = "select  top " & ocount & " gx.icuitem, gx.stitle,gx.topcat, tx.tune_id, tx.et_id ,tx.et_correct " & _
+                         "from cudtgeneric gx inner join hakkalangexamtopic tx on gx.icuitem = tx.gicuitem " & _
+          "where gx.ictunit='633' and (gx.fctupublic='y') order by  newid() desc" 
+  
+
+   
+ set rsexamlist = server.createobject("adodb.recordset")
+ rsexamlist.open sqldtgeneric, conn, 1, 1
+
+ '  response.write sqldtgeneric & "<br>"
+  if not rsexamlist.eof then
+  'redim arraylist(rsexamlist.recordcount - 1,3 )  '重設array把變動的放後面 
+  'redim arraylist(7, rsexamlist.recordcount - 1)  
+  redim arraylist(rsexamlist.recordcount - 1)  
+    for i = 0 to ubound(arraylist)
+     arraylist(i) = rsexamlist.fields("icuitem").value
+            
+      rsexamlist.movenext               
+     
+   next  
+ else
+  err.raise vbobjecterror + 1, "", "抽題失敗"
+ end if
+ 
+ rsexamlist.close
+ set rsexamlist = nothing
+ gethazarditemlist=arraylist
+ 
+end function
+
+
+'取題目 
+function gettopicbycuitem(cuitemid)
+    dim oexamtopic
+ dim sqltopic, rstopic
+ 
+ sqltopic="select * from cudtgeneric g, hakkalangexamtopic t where g.icuitem=t.gicuitem and  g.icuitem=" & cuitemid  
+ set rstopic = server.createobject("adodb.recordset")
+ rstopic.open sqltopic, conn, 1, 1
+
+ if not rstopic.eof then
+  set oexamtopic = new examtopic
+  oexamtopic.setfield "ct_id", rstopic.fields("icuitem").value
+  oexamtopic.setfield "et_id", rstopic.fields("et_id").value
+  oexamtopic.setfield "ct_stitle", rstopic.fields("stitle").value
+  oexamtopic.setfield "ct_examtype", rstopic.fields("topcat").value
+  oexamtopic.setfield "et_tuneid", rstopic.fields("tune_id").value
+  oexamtopic.setfield "et_correct", rstopic.fields("et_correct").value
+
+ else
+  err.raise vbobjecterror + 1, "", "無法取得腔調題目"
+ end if
+
+ rstopic.close
+ set rstopic = nothing 
+ set gettopicbycuitem = oexamtopic 
+ 
+ 
+end function
+
+' 取得題目所有選項
+function getalloption(itopicid)
+ dim dexamoptions
+ dim oexamoption
+ dim sqlalloptions, rsalloption
+ 
+ set dexamoptions = server.createobject("scripting.dictionary")
+ 
+ sqlalloptions = "select * from hakkalangexamoption where et_id = " & itopicid & " order by eo_sort asc"
+ set rsalloption = server.createobject("adodb.recordset")
+ rsalloption.open sqlalloptions, conn, 1, 1
+ 
+ 
+ if not rsalloption.eof then
+  while not rsalloption.eof
+   set oexamoption = new examoption
+   oexamoption.setfield "optetid", rsalloption.fields("et_id").value
+   oexamoption.setfield "opttitle", rsalloption.fields("eo_title").value
+   oexamoption.setfield "optanswer", rsalloption.fields("eo_answer").value
+   oexamoption.setfield "optsort", rsalloption.fields("eo_sort").value   
+   dexamoptions.add dexamoptions.count, oexamoption
+   rsalloption.movenext
+  wend
+ else
+  err.raise vbobjecterror + 1, "", "無法取得題目選項"
+ end if
+ 
+ rsalloption.close
+ set rsalloption = nothing
+ 
+ set getalloption = dexamoptions
+end function
+
+' 轉換配合題甲乙丙
+function changli(x)
+   dim litype(7)
+   select case x
+   case 0:
+    changli="甲."
+   case 1:
+    changli="乙."
+   case 2:
+    changli="丙."
+   case 3:
+    changli="丁."
+   case 4:
+    changli="戊."
+   case 5:
+    changli="己."
+   case 6:
+    changli="庚."
+ end select    
+end function
+
+ 

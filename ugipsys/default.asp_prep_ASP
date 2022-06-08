@@ -1,0 +1,38 @@
+﻿: 
+if  session("mysiteid") = "" then response.redirect "/"
+
+
+response.cachecontrol = "no-cache" 
+response.addheader "pragma", "no-cache" 
+response.expires = -1
+if session("pwd") = true then
+ framerows = "87,*"
+ framerows = "60,*,1"
+' framecols = "159,*"
+ framecols = "180,*"
+ framecols = "167,*"
+ topfile="ntopmenu.asp"
+ leftfile="nstackmenu.asp"
+ leftfile="function.asp"
+
+' rightfile="gipedit/ctnodetlist.asp?ctrootid=4"
+else
+ framerows = "0,*"
+ framecols = "0,*"
+ topfile=""
+    leftfile=""
+    rightfile="giplogin.asp"   
+end if  
+
+
+
+         =session("mysitename")
+
+
+                  =framerows
+                                                        =topfile
+                    =framecols
+                                                             =leftfile
+                                   =rightfile
+
+                                                                        =session("userid")  

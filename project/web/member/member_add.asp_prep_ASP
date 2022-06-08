@@ -1,0 +1,155 @@
+﻿:  CxMethod_ASP_client_1527114747()
+   CxMethod_ASP_dbfunc_1170075012()
+   CxMethod_ASP_htuigen_2110437144()
+    xrootid=session("xrootid") 
+  
+'response.write  session("mysiteid")
+cq = chr(34)
+'response.write  session("mysiteid")
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+function htmlmessage(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   htmlmessage=""
+   exit function
+  elseif instr(1,xs,"<p",1)>0 or instr(1,xs,"<br",1)>0 or instr(1,xs,"<td",1)>0 then
+   htmlmessage=xs
+   exit function
+  end if
+   xs = replace(xs,vbcrlf&vbcrlf,"<p>")
+   xs = replace(xs,vbcrlf,"<br>")
+   htmlmessage = replace(xs,chr(10),"<br>")
+end function
+
+function qqrs(xvalue)
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+  qqrs = replace(xqqrs,chr(10),chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+ 
+
+ set htpagedom = server.createobject("microsoft.xmldom")
+ htpagedom.async = false
+'  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\memberdata.xml"
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/wsxd2/member/xmlspec\memberdata.xml")
+'  response.write loadxml
+'  response.end
+  xv = htpagedom.load(loadxml)
+    if htpagedom.parseerror.reason <> "" then 
+       response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+       response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+       response.end()
+  end if
+   set session("hyxformspec") = htpagedom
+   set refmodel = htpagedom.selectsinglenode("//dstable")
+   set allmodel = htpagedom.selectsinglenode("//dataschemadef")
+   session("pickfield") = true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                            = deptid :             =epaperid
+                                                                             = deptid :             =epaperid
+   
+ for each param in refmodel.selectnodes("//fieldlist/field[show='y']") 
+     if nulltext(param.selectsinglenode("inputtype"))<>"hidden"then
+      response.write "<tr><th align=""right"" width=""18%"" nowrap=""nowrap"">"
+      if nulltext(param.selectsinglenode("cannull")) = "n" then _
+    response.write "<span class=""must"">*</span>"
+      response.write nulltext(param.selectsinglenode("fieldlabel")) & "</th>"
+      response.write "<td >"
+     end if
+  processparamfield param   
+     if nulltext(param.selectsinglenode("inputtype"))<>"hidden"then
+   response.write "</td></tr>"
+  end if  
+ next
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   for each param in refmodel.selectnodes("//fieldlist/field") 
+      addprocessinit param
+ next
+ 

@@ -1,0 +1,281 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+htprogcode="kforumlist"
+htprogprefix = ""
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_activity_72353277()
+   
+ dim add : add = request.querystring("add")
+ dim questionid : questionid = request.querystring("questionid")
+ dim id : id = request.querystring("id") 
+ dim nowpage : nowpage = request.querystring("nowpage")
+ dim pagesize : pagesize = request.querystring("pagesize")
+ 
+ if add = "y" then
+  publisharticle
+ else
+  showform
+ end if
+
+   
+sub publisharticle 
+ dim icount : icount = 0 
+ dim dcount : dcount = 0
+ 
+ if instr(id, ",") > 0 then
+  '---多筆---
+  dim idarr : idarr = split(id, ",")
+  for i = 0 to ubound(idarr)
+   if idarr(i) <> "" then
+    if checkinsert( idarr(i) ) then
+     insertdata( idarr(i) )
+     icount = icount + 1
+    else
+     dcount = dcount + 1
+    end if
+   end if
+  next
+ else  
+  '---單筆---
+  if checkinsert( id ) then
+   insertdata( id )
+   icount = icount + 1
+  else
+   dcount = dcount + 1
+  end if  
+ end if
+ 
+ 'add by ivy 2010/5/4 知識家活動 活動問題反餽回主題館,發問者得1分
+ 
+ publishtosubject questionid
+ 
+ '知識家活動 end
+ 
+ showdonebox "成功 " & icount & " 筆, 重複 " & dcount & " 筆", "true"
+end sub
+
+  
+function checkinsert( myid )
+ dim subjectid, nodeid, flag
+ '---檢查是否有重複insert---
+ sql = "select * from knowledgetosubject where id = " & myid
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  subjectid = rs("subjectid")
+  nodeid = rs("ctnodeid")
+ end if
+ rs.close
+ set rs = nothing  
+ sql = "select id from knowledgetosubject where subjectid = " & subjectid & " " & _
+    "and ctnodeid = " & nodeid & " and icuitem = " & questionid & " and status = 'i'"
+ set rs = conn.execute(sql)
+ if rs.eof then
+  flag = true
+ else
+  flag = false
+ end if
+ rs.close
+ set rs = nothing
+ checkinsert = flag 
+end function
+
+  
+sub insertdata( myid )
+ dim subjectid, basedsdid, unitid, nodeid, flag
+ '---找出此id的相關資料---
+ sql = "select * from knowledgetosubject where id = " & myid
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  subjectid = rs("subjectid")
+  basedsdid = rs("basedsdid")
+  unitid = rs("ctunitid")
+  nodeid = rs("ctnodeid")
+ end if
+ rs.close
+ set rs = nothing
+ '---找出此問題的資料--
+ dim stitle, xpostdate, xurl
+ sql = "select stitle, convert(varchar, xpostdate, 111) as xpostdate, topcat " & _
+    "from cudtgeneric where icuitem = " & questionid
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  stitle = rs("stitle")
+  xpostdate = rs("xpostdate")
+  xurl = "/knowledge/knowledge_cp.aspx?articleid=" & questionid & "&articletype=a&categoryid=" & rs("topcat")
+ end if
+ rs.close
+ set rs = nothing
+ '---insert into cudtgeneric--- 
+ sql = "insert into cudtgeneric(ibasedsd, ictunit, fctupublic, stitle, ieditor, deditdate, idept, xurl, " & _
+    "xpostdate, showtype, siteid, xnewwindow) values(" & basedsdid & ", " & unitid & ", 'y', " & pkstr(stitle, "") & ", " & _
+    "'hyweb', getdate(), '0', " & pkstr(xurl, "") & ", " & pkstr(xpostdate, "") & ", '2', '2', 'y')"
+ sql = "set nocount on;" & sql & "; select @@identity as newid"    
+ set rs = conn.execute(sql)
+ xnewidentity = rs(0)  
+ rs.close
+ set rs = nothing
+ '---insert into slave table---
+ sql = "insert into cudtx" & basedsdid & " (gicuitem) values(" & xnewidentity & ")"
+ conn.execute(sql) 
+ '---insert into knowledgetosubject---
+ sql = "insert knowledgetosubject(subjectid, basedsdid, ctunitid, ctnodeid, status, icuitem) " & _
+    "values(" & subjectid & ", " & basedsdid & ", " & unitid & ", " & nodeid & ", 'i', " & questionid & ")"
+ conn.execute(sql)
+end sub
+
+   sub showdonebox(lmsg, btype) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+       if btype = "true" then 
+                                                       =questionid:            =nowpage:             =pagesize
+       else 
+
+       end if 
+
+
+
+   end sub 
+   
+sub showform 
+ 
+ '---知識家發佈, 資料庫的欄位status = k---
+ dim status : status = "k" 
+ 
+ sql = "select * from knowledgetosubject where status = " & pkstr(status, "") & " order by subjectid "
+ set rs = conn.execute(sql) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                     =questionid:            =nowpage:             =pagesize
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       while not rs.eof 
+
+
+                                          =rs("id"):            =rs("id")
+
+
+                                =rs("id"):                           =rs("subjectname")
+                                    =rs("id"):                           =rs("subjectid")
+
+
+                               =rs("id"):                           =rs("ctunitname")
+                             =rs("id"):                           =rs("ctunitid")
+
+
+                               =rs("id"):                           =rs("ctnodename")
+                             =rs("id"):                           =rs("ctnodeid")
+
+
+                                                                                =rs("id")
+
+
+       
+      rs.movenext
+     wend 
+     rs.close
+     set rs = nothing
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                             =questionid:            =nowpage:             =pagesize
+
+
+
+
+                                                                          =questionid:            =nowpage:             =pagesize
+
+
+
+                                                      =questionid:            =nowpage:             =pagesize
+
+
+
+                                                    =questionid:            =nowpage:             =pagesize
+
+
+   end sub  

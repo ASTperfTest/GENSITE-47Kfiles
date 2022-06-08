@@ -1,0 +1,205 @@
+﻿: 
+sub processxdataset
+  xtreenode = nulltext(xdataset.selectsinglenode("datanode"))
+ if xtreenode = "" then xtreenode = 0
+  sql = "select t.*, b.sbasetablename " _
+   & " from cattreenode as t left join ctunit as u on u.ctunitid=t.ctunitid " _
+   & " left join basedsd as b on b.ibasedsd=u.ibasedsd " _
+   & " where ctnodeid in (" & xtreenode & ")"
+  if request("debug")<>"" then response.write "<xnodesql><![cdata[" & sql & "]]></xnodesql>"
+  set rs = conn.execute(sql)
+  if not rs.eof then
+  xdatanode = rs("ctunitid")
+  xbasetablename = lcase(rs("sbasetablename"))
+  dcondition = trim(rs("dcondition") & " ")
+  response.write "<" & nulltext(xdataset.selectsinglenode("datalable")) _
+    & " xnode=""" & rs("ctnodeid") & """ xunit=""" & xdatanode & """>" 
+   response.write "<contentstyle>" & nulltext(xdataset.selectsinglenode("contentstyle")) & "</contentstyle>"
+    response.write "<datasrc>" & nulltext(xdataset.selectsinglenode("datasrc")) & "</datasrc>"
+    response.write "<picwidth>" & nulltext(xdataset.selectsinglenode("picwidth")) & "</picwidth>"
+    response.write "<picheight>" & nulltext(xdataset.selectsinglenode("picheight")) & "</picheight>"
+ '主題館新增節點 start
+ istitle = nulltext(xdataset.selectsinglenode("istitle"))
+ if istitle ="" then istitle="y"
+ ispic = nulltext(xdataset.selectsinglenode("ispic"))
+ if ispic = "" then ispic="y"
+ ispostdate = nulltext(xdataset.selectsinglenode("ispostdate"))
+ if ispostdate ="" then ispostdate="y"
+ isexcerpt = nulltext(xdataset.selectsinglenode("isexcerpt"))
+ if isexcerpt="" then isexcerpt="y"
+ showstyle = nulltext(xdataset.selectsinglenode("showstyle"))
+ if showstyle="" then showstyle="style1"
+ 
+ response.write "<istitle>" & istitle & "</istitle>"
+ response.write "<ispic>" & ispic & "</ispic>"
+ response.write "<ispostdate>" & ispostdate & "</ispostdate>"
+ response.write "<isexcerpt>" & isexcerpt & "</isexcerpt>"
+ response.write "<showstyle>" & showstyle & "</showstyle>" 
+ '主題館新增節點 end
+  contentstyle = nulltext(xdataset.selectsinglenode("contentstyle")) 
+   response.write "<caption>" & nulltext(xdataset.selectsinglenode("dataremark")) & "</caption>"
+    
+ mprefdatablock = nulltext(xdataset.selectsinglenode("refdatablock"))
+' mprefheaderrandom = nulltext(xdataset.selectsinglenode("refisrandom"))
+' mprefsqlcondition = nulltext(xdataset.selectsinglenode("refsqlcondition"))
+' mprefheadercount = nulltext(xdataset.selectsinglenode("refheadercount"))
+' mprefsqlorderby = nulltext(xdataset.selectsinglenode("refsqlorderby"))
+
+ contentlength = nulltext(xdataset.selectsinglenode("contentlength"))
+ if contentlength="" then contentlength=120
+ headercount = nulltext(xdataset.selectsinglenode("sqltop"))
+ headerrandom = nulltext(xdataset.selectsinglenode("israndom"))
+ if headercount<>"" then headercount = "top " & headercount
+ 
+ sql = "select " & headercount & " htx.*, xr1.deptname, xr1.edeptname, u.ctunitname, n.ctnodeid " 
+ if headerrandom="y" then sql=sql & ", rand (((icuitem+datepart(ms, getdate()))*100)%3771) " _
+   & " * rand (((icuitem+datepart(ms, getdate()))*100)%3) as ra "
+' if xbasetablename<>"" then sql = sql & "join " & xbasetablename & " as ghtx on htx.icuitem=ghtx.gicuitem"
+  sql=sql &   " from cudtgeneric as htx " _
+   & " join ctunit as u on u.ctunitid=htx.ictunit" _
+   & " join cattreenode as n on n.ctunitid=htx.ictunit" _
+   & " left join dept as xr1 on xr1.deptid=htx.idept" _
+   & " where htx.fctupublic='y' " _
+   & " and (htx.avend is null or htx.avend >=" & pkstr(date(),")") _
+   & " and (htx.avbegin is null or htx.avbegin <=" & pkstr(date(),")") 
+'  & " left join cudtwimg as img on img.gicuitem=htx.icuitem" _
+' if xdatanode<>"" then  sql = sql & " and ictunit=" & xdatanode
+ if xtreenode<>"" then  sql = sql & " and n.ctnodeid in (" & xtreenode & ")"
+  
+ sqlcondition = nulltext(xdataset.selectsinglenode("sqlcondition"))
+ if sqlcondition<>"" then sql = sql & " and " & sqlcondition
+
+ if dcondition <> "" and not isnull(dcondition) then _
+  sql = sql & " and " & replace(dcondition, "cudtgeneric", "htx")
+
+ sqlorderby = nulltext(xdataset.selectsinglenode("sqlorderby"))
+ if sqlorderby<>"" then sql = sql & " order by " & sqlorderby
+' xtn = split(xtreenode, ",")
+' xtreenode = xtn(0)
+ if request("debug")<>"" then 
+  response.write "<xdatasetsql><![cdata[" & sql & "]]></xdatasetsql>"
+  'response.end
+ end if
+ 'on error resume next
+ set rs = conn.execute(sql)
+ 'if error.num > 0 then
+ ' response.write "<xxxerror><![cdata[" & sql & "]]></xxxerror>"
+ ' error.num = 0
+ ' error.clear
+ 'end if
+ while not rs.eof
+     xurl = "ct.asp?xitem=" & rs("icuitem") & "&amp;ctnode=" & rs("ctnodeid") & "&amp;mp=" & request("mp")
+          
+     if rs("ibasedsd") = 2 then xurl = deamp(rs("xurl"))
+     if xbasetablename = "adrotate" then xurl = deamp(rs("xurl"))
+     if rs("showtype") = 2 then xurl = deamp(rs("xurl"))
+     if rs("showtype") = 3 then xurl = "public/data/" & rs("filedownload")
+     if rs("showtype") = 5 then xurl = "content.asp?cuitem=" & rs("refid")
+
+  xbody = dehtml(rs("xbody"))
+  xbody = left(xbody, contentlength)
+  if len(xbody) > contentlength then xbody = left(xbody, contentlength)
+
+                      =rs("icuitem"):                =rs("xnewwindow")
+              =deamp(rs("stitle"))
+                       =xbody
+                          =rs("xbody")
+                           =left(dehtml(rs("xbody")),250)
+                        =rs("xabstract")
+               =xmonstdday(rs("xpostdate"))
+                =rs("deptname")
+                 =rs("edeptname")
+             =rs("vgroup")
+             =rs("topcat")
+                 =deamp(rs("ctunitname"))
+           =deamp(xurl)
+               =rs("showtype")
+                   =deamp(rs("filedownload"))
+    if not isnull(rs("ximgfile")) then 
+                           =rs("ximgfile")
+    end if 
+
+   if mprefdatablock <> "" then 
+  xsql = "select top 1 htx.* " 
+  xsql=xsql & ", rand (((icuitem+datepart(ms, getdate()))*100)%3771) " _
+   & " * rand (((icuitem+datepart(ms, getdate()))*100)%3) as ra "
+  xsql=xsql &   " from cudtgeneric as htx" _
+   & " where htx.fctupublic='y' and ictunit=" & mprefdatablock _
+   & " and (htx.avend is null or htx.avend >=" & pkstr(date(),")") _
+   & " and (htx.avbegin is null or htx.avbegin <=" & pkstr(date(),")") 
+  xsql = xsql & " order by ra"
+  
+  set xrs = conn.execute(xsql)
+  while not xrs.eof
+
+
+                           =xrs("icuitem"):                =xrs("xnewwindow")
+              =deamp(xrs("stitle"))
+    if not isnull(xrs("ximgfile")) then 
+                           =xrs("ximgfile")
+    end if 
+
+  
+  xrs.movenext
+ wend
+ end if
+
+
+
+    
+  rs.movenext
+ wend
+
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty("serverhttprequest") = true 
+
+ for each xrss in xdataset.selectnodes("rss")
+   xv = oxml.load(nulltext(xrss.selectsinglenode("url")))
+   if xv = true then
+    rsstop = cint(nulltext(xrss.selectsinglenode("rsstop")))
+    xrsscount = 0
+    for each xitem in oxml.selectnodes("rss/channel/item")
+      if xrsscount < rsstop then
+       xrsscount = xrsscount + 1
+
+
+              =nulltext(xitem.selectsinglenode("title"))
+                =nulltext(xitem.selectsinglenode("titleen"))
+                       =dehtml(nulltext(xitem.selectsinglenode("description")))
+               =nulltext(xitem.selectsinglenode("pubdate"))
+           =deamp(nulltext(xitem.selectsinglenode("link")))
+
+    
+    end if
+    next
+   end if
+ next
+   response.write "</" & nulltext(xdataset.selectsinglenode("datalable")) & ">"
+  end if
+end sub
+
+function dehtml(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   dehtml=""
+   exit function
+  end if
+ xs = replacetest("<[^>]*>", "", xs) '-- <.......>
+   xs = replace(xs,vbcrlf&vbcrlf,"<p>")
+   xs = replace(xs,vbcrlf,"<br>")
+   dehtml = replace(xs,chr(10),"<br>")
+end function
+
+function replacetest(patrn, replstr, str1)
+  dim regex               ' create variables.
+'  str1 = "the quick brown fox jumped over the lazy dog."
+  set regex = new regexp            ' create regular expression.
+  regex.pattern = patrn            ' set pattern.
+  regex.ignorecase = true            ' make case insensitive.
+  regex.global = true   ' set global applicability.
+  replacetest = regex.replace(str1, replstr)   ' make replacement.
+end function
+
+
+ 

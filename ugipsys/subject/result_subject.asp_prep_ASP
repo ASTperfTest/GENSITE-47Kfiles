@@ -1,0 +1,190 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+htprogcap="主題館績效統計"
+response.charset = "utf-8"
+htprogcode = "webgeb2"
+   
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+id =request("id")
+response.write "<hr>"
+
+
+
+         = htprogcap 
+
+
+
+
+
+
+
+
+
+                      =session("dates"):      =session("datee")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ if trim(id) = "147" then '蝴蝶主題館
+  id = 31
+ end if
+ if trim(id) = "148" then '鳳梨主題館
+  id = 32
+ end if
+ '取主題館名稱
+ if id =31 or id = 32 then
+  sql1 = "select cattreeroot.ctrootname "
+  sql1 = sql1 & " from  cattreeroot "
+  sql1 = sql1 & " where cattreeroot.ctrootid = '"& id &"'"
+ else
+  sql1 = "select cattreeroot.ctrootname "
+  sql1 = sql1 & " from nodeinfo left outer join cattreeroot on nodeinfo.ctrootid = cattreeroot.ctrootid "
+  sql1 = sql1 & " where cattreeroot.ctrootid = '"& id &"'"
+ end if
+ set rs1 = conn.execute(sql1)
+ '取上稿單位
+ sql2 = "select distinct cudtgeneric.ieditor, infouser.username, infouser.deptid, dept.deptname "
+ ' sql2 = sql2 & " from dept inner join infouser on dept.deptid = infouser.deptid "
+ ' sql2 = sql2 & " right outer join "
+ ' sql2 = sql2 & " cattreenode inner join cudtgeneric on cattreenode.ctunitid = cudtgeneric.ictunit "
+ ' sql2 = sql2 & " on infouser.userid = cudtgeneric.ieditor "
+ sql2 = sql2 & " from cattreenode inner join cudtgeneric on cattreenode.ctunitid = cudtgeneric.ictunit "
+ sql2 = sql2 & " inner join infouser on cudtgeneric.ieditor = infouser.userid "
+ sql2 = sql2 & " inner join dept on infouser.deptid = dept.deptid "
+ sql2 = sql2 & " where cattreenode.ctrootid = '"& id &"'"
+ set rs2 = conn.execute(sql2)
+ '初始化
+ pageclick =0
+ article =0
+ pic =0
+ attach =0
+ c_p = 0 '推薦人數
+ c_s = 0 '總得星數
+while not rs2.eof
+ '取文章資料
+ '取篇數 圖片數 最近更新日期
+ sql3 = "select count(*) as count1,count(cudtgeneric.ximgfile) as count2 , "
+ sql3 = sql3 & " max(cudtgeneric.deditdate) as newdate  "
+ 'sql3 = sql3 & " sum(cudtgeneric.clickcount) as sum1, "
+ 'sql3 = sql3 & " sum(dailyclick.dailyclick) as sum2, " '瀏覽數2
+ 'sql3 = sql3 & " sum(subjectforum.commandcount) as sump , "
+ 'sql3 = sql3 & " sum(subjectforum.gradecount) as sums "
+ sql3 = sql3 & " from cattreenode inner join cudtgeneric on cattreenode.ctunitid = cudtgeneric.ictunit "
+ 'sql3 = sql3 & " left join subjectforum on cudtgeneric.icuitem = subjectforum.gicuitem "
+ sql3 = sql3 & " left join dailyclick on cudtgeneric.icuitem = dailyclick.icuitem "
+ sql3 = sql3 & " where cattreenode.ctrootid = '"& id &"' and cudtgeneric.ieditor = '"& rs2("ieditor")&"'"
+ if session("dates") <> "" then
+  sql3 = sql3 & " and cudtgeneric.xpostdate >= '"& session("dates") &"'"
+ end if
+ if session("datee") <> "" then
+  sql3 = sql3 & " and cudtgeneric.xpostdate <= '"& session("datee") &"'"
+ end if
+ set rs3 = conn.execute(sql3)
+ '取瀏覽數
+ sql3_2 = "select sum(dailyclick.dailyclick) as sum2" '瀏覽數2
+ sql3_2 = sql3_2 & " from cattreenode inner join cudtgeneric on cattreenode.ctunitid = cudtgeneric.ictunit "
+ 'sql3_2 = sql3_2 & " left join subjectforum on cudtgeneric.icuitem = subjectforum.gicuitem "
+ sql3_2 = sql3_2 & " left join dailyclick on cudtgeneric.icuitem = dailyclick.icuitem "
+ sql3_2 = sql3_2 & " where cattreenode.ctrootid = '"& id &"' and cudtgeneric.ieditor = '"& rs2("ieditor")&"'"
+ if session("dates") <> "" then
+  sql3_2 = sql3_2 & " and dailyclick.editdate >= '"& session("dates") &"'"
+ end if
+ if session("datee") <> "" then
+  sql3_2 = sql3_2 & " and dailyclick.editdate <= '"& session("datee") &"'"
+ end if
+ set rs3_2 = conn.execute(sql3_2)
+ '取推薦人數 總得星數
+ sql3_3 = "select "
+ sql3_3 = sql3_3 & " sum(subjectforum.commandcount) as sump , " '推薦人數
+ sql3_3 = sql3_3 & " sum(subjectforum.gradecount) as sums " '總得星數
+ sql3_3 = sql3_3 & " from cattreenode inner join cudtgeneric on cattreenode.ctunitid = cudtgeneric.ictunit "
+ sql3_3 = sql3_3 & " left join subjectforum on cudtgeneric.icuitem = subjectforum.gicuitem "
+ 'sql3 = sql3 & " left join dailyclick on cudtgeneric.icuitem = dailyclick.icuitem "
+ sql3_3 = sql3_3 & " where cattreenode.ctrootid = '"& id &"' and cudtgeneric.ieditor = '"& rs2("ieditor")&"'"
+ if session("dates") <> "" then
+  sql3_3 = sql3_3 & " and cudtgeneric.xpostdate >= '"& session("dates") &"'"
+ end if
+ if session("datee") <> "" then
+  sql3_3 = sql3_3 & " and cudtgeneric.xpostdate <= '"& session("datee") &"'"
+ end if
+ set rs3_3 = conn.execute(sql3_3)
+ '取附件數
+ sql4 = "select count(*) as count1 "
+ sql4 = sql4 & " from cattreenode inner join cudtgeneric on cattreenode.ctunitid = cudtgeneric.ictunit "
+ sql4 = sql4 & " inner join cudtattach on cudtgeneric.icuitem = cudtattach.xicuitem "
+ sql4 = sql4 & " where cattreenode.ctrootid = '"& id &"' and cudtgeneric.ieditor = '"& rs2("ieditor")&"'"
+ if session("dates") <> "" then
+  sql4 = sql4 & " and cudtgeneric.xpostdate >= '"& session("dates") &"'"
+ end if
+ if session("datee") <> "" then
+  sql4 = sql4 & " and cudtgeneric.xpostdate <= '"& session("datee") &"'"
+ end if
+ set rs4 = conn.execute(sql4)
+ 'response.write sql2
+
+
+       =rs1("ctrootname")
+       =rs2("deptname")
+       '頁面瀏覽次數
+  if isnull(rs3_2("sum2")) then
+   response.write "0"
+   pageclick =pageclick + 0
+  else
+   response.write rs3_2("sum2")
+   pageclick =pageclick + rs3_2("sum2")
+  end if
+ 
+       =rs3("count1")
+       =rs3("count2")
+       =rs4("count1")
+       
+  if isnull(rs3_3("sump")) then
+   response.write "0"
+   c_p = c_p + 0
+  else
+   response.write rs3_3("sump")
+   c_p = c_p + rs3_3("sump")
+  end if
+ 
+       
+  if isnull(rs3_3("sums")) then
+   response.write "0"
+   c_s = c_s + 0
+  else
+   response.write rs3_3("sums")
+   c_s = c_s + rs3_3("sums")
+  end if
+ 
+
+  
+ article =article + rs3("count1")
+ pic =pic + rs3("count2")
+ attach =attach + rs4("count1")
+ rs2.movenext
+wend
+
+
+
+
+       =pageclick
+       =article
+       =pic
+       =attach
+       =c_p
+       =c_s 

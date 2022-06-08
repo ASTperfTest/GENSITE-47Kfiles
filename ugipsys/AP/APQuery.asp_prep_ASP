@@ -1,0 +1,98 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+htprogcap="ap"
+htprogcode="ht003"
+htprogprefix="ap" 
+   CxMethod_ASP_server_1606199358()
+  
+tasklable="查詢" & htprogcap
+
+ showhtmlhead()
+ formfunction = "query"
+ showform()
+ initform()
+ showhtmltail()
+
+
+   sub initform() 
+
+
+
+
+
+
+
+                           =request("reg.pfx_apcode")
+                            =request("reg.tfx_apnamee")
+                            =request("reg.tfx_apnamec")
+                          =request("reg.sfx_apcat")
+                           =request("reg.tfx_appath")
+                            =request("reg.tfx_aporder")
+                           =request("reg.nfx_apmask")
+                            =request("reg.tfx_spare64")
+                             =request("reg.tfx_spare128")
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+  sub showform() 
+
+
+                       =htprogprefix
+
+
+
+
+   CxMethod_ASP_apform_909307471()
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+
+
+                                   =htprogprefix
+
+
+
+
+
+
+                                                     =title:                       =htprogcap
+
+
+
+
+
+
+
+
+          if (htprogright and 4)=4 then
+                   =htprogprefix
+          end if
+
+
+
+
+
+
+
+  end sub '--- showhtmlhead() ------
+
+  sub showhtmltail() 
+
+
+
+
+    CxMethod_ASP_footer_1134060862()
+
+
+
+
+
+  end sub '--- showhtmltail() ------ 

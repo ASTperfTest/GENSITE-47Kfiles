@@ -1,0 +1,140 @@
+﻿: 
+
+ '---主題館加上會員---20080916---vincent---
+ 
+ response.write "<login>"
+  dim memname, memnickname, memlogincount, memaccount
+  if request("memid") <> "" then  
+   sql = "select realname, isnull(nickname, '') as nickname, isnull(logincount, 0) as logincount,account " & _
+      "from member where account = '" & request("memid") & "'"
+   set memrs = conn.execute(sql)
+   if not memrs.eof then
+    response.write "<status>true</status>" 
+    memname = trim(memrs("realname"))
+    memnickname = trim(memrs("nickname"))        
+    memlogincount = memrs("logincount")
+    if memnickname = "" then
+     memaccount =memrs("account")
+    else
+     memaccount =memrs("nickname")
+    end if
+   else 
+     response.write "<status>false</status>" 
+   end if
+  else
+   response.write "<status>false</status>"
+  end if
+  response.write "<memid>" & request("memid") & "</memid>"
+  response.write "<memname><![cdata[" & memname & "]]></memname>"
+  response.write "<memnickname><![cdata[" & memnickname & "]]></memnickname>"
+  response.write "<memlogincount>" & memlogincount & "</memlogincount>"  
+  response.write "<memaccount>" & memaccount & "</memaccount>" 
+  response.write "<gstyle>" & request("gstyle") & "</gstyle>"    
+ response.write "</login>"
+
+ '---鎖右鍵-20080916---vincent---
+ sql = "select * from nodeinfo where ctrootid = " & xrootid
+ set nrs = conn.execute(sql)
+ response.write "<lockrightbtn>"
+ if not nrs.eof then
+  if nrs("lockrightbtn") = "y" then 
+   response.write "y"
+  else
+   response.write "n"
+  end if
+ end if
+ response.write "</lockrightbtn>"
+ nrs.close
+ set nrs = nothing
+
+ sqlb = "select ctrootname from cattreeroot where ctrootid=" & xrootid
+ set rsb = conn.execute(sqlb)
+ response.write "<rootname>" & rsb(0)& "</rootname>"
+ 
+ 
+ sql = "select isnull(pic_title,'') as pic_title, isnull(pic_banner,'') as pic_banner, list, data from nodeinfo where ctrootid ='" & xrootid & "'"
+ set rss = conn.execute(sql)
+ if not rss.eof then
+  layoutstyle99 = "mp" & right(trim(rss("list")),1)
+  cssstyle99 = trim(rss("data"))
+  pic_banner = trim(rss("pic_banner"))
+  pic_title = trim(rss("pic_title"))
+  '橫幅圖片
+  if pic_banner <> "" then
+   if instr(lcase(pic_banner),"customerbanner")>0 then
+    response.write "<bannerpicfilepath>public/"& pic_banner &"</bannerpicfilepath>"
+    response.write "<bannerpicfilename>主題館橫幅</bannerpicfilename>"
+   elseif instr(lcase(pic_banner),"banner")>0 then    
+    pic_banner_ary = split(pic_banner,"-")
+    response.write "<bannerpicfilepath>xslgip/" & cssstyle99 &"/images/"& pic_banner & "</bannerpicfilepath>"
+    response.write "<bannerpicfilename>" & pic_banner_ary(1) & "</bannerpicfilename>"
+   end if
+  end if
+  '標題圖片
+  if pic_title <>"" then
+   response.write "<titlepicfilepath>public/" & pic_title & "</titlepicfilepath>"
+   response.write "<titlepicfilename>主題館logo</titlepicfilename>"
+  else
+   response.write "<titlepicfilepath>xslgip/" & cssstyle99 & "/images/logo.gif</titlepicfilepath>"
+   response.write "<titlepicfilename>農委會茄子館</titlepicfilename>"
+  end if
+   
+ else
+  layoutstyle99 = "mp"
+  cssstyle99 = ""
+  banner_path = "banner-農產橫幅-57635.jpg"
+  banner_name = "農產橫幅"
+  pictitle_path = "logo.gif"
+  pictitle_name = "農委會logo"
+  response.write "<bannerpicfilepath>" & banner_path & "</bannerpicfilepath>"
+  response.write "<bannerpicfilename>" & banner_name & "</bannerpicfilename>"
+  response.write "<titlepicfilepath>" & pictitle_path & "</titlepicfilepath>"
+  response.write "<titlepicfilename>" & pictitle_name & "</titlepicfilename>"
+ end if
+ 
+ response.write "<layoutstyle>" & layoutstyle99 & "</layoutstyle>"
+ if cssstyle99<>"" then
+  response.write "<mpstyle>" & cssstyle99 & "</mpstyle>"
+ else
+  response.write "<mpstyle>" & nulltext(refmodel.selectsinglenode("mpstyle")) & "</mpstyle>"
+ end if
+ '---主題館關鍵字-2008/12/27---vincent--- 先看有沒有設定沒有在抓系統計算的
+ response.write "<blockkw>"
+ response.write "<caption>主題館關鍵字</caption>"
+ sql = "select keywords from nodeinfo where ctrootid = " & xrootid
+ set keywordrs = conn.execute(sql)
+ if not keywordrs.eof then
+     if keywordrs("keywords") <> "" or keywordrs("keywords") <> null then
+         dim kyarray
+      dim kylength
+      kyarray = split(keywordrs("keywords"), ",")
+      kylength = ubound(kyarray)
+      for i = 0 to kylength
+          response.write "<article><caption><![cdata[" & kyarray(i) & "]]></caption></article>"
+      next
+   else
+   keywordrs.close
+         set keywordrs = nothing
+         sql = "select top 10 keyword from report_keyword_frequency " & _
+    "where mp = " & request("mp") & " group by keyword order by sum(frequency) desc "
+         set keywordrs = kmconn.execute(sql)
+         while not keywordrs.eof
+          response.write "<article><caption><![cdata[" & keywordrs("keyword") & "]]></caption></article>"
+          keywordrs.movenext
+         wend
+  end if
+ else
+     keywordrs.close
+     set keywordrs = nothing
+     sql = "select top 10 keyword from report_keyword_frequency " & _
+    "where mp = " & request("mp") & " group by keyword order by sum(frequency) desc "
+     set keywordrs = kmconn.execute(sql)
+     while not keywordrs.eof
+      response.write "<article><caption><![cdata[" & keywordrs("keyword") & "]]></caption></article>"
+      keywordrs.movenext
+     wend
+ end if
+ keywordrs.close
+ set keywordrs = nothing
+ response.write "</blockkw>"
+ 

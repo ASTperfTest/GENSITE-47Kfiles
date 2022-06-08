@@ -1,0 +1,124 @@
+﻿: @ codepage = 65001 
+  
+ response.cachecontrol = "no-cache" 
+ response.addheader "pragma", "no-cache" 
+ response.expires = -1
+
+
+   CxMethod_ASP_dbfunc_874801204()
+   CxMethod_ASP_web_sqlinjection_176928617()
+    CxMethod_ASP_checkurl_1283041507()
+
+
+  
+call checkurl(request.querystring)
+ mp = getmpvalue() 
+ 
+ qstr = request.querystring
+ if instr(qstr, "mp=") = 0 then qstr = qstr & "&mp=" & mp
+ 
+ for each xf in request.form
+  if pkstrwithsripthtml( request(xf), "" ) <> "null" then 
+   qstr = qstr & "&" & xf & "=" & server.urlencode( striphtml( request.form(xf) ) )
+  end if
+ next
+ 
+ call lpsqlinjectioncheck()
+
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty("serverhttprequest") = true 
+ set oxsl = server.createobject("microsoft.xmldom")
+   
+ memid = session("memid")
+ gstyle = session("gstyle")
+ 
+ 'response.write(session("myxdurl") & "/wsxd2/xdlp.asp?" & qstr & "&memid=" & memid & "&gstyle=" & gstyle)
+ xv = oxml.load(session("myxdurl") & "/wsxd2/xdlp.asp?" & qstr & "&memid=" & memid & "&gstyle=" & gstyle)
+
+    'added by leo  2011-07-13
+    session("lppageurl") = "/lp.asp?" & qstr
+    if request.querystring("xq_xcat") <> "" then
+        session("topcat") = request.querystring("xq_xcat")
+    else
+        session("topcat") = ""
+    end if    
+    'added by leo  2011-07-13
+ '�o�Ϳ��~�ɡa�۰ʭ���3��=====================================================
+    
+       CxMethod_ASP_onerrorreload3times_1262579889()
+      
+  '=============================================================================  
+
+ xmystyle = nulltext(oxml.selectsinglenode("//hpmain/mystyle"))
+  if xmystyle = "" then xmystyle = session("mystyle")  
+ oxsl.load(server.mappath("xslgip/" & xmystyle & "/lp.xsl"))
+'response.write server.mappath("xslgip/" & xmystyle & "/lp.xsl")
+  fstyle = oxml.selectsinglenode("//xsldata").text
+  if fstyle <> "" then
+  set fxsl = server.createobject("microsoft.xmldom")
+  fxsl.load(server.mappath("xslgip/" & fstyle & ".xsl"))  
+  set oxroot = oxsl.selectsinglenode("xsl:stylesheet")
+  '  response.write "<br>"
+  'response.write server.mappath("xslgip/" & fstyle & ".xsl")
+  on error resume next
+  for each xs in fxsl.selectnodes("//xsl:template")
+   set nx = xs.clonenode(true)
+   ckstr = "@match='" & nx.getattribute("match") & "'"
+   if nx.getattribute("mode")<>"" then  ckstr = ckstr & " and @mode='" & nx.getattribute("mode") & "'"
+   set orgex = oxroot.selectsinglenode("//xsl:template[" & ckstr & "]")
+   oxroot.removechild orgex
+   oxroot.appendchild nx
+  next
+  for each xs in fxsl.selectnodes("//msxsl:script")
+   set nx = xs.clonenode(true)
+   oxroot.appendchild nx
+  next
+ end if  
+
+ response.contenttype = "text/html" 
+ outstring = replace(oxml.transformnode(oxsl),"<meta http-equiv=""content-type"" content=""text/html; charset=utf-8"">","")
+ outstring = replace(outstring," xmlns=""""","")
+ outstring = replace(outstring,"&amp;","&")
+ 
+ dim memid, showcursoricon
+ showcursoricon = "1"
+ set conn = server.createobject("adodb.connection")
+ conn.open session("odbcdsn")
+ memid = nulltext(oxml.selectsinglenode("//hpmain/login/memid"))
+ if (memid <> "") then  
+   sql = "select showcursoricon from member where account = '" & memid & "'"  
+   set loginrs = conn.execute(sql)
+   if not loginrs.eof then
+    if not isnull(loginrs("showcursoricon")) then
+     showcursoricon = loginrs("showcursoricon")
+    else
+     showcursoricon = checcursoropen
+    end if
+   end if
+ else 
+  showcursoricon = checcursoropen
+ end if
+ if showcursoricon = "0" then
+    outstring = replace(outstring,"png.length!=0","false")
+ end if
+
+ response.write (outstring)
+
+ function nulltext(xnode)
+   on error resume next
+   xstr = ""
+   xstr = xnode.text
+   nulltext = xstr
+ end function
+ 
+ function checcursoropen()
+  sql = " select stitle from cudtgeneric where icuitem = " & application("showcursoriconid")
+  set rs = conn.execute(sql)
+  if (not isnull(rs("stitle")) ) and rs("stitle") = 1 then
+   checcursoropen = "1"
+  else
+   checcursoropen = "0"
+  end if
+ end function
+ 

@@ -1,0 +1,68 @@
+﻿:  response.expires = 0
+htprogcap="�ҵ{"
+htprogfunc="�s��"
+htprogcode="pa001"
+htprogprefix="paact" 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_453315802()
+
+
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+   CxMethod_ASP_checkgipconfig_1275316133()
+   CxMethod_ASP_htuigen_1591615763()
+   CxMethod_ASP_hyftdgip_754890524()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   sql="select * from docdownload_attach where id=" & request("id")
+   set rs=conn.execute(sql)
+   if not rs.eof then
+   filename1=trim(rs("filename"))
+   filename1_note=trim(rs("filename_note"))
+
+
+
+                                         =request("id") 
+                                          =rs("pid") 
+
+
+
+
+
+
+
+
+
+
+                                                     =filename1 :                                                  =filename1 
+
+
+
+
+
+                                                                            =filename1_note 
+
+
+
+
+
+
+
+
+
+   
+   end if 
+ 

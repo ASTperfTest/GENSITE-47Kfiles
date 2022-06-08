@@ -1,0 +1,164 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="績效管理"
+htprogfunc="查詢清單"
+htprogcode="gc1ap9"
+htprogprefix="kpiquery" 
+   CxMethod_ASP_kpilistparam_1660807637()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+dim xcatcount(10)
+
+ fsql=request.querystring("strsql")
+
+
+ for each x in request.form
+'  response.write x & "==>" & request(x) & "<br>"
+ next
+
+if fsql="" then
+ fsql = "select idept, count(*) as xcount, " _
+  & " min(dept.abbrname) as dpname, min(xref1.mvalue) as xtopcat" _
+  & " from cudtgeneric as htx" _
+  & " left join codemain as xref1 on xref1.mcode = htx.topcat and xref1.codemetaid='topdatacat'" _
+  & " left join dept  on dept.deptid = htx.idept " _
+  & " where 1=1 " 
+
+ xconstr = ""
+ xpcondition
+ fsql = fsql & " group by htx.idept" _
+    & " order by htx.idept" 
+end if
+ response.write fsql & "<hr>"
+ set rs = conn.execute(fsql)
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+    if (htprogright and 1)=1 then
+
+    end if
+
+
+
+
+
+
+
+
+
+                                            =xconstr
+
+
+
+
+
+
+
+
+
+
+  
+ cno = "zxz"
+ basecondition = "kpidlist.asp?" 
+ if request.form("htx_ctunitid") <> "" then _
+  basecondition = basecondition & "htx_ctunitid=" & request.form("htx_ctunitid") & "&"
+ if request.form("htx_ibasedsd") <> "" then _
+  basecondition = basecondition & "htx_ibasedsd=" & request.form("htx_ibasedsd") & "&"
+ if request.form("htx_idates") <> "" then _
+  basecondition = basecondition & "htx_idates=" & request.form("htx_idates") & "&"
+ if request.form("htx_idatee") <> "" then _
+  basecondition = basecondition & "htx_idatee=" & request.form("htx_idatee") & "&"
+ if request.form("htx_topcat") <> "" then _
+  basecondition = basecondition & "htx_topcat=" & request.form("htx_topcat") & "&"
+ while not rs.eof
+  xtopcat=""
+  if xtopcat <> cno then
+   if cno <> "zxz" then 
+
+
+
+                                  =cno:                   =catcount
+
+  
+   end if
+   cno = xtopcat
+   catbasecondition = basecondition & "htx_topcat=" & cno & "&"
+
+
+
+
+                                            =cno:                                                                  =cno
+                         =cno
+
+
+                                                    =cno
+
+
+                                                                                                   =cno
+
+
+
+
+
+
+    
+   catcount = 0
+   xrow = 0
+  end if
+  catcount = catcount + rs("xcount")
+  if xrow mod 2 = 0 then  response.write  "<tr class=""whitetablebg"">"
+  xrow = xrow + 1
+
+                  =rs("dpname")
+                                         =catbasecondition:             =rs("idept"):     =rs("xcount")
+  
+  rs.movenext
+ wend    
+ 
+
+
+
+                                  =cno:                   =catcount
+
+
+
+
+
+
+
+
+
+
+
+
+  if cno<>"" then
+
+
+              =cno
+
+
+
+
+
+
+
+              =cno
+
+
+
+
+
+
+
+
+  end if 

@@ -1,0 +1,434 @@
+﻿: @  codepage="65001" 
+   response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="主題館績效統計"
+htprogfunc="查詢清單"
+htprogcode="jigsaw"
+htprogprefix="newkpi" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_client_5214970()
+  
+response.write session("jigcheck1")
+icuitem = request("icuitem")
+gicuitem = request("gicuitem")
+page = request("page")
+sql = "select stitle from [mgipcoanew].[dbo].[cudtgeneric] where icuitem='"&request("icuitem")&"'"
+set rs = conn.execute(sql)
+sql1 = "select stitle from [mgipcoanew].[dbo].[cudtgeneric] where icuitem='"&request("gicuitem")&"'"
+set rs1 = conn.execute(sql1)
+sql2 = "select cudtgeneric.stitle, knowledgejigsaw.gicuitem as gicuitem, knowledgejigsaw.orderarticle , "
+sql2 = sql2 & "cudtgeneric.xbody,cudtgeneric.ieditor,convert(varchar, cudtgeneric.xpostdate, 111) as xpostdate,  "
+sql2 = sql2 & "knowledgejigsaw.ctrootid, knowledgejigsaw.ctunitid as ctunitid, knowledgejigsaw.articleid as articleid, "
+sql2 = sql2 & "knowledgejigsaw.status, knowledgejigsaw.parenticuitem, cudtgeneric.deditdate, knowledgejigsaw.path "
+sql2 = sql2 & "from cudtgeneric inner join knowledgejigsaw on cudtgeneric.icuitem = knowledgejigsaw.gicuitem where (knowledgejigsaw.status = 'y') and ( knowledgejigsaw.parenticuitem='"&gicuitem&"') order by knowledgejigsaw.orderarticle desc,deditdate,xpostdate asc"
+set rs2=conn.execute(sql2)
+'response.write icuitem & ";" & gicuitem
+
+function checkexist(articleid,ctrootid,ctunitid)
+
+ if ctrootid = 4 then 
+  sql4 = "select category_name as category_name  from [coa].[dbo].[category] where [data_base_id]='db020' and [category_id]= '"&ctunitid&"'"
+  set rsc1 = kmconn.execute(sql4)
+  if not rsc1.eof then 
+   checkexist=rsc1("category_name")
+  else
+   checkexist=""
+  end if 
+ else
+  sql3 = "select ctunit.ctunitname as ctunitname from  cudtgeneric inner join ctunit on cudtgeneric.ictunit = ctunit.ctunitid where (cudtgeneric.icuitem = '"&articleid&"')"
+  set rsc = conn.execute(sql3)
+  if not rsc.eof then 
+   checkexist=rsc("ctunitname")
+    else
+   checkexist=""
+  end if 
+ end if  
+  
+end function
+
+ page = 1
+ pagecount1 = request("pagesize")
+ if pagecount1 = "" then
+  pagecount = 10
+ else
+  pagecount=pagecount1
+ end if
+
+ sql3="select count(*) from [mgipcoanew].[dbo].[knowledgejigsaw]where status ='y' and [parenticuitem]='"&gicuitem&"'"
+ set rs5 = conn.execute(sql3)
+
+ if int(rs5(0)) <= int(pagecount) then 
+  page = 1
+ else
+  if request("page")="" then
+   page = 1
+  else
+   page= request("page")
+  end if 
+ end if 
+
+ totalpage = 1
+ if rs5(0) > 0 then
+  totalpage = rs5(0) \ pagecount
+  'response.write(totalpage) 
+  if rs5(0) mod pagecount <> 0 then totalpage = totalpage + 1
+ end if
+  curreccount = 0
+  curreccount = rs5(0) - (pagecount * (page-1) )    
+ 'response.write curreccount
+ if int(curreccount) > int(pagecount) then
+   curreccount = pagecount
+   'response.write curreccount
+ end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                           =request("gicuitem"):            =request("icuitem")
+
+
+                                                                                                                =rs("stitle")
+                  =rs1("stitle")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                  if request("actiontype")="setlink" then 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                  end if 
+
+
+
+                                                      =page:    =totalpage:                                    =rs5(0)
+
+                                                              
+                              n = 1
+                              while n <= totalpage
+                               response.write "<option value='" & n & "'"
+                               if int(n) = int(page) then response.write " selected"
+                               response.write ">" & n & "</option>"
+                               n = n + 1
+                              wend        
+                                                            
+
+
+
+                                                                              if request("pagesize") = 10 then :              end if 
+                                                                              if request("pagesize") = 30 then :              end if 
+                                                                              if request("pagesize")= 50 then :              end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      if request("actiontype")="setlink" then 
+
+
+
+
+
+               elseif request("actiontype")="managediscussion" then
+
+
+
+
+
+                                                      else 
+
+
+
+
+
+
+                                                      end if
+
+                                                  
+                    i = 0   
+                                         while not rs2.eof
+                                            i = i + 1
+                                            if i > (page - 1) * pagecount and i <= page * pagecount then
+                                                
+                                                  if request("actiontype")="setlink" then 
+
+
+
+                                                               if instr(session("jigcheck1"),rs2("gicuitem")) then 
+                                                                                                                    =rs2("gicuitem")
+                                                               else 
+                                                                                                                    =rs2("gicuitem")
+                                                               end if 
+
+
+                                                                   =rs2("path")
+                                                          =rs2("stitle")
+                                                          =rs2("path")
+
+
+                                                                                   =rs2("gicuitem"):            =rs2("orderarticle")
+
+
+                                                          =rs2("deditdate")
+
+              elseif request("actiontype")="managediscussion" then
+
+
+
+                                                               if instr(session("jigcheck1"),rs2("gicuitem")) then 
+                                                                                                                    =rs2("gicuitem")
+                                                               else 
+                                                                                                                    =rs2("gicuitem")
+                                                               end if 
+
+
+                                                          =rs2("ieditor")
+                                                          =rs2("xpostdate")
+                                                          =rs2("xbody")
+
+                                                          =rs2("deditdate")
+
+                                                  else
+
+
+
+                                                               if instr(session("jigcheck1"),rs2("gicuitem")) then 
+                                                                                                                    =rs2("gicuitem")
+                                                               else 
+                                                                                                                    =rs2("gicuitem")
+                                                               end if 
+
+
+                                                                   =session("mywwwsiteurl") & rs2("path")
+
+                                                          
+                       select case(rs2("ctrootid"))
+                        case 1
+                         response.write "入口網"
+                        case 2
+                         response.write "主題館"
+                        case 3
+                         response.write "知識家"
+                        case 4
+                         response.write "知識庫"
+                        case else
+                         response.write "&nbsp;"
+                       end select
+                                                        
+
+
+                                                            
+                           response.write checkexist(rs2("articleid"),rs2("ctrootid"),rs2("ctunitid"))
+                                                        
+
+
+                                                          =rs2("stitle")
+
+
+                                                                                   =rs2("gicuitem"):            =rs2("orderarticle")
+
+
+                                                          =rs2("deditdate")
+
+                                                  end if 
+                                                  
+                                                end if
+                                              rs2.movenext
+                                             wend
+                                                
+
+
+
+            if request("actiontype")<>"managediscussion" then 
+                                                                                                                                                       =request("gicuitem"):            =request("icuitem"):               =request("actiontype") 
+                                          end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                             =request("actiontype") :            =request("icuitem"):             =request("gicuitem")
+
+
+
+
+
+
+                         =curreccount
+
+
+
+
+
+                         =curreccount
+
+
+
+
+
+
+
+
+
+                                                    =request("actiontype") :            =request("icuitem"):             =request("gicuitem")
+
+
+
+
+
+
+
+
+
+
+
+
+        =curreccount
+
+                            =curreccount
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                   =request("actiontype") :            =request("icuitem"):             =request("gicuitem")
+
+                                                              =request("icuitem"):             =request("gicuitem")
+
+
+                                                            =request("icuitem"):             =request("gicuitem")
+                                                           =request("icuitem"):             =request("gicuitem"):                                                                                                                                                                  =request("ctrootid")
+                                                =request("icuitem"):                                                                                                                                                                  =request("ctrootid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        =curreccount
+
+                            =curreccount
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                            =request("icuitem"):             =request("gicuitem") 

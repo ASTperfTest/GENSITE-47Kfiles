@@ -1,0 +1,172 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemainlong where msortvalue is not null and codemetaid='refctukind' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid='boolyn' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+     sql="select ibasedsd,sbasedsdname,rdsdcat from basedsd where ibasedsd is not null and inuse='y' order by ibasedsd"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):      =rss(2):     =rss(1)
+      rss.movenext
+   wend
+
+  if checkgipconfig("mmofolder") then 
+
+
+      
+     sqlcom="select case mmofoldername when 'zzz' then 0 else mmofolderid end mmofolderid, " & _
+      "case mm.mmofolderparent when 'zzz' then ms.mmositename else mm.mmofoldernameshow end mmofoldernameshow, " & _
+      "case mmofolderparent when 'zzz' then 0 else (select mmofolderid from mmofolder where mmositeid=mm.mmositeid and mmofoldername=mm.mmofolderparent) end mmofolderparent " & _
+      ",1 " & _
+    ",1 " & _
+    ",case mmofoldername when 'zzz' then " & _
+    " (select count(*) from mmofolder mm2 left join mmosite ms2 on mm2.mmositeid=ms2.mmositeid where (ms2.deptid is null or ms2.deptid like '" & session("deptid") & "%' or ms2.deptid = left('" & session("deptid") & "',len(ms2.deptid))) and (mm2.deptid is null or mm2.deptid = left('" & session("deptid") & "',len(mm2.deptid)) or mm2.deptid like '"&session("deptid")&"%') and mm2.mmofolderparent='zzz') " & _
+    " else " & _
+    " (select count(*) from mmofolder mm2 left join mmosite ms2 on mm2.mmositeid=ms2.mmositeid where (ms2.deptid is null or ms2.deptid like '" & session("deptid") & "%' or ms2.deptid = left('" & session("deptid") & "',len(ms2.deptid))) and (mm2.deptid is null or mm2.deptid = left('" & session("deptid") & "',len(mm2.deptid)) or mm2.deptid like '"&session("deptid")&"%') and mm2.mmofolderparent=mm.mmofoldername and mm2.mmositeid=mm.mmositeid) " & _
+    " end childcount " & _
+    "from mmofolder mm left join mmosite ms on mm.mmositeid=ms.mmositeid " & _
+    "where (ms.deptid is null or ms.deptid like '" & session("deptid") & "%' or ms.deptid = left('" & session("deptid") & "',len(ms.deptid))) and (mm.deptid is null or  mm.deptid = left('" & session("deptid") & "', len(mm.deptid)) or mm.deptid like '"&session("deptid")&"%') "
+   sqlcom=sqlcom & " order by case mmofolderparent when 'zzz' then '' else mmofolderparent end, mmofolderid"
+'    response.write sqlcom
+   set rss = conn.execute(sqlcom)
+   if not rss.eof then
+    arydept = rss.getrows(300)
+    glastmsglevel = 0
+    genlist 0, 0, 1, 0
+           expandfrom arydept(cid, 0), 0, 0
+   end if
+    
+
+
+
+  end if
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid='boolyn' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid='boolyn' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+    if checkgipconfig("ctunitexpirecheck") then 
+
+
+
+   end if 
+
+
+
+  
+ sqlcom ="select d.deptid,d.deptname,d.parent,len(d.deptid)-1,d.seq," & _
+  "(select count(*) from dept where parent=d.deptid and nodekind='d') " & _
+  "  from dept as d where d.nodekind='d' " _
+  & " and d.deptid like '" & session("deptid") & "%'" _
+  & " order by len(d.deptid), d.parent, d.seq" 
+'response.write sqlcom
+ set rss = conn.execute(sqlcom)
+ if not rss.eof then
+  arydept = rss.getrows(300)
+  glastmsglevel = 0
+  genlist 0, 0, 1, 0
+         expandfrom arydept(cid, 0), 0, 0
+ end if
+
+
+
+
+
+
+
+
+
+  if formfunction = "query" then 
+          if (htprogright and 2) <> 0 then 
+
+
+          end if
+  elseif formfunction = "edit" then 
+          if (htprogright and 8) <> 0 then 
+
+           end if 
+
+          if (htprogright and 16) <> 0 then 
+
+         end if 
+
+
+
+   else '-- add ---
+            if (htprogright and 4)<>0 then 
+
+            end if
+
+            if (htprogright and 4)<>0  then 
+
+            end if
+
+   end if  

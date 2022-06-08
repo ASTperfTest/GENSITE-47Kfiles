@@ -1,0 +1,44 @@
+主題單元64資料轉檔(2005/11/9)
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,64,'Y','N','0','1',N'公共服務擴大就業計畫',N'http://www.ejob.gov.tw/hotnews3.php',N'2003/08/06',N'10',N'sysop',N'2003/09/15 16:59:30',N'2003/08/06 17:19:56'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(8)
+[htx.iptplanid = '11'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,64,'Y','N','0','1',N'知識經濟發展方案',N'http://www.cedi.cepd.gov.tw/index.php?fPath=1',N'2003/06/25',N'9',N'sysop',N'2003/11/03 18:51:44',N'2003/06/25 15:07:14'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(9)
+[htx.iptplanid = '9'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,64,'Y','N','0','1',N'國土綜合開發計畫',N'http://www.cepd.gov.tw/business/business_sec1.jsp?linkID=7',N'2003/06/25',N'8',N'sysop',N'2005/04/11 11:47:33',N'2003/06/25 15:06:33'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(10)
+[htx.iptplanid = '8'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,64,'Y','N','0','1',N'E世代人才培育計畫',N'http://www.edu.tw/EDU_WEB/EDU_MGT/SECRETARY/EDU9082001/e2008/index.htm',N'2003/06/25',N'7',N'sysop',N'2005/04/11 13:25:09',N'2003/06/25 14:56:25'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(11)
+[htx.iptplanid = '4'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,64,'Y','N','0','1',N'擴大公共建設方案',N'http://www.cepd.gov.tw/business/business_sec2.jsp?linkid=145&parentLinkID=7',N'2003/06/25',N'6',N'sysop',N'2005/04/11 11:45:55',N'2003/06/25 15:04:11'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(12)
+[htx.iptplanid = '6'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,64,'Y','N','0','1',N'挑戰2008國家發展重點計畫',N'http://www.cepd.gov.tw/business/business_sec2.jsp?linkid=146&parentLinkID=7',N'2003/06/25',N'5',N'sysop',N'2005/04/11 11:40:44',N'2003/06/25 15:06:08'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(13)
+[htx.iptplanid = '7'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,64,'Y','N','0','1',N'新十大建設計畫',N'http://www.cepd.gov.tw/business/business_sec2.jsp?linkid=147&parentLinkID=7',N'2003/12/05',N'4',N'sysop',N'2005/04/11 11:43:23',N'2003/12/05 15:59:07'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(14)
+[htx.iptplanid = '13'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,64,'Y','N','0','1',N'台灣健康社區六星計畫',N'http://www.cca.gov.tw/app/autocue/comment/category_comment_template.jsp?category_id=1115103025803',N'2005/07/01',N'3',N'sysop',N'2005/07/01 16:27:35',N'2005/07/01 16:27:35'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(15)
+[htx.iptplanid = '14'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,64,'Y','N','0','1',N'健康台灣實施方案',N'http://www.rdec.gov.tw/public/Data/552617571271.ppt',N'2005/07/01',N'2',N'sysop',N'2005/07/04 18:13:33',N'2005/07/01 16:28:34'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(16)
+[htx.iptplanid = '15'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,64,'Y','N','0','1',N'和解共生健康臺灣',N'http://www.ey.gov.tw/web/policy/healthytaiwan.pdf',N'2005/07/21',N'1',N'sysop',N'2005/07/21 11:18:43',N'2005/07/21 11:18:43'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(17)
+[htx.iptplanid = '16'] 資料轉檔完成!
+----------------------------------------------------------------------------
+===============================================================================
+轉檔 10 筆, 共成功 10 筆!

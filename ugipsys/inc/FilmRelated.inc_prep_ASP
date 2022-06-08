@@ -1,0 +1,59 @@
+﻿: 
+'----940215新聞局電影網電影關聯_事業與演職人員關聯處理
+function filmrelated(xfunc,xtable,xtype,xicuitem,xfieldstr)
+ set conn2 = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn2.open session("odbcdsn")
+'set conn2 = server.createobject("hywebdb3.dbexecute")
+conn2.connectionstring = session("odbcdsn")
+conn2.connectiontimeout=0
+conn2.cursorlocation = 3
+conn2.open
+'----------hyweb gip db connection patch----------
+
+     xxicuitem=xicuitem
+     if xtable="corp" then   '----corp處理
+     if xfunc="edit" then 
+      sqld="delete from filmcorpinfo where filmno="&xxicuitem&" and companytype=n'"&xtype&"'"  
+      conn2.execute(sqld)
+     end if
+     xkeywordarray=split(xfieldstr,",")
+     for i=0 to ubound(xkeywordarray)
+         xstr=trim(xkeywordarray(i))
+  sql="select gicuitem from corpinformation ai left join cudtgeneric cdt " & _
+   " on ai.gicuitem=cdt.icuitem where stitle=n'"&xstr&"'"
+  set rsc=conn2.execute(sql)
+  if not rsc.eof then 
+   sqli=sqli+"insert into filmcorpinfo values("&xxicuitem&","&rsc(0)&",'"&xtype&"',null,null,null);"
+  end if
+     next     
+     elseif xtable="actor" then  '----people處理
+     if xfunc="edit" then 
+      sqld="delete from filmpeopleinfo where filmno="&xxicuitem&" and roleinfo=n'"&xtype&"'"  
+      conn2.execute(sqld)
+     end if
+     xkeywordarray=split(xfieldstr,",")
+     for i=0 to ubound(xkeywordarray)
+  '----取最後括號
+  xpos=instrrev(xkeywordarray(i),"(")
+  if xpos<>0 then
+   xstr=left(trim(xkeywordarray(i)),xpos-1)
+   xstrpar="'"+mid(trim(xkeywordarray(i)),xpos)+"'"
+  else
+   xstr=trim(xkeywordarray(i))
+   xstrpar="null"
+  end if
+  sql="select gicuitem from actorinformation ai left join cudtgeneric cdt " & _
+   " on ai.gicuitem=cdt.icuitem where stitle=n'"&xstr&"'"
+  set rsc=conn2.execute(sql)
+  if not rsc.eof then 
+   sqli=sqli+"insert into filmpeopleinfo values("&xxicuitem&","&rsc(0)&",'"&xtype&"',"&xstrpar&",null,null,null);"
+  end if
+     next 
+     end if 
+ if sqli<>"" then conn2.execute(sqli)  
+'     conn2.close
+     filmrelated = ""
+end function
+ 

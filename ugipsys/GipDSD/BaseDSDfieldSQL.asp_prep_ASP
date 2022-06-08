@@ -1,0 +1,159 @@
+﻿: @ codepage = 65001 
+   
+'------ modify history list (begin) ------
+' 2006/1/1 92004/chirs
+' 1. if datatype is 'varchar' and datalen is null, then generate ntext datatype
+' 2. if inputtype is range, generate xxx and xxx_rvh
+'
+'------ modify history list (begin) ------
+
+   response.expires = 0 
+htprogcap="單元資料定義"
+htprogcode="ge1t01"
+htprogprefix="basedsd" 
+   CxMethod_ASP_dbutil_10064021()
+  
+
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+ server.scripttimeout = 2000
+ xmluri = request("xml")
+ formid = request("xml")
+
+ set rptxmldoc = server.createobject("microsoft.xmldom")
+ rptxmldoc.async = false
+ rptxmldoc.setproperty("serverhttprequest") = true
+' response.write "/site/" & session("mysiteid") & "/gipdsd/" & xmluri & ".xml"
+' response.end
+ loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/" & xmluri & ".xml") 
+' loadxml = server.mappath("/gipdsd/xmlspec") & "\" & xmluri & ".xml"
+ debugprint loadxml & "<hr>"
+ xv = rptxmldoc.load(loadxml)
+ 
+   if rptxmldoc.parseerror.reason <> "" then 
+      response.write("xml parseerror on line " &  rptxmldoc.parseerror.line)
+      response.write("<br>reason: " &  rptxmldoc.parseerror.reason)
+      response.end()
+   end if
+ sqlcom="select * from basedsd where ibasedsd=" & pkstr(request.querystring("ibasedsd"),"")
+ set rsmaster = conn.execute(sqlcom) 
+ if isnull(rsmaster("sbasetablename")) then
+  xtable = "cudtx"+cstr(rsmaster("ibasedsd"))
+ else
+  xtable = rsmaster("sbasetablename")
+ end if 
+ set formdom = rptxmldoc.selectsinglenode("dataschemadef/dstable[tablename='" & xtable & "']")
+ 
+
+
+
+
+
+
+
+
+
+  
+csql = ""
+cvbcrlf = "<br>" & vbcrlf
+ctab = ""
+ xn=0
+ csql = "create table " & xtable & " (gicuitem int not null," 
+ set paramlist = formdom.selectnodes("fieldlist/field")
+ for each param in paramlist
+  paramcode = param.selectsinglenode("fieldname").text
+  paramtype = param.selectsinglenode("datatype").text
+  paramsize=10
+  if paramtype="varchar" then paramsize = param.selectsinglenode("datalen").text
+  if paramtype="char" then paramsize = param.selectsinglenode("datalen").text
+  select case param.selectsinglenode("datatype").text
+    case "varchar","text","nvarchar","ntext"
+      if paramsize="" then
+   csql = csql & cvbcrlf & ctab & paramcode & " ntext collate chinese_taiwan_stroke_cs_as"
+      else
+   csql = csql & cvbcrlf & ctab & paramcode & " nvarchar(" & paramsize & ") collate chinese_taiwan_stroke_cs_as"
+      end if
+    case "char","nchar"
+     csql = csql & cvbcrlf & ctab & paramcode & " nchar(" & paramsize & ") collate chinese_taiwan_stroke_cs_as"
+    case else
+     csql = csql & cvbcrlf & ctab & paramcode & " " & paramtype
+  end select
+  if nulltext(param.selectsinglenode("defaultvalue")) <> "" then
+   csql = csql & " default '" & nulltext(param.selectsinglenode("defaultvalue")) & "'"
+  end if
+  if nulltext(param.selectsinglenode("identity")) = "y" then
+   csql = csql & " identity"
+  end if
+  if nulltext(param.selectsinglenode("cannull")) = "n" then
+   csql = csql & " null,"
+  else
+   csql = csql & " null,"
+  end if
+     caption = nulltext(param.selectsinglenode("fieldlabel"))
+     csql = csql & "  -- " & caption
+     xn=xn+1
+   if nulltext(param.selectsinglenode("inputtype"))="range" then
+  paramcode = paramcode & "_rvh"
+  select case param.selectsinglenode("datatype").text
+    case "varchar","text","nvarchar","ntext"
+      if paramsize="" then
+   csql = csql & cvbcrlf & ctab & paramcode & " ntext collate chinese_taiwan_stroke_cs_as"
+      else
+   csql = csql & cvbcrlf & ctab & paramcode & " nvarchar(" & paramsize & ") collate chinese_taiwan_stroke_cs_as"
+      end if
+    case "char","nchar"
+     csql = csql & cvbcrlf & ctab & paramcode & " nchar(" & paramsize & ") collate chinese_taiwan_stroke_cs_as"
+    case else
+     csql = csql & cvbcrlf & ctab & paramcode & " " & paramtype
+  end select
+  if nulltext(param.selectsinglenode("defaultvalue")) <> "" then
+   csql = csql & " default '" & nulltext(param.selectsinglenode("defaultvalue")) & "'"
+  end if
+  if nulltext(param.selectsinglenode("identity")) = "y" then
+   csql = csql & " identity"
+  end if
+  if nulltext(param.selectsinglenode("cannull")) = "n" then
+   csql = csql & " null,"
+  else
+   csql = csql & " null,"
+  end if
+     caption = nulltext(param.selectsinglenode("fieldlabel")) & "上限值"
+     csql = csql & "  -- " & caption
+   end if
+ next  
+ if xn>0 then 
+  csql = left(csql, len(csql)-len(caption)-6) & "  -- " & caption
+ else
+  csql = left(csql , len(csql)-1)
+ end if
+ csql = csql & cvbcrlf & ")"
+ response.write csql & "<br><br><br>"
+
+ csql = "alter table " & xtable & " add constraint [pk_" & xtable & "] primary key  nonclustered (gicuitem)"
+ response.write csql & "<hr>"
+
+
+
+
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+sub debugprint(xstr)
+ response.write xstr
+end sub
+ 

@@ -1,0 +1,232 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+
+
+
+   if catdecide = "y" then 
+
+
+
+
+
+
+   end if 
+             =subject
+
+
+
+
+
+   if datedecide = "y" then 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end if 
+
+
+
+
+                                                              =content
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   if datedecide = "y" then 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end if 
+
+
+
+
+
+
+                                                     =title
+
+
+
+
+
+
+
+
+             if (htprogright and 2)=2 then :                                      =language:             =datatype:              end if 
+
+
+
+
+
+
+
+
+                                                                                                            =language:             =datatype
+                                                =date
+   if datedecide = "y" then 
+
+   end if 
+
+   if catdecide = "y" then 
+
+
+
+
+       sql = "select * from datacat where language = n'"& language &"' and datatype = n'"& datatype &"' order by catshoworder"
+       set rs = conn.execute(sql)
+        if not rs.eof then
+         do while not rs.eof 
+                           =rs("catid"):     =rs("catname")
+        rs.movenext
+      loop
+     end if 
+
+
+
+   end if 
+
+                                                             =subject
+
+
+   if datedecide = "y" then 
+
+
+
+
+
+
+   end if 
+   if emaildecide = "y" then 
+
+
+
+
+   end if 
+   if not isnull(extend_1) then 
+
+                                                             =extend_1
+
+
+   end if 
+
+
+
+
+
+
+                                                                         =content
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     if (htprogright and 4)=4 then :                                                                                                                         end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+   if catdecide = "y" then :    CxMethod_ASP_addselect_23618569():    end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                  =content 

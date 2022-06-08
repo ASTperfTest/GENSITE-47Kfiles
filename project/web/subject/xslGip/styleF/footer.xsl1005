@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt"
+	xmlns:user="urn:user-namespace-here" version="1.0">
+<!--Copyright Start-->
+	<xsl:template match="hpMain" mode="Copyright">
+		<!-- footer start -->
+		<div id="footer">
+			<a href="mp.asp"><img src="xslGIP/styleB/images/aplus.jpg" alt="通過 A+ 優先等級無障礙網頁檢測" width="86" height="29" /></a>
+			<p>行政院農業委員會ＯＯＯＯ場 版權所有 &amp;copy; 2007 All Rights Reserved.<br />
+			最佳瀏覽狀態為 IE6.0 以上, 1024*768 解析度
+			</p>
+		</div>
+		<br />
+<!-- footer end -->
+	</xsl:template>
+<!--Copyright End-->	
+
+</xsl:stylesheet>
+
+

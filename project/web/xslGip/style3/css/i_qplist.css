@@ -1,0 +1,118 @@
+@charset "utf-8";
+/* 查詢結果條列 與 知識庫 */
+
+.searchResult { /*為了控制查詢結果條列的呈現而增加的div */
+	margin: 0;
+	padding: 0
+}
+.searchResult .layout {
+	width: 98%;
+}
+.searchResult .layout td.left { /*查詢結果條列左欄*/
+	padding-top: 0;
+}
+.searchResult .layout td.center {
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+
+/*--------------------------------------------*/
+.layouttable {
+	background: #fff;
+	border-collapse: collapse;
+	margin: 0;
+}
+.left .layouttable {
+	width: 200px;
+	margin: 0 0 8px 15px;
+	border-top: 1px solid #999;
+	border-bottom: 1px solid #999;
+}
+.left .layouttable th {
+	font-weight: normal;
+	padding: 8px 5px 2px;
+	color: #000;
+	font-size: 1.25em;
+	border-bottom: 1px dotted #aaa;
+	background: #f0f0f0;
+}
+.left .layouttable td {
+	padding: 10px 10px 20px;
+	line-height: 135%;
+}
+.left .layouttable hr {
+	height: 1px;
+	margin: 5px 0;
+	color: #bbb;
+}
+
+.left .layouttable ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+.left .layouttable li {
+	background: url(../images/li_bg.gif) no-repeat 1px 3px;
+/*	background: url(../images/login2_li_bg.gif) repeat-x left bottom;
+*/	padding: 0 0 3px 17px;
+	margin: 0 0 7px;
+	border-bottom: 1px dotted #aaa;
+}
+.left .layouttable li a {
+	text-decoration: none;
+}
+
+.layouttable .catapath {
+	margin-bottom: 8px;
+}
+
+/*--------------------------------------------*/
+.center .layouttable {
+	margin: 5px 0 0;
+	border-bottom: 1px dotted #aaa;
+	width: 100%;
+}
+.center .layouttable td {
+	line-height: 150%;
+	padding: 6px 0;
+}
+.center .layouttable td p {
+	line-height: 150%;
+	padding: 0;
+	margin: 0;
+}
+
+
+/*--------------------------------------------*/
+.searchlist {
+	margin: 10px 0 10px 0;
+}
+.searchlist table {
+	border-top: 2px solid #bbb;
+	border-bottom: 2px solid #bbb;
+	border-collapse: collapse;
+	line-height: 135%;
+	margin: 8px 0;
+}
+.searchlist table caption {
+}
+.searchlist th {
+	border-bottom: 1px solid #bbb;
+	padding: 4px 10px;
+	font-weight: normal;
+	white-space: nowrap;
+}
+.searchlist td {
+	border-bottom: 1px dotted #aaa;
+	padding: 4px 10px;
+}
+
+/*-------------------------------------------------知識庫內容頁左欄*/
+.layout td.kleft { /*為了控制知識庫左欄的呈現而增加的class */
+	vertical-align: top;
+	width: 230px;
+	padding: 20px 0 20px;
+	background: #f0f0f0;
+}

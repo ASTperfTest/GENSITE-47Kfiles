@@ -1,0 +1,60 @@
+/* CSS Document */
+
+.lplist {
+	margin: 10px 5px;
+}
+.lplist ul {
+	list-style: none;
+	line-height: 160%;
+	padding: 0;
+	margin: 0;
+}
+.lplist li {
+	list-style: none;
+	clear: both;
+	overflow: hidden;
+	border-bottom: 1px dotted #aaa;
+	padding: 13px 0 8px 0;
+	margin: 0;
+}
+.lplist li a {
+	font-size: 115%;
+}
+.lplist li img {
+	width: 90px;
+	height: 90px;
+	float: left;
+	margin: 0 10px 5px 0;
+	border: 1px solid #bbb;
+}
+.lplist li .date {
+	margin-left: 1em;
+}
+.lplist li .abstract {
+	display: block;
+	margin: .4em 0 0 0;
+}
+
+/*-------------------------------------------- 表格條列*/
+
+.lp {
+}
+.lp table {
+	border-top: 2px solid #bbb;
+	border-bottom: 2px solid #bbb;
+	border-collapse: collapse;
+	line-height: 135%;
+	margin: 8px 0;
+}
+.lp table caption {
+}
+.lp th {
+	border-bottom: 1px solid #bbb;
+	padding: 4px 10px;
+	font-weight: normal;
+	white-space: nowrap;
+}
+.lp td {
+	border-bottom: 1px dotted #aaa;
+	padding: 4px 10px;
+}

@@ -1,0 +1,283 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    alert("Cx_0dummy未能刪除站台！")
+    window.history.back
+  <script language=vbs></script>      alert("ftp同步站台無法連接上, 未能刪除站台！")
+     window.history.back
+   <script language=vbscript>     alert("ftp同步站台可正常連接！")
+     window.history.back
+   <script language=vbscript>     alert("ftp同步站台無法正常連接！")
+     window.history.back
+   <script language=vbscript>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sub formreset
+ reg.reset()
+ clientinitform
+end sub
+
+sub window_onload
+ clientinitform
+end sub
+
+sub clientinitform
+ reg.htx_mmositeid.value = "Cx_0dummy"
+ reg.htx_mmositename.value = "Cx_0dummy"
+ reg.htx_mmositedesc.value = "Cx_0dummy"
+ reg.htx_uploadsiteftpip.value = "Cx_0dummy"
+ reg.htx_uploadsiteftpport.value = "Cx_0dummy"
+ reg.htx_uploadsiteftpid.value = "Cx_0dummy"
+ reg.htx_uploadsiteftppwd.value = "Cx_0dummy"
+ reg.htx_uploadsitehttp.value = "Cx_0dummy"
+ reg.htx_deptid.value = "Cx_0dummy"
+end sub
+
+sub formedit
+msg3 = "請務必輸入「站台id」，不得為空白！"
+msg4 = "請務必輸入「站台名稱」，不得為空白！"
+  if reg.htx_mmositeid.value = empty then
+     msgbox msg3, 64, "sorry!"
+     reg.htx_mmositeid.focus
+     exit sub
+  end if
+  if reg.htx_mmositename.value = empty then
+     msgbox msg4, 64, "sorry!"
+     reg.htx_mmositename.focus
+     exit sub
+  end if
+
+  reg.submittask.value = "編修存檔"
+   reg.submit         
+        
+end sub
+
+sub formdelsubmit()
+    deletestr = "　你確定刪除嗎？"
+ chky=msgbox("注意！"& vbcrlf & vbcrlf &deletestr& vbcrlf , 48+1, "請注意！！")
+        if chky=vbok then
+  reg.submittask.value = "刪除"
+        reg.submit
+        end if
+end sub
+
+sub ftptest()
+ if reg.htx_uploadsiteftpip.value = empty or reg.htx_uploadsiteftpport.value = empty or reg.htx_uploadsiteftpid.value = empty or reg.htx_uploadsiteftppwd.value = empty then
+  alert "ftp同步站台ip/port/登入帳號/登入密碼等四個欄位需全部填寫, "+vbcrlf+"才能測試ftp同步站台是否正常連接!"
+  exit sub
+ end if
+  reg.submittask.value = "ftptest"
+   reg.submit         
+end sub
+
+ 

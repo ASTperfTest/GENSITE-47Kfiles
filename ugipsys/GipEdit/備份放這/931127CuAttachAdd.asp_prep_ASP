@@ -1,0 +1,339 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+server.scripttimeout = 3000
+htprogcap="ƪ"
+htprogfunc="sw"
+htuploadpath=session("public")+"attachment/"
+htprogcode="gc1ap1"
+htprogprefix="cuattach" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+dim xnewidentity
+'----ftpѽƴbz
+ ftperrormsg=""
+ ftpfilepath="public/attachment"
+ sqlp = "select * from uploadsite where uploadsiteid='file'"
+ set rsp = conn.execute(sqlp)
+ if not rsp.eof  then
+     xftpip = rsp("uploadsiteftpip")
+     xftpport = rsp("uploadsiteftpport")
+     xftpid = rsp("uploadsiteftpid")
+     xftppwd = rsp("uploadsiteftppwd")
+    end if
+'----ftpѽƴbzend 
+ apath=server.mappath(htuploadpath) & "\"
+ 'response.write apath & "<hr>"
+  set xup = server.createobject("updownexpress.fileupload")
+' response.end
+  xup.open 
+
+if xupform("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+function xupform(xvar)
+on error resume next
+ xstr = ""
+ arrval = xup.multival(xvar)
+ for i = 1 to ubound(arrval)
+  xstr = xstr & arrval(i) & ", "
+'  response.write arrval(i) & "<br>" & chr(13)
+ next 
+ if xstr = "" then
+  xstr = xup(xvar)
+  xupform = xstr
+ else
+  xupform = left(xstr, len(xstr)-2)
+ end if
+end function
+
+   sub initform() 
+
+
+
+
+
+
+
+                            =request("icuitem")
+                           =session("userid")
+                             =date()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_cuattachform_871410733()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+
+   sub showhtmltail() 
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- ݸˬd{xbo apuҡaɳ] errmsg="xxx"  exit sub ------
+' sql = "select * from client where clientid = '"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "uȤsv!!эsإ߫Ȥs!"
+'  exit sub
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "insert into cudtattach("
+ sqlvalue = ") values("
+ if xupform("htx_atitle") <> "" then
+  sql = sql & "atitle" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_atitle"),",")
+ end if
+ if xupform("htx_xicuitem") <> "" then
+  sql = sql & "xicuitem" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_xicuitem"),",")
+ end if
+ if xupform("htx_aeditor") <> "" then
+  sql = sql & "aeditor" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_aeditor"),",")
+ end if
+ if xupform("htx_aeditdate") <> "" then
+  sql = sql & "aeditdate" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_aeditdate"),",")
+ end if
+ if xupform("htx_ixcuattach") <> "" then
+  sql = sql & "ixcuattach" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_ixcuattach"),",")
+ end if
+ if xupform("htx_adesc") <> "" then
+  sql = sql & "adesc" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_adesc"),",")
+ end if
+ if xupform("htx_blist") <> "" then
+  sql = sql & "blist" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_blist"),",")
+ end if
+ if xupform("htx_listseq") <> "" then
+  sql = sql & "listseq" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_listseq"),",")
+ end if
+
+  for each xatt in xup.attachments
+    if left(xatt.name,6) = "htimg_" then
+   ofname = xatt.filename
+   fnext = ""
+   if instrrev(ofname, ".")>0 then fnext=mid(ofname, instrrev(ofname, "."))
+   tstr = now()
+   nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext
+   sql = sql & mid(xatt.name,7) & ","
+   sqlvalue = sqlvalue & pkstr(nfname,",")
+     xatt.savefile apath & nfname, false
+   if xftpip<>"" and xftpid<>"" and xftppwd<>"" then
+  fileaction="movefile"
+  filetarget=nfname
+  filesource=apath + nfname
+  ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,"",filetarget,filesource  
+      end if          
+   elseif left(xatt.name,7) = "htfile_" then
+   ofname = xatt.filename
+   fnext = ""
+   if instrrev(ofname, ".")>0 then fnext=mid(ofname, instrrev(ofname, "."))
+   tstr = now()
+   nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext
+   sql = sql & mid(xatt.name,8) & ","
+   sqlvalue = sqlvalue & pkstr(nfname,",")
+     xatt.savefile apath & nfname, false
+   if xftpip<>"" and xftpid<>"" and xftppwd<>"" then
+  fileaction="movefile"
+  filetarget=nfname
+  filesource=apath + nfname
+  ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,"",filetarget,filesource  
+      end if           
+     xsql = "insert into imagefile(newfilename, oldfilename) values(" _
+      & pkstr(nfname,",") & pkstr(ofname,")")
+     conn.execute xsql
+ end if
+  next
+
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+
+ conn.execute(sql)  
+end sub '---- doupdatedb() ----
+
+sub showdonebox()
+ doneuri= ""
+ if doneuri = "" then doneuri = htprogprefix & "list.asp?" & request.servervariables("query_string")
+
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+  if ftperrormsg<>"" then
+                                =ftperrormsg
+
+  end if
+
+                             =doneuri
+
+
+
+   end sub '---- showdonebox() ----  

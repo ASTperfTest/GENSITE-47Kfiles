@@ -1,0 +1,48 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "ge1t21" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_checkgipconfig_1275316133()
+  
+ if checkgipconfig("checkloginpassword") and session("userid") = session("password") then
+  response.write "<meta http-equiv='content-type' content='text/html; charset=utf-8'>"
+         response.write "<script language=javascript>alert('請變更密碼、更新負責人員姓名！');location.href='/user/userupdate.asp';</script>"
+         response.end
+ end if
+ 
+ if forumtype = "d" then
+  catalogueframe = "0,*"
+   else
+  catalogueframe = "220,*"
+   end if
+
+   if articletype = "a" then
+  forumtocframe = "35,40%,*"
+   else
+  forumtocframe = "0,*,0"
+   end if
+   
+'   itemid = request("ctrootid")
+   itemid = session("exrootid")
+   'tocurl = "folder_toc.asp"
+'  tocurl =  "xutoc.asp"
+  'if instr(session("ugrpid")&",", "htsd,") > 0 then 
+   tocurl =  "old_xmltoc.asp?id="&request("id")
+'   tocurl =  "xtoc.asp"
+'   tocurl =  "xmltoc.asp"
+  'end if
+'response.write "xx=" & tocurl
+'response.end
+'response.write ""
+
+
+
+
+
+
+
+
+
+                  =catalogueframe
+                                                                             =tocurl 

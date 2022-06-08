@@ -1,0 +1,73 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        alert("刪除 Cx_0dummy 個檔案成功");
+        //window.navigate "fileMan.asp?xPath=Cx_0dummy"
+        window.location.href="fileMan.asp?xPath=Cx_0dummy";
+    <script language=javascript>
+        alert("刪除目錄成功");
+        //window.parent.navigate "index.asp"
+        //window.navigate "fileMan.asp?xPath=Cx_0dummy"
+        window.parent.Catalogue.location.reload();
+    </script>   
+Cx_0dummy
+
+
+
+
+</body>
+
+
+
+
+
+        alert("刪除目錄成功");
+        //window.parent.navigate "index.asp"
+        //window.navigate "fileMan.asp?xPath=Cx_0dummy"
+        window.parent.Catalogue.location.reload();
+    
+
+
+
+
+
+
+
+
+ 

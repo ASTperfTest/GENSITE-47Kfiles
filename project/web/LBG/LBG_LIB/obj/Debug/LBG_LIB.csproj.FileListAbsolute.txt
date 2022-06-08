@@ -1,0 +1,7 @@
+D:\Source Code\豆仔虛擬養殖系統\SERVER\dotNET2.0\LBG_LIB\obj\Debug\ResolveAssemblyReference.cache
+D:\Source Code\豆仔虛擬養殖系統\SERVER\dotNET2.0\LBG_LIB\bin\LBG_LIB.dll
+D:\Source Code\豆仔虛擬養殖系統\SERVER\dotNET2.0\LBG_LIB\bin\LBG_LIB.pdb
+D:\Source Code\豆仔虛擬養殖系統\SERVER\dotNET2.0\LBG_LIB\bin\CoreLib.dll
+D:\Source Code\豆仔虛擬養殖系統\SERVER\dotNET2.0\LBG_LIB\bin\CoreLib.pdb
+D:\Source Code\豆仔虛擬養殖系統\SERVER\dotNET2.0\LBG_LIB\obj\Debug\LBG_LIB.dll
+D:\Source Code\豆仔虛擬養殖系統\SERVER\dotNET2.0\LBG_LIB\obj\Debug\LBG_LIB.pdb

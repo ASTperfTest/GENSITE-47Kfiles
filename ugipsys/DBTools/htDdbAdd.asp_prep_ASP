@@ -1,0 +1,212 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="資料源管理"
+htprogfunc="新增資料源"
+htprogcode="ht011"
+htprogprefix="htddb" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+if request("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+   sub initform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_htddbform_1192335148()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+          if (htprogright and 2)=2 then
+                   =htprogprefix
+          end if
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+
+   sub showhtmltail() 
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' sql = "select * from client where clientid = '"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "「客戶編號」重複!!請重新建立客戶編號!"
+'  exit sub
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "insert into htddb("
+ sqlvalue = ") values("
+ if request("htx_dbid") <> "" then
+  sql = sql & "dbid" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_dbid"),",")
+ end if
+ if request("htx_dbname") <> "" then
+  sql = sql & "dbname" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_dbname"),",")
+ end if
+ if request("htx_dbdesc") <> "" then
+  sql = sql & "dbdesc" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_dbdesc"),",")
+ end if
+ if request("htx_dbip") <> "" then
+  sql = sql & "dbip" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_dbip"),",")
+ end if
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+
+ conn.execute(sql)  
+end sub '---- doupdatedb() ----
+
+
+
+   sub showdonebox() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                             =htprogprefix
+
+
+
+   end sub '---- showdonebox() ----  

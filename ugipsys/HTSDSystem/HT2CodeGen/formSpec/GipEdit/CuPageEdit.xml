@@ -1,0 +1,138 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<htPage>
+	<HTProgPrefix>CuPage</HTProgPrefix>
+	<HTProgCode>GC1AP1</HTProgCode>
+	<HTUploadPath>/public/</HTUploadPath>
+	<HTProgPath>/GipEdit</HTProgPath>
+	<HTGenPattern>genMDEdit</HTGenPattern>
+	<htForm>
+		<formModel id="CuPageEdit">
+			<fieldList>
+				<tableName>CuDTPage</tableName>
+				<masterTable>Y</masterTable>
+				<field>
+					<fieldName>xiCuItem</fieldName>
+					<fieldLabel>資料ID</fieldLabel>
+					<dataType>int</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>4</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>hidden</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+					<mpKey>Y</mpKey>
+				</field>
+				<field>
+					<fieldName>aTitle</fieldName>
+					<fieldLabel>連結名稱</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>80</dataLen>
+					<inputLen>80</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>aDesc</fieldName>
+					<fieldLabel>說明</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>800</dataLen>
+					<inputLen>800</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows>4</rows>
+					<cols>80</cols>
+				</field>
+				<field>
+					<fieldName>nPageID</fieldName>
+					<fieldLabel>連結頁</fieldLabel>
+					<dataType>int</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>4</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>refUser</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>ixCuPage</fieldName>
+					<fieldLabel>內部ID</fieldLabel>
+					<dataType>int</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>4</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>hidden</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+			<anchorList>
+				<anchor>
+					<type></type>
+					<funcLabel></funcLabel>
+					<url></url>
+					<action></action>
+				</anchor>
+			</anchorList>
+		</formModel>
+	</htForm>
+	<pageSpec>
+		<pageHead>相關連結</pageHead>
+		<pageFunction>編修連結</pageFunction>
+		<aidLinkList>
+			<Anchor>
+				<AnchorLabel>回前頁</AnchorLabel>
+				<AnchorType>Back</AnchorType>
+				<AnchorDesc>回前頁</AnchorDesc>
+				<AnchorURI></AnchorURI>
+				<checkRight></checkRight>
+				<AnchorPos>Top</AnchorPos>
+			</Anchor>
+		</aidLinkList>
+		<formUI ref="CuPageEdit">
+			<pxHTML>
+				<CENTER>
+					<TABLE border="0" class="eTable" cellspacing="1" cellpadding="2" width="90%">
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>連結名稱：</TD>
+							<TD class="eTableContent"><refField>CuDTPage/aTitle</refField><refField>CuDTPage/xiCuItem</refField><refField>CuDTPage/ixCuPage</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">說明：</TD>
+							<TD class="eTableContent"><refField>CuDTPage/aDesc</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>連結頁：</TD>
+							<TD class="eTableContent"><refField>CuDTPage/nPageID</refField></TD>
+						</TR>
+					</TABLE>
+				</CENTER>
+			</pxHTML>
+			<scriptCode><![CDATA[
+<SCRIPT LANGUAGE="vbs">
+
+</SCRIPT>
+		]]></scriptCode>
+		</formUI>
+		<UINotes>
+		</UINotes>
+	</pageSpec>
+</htPage>

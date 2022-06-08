@@ -1,0 +1,99 @@
+.InputText {
+	font-size: 12px;
+	color: #333333;
+	border: 1px solid #888888;
+}
+.InputButton {
+	font-size: 12px;
+	background: url(../GIPEdit/editor/images/form_but_bg.gif) repeat-x;
+	padding-top: 3px;
+	color: #000000;
+	border-top: 1px solid #CCCCCC;
+	border-right: 1px solid #888888;
+	border-bottom: 1px solid #888888;
+	border-left: 1px solid #CCCCCC;
+}
+.InputSelect{
+	font-size: 12px;
+	color: #333333;
+	margin-right: 3px;
+}
+/*------------------------------------------------*/
+#LayoutTable {
+	width: 100%;
+	border: 1px solid #AAAAAA;
+	background: #EEEEEE;
+	font-size: 12px;
+	color: #333333;
+}
+#LayoutTable td.Func {
+	background: url(../GIPEdit/editor/images/main_td_bg1.gif) repeat-x;
+	height: 26px;
+	border-top: 1px solid #FFFFFF;
+	border-bottom: 1px solid #AAAAAA;
+	padding: 0px;
+	vertical-align: top;
+}
+#LayoutTable td.PageView {
+	border-top: 1px solid #FFFFFF;
+	border-bottom: 1px solid #AAAAAA;
+	padding: 10px 2px 2px;
+	vertical-align: top;
+}
+#LayoutTable td.PageView iframe {
+	background: #FFFFFF;
+	height: 220px;
+	width: 100%;
+}
+#LayoutTable td.CodeView {
+	border-top: 1px solid #FFFFFF;
+	padding: 10px 2px 2px;
+	vertical-align: top;
+}
+#LayoutTable td.CodeView textarea {
+	background: #E3E3E3;
+	overflow: scroll;
+	height: 10em;
+	width: 99%;
+	color: #333333;
+	border-top: 1px solid #AAAAAA;
+	border-right: 1px solid #FFFFFF;
+	border-bottom: 1px solid #FFFFFF;
+	border-left: 1px solid #AAAAAA;
+	font-size: 12px;
+	line-height: 140%;
+	padding-right: 2px;
+	padding-left: 2px;
+}
+/*------------------------------------------------*/
+#FuncIcon {
+	text-align: center;
+	vertical-align: middle;
+	padding: 0px;
+	height: 25px;
+	display: inline;
+	border-right: 1px solid #AAAAAA;
+	border-left: 1px solid #FFFFFF;
+}
+#FuncIcon td.Holder {
+	padding-right: 3px;
+	padding-left: 3px;
+}
+#FuncIcon td.Lead {
+	padding-right: 6px;
+	padding-left: 6px;
+	background: url(../GIPEdit/editor/images/main_td_lead_bg.gif) repeat-y right top;
+}
+#FuncIcon td.Icon {
+	padding-top: 5px;
+}
+#FuncIcon td img {
+	border: none;
+}
+#FuncIcon td.Icon a {
+	padding: 6px 5px;
+	border: 1px;
+}
+#FuncIcon td.Icon a:hover {
+	background: url(../GIPEdit/editor/images/main_td_bg1m.gif) no-repeat center center;
+}

@@ -1,0 +1,467 @@
+﻿: 
+response.expires = 0
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcode="kforumlist"
+htprogprefix =" knowledgeforum"
+htuploadpath=session("public")+"data/"
+
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+
+
+
+   sub showcantfindbox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+
+            =lmsg
+
+
+
+
+
+   end sub 
+  
+
+    select case  request("searchtype")
+        case "r"
+            if (request("stitle") = "") then 
+                session("stitle") = ""
+            else
+                if len(session("stitle")) > len(request("stitle")) then
+                    session("stitle") = ""
+                end if
+                            
+                searray = split(request("stitle"), " ")
+                for i= lbound(searray) to ubound(searray)    
+                    if instr(session("stitle"), searray(i)) = 0 and trim(searray(i)) <>"" then    
+                        session("stitle") = session("stitle") & " " & searray(i)
+                    end if
+                next
+            end if
+
+            if (request("xbody") = "") then 
+                session("xbody") = ""
+            else
+                if len(session("xbody")) > len(request("xbody")) then
+                    session("xbody") = ""
+                end if
+            
+                sbarray = split(request("xbody"), " ")
+                for i= lbound(sbarray) to ubound(sbarray)    
+                    if instr(session("xbody"), sbarray(i)) = 0 and trim(sbarray(i)) <>"" then    
+                        session("xbody") = session("xbody") & " " & sbarray(i)
+                    end if
+                next
+            end if
+            
+        case "n"
+            session("stitle") = request("stitle")
+            session("xbody") = request("xbody")
+        case else
+            'session("stitle") = ""
+            'session("xbody") = ""
+    end select
+
+
+
+dim picid:picid=request("picid")
+
+dim xnewwindow:xnewwindow=request("xnewwindow")
+dim validate:validate=request("validate")
+dim stitle:stitle=session("stitle")
+dim memberid:memberid=request("memberid")
+dim status:status=request("status")
+dim fctupublic:fctupublic=request("fctupublic")
+dim vgroup:vgroup=request("vgroup")
+dim xbody:xbody=session("xbody")
+dim xpostdates:xpostdates=request("xpostdates")
+dim xpostdatee:xpostdatee=request("xpostdatee")
+
+dim stitlearray:stitlearray = split(stitle)
+dim xbodyarray:xbodyarray = split(xbody)
+dim exporturl
+ 
+'csql = "select count(*) as allcount from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem inner join knowledgepicinfo on knowledgeforum.gicuitem = knowledgepicinfo.parenticuitem inner join member on cudtgeneric.ieditor = member.account where (cudtgeneric.ictunit = 932) "
+csql = "select count(*) as allcount from  cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem inner join member on cudtgeneric.ieditor = member.account where (cudtgeneric.ictunit = 932)"
+ 
+ '---加入搜尋條件-
+  'if validate <> ""   then 
+     'fsql = fsql & " and picstatus like '%" & validate & "%' " 
+  'csql = csql & " and picstatus like '%" & validate & "%' " 
+  'end if
+
+  if xnewwindow <> "" then 
+    fsql = fsql & " and xnewwindow like '%" & xnewwindow & "%' " 
+    csql = csql & " and xnewwindow like '%" & xnewwindow & "%' " 
+  end if
+  if stitle <> "" then 
+    for i = lbound(stitlearray) to ubound(stitlearray)
+        str = trim(stitlearray(i))
+        if str <> "" then    
+          fsql = fsql & " and cudtgeneric.stitle like '%" & str & "%' " 
+          csql = csql & " and cudtgeneric.stitle like '%" & str & "%' "     
+        end if
+    next
+    
+  end if
+  
+  if xbody <> "" then 
+    for i = lbound(xbodyarray) to ubound(xbodyarray)
+        str = trim(xbodyarray(i))
+        if str <> "" then    
+          fsql = fsql & " and cudtgeneric.xbody like '%" & str & "%' " 
+          csql = csql & " and cudtgeneric.xbody like '%" & str & "%' "     
+        end if
+    next  
+  end if
+  
+  if memberid <> "" then 
+    fsql = fsql & " and ( account like '%" & memberid & "%' or realname like '%" & memberid & "%' "
+    fsql = fsql & " or nickname like '%" & memberid & "%') "
+    csql = csql & " and ( account like '%" & memberid & "%' or realname like '%" & memberid & "%' "
+    csql = csql & " or nickname like '%" & memberid & "%') "
+  end if
+  if status <> "" then 
+    fsql = fsql & " and knowledgeforum.status like '%" & status & "%' " 
+    csql = csql & " and knowledgeforum.status like '%" & status & "%' " 
+  end if
+  
+  if fctupublic <> "" then 
+    fsql = fsql & " and fctupublic like '%" & fctupublic & "%' " 
+    csql = csql & " and fctupublic like '%" & fctupublic & "%' " 
+  end if
+  
+  if vgroup <> "" then 
+ if vgroup = "n" then
+  fsql = fsql & " and isnull(vgroup,'') = '' " 
+  csql = csql & " and isnull(vgroup,'') = '' " 
+ else
+  fsql = fsql & " and isnull(vgroup,'') like '%" & vgroup & "%' " 
+  csql = csql & " and isnull(vgroup,'') like '%" & vgroup & "%' " 
+ end if
+    
+  end if
+  
+  '發佈日期
+  if xpostdates <> "" then 
+    fsql = fsql & " and xpostdate >= '" & xpostdates & " 00:00' " 
+    csql = csql & " and xpostdate >= '" & xpostdates & " 00:00' " 
+  end if
+
+  if xpostdatee <> "" then 
+    fsql = fsql & " and xpostdate <= '" & xpostdatee & " 23:59' " 
+    csql = csql & " and xpostdate <= '" & xpostdatee & " 23:59' " 
+  end if  
+  
+  exporturl = "knowledgeforumexport.asp?xnewwindow=" & server.urlencode(xnewwindow) & "&stitle=" & server.urlencode(stitle) & _
+    "&xbody=" & server.urlencode(request("xbody")) & "&memberid=" & server.urlencode(memberid) & "&status=" & server.urlencode(status) & "&fctupublic=" & server.urlencode(fctupublic) & _
+    "&vgroup=" & server.urlencode(vgroup) & "&xpostdates=" & server.urlencode(xpostdates) & "&xpostdatee=" & server.urlencode(xpostdatee)
+    
+  nowpage = request.querystring("nowpage")  '現在頁數
+  perpagesize = cint(request.querystring("pagesize"))
+  if perpagesize <= 0 then  perpagesize = 15  
+
+  set rsc = conn.execute(csql)
+  totrec = rsc(0)       '總筆數
+  totpage = int(totrec / perpagesize + 0.999)
+
+  if cint(nowpage) < 1 then 
+    nowpage = 1
+  elseif cint(nowpage) > totpage then 
+    nowpage = totpage 
+  end if      
+  
+  ''fsql= "select top "& nowpage * perpagesize  & " cudtgeneric.icuitem, cudtgeneric.ibasedsd, cudtgeneric.ictunit, cudtgeneric.fctupublic, cudtgeneric.stitle, cudtgeneric.ieditor,cudtgeneric.xnewwindow, knowledgeforum.gicuitem, knowledgeforum.discusscount, knowledgeforum.commandcount,knowledgeforum.browsecount, knowledgeforum.tracecount, knowledgeforum.gradecount, knowledgeforum.parenticuitem, knowledgeforum.status,knowledgepicinfo.picid, knowledgepicinfo.pictitle, knowledgepicinfo.parenticuitem , member.account, member.nickname, member.realname,knowledgepicinfo.picstatus from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem inner join knowledgepicinfo on knowledgeforum.gicuitem = knowledgepicinfo.parenticuitem inner join member on cudtgeneric.ieditor = member.account where (cudtgeneric.ictunit = 932)" & fsql & " order by cudtgeneric.xpostdate desc, cudtgeneric.icuitem desc"
+ csql=csql&" group by cudtgeneric.ictunit" 
+ fsql= "select distinct top "& nowpage * perpagesize  & " cudtgeneric.icuitem, cudtgeneric.xpostdate, cudtgeneric.xurl, cudtgeneric.ibasedsd, cudtgeneric.ictunit, cudtgeneric.fctupublic, cudtgeneric.stitle, cudtgeneric.topcat,isnull(cudtgeneric.abstract,'') as abstract, "
+  fsql=fsql & "cudtgeneric.ieditor, cudtgeneric.xnewwindow, knowledgeforum.gicuitem, knowledgeforum.discusscount, knowledgeforum.commandcount,"
+  fsql=fsql & "knowledgeforum.browsecount, knowledgeforum.tracecount, knowledgeforum.gradecount, knowledgeforum.parenticuitem, knowledgeforum.status,"
+  fsql=fsql & "member.account, member.nickname, member.realname, isnull(cudtgeneric.vgroup,'') as vgroup from  cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem inner join"
+  fsql=fsql & " member on cudtgeneric.ieditor = member.account where (cudtgeneric.ictunit = 932)"
+    
+if xnewwindow <> "" then 
+    fsql = fsql & " and xnewwindow like '%" & xnewwindow & "%' " 
+  end if
+  if stitle <> "" then 
+    for i = lbound(stitlearray) to ubound(stitlearray)
+    str = right(stitlearray(i),len(stitlearray(i)))
+    if str <> "" then
+      fsql = fsql & " and cudtgeneric.stitle like '%" & str & "%' " 
+    end if
+    next
+  
+  end if
+ 
+
+  if xbody <> "" then 
+    for i = lbound(xbodyarray) to ubound(xbodyarray)
+        str = trim(xbodyarray(i))
+        if str <> "" then    
+            fsql = fsql & " and cudtgeneric.xbody like '%" & str & "%' "   
+        end if
+    next  
+  end if  
+  
+  
+  if memberid <> "" then 
+    fsql = fsql & " and ( account like '%" & memberid & "%' or realname like '%" & memberid & "%' "
+    fsql = fsql & " or nickname like '%" & memberid & "%') "
+  end if
+  if status <> "" then 
+    fsql = fsql & " and knowledgeforum.status like '%" & status & "%' " 
+  end if
+  if fctupublic <> "" then 
+    fsql = fsql & " and fctupublic like '%" & fctupublic & "%' " 
+  end if
+  'add by ivy 2010.4.29 活動期間新增"是否為知識家活動問題"查詢條件
+  if vgroup <> "" then 
+ if vgroup = "n" then
+  fsql = fsql & " and isnull(vgroup,'') = '' " 
+ else
+  fsql = fsql & " and isnull(vgroup,'') like '%" & vgroup & "%' " 
+ end if
+    
+  end if
+  
+  if xpostdates <> "" then 
+    fsql = fsql & " and xpostdate >= '" & xpostdates & " 00:00' " 
+  end if
+
+  if xpostdatee <> "" then 
+    fsql = fsql & " and xpostdate <= '" & xpostdatee & " 23:59' " 
+  end if  
+  
+  fsql=fsql & " order by cudtgeneric.xpostdate desc, cudtgeneric.icuitem desc"
+  
+ ' response.write fsql &"<hr>"
+ ' response.write csql
+ ' response.end
+
+  set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+' rsreg.cachesize = perpagesize
+
+'response.write fsql
+
+'----------hyweb gip db connection patch----------
+' rsreg.open fsql,conn, 3, 1
+set rsreg = conn.execute(fsql)
+ rsreg.cachesize = perpagesize
+'----------hyweb gip db connection patch----------
+
+
+ if not rsreg.eof then
+  if totrec > 0 then 
+      rsreg.pagesize = perpagesize       '每頁筆數
+      rsreg.absolutepage = nowpage      
+  end if    
+ end if 
+ 
+ if rsreg.eof then
+  if request("searchtype") = "" then
+   session("stitle") = ""
+            session("xbody") = ""
+   response.redirect "knowledgeforumlist.asp"
+  else
+   showcantfindbox "找不到資料"
+  end if
+     
+ else
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                        =(nowpage):             =perpagesize:               =trim(request("xnewwindow")):           =server.urlencode(trim(request("stitle"))):             =server.urlencode(memberid):               =request("fctupublic"):           =request("vgroup"):           =request("status"):          =server.urlencode(request("xbody")):               =server.urlencode(xpostdates):               =server.urlencode(xpostdatee)
+
+
+
+          =xpostdates :      =xpostdatee 
+             =session("stitle") 
+             =session("xbody") 
+            =exporturl
+        =totrec:                    =nowpage:     =totpage
+
+
+                        if perpagesize=15 then:            end if
+                        if perpagesize=30 then:            end if
+                        if perpagesize=50 then:            end if
+
+
+    if cint(nowpage) <> 1 then 
+
+             =htprogprefix:                           =(nowpage-1):             =perpagesize:               =trim(request("xnewwindow")):           =server.urlencode(trim(request("stitle"))):             =server.urlencode(memberid):               =request("fctupublic"):           =request("vgroup"):           =request("status"):          =server.urlencode(request("xbody")):               =server.urlencode(xpostdates):               =server.urlencode(xpostdatee)
+     end if 
+
+    for ipage=1 to totpage 
+                   =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+     next 
+
+
+    if cint(nowpage)<>totpage then 
+               =htprogprefix:                           =(nowpage+1):             =perpagesize:               =trim(request("xnewwindow")):           =server.urlencode(trim(request("stitle"))):             =server.urlencode(memberid):               =request("fctupublic"):           =request("vgroup"):           =request("status"):          =server.urlencode(request("xbody")):               =server.urlencode(xpostdates):               =server.urlencode(xpostdatee)
+
+     end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+ while not rsreg.eof 
+  weburl = session("mywwwsiteurl") & "/knowledge/knowledge_cp.aspx?articleid={0}&articletype=a&categoryid={1}&kpi=0"
+  weburl = replace( weburl, "{0}", rsreg("icuitem") )
+  weburl = replace( weburl, "{1}", rsreg("topcat") )
+
+                                =weburl
+                                                       =rsreg("icuitem"):            =nowpage:             =perpagesize:     =rsreg("stitle")
+                      =rsreg("xpostdate")
+
+     if rsreg("vgroup")="a" then
+     elseif rsreg("vgroup")="off" then
+     else:     end if 
+
+                      =rsreg("discusscount")
+                      =rsreg("commandcount")
+                      =rsreg("browsecount")
+
+     if rsreg("status")="n" then :      end if 
+     if rsreg("status")="d" then :      end if 
+
+
+     if rsreg("xnewwindow")="y" then:     end if 
+     if rsreg("xnewwindow")="n" then:     end if 
+
+
+     if rsreg("fctupublic")="y" then:      end if 
+     if rsreg("fctupublic")="n" then 
+   if rsreg("abstract")="draft" then 
+   :      
+   else 
+   :       
+   end if  
+  end if 
+
+
+  
+
+sql="select knowledgeforum.gicuitem, knowledgepicinfo.picstatus from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem inner join knowledgepicinfo on knowledgeforum.gicuitem = knowledgepicinfo.parenticuitem "
+sql =sql & "where  (cudtgeneric.ictunit = 932) and cudtgeneric.icuitem = "& "'"  & rsreg("icuitem") & "'"
+
+set rs = conn.execute(sql)
+flag=0
+
+if not rs.eof then
+
+ while not rs.eof
+  if rs("picstatus")= "w" then
+   flag=1
+  'elseif trim(rs("picstatus")) = "" then
+   'flag=2
+  end if
+  rs.movenext
+ wend
+else
+ flag = 2
+end if
+
+response.write "<td align=""center"">"
+if flag=0 then
+response.write "已審核"
+elseif (flag=1) then
+response.write "待審核"
+elseif (flag=2) then
+response.write "無圖"
+end if 
+response.write "</td>"
+
+
+
+                      =rsreg("ieditor")
+                      =rsreg("xurl")
+
+
+    
+   rsreg.movenext
+  wend
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   =htprogprefix:                    =request.querystring("icuitem")
+
+
+
+
+
+
+                                     =htprogprefix:                                                    =perpagesize
+                           =trim(request("xnewwindow")):           =server.urlencode(trim(request("stitle"))):             =server.urlencode(memberid):               =request("fctupublic"):           =request("vgroup"):           =request("status"):               =server.urlencode(xpostdates):               =server.urlencode(xpostdatee)
+
+
+
+
+                                     =htprogprefix:                           =nowpage
+                           =trim(request("xnewwindow")):           =server.urlencode(trim(request("stitle"))):             =server.urlencode(memberid):               =request("fctupublic"):           =request("vgroup"):           =request("status"):               =server.urlencode(xpostdates):               =server.urlencode(xpostdatee)
+
+
+
+                                     =htprogprefix:                           =nowpage:             =perpagesize
+
+
+
+   end if  

@@ -1,0 +1,357 @@
+﻿: @ codepage = 65001 
+  response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="資料清單"
+htprogcode="gc1ap1"
+htprogprefix="dsdxml" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_checkgipconfig_1275316133()
+
+
+
+
+
+         =title
+
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_dsdxmllistparam_96403549()
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+' if not isnull(xnode) then
+'   if isobject(xnode) then
+'  nulltext = 
+'   end if
+' else
+'  nulltext = "aaa"
+' end if
+end function
+   set htpagedom = session("codexmlspec")
+   set allmodel2 = session("codexmlspec2")        
+   set refmodel = htpagedom.selectsinglenode("//dstable")
+   set allmodel = htpagedom.selectsinglenode("//dataschemadef")
+   
+ 
+if request("keep")="" then
+ xselect = " htx.*, ghtx.*"
+
+ xfrom = nulltext(refmodel.selectsinglenode("tablename")) & " as htx " _
+   & " join cudtgeneric as ghtx on ghtx.icuitem=htx.gicuitem "
+ xrcount = 0
+ for each param in refmodel.selectnodes("fieldlist/field[showlist!='' and reflookup!='' and inputtype!='refcheckbox'and inputtype!='refcheckboxother']")
+  xrcount = xrcount + 1
+  xalias = "xref" & xrcount
+  sql="select * from codemetadef where codeid=n'" & param.selectsinglenode("reflookup").text & "'"
+  'response.write sql & "<hr>"
+        set rslk=conn.execute(sql)  
+        xafldname = xalias & param.selectsinglenode("fieldname").text
+  xselect = xselect & ", " & xalias & "." & rslk("codedisplayfld") & " as " & xafldname
+  xfrom = "(" & xfrom & " left join " & rslk("codetblname") & " as " & xalias & " on " _
+   & xalias & "." & rslk("codevaluefld") & " = htx." & param.selectsinglenode("fieldname").text
+  if not isnull(rslk("codesrcfld")) then _
+      xfrom = xfrom & " and " & xalias & "." & rslk("codesrcfld") & "=n'" & rslk("codesrcitem") & "'"
+  xfrom = xfrom & ")"
+        ' --- 把 detailrow 裡的 reffield 換掉
+'         param.selectsinglenode("fieldname").text = xafldname
+        ' -----------------------------------
+ next
+ for each param in allmodel.selectnodes("//dstable[tablename='cudtgeneric']/fieldlist/field[showlist!='' and reflookup!='']")
+  'response.write param.xml & "<hr>" & vbcrlf
+ next
+
+ for each param in allmodel.selectnodes("//dstable[tablename='cudtgeneric']/fieldlist/field[showlist!='' and reflookup!='' and inputtype!='refcheckbox'and inputtype!='refcheckboxother']")
+  xrcount = xrcount + 1
+  xalias = "xref" & xrcount
+  if nulltext(param.selectsinglenode("fieldname"))="fctupublic" and session("checkyn")="y" then
+   param.selectsinglenode("reflookup").text = "ispublic3"
+   sql="select * from codemetadef where codeid=n'" & param.selectsinglenode("reflookup").text & "'"  
+   param.selectsinglenode("reflookup").text = "ispublic" 
+  else
+   sql="select * from codemetadef where codeid=n'" & param.selectsinglenode("reflookup").text & "'"  
+  end if  
+  'response.write sql & "<hr>"
+        set rslk=conn.execute(sql)  
+        xafldname = xalias & param.selectsinglenode("fieldname").text
+  xselect = xselect & ", " & xalias & "." & rslk("codedisplayfld") & " as " & xafldname
+  xfrom = "(" & xfrom & " left join " & rslk("codetblname") & " as " & xalias & " on " _
+   & xalias & "." & rslk("codevaluefld") & " = ghtx." & param.selectsinglenode("fieldname").text
+  if not isnull(rslk("codesrcfld")) then _
+      xfrom = xfrom & " and " & xalias & "." & rslk("codesrcfld") & "=n'" & rslk("codesrcitem") & "'"
+  xfrom = xfrom & ")"
+        ' --- 把 detailrow 裡的 reffield 換掉
+'         param.selectsinglenode("fieldname").text = xafldname
+        ' -----------------------------------
+ next
+
+ fsql = " from " & xfrom 
+ fsql = fsql & " where 2=2 "
+ if (htprogright and 64) = 0 then
+  fsql = fsql & " and ghtx.idept like '" & session("deptid") & "%' "
+ end if
+ if session("fctunitonly")="y" then fsql = fsql & " and ghtx.ictunit=" & session("ctunitid") & " "
+ if nulltext(refmodel.selectsinglenode("wherelist")) <> "" then _
+  fsql = fsql & " and " & refmodel.selectsinglenode("wherelist").text
+ for each param in allmodel.selectnodes("//dstable[tablename='cudtgeneric']/fieldlist/field[paramkind]")
+   paramkind = nulltext(param.selectsinglenode("paramkind"))
+   paramcode = nulltext(param.selectsinglenode("fieldname"))
+   paramkindpad = ""
+   if paramkind = "range" then  paramkindpad = "s"
+   if request.form("htx_" & paramcode & paramkindpad) <> "" then
+  select case paramkind
+    case "range"
+   ranges = request.form("htx_" & paramcode & "s")
+   rangee = request.form("htx_" & paramcode & "e")
+   if rangee = "" then rangee=ranges
+   wherecondition = replace("ghtx." & paramcode & " between '{0}' and '{1}'", _
+    "{0}", ranges)
+   wherecondition = replace(wherecondition, "{1}", rangee)
+    case "value"
+   wherecondition = replace("ghtx." & paramcode & " = {0}", "{0}", _
+    pkstr(request.form("htx_" & paramcode),""))
+    case else  '-- like
+   wherecondition = replace("ghtx." & paramcode & " like {0}", "{0}", _
+    pkstr("%"&request.form("htx_" & paramcode)&"%",""))
+  end select
+  fsql = fsql & " and " & wherecondition
+   end if
+ next
+ 
+ for each param in refmodel.selectnodes("fieldlist/field[paramkind]")
+   paramkind = nulltext(param.selectsinglenode("paramkind"))
+   paramcode = nulltext(param.selectsinglenode("fieldname"))
+   paramkindpad = ""
+   if paramkind = "range" then  paramkindpad = "s"
+   if request.form("htx_" & paramcode & paramkindpad) <> "" then
+  select case paramkind
+    case "range"
+   ranges = request.form("htx_" & paramcode & "s")
+   rangee = request.form("htx_" & paramcode & "e")
+   if rangee = "" then rangee=ranges
+   wherecondition = replace("htx." & paramcode & " between '{0}' and '{1}'", _
+    "{0}", ranges)
+   wherecondition = replace(wherecondition, "{1}", rangee)
+    case "value"
+   wherecondition = replace("htx." & paramcode & " = {0}", "{0}", _
+    pkstr(request.form("htx_" & paramcode),""))
+    case else  '-- like
+   wherecondition = replace("htx." & paramcode & " like {0}", "{0}", _
+    pkstr("%"&request.form("htx_" & paramcode)&"%",""))
+  end select
+  fsql = fsql & " and " & wherecondition
+   end if
+ next
+ xpcondition
+ session("basesql") = fsql
+ session("xselectsql") = xselect
+end if
+
+ fsql = session("basesql")
+ xselect = session("xselectsql")
+ csql = "select count(*) " & fsql
+ 
+
+nowpage=request.querystring("nowpage")  '現在頁數
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  perpagesize=15  
+' response.write csql
+' response.end     
+      set rsc = conn.execute(csql)
+   totrec=rsc(0)       '總筆數
+'      response.write totrec & "<hr>"
+      totpage = int(totrec/perpagesize+0.999)
+'      response.write totpage & "<hr>"
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) >totpage then 
+         nowpage=totpage 
+      end if             
+
+ if nulltext(allmodel.selectsinglenode("//showclientsqlorderby")) <> "" then
+  fsql = fsql & " " & nulltext(allmodel.selectsinglenode("//showclientsqlorderby"))
+ else
+  fsql = fsql & " order by ghtx.xpostdate desc"
+ end if
+ fsql = "select top " & nowpage*perpagesize & xselect & fsql
+' response.write fsql & "<hr>"
+' response.end
+
+
+ set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+' rsreg.cachesize = perpagesize
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,3,1
+set rsreg = conn.execute(fsql)
+ rsreg.cachesize = perpagesize
+'----------hyweb gip db connection patch----------
+
+'response.write fsql
+if not rsreg.eof then
+
+   if totrec>0 then 
+      rsreg.pagesize=perpagesize       '每頁筆數
+      rsreg.absolutepage=nowpage
+      strsql=server.urlencode(fsql)
+   end if    
+end if   
+
+
+
+
+       =title:                             =session("catname")
+
+    if (htprogright and 2)=2 then
+
+    end if
+    if (htprogright and 4)=4 then
+
+    end if
+
+
+
+
+   =htprogcap
+                      =session("ctunitname"):           =nulltext(htpagedom.selectsinglenode("//tabledesc"))
+
+
+   if checkgipconfig("attachmenttype") then 
+
+
+
+
+
+
+
+
+
+
+   end if 
+
+                                                 =htprogprefix
+
+
+          if cint(nowpage) <>1 then 
+
+              =htprogprefix:                           =(nowpage-1):             =perpagesize
+         end if
+         =totrec
+
+                                 if perpagesize=15 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+                                  if perpagesize=300 then:            end if
+
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+           if cint(nowpage)<>totpage then 
+                        =htprogprefix:                           =(nowpage+1):             =perpagesize
+
+          end if
+
+
+
+
+
+   '====== 2006.5.10 by gary
+ if checkgipconfig("rssandquery") and nulltext(refmodel.selectsinglenode("tablename")) = "rssread" then 
+  
+
+    
+ else
+  
+
+    
+ end if
+ '======  
+
+
+  
+ for each param in allmodel.selectnodes("//fieldlist/field[showlist!='']")
+  response.write "<th><p align=""center"">" & nulltext(param.selectsinglenode("fieldlabel")) & "</th>"
+ next
+    response.write "</tr>"
+if not rsreg.eof then   
+
+    for i=1 to perpagesize
+     xurl = session("mywwwsiteurl") & "/content.asp?mp=" & session("pvxdmp") & "&cuitem="  & rsreg("icuitem")
+'     xurl = "http://www.boaf.gov.tw/boafwww/content.asp?mp=" & session("pvxdmp") & "&cuitem="  & rsreg("icuitem")
+     pkey = "icuitem=" & rsreg("icuitem")
+
+
+
+   '====== 2006.5.10 by gary
+ if checkgipconfig("rssandquery") and nulltext(refmodel.selectsinglenode("tablename")) = "rssread" then 
+  xurl = "/site/" & session("mysiteid") & "/wsxd/ws_rssread.asp?gicuitem="  & rsreg("icuitem")
+  
+             =xurl
+    
+ else
+  
+             =xurl
+    
+ end if
+ '======  
+
+
+
+                            =pkey
+    =rsreg("stitle")
+
+
+   
+ xrcount = 0
+ for each param in allmodel.selectnodes("//fieldlist/field[showlist!='']")
+  kf = param.selectsinglenode("fieldname").text
+  if nulltext(param.selectsinglenode("reflookup")) <> "" _
+   and nulltext(param.selectsinglenode("inputtype"))<>"refcheckbox" _
+   and nulltext(param.selectsinglenode("inputtype"))<>"refcheckboxother" then
+   xrcount = xrcount + 1
+   kf = "xref" & xrcount & kf
+  end if
+
+
+    =rsreg(kf)
+
+  
+ next
+
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+
+
+
+
+
+  else
+
+
+
+
+  end if
+
+
+
+
+
+                                     =htprogprefix:                                                    =perpagesize
+
+
+
+
+                                     =htprogprefix:                           =nowpage 

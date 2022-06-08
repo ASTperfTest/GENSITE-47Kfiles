@@ -1,0 +1,258 @@
+/*=================================================
+國工局全球網 - All Rights Reserved.
+	
+	最新消息
+	專題報導
+	知識導覽
+	重要業務公告
+	國道工程之美
+====================================================*/
+
+/* ----------------------------------------------最新消息------- */
+#news {
+	float: left;
+	width: 370px;
+	text-align: left;
+	margin-bottom: 10px;
+}
+#news .top {
+	font-size: 16px;
+	color: #005A75;
+	text-decoration: none;
+	letter-spacing: 0.15em;
+	background: url(../images/MsgHead_bg1.gif) no-repeat;
+	height: 26px;
+	padding-top: 6px;
+	padding-left: 20px;
+}
+#news .foot {
+	background: url(../images/MsgFoot_bg1.gif) no-repeat;
+	height: 20px;
+	width: 370px;
+}
+#news .body {
+	font-size: 12px;
+	color: #333333;
+	background-image: url(../images/MsgBody_bg1.gif);
+	background-repeat: repeat-y;
+	width: 370px;
+	padding-top: 8px;
+	padding-right: 15px;
+	padding-left: 20px;
+}
+#news .body a {
+	text-decoration: none;
+}
+#news .body a:hover {
+	text-decoration: underline;
+}
+#news .body ul {
+	line-height: 180%;
+}
+/*--------------------------------------------------------專題報導-------*/
+#Topic1 {
+	float: left;
+	width: 370px;
+	text-align: left;
+	margin-bottom: 20px;
+}
+#Topic1 .top {
+	font-size: 16px;
+	color: #005A75;
+	text-decoration: none;
+	letter-spacing: 0.15em;
+	background: url(../images/MsgHead_bg1.gif) no-repeat;
+	height: 26px;
+	padding-top: 6px;
+	padding-left: 20px;
+}
+#Topic1 .foot {
+	background: url(../images/MsgFoot_bg1.gif) no-repeat;
+	height: 20px;
+	width: 370px;
+}
+#Topic1 .body {
+	font-size: 12px;
+	color: #333333;
+	background-image: url(../images/MsgBody_bg1.gif);
+	background-repeat: repeat-y;
+	width: 370px;
+	padding-top: 8px;
+	padding-right: 15px;
+	padding-left: 20px;
+	line-height: 170%;
+}
+#Topic1 .body h1 {
+	font-size: 15px;
+	color: #CC3333;
+	font-weight: normal;
+	margin-bottom: 5px;
+}
+#Topic1 .body a {
+	text-decoration: none;
+}
+#Topic1 .body img {
+	float: left;
+	border: 1px solid #999999;
+	margin-right: 10px;
+}
+#Topic1 .body a:hover {
+	text-decoration: underline;
+}
+
+/*--------------------------------------------------------知識導覽-------*/
+#Topic2 {
+	float: left;
+	width: 370px;
+	text-align: left;
+	margin-bottom: 10px;
+}
+#Topic2 .top {
+	font-size: 16px;
+	background: url(../images/MsgHead_bg1.gif) no-repeat;
+	height: 26px;
+	padding-top: 6px;
+	padding-left: 20px;
+	color: #005A75;
+	text-decoration: none;
+	letter-spacing: 0.15em;
+}
+#Topic2 .foot {
+	background: url(../images/MsgFoot_bg1.gif) no-repeat;
+	height: 20px;
+	width: 370px;
+}
+#Topic2 .body {
+	font-size: 12px;
+	color: #333333;
+	background-image: url(../images/MsgBody_bg1.gif);
+	background-repeat: repeat-y;
+	width: 370px;
+	padding-top: 8px;
+	padding-right: 15px;
+	padding-left: 20px;
+	line-height: 170%;
+}
+#Topic2 .body h1 {
+	font-size: 15px;
+	color: #CC3333;
+	font-weight: normal;
+	margin-bottom: 5px;
+}
+#Topic2 .body a {
+	text-decoration: none;
+}
+#Topic2 .body img {
+	float: left;
+	border: 1px solid #999999;
+	margin-right: 10px;
+}
+#Topic2 .body a:hover {
+	text-decoration: underline;
+}
+/*--------------------------------------------------------重要業務公告-------*/
+#Announce1 {
+	float: right;
+	width: 195px;
+	text-align: left;
+	margin-bottom: 10px;
+}
+#Announce1 .top {
+	font-size: 16px;
+	color: #FFFFFF;
+	text-decoration: none;
+	letter-spacing: 0.15em;
+	background: url(../images/MsgHead_bg2.gif) no-repeat;
+	height: 26px;
+	padding-top: 6px;
+	padding-left: 15px;
+}
+#Announce1 .foot {
+	background: url(../images/MsgFoot_bg2.gif) no-repeat bottom;
+	height: 28px;
+	width: 195px;
+}
+#Announce1 .body {
+	font-size: 12px;
+	color: #333333;
+	background-image: url(../images/MsgBody_bg2.gif);
+	background-repeat: repeat-y;
+	width: 195px;
+	line-height: 170%;
+	padding: 8px 20px 5px;
+}
+
+/*--------------------------------------------------------國道工程之美-------*/
+#Beauty {
+	float: right;
+	width: 195px;
+	text-align: left;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+#Beauty .top {
+	font-size: 16px;
+	color: #FFFFFF;
+	text-decoration: none;
+	letter-spacing: 0.15em;
+	background: url(../images/MsgHead_bg2.gif) no-repeat;
+	height: 26px;
+	padding-top: 6px;
+	padding-left: 15px;
+}
+#Beauty .foot {
+	background: url(../images/MsgFoot_bg2.gif) no-repeat bottom;
+	height: 28px;
+	width: 195px;
+}
+#Beauty .body {
+	background-image: url(../images/MsgBody_bg2.gif);
+	background-repeat: repeat-y;
+	width: 195px;
+	padding-top: 8px;
+	padding-left: 21px;
+}
+#Beauty .body h1 {
+	font-size: 15px;
+	color: #333333;
+	font-weight: normal;
+	margin: 0px;
+	padding-top: 5px;
+}
+#Beauty .body  a img {
+	border: 1px solid #999999;
+	margin-bottom: 8px;
+}
+#Beauty .body a:hover img {
+	border: 1px solid  #cc0000;
+}
+/*--------------------------------------------------------old-------*/
+#news .newsList {
+	list-style-image: url(../images/point2.gif);
+	line-height: 18px;
+	margin-right: 30px;
+	margin-left: 25px;
+}
+
+#news .newsList a {
+	color: #4A689B;
+	text-decoration: none;
+}
+#news .newsList a:hover {
+	color: #0052E8;
+}
+
+
+#announce {
+	width: 177px;
+	float: right;
+}
+#announce .text {
+	font-size: 12px;
+	color: #565656;
+	line-height: 20px;
+	margin-right: 16px;
+	margin-left: 5px;
+	text-align: left;
+	margin-top: 0px;
+}

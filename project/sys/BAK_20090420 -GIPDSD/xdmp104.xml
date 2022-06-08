@@ -1,0 +1,90 @@
+<?xml version="1.0" standalone="yes"?>
+<MpDataSet>
+  <MenuTree>104</MenuTree>
+  <MpStyle>Style1</MpStyle>
+  <DataSet>
+    <DataLable>BlockA</DataLable>
+    <DataRemark />
+    <DataNode>1838</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>200</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>Y</IsPostDate>
+    <IsExcerpt>Y</IsExcerpt>
+    <ShowStyle>Style3</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockB</DataLable>
+    <DataRemark>豬的基因選種</DataRemark>
+    <DataNode>1839</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>50</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>Y</IsPostDate>
+    <IsExcerpt>Y</IsExcerpt>
+    <ShowStyle>Style3</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockC</DataLable>
+    <DataRemark />
+    <DataNode>0</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockD</DataLable>
+    <DataRemark />
+    <DataNode>0</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockE</DataLable>
+    <DataRemark />
+    <DataNode>0</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+</MpDataSet>

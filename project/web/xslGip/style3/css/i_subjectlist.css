@@ -1,0 +1,89 @@
+@charset "utf-8";
+/* CSS Document 農業知識入口網 */
+/*----------------------------------------------------------------主題館條列頁使用*/
+
+/*分類頁籤*/
+
+ul.subjectcata {
+	clear: both;
+	margin: 5px 0 10px;
+	padding: 0;
+	list-style: none;
+	font-size: 13px;
+	line-height: 14px;
+	letter-spacing: 1px;
+	background: url(../images/tab_ul_bg.gif) repeat-x left bottom;
+	overflow: hidden;
+	_width: 100%;
+}
+.subjectcata li {
+	background: url(../images/cate_bg2.gif) no-repeat right top;
+	float: left;
+	margin: 0 1px 2px;
+	padding: 0 10px 0 0;
+	white-space: nowrap;
+	font-size: 13px;
+	line-height: 14px;
+}
+.subjectcata li a {
+	background: url(../images/cate_bg1.gif) no-repeat left top;
+	display: block;
+	padding: 11px 0 4px 12px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.subjectcata li a:hover {
+	color: #FFFF00;
+	text-decoration: none;
+}
+
+.subjectcata li.active {
+	background: url(../images/cate_now_bg2.gif) no-repeat right top;
+	margin: 0 1px 0;
+}
+.subjectcata li.active a {
+	background: url(../images/cate_now_bg1.gif) no-repeat left top;
+	display: block;
+	color: #444444;
+}
+
+/*主題館條列*/
+.subjectlist {
+	margin: 0 8px;
+	padding:0;
+}
+.subjectlist ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.subjectlist hr { /*等修改套版後移除*/
+	display: none;
+}
+.subjectlist li {
+	line-height: 150%;
+	margin: .6em 0 0;
+	padding: 0 0 .6em;
+	border-bottom: 1px dotted #aaa;
+	overflow: hidden;
+	_width: 100%;
+}
+.subjectlist li a img{
+	float:left;
+	margin: 0 8px 4px 0;
+	width:142px;
+	height:62px;
+	border: 1px solid #fff;
+}
+.subjectlist li a:hover img{
+	border: 1px solid #888;
+}
+.subjectlist li span {
+	display: block;
+	margin: .5em 0 0;
+}
+.subjectlist li a + a {
+	margin: 0 1em 5px 0;
+	padding: 0 0 5px;
+	font-size: 1.1em;
+}

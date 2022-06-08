@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 9.875" name="coa">
+  <DataContextMoniker Name="/coaDataContext" />
+  <nestedChildShapes>
+    <classShape Id="2aba418b-3878-4f9d-9ae5-bff3b7e12f2e" absoluteBounds="0.5, 0.5, 2, 3.5016097005208326">
+      <DataClassMoniker Name="/coaDataContext/CATEGORY" />
+      <nestedChildShapes>
+        <elementListCompartment Id="bf2cdfe1-d52c-4197-885f-9598fe817e37" absoluteBounds="0.515, 0.96, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="85131070-1dd8-4b9a-b8a8-eac2a2b79dfe" absoluteBounds="2.5, 0.5, 2, 9.0783512369791648">
+      <DataClassMoniker Name="/coaDataContext/REPORT" />
+      <nestedChildShapes>
+        <elementListCompartment Id="078867fb-2507-4d55-a597-6a32dba3025c" absoluteBounds="2.515, 0.96, 1.9700000000000002, 8.5183512369791661" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="dcd2d624-2057-4f8f-953c-6ab71605201e" absoluteBounds="4.5, 0.5, 2, 1.3862939453125">
+      <DataClassMoniker Name="/coaDataContext/ACTOR_INFO" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4507efbd-efad-47fd-b083-f555a7368b9d" absoluteBounds="4.515, 0.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="2a85b3a6-fdf1-4035-bbf1-d6e913ffd320" absoluteBounds="4.5, 1.875, 2, 1.3862939453125">
+      <DataClassMoniker Name="/coaDataContext/CAT2RPT" />
+      <nestedChildShapes>
+        <elementListCompartment Id="89259f8a-b4eb-402b-9e5a-8301b03027b0" absoluteBounds="4.515, 2.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="685d4543-2dd6-40c9-ac4e-9fec868caf69" absoluteBounds="4.5, 3.25, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/coaDataContext/RESOURCE_RIGHT" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0256f211-4eac-459f-9c82-533e50a8203a" absoluteBounds="4.515, 3.71, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

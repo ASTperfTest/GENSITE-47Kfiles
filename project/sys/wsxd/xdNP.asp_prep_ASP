@@ -1,0 +1,178 @@
+﻿
+
+
+
+
+   
+function deamp(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   deamp=""
+   exit function
+  end if
+   deamp = replace(xs,"&","&amp;")
+end function
+
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+npurl = ""
+
+sql = "select n.ctunitid, n.ctnodekind, n.ctnodenpkind, u.ibasedsd, u.ctunitkind" _
+ & " from cattreenode as n left join ctunit as u on n.ctunitid=u.ctunitid" _
+ & " where n.ctnodeid=" & pkstr(request("ctnode"),"")
+set rs = conn.execute(sql)
+if rs("ctnodekind") = "u" then
+ if rs("ctunitkind") = "1" then
+  sql = "select top 1 * from cudtgeneric where ictunit=" & rs("ctunitid") & " and fctupublic = 'y'" _
+   & " order by ximportant desc"
+  set rsx = conn.execute(sql)
+  if not rsx.eof then
+   npurl = "ct.asp?xitem=" & rsx("icuitem") & "&ctnode=" & request("ctnode")& "&mp=" & request("mp")
+  else
+   npurl = "ct.asp?xitem=&ctnode=" & request("ctnode")& "&mp=" & request("mp")
+  end if
+ else
+   npurl = "lp.asp?ctnode=" & request("ctnode") & "&ctunit=" & rs("ctunitid") & "&basedsd=" & rs("ibasedsd")& "&mp=" & request("mp")
+ end if
+ response.write "<npurl>"&deamp(npurl)&"</npurl>"
+ 'response.write "<sql>"&sql&"</sql>"
+elseif isnull(rs("ctnodenpkind")) then
+ sql = "select * from cattreenode where dataparent=" & pkstr(request("ctnode"),"") _
+  & " order by catshoworder"
+ set rs = conn.execute(sql)
+ npurl = "np.asp?ctnode=" & rs("ctnodeid")& "&mp=" & request("mp")
+ response.write "<npurl>"&deamp(npurl)&"</npurl>"
+else
+
+ set htpagedom = server.createobject("microsoft.xmldom")
+ htpagedom.async = false
+ htpagedom.setproperty("serverhttprequest") = true 
+
+ loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\xdmp" & request("mp") & ".xml"
+ xv = htpagedom.load(loadxml)
+ if htpagedom.parseerror.reason <> "" then 
+  response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+  response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+  response.end()
+ end if
+   set refmodel = htpagedom.selectsinglenode("//mpdataset")
+ mytreenode = request("ctnode")
+
+
+   
+
+ sql = "select * from cattreenode where ctnodeid=" & pkstr(request("ctnode"),"")
+ set rs = conn.execute(sql)
+ xrootid = rs("ctrootid")
+ xctunitname = rs("catname")
+ xpathstr = "<xpathnode title=""" & deamp(xctunitname) & """ xnode=""" & rs("ctnodeid") & """ />"
+ xparent = rs("dataparent")
+' xparent = rs("ctnodeid")
+ myparent = xparent
+ xlevel = rs("datalevel") - 1
+ if rs("ctnodekind") <> "c" then
+  xlevel = xlevel -1
+  mytreenode = xparent
+ end if
+ upparent = 0
+ myupparent = rs("ctnodeid")
+ 
+ while xparent<>0
+  sql = "select * from cattreenode where ctnodeid=" & pkstr(xparent,"")
+  set rs = conn.execute(sql)
+  if rs("datalevel") = xlevel then upparent = xparent
+  xpathstr = "<xpathnode title=""" & deamp(rs("catname")) & """ xnode=""" & rs("ctnodeid") & """ />" & xpathstr
+  xparent = rs("dataparent")
+ wend
+ response.write "<xpath><unitname>" & deamp(xctunitname) & "</unitname>" & xpathstr & "</xpath>"
+  
+ for each xdataset in refmodel.selectnodes("dataset[contentdata='y']")
+  processxdataset
+ next
+
+                     =mytreenode:               =upparent:               =myparent:                 =myupparent
+                         =mytreenode:              =deamp(xctunitname)
+    
+ if isnull(xrootid) then _
+ xrootid=nulltext(refmodel.selectsinglenode("menutree"))
+ 
+ 
+   sqlcom = "select a.*, c.redirecturl, c.newwindow, c.ibasedsd, c.ctunitkind " _
+  & " from cattreenode as a " _
+  & " left join ctunit as c on c.ctunitid=a.ctunitid" _
+  & " where a.inuse='y' and a.dataparent=" & myupparent _
+  & " and a.ctrootid = " & pkstr(xrootid,"") _
+  & " order by a.catshoworder"
+
+ set rs = conn.execute(sqlcom)
+ while not rs.eof
+   if rs("ctunitkind") = "k" then
+       xurl = "kmdoit.asp?"&rs("redirecturl")
+      elseif rs("ctnodekind") = "c" then  '-- folder
+    xurl = "np.asp?ctnode="&rs("ctnodeid") & "&mp=" & request("mp")
+   else
+    if rs("redirecturl")<> "" then
+     xurl = rs("redirecturl")
+    elseif rs("ctunitkind") ="2" then
+     xurl = "lp.asp?ctnode="&rs("ctnodeid") & "&amp;ctunit=" & rs("ctunitid") & "&amp;basedsd=" & rs("ibasedsd")& "&amp;mp=" & request("mp")
+    elseif isnumeric(rs("ibasedsd")) then
+     xurl = "np.asp?ctnode="&rs("ctnodeid") & "&amp;ctunit=" & rs("ctunitid") & "&amp;basedsd=" & rs("ibasedsd")& "&amp;mp=" & request("mp")
+    end if
+        end if
+
+                        =rs("newwindow")
+
+      =deamp(rs("catname"))
+
+
+      =deamp(xurl)
+
+     
+   if rs("ctnodeid") = cint(mytreenode)  then
+      sqlcom = "select a.*, c.redirecturl, c.newwindow, c.ibasedsd, c.ctunitkind " _
+     & " from cattreenode as a " _
+     & " left join ctunit as c on c.ctunitid=a.ctunitid" _
+     & " where a.inuse='y' and a.dataparent=" & mytreenode & " and a.ctrootid = " & pkstr(xrootid,"") _
+     & " order by a.catshoworder"
+   
+    set rsx = conn.execute(sqlcom)
+    while not rsx.eof
+      if rsx("ctunitkind") = "k" then
+          xurl = "kmdoit.asp?"&rsx("redirecturl")
+         elseif rsx("ctnodekind") = "c" then  '-- folder
+       xurl = "np.asp?ctnode="&rsx("ctnodeid") & "&mp=" & request("mp")
+      else
+       if rsx("redirecturl")<> "" then
+        xurl = rsx("redirecturl")
+       elseif rsx("ctunitkind") ="2" then
+        xurl = "lp.asp?ctnode="&rsx("ctnodeid") & "&amp;ctunit=" & rsx("ctunitid") & "&amp;basedsd=" & rsx("ibasedsd")& "&amp;mp=" & request("mp")
+       elseif isnumeric(rsx("ibasedsd")) then
+        xurl = "np.asp?ctnode="&rsx("ctnodeid") & "&amp;ctunit=" & rsx("ctunitid") & "&amp;basedsd=" & rsx("ibasedsd")& "&amp;mp=" & request("mp")
+       end if
+           end if
+
+                          =rsx("newwindow")
+
+       =deamp(rsx("catname"))
+
+
+       =deamp(xurl)
+
+
+           rsx.movenext
+    wend
+   end if
+
+
+      
+  rs.movenext
+ wend
+
+
+    CxMethod_ASP_x1menus_1545114555()
+  end if 

@@ -1,0 +1,32 @@
+﻿: 
+sub xpcondition
+ if request.form("htx_psnid") <> "" then
+  wherecondition = replace("htx.psnid like '%{0}%'", "{0}", request.form("htx_psnid") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_pname") <> "" then
+  wherecondition = replace("htx.pname like '%{0}%'", "{0}", request.form("htx_pname") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_birthdays") <> "" then
+  ranges = request.form("htx_birthdays")
+  rangee = request.form("htx_birthdaye")
+  if rangee = "" then rangee=ranges
+  wherecondition = replace("htx.birthday between '{0}' and '{1}'", "{0}", ranges)
+  wherecondition = replace(wherecondition, "{1}", rangee)
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_cdates") <> "" then
+  ranges = request.form("htx_cdates")
+  rangee = request.form("htx_cdatee")
+  if rangee = "" then rangee=ranges
+  wherecondition = replace("htx.cdate between '{0}' and '{1}'", "{0}", ranges)
+  wherecondition = replace(wherecondition, "{1}", rangee)
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_myorg") <> "" then
+  wherecondition = replace("htx.myorg like '%{0}%'", "{0}", request.form("htx_myorg") )
+  fsql = fsql & " and " & wherecondition
+ end if
+end sub
+ 

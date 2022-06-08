@@ -1,0 +1,75 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+            function href___1784704342() {UpdateOwnerInfo();}
+
+            function href____892034198() {NewLog();}
+
+           function href____1206670856() {history.go(-1);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $(document).ready(function() {
+            //Tab Menu
+            $("#tabInfo").addClass("btnDistrict");
+            $("#tabList").addClass("btnDistrict now");
+            $("#tabVote").addClass("btnDistrict");
+            $("#tabFinal").addClass("btnDistrict");
+        });
+        function ConfirmDelete(id) {
+            if (confirm('是否確認刪除？\r\n注意：經刪除後即無法回復！')) {
+                $('#Action').val('DeleteEntry|' + id);
+                document.forms[0].submit();
+            }
+        }
+        function EditEntry(id) {
+            $('#Action').val('EditEntry|' + id);
+            document.forms[0].submit();
+        }
+        function UpdateOwnerInfo() {
+            $('#Action').val('UpdateOwnerInfo');
+            document.forms[0].submit();
+        }
+        function NewLog() {
+            $('#Action').val('NewLog');
+            document.forms[0].submit();
+        }
+    
+
+
+
+
+ 

@@ -1,0 +1,174 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="電子報管理"
+htprogfunc="發送清單"
+htprogcode="gw1m51"
+htprogprefix="esend" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+
+ set rsreg = server.createobject("adodb.recordset")
+ fsql=request.querystring("strsql")
+
+if fsql="" then
+ fsql = "select htx.*, m.account, m.realname" _
+  & ", (select count(*) from memepaper where memepaper.memid=m.account) as memepcount " _
+  & " from epsend as htx left join member as m on htx.email=m.email" _
+  & " where htx.epubid=" & pkstr(request("epubid"),"") _
+  & " order by htx.email"
+end if
+
+nowpage=request.querystring("nowpage")  '現在頁數
+
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=50  
+      end if 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+      strsql=server.urlencode(fsql)
+   end if    
+end if   
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       =htprogprefix
+
+  if not rsreg.eof then
+
+                                      =nowpage:    =totpage
+                                          =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+          if cint(nowpage) <>1 then 
+                        =htprogprefix:                    =(nowpage-1):           =strsql:             =perpagesize
+         end if
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):           =strsql:             =perpagesize
+          end if
+
+
+                                 if perpagesize=50 then:            end if
+                                  if perpagesize=100 then:            end if
+                                  if perpagesize=200 then:            end if
+                                  if perpagesize=300 then:            end if
+
+
+
+
+
+
+
+
+
+
+
+                     
+    for i=1 to perpagesize                  
+
+
+  pkey = ""
+pkey = pkey & "&epubid=" & rsreg("epubid")
+if pkey<>"" then  pkey = mid(pkey,2)
+
+  =rsreg("email")
+
+
+  =rsreg("senddate")
+
+
+                                           =rsreg("account")
+  =rsreg("account")
+
+
+
+  =rsreg("realname")
+
+
+   if rsreg("memepcount")> 0 then response.write rsreg("memepcount") 
+
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+  else
+
+
+
+
+  end if
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

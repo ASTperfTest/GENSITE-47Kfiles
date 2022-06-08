@@ -1,0 +1,150 @@
+﻿: @ codepage = 65001 
+
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+today_str = date
+ today_y = year(today_str)
+ today_m = month(today_str)
+ today_d = day(today_str)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ for i = 2002 to 2012
+  if cint(i) = cint(today_y) then
+   response.write "<option value='" & i & "' selected>" & i & "</option>"
+  else
+   response.write "<option value='" & i & "'>" & i & "</option>"  
+  end if
+ next
+
+
+
+
+  
+ for i = 1 to 12
+  if cint(i) = cint(today_m) then
+   response.write "<option value='" & i & "' selected>" & i & "</option>"
+  else
+   response.write "<option value='" & i & "'>" & i & "</option>"  
+  end if
+ next
+
+
+
+
+  
+ for i = 1 to 31
+  if cint(i) = cint(today_d) then
+   response.write "<option value='" & i & "' selected>" & i & "</option>"
+  else
+   response.write "<option value='" & i & "'>" & i & "</option>"  
+  end if
+ next
+
+
+
+
+  
+ for i = 2002 to 2012
+  if cint(i) = cint(today_y) then
+   response.write "<option value='" & i & "' selected>" & i & "</option>"
+  else
+   response.write "<option value='" & i & "'>" & i & "</option>"  
+  end if
+ next
+
+
+
+
+  
+ for i = 1 to 12
+  if cint(i) = cint(today_m) then
+   response.write "<option value='" & i & "' selected>" & i & "</option>"
+  else
+   response.write "<option value='" & i & "'>" & i & "</option>"  
+  end if
+ next
+
+
+
+
+  
+ for i = 1 to 31
+  if cint(i) = cint(today_d) then
+   response.write "<option value='" & i & "' selected>" & i & "</option>"
+  else
+   response.write "<option value='" & i & "'>" & i & "</option>"  
+  end if
+ next
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ for i = 1 to 20
+  response.write "<option value='" & i & "'>" & i & "</option>"
+ next
+ 

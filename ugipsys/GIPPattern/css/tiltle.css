@@ -1,0 +1,52 @@
+#Title {
+	background: url(../images/title_bg.gif) repeat-x;
+	height: 60px;
+}
+#Title a.Logout {
+	position: absolute;
+	top: 33px;
+	right: 15px;
+	display: block;
+	height: 18px;
+	padding-top: 6px;
+	padding-left: 27px;
+	background: url(../images/icon_logout.gif) no-repeat 0px 0px;
+	font-size: 12px;
+	color: #B05213;
+	text-decoration: none;
+}
+#Title a.Logout:hover {
+	color: #CC0000;
+	text-decoration: underline;
+}
+#SiteName {
+	position: absolute;
+	top: 8px;
+	left: 188px;
+	display: block;
+	font: italic bold 22px 標楷體;
+	color: #D0B2B3;
+	text-decoration: none;
+	filter:Shadow(Direction=65,color='#DD6600')
+}
+#SiteName2 {
+	position: absolute;
+	top: 8px;
+	left: 150px;
+	display: block;
+	font: italic bold 22px 標楷體;
+	color: #B05213;
+	text-decoration: none;
+}
+#LogInfo {
+	font-size: 12px;
+	color: #246368;
+	text-decoration: none;
+	position: absolute;
+	top: 5px;
+	right: 15px;
+}
+body {
+	margin: 0px;
+	padding: 0px;
+}

@@ -1,0 +1,24 @@
+﻿: 
+  response.cachecontrol = "no-cache" 
+  response.addheader "pragma", "no-cache" 
+  response.expires = -1
+  
+  
+  set conn = server.createobject("adodb.connection")
+ conn.open session("odbcdsn")
+ sql="select top 20 * from flashgame order by rate desc,gicuitem desc"
+  set gamedata=conn.execute(sql)
+  i = 0
+  while not gamedata.eof
+    i = i + 1
+    response.write("&name" & i & "=" & gamedata("name"))
+    response.write("&age" & i & "=" & gamedata("age"))
+    response.write("&sex" & i & "=" & gamedata("sex"))
+    response.write("&ptimemin" & i & "=" & gamedata("ptimemin"))
+    response.write("&ptimesec" & i & "=" & gamedata("ptimesec"))
+    response.write("&rate" & i & "=" & gamedata("rate"))
+    gamedata.movenext
+  wend
+  
+  set conn = nothing
+ 

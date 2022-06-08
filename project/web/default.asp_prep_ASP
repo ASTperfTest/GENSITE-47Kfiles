@@ -1,0 +1,42 @@
+﻿: @ codepage = 65001 
+  
+ response.cachecontrol = "no-cache" 
+ response.addheader "pragma", "no-cache" 
+ response.expires = -1
+
+
+   CxMethod_ASP_web_sqlinjection_176928617()
+    CxMethod_ASP_checkurl_1283041507()
+  
+call checkurl(request.querystring)
+ mp = getmpvalue() 
+
+ call mpsqlinjectioncheck()
+ 
+ set htpagedom = server.createobject("microsoft.xmldom")
+ htpagedom.async = false
+ htpagedom.setproperty("serverhttprequest") = true 
+ 
+ loadxml = session("myxdurl") & "/gipdsd/xdmp" & mp & ".xml" 
+ xv = htpagedom.load(loadxml)
+ 
+  if htpagedom.parseerror.reason <> "" then 
+   response.write("xdmp1.xml parseerror on line " &  htpagedom.parseerror.line)
+   response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+   response.end()
+  end if
+
+  xs = nulltext(htpagedom.selectsinglenode("//mpdataset/mpstyle"))
+ 
+ session("mystyle") = xs
+
+ response.redirect "mp.asp?mp=1"
+
+ function nulltext(xnode)
+   on error resume next
+   xstr = ""
+   xstr = xnode.text
+   nulltext = xstr
+ end function
+
+ 

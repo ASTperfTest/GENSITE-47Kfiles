@@ -1,0 +1,50 @@
+/*	
+	國工局全球網 - All Rights Reserved.
+	
+	Produicted By 凌網科技 HyWeb Tech. Co., Ltd.2004.
+	http://www.hyweb.com.tw　
+	HyWeb CSS Style(writed by m10/Carol13 Chen) 2004/02/26
+*/
+
+/* MainLeft--------- epaper  電子報訂閱------- */
+#epaper {
+	width:165px;
+	height: 87px;
+	background-image: url(../images/epaper_bg.gif);
+	background-repeat: no-repeat;
+	padding-top: 30px;
+	text-align: left;
+	padding-left: 15px;
+	margin-bottom: 15px;
+
+
+
+}
+#epaper .input {
+	color: #888800;
+	border: 1px solid #BBB39C;
+	width: 140px;
+	padding-left: 3px;
+	padding-top: 3px;
+	height: 20px;
+	margin-bottom: 10px;
+
+
+}
+#epaper .button {
+	color: #FFFFFF;
+	background-image: url(../images/search_bg.gif);
+	height: 20px;
+	width: 39px;
+	cursor: hand;
+	background-repeat: no-repeat;
+	border: none;
+	margin-right: 20px;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+#epaper .left {
+	float: left;
+	margin-top: -10px;
+
+}

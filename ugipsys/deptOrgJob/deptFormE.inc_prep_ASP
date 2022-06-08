@@ -1,0 +1,104 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where codemetaid=n'orgrank' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+     sql="select mcode,mvalue from codemain where codemetaid=n'orgkind' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+     sql="select mcode,mvalue from codemain where codemetaid=n'boolyn' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+     sql="select mcode,mvalue from codemain where codemetaid=n'topdatacat' order by msortvalue"
+   set rss=conn.execute(sql)
+   pxcount = 0
+   while not rss.eof
+    if (pxcount mod 4) = 0 and pxcount<>0 then response.write "</tr><tr>"
+    pxcount = pxcount + 1
+   
+                                                           =rss(0):                   =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+  if formfunction = "query" then 
+          if (htprogright and 2) <> 0 then 
+
+
+          end if
+  elseif formfunction = "edit" then 
+          if (htprogright and 8) <> 0 then 
+
+           end if 
+
+          if (htprogright and 16) <> 0 then 
+     if (rsreg("child") = 0) and  (request.querystring("deptid") <> "0") then 
+
+     end if 
+         end if 
+
+
+
+   else '-- add ---
+            if (htprogright and 4)<>0 then 
+
+            end if
+
+            if (htprogright and 4)<>0  then 
+
+            end if
+
+   end if  

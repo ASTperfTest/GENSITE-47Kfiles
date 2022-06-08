@@ -1,0 +1,51 @@
+A {
+	TEXT-DECORATION: none
+}
+A:hover {
+	TEXT-DECORATION: underline
+}
+DIV {
+	PADDING-BOTTOM: 1px; MARGIN-LEFT: 8px; WIDTH: 100%; PADDING-TOP: 1px
+}
+.folder {
+	FONT-WEIGHT: normal; FONT-SIZE: 12px; LINE-HEIGHT: normal; FONT-STYLE: normal; FONT-VARIANT: normal
+}
+.item {
+	FONT-WEIGHT: normal; FONT-SIZE: 12px; LINE-HEIGHT: normal; FONT-STYLE: normal; FONT-VARIANT: normal
+}
+.folderselect {
+	FONT-WEIGHT: normal; FONT-SIZE: 12px; LINE-HEIGHT: normal; FONT-STYLE: normal; FONT-VARIANT: normal
+}
+.itemselect {
+	FONT-WEIGHT: normal; FONT-SIZE: 12px; LINE-HEIGHT: normal; FONT-STYLE: normal; FONT-VARIANT: normal
+}
+.folderselect {
+	COLOR: #0000cd; MARGIN-RIGHT: 1px; BACKGROUND-COLOR: white
+}
+.itemselect {
+	COLOR: #0000cd; MARGIN-RIGHT: 1px; BACKGROUND-COLOR: white
+}
+.folderselect A {
+	COLOR: #ff0066
+}
+.itemselect A {
+	COLOR: #ff0066
+}
+.show {
+	DISPLAY: block
+}
+.hide {
+	DISPLAY: none
+}
+.folder {
+	COLOR: black
+}
+.item {
+	COLOR: #164c91
+}
+.folder A {
+	COLOR: black
+}
+.item A {
+	COLOR: #164c91
+}

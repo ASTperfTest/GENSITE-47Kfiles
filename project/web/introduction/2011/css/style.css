@@ -1,0 +1,255 @@
+/*  html5doctor.com Reset Stylesheet v1.4.1  2010-03-01 Author: Richard Clark - http://richclarkdesign.com */ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure,  footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video { margin:0; padding:0; border:0; outline:0; font-size:100%; vertical-align:baseline; background:transparent; } body { line-height:1; } article,aside,canvas,details,figcaption,figure, footer,header,hgroup,menu,nav,section,summary {  display:block; } nav ul { list-style:none; } blockquote, q { quotes:none; } blockquote:before, blockquote:after, q:before, q:after { content:''; content:none; } a { margin:0; padding:0; border:0; font-size:100%; vertical-align:baseline; background:transparent; } ins { background-color:#ff9; color:#000; text-decoration:none; } mark { background-color:#ff9; color:#000;  font-style:italic; font-weight:bold; } del { text-decoration: line-through; } abbr[title], dfn[title] { border-bottom:1px dotted #000; cursor:help; } table { border-collapse:collapse; border-spacing:0; } hr { display:block; height:1px; border:0;    border-top:1px solid #cccccc; margin:1em 0; padding:0; } input, select { vertical-align:middle; } section, article, aside, header, footer, nav, dialog, figure { display:block; }
+/* self clear */
+.group  { clear: both; }
+.group:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+/* hack ie7 */
+*:first-child+html .group { min-height: 1px; }
+/* hack ie6 */
+* html .group { height: 1%; }
+.clr{
+  clear: both;
+}
+
+body{
+  width: 100%;
+  background: url(../images/bg.gif) repeat top left;
+  text-align: center;
+  font-family: Helvetica, Arial, 'LiHei Pro', '新細明體', sans-serif;
+}
+#wrap{
+  width:900px;
+  margin: 0px auto;
+  border: 1px solid #999;
+  background: #fff;
+}
+
+#header{
+  width:900px;
+  height: 134px;
+  background: url(../images/header.gif) no-repeat top left #fff;
+  position: relative;
+}
+
+#content{
+  width:900px;
+  position: relative;
+  background: url(../images/contentbg.png) repeat-x top left;
+  background-color: #fff;
+  text-align: left;
+  }
+
+#nav{
+ width:900px;
+ height: 42px;
+ padding-top: 2px;
+ overflow: hidden;
+ display: block;
+ position: absolute;
+ top:90px;
+ left:0px;
+ clear: both;
+ list-style: none;
+ background: url(../images/nav.png) repeat-x top left;
+}
+
+#nav li{
+  display: block;
+  float: left;
+  height: 44px;
+  padding:0 2px 0 0;
+  background: url(../images/sep.png) repeat-y right top;
+}
+
+#nav li a{
+  display: block;
+  float: left;
+  height: 14px;
+  padding:15px;
+  margin-top: -2px;
+  text-align: center;
+  color:#1A7D44;
+  text-shadow: 1px 1px 1px #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#nav li a:hover{
+  background: url(../images/nav_hover.png) repeat-x top left;
+  color: #333;
+}
+a.active{
+  background: url(../images/nav_act.png) repeat-x top left;
+  color: #333!important;
+}
+
+.tip{
+  position: absolute; 
+  background: #fff;
+  _border: 1px solid #666;
+  -moz-box-shadow: 0px 0px 6px #888;
+  -webkit-box-shadow: 0px 0px 6px #888;
+  -o-box-shadow: 0px 0px 6px #888;
+  box-shadow: 0px 0px 6px #888;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -o-border-radius: 25px;
+  border-radius: 25px;
+  padding: 3px;
+}
+.tipinner{
+  position: relative;
+  background: url(../images/tipbg.png) repeat-x bottom left #F7BC5B;
+  *background: #F7BC5B;
+  -webkit-border-radius: 22px;
+  -moz-border-radius: 22px;
+  -o-border-radius: 22px;
+  border-radius: 20px;
+  padding: 5px;
+  cursor: pointer;  
+}
+
+.tipar-t{
+  position: absolute;
+  width:28px;
+  height: 15px;
+  background: url(../images/tipar.png) no-repeat 0 0;
+  _background: url(../images/tipar.gif) no-repeat 0 0;
+  top:-18px;
+  overflow: hidden;
+}
+.tipar-b{
+  position: absolute;
+  width:28px;
+  height: 15px;
+  background: url(../images/tipar.png) no-repeat 0 -15px;
+  _background: url(../images/tipar.gif) no-repeat 0 -15px;
+  bottom:-18px;
+  overflow: hidden;
+}
+.tipar-l{
+  position: absolute;
+  width:14px;
+  height: 30px;
+  background: url(../images/tipar.png) no-repeat 0 0;
+  _background: url(../images/tipar.gif) no-repeat 0 0;
+  left:-17px;
+  top:25px;
+  overflow: hidden; 
+}
+.tipar-r{
+  position: absolute;
+  width:14px;
+  height: 30px;
+  background: url(../images/tipar.png) no-repeat -14px 0;
+  _background: url(../images/tipar.gif) no-repeat -14px 0;
+  right:-17px;
+  top:20px;
+  overflow: hidden; 
+}
+
+
+
+.tipcontent{
+  overflow: hidden;
+}
+
+.number{
+  display: block;
+  float: left;
+  width:35px;
+  height: 33px;
+  padding:15px 10px 10px 12px;
+  background: url(../images/number.png) no-repeat top left;
+  text-align: center;
+  font-size: 30px;
+  color: #444;
+  text-shadow: 1px 1px 1px #fff;
+  margin-bottom: 5px;
+}
+.title{
+  display: block;
+  float: left;
+  font-size: 20px;
+  padding-top: 20px;
+  color: #444;
+  text-shadow: 1px 1px 1px #fff;
+}
+.contentp{
+  clear: both;
+  padding: 0px;
+  display: none;
+  text-align: left;
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  line-height: 150%;
+}
+.contentp a{
+  color:#1A7D44;
+  text-decoration: none;
+}
+.contentp a:hover{
+  color:#000;
+  text-decoration: none;
+}
+
+
+.title2{
+  font-size: 19px;
+  color: #67A62F;
+  margin: 0 0 10px 0;
+}
+#content p{
+  font-size: 15px;
+  color: #333;
+  line-height: 160%;
+  letter-spacing: 0.1em;
+}
+h3.title3{
+   display: block;
+   float: left;
+   clear: both;
+   background: url(../images/h3-title.png) no-repeat right bottom;
+   height: 55px;
+   padding-right: 31px;
+   overflow: hidden;
+   margin-top: 20px;
+}
+
+h3.title3 span{
+   display: block;
+   float: left;
+   height: 38px;
+   padding-top: 17px;
+   padding-left: 30px;
+   overflow: hidden;
+   font-size: 15px;
+   background: url(../images/h3-title.png) no-repeat 0 0;
+}
+.contentimg{
+   clear: both;
+   border: 2px solid #555;
+   margin:5px auto;
+   display: block;
+}
+.contentimg2{
+   clear: both;   
+   margin:5px auto;
+   display: block;
+}
+
+.trynow{
+   display: block;
+   width: 229px;
+   height: 0px;
+   padding-top: 53px;
+   overflow: hidden;
+   background: url(../images/trynow.png) no-repeat left top;
+   margin: 10px auto;
+   color:#fff;
+}
+trynow span{
+   color:#fff;
+}
+a:hover.trynow{
+   background: url(../images/trynow_hover.png) no-repeat left top;
+}

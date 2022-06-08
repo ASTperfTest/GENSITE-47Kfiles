@@ -1,0 +1,278 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+
+subjectid = request("subjectid")
+ questno = request("questno")
+ jumpquestion = request("jumpquestion")
+ if subjectid = "" or questno = "" or jumpquestion = "" then
+  response.write "<body onload='javascript:history.go(-1);'>"
+  response.end
+ end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     = questno 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   if jumpquestion = "1" then 
+
+
+
+   else 
+
+
+
+   end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      =subjectid 
+                                                    =questno 
+                                                         =jumpquestion 
+                                                    = functype 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ sql = "" & _
+  " select m012_title, m012_type from m012 where m012_subjectid = " & subjectid & _
+  " and m012_questionid <= " & questno & " order by m012_questionid "
+ set rs = conn.execute(sql)
+ 
+ if rs.eof then
+  op_mode = "insert"
+ end if
+ 
+ sql = "" & _
+  " select '*' + ltrim(str(m015_questionid)) + '*' + ltrim(str(m015_answerid)) + '*' " & _
+  " from m015 where m015_subjectid = " & subjectid
+ set rs3 = conn.execute(sql)
+ while not rs3.eof
+  open_str = open_str & rs3(0) & ","
+  rs3.movenext
+ wend
+
+ for i = 1 to questno  
+  title = ""
+  m012_type = "1"
+  if not rs.eof then
+   title = replace(trim(rs("m012_title")), chr(34), "&quot;")
+   m012_type = trim(rs("m012_type"))
+   rs.movenext
+  end if
+  if m012_type = "" then
+   m012_type = "1"
+  end if
+  
+  if jumpquestion <> "1" then
+
+
+
+                 =i 
+  
+   'if op_mode <> "insert" then
+
+
+
+                                                             =i 
+
+  
+   'end if
+
+
+
+
+                                             =i :               if m012_type = "1" then :            end if 
+                                             =i :               if m012_type = "2" then :            end if 
+
+
+  
+  end if
+
+
+  
+  if jumpquestion = "1" then
+
+                                     =i 
+
+          =i 
+  
+   'if op_mode <> "insert" then
+
+
+
+                                                      =i 
+
+  
+   'end if
+
+
+  
+  end if
+
+
+                    =i :                                       =i :             =title 
+  
+  answerno = request("answerno" & i)
+
+                                           =i :             =answerno 
+  
+  sql = "" & _
+   " select m013_title, m013_default, m013_nextord from m013 " & _
+   " where m013_subjectid = " & subjectid & " and m013_questionid = " & i & _
+   " and m013_answerid <= " & answerno & " order by m013_answerid "
+  set rs2 = conn.execute(sql)
+
+  for j = 1 to answerno   
+   title = ""
+   m013_default = "n"
+   if not rs2.eof then
+    title = replace(trim(rs2("m013_title")), chr(34), "&quot;")
+    m013_default = rs2("m013_default")
+    nextord = rs2("m013_nextord")
+    rs2.movenext
+   end if
+
+                  =j :                                    =i :     =j :             =title 
+
+  
+   if jumpquestion = "1" and cint(i) <> cint(questno) then
+
+
+                                    =i :     =j 
+  
+    for k = 1 to questno
+     response.write "<option value='" & k & "'"
+     if cint(k) = cint(nextord) or (nextord = "0" and cint(k) = cint(i)+1) then
+      response.write " selected"
+     end if
+     response.write ">" & k & "</option>"
+    next
+
+                                  if nextord = "0" then :             end if 
+
+  
+   else
+
+                                          =i :     =j 
+  
+   end if
+
+                                                                                  =i :     =j :               if instr(open_str, "*" & i & "*" & j & "*") > 0 then :            end if 
+                                                   =i :     =j :               if m013_default = "y" then :            end if :                                             = i :     = i :     = j 
+
+  
+  next
+
+
+
+  
+ next
+
+
+
+
+  
+ if op_mode = "insert" then
+
+
+  
+ else
+
+
+
+  
+ end if
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ set rs = nothing
+ set rs2 = nothing
+ set rs3 = nothing
+ 

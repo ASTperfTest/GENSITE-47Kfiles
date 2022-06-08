@@ -1,0 +1,4 @@
+﻿: @ codepage = 65001 :   
+ response.redirect "login.aspx?usrid=" & session("userid")
+ 'response.write "login.aspx?usrid=" & session("userid")
+ 

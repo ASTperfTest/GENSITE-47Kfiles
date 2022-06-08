@@ -1,0 +1,107 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_server_1606199358()
+   unitid = request.querystring("unitid") 
+
+
+
+
+
+
+
+
+
+
+
+                                                     =title
+
+
+
+
+
+
+
+
+             if (htprogright and 8)=8 then :                                      =language:                 =datatype:           =unitid:            end if 
+             if (htprogright and 2)=2 then :                                       =language:             =datatype:            end if 
+
+
+
+
+
+
+
+
+
+  
+ if catdecide = "y" then
+  sql = "select datacat.catname, datacat.catid, dataunit.* from dataunit, datacat where datacat.catid = dataunit.catid and unitid = "& unitid
+ else
+  sql = "select * from dataunit where unitid = "& unitid
+ end if
+  set rs = conn.execute(sql)
+   edituser = rs("edituserid")
+   editdate = rs("editdate")
+
+
+   if catdecide = "y" then 
+
+                                             =rs("catname")
+   end if 
+                                               =subject
+                                             =rs("subject")
+   if not isnull(extend_1) then 
+                                    =extend_1 &"：http://"& rs("extend_1")
+   end if 
+   if datedecide = "y" then 
+
+                                             =rs("begindate"):    =rs("enddate")
+   end if 
+
+
+
+
+    sqlcom = "select * from datacontent where unitid = "& unitid &" order by position"
+ set rscom = conn.execute(sqlcom)
+  if not rscom.eof then
+   divcount = 0
+   do while not rscom.eof
+    divcount = divcount + 1
+    imagehtelsrc = ""
+    clientck = "n"
+    comm = rscom("content")
+    ncomm = message(comm)
+    if not (rscom("imagefile") = "" or isnull(rscom("imagefile"))) then imagehtelsrc = "<img src=../public/data/"& rscom("imagefile") &" border=0 align="& rscom("imageway") &" id=conimg"& rscom("position") &" alt=""第 "& rscom("position") &" 段圖片"">"
+    response.write imagehtelsrc & ncomm &"<p>"& vbcrlf
+   rscom.movenext
+      loop
+     end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+function message(tempstr)
+  outstring = ""
+  while len(tempstr) > 0
+    pos=instr(tempstr, chr(13)&chr(10))
+    if pos = 0 then
+      outstring = outstring & tempstr & "<br>"
+      tempstr = ""
+    else
+      outstring = outstring & left(tempstr, pos-1) & "<br>"
+      tempstr=mid(tempstr, pos+2)
+    end if
+  wend
+  message = outstring
+end function
+ 

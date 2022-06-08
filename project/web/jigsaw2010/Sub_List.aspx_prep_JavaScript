@@ -1,0 +1,175 @@
+﻿
+
+
+
+function script___1142559145() {src("Scripts/swfobject_modified.js");}
+
+  window.onload = function ()
+  {
+   var searchkey = "Cx_0dummy" ;
+   if (searchkey != ""){
+    document.getElementById("county").style.display = 'none';
+   }
+   document.getElementById("searchbox").value = searchkey;
+   document.getElementById("countylist").value = "Cx_0dummy";
+  }
+  function RedirectSearch(){
+   if(document.getElementById("searchbox").value != ""){
+    var params = "searchkey=" + escape(document.getElementById("searchbox").value);
+    params = params + "&county=" + escape(document.getElementById("countylist").value);
+    window.location = "./sub_list.aspx?" + params ;
+   }else{
+    alert('請輸入關鍵字');
+   }
+  }
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                   function onclick____1252475967() {RedirectSearch()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function pageChange(p) {
+            window.location.href = 'Sub_List.aspx?county=Cx_0dummy&searchkey=Cx_0dummy&types=Cx_0dummy&pagesize=Cx_0dummy&page=' + (p - 1);
+        }
+        function perPageChange(ps) {
+            window.location.href = 'Sub_List.aspx?county=Cx_0dummy&searchkey=Cx_0dummy&types=Cx_0dummy&pagesize=' + ps;
+        }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   function onchange____141740393() {pageChange(this.value)}
+
+
+
+
+
+
+
+
+                    function onchange___314533860() {perPageChange(this.value)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

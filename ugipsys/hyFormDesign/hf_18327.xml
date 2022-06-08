@@ -1,0 +1,828 @@
+<?xml version="1.0"?>
+<formSpec>
+	<DataSchemaDef>
+		<dsTable>
+			<tableName>hfAptForm</tableName>
+			<tableDesc>申辦案件</tableDesc>
+			<fieldList>
+				<field>
+					<fieldName>hfAptID</fieldName>
+					<fieldLabel>申辦ID</fieldLabel>
+					<dataType>int</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>hidden</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>hyFormID</fieldName>
+					<fieldLabel>表單ID</fieldLabel>
+					<dataType>int</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>hidden</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>refHfForm</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>toDept</fieldName>
+					<fieldLabel>受理單位</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>deptCode</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>aplName</fieldName>
+					<fieldLabel>申辦人</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>50</dataLen>
+					<inputLen>40</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc>納稅義務人</fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>aplID</fieldName>
+					<fieldLabel>辨識號碼</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>15</dataLen>
+					<inputLen>15</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>aplType</fieldName>
+					<fieldLabel>身份辨識</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>readonly</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>aplIDType</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>billNum</fieldName>
+					<fieldLabel>進口報單號碼</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>14</dataLen>
+					<inputLen>14</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>caseNum</fieldName>
+					<fieldLabel>案號</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>16</dataLen>
+					<inputLen>16</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>aplDate</fieldName>
+					<fieldLabel>申辦日期</fieldLabel>
+					<dataType>smalldatetime</dataType>
+					<dataLen>16</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>readonly</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>status</fieldName>
+					<fieldLabel>辦理進度</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>aplStatus</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>lastDate</fieldName>
+					<fieldLabel>最後註記日</fieldLabel>
+					<dataType>smalldatetime</dataType>
+					<dataLen>16</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>popDate</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+		</dsTable>
+		<dsTable>
+			<tableName>formGeneric</tableName>
+			<tableDesc>共通欄位</tableDesc>
+			<fieldList>
+				<field>
+					<fieldName>aplID1</fieldName>
+					<fieldLabel>營利事業申辦請輸入統一編號</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>8</dataLen>
+					<inputLen>8</inputLen>
+					<canNull>Y</canNull>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>aplID2</fieldName>
+					<fieldLabel>個人申辦請輸入身分證號碼</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>Y</canNull>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>aplID3</fieldName>
+					<fieldLabel>非本國國民申辦請輸入護照號碼</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>Y</canNull>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>fillName</fieldName>
+					<fieldLabel>姓名</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>16</dataLen>
+					<inputLen>16</inputLen>
+					<canNull>Y</canNull>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>email</fieldName>
+					<fieldLabel>聯繫E-mail位址</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>50</dataLen>
+					<inputLen>50</inputLen>
+					<canNull>Y</canNull>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>phoneArea</fieldName>
+					<fieldLabel>聯繫電話</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>Y</canNull>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>telArea</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>phoneNum</fieldName>
+					<fieldLabel>聯繫電話</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>Y</canNull>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>phoneExt</fieldName>
+					<fieldLabel>分機</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>6</dataLen>
+					<inputLen>6</inputLen>
+					<canNull>Y</canNull>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+		</dsTable>
+		<dsTable>
+			<tableName>formUser</tableName>
+			<tableDesc>自訂欄位</tableDesc>
+			<fieldList>
+				<field>
+					<fieldName>xtA1</fieldName>
+					<fieldLabel>選項</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>checkbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+					<item><mCode>整理</mCode><mValue>整理</mValue></item><item><mCode>分類</mCode><mValue>分類</mValue></item><item><mCode>分割</mCode><mValue>分割</mValue></item><item><mCode>裝配</mCode><mValue>裝配</mValue></item><item><mCode>重裝</mCode><mValue>重裝</mValue></item><item><mCode>簡單加工</mCode><mValue>簡單加工</mValue></item></field>
+				<field>
+					<fieldName>xtA2</fieldName>
+					<fieldLabel>重整編號</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xtA3</fieldName>
+					<fieldLabel>料號</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>15</dataLen>
+					<inputLen>15</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xtA4</fieldName>
+					<fieldLabel>貨名</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>15</dataLen>
+					<inputLen>15</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xtA5</fieldName>
+					<fieldLabel>規格或型號</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xtA6</fieldName>
+					<fieldLabel>單位</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xtA7</fieldName>
+					<fieldLabel>數量</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>aplCusID</fieldName>
+					<fieldLabel>物流中心海關監管編號</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>P</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+		</dsTable>
+		<dsTable>
+			<tableName>formList</tableName>
+			<tableDesc>重覆條列欄位</tableDesc>
+			<repeatTimes>30</repeatTimes>
+			<fieldList>
+				<field>
+					<fieldName>xtB1</fieldName>
+					<fieldLabel>料號</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>15</dataLen>
+					<inputLen>15</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xtB2</fieldName>
+					<fieldLabel>規格或型號</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xtB3</fieldName>
+					<fieldLabel>單位</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>6</dataLen>
+					<inputLen>6</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xtB4</fieldName>
+					<fieldLabel>使用數量(含損耗數量)</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>6</dataLen>
+					<inputLen>6</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xtB5</fieldName>
+					<fieldLabel>是否保稅</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>2</dataLen>
+					<inputLen>2</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xtB6</fieldName>
+					<fieldLabel>原進儲報單號碼或進儲文號</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>18</dataLen>
+					<inputLen>18</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xtB7</fieldName>
+					<fieldLabel>備註</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>8</dataLen>
+					<inputLen>8</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+		</dsTable>
+	</DataSchemaDef>
+	<pHTML>&lt;P&gt;&lt;STRONG&gt;&lt;EM&gt;&lt;/EM&gt;&lt;/STRONG&gt;&lt;BR&gt;&lt;IMG alt=小圖示 src="http://hywade.hyweb.com.tw/hyFormImages/icon_book.gif" align=absMiddle&gt;： &lt;LABEL for=htx_toDept&gt;受理單位：&lt;/LABEL&gt; &lt;SELECT title=受理單位 tabIndex=1 size=1 name=htx_toDept&gt; &lt;OPTION value="" selected&gt;請選擇&lt;/OPTION&gt; &lt;OPTION value=""&gt;關稅總局 ()&lt;/OPTION&gt; &lt;OPTION value=X1&gt;財政部關稅總局保稅退稅處 (X1)&lt;/OPTION&gt; &lt;OPTION value=""&gt;進口課 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;出口課 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;臺北關稅局局本部 ()&lt;/OPTION&gt; &lt;OPTION value=AL&gt;桃園分局第二辦公室 (AL)&lt;/OPTION&gt; &lt;OPTION value=AM&gt;馬祖辦事處 (AM)&lt;/OPTION&gt; &lt;OPTION value=AS&gt;花蓮分局蘇澳派出課 (AS)&lt;/OPTION&gt; &lt;OPTION value=AW&gt;五堵分局 (AW)&lt;/OPTION&gt; &lt;OPTION value=AN&gt;六堵分局第二辦公室 (AN)&lt;/OPTION&gt; &lt;OPTION value=AA&gt;基隆關稅局局本部 (AA)&lt;/OPTION&gt; &lt;OPTION value=""&gt;基隆關稅局局本部進口組 ()&lt;/OPTION&gt; &lt;OPTION value=AP&gt;基隆關稅局進口組郵務股 (AP)&lt;/OPTION&gt; &lt;OPTION value=""&gt;&lt;/OPTION&gt; &lt;OPTION value=""&gt;&lt;/OPTION&gt; &lt;OPTION value=""&gt;&lt;/OPTION&gt; &lt;OPTION value=AE&gt;六堵分局第一辦公室 (AE)&lt;/OPTION&gt; &lt;OPTION value=AT&gt;桃園分局第一辦公室 (AT)&lt;/OPTION&gt; &lt;OPTION value=AH&gt;花連分局本部 (AH)&lt;/OPTION&gt; &lt;OPTION value=""&gt;&lt;/OPTION&gt; &lt;OPTION value=""&gt;進口組 ()&lt;/OPTION&gt; &lt;OPTION value=BB&gt;高雄關稅局保稅組 (BB)&lt;/OPTION&gt; &lt;OPTION value=BS&gt;臺南科學工業園區支局 (BS)&lt;/OPTION&gt; &lt;OPTION value=BR&gt;路竹科學工業園區 (BR)&lt;/OPTION&gt; &lt;OPTION value=""&gt;&lt;/OPTION&gt; &lt;OPTION value=""&gt;基隆關稅局局本部出口組 ()&lt;/OPTION&gt; &lt;OPTION value=BC&gt;前鎮分局 (BC)&lt;/OPTION&gt; &lt;OPTION value=BA&gt;高雄關稅局局本部 (BA)&lt;/OPTION&gt; &lt;OPTION value=BE&gt;中興分局第一辦公室 (BE)&lt;/OPTION&gt; &lt;OPTION value=BD&gt;中興分局第二辦公室 (中島) (BD)&lt;/OPTION&gt; &lt;OPTION value=BG&gt;金門辦事處 (BG)&lt;/OPTION&gt; &lt;OPTION value=BM&gt;高雄關稅局稽查組督察課 (BM)&lt;/OPTION&gt; &lt;OPTION value=BP&gt;高雄關稅局進口組國際郵包處理課一股 (BP)&lt;/OPTION&gt; &lt;OPTION value=BK&gt;加工出口區分局（二）（高雄區） (BK)&lt;/OPTION&gt; &lt;OPTION value=BN&gt;加工出口區分局（一）（楠梓區） (BN)&lt;/OPTION&gt; &lt;OPTION value=BF&gt;高雄機場分局 (BF)&lt;/OPTION&gt; &lt;OPTION value=BH&gt;高雄關稅局進口組國際郵包處理課二股 (BH)&lt;/OPTION&gt; &lt;OPTION value=""&gt;出口組 ()&lt;/OPTION&gt; &lt;OPTION value=CG&gt;臺北關稅局進口貨棧組(長榮空運倉儲股份有限公司進口貨棧) (CG)&lt;/OPTION&gt; &lt;OPTION value=CI&gt;臺北關稅局法務室（旅客行李案件） (CI)&lt;/OPTION&gt; &lt;OPTION value=CB&gt;臺北關稅局保稅組 (CB)&lt;/OPTION&gt; &lt;OPTION value=CE&gt;臺北關稅局快遞機放組（快遞貨物專區案件） (CE)&lt;/OPTION&gt; &lt;OPTION value=CF&gt;臺北關稅局快遞機放組（Fedex Transhipment Center） (CF)&lt;/OPTION&gt; &lt;OPTION value=CO&gt;臺北關稅局快遞機放組（出口快遞專差） (CO)&lt;/OPTION&gt; &lt;OPTION value=CU&gt;臺北關稅局快遞機放組（UPS Asia Hub） (CU)&lt;/OPTION&gt; &lt;OPTION value=CR&gt;臺北關稅局快遞機放組(長榮空運倉儲股份有限公司快遞貨物專區) (CR)&lt;/OPTION&gt; &lt;OPTION value=CN&gt;臺北關稅局快遞機放組(長榮空運倉儲股份有限公司機放貨棧) (CN)&lt;/OPTION&gt; &lt;OPTION value=CM&gt;臺北關稅局進口貨棧組(美商聯邦快遞一般貨棧) (CM)&lt;/OPTION&gt; &lt;OPTION value=CA&gt;臺北關稅局進口組 (CA)&lt;/OPTION&gt; &lt;OPTION value=CD&gt;臺北關稅局快遞機放組（機邊驗放案件） (CD)&lt;/OPTION&gt; &lt;OPTION value=CH&gt;臺北關稅局外棧組（駐永儲航空貨物集散站） (CH)&lt;/OPTION&gt; &lt;OPTION value=CL&gt;臺北關稅局外棧組（駐遠翔航空貨物集散站） (CL)&lt;/OPTION&gt; &lt;OPTION value=""&gt;進口組 ()&lt;/OPTION&gt; &lt;OPTION value=CP&gt;臺北郵局支局 (CP)&lt;/OPTION&gt; &lt;OPTION value=CS&gt;新竹科學工業園區支局 (CS)&lt;/OPTION&gt; &lt;OPTION value=""&gt;中興分局 ()&lt;/OPTION&gt; &lt;OPTION value=DA&gt;臺中關稅局局本部 (DA)&lt;/OPTION&gt; &lt;OPTION value=DP&gt;臺中關稅局進口課郵務股 (DP)&lt;/OPTION&gt; &lt;OPTION value=""&gt;臺中關保稅課 ()&lt;/OPTION&gt; &lt;OPTION value=DT&gt;台中加工出口區支局 (DT)&lt;/OPTION&gt; &lt;OPTION value=""&gt;出口組 ()&lt;/OPTION&gt; &lt;OPTION value=DM&gt;麥寮支局 (DM)&lt;/OPTION&gt; &lt;OPTION value=DS&gt;臺中關稅局保稅課 (中部科學工業園區) (DS)&lt;/OPTION&gt; &lt;OPTION value=DB&gt;臺中關稅局保稅課 (保稅工廠) (DB)&lt;/OPTION&gt; &lt;OPTION value=DC&gt;臺中關稅局保稅課 (中港加工出口區) (DC)&lt;/OPTION&gt; &lt;OPTION value=""&gt;快遞機放組 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;緝案處理組 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;各關共用 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;外棧組 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;基隆關稅局 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;六堵分局 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;桃園分局 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;花蓮分局 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;高雄關稅局 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;臺北關稅局 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;臺中關稅局 ()&lt;/OPTION&gt;&lt;/SELECT&gt; &lt;/P&gt;
+&lt;P&gt;&lt;FONT color=#b9cffc&gt;■ &lt;/FONT&gt;請輸入申辦基本資料： &lt;BR&gt;　 &lt;FONT color=#ff9900&gt;◆&lt;/FONT&gt;&lt;LABEL for=htx_aplName&gt;物流中心名稱：&lt;/LABEL&gt; &lt;INPUT title=納稅義務人 tabIndex=2 size=50 name=htx_aplName&gt; &amp;nbsp; &lt;BR&gt;　 &lt;FONT color=#ff9900&gt;◆&lt;/FONT&gt;&lt;LABEL for=htx_aplCusID&gt;物流中心海關監管編號：&lt;/LABEL&gt; &lt;INPUT title=物流中心海關監管編號 tabIndex=3 name=htx_aplCusID&gt; &amp;nbsp; &lt;BR&gt;　 &lt;FONT color=#ff9900&gt;◆&lt;/FONT&gt;&lt;LABEL for=htx_aplID1&gt;公司統一編號：&lt;/LABEL&gt; &lt;INPUT title=營利事業申辦請輸入統一編號 tabIndex=4 size=8 name=htx_aplID1&gt; &amp;nbsp; &lt;/P&gt;
+&lt;P&gt;&lt;FONT color=#b9cffc&gt;■ &lt;/FONT&gt;填寫人（或聯絡人）&lt;BR&gt;&lt;FONT color=#ff9900&gt;　◆&lt;/FONT&gt; &lt;LABEL for=htx_fillName&gt;姓名：&lt;/LABEL&gt; &lt;INPUT title=姓名 tabIndex=5 size=16 name=htx_fillName&gt; &lt;BR&gt;　&lt;FONT color=#ff9900&gt;◆&lt;/FONT&gt; &lt;LABEL for=htx_email&gt;聯繫E-mail位址：&lt;/LABEL&gt; &lt;INPUT title=聯繫E-mail位址 tabIndex=6 size=50 name=htx_email&gt; &lt;BR&gt;　&lt;FONT color=#ff9900&gt;◆&lt;/FONT&gt; &lt;LABEL for=htx_phoneArea&gt;聯繫電話：&lt;/LABEL&gt; &lt;SELECT title=聯繫電話 tabIndex=7 size=1 name=htx_phoneArea&gt; &lt;OPTION value="" selected&gt;請選擇&lt;/OPTION&gt; &lt;OPTION value=02&gt;02&lt;/OPTION&gt; &lt;OPTION value=03&gt;03&lt;/OPTION&gt; &lt;OPTION value=037&gt;037&lt;/OPTION&gt; &lt;OPTION value=04&gt;04&lt;/OPTION&gt; &lt;OPTION value=049&gt;049&lt;/OPTION&gt; &lt;OPTION value=05&gt;05&lt;/OPTION&gt; &lt;OPTION value=06&gt;06&lt;/OPTION&gt; &lt;OPTION value=07&gt;07&lt;/OPTION&gt; &lt;OPTION value=08&gt;08&lt;/OPTION&gt; &lt;OPTION value=089&gt;089&lt;/OPTION&gt; &lt;OPTION value=0823&gt;0823&lt;/OPTION&gt; &lt;OPTION value=0826&gt;0826&lt;/OPTION&gt; &lt;OPTION value=0827&gt;0827&lt;/OPTION&gt; &lt;OPTION value=0836&gt;0836&lt;/OPTION&gt;&lt;/SELECT&gt;&amp;nbsp;&amp;nbsp; &lt;INPUT title=聯繫電話 tabIndex=8 size=10 name=htx_phoneNum&gt;&amp;nbsp;&amp;nbsp; &lt;LABEL for=htx_phoneExt&gt;分機：&lt;/LABEL&gt; &lt;INPUT title=分機 tabIndex=9 size=6 name=htx_phoneExt&gt; &lt;/P&gt;
+&lt;P&gt;&lt;BR&gt;&lt;!--申請事項--&gt;&lt;IMG alt=小圖示 hspace=3 src="http://hywade.hyweb.com.tw/hyFormImages/icon_book2.gif" align=absMiddle&gt;申請事項：&lt;/P&gt;
+&lt;P&gt;請准依&lt;A title=『物流中心貨物通關辦法』第3條(另開視窗) href="http://law.moj.gov.tw/Scripts/Query4A.asp?Fcode=G0350050&amp;amp;FLNO=3" target=_gipNW&gt;『物流中心貨物通關辦法』第3條&lt;/A&gt;規定辦理。&lt;BR&gt;&lt;LABEL for=htx_xtA1&gt;處理方式：&lt;/LABEL&gt; &lt;INPUT id=htx_xtA1_op1 title="選項 方盒選項" tabIndex=10 type=checkbox value=整理 name=htx_xtA1&gt; &lt;LABEL for=htx_xtA1_op1&gt;整理&lt;/LABEL&gt; &lt;INPUT id=htx_xtA1_op2 title="選項 方盒選項" tabIndex=11 type=checkbox value=分類 name=htx_xtA1&gt; &lt;LABEL for=htx_xtA1_op2&gt;分類&lt;/LABEL&gt; &lt;INPUT id=htx_xtA1_op3 title="選項 方盒選項" tabIndex=12 type=checkbox value=分割 name=htx_xtA1&gt; &lt;LABEL for=htx_xtA1_op3&gt;分割&lt;/LABEL&gt; &lt;INPUT id=htx_xtA1_op4 title="選項 方盒選項" tabIndex=13 type=checkbox value=裝配 name=htx_xtA1&gt; &lt;LABEL for=htx_xtA1_op4&gt;裝配&lt;/LABEL&gt; &lt;INPUT id=htx_xtA1_op5 title="選項 方盒選項" tabIndex=14 type=checkbox value=重裝 name=htx_xtA1&gt; &lt;LABEL for=htx_xtA1_op5&gt;重裝&lt;/LABEL&gt; &lt;INPUT id=htx_xtA1_op6 title="選項 方盒選項" tabIndex=15 type=checkbox value=簡單加工 name=htx_xtA1&gt; &lt;LABEL for=htx_xtA1_op6&gt;簡單加工&lt;/LABEL&gt;&amp;nbsp;&lt;/FONT&gt; &lt;BR&gt;&lt;LABEL for=htx_xtA2&gt;重整編號：&lt;/LABEL&gt; &lt;INPUT title=重整編號 tabIndex=11 name=htx_xtA2&gt; &lt;BR&gt;&lt;BR&gt;重整及簡易加工貨物清表：&lt;/P&gt;
+&lt;P&gt;&lt;EM&gt;&lt;STRONG&gt;重整加工後&lt;/STRONG&gt;&lt;/EM&gt;&lt;/P&gt;
+&lt;P&gt;
+&lt;TABLE summary="列表資料 " border=1&gt;
+&lt;TBODY&gt;
+&lt;TR&gt;
+&lt;TH&gt;料號&lt;/TH&gt;
+&lt;TH&gt;貨名&lt;/TH&gt;
+&lt;TH&gt;規格或型號&lt;/TH&gt;
+&lt;TH&gt;單位&lt;/TH&gt;
+&lt;TH&gt;數量&lt;/TH&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;&amp;nbsp;&lt;INPUT title=料號 tabIndex=12 size=15 name=htx_xtA3&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&amp;nbsp;&lt;INPUT title=貨名 tabIndex=13 size=15 name=htx_xtA4&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&amp;nbsp;&lt;INPUT title=規格或型號 tabIndex=14 name=htx_xtA5&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&amp;nbsp;&lt;INPUT title=單位 tabIndex=15 size=10 name=htx_xtA6&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&amp;nbsp;&lt;INPUT title=數量 tabIndex=16 size=10 name=htx_xtA7&gt; &lt;/TD&gt;&lt;/TR&gt;&lt;/TBODY&gt;&lt;/TABLE&gt;&lt;/P&gt;
+&lt;P&gt;&lt;STRONG&gt;&lt;EM&gt;重整加工用料明細 
+&lt;TABLE summary=多列式輸入表格 border=1&gt;
+&lt;CAPTION&gt;(多列式輸入表格，請逐項填寫)&lt;/CAPTION&gt;
+&lt;TBODY&gt;
+&lt;TR&gt;
+&lt;TH scope=col&gt;項次&lt;/TH&gt;
+&lt;TH scope=col&gt;料號&lt;/TH&gt;
+&lt;TH scope=col&gt;規格或型號&lt;/TH&gt;
+&lt;TH scope=col&gt;單位&lt;/TH&gt;
+&lt;TH scope=col&gt;使用數量(含損耗數量)&lt;/TH&gt;
+&lt;TH scope=col&gt;是否保稅&lt;/TH&gt;
+&lt;TH scope=col&gt;原進儲報單號碼或進儲文號&lt;/TH&gt;
+&lt;TH scope=col&gt;備註&lt;/TH&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;1&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=100 size=15 name=htx_xtB1_01&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=101 size=10 name=htx_xtB2_01&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=102 size=6 name=htx_xtB3_01&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=103 size=6 name=htx_xtB4_01&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=104 size=2 name=htx_xtB5_01&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=105 size=18 name=htx_xtB6_01&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=106 size=8 name=htx_xtB7_01&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;2&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=107 size=15 name=htx_xtB1_02&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=108 size=10 name=htx_xtB2_02&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=109 size=6 name=htx_xtB3_02&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=110 size=6 name=htx_xtB4_02&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=111 size=2 name=htx_xtB5_02&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=112 size=18 name=htx_xtB6_02&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=113 size=8 name=htx_xtB7_02&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;3&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=114 size=15 name=htx_xtB1_03&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=115 size=10 name=htx_xtB2_03&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=116 size=6 name=htx_xtB3_03&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=117 size=6 name=htx_xtB4_03&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=118 size=2 name=htx_xtB5_03&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=119 size=18 name=htx_xtB6_03&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=120 size=8 name=htx_xtB7_03&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;4&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=121 size=15 name=htx_xtB1_04&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=122 size=10 name=htx_xtB2_04&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=123 size=6 name=htx_xtB3_04&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=124 size=6 name=htx_xtB4_04&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=125 size=2 name=htx_xtB5_04&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=126 size=18 name=htx_xtB6_04&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=127 size=8 name=htx_xtB7_04&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;5&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=128 size=15 name=htx_xtB1_05&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=129 size=10 name=htx_xtB2_05&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=130 size=6 name=htx_xtB3_05&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=131 size=6 name=htx_xtB4_05&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=132 size=2 name=htx_xtB5_05&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=133 size=18 name=htx_xtB6_05&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=134 size=8 name=htx_xtB7_05&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;6&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=135 size=15 name=htx_xtB1_06&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=136 size=10 name=htx_xtB2_06&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=137 size=6 name=htx_xtB3_06&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=138 size=6 name=htx_xtB4_06&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=139 size=2 name=htx_xtB5_06&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=140 size=18 name=htx_xtB6_06&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=141 size=8 name=htx_xtB7_06&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;7&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=142 size=15 name=htx_xtB1_07&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=143 size=10 name=htx_xtB2_07&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=144 size=6 name=htx_xtB3_07&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=145 size=6 name=htx_xtB4_07&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=146 size=2 name=htx_xtB5_07&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=147 size=18 name=htx_xtB6_07&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=148 size=8 name=htx_xtB7_07&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;8&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=149 size=15 name=htx_xtB1_08&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=150 size=10 name=htx_xtB2_08&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=151 size=6 name=htx_xtB3_08&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=152 size=6 name=htx_xtB4_08&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=153 size=2 name=htx_xtB5_08&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=154 size=18 name=htx_xtB6_08&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=155 size=8 name=htx_xtB7_08&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;9&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=156 size=15 name=htx_xtB1_09&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=157 size=10 name=htx_xtB2_09&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=158 size=6 name=htx_xtB3_09&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=159 size=6 name=htx_xtB4_09&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=160 size=2 name=htx_xtB5_09&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=161 size=18 name=htx_xtB6_09&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=162 size=8 name=htx_xtB7_09&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;10&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=163 size=15 name=htx_xtB1_10&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=164 size=10 name=htx_xtB2_10&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=165 size=6 name=htx_xtB3_10&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=166 size=6 name=htx_xtB4_10&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=167 size=2 name=htx_xtB5_10&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=168 size=18 name=htx_xtB6_10&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=169 size=8 name=htx_xtB7_10&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;11&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=170 size=15 name=htx_xtB1_11&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=171 size=10 name=htx_xtB2_11&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=172 size=6 name=htx_xtB3_11&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=173 size=6 name=htx_xtB4_11&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=174 size=2 name=htx_xtB5_11&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=175 size=18 name=htx_xtB6_11&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=176 size=8 name=htx_xtB7_11&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;12&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=177 size=15 name=htx_xtB1_12&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=178 size=10 name=htx_xtB2_12&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=179 size=6 name=htx_xtB3_12&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=180 size=6 name=htx_xtB4_12&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=181 size=2 name=htx_xtB5_12&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=182 size=18 name=htx_xtB6_12&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=183 size=8 name=htx_xtB7_12&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;13&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=184 size=15 name=htx_xtB1_13&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=185 size=10 name=htx_xtB2_13&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=186 size=6 name=htx_xtB3_13&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=187 size=6 name=htx_xtB4_13&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=188 size=2 name=htx_xtB5_13&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=189 size=18 name=htx_xtB6_13&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=190 size=8 name=htx_xtB7_13&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;14&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=191 size=15 name=htx_xtB1_14&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=192 size=10 name=htx_xtB2_14&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=193 size=6 name=htx_xtB3_14&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=194 size=6 name=htx_xtB4_14&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=195 size=2 name=htx_xtB5_14&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=196 size=18 name=htx_xtB6_14&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=197 size=8 name=htx_xtB7_14&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;15&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=198 size=15 name=htx_xtB1_15&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=199 size=10 name=htx_xtB2_15&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=200 size=6 name=htx_xtB3_15&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=201 size=6 name=htx_xtB4_15&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=202 size=2 name=htx_xtB5_15&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=203 size=18 name=htx_xtB6_15&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=204 size=8 name=htx_xtB7_15&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;16&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=205 size=15 name=htx_xtB1_16&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=206 size=10 name=htx_xtB2_16&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=207 size=6 name=htx_xtB3_16&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=208 size=6 name=htx_xtB4_16&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=209 size=2 name=htx_xtB5_16&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=210 size=18 name=htx_xtB6_16&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=211 size=8 name=htx_xtB7_16&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;17&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=212 size=15 name=htx_xtB1_17&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=213 size=10 name=htx_xtB2_17&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=214 size=6 name=htx_xtB3_17&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=215 size=6 name=htx_xtB4_17&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=216 size=2 name=htx_xtB5_17&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=217 size=18 name=htx_xtB6_17&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=218 size=8 name=htx_xtB7_17&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;18&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=219 size=15 name=htx_xtB1_18&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=220 size=10 name=htx_xtB2_18&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=221 size=6 name=htx_xtB3_18&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=222 size=6 name=htx_xtB4_18&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=223 size=2 name=htx_xtB5_18&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=224 size=18 name=htx_xtB6_18&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=225 size=8 name=htx_xtB7_18&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;19&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=226 size=15 name=htx_xtB1_19&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=227 size=10 name=htx_xtB2_19&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=228 size=6 name=htx_xtB3_19&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=229 size=6 name=htx_xtB4_19&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=230 size=2 name=htx_xtB5_19&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=231 size=18 name=htx_xtB6_19&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=232 size=8 name=htx_xtB7_19&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;20&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=233 size=15 name=htx_xtB1_20&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=234 size=10 name=htx_xtB2_20&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=235 size=6 name=htx_xtB3_20&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=236 size=6 name=htx_xtB4_20&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=237 size=2 name=htx_xtB5_20&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=238 size=18 name=htx_xtB6_20&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=239 size=8 name=htx_xtB7_20&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;21&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=240 size=15 name=htx_xtB1_21&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=241 size=10 name=htx_xtB2_21&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=242 size=6 name=htx_xtB3_21&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=243 size=6 name=htx_xtB4_21&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=244 size=2 name=htx_xtB5_21&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=245 size=18 name=htx_xtB6_21&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=246 size=8 name=htx_xtB7_21&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;22&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=247 size=15 name=htx_xtB1_22&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=248 size=10 name=htx_xtB2_22&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=249 size=6 name=htx_xtB3_22&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=250 size=6 name=htx_xtB4_22&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=251 size=2 name=htx_xtB5_22&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=252 size=18 name=htx_xtB6_22&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=253 size=8 name=htx_xtB7_22&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;23&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=254 size=15 name=htx_xtB1_23&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=255 size=10 name=htx_xtB2_23&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=256 size=6 name=htx_xtB3_23&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=257 size=6 name=htx_xtB4_23&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=258 size=2 name=htx_xtB5_23&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=259 size=18 name=htx_xtB6_23&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=260 size=8 name=htx_xtB7_23&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;24&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=261 size=15 name=htx_xtB1_24&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=262 size=10 name=htx_xtB2_24&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=263 size=6 name=htx_xtB3_24&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=264 size=6 name=htx_xtB4_24&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=265 size=2 name=htx_xtB5_24&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=266 size=18 name=htx_xtB6_24&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=267 size=8 name=htx_xtB7_24&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;25&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=268 size=15 name=htx_xtB1_25&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=269 size=10 name=htx_xtB2_25&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=270 size=6 name=htx_xtB3_25&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=271 size=6 name=htx_xtB4_25&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=272 size=2 name=htx_xtB5_25&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=273 size=18 name=htx_xtB6_25&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=274 size=8 name=htx_xtB7_25&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;26&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=275 size=15 name=htx_xtB1_26&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=276 size=10 name=htx_xtB2_26&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=277 size=6 name=htx_xtB3_26&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=278 size=6 name=htx_xtB4_26&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=279 size=2 name=htx_xtB5_26&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=280 size=18 name=htx_xtB6_26&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=281 size=8 name=htx_xtB7_26&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;27&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=282 size=15 name=htx_xtB1_27&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=283 size=10 name=htx_xtB2_27&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=284 size=6 name=htx_xtB3_27&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=285 size=6 name=htx_xtB4_27&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=286 size=2 name=htx_xtB5_27&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=287 size=18 name=htx_xtB6_27&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=288 size=8 name=htx_xtB7_27&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;28&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=289 size=15 name=htx_xtB1_28&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=290 size=10 name=htx_xtB2_28&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=291 size=6 name=htx_xtB3_28&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=292 size=6 name=htx_xtB4_28&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=293 size=2 name=htx_xtB5_28&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=294 size=18 name=htx_xtB6_28&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=295 size=8 name=htx_xtB7_28&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;29&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=296 size=15 name=htx_xtB1_29&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=297 size=10 name=htx_xtB2_29&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=298 size=6 name=htx_xtB3_29&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=299 size=6 name=htx_xtB4_29&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=300 size=2 name=htx_xtB5_29&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=301 size=18 name=htx_xtB6_29&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=302 size=8 name=htx_xtB7_29&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;30&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=料號 tabIndex=303 size=15 name=htx_xtB1_30&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=規格或型號 tabIndex=304 size=10 name=htx_xtB2_30&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=單位 tabIndex=305 size=6 name=htx_xtB3_30&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=使用數量(含損耗數量) tabIndex=306 size=6 name=htx_xtB4_30&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=是否保稅 tabIndex=307 size=2 name=htx_xtB5_30&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=原進儲報單號碼或進儲文號 tabIndex=308 size=18 name=htx_xtB6_30&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=309 size=8 name=htx_xtB7_30&gt; &lt;/TD&gt;&lt;/TR&gt;&lt;/TBODY&gt;&lt;/TABLE&gt;&lt;/EM&gt;&lt;/STRONG&gt;&lt;/P&gt;</pHTML>
+</formSpec>

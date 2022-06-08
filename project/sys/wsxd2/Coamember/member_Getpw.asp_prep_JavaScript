@@ -1,0 +1,74 @@
+﻿
+                               
+          
+function send(){
+ var form=document.form1; 
+ //if(CheckAccount(form) == false){
+ // form.account.focus();
+ // return false;
+ //}
+ //else 
+ if(form.realname.value==""){
+  alert("您忘了填寫真實姓名了！"); 
+  form.realname.focus(); 
+  return false;
+ }
+ //else if(CheckPasswd(form) == false){
+ // return false;
+ //}
+ else  if(CheckEmail(form) == false){
+  form.email.focus();
+  return false;
+ }
+ //else if(CheckIDn(form) == false){
+ // form.idn.focus();
+ // return false;
+ //}
+ 
+ //window.open(encodeURI("?a=sp&xdURL=/site/coa/coaMember/member_FormUpdate_act&realname=" + form.realname.value), "_blank"); 
+ //window.location = "?a=sp&xdURL=/site/coa/coaMember/member_FormUpdate_act&realname=" + form.realname.value + "&birthYear=" + form.birthYear.value + "&sex=" + form.sex.value + "&homeaddr=" + form.homeaddr.value + "&zip=" + form.zip.value + "&phone=" + form.zip.phone + "&mobile="+ form.mobile.value + "&fax=" + form.fax.value + "&email=" + form.email.value;
+ return true;
+}  
+     
+
+
+
+
+
+
+
+
+
+
+
+                                                                                   function onSubmit____516022209() {return send()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

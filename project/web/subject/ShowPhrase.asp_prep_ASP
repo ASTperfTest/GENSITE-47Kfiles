@@ -1,0 +1,48 @@
+﻿: @  codepage="65001" 
+   CxMethod_ASP_getpediatable_1115624165()
+  
+  '小百科字辭及時解釋(取代字串)
+  '2011/05/26 modify by max
+  havebody = false
+
+  function checkinput(str,strtype)
+  dim strtmp
+   strtmp = ""
+  if strtype = "s" then
+   strtmp = replace(trim(str),"@#","@#@#")
+   strtmp = replace(trim(strtmp),";","")
+   strtmp = replace(trim(strtmp),"'","")
+   strtmp = replace(trim(strtmp),"--","")
+   strtmp = replace(trim(strtmp),"/*","")
+   strtmp = replace(trim(strtmp),"*/","")
+   strtmp = replace(trim(strtmp),"*","")
+   strtmp = replace(trim(strtmp),"/","")
+   strtmp = replace(trim(strtmp),"<","")
+   strtmp = replace(trim(strtmp),">","")
+
+  elseif strtype="i" then
+  if isnumeric(str)=false then str="0"
+   strtmp = str
+  else
+   strtmp = str
+  end if
+    
+  checkinput = strtmp
+  
+  end function
+  
+  set conn = server.createobject("adodb.connection")
+  conn.open session("odbcdsn")
+  
+  dim icuitemid,mp,rowid
+  
+  icuitemid=checkinput(request("icuitem"),"i")
+  mp = checkinput(request("mp"),"i")
+  rowid=checkinput(request("themeid"),"i")
+  review=checkinput(request("review"),"i")
+  
+ 
+  '建立小百科 table
+  response.write getpediatable(icuitemid,mp,rowid)
+   
+   

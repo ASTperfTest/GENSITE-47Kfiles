@@ -1,0 +1,54 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+/* ---------------------------------------------------- Thumbnail */
+
+
+.center .album {
+	margin: 5px auto 0;
+	padding: 0;
+}
+
+.center .album li {
+     margin-left:0px;
+     margin-right:0px;
+}
+
+.center .albumFolderIcon {
+	margin: 5px auto 0;
+	padding: 0;
+}
+.albumFolderIcon ul {
+	margin:  0 auto;
+	padding: 0;
+	overflow: hidden;
+}
+.albumFolderIcon li {
+	float: left;
+	text-align: center;	
+	margin: 2px;
+	padding: 0;
+	list-style: none;
+}
+.albumFolderIcon li a {
+	display: block;
+	padding: 0 0 5px;
+    text-decoration:none;
+}
+.albumFolderIcon img {
+	margin: 0px 0px 0px 4px;
+	border:0px;
+}
+
+.albumFolderIcon h3 {
+	font-size: 13px;
+	line-height: 150%;
+	font-weight: normal;
+	margin: 0 auto;
+	padding: 0;
+	width: 130px;
+	height: 4.3em;
+	overflow: hidden;
+	border: none;
+}

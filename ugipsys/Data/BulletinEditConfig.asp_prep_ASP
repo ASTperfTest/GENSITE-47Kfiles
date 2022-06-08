@@ -1,0 +1,373 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_server_1606199358()
+  
+ setimgwidth = 100
+ setimgheight = 200
+
+ unitid = request.querystring("unitid") 
+ contentid = request.querystring("contentid")
+ edittype = request.querystring("edittype")
+
+ set upl = server.createobject("softartisans.fileup")
+ apath=server.mappath("../public/data/")
+ upl.path = apath
+
+ if edittype = "del" then
+  sql = "select imagefile from datacontent where unitid = "& unitid
+  set rs = conn.execute(sql)
+   if not rs.eof then
+    do while not rs.eof
+     if not (rs("imagefile") = "" or isnull(rs("imagefile"))) then 
+    set dfile = server.createobject("scripting.filesystemobject") 
+    ifile = server.mappath("../public/data/" & rs("imagefile")) 
+    dfile.deletefile(ifile)
+   end if 
+    rs.movenext
+    loop
+   end if
+   
+   if datadecide = "y" then
+   sql = "delete from datacontent where unitid = "& unitid 
+   set rs = conn.execute(sql)
+   sql = "delete from dataunit where unitid = "& unitid 
+   set rs = conn.execute(sql)
+    sql = "select unitid from dataunit where ('"& date() &"' between begindate and enddate) and datatype = n'"& datatype &"' and language = n'"& language &"' order by showorder"
+    set rs = conn.execute(sql)
+   if not rs.eof then
+     neworderno = 0
+     do while not rs.eof
+       neworderno = neworderno + 1
+       sql2="update dataunit set showorder = "& neworderno &" where unitid = " & rs("unitid")
+       set rs2 = conn.execute(sql2)
+     rs.movenext
+     loop
+   end if
+   elseif catdecide = "y" then
+   sql = "select catid from dataunit where unitid = "& unitid
+   set rs = conn.execute(sql)
+    catid = rs(0)
+   sql = "delete from datacontent where unitid = "& unitid 
+   set rs = conn.execute(sql)
+   sql = "delete from dataunit where unitid = "& unitid 
+   set rs = conn.execute(sql)
+    sql = "select unitid from dataunit where datatype = n'"& datatype &"' and language = n'"& language &"' order by showorder"
+    set rs = conn.execute(sql)
+   if not rs.eof then
+     neworderno = 0
+     do while not rs.eof
+       neworderno = neworderno + 1
+       sql2="update dataunit set showorder = "& neworderno &" where unitid = " & rs("unitid")
+       set rs2 = conn.execute(sql2)
+     rs.movenext
+     loop
+   end if
+   else
+   sql = "delete from datacontent where unitid = "& unitid 
+   set rs = conn.execute(sql)
+   sql = "delete from dataunit where unitid = "& unitid 
+   set rs = conn.execute(sql)
+    sql = "select unitid from dataunit where datatype = n'"& datatype &"' and language = n'"& language &"' order by showorder"
+    set rs = conn.execute(sql)
+   if not rs.eof then
+     neworderno = 0
+     do while not rs.eof
+       neworderno = neworderno + 1
+       sql2="update dataunit set showorder = "& neworderno &" where unitid = " & rs("unitid")
+       set rs2 = conn.execute(sql2)
+     rs.movenext
+     loop
+   end if
+   end if 
+
+
+                                                       =language:             =datatype
+
+    response.end 
+ elseif edittype = "addimg" then
+   imageway = upl.form("imageway")
+   ufile = upl.form("imagefile").userfilename
+   ofname = fname(ufile)
+   if instr(ofname, ".")>0 then
+     fnext=mid(ofname, instr(ofname, "."))
+   else
+     fnext=""
+   end if
+   tstr = now()
+   nfname = year(tstr) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & fnext
+   upl.form("imagefile").saveas nfname
+    set ilib = server.createobject("overpower.imagelib")
+  picstr = apath &"\"& nfname
+  ilib.picturesize picstr,picw,pich
+   if lcase(fnext) = ".jpg" then
+    fnoname = 3
+   elseif lcase(fnext) = ".gif" then
+    fnoname = 2
+   end if 
+   if (picw/setimgwidth) > (pich/setimgheight) and (picw/setimgwidth) > 1 then
+   ilib.width = setimgwidth
+   ilib.height = int(setimgwidth*pich/picw)
+   ilib.insertpicture picstr,0,0,true,setimgwidth,int(setimgwidth*pich/picw)
+   ilib.savepicture picstr,fno,100,""
+    elseif (picw/setimgwidth) < (pich/setimgheight) and (pich/setimgheight) > 1 then
+   ilib.width = int(setimgheight*picw/pich)
+   ilib.height = setimgheight
+   ilib.insertpicture picstr,0,0,true,int(setimgheight*picw/pich),setimgheight
+   ilib.savepicture picstr,fnoname,100,""
+    end if
+  sql = "update datacontent set imagefile = n'"& nfname &"',imageway = n'"& imageway &"' where contentid = "& contentid
+  set rs = conn.execute(sql)
+  alertmsg = "新增圖片完成！"
+  editdatasave
+ elseif edittype = "chgimg" then
+  sql = "select imagefile from datacontent where contentid = "& contentid
+  set rs = conn.execute(sql)
+  set dfile = server.createobject("scripting.filesystemobject") 
+  ifile = server.mappath("../public/data/" & rs("imagefile")) 
+  dfile.deletefile(ifile) 
+   imageway = upl.form("chgimageway")
+   ufile = upl.form("chgimagefile").userfilename
+   ofname = fname(ufile)
+   if instr(ofname, ".")>0 then
+     fnext=mid(ofname, instr(ofname, "."))
+   else
+     fnext=""
+   end if
+   tstr = now()
+   nfname = year(tstr) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & fnext
+   upl.form("chgimagefile").saveas nfname
+    set ilib = server.createobject("overpower.imagelib")
+  picstr = apath &"\"& nfname
+  ilib.picturesize picstr,picw,pich
+   if lcase(fnext) = ".jpg" then
+    fnoname = 3
+   elseif lcase(fnext) = ".gif" then
+    fnoname = 2
+   end if 
+   if (picw/setimgwidth) > (pich/setimgheight) and (picw/setimgwidth) > 1 then
+   ilib.width = setimgwidth
+   ilib.height = int(setimgwidth*pich/picw)
+   ilib.insertpicture picstr,0,0,true,setimgwidth,int(setimgwidth*pich/picw)
+   ilib.savepicture picstr,fno,100,""
+    elseif (picw/setimgwidth) < (pich/setimgheight) and (pich/setimgheight) > 1 then
+   ilib.width = int(setimgheight*picw/pich)
+   ilib.height = setimgheight
+   ilib.insertpicture picstr,0,0,true,int(setimgheight*picw/pich),setimgheight
+   ilib.savepicture picstr,fnoname,100,""
+    end if
+  sql = "update datacontent set imagefile = n'"& nfname &"',imageway = n'"& imageway &"' where contentid = "& contentid
+  set rs = conn.execute(sql)
+  alertmsg = "圖片變更完成！"
+  editdatasave
+ elseif edittype = "imgleft" then
+  sql = "update datacontent set imageway ='left' where contentid = "& contentid
+  set rs = conn.execute(sql)
+  alertmsg = "圖片位置變更完成！"
+  editdatasave
+ elseif edittype = "imgright" then
+  sql = "update datacontent set imageway ='right' where contentid = "& contentid
+  set rs = conn.execute(sql)
+  alertmsg = "圖片位置變更完成！"
+  editdatasave
+ elseif edittype = "delimg" then
+  sql = "select imagefile from datacontent where contentid = "& contentid
+  set rs = conn.execute(sql)
+   set dfile = server.createobject("scripting.filesystemobject") 
+   ifile = server.mappath("../public/data/" & rs("imagefile")) 
+   dfile.deletefile(ifile) 
+  sql = "update datacontent set imagefile = null where contentid = "& contentid
+  set rs = conn.execute(sql)
+  alertmsg = "圖片刪除成功！"
+  editdatasave
+ elseif edittype = "delstage" then
+  sql = "delete from datacontent where contentid = "& contentid 
+  set rs = conn.execute(sql)
+  sql = "select position,contentid from datacontent where unitid = "& unitid &" order by position"
+  set rs = conn.execute(sql)
+   if not rs.eof then
+    neworder = 0
+    do while not rs.eof
+     neworder = neworder + 1
+   sqlcom = "update datacontent set position = "& neworder &" where contentid = "& rs("contentid")
+   set rs2 = conn.execute(sqlcom)
+    rs.movenext
+    loop
+   end if
+  alertmsg = "段落刪除成功！"
+  editdatasave
+ elseif edittype = "addupstage" then
+   imageway = upl.form("addusimageway")
+   formcontent = upl.form("adduscontent")
+   phase = upl.form("addusnowps")
+   ufile = upl.form("addusimagefile").userfilename
+   ofname = fname(ufile)
+   nfname = ""
+  if ofname<>"" then
+   if instr(ofname, ".")>0 then
+     fnext=mid(ofname, instr(ofname, "."))
+   else
+     fnext=""
+   end if
+   tstr = now()
+   nfname = year(tstr) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & fnext
+   upl.form("addusimagefile").saveas nfname
+    set ilib = server.createobject("overpower.imagelib")
+  picstr = apath &"\"& nfname
+  ilib.picturesize picstr,picw,pich
+   if lcase(fnext) = ".jpg" then
+    fnoname = 3
+   elseif lcase(fnext) = ".gif" then
+    fnoname = 2
+   end if 
+   if (picw/setimgwidth) > (pich/setimgheight) and (picw/setimgwidth) > 1 then
+   ilib.width = setimgwidth
+   ilib.height = int(setimgwidth*pich/picw)
+   ilib.insertpicture picstr,0,0,true,setimgwidth,int(setimgwidth*pich/picw)
+   ilib.savepicture picstr,fno,100,""
+    elseif (picw/setimgwidth) < (pich/setimgheight) and (pich/setimgheight) > 1 then
+   ilib.width = int(setimgheight*picw/pich)
+   ilib.height = setimgheight
+   ilib.insertpicture picstr,0,0,true,int(setimgheight*picw/pich),setimgheight
+   ilib.savepicture picstr,fnoname,100,""
+    end if
+  end if
+  
+  sql = "select position,contentid from datacontent where unitid = "& unitid &" order by position"
+  set rs = conn.execute(sql)
+   if not rs.eof then
+    do while not rs.eof
+     if rs("position") >= cint(phase) then
+   sqlcom = "update datacontent set position = "& rs("position") + 1 &" where contentid = "& rs("contentid")
+   set rs2 = conn.execute(sqlcom)
+     end if
+    rs.movenext
+    loop
+   end if
+    
+  sql = "insert into datacontent (unitid, content, imagefile, imageway, position) "&_
+     "values ("& unitid &","& pkstr(formcontent) &",n'"& nfname &"',n'"& imageway &"',"& phase &")"
+     set rs = conn.execute(sql)
+  alertmsg = "新增段落完成！"
+  editdatasave
+ elseif edittype = "addendstage" then
+   imageway = upl.form("addesimageway")
+   formcontent = upl.form("addescontent")
+   phase = upl.form("addesnowps")
+   ufile = upl.form("addesimagefile").userfilename
+   ofname = fname(ufile)
+   nfname = ""
+  if ofname<>"" then
+   if instr(ofname, ".")>0 then
+     fnext=mid(ofname, instr(ofname, "."))
+   else
+     fnext=""
+   end if
+   tstr = now()
+   nfname = year(tstr) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & fnext
+   upl.form("addesimagefile").saveas nfname
+    set ilib = server.createobject("overpower.imagelib")
+  picstr = apath &"\"& nfname
+  ilib.picturesize picstr,picw,pich
+   if lcase(fnext) = ".jpg" then
+    fnoname = 3
+   elseif lcase(fnext) = ".gif" then
+    fnoname = 2
+   end if 
+   if (picw/setimgwidth) > (pich/setimgheight) and (picw/setimgwidth) > 1 then
+   ilib.width = setimgwidth
+   ilib.height = int(setimgwidth*pich/picw)
+   ilib.insertpicture picstr,0,0,true,setimgwidth,int(setimgwidth*pich/picw)
+   ilib.savepicture picstr,fno,100,""
+    elseif (picw/setimgwidth) < (pich/setimgheight) and (pich/setimgheight) > 1 then
+   ilib.width = int(setimgheight*picw/pich)
+   ilib.height = setimgheight
+   ilib.insertpicture picstr,0,0,true,int(setimgheight*picw/pich),setimgheight
+   ilib.savepicture picstr,fnoname,100,""
+    end if
+  end if
+  
+  sql = "select position,contentid from datacontent where unitid = "& unitid &" order by position"
+  set rs = conn.execute(sql)
+   if not rs.eof then
+    do while not rs.eof
+     if rs("position") > cint(phase) and rs("position") <> cint(phase) then
+   sqlcom = "update datacontent set position = "& rs("position") + 1 &" where contentid = "& rs("contentid")
+   set rs2 = conn.execute(sqlcom)
+     end if
+    rs.movenext
+    loop
+   end if
+    
+  sql = "insert into datacontent (unitid, content, imagefile, imageway, position) "&_
+     "values ("& unitid &","& pkstr(formcontent) &",n'"& nfname &"',n'"& imageway &"',"& cint(phase) + 1 &")"
+     set rs = conn.execute(sql)
+  alertmsg = "新增段落完成！"
+  editdatasave
+ elseif edittype = "editstage" then
+     formcontent = upl.form("escontent")
+  sql = "update datacontent set content = "& pkstr(formcontent) &" where contentid = "& contentid
+  set rs = conn.execute(sql)
+  alertmsg = content & "編修完成！"
+  editdatasave
+ elseif edittype = "editcat" then
+  sql = "update dataunit set catid = "& upl.form("xin_catid") &", edituserid = n'"& session("userid") &"', editdate = n'"& date() &"' where unitid = "& unitid
+  set rs = conn.execute(sql)
+  alertmsg = "類別編修完成！"
+ elseif edittype = "editdata" then
+  sql = "update dataunit set begindate = n'"& upl.form("begindate") &"', enddate = n'"& upl.form("enddate") &"', edituserid =n'"& session("userid") &"', editdate = n'"& date() &"' where unitid = "& unitid
+  set rs = conn.execute(sql)
+  alertmsg = "公佈時間編修完成！"
+ elseif edittype = "editsubject" then
+  sql = "update dataunit set subject = "& nohtmlcode(upl.form("subject")) &", edituserid = n'"& session("userid") &"', editdate = n'"& date() &"' where unitid = "& unitid
+  set rs = conn.execute(sql)
+  alertmsg = subject &"編修完成！"
+ elseif edittype = "editextend_1" then
+  sql = "update dataunit set extend_1 = "& nohtmlcode(upl.form("extend_1")) &", edituserid = n'"& session("userid") &"', editdate = n'"& date() &"' where unitid = "& unitid
+  set rs = conn.execute(sql)
+  alertmsg = extend_1 &"編修完成！"
+ end if
+ 
+ 
+ function editdatasave()
+   sql = "update dataunit set edituserid = n'"& session("userid") &"', editdate = n'"& date() &"' where unitid = "& unitid
+  set rs = conn.execute(sql)
+ end function
+
+function nohtmlcode(datacode)
+  newdata = "" 
+  if datacode <> "" then
+   newdate = replace(datacode,"'","''")
+   newdate = replace(newdate,"<","&lt;")
+   newdate = replace(newdate,">","&gt;")
+   nohtmlcode = "'" & newdate & "'"
+  end if
+end function
+
+function fname(fstr)
+  tmpstr=trim(fstr)
+  cpos=instrrev(tmpstr, "\")
+  if cpos=0 then
+    fname=tmpstr
+  else
+    fname=mid(tmpstr,cpos+1)
+  end if    
+end function
+
+function pkstr(s)     
+  if trim(s)="" then     
+    pkstr="null"     
+  else     
+    s=trim(s)     
+    pos = instr(s, "'")     
+    while pos > 0     
+      s = mid(s, 1, pos) & "'" & mid(s, pos + 1)     
+      pos = instr(pos + 2, s, "'")     
+    wend     
+    pkstr="'" & s & "'"     
+  end if     
+end function      
+
+
+
+           =alertmsg
+                                                      =language:             =datatype:           =unitid 

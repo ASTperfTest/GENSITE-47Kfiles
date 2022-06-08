@@ -1,0 +1,394 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf8"> 
+    <title>全字庫字圖產生頁面</title>
+</head>
+<body>
+    <a href='http://www.cns11643.gov.tw/AIDB/query_general.do?active=1' target="_blank">全字庫 CNS 字碼查詢</a><br />
+    <br />
+    CNS 字碼：<input id='txtCNS' onchange='ShowCNS();' value='' /><br />
+    <br />
+    字型大小：<select name="ddlFontSize" onchange="ShowCNS();" id="ddlFontSize"><option value=''>請選擇字型大小(不指定亦可)</option>
+        <option value='6'>6</option>
+        <option value='7'>7</option>
+        <option value='8'>8</option>
+        <option value='9'>9</option>
+        <option value='10'>10</option>
+        <option value='11'>11</option>
+        <option value='12'>12</option>
+        <option value='13'>13</option>
+        <option value='14'>14</option>
+        <option value='15'>15</option>
+        <option value='16'>16</option>
+        <option value='17'>17</option>
+        <option value='18'>18</option>
+        <option value='19'>19</option>
+        <option value='20'>20</option>
+        <option value='21'>21</option>
+        <option value='22'>22</option>
+        <option value='23'>23</option>
+        <option value='24'>24</option>
+        <option value='25'>25</option>
+        <option value='26'>26</option>
+        <option value='27'>27</option>        
+    </select><br />
+    <br />
+    前景顏色：<select name="ddlFrontColor" onchange='document.getElementById("txtFrontColor").value = document.getElementById("ddlFrontColor").options[document.getElementById("ddlFrontColor").selectedIndex].value; ShowCNS();' id="ddlFrontColor"><option value=''>請選擇顏色(不指定亦可)</option>
+        <option value='F0F8FF' style='color: #F0F8FF; background-color: #F0F8FF'>AliceBlue</option>
+        <option value='FAEBD7' style='color: #FAEBD7; background-color: #FAEBD7'>AntiqueWhite</option>
+        <option value='00FFFF' style='color: #00FFFF; background-color: #00FFFF'>Aqua</option>
+        <option value='7FFFD4' style='color: #7FFFD4; background-color: #7FFFD4'>Aquamarine</option>
+        <option value='F0FFFF' style='color: #F0FFFF; background-color: #F0FFFF'>Azure</option>
+        <option value='F5F5DC' style='color: #F5F5DC; background-color: #F5F5DC'>Beige</option>
+        <option value='FFE4C4' style='color: #FFE4C4; background-color: #FFE4C4'>Bisque</option>
+        <option value='000000' style='color: #000000; background-color: #000000'>Black</option>
+        <option value='FFEBCD' style='color: #FFEBCD; background-color: #FFEBCD'>BlanchedAlmond</option>
+        <option value='0000FF' style='color: #0000FF; background-color: #0000FF'>Blue</option>
+        <option value='8A2BE2' style='color: #8A2BE2; background-color: #8A2BE2'>BlueViolet</option>
+        <option value='A52A2A' style='color: #A52A2A; background-color: #A52A2A'>Brown</option>
+        <option value='DEB887' style='color: #DEB887; background-color: #DEB887'>BurlyWood</option>
+        <option value='5F9EA0' style='color: #5F9EA0; background-color: #5F9EA0'>CadetBlue</option>
+        <option value='7FFF00' style='color: #7FFF00; background-color: #7FFF00'>Chartreuse</option>
+        <option value='D2691E' style='color: #D2691E; background-color: #D2691E'>Chocolate</option>
+        <option value='FF7F50' style='color: #FF7F50; background-color: #FF7F50'>Coral</option>
+        <option value='6495ED' style='color: #6495ED; background-color: #6495ED'>CornflowerBlue</option>
+        <option value='FFF8DC' style='color: #FFF8DC; background-color: #FFF8DC'>Cornsilk</option>
+        <option value='DC143C' style='color: #DC143C; background-color: #DC143C'>Crimson</option>
+        <option value='00FFFF' style='color: #00FFFF; background-color: #00FFFF'>Cyan</option>
+        <option value='00008B' style='color: #00008B; background-color: #00008B'>DarkBlue</option>
+        <option value='008B8B' style='color: #008B8B; background-color: #008B8B'>DarkCyan</option>
+        <option value='B8860B' style='color: #B8860B; background-color: #B8860B'>DarkGoldenRod</option>
+        <option value='A9A9A9' style='color: #A9A9A9; background-color: #A9A9A9'>DarkGray</option>
+        <option value='006400' style='color: #006400; background-color: #006400'>DarkGreen</option>
+        <option value='BDB76B' style='color: #BDB76B; background-color: #BDB76B'>DarkKhaki</option>
+        <option value='8B008B' style='color: #8B008B; background-color: #8B008B'>DarkMagenta</option>
+        <option value='556B2F' style='color: #556B2F; background-color: #556B2F'>DarkOliveGreen</option>
+        <option value='FF8C00' style='color: #FF8C00; background-color: #FF8C00'>Darkorange</option>
+        <option value='9932CC' style='color: #9932CC; background-color: #9932CC'>DarkOrchid</option>
+        <option value='8B0000' style='color: #8B0000; background-color: #8B0000'>DarkRed</option>
+        <option value='E9967A' style='color: #E9967A; background-color: #E9967A'>DarkSalmon</option>
+        <option value='8FBC8F' style='color: #8FBC8F; background-color: #8FBC8F'>DarkSeaGreen</option>
+        <option value='483D8B' style='color: #483D8B; background-color: #483D8B'>DarkSlateBlue</option>
+        <option value='2F4F4F' style='color: #2F4F4F; background-color: #2F4F4F'>DarkSlateGray</option>
+        <option value='00CED1' style='color: #00CED1; background-color: #00CED1'>DarkTurquoise</option>
+        <option value='9400D3' style='color: #9400D3; background-color: #9400D3'>DarkViolet</option>
+        <option value='FF1493' style='color: #FF1493; background-color: #FF1493'>DeepPink</option>
+        <option value='00BFFF' style='color: #00BFFF; background-color: #00BFFF'>DeepSkyBlue</option>
+        <option value='696969' style='color: #696969; background-color: #696969'>DimGray</option>
+        <option value='1E90FF' style='color: #1E90FF; background-color: #1E90FF'>DodgerBlue</option>
+        <option value='B22222' style='color: #B22222; background-color: #B22222'>FireBrick</option>
+        <option value='FFFAF0' style='color: #FFFAF0; background-color: #FFFAF0'>FloralWhite</option>
+        <option value='228B22' style='color: #228B22; background-color: #228B22'>ForestGreen</option>
+        <option value='FF00FF' style='color: #FF00FF; background-color: #FF00FF'>Fuchsia</option>
+        <option value='DCDCDC' style='color: #DCDCDC; background-color: #DCDCDC'>Gainsboro</option>
+        <option value='F8F8FF' style='color: #F8F8FF; background-color: #F8F8FF'>GhostWhite</option>
+        <option value='FFD700' style='color: #FFD700; background-color: #FFD700'>Gold</option>
+        <option value='DAA520' style='color: #DAA520; background-color: #DAA520'>GoldenRod</option>
+        <option value='808080' style='color: #808080; background-color: #808080'>Gray</option>
+        <option value='008000' style='color: #008000; background-color: #008000'>Green</option>
+        <option value='ADFF2F' style='color: #ADFF2F; background-color: #ADFF2F'>GreenYellow</option>
+        <option value='F0FFF0' style='color: #F0FFF0; background-color: #F0FFF0'>HoneyDew</option>
+        <option value='FF69B4' style='color: #FF69B4; background-color: #FF69B4'>HotPink</option>
+        <option value='CD5C5C' style='color: #CD5C5C; background-color: #CD5C5C'>IndianRed </option>
+        <option value='4B0082' style='color: #4B0082; background-color: #4B0082'>Indigo </option>
+        <option value='FFFFF0' style='color: #FFFFF0; background-color: #FFFFF0'>Ivory</option>
+        <option value='F0E68C' style='color: #F0E68C; background-color: #F0E68C'>Khaki</option>
+        <option value='E6E6FA' style='color: #E6E6FA; background-color: #E6E6FA'>Lavender</option>
+        <option value='FFF0F5' style='color: #FFF0F5; background-color: #FFF0F5'>LavenderBlush</option>
+        <option value='7CFC00' style='color: #7CFC00; background-color: #7CFC00'>LawnGreen</option>
+        <option value='FFFACD' style='color: #FFFACD; background-color: #FFFACD'>LemonChiffon</option>
+        <option value='ADD8E6' style='color: #ADD8E6; background-color: #ADD8E6'>LightBlue</option>
+        <option value='F08080' style='color: #F08080; background-color: #F08080'>LightCoral</option>
+        <option value='E0FFFF' style='color: #E0FFFF; background-color: #E0FFFF'>LightCyan</option>
+        <option value='FAFAD2' style='color: #FAFAD2; background-color: #FAFAD2'>LightGoldenRodYellow</option>
+        <option value='D3D3D3' style='color: #D3D3D3; background-color: #D3D3D3'>LightGrey</option>
+        <option value='90EE90' style='color: #90EE90; background-color: #90EE90'>LightGreen</option>
+        <option value='FFB6C1' style='color: #FFB6C1; background-color: #FFB6C1'>LightPink</option>
+        <option value='FFA07A' style='color: #FFA07A; background-color: #FFA07A'>LightSalmon</option>
+        <option value='20B2AA' style='color: #20B2AA; background-color: #20B2AA'>LightSeaGreen</option>
+        <option value='87CEFA' style='color: #87CEFA; background-color: #87CEFA'>LightSkyBlue</option>
+        <option value='778899' style='color: #778899; background-color: #778899'>LightSlateGray</option>
+        <option value='B0C4DE' style='color: #B0C4DE; background-color: #B0C4DE'>LightSteelBlue</option>
+        <option value='FFFFE0' style='color: #FFFFE0; background-color: #FFFFE0'>LightYellow</option>
+        <option value='00FF00' style='color: #00FF00; background-color: #00FF00'>Lime</option>
+        <option value='32CD32' style='color: #32CD32; background-color: #32CD32'>LimeGreen</option>
+        <option value='FAF0E6' style='color: #FAF0E6; background-color: #FAF0E6'>Linen</option>
+        <option value='FF00FF' style='color: #FF00FF; background-color: #FF00FF'>Magenta</option>
+        <option value='800000' style='color: #800000; background-color: #800000'>Maroon</option>
+        <option value='66CDAA' style='color: #66CDAA; background-color: #66CDAA'>MediumAquaMarine</option>
+        <option value='0000CD' style='color: #0000CD; background-color: #0000CD'>MediumBlue</option>
+        <option value='BA55D3' style='color: #BA55D3; background-color: #BA55D3'>MediumOrchid</option>
+        <option value='9370D8' style='color: #9370D8; background-color: #9370D8'>MediumPurple</option>
+        <option value='3CB371' style='color: #3CB371; background-color: #3CB371'>MediumSeaGreen</option>
+        <option value='7B68EE' style='color: #7B68EE; background-color: #7B68EE'>MediumSlateBlue</option>
+        <option value='00FA9A' style='color: #00FA9A; background-color: #00FA9A'>MediumSpringGreen</option>
+        <option value='48D1CC' style='color: #48D1CC; background-color: #48D1CC'>MediumTurquoise</option>
+        <option value='C71585' style='color: #C71585; background-color: #C71585'>MediumVioletRed</option>
+        <option value='191970' style='color: #191970; background-color: #191970'>MidnightBlue</option>
+        <option value='F5FFFA' style='color: #F5FFFA; background-color: #F5FFFA'>MintCream</option>
+        <option value='FFE4E1' style='color: #FFE4E1; background-color: #FFE4E1'>MistyRose</option>
+        <option value='FFE4B5' style='color: #FFE4B5; background-color: #FFE4B5'>Moccasin</option>
+        <option value='FFDEAD' style='color: #FFDEAD; background-color: #FFDEAD'>NavajoWhite</option>
+        <option value='000080' style='color: #000080; background-color: #000080'>Navy</option>
+        <option value='FDF5E6' style='color: #FDF5E6; background-color: #FDF5E6'>OldLace</option>
+        <option value='808000' style='color: #808000; background-color: #808000'>Olive</option>
+        <option value='6B8E23' style='color: #6B8E23; background-color: #6B8E23'>OliveDrab</option>
+        <option value='FFA500' style='color: #FFA500; background-color: #FFA500'>Orange</option>
+        <option value='FF4500' style='color: #FF4500; background-color: #FF4500'>OrangeRed</option>
+        <option value='DA70D6' style='color: #DA70D6; background-color: #DA70D6'>Orchid</option>
+        <option value='EEE8AA' style='color: #EEE8AA; background-color: #EEE8AA'>PaleGoldenRod</option>
+        <option value='98FB98' style='color: #98FB98; background-color: #98FB98'>PaleGreen</option>
+        <option value='AFEEEE' style='color: #AFEEEE; background-color: #AFEEEE'>PaleTurquoise</option>
+        <option value='D87093' style='color: #D87093; background-color: #D87093'>PaleVioletRed</option>
+        <option value='FFEFD5' style='color: #FFEFD5; background-color: #FFEFD5'>PapayaWhip</option>
+        <option value='FFDAB9' style='color: #FFDAB9; background-color: #FFDAB9'>PeachPuff</option>
+        <option value='CD853F' style='color: #CD853F; background-color: #CD853F'>Peru</option>
+        <option value='FFC0CB' style='color: #FFC0CB; background-color: #FFC0CB'>Pink</option>
+        <option value='DDA0DD' style='color: #DDA0DD; background-color: #DDA0DD'>Plum</option>
+        <option value='B0E0E6' style='color: #B0E0E6; background-color: #B0E0E6'>PowderBlue</option>
+        <option value='800080' style='color: #800080; background-color: #800080'>Purple</option>
+        <option value='FF0000' style='color: #FF0000; background-color: #FF0000'>Red</option>
+        <option value='BC8F8F' style='color: #BC8F8F; background-color: #BC8F8F'>RosyBrown</option>
+        <option value='4169E1' style='color: #4169E1; background-color: #4169E1'>RoyalBlue</option>
+        <option value='8B4513' style='color: #8B4513; background-color: #8B4513'>SaddleBrown</option>
+        <option value='FA8072' style='color: #FA8072; background-color: #FA8072'>Salmon</option>
+        <option value='F4A460' style='color: #F4A460; background-color: #F4A460'>SandyBrown</option>
+        <option value='2E8B57' style='color: #2E8B57; background-color: #2E8B57'>SeaGreen</option>
+        <option value='FFF5EE' style='color: #FFF5EE; background-color: #FFF5EE'>SeaShell</option>
+        <option value='A0522D' style='color: #A0522D; background-color: #A0522D'>Sienna</option>
+        <option value='C0C0C0' style='color: #C0C0C0; background-color: #C0C0C0'>Silver</option>
+        <option value='87CEEB' style='color: #87CEEB; background-color: #87CEEB'>SkyBlue</option>
+        <option value='6A5ACD' style='color: #6A5ACD; background-color: #6A5ACD'>SlateBlue</option>
+        <option value='708090' style='color: #708090; background-color: #708090'>SlateGray</option>
+        <option value='FFFAFA' style='color: #FFFAFA; background-color: #FFFAFA'>Snow</option>
+        <option value='00FF7F' style='color: #00FF7F; background-color: #00FF7F'>SpringGreen</option>
+        <option value='4682B4' style='color: #4682B4; background-color: #4682B4'>SteelBlue</option>
+        <option value='D2B48C' style='color: #D2B48C; background-color: #D2B48C'>Tan</option>
+        <option value='008080' style='color: #008080; background-color: #008080'>Teal</option>
+        <option value='D8BFD8' style='color: #D8BFD8; background-color: #D8BFD8'>Thistle</option>
+        <option value='FF6347' style='color: #FF6347; background-color: #FF6347'>Tomato</option>
+        <option value='40E0D0' style='color: #40E0D0; background-color: #40E0D0'>Turquoise</option>
+        <option value='EE82EE' style='color: #EE82EE; background-color: #EE82EE'>Violet</option>
+        <option value='F5DEB3' style='color: #F5DEB3; background-color: #F5DEB3'>Wheat</option>
+        <option value='FFFFFF' style='color: #FFFFFF; background-color: #FFFFFF'>White</option>
+        <option value='F5F5F5' style='color: #F5F5F5; background-color: #F5F5F5'>WhiteSmoke</option>
+        <option value='FFFF00' style='color: #FFFF00; background-color: #FFFF00'>Yellow</option>
+        <option value='9ACD32' style='color: #9ACD32; background-color: #9ACD32'>YellowGreen</option>
+    </select>
+    <input id='txtFrontColor' onchange='ShowCNS();' /><br />
+    <br />
+    背景顏色：<select name="ddlBackColor" onchange='document.getElementById("txtBackColor").value = document.getElementById("ddlBackColor").options[document.getElementById("ddlBackColor").selectedIndex].value; ShowCNS();' id="ddlBackColor"><option value=''>請選擇顏色(不指定亦可)</option>
+        <option value='F0F8FF' style='color: #F0F8FF; background-color: #F0F8FF'>AliceBlue</option>
+        <option value='FAEBD7' style='color: #FAEBD7; background-color: #FAEBD7'>AntiqueWhite</option>
+        <option value='00FFFF' style='color: #00FFFF; background-color: #00FFFF'>Aqua</option>
+        <option value='7FFFD4' style='color: #7FFFD4; background-color: #7FFFD4'>Aquamarine</option>
+        <option value='F0FFFF' style='color: #F0FFFF; background-color: #F0FFFF'>Azure</option>
+        <option value='F5F5DC' style='color: #F5F5DC; background-color: #F5F5DC'>Beige</option>
+        <option value='FFE4C4' style='color: #FFE4C4; background-color: #FFE4C4'>Bisque</option>
+        <option value='000000' style='color: #000000; background-color: #000000'>Black</option>
+        <option value='FFEBCD' style='color: #FFEBCD; background-color: #FFEBCD'>BlanchedAlmond</option>
+        <option value='0000FF' style='color: #0000FF; background-color: #0000FF'>Blue</option>
+        <option value='8A2BE2' style='color: #8A2BE2; background-color: #8A2BE2'>BlueViolet</option>
+        <option value='A52A2A' style='color: #A52A2A; background-color: #A52A2A'>Brown</option>
+        <option value='DEB887' style='color: #DEB887; background-color: #DEB887'>BurlyWood</option>
+        <option value='5F9EA0' style='color: #5F9EA0; background-color: #5F9EA0'>CadetBlue</option>
+        <option value='7FFF00' style='color: #7FFF00; background-color: #7FFF00'>Chartreuse</option>
+        <option value='D2691E' style='color: #D2691E; background-color: #D2691E'>Chocolate</option>
+        <option value='FF7F50' style='color: #FF7F50; background-color: #FF7F50'>Coral</option>
+        <option value='6495ED' style='color: #6495ED; background-color: #6495ED'>CornflowerBlue</option>
+        <option value='FFF8DC' style='color: #FFF8DC; background-color: #FFF8DC'>Cornsilk</option>
+        <option value='DC143C' style='color: #DC143C; background-color: #DC143C'>Crimson</option>
+        <option value='00FFFF' style='color: #00FFFF; background-color: #00FFFF'>Cyan</option>
+        <option value='00008B' style='color: #00008B; background-color: #00008B'>DarkBlue</option>
+        <option value='008B8B' style='color: #008B8B; background-color: #008B8B'>DarkCyan</option>
+        <option value='B8860B' style='color: #B8860B; background-color: #B8860B'>DarkGoldenRod</option>
+        <option value='A9A9A9' style='color: #A9A9A9; background-color: #A9A9A9'>DarkGray</option>
+        <option value='006400' style='color: #006400; background-color: #006400'>DarkGreen</option>
+        <option value='BDB76B' style='color: #BDB76B; background-color: #BDB76B'>DarkKhaki</option>
+        <option value='8B008B' style='color: #8B008B; background-color: #8B008B'>DarkMagenta</option>
+        <option value='556B2F' style='color: #556B2F; background-color: #556B2F'>DarkOliveGreen</option>
+        <option value='FF8C00' style='color: #FF8C00; background-color: #FF8C00'>Darkorange</option>
+        <option value='9932CC' style='color: #9932CC; background-color: #9932CC'>DarkOrchid</option>
+        <option value='8B0000' style='color: #8B0000; background-color: #8B0000'>DarkRed</option>
+        <option value='E9967A' style='color: #E9967A; background-color: #E9967A'>DarkSalmon</option>
+        <option value='8FBC8F' style='color: #8FBC8F; background-color: #8FBC8F'>DarkSeaGreen</option>
+        <option value='483D8B' style='color: #483D8B; background-color: #483D8B'>DarkSlateBlue</option>
+        <option value='2F4F4F' style='color: #2F4F4F; background-color: #2F4F4F'>DarkSlateGray</option>
+        <option value='00CED1' style='color: #00CED1; background-color: #00CED1'>DarkTurquoise</option>
+        <option value='9400D3' style='color: #9400D3; background-color: #9400D3'>DarkViolet</option>
+        <option value='FF1493' style='color: #FF1493; background-color: #FF1493'>DeepPink</option>
+        <option value='00BFFF' style='color: #00BFFF; background-color: #00BFFF'>DeepSkyBlue</option>
+        <option value='696969' style='color: #696969; background-color: #696969'>DimGray</option>
+        <option value='1E90FF' style='color: #1E90FF; background-color: #1E90FF'>DodgerBlue</option>
+        <option value='B22222' style='color: #B22222; background-color: #B22222'>FireBrick</option>
+        <option value='FFFAF0' style='color: #FFFAF0; background-color: #FFFAF0'>FloralWhite</option>
+        <option value='228B22' style='color: #228B22; background-color: #228B22'>ForestGreen</option>
+        <option value='FF00FF' style='color: #FF00FF; background-color: #FF00FF'>Fuchsia</option>
+        <option value='DCDCDC' style='color: #DCDCDC; background-color: #DCDCDC'>Gainsboro</option>
+        <option value='F8F8FF' style='color: #F8F8FF; background-color: #F8F8FF'>GhostWhite</option>
+        <option value='FFD700' style='color: #FFD700; background-color: #FFD700'>Gold</option>
+        <option value='DAA520' style='color: #DAA520; background-color: #DAA520'>GoldenRod</option>
+        <option value='808080' style='color: #808080; background-color: #808080'>Gray</option>
+        <option value='008000' style='color: #008000; background-color: #008000'>Green</option>
+        <option value='ADFF2F' style='color: #ADFF2F; background-color: #ADFF2F'>GreenYellow</option>
+        <option value='F0FFF0' style='color: #F0FFF0; background-color: #F0FFF0'>HoneyDew</option>
+        <option value='FF69B4' style='color: #FF69B4; background-color: #FF69B4'>HotPink</option>
+        <option value='CD5C5C' style='color: #CD5C5C; background-color: #CD5C5C'>IndianRed </option>
+        <option value='4B0082' style='color: #4B0082; background-color: #4B0082'>Indigo </option>
+        <option value='FFFFF0' style='color: #FFFFF0; background-color: #FFFFF0'>Ivory</option>
+        <option value='F0E68C' style='color: #F0E68C; background-color: #F0E68C'>Khaki</option>
+        <option value='E6E6FA' style='color: #E6E6FA; background-color: #E6E6FA'>Lavender</option>
+        <option value='FFF0F5' style='color: #FFF0F5; background-color: #FFF0F5'>LavenderBlush</option>
+        <option value='7CFC00' style='color: #7CFC00; background-color: #7CFC00'>LawnGreen</option>
+        <option value='FFFACD' style='color: #FFFACD; background-color: #FFFACD'>LemonChiffon</option>
+        <option value='ADD8E6' style='color: #ADD8E6; background-color: #ADD8E6'>LightBlue</option>
+        <option value='F08080' style='color: #F08080; background-color: #F08080'>LightCoral</option>
+        <option value='E0FFFF' style='color: #E0FFFF; background-color: #E0FFFF'>LightCyan</option>
+        <option value='FAFAD2' style='color: #FAFAD2; background-color: #FAFAD2'>LightGoldenRodYellow</option>
+        <option value='D3D3D3' style='color: #D3D3D3; background-color: #D3D3D3'>LightGrey</option>
+        <option value='90EE90' style='color: #90EE90; background-color: #90EE90'>LightGreen</option>
+        <option value='FFB6C1' style='color: #FFB6C1; background-color: #FFB6C1'>LightPink</option>
+        <option value='FFA07A' style='color: #FFA07A; background-color: #FFA07A'>LightSalmon</option>
+        <option value='20B2AA' style='color: #20B2AA; background-color: #20B2AA'>LightSeaGreen</option>
+        <option value='87CEFA' style='color: #87CEFA; background-color: #87CEFA'>LightSkyBlue</option>
+        <option value='778899' style='color: #778899; background-color: #778899'>LightSlateGray</option>
+        <option value='B0C4DE' style='color: #B0C4DE; background-color: #B0C4DE'>LightSteelBlue</option>
+        <option value='FFFFE0' style='color: #FFFFE0; background-color: #FFFFE0'>LightYellow</option>
+        <option value='00FF00' style='color: #00FF00; background-color: #00FF00'>Lime</option>
+        <option value='32CD32' style='color: #32CD32; background-color: #32CD32'>LimeGreen</option>
+        <option value='FAF0E6' style='color: #FAF0E6; background-color: #FAF0E6'>Linen</option>
+        <option value='FF00FF' style='color: #FF00FF; background-color: #FF00FF'>Magenta</option>
+        <option value='800000' style='color: #800000; background-color: #800000'>Maroon</option>
+        <option value='66CDAA' style='color: #66CDAA; background-color: #66CDAA'>MediumAquaMarine</option>
+        <option value='0000CD' style='color: #0000CD; background-color: #0000CD'>MediumBlue</option>
+        <option value='BA55D3' style='color: #BA55D3; background-color: #BA55D3'>MediumOrchid</option>
+        <option value='9370D8' style='color: #9370D8; background-color: #9370D8'>MediumPurple</option>
+        <option value='3CB371' style='color: #3CB371; background-color: #3CB371'>MediumSeaGreen</option>
+        <option value='7B68EE' style='color: #7B68EE; background-color: #7B68EE'>MediumSlateBlue</option>
+        <option value='00FA9A' style='color: #00FA9A; background-color: #00FA9A'>MediumSpringGreen</option>
+        <option value='48D1CC' style='color: #48D1CC; background-color: #48D1CC'>MediumTurquoise</option>
+        <option value='C71585' style='color: #C71585; background-color: #C71585'>MediumVioletRed</option>
+        <option value='191970' style='color: #191970; background-color: #191970'>MidnightBlue</option>
+        <option value='F5FFFA' style='color: #F5FFFA; background-color: #F5FFFA'>MintCream</option>
+        <option value='FFE4E1' style='color: #FFE4E1; background-color: #FFE4E1'>MistyRose</option>
+        <option value='FFE4B5' style='color: #FFE4B5; background-color: #FFE4B5'>Moccasin</option>
+        <option value='FFDEAD' style='color: #FFDEAD; background-color: #FFDEAD'>NavajoWhite</option>
+        <option value='000080' style='color: #000080; background-color: #000080'>Navy</option>
+        <option value='FDF5E6' style='color: #FDF5E6; background-color: #FDF5E6'>OldLace</option>
+        <option value='808000' style='color: #808000; background-color: #808000'>Olive</option>
+        <option value='6B8E23' style='color: #6B8E23; background-color: #6B8E23'>OliveDrab</option>
+        <option value='FFA500' style='color: #FFA500; background-color: #FFA500'>Orange</option>
+        <option value='FF4500' style='color: #FF4500; background-color: #FF4500'>OrangeRed</option>
+        <option value='DA70D6' style='color: #DA70D6; background-color: #DA70D6'>Orchid</option>
+        <option value='EEE8AA' style='color: #EEE8AA; background-color: #EEE8AA'>PaleGoldenRod</option>
+        <option value='98FB98' style='color: #98FB98; background-color: #98FB98'>PaleGreen</option>
+        <option value='AFEEEE' style='color: #AFEEEE; background-color: #AFEEEE'>PaleTurquoise</option>
+        <option value='D87093' style='color: #D87093; background-color: #D87093'>PaleVioletRed</option>
+        <option value='FFEFD5' style='color: #FFEFD5; background-color: #FFEFD5'>PapayaWhip</option>
+        <option value='FFDAB9' style='color: #FFDAB9; background-color: #FFDAB9'>PeachPuff</option>
+        <option value='CD853F' style='color: #CD853F; background-color: #CD853F'>Peru</option>
+        <option value='FFC0CB' style='color: #FFC0CB; background-color: #FFC0CB'>Pink</option>
+        <option value='DDA0DD' style='color: #DDA0DD; background-color: #DDA0DD'>Plum</option>
+        <option value='B0E0E6' style='color: #B0E0E6; background-color: #B0E0E6'>PowderBlue</option>
+        <option value='800080' style='color: #800080; background-color: #800080'>Purple</option>
+        <option value='FF0000' style='color: #FF0000; background-color: #FF0000'>Red</option>
+        <option value='BC8F8F' style='color: #BC8F8F; background-color: #BC8F8F'>RosyBrown</option>
+        <option value='4169E1' style='color: #4169E1; background-color: #4169E1'>RoyalBlue</option>
+        <option value='8B4513' style='color: #8B4513; background-color: #8B4513'>SaddleBrown</option>
+        <option value='FA8072' style='color: #FA8072; background-color: #FA8072'>Salmon</option>
+        <option value='F4A460' style='color: #F4A460; background-color: #F4A460'>SandyBrown</option>
+        <option value='2E8B57' style='color: #2E8B57; background-color: #2E8B57'>SeaGreen</option>
+        <option value='FFF5EE' style='color: #FFF5EE; background-color: #FFF5EE'>SeaShell</option>
+        <option value='A0522D' style='color: #A0522D; background-color: #A0522D'>Sienna</option>
+        <option value='C0C0C0' style='color: #C0C0C0; background-color: #C0C0C0'>Silver</option>
+        <option value='87CEEB' style='color: #87CEEB; background-color: #87CEEB'>SkyBlue</option>
+        <option value='6A5ACD' style='color: #6A5ACD; background-color: #6A5ACD'>SlateBlue</option>
+        <option value='708090' style='color: #708090; background-color: #708090'>SlateGray</option>
+        <option value='FFFAFA' style='color: #FFFAFA; background-color: #FFFAFA'>Snow</option>
+        <option value='00FF7F' style='color: #00FF7F; background-color: #00FF7F'>SpringGreen</option>
+        <option value='4682B4' style='color: #4682B4; background-color: #4682B4'>SteelBlue</option>
+        <option value='D2B48C' style='color: #D2B48C; background-color: #D2B48C'>Tan</option>
+        <option value='008080' style='color: #008080; background-color: #008080'>Teal</option>
+        <option value='D8BFD8' style='color: #D8BFD8; background-color: #D8BFD8'>Thistle</option>
+        <option value='FF6347' style='color: #FF6347; background-color: #FF6347'>Tomato</option>
+        <option value='40E0D0' style='color: #40E0D0; background-color: #40E0D0'>Turquoise</option>
+        <option value='EE82EE' style='color: #EE82EE; background-color: #EE82EE'>Violet</option>
+        <option value='F5DEB3' style='color: #F5DEB3; background-color: #F5DEB3'>Wheat</option>
+        <option value='FFFFFF' style='color: #FFFFFF; background-color: #FFFFFF'>White</option>
+        <option value='F5F5F5' style='color: #F5F5F5; background-color: #F5F5F5'>WhiteSmoke</option>
+        <option value='FFFF00' style='color: #FFFF00; background-color: #FFFF00'>Yellow</option>
+        <option value='9ACD32' style='color: #9ACD32; background-color: #9ACD32'>YellowGreen</option>
+    </select>
+    <input id='txtBackColor' onchange='ShowCNS();' /><br />
+    <br />
+    強制設定大小：寬
+    <input id='txtWidth' onchange='ShowCNS();' value='' />, 高
+    <input id='txtHeight' onchange='ShowCNS();' value='' /><br />
+    <br />
+    <input type="button" value="產生圖檔連結" onclick="ShowCNS();" /><br />
+    <br />
+    <div id="divDisplay">
+    </div>
+
+    <script type="text/javascript">
+        function ShowCNS(){
+            var CNS = document.getElementById("txtCNS").value;
+            
+            var arrCNS = CNS.split("-");
+            
+            var AdditionalParameter = ""
+            
+            var fontsize = document.getElementById("ddlFontSize").options[document.getElementById("ddlFontSize").selectedIndex].value;
+            if(fontsize.length > 0){
+                AdditionalParameter += "&fontsize=" + fontsize
+            }            
+            
+            var fgcolor = document.getElementById("txtFrontColor").value;
+            if(fgcolor.length > 0){
+                AdditionalParameter += "&fgcolor=" + fgcolor
+            }
+            
+            
+            var bgcolor = document.getElementById("txtBackColor").value; 
+            if(bgcolor.length > 0){
+                AdditionalParameter += "&bgcolor=" + bgcolor
+            }
+            
+            var width = document.getElementById("txtWidth").value; 
+            if(width.length > 0){
+                AdditionalParameter += "' width='" + width
+            }
+            
+            var height = document.getElementById("txtHeight").value; 
+            if(height.length > 0){
+                AdditionalParameter += "' width='" + height
+            }
+            
+            if(arrCNS.length = 2){
+                var res = "明體: <input id='txtResultMing' size=100 type='text' value=\"<img src='http://www.cns11643.gov.tw/AIDB/png.do?page=" + arrCNS[0] + "&code=" + arrCNS[1] + AdditionalParameter + "' class='CNSIMG'/>\"> <input type='button' value='複製到剪貼簿' onclick='CopyToClipboard(\"txtResultMing\")'> <img src='http://www.cns11643.gov.tw/AIDB/png.do?page=" + arrCNS[0] + "&code=" + arrCNS[1] + AdditionalParameter + "' border='0' style='vertical-align:text-bottom' /><br><br>";
+                res += "楷體: <input id='txtResultKai' size=100 type='text' value=\"<img src='http://www.cns11643.gov.tw/cgi-bin/ttf2png?page=" + arrCNS[0] + "&number=" + arrCNS[1] + AdditionalParameter + "'  class='CNSIMG'/>\"> <input type='button' value='複製到剪貼簿' onclick='CopyToClipboard(\"txtResultKai\")'> <img src='http://www.cns11643.gov.tw/cgi-bin/ttf2png?page=" + arrCNS[0] + "&number=" + arrCNS[1] + AdditionalParameter + "' border='0' style='vertical-align:text-bottom' /><br><br>";
+                res += "宋體: <input id='txtResultSung' size=100 type='text' value=\"<img src='http://www.cns11643.gov.tw/cgi-bin/ttf2png?page=" + arrCNS[0] + "&face=sung&number=" + arrCNS[1] + AdditionalParameter + "'  class='CNSIMG'/>\"> <input type='button' value='複製到剪貼簿' onclick='CopyToClipboard(\"txtResultSung\")'> <img src='http://www.cns11643.gov.tw/cgi-bin/ttf2png?page=" + arrCNS[0] + "&face=sung&number=" + arrCNS[1] + AdditionalParameter + "' border='0' style='vertical-align:text-bottom' />";
+                
+                document.getElementById("divDisplay").innerHTML = res;
+            }
+            else{
+                alert('格式有誤 !!');
+            }
+        }
+        
+        function CopyToClipboard(InputName){
+ 
+           document.getElementById(InputName).focus();
+ 
+           document.getElementById(InputName).select(); 
+ 
+           CopiedTxt = document.selection.createRange();
+ 
+           CopiedTxt.execCommand("Copy");
+ 
+        }
+ 
+    </script>
+
+</body>
+</html>

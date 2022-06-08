@@ -1,0 +1,15 @@
+﻿: @ codepage = 65001 
+  
+function replacetest(patrn, replstr, str1)
+  dim regex               ' create variables.
+'  str1 = "the quick brown fox jumped over the lazy dog."
+  set regex = new regexp            ' create regular expression.
+  regex.pattern = patrn            ' set pattern.
+  regex.ignorecase = true            ' make case insensitive.
+  regex.global = true   ' set global applicability.
+  replacetest = regex.replace(str1, replstr)   ' make replacement.
+end function
+
+ xstr = "<table x=123>"
+ response.write replacetest("<table([^>]*)>", "<table$1 summary=""列表資料"">", xstr) '-- mso-bidi-font-size: 10.0pt;
+ 

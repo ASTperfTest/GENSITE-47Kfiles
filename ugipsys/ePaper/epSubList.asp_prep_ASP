@@ -1,0 +1,276 @@
+﻿: @  codepage="65001" 
+   response.expires = 0
+htprogcap="電子報管理"
+htprogfunc="訂閱清單"
+htprogcode="gw1m51"
+htprogprefix="epsub" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+
+ 
+ set rsreg = server.createobject("adodb.recordset")
+ 'fsql=request.querystring("strsql")
+ '新增查條件
+if request("account") <> "" then
+ session("account") = request("account")
+else 
+ session("account") = ""
+end if
+if request("realname") <> "" then
+ session("realname") = request("realname")
+else 
+ session("realname") = ""
+end if
+if request("email") <> "" then
+ session("email") = request("email")
+else 
+ session("email") = ""
+end if
+
+ dim order 
+  
+ if request.querystring("order").item = "non_member" then '會員訂閱清單
+     order  = request.querystring("order").item 
+     fsql = "select htx.*, m.account, m.realname "
+  fsql = fsql & " from epaper as htx left join member as m on htx.email=m.email "
+     fsql = fsql & "where  htx.email not in (select email from member where orderepaper ='y') "
+     fsql = fsql &  " and htx.ctrootid='21'"
+ else 
+  order  = request.querystring("order").item '非會員訂閱清單
+     fsql = "select htx.*, m.account, m.realname"
+     fsql = fsql & ", (select count(*) from memepaper where memepaper.memid=m.account) as memepcount "
+     fsql = fsql &  " from epaper as htx left join member as m on htx.email=m.email"
+     fsql = fsql &  " where htx.ctrootid=" & session("eptreeid")
+  
+ end if
+ 
+
+'加入判斷式
+ if session("account") <> "" then
+  fsql = fsql & " and (m.account is not null and m.account like '%"& session("account") &"%') "
+ end if
+ if session("realname") <> "" then
+  fsql = fsql & " and (m.realname is not null and (m.realname like '%"& session("realname") &"%' or m.realname like '%"& chg_uni(session("realname")) &"%' )) "
+ end if
+ if session("email") <> "" then
+  fsql = fsql & " and (htx.email like '%"& session("email") &"%') "
+ end if
+ fsql = fsql &  " order by m.account, htx.createtime"
+
+nowpage=request.querystring("nowpage")  '現在頁數
+' response.write fsql
+' response.end
+
+' ----------hyweb gip db connection patch----------
+' rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+' ----------hyweb gip db connection patch----------
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=50  
+      end if 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+      ' strsql=server.urlencode(fsql)
+   end if    
+end if   
+
+function chg_uni(str)        'ascii轉unicode
+ dim old,new_w,istr
+ old = str
+ new_w = ""
+ for istr = 1 to len(str)
+  if ascw(mid(old,istr,1)) < 0 then
+   new_w = new_w & "&#" & ascw(mid(old,istr,1))+65536 & ";"
+  elseif        ascw(mid(old,istr,1))>0 and ascw(mid(old,istr,1))<127 then
+   new_w = new_w & mid(old,istr,1)
+  else
+   new_w = new_w & "&#" & ascw(mid(old,istr,1)) & ";"
+  end if
+ next
+ chg_uni=new_w
+end function
+
+
+
+
+
+
+
+
+
+
+
+                  =htprogcap
+
+      if request.querystring("order").item <> "non_member" then
+                                            =htprogfunc
+      else
+
+      end if
+
+        if request.querystring("order").item <> "non_member" then
+                                                                                            =request("eptreeid")
+              else
+                                                                                    =session("eptreeid")
+     end if
+
+
+
+
+
+
+
+
+
+
+
+                                                         =htprogprefix
+
+                          if not rsreg.eof then
+
+        if request.querystring("order").item <> "non_member" then
+
+                                  =nowpage
+                                   =totpage:                                             =totrec
+
+                                          for ipage=1 to totpage
+                                                         =ipage:     if ipage=cint(nowpage) then :           end if
+                                              =ipage
+
+                                          next
+
+
+                                   if cint(nowpage) <>1 then 
+                                            =htprogprefix:                    =(nowpage-1):             =perpagesize:            =session("account"):             =session("realname"):          =session("email")
+                                  end if
+                                   if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                                            =htprogprefix:                    =(nowpage+1):             =perpagesize:            =session("account"):             =session("realname"):          =session("email")
+                                  end if
+
+
+                                                         if perpagesize=50 then:            end if
+                                                          if perpagesize=100 then:            end if
+                                                          if perpagesize=200 then:            end if
+                                                          if perpagesize=300 then:            end if
+
+                                                                                                                                                             =request("eptreeid")
+                              else
+
+                                  =nowpage
+                                   =totpage:                                             =totrec
+
+                                          for ipage=1 to totpage
+                                                         =ipage:     if ipage=cint(nowpage) then :           end if
+                                              =ipage
+
+                                          next
+
+
+                                   if cint(nowpage) <>1 then 
+                                            =htprogprefix:                  =order:            =(nowpage-1):             =perpagesize:            =session("account"):             =session("realname"):          =session("email")
+                                  end if
+                                   if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                                            =htprogprefix:                  =order:            =(nowpage+1):             =perpagesize:            =session("account"):             =session("realname"):          =session("email")
+                                  end if
+
+
+                                                         if perpagesize=50 then:            end if
+                                                          if perpagesize=100 then:            end if
+                                                          if perpagesize=200 then:            end if
+                                                          if perpagesize=300 then:            end if
+
+         end if
+
+         if request.querystring("order").item <> "non_member" then
+
+         else
+
+         end if
+
+
+
+
+
+
+
+
+                                  for i=1 to perpagesize
+
+                                      pkey = ""
+                                    pkey = pkey & "&email=" & rsreg("email")
+                                    if pkey<>"" then  pkey = mid(pkey,2)
+                                                                                                      =pkey
+                                          =rsreg("email")
+
+
+                                          =rsreg("createtime")
+
+                                                                                                                        =rsreg("account")
+                                          =rsreg("account")
+
+
+                                          =rsreg("realname")
+
+
+                                   rsreg.movenext
+                                   if rsreg.eof then exit for 
+                                        next 
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+  else
+
+
+
+
+
+
+  end if
+
+
+
+
+
+                                  =htprogprefix:                                             =perpagesize:            =session("account"):             =session("realname"):          =session("email")
+
+
+
+
+
+                                  =htprogprefix:                  =order:                                     =perpagesize:            =session("account"):             =session("realname"):          =session("email")
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                                        =session("account"):             =session("realname"):          =session("email")
+
+
+
+
+                                     =htprogprefix:                  =order:            =nowpage:                                        =session("account"):             =session("realname"):          =session("email") 

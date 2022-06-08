@@ -1,0 +1,117 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+function script___1002150790() {src("../js/jquery.js");}
+
+
+        function NewAjax(id, url, Eventjs, dataArr) {
+            $.ajax({
+                type: 'post',
+                url: url,
+                dataType: "text",
+                data: dataArr,
+                cache: false,
+                success: function(html) {
+                    if (id != "") {
+                        $("#" + id).html(html);
+                    }
+                    if (typeof Eventjs == "function") {
+                        Eventjs();
+                    }
+                    else if (typeof Eventjs == "string") {
+                        eval(Eventjs);
+                    }
+                }
+            });
+        }
+    
+
+
+
+        function CheckURL() {
+            window.open("Cx_0dummy&newact=Y&Id=0");
+            window.location.reload();
+        }
+
+
+        function react(sid) {
+            window.open("Cx_0dummy&newact=N&Id=" + sid);
+            window.location.reload();
+        }
+        
+    
+
+
+
+
+
+
+
+
+function href___704917096() {CheckURL()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

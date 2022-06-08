@@ -1,0 +1,107 @@
+<?xml version="1.0" standalone="yes"?>
+<MpDataSet>
+  <MenuTree>191</MenuTree>
+  <MpStyle>Style1</MpStyle>
+  <DataSet>
+    <DataLable>BlockA</DataLable>
+    <DataRemark>以台灣為名</DataRemark>
+    <DataNode>3066</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>5</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>250</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>Y</IsExcerpt>
+    <ShowStyle>Style3</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockB</DataLable>
+    <DataRemark>早田文藏的一生</DataRemark>
+    <DataNode>3067</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>200</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>Y</IsExcerpt>
+    <ShowStyle>Style3</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockC</DataLable>
+    <DataRemark>家族命名爭議</DataRemark>
+    <DataNode>3069</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>200</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>Y</IsExcerpt>
+    <ShowStyle>Style3</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockD</DataLable>
+    <DataRemark>台灣杉生活館</DataRemark>
+    <DataNode>3063</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>8</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style2</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockE</DataLable>
+    <DataRemark>台灣杉種子</DataRemark>
+    <DataNode>3073</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>5</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style2</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+	<DataLable>BlockF</DataLable>
+	<DataRemark>主題報導</DataRemark>
+	<DataNode></DataNode>
+	<SqlCondition />
+	<SqlOrderBy />
+	<SqlTop>4</SqlTop>
+	<WithContent>N</WithContent>
+	<ContentData>N</ContentData>
+	<ContentLength>80</ContentLength>
+	<IsTitle>Y</IsTitle>
+	<IsPic>Y</IsPic>
+	<IsPostDate>N</IsPostDate>
+	<IsExcerpt>Y</IsExcerpt>
+	<ShowStyle>Style2</ShowStyle>
+	<mpShow>Y</mpShow>
+  </DataSet>
+</MpDataSet>

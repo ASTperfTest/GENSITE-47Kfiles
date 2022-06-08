@@ -1,0 +1,20 @@
+DD30(2005/11/17)
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,30,'Y','N','0','1',N'立法院全球法律資訊網',N'http://glin.ly.gov.tw/',N'2004/10/08',N'4',N'sysop',N'2004/10/08 17:10:17',N'2004/10/08 17:10:17'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4832)
+[htx.law_dataid = '6'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,30,'Y','N','0','1',N'全國法規資料庫',N'http://law.moj.gov.tw/',N'2003/06/25',N'3',N'sysop',N'2003/07/04 11:03:03',N'2003/06/25 12:10:59'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4833)
+[htx.law_dataid = '4'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,30,'Y','N','0','1',N'法務部法規資料庫',N'http://mojlaw.moj.gov.tw/',N'2003/06/25',N'2',N'sysop',N'2004/09/13 17:32:34',N'2003/06/25 12:03:22'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4834)
+[htx.law_dataid = '3'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,30,'Y','N','0','1',N'司法院法學資料檢索',N'http://nwjirs.judicial.gov.tw/Index.htm',N'2003/06/25',N'1',N'christie',N'2003/07/16 17:48:02',N'2003/06/25 12:01:44'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4835)
+[htx.law_dataid = '2'] !
+----------------------------------------------------------------------------
+===============================================================================
+ 4 , @\ 4 !

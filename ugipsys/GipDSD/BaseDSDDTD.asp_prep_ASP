@@ -1,0 +1,165 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="單元資料定義"
+htprogfunc="dtd定義"
+htprogcode="ge1t01"
+htprogprefix="ctunitdsd" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+'alter table basedsd add sbasedsdxml varchar(100) null 
+'----cudtgeneric xml
+set oxml = server.createobject("microsoft.xmldom")
+oxml.async = false
+oxml.setproperty "serverhttprequest", true
+set fso = server.createobject("scripting.filesystemobject")
+filepath = server.mappath("/site/" & session("mysiteid") & "/gipdsd/cudtx" & request.querystring("ibasedsd") & ".xml")
+fileflag = false
+if fso.fileexists(filepath) then fileflag = true
+loadxml = server.mappath("/gipdsd/schema0.xml")
+xv = oxml.load(loadxml)
+if oxml.parseerror.reason <> "" then
+ response.write("xml parseerror on line " &  oxml.parseerror.line)
+ response.write("<br>reason: " &  oxml.parseerror.reason)
+ response.end()
+end if 
+set allmodel = oxml.selectnodes("//fieldlist/field")
+'----basedsdfield欄位
+fsql = "select dhtx.*, xref1.mvalue as inuse, xref2.mvalue as xdatatype, xref3.mvalue as xinputtype" _
+ & " from (((basedsdfield as dhtx left join codemain as xref1 on xref1.mcode = dhtx.inuse and xref1.codemetaid='boolyn') left join codemain as xref2 on xref2.mcode = dhtx.xdatatype and xref2.codemetaid='htddatatype') left join codemain as xref3 on xref3.mcode = dhtx.xinputtype and xref3.codemetaid='htdinputtype')" _
+ & " where 1=1" _
+ & " and dhtx.ibasedsd=" & request.querystring("ibasedsd") _
+ & " order by xfieldseq"
+set rslist = conn.execute(fsql)
+
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                   =request.querystring("ibasedsd")
+
+
+
+
+
+
+
+
+
+
+
+  
+for each param in allmodel  
+ i=i+1  
+ checkstr="" 
+ xmlyn="n"
+ if nulltext(param.selectsinglenode("isprimarykey"))="y" or nulltext(param.selectsinglenode("inputtype"))="hidden" or nulltext(param.selectsinglenode("inputtype"))="hiddensave" or nulltext(param.selectsinglenode("inputtype"))="sqldefault" or nulltext(param.selectsinglenode("cannull"))="n" then 
+  checkstr=" checked disabled "
+  xmlyn="y"
+ else
+  checkstr=" checked "
+  xmlyn="n" 
+ end if
+
+                                                                        =i:               =checkstr
+                                    =i:            =nulltext(param.selectsinglenode("fieldseq"))
+                                 =i:            =xmlyn
+
+  =nulltext(param.selectsinglenode("fieldseq"))
+
+
+  =nulltext(param.selectsinglenode("fieldlabel"))
+
+
+  =nulltext(param.selectsinglenode("fielddesc"))
+
+
+  =nulltext(param.selectsinglenode("datatype"))
+
+
+  =nulltext(param.selectsinglenode("inputtype"))
+
+
+  =nulltext(param.selectsinglenode("fieldname"))
+
+
+      
+next
+if not rslist.eof then
+    while not rslist.eof
+     i=i+1  
+
+                                                                        =i
+
+  =rslist("xfieldseq")
+
+
+  =rslist("xfieldlabel")
+
+
+  =rslist("xfielddesc")
+
+
+  =rslist("xdatatype")
+
+
+  =rslist("xinputtype")
+
+
+  =rslist("xfieldname")
+
+
+      
+ rslist.movenext
+    wend
+end if    
+
+
+
+
+
+
+
+
+   if fileflag then
+
+
+
+
+
+          else
+
+
+   end if 

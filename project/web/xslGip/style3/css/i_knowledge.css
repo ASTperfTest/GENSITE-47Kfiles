@@ -1,0 +1,228 @@
+@charset "utf-8";
+/* CSS Document  農業知識入口網 知識家專用 */
+
+
+/*----------------------------------------------------- sta 知識家 知識統計 */
+.sta {
+	position: absolute;
+	left: 8px;
+	top: 175px;
+	width: 200px;
+	height: 130px;
+	margin: 0 0 0 6px;
+	padding: 25px 0 20px;
+}
+.sta h2 {
+	margin: 0 0 0 25px;
+	padding: 0;
+	font-size: 15px;
+	line-height: 16px;
+	height: 28px;
+	letter-spacing: 2px;
+}
+.sta p {
+	margin: 0 0 0 25px;
+	padding: 0;
+	height: 28px;
+	line-height: 13px;
+	font-size: 12px;
+	letter-spacing: 0;
+}
+
+/*----------------------------------------depdate 問題建置日期*/
+.depdate {
+	margin: 5px 0 2px;
+	padding: 0;
+	float: left;
+}
+/*----------------------------------------知識家內頁排版表格*/
+.subtable { 
+	border-collapse: collapse;
+	width: 100%;
+	margin: 0 0 25px;
+	padding: 0;
+}
+.subtable td {
+	vertical-align: top;
+}
+.subtable .subleft {
+}
+.subtable .subleft .problem {
+	margin: 0 10px 5px 0;
+	padding: 0;
+	line-height: 150%;
+	font-size: 1.25em;
+	color: #000;
+}
+.subtable .subleft .problem2 {
+	padding: 10px;
+	line-height: 150%;
+	margin-bottom: 10px;
+}
+.subtable .subleft .adddate {
+	padding: 5px 10px;
+	line-height: 200%;
+	margin-bottom: 2px;
+}
+.subtable .subleft .adddate a {
+	text-decoration:none;
+	margin-right: 3px;
+	margin-left: 3px;
+}
+.subtable .subleft .adddate a:hover {
+}
+
+.subtable .subright {
+	padding: 10px 10px 5px;
+	border: 1px solid #bbb;
+	margin: 0px;
+	width: 150px;
+}
+.subtable .subright ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.subtable .subright li {
+	line-height: 150%;
+	border-bottom: 1px dotted #aaa;
+}
+.knowledgepic {
+}
+#cp .knowledgepic img {
+	max-width: 320px;
+	border: 1px solid #bbb;
+	margin: 0;
+}
+#cp .knowledgepic p {
+	margin: 5px 0;
+	padding: 0;
+	line-height: 135%;
+	max-width: 320px;
+}
+
+#cp .knowledgepic img {
+	_width: 280px;
+}
+#cp .knowledgepic p.importanttext {
+	max-width: 100%;
+}
+
+/* 知識家 駐站專家補充 */
+
+.experts {
+	margin: 10px 0;
+	padding: 0;
+	overflow: hidden;
+	_width: 100%;
+}
+.experts ol {
+}
+.experts ol li {
+	line-height: 125%;
+	margin-bottom: 1em;
+}
+.experts p {
+	letter-spacing: 0;
+}
+.experts .exphoto {
+	float: left;
+	width: 80px;
+	margin-right: 10px;
+	border-right: 1px solid #CCC;
+	padding: 0 5px 0 0;
+}
+.experts .exphoto .phoimg{
+	margin: 3px 0 3px 0;
+	width: auto;
+}
+.experts .exphoto .phoimg img {
+	width: 74px;
+	border: none;
+	margin: 0;
+}
+.experts .exphoto p {
+}
+
+/*----------------------------------------------------------------Dis 知識家 討論 */
+.Dis {
+	margin: 20px 0 10px;
+	padding-top: 10px;
+}
+.Dis h4 {
+}
+.Dis h4 a {
+}
+.Dis h4 a:hover {
+}
+
+/*--Issued star */
+.DisList ul.Issued {
+	margin: 0 0 5px;
+	padding: 0 0 3px;
+	border-bottom: 1px dashed #bbb;
+}
+.Issued li {
+	display: inline;
+	margin-right: 0.8em;
+}
+
+.Issued2 {
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border-bottom: 1px dashed #bbb;
+}
+.Issued2 li {
+	display: inline;
+	margin-right: 0.8em;
+}
+
+.DisList {
+	border-bottom: 1px dashed #bbb;
+	padding: 5px 0px;
+}
+.DisList p {
+	padding: 5px;
+}
+
+.float2 {
+	float: right;
+	padding: 0;
+	margin-top: -32px;
+}
+.float2 a {
+	background: url(../images/li_bg2.gif) no-repeat 0 0;
+	padding: 3px 0 2px 20px;
+}
+
+.float {
+	text-align: right;
+	margin: 5px 0;
+}
+.float a {
+	background: url(../images/li_bg2.gif) no-repeat 0 0;
+	padding: 3px 0 2px 20px;
+}
+
+/* 知識家 相關問題 */
+.similar
+{
+	width:100%;
+	border:1px solid #FEDA79;
+	padding:0;
+	border-collapse:collapse;
+}
+
+.similar tr th
+{
+	text-align: left;
+	background-color:#FEDA79;
+	padding:5px;
+}
+
+.similar tr td
+{
+	border:1px solid #FEDA79;
+	padding:5px;
+}

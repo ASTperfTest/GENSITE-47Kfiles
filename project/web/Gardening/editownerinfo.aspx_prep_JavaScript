@@ -1,0 +1,179 @@
+﻿
+
+
+
+function script___1277764801() {src("js/jquery.autogrow.js");}
+
+
+
+
+
+
+
+
+
+             function href___859854874() {UpdateAvatar();}
+
+            function href___1215131053() {CheckUpdate();}
+
+             function href___301243752() {Cancel();}
+
+            function href___1199451557() {Hint();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $(document).ready(function() {
+            //Tab Menu
+            $("#tabInfo").addClass("btnDistrict");
+            $("#tabList").addClass("btnDistrict now");
+            $("#tabVote").addClass("btnDistrict");
+            $("#tabFinal").addClass("btnDistrict");
+
+            //Auto Grow
+            $("#ctl00_cp_Des").autogrow({
+                minHeight: 60,
+                lineHeight: 15
+            });
+        });
+        function Hint() {
+            $.each($(".descriptiveText"), function(i, n) {
+                if ($(this).css("display") == "none") {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+
+        function CheckUpdate() {
+            var errMsg = '';
+
+            if ($("#ctl00_cp_NewTopic").val() == '尚未輸入作品名稱' || $("#ctl00_cp_NewTopic").val() == '') {
+                errMsg += '請輸入作物名稱!\n';
+            }
+
+   if ($("#ctl00_cp_Des").val() == '尚未輸入作品介紹' || $("#ctl00_cp_Des").val() == '') {
+                errMsg += '請輸入作品介紹!\n';
+            }
+   
+            if ($("#ctl00_cp_ImgUpload").val() == '') {
+                errMsg += '請選擇檔案!\n';
+            }
+
+            if ($("#ctl00_cp_NewTopic").val().length > 50) {
+                errMsg += '作物名稱長度不能超過50!\n';
+            }
+
+            if (errMsg.length > 0) {
+                alert(errMsg);
+            }
+            else {
+                $("#Action").val('Update');
+                document.aspnetForm.submit();
+            }
+        }
+
+        function UpdateAvatar() {
+            $("#Action").val('NewImg');
+            document.aspnetForm.submit();
+        }
+
+        function Cancel() {
+            $("#Action").val('Cancel');
+            document.aspnetForm.submit();
+        }
+
+        function DoCancelNewImg() {
+            $("#Action").val('CancelNewImg');
+        }
+    
+
+
+
+
+ 

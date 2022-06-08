@@ -1,0 +1,152 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+   htprogcode = "ht002"
+   
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_453315802()
+  
+if request("task")="新增存檔" then
+ sqlcom = "select * from infouser where userid = '" & request("pfx_userid") & "'"
+ set rs = conn.execute(sqlcom)
+ if not rs.eof then 
+
+
+
+
+   else
+ sql="insert into infouser(userid,password,username,usertype,ugrpid,deptid,jobname,email,telephone,tdatacat,uploadpath,visitcount) values (" _
+  & drs("pfx_userid") & drs("tfx_xpassword") & drs("tfx_username") & "'p'," _
+  & drs("sfx_ugrpid") & drs("sfx_deptid") & drs("tfx_jobname") _
+  & drs("tfx_email") & drs("tfx_telephone") & drs("sfx_tdatacat") & drs("tfx_uploadpath")& " 0)"
+ conn.execute(sql)
+
+
+
+
+
+
+
+
+
+
+
+                                            =request("pfx_userid")
+
+         response.end
+ end if
+end if
+
+
+
+
+
+
+
+
+
+
+
+
+                                                    =title
+
+
+
+
+
+
+
+
+
+                          if (htprogright and 2)=2 then 
+                                       end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     sql="select deptid,deptname from dept where inuse='y' order by kind"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where codemetaid='topdatacat' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+
+
+
+
+              sql1 = "select * from ugrp"                                                                                                                                
+            set rs1 = conn.execute(sql1)                                                                                                                                
+             if rs1.eof then
+
+              else 
+
+              do while not rs1.eof 
+                            =rs1("ugrpid"):     =rs1("ugrpname")
+                rs1.movenext 
+              loop 
+             end if 
+
+
+
+
+
+
+
+
+
+
+
+
+               if (htprogright and 4)=4 then :                                                                             end if 
+
+
+
+
+
+
+    CxMethod_ASP_footer_1368330105() 

@@ -1,0 +1,175 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "pn03m04" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+  
+ catid = request.form("catid")
+ forumid = request.form("forumid")
+
+ if request.querystring("configck") = "add" then
+  sql = "select * from forum where forumname = "& nohtmlcode(request.form("forumname")) &" and itemid = n'"& itemid &"' and catid ="& catid
+  set rs = conn.execute(sql)
+   if rs.eof then
+   showorder = 1
+   sqlcom = "select * from forum where itemid = n'"& itemid &"' and catid = "& catid &" order by forumshoworder"
+   set rscom = conn.execute(sqlcom)
+    if not rscom.eof then
+     nowshoworder = 2
+     do while not rscom.eof
+      sql = "update forum set forumshoworder = "& nowshoworder &" where forumid = "& rscom("forumid")
+      set rs = conn.execute(sql)
+      nowshoworder = nowshoworder + 1
+        rscom.movenext
+        loop
+    end if
+   sql = "insert into forum "&_
+           "(itemid, forumname, forumshoworder, editdate, edituserid, catid, "&_
+           "forumremark, forummaster) values (n'"& itemid &"',"& nohtmlcode(request.form("forumname")) &","& showorder &_
+           ",n'"& date() &"',n'"& session("userid") &"',"& catid &","& nohtmlcode(request.form("forumremark")) &","& request.form("forummaster") &")"
+   set rs = conn.execute(sql)
+   sql = "update catalogue set datacount = datacount + 1 where catid = "& catid
+   set rs = conn.execute(sql) 
+
+
+                                               =itemid:          =catid
+
+
+     else 
+
+
+
+
+     end if
+ elseif request.querystring("configck") = "edit" then
+  sql = "select * from forum where forumname = "& nohtmlcode(request.form("forumname")) &" and itemid = n'"& itemid &"' and catid ="& catid &" and forumid <> "& forumid
+  set rs = conn.execute(sql)
+   if rs.eof then
+   sql = "update forum set forumremark = "& nohtmlcode(request.form("forumremark")) &",forumname = "& nohtmlcode(request.form("forumname")) &", editdate = n'"& date() &"', edituserid = n'"& session("userid") &"' where forumid = "& forumid
+   set rs = conn.execute(sql) 
+
+
+                                                 =itemid:            =forumid
+
+
+     else 
+
+
+
+
+     end if
+ elseif request.querystring("configck") = "del" then
+  sql = "delete from forum where forumid = "& forumid
+  set rs = conn.execute(sql)
+   sqlcom = "select * from forumarticle where forumid = "& forumid
+   set rscom = conn.execute(sqlcom)
+    if not rscom.eof then
+     do while not rscom.eof
+      sqlcom1 = "select * from fileup where itemid = n'"& itemid &"' and parentid = "& rscom("articleid")
+      set rscom1 = conn.execute(sqlcom1)
+       if not rscom1.eof then
+        do while not rscom1.eof
+     set dfile = server.createobject("scripting.filesystemobject")
+     ifile = server.mappath(session("public") & rscom1("nfilename"))
+     dfile.deletefile(ifile)
+        xsql = "delete from fileup where itemid = n'"& itemid &"' and parentid = "& rscom("articleid")
+      set xrs = conn.execute(xsql)
+        rscom1.movenext
+        loop
+       end if
+        rscom.movenext
+        loop
+    end if
+      sql = "delete from forumarticle where forumid = "& forumid
+    set rs = conn.execute(sql)
+      sql = "delete from forumessencearticle where forumid = "& forumid
+    set rs = conn.execute(sql)
+   sqlcom = "select * from forum where itemid = n'"& itemid &"' and catid = "& catid &" order by forumshoworder"
+   set rscom = conn.execute(sqlcom)
+    if not rscom.eof then
+     nowshoworder = 1
+     do while not rscom.eof
+      sql = "update forum set forumshoworder = "& nowshoworder &" where forumid = "& rscom("forumid")
+      set rs = conn.execute(sql)
+      nowshoworder = nowshoworder + 1
+        rscom.movenext
+        loop
+    end if
+   sql = "update catalogue set datacount = datacount - 1 where catid = "& catid
+   set rs = conn.execute(sql) 
+
+
+
+
+
+   elseif request.querystring("configck") = "order" then
+  unitidarrar = split(forumid,",")
+  catid = request.querystring("catid")
+  nowshoworder = 0
+   for xno = 0 to ubound(unitidarrar)
+    nowshoworder = nowshoworder + 1
+  sql2 = "update forum set forumshoworder =" & nowshoworder & " where forumid ="& unitidarrar(xno)
+  set rs2 = conn.execute(sql2)
+   next 
+
+
+                                               =itemid:          =catid:               =catid
+
+
+   elseif request.querystring("configck") = "dela" then
+  forumid = request.querystring("forumid")
+  articleid = request.form("articleid")
+  unitidarrar = split(articleid,",")
+   for xno = 0 to ubound(unitidarrar)
+      sqlcom1 = "select * from fileup where itemid = n'"& itemid &"' and parentid ="& unitidarrar(xno)
+      set rscom1 = conn.execute(sqlcom1)
+       if not rscom1.eof then
+        do while not rscom1.eof
+     set dfile = server.createobject("scripting.filesystemobject")
+     ifile = server.mappath(session("public") & rscom1("nfilename"))
+     dfile.deletefile(ifile)
+        xsql = "delete from fileup where itemid = n'"& itemid &"' and parentid ="& unitidarrar(xno)
+      set xrs = conn.execute(xsql)
+     xxxsql = "delete from forumessencearticle where articleid = "& unitidarrar(xno)
+     set xxxrs = conn.execute(xxxsql)
+        rscom1.movenext
+        loop
+       end if
+      xxsql = "delete from forumarticle where articleid ="& unitidarrar(xno)
+    set xxrs = conn.execute(xxsql)
+   next 
+
+
+                                                                        =itemid:            =forumid
+
+
+   elseif request.querystring("configck") = "forumes" then
+  forumid = request.querystring("forumid")
+  articleid = request.form("articleid")
+  forumes = request.querystring("forumes")
+  sql = "delete from forumessencearticle where forumid = "& forumid
+  set rs = conn.execute(sql)
+  unitidarrar = split(articleid,",")
+   for xno = 0 to ubound(unitidarrar)
+    sqlcom = "insert into forumessencearticle (articleid, forumid) values ("& unitidarrar(xno) &","& forumid &")"
+    set rs = conn.execute(sqlcom)
+   next 
+
+
+                                                                        =itemid:            =forumid:            =forumes
+
+
+   end if
+
+ function nohtmlcode(datacode)
+   newdata = ""
+     newdate = replace(datacode,"'","''")
+   if datacode <> "" then
+    if htmldecide = "n" then
+     newdate = replace(newdate,"<","<")
+     newdate = replace(newdate,">",">")
+    end if
+   end if
+   nohtmlcode = "'" & newdate & "'"
+ end function
+ 

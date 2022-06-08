@@ -1,0 +1,97 @@
+﻿: 
+'----941124rsspool產生機制
+ctabchar = chr(9)
+function nctabchar(n)
+ if ctabchar = "" then
+  nctabchar = ""
+ else
+  nctabchar = string(n,ctabchar)
+ end if
+end function
+function serverdatetimegmt(d)             '日期轉換為rss gmt格式
+ dtgmt = dateadd("h",-8,d)
+ weekdaystr = ""
+ select case weekday(dtgmt)
+  case 1 : weekdaystr = "sun"
+  case 2 : weekdaystr = "mon"
+  case 3 : weekdaystr = "tue"
+  case 4 : weekdaystr = "wed"
+  case 5 : weekdaystr = "thu"
+  case 6 : weekdaystr = "fri"
+  case 7 : weekdaystr = "sat"
+ end select 
+ monthstr = ""
+ select case month(dtgmt)
+  case 1  : monthstr = "jan"
+  case 2  : monthstr = "feb"
+  case 3  : monthstr = "mar"
+  case 4  : monthstr = "apr"
+  case 5  : monthstr = "may"
+  case 6  : monthstr = "jun"
+  case 7  : monthstr = "jul"
+  case 8  : monthstr = "aug"
+  case 9  : monthstr = "sep"
+  case 10 : monthstr = "oct"
+  case 11 : monthstr = "nov"
+  case 12 : monthstr = "dec"
+ end select  
+ xhour = right("00" + cstr(hour(dtgmt)),2)
+ xminute = right("00" + cstr(minute(dtgmt)),2)
+ xsecond = right("00" + cstr(second(dtgmt)),2)
+ if len(d) = 0 then
+    serverdatetimegmt = ""
+ else
+   serverdatetimegmt = weekdaystr + ", " + right("00" + cstr(day(dtgmt)),2) + " " + monthstr + " " + cstr(year(dtgmt)) +  " " + xhour + ":" + xminute + ":" + xsecond + " gmt"
+ end if
+end function
+
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+'----------hyweb gip db connection patch----------
+
+sqlc = "select stitle,xbody,xpostdate,ximgfile from cudtgeneric where icuitem=" & session("rss_icuitem")
+set rsc = conn.execute(sqlc)
+'sql = "select icuitem from rsspool where icuitem=" & session("rss_icuitem")
+'set rs = conn.execute(sql)
+if session("rss_method") = "insert" or session("rss_method") = "update" then   '----新增insert/編修update
+ if not rsc.eof then
+  xpostdatestr = ""
+  if not isnull(rsc("xpostdate")) then xpostdatestr = serverdatetimegmt(now())
+  rssstr = "<item>" & vbcrlf
+  rssstr = rssstr & nctabchar(1) & "<title><![cdata["&rsc("stitle")&"]]></title>" & vbcrlf
+  rssstr = rssstr & nctabchar(1) & "<link>"&session("mywwwsiteurl")&"/content.asp?mp="&session("pvxdmp")&"&amp;cuitem="&session("rss_icuitem")&"</link>" & vbcrlf
+  rssstr = rssstr & nctabchar(1) & "<guid ispermalink=""false"" method="""&session("rss_method")&""">"&session("rss_icuitem")&"</guid>" & vbcrlf
+  rssstr = rssstr & nctabchar(1) & "<pubdate>"&xpostdatestr&"</pubdate>" & vbcrlf
+ ' rssstr = rssstr & nctabchar(1) & "<category>"&rsc("category")&"</category>" & vbcrlf
+  rssstr = rssstr & nctabchar(1) & "<description><![cdata["&rsc("xbody")&"]]></description>" & vbcrlf 
+  'if not isnull(rsc("ximgfile")) then
+     '        rssstr = rssstr & nctabchar(1) & "<media:content type=""image/jpeg"" url=""" &session("mywwwsiteurl")&"/public/data/" & rsc("ximgfile") & """/>" & vbcrlf 
+  'end if 
+  rssstr = rssstr & "</item>"
+  sqlcreate = "insert into rsspool values("&session("rss_icuitem")&",'"&session("rss_method")&"','"&rssstr&"',getdate(),'"&session("userid")&"',"&session("ctnodeid")&")"
+  conn.execute(sqlcreate) 
+ end if
+elseif session("rss_method") = "delete" then  '----刪除delete
+ if not rsc.eof then
+  rssstr = "<item>" & vbcrlf
+  rssstr = rssstr & nctabchar(1) & "<title><![cdata["&rsc("stitle")&"]]></title>" & vbcrlf
+  rssstr = rssstr & nctabchar(1) & "<link></link>" & vbcrlf
+  rssstr = rssstr & nctabchar(1) & "<guid ispermalink=""false"" method="""&session("rss_method")&""">"&session("rss_icuitem")&"</guid>" & vbcrlf
+  rssstr = rssstr & nctabchar(1) & "<pubdate>"&rsc("xpostdate")&"</pubdate>" & vbcrlf
+ ' rssstr = rssstr & nctabchar(1) & "<category></category>" & vbcrlf
+  rssstr = rssstr & nctabchar(1) & "<description><![cdata["&rsc("xbody")&"]]></description>" & vbcrlf 
+  'if not isnull(rsc("ximgfile")) then
+        '    rssstr = rssstr & nctabchar(1) & "<ximgfile>"&session("mywwwsiteurl")&"/public/data/" & rsc("ximgfile") & "</ximgfile>" & vbcrlf 
+  'end if 
+  rssstr = rssstr & "</item>"
+  sqlcreate = "insert into rsspool values("&session("rss_icuitem")&",'"&session("rss_method")&"','"&rssstr&"',getdate(),'"&session("userid")&"',"&session("ctnodeid")&")"
+  conn.execute(sqlcreate) 
+ end if
+end if
+
+
+ 

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0"  encoding="utf-8" ?>
+<ExpandedUseCase>
+	<Version>
+  		<Date></Date>
+  		<Author></Author>
+  		<Kind>Expanded</Kind>
+  	  <ExpandedSpec>
+  		<Type>primary</Type>
+  		<Type>essential</Type>
+		<ActorList>
+			<Actor initiator="Y"></Actor>
+		</ActorList>
+		<Purpose></Purpose>
+		<PreCondition>
+			<UseCase></UseCase>
+		</PreCondition>
+		<DescriptionList>
+				<Description>
+				</Description>
+		</DescriptionList>
+		<TypicalCourseOfEvents>
+			<Event type="Client" id="0">
+			</Event>
+			<Event type="Client" id="10">
+			</Event>
+			<Event type="Client" id="11">
+			</Event>
+		</TypicalCourseOfEvents>
+  	  </ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+</ExpandedUseCase>

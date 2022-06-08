@@ -1,0 +1,337 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="電子報管理"
+htprogfunc="電子報發行清單"
+htprogcode="gw1m51"
+htprogprefix="epub"
+
+
+
+
+
+
+
+
+   CxMethod_ASP_epublistparam_1087716033()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   
+ dim epubid
+ epubid = request("epubid")
+ if epubid = "" then response.write "<script>alert('缺少電子報代碼值');history.back();</script>"    
+ 
+ set kmconn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' kmconn.open session("kmodbc")
+'set kmconn = server.createobject("hywebdb3.dbexecute")
+kmconn.connectionstring = session("kmodbc")
+kmconn.connectiontimeout=0
+kmconn.cursorlocation = 3
+kmconn.open
+'----------hyweb gip db connection patch----------
+
+ 
+ dim epubtitle
+ sql = "select * from eppub where epubid = " & epubid
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  epubtitle = rs("title")
+ end if
+ rs = empty
+ 
+ sql = ""
+ sql = sql & " select * from eppubarticle where (eppubarticle.epubid = " & request("epubid") & ")"
+ 
+ set rs = conn.execute(sql)
+
+ dim recordcount
+ function gettablecontent( myrs )
+  
+  str = ""
+  if myrs("ctrootid") = "1" or myrs("ctrootid") = "2" then
+   
+   sql = "" 
+   sql = sql & "select distinct cattreenode.ctrootid, cudtgeneric.icuitem, cudtgeneric.stitle, cattreeroot.ctrootname, "
+   sql = sql & "ctunit.ctunitname, infouser.username, cudtgeneric.deditdate, dept.deptname from cudtgeneric inner join "
+   sql = sql & "cattreenode on cudtgeneric.ictunit = cattreenode.ctunitid inner join cattreeroot on "
+   sql = sql & "cattreenode.ctrootid = cattreeroot.ctrootid inner join ctunit on "
+   sql = sql & "cattreenode.ctunitid = ctunit.ctunitid inner join infouser on "
+   sql = sql & "cudtgeneric.ieditor = infouser.userid inner join dept on cudtgeneric.idept = dept.deptid "
+   sql = sql & "where (cattreeroot.inuse = 'y') and  (ctunit.inuse = 'y') and (cattreenode.inuse = 'y') "
+   sql = sql & "and (cattreeroot.inuse = 'y') and (dept.inuse = 'y') "
+   sql = sql & "and (cudtgeneric.icuitem = " & myrs("articleid") & ")"
+   
+   set newrs = conn.execute(sql)   
+   
+   if not newrs.eof then
+    str = str & "<td align=""middle""><div align=""center"">"
+    str = str & "<input type=""checkbox"" name=""ckbox"" value="""& newrs("icuitem") & "-" & myrs("ctrootid") & "-" & myrs("ctrootid") & """ checked>"
+    str = str & "</div></td> "
+       str = str & "<td><a href=""#"" target=""_wmof"">view</a></td>"
+       if myrs("ctrootid") = "1" then
+        str = str & "<td>入口網</td>"
+       else
+        str = str & "<td>主題館</td>"
+      end if      
+       str = str & "<td>" & newrs("ctunitname") & "</td>"
+       str = str & "<td>" & newrs("stitle") & "</td>"
+       str = str & "<td>" & newrs("username") & "</td>"
+       str = str & "<td>" & newrs("deptname") & "</td>"
+       str = str & "<td>" & formatdatetime(newrs("deditdate"),2) & "</td>"
+      end if
+   newrs.close
+      set newrs = nothing
+      
+    elseif myrs("ctrootid") = "3" then  
+      
+      sql = ""
+   sql = sql & " select distinct cattreenode.ctrootid, cudtgeneric.icuitem, cudtgeneric.stitle, cattreeroot.ctrootname, "
+   sql = sql & " ctunit.ctunitname, cudtgeneric.deditdate, member.realname from cudtgeneric inner join cattreenode on "
+   sql = sql & " cudtgeneric.ictunit = cattreenode.ctunitid inner join cattreeroot on cattreenode.ctrootid = cattreeroot.ctrootid "
+   sql = sql & " inner join ctunit on cattreenode.ctunitid = ctunit.ctunitid inner join member on cudtgeneric.ieditor = member.account "
+   sql = sql & " where (cudtgeneric.siteid = n'3') and (cattreeroot.inuse = 'y') and (cudtgeneric.fctupublic = 'y') "
+   sql = sql & " and (ctunit.inuse = 'y') and (cattreenode.inuse = 'y') and (cattreeroot.inuse = 'y') and (cattreenode.ctunitid = 932) "
+   sql = sql & " and (cudtgeneric.icuitem = " & myrs("articleid") & ")"
+   
+   set newrs = conn.execute(sql)   
+   
+   if not newrs.eof then 
+    str = str & "<td align=""middle""><div align=""center"">"
+    str = str & "<input type=""checkbox"" name=""ckbox"" value="""& newrs("icuitem") & "-" & myrs("ctrootid") & "-" & myrs("ctrootid") & """ checked>"
+    str = str & "</div></td> "
+       str = str & "<td><a href=""#"" target=""_wmof"">view</a></td>"
+       str = str & "<td>知識家</td>"     
+       str = str & "<td>" & newrs("ctunitname") & "</td>"
+       str = str & "<td>" & newrs("stitle") & "</td>"
+       str = str & "<td>" & newrs("realname") & "</td>"
+       str = str & "<td>知識家</td>"
+       str = str & "<td>" & formatdatetime(newrs("deditdate"),2) & "</td>"
+      end if 
+   newrs.close
+      set newrs = nothing
+      
+    elseif myrs("ctrootid") = "4" then
+ 
+   sql = ""
+   if cbool(myrs("isformer")) then
+    sql = sql & " select distinct report.report_id, category.category_name, category.category_id, report.subject, report.publisher, report.online_date, "
+    sql = sql & " actor_info.actor_detail_name from report inner join actor_info on report.create_user = actor_info.actor_info_id "
+    sql = sql & " inner join cat2rpt on report.report_id = cat2rpt.report_id inner join category on "
+    sql = sql & " cat2rpt.data_base_id = category.data_base_id and cat2rpt.category_id = category.category_id "
+    sql = sql & " inner join resource_right on 'report@' + report.report_id = resource_right.resource_id "
+    sql = sql & " where (report.status = 'pub') and (report.online_date < getdate()) and (category.data_base_id = 'db020') "
+    sql = sql & " and (resource_right.actor_info_id = '002') "
+    sql = sql & " and (report.report_id = '" & myrs("articleid") & "')"
+    
+    set kmrs = kmconn.execute(sql)
+    if not kmrs.eof then
+     str = str & "<td align=""middle""><div align=""center"">"
+     str = str & "<input type=""checkbox"" name=""ckbox"" value="""& kmrs("report_id") & "-" & myrs("ctrootid") & "-" & kmrs("category_id") & """ checked>"
+     str = str & "</div></td> "
+     str = str & "<td><a href=""#"" target=""_wmof"">view</a></td>"
+     str = str & "<td>知識庫</td>"
+     str = str & "<td>" & kmrs("category_name") & "</td>"
+     str = str & "<td>" & kmrs("subject") & "</td>"
+     str = str & "<td>" & kmrs("actor_detail_name") & "</td>"
+     str = str & "<td>" & kmrs("publisher") & "</td>"
+     str = str & "<td>" & formatdatetime(kmrs("online_date"),2) & "</td>"
+    end if
+    kmrs.close
+    set kmrs = nothing
+   else
+     detailinfo = getdetail("document",myrs("articleid"))
+     infos = split(detailinfo, "|")
+     str = str & "<td align=""middle""><div align=""center"">"
+     str = str & "<input type=""checkbox"" name=""ckbox"" value="""& myrs("articleid") & "-" & myrs("ctrootid") & "-" & myrs("categoryid") & """ checked>"
+     str = str & "</div></td> "
+     url = session("mywwwsiteurl") & "/category/categorycontent.aspx?reportid=" & myrs("articleid") & "&categoryid=" & myrs("categoryid") & "&actortype=002&kpi=0"
+     str = str & "<td><a href=" & url & " target=""_blank"">view</a></td>"
+     str = str & "<td>知識庫</td>"
+     str = str & "<td>" & getdetail("category_name",myrs("categoryid")) & "</td>"
+     str = str & "<td>" & infos(0) & "</td>"
+     str = str & "<td>" & getdetail("user_name",infos(1)) & "</td>"
+     str = str & "<td>" & getdetail("user_ou",infos(1)) & "</td>"
+     str = str & "<td>" & replace(mid(infos(2),1,10),"-","/") & "</td>"
+   end if
+    end if       
+    
+    gettablecontent = str
+ end function
+ 
+ function checkexist( epubid, articleid )
+ 
+  sql = "select * from eppubarticle where epubid = " & epubid & " and articleid = " & articleid
+  set rsc = conn.execute(sql)
+  if not rsc.eof then
+   checkexist = true
+  else
+   checkexist = false
+  end if
+  rsc = empty  
+ end function
+ 
+ function getdetail(typeid, key)
+  '建立物件
+   dim xmlhttp
+   set xmlhttp = server.createobject("microsoft.xmlhttp")
+   '要檢查的網址
+   
+   urls = session("mysitemmourl") & "/epaper/epaper_querydetail.asp?typeid=" & typeid & "&key=" & key
+
+   if typeid = "" or key = "" then
+   response.write "未傳入必要參數"
+   response.write.end()
+   end if
+   'response.write xmlhttp
+   xmlhttp.open "get", urls, false
+   xmlhttp.send
+   
+   if xmlhttp.status=404 then
+     response.write "找不到頁面"
+   elseif xmlhttp.status=200 then
+    getdetail = xmlhttp.responsetext
+   else
+     response.write xmlhttp.status
+   end if
+ end function
+
+
+
+
+                                                                                                 =epubtitle
+
+                                       =epubid:             =request("eptreeid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            =pagenumber:    =totpage:                                   =totrec
+
+
+            for i = 1 to totpage 
+                           =i:      if i = cint(pagenumber) then :              end if :     =i
+            next 
+
+                if cint(pagenumber) <> 1 then 
+
+               end if 
+               if cint(pagenumber) <> rs.pagecount and cint(pagenumber) < rs.pagecount then 
+
+               end if 
+
+
+
+                                      if pagesize = 10 then :              end if 
+                                      if pagesize = 20 then :              end if 
+                                      if pagesize = 30 then :              end if 
+                                      if pagesize = 50 then :              end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                if not rs.eof then 
+                 while not rs.eof 
+                  recordcount = recordcount + 1 
+
+                  =gettablecontent(rs)
+
+                
+               rs.movenext              
+           wend 
+         
+                else 
+
+                end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                          =recordcount
+
+
+
+
+
+                          =recordcount
+
+
+
+
+
+
+
+
+
+                                             =request("epubid"):             =request("eptreeid")
+
+
+
+
+
+
+
+
+                         =recordcount
+
+
+
+
+
+
+
+
+
+
+
+
+                                                    =request("epubid")
+
+
+
+
+
+                                                      =request("eptreeid") 

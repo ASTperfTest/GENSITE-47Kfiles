@@ -1,0 +1,30 @@
+﻿:  response.expires = 0
+ datatype = request.querystring("datatype")
+ language = request.querystring("language")
+
+ select case datatype
+  case "m01"
+  '內部公告
+   htprogcode = "pn01m01"
+   catdecide = "n"
+   datedecide = "y"
+   emaildecide = "y"
+   subject = "主旨"
+   content = "內容"
+   extend_1 = null
+   extend_2 = null
+   extend_3 = null
+  case "m02"
+  '外部公告
+   htprogcode = "pn01m02"
+   catdecide = "n"
+   datedecide = "y"
+   emaildecide = "n"
+   subject = "主旨"
+   content = "內容"
+   extend_1 = null
+   extend_2 = null
+   extend_3 = null
+ end select
+
+ 

@@ -1,0 +1,126 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Default2.master.cs" Inherits="_Default2" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/ui.datepicker.css" rel="stylesheet" type="text/css" />
+    <script src="js/jquery.js" type="text/javascript"></script>
+	<script src="js/gradening.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <link href="css/index.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="/ViewCounter.aspx"></script>
+	<style type="text/css">
+	body{
+		background-image: url(img/bg_main2.jpg);
+	} 
+	 </style>
+	
+    <title>農業知識入口網 - 家庭園藝教室</title>
+
+    <script type="text/javascript">
+        function setHref(url) {
+            var isIE = (navigator.appName.indexOf("Microsoft") != -1) ? true : false;
+
+            if (!isIE) {
+                parent.location.href = url;
+            } else {
+                var lha = document.getElementById('_lha');
+                if (!lha) {
+                    lha = document.createElement('a');
+                    lha.id = '_lha';
+                    lha.target = '_parent';  // Set target: for IE
+                    document.body.appendChild(lha);
+                }
+                lha.href = url;
+                lha.click();
+            }
+        }
+        function Login() {
+            var url="<%=loginUrl%>";
+            setHref(url);
+        }
+
+        function checkSearchForm(value) {
+            if (value == 0) {
+                if (document.SearchForm.Keyword.value == "") {
+                    alert('請輸入查詢值');
+                    event.returnValue = false;
+                }
+                else {
+                    document.SearchForm.action = "/Gardening/SearchResult.aspx";
+                    document.SearchForm.debug.value = false;
+                    document.SearchForm.submit();
+                }
+            }
+        }
+
+    </script>
+	 
+
+	
+	
+</head>
+<body >
+
+	
+<div id="div_menu1">
+  <table cellpadding="0" cellspacing="0" id="table_menu1">
+    <tr>
+      <td><img src="img/menu1_01.jpg" /></td>
+      <td class="menu1"><a href="/">
+				入口網
+				</a></td>
+      <td><img src="img/menu1_03.jpg" width="8" height="36" /></td>
+      <td class="menu1">
+		<asp:Label ID="lblUser" runat="server" Text=""></asp:Label>
+		<asp:HyperLink ID="LoginLogout" runat="server"></asp:HyperLink>
+	  </td>
+      <td><img src="img/menu1_04.jpg" width="8" height="36" /></td>
+    </tr>
+  </table>
+</div>
+
+
+<div id="div_menu2">
+	<table cellpadding="0" cellspacing="0" id="table_menu2">
+      <tr>
+        <td><img src="img/menu2_01.jpg" /></td>
+        <td class="menu2" style="padding-left:60px; "><a href="./index.aspx">首頁</a></td>
+        <td><img src="img/menu2_05.jpg"/></td>
+        <td class="menu2"><a href="/Gardening/topiclist.aspx">作品集</a></td>
+        <td><img src="img/menu2_05.jpg"/></td>
+        <td class="menu2"><a href="/Gardening/knowledge_rediect.aspx" target="_blank">發問</a></td>
+        <td><img src="img/menu2_05.jpg"/></td>
+        <td class="menu2"><a href="/Gardening/mytopiclist.aspx">貼文</a></td>
+        <td><img src="img/menu2_06.jpg" /></td>
+      </tr>
+    </table>
+	<img id="leaf" src="img/leaf.png" /> 
+</div> 
+
+ <div>
+<form id="form1" runat="server">
+
+	<asp:ContentPlaceHolder ID="cp" runat="server">
+	</asp:ContentPlaceHolder>
+</form>
+</div>		
+	<div id="footer">
+		<ul id="ul_contact_info">
+			<li>行政院農業委員會 版權所有c 2009 COA All Rights Reserved.</li>
+			<li>地址：10014 臺北市中正區南海路37號 </li>
+			<li>電話： (02)2381-2991最佳瀏覽解析度1024*768以上</li>
+		</ul>
+
+		<ul id="footer_navigation">
+			<li><a href="/ct.asp?xItem=86183&ctNode=2170&mp=1" title="隱私權保護">隱私權保護&nbsp;&nbsp;&nbsp;|<a/></li>
+			<li><a href="/ct.asp?xItem=86184&ctNode=2170&mp=1" title="資訊安全政策">資訊安全政策&nbsp;&nbsp;&nbsp;|<a/></li>
+			<li><a href="/ct.asp?xItem=86182&ctNode=2170&mp=1" title="版權宣告">版權宣告&nbsp;&nbsp;&nbsp;|<a/></li>
+			<li><a href="mailto:km@mail.coa.gov.tw" title="網站服務信箱">網站服務信箱<a/></li>
+		</ul>
+	<div>	
+
+</body>
+</html>
+

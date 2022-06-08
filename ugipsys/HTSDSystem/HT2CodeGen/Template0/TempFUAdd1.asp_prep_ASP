@@ -1,0 +1,55 @@
+﻿:  CxMethod_ASP_server_2075167351()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_453315802()
+  
+ dim xnewidentity
+ apath=server.mappath(htuploadpath) & "\"
+' response.write apath & "<hr>"
+  set xup = server.createobject("updownexpress.fileupload")
+  xup.open 
+
+if xupform("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+function xupform(xvar)
+on error resume next
+ xstr = ""
+ arrval = xup.multival(xvar)
+ for i = 1 to ubound(arrval)
+  xstr = xstr & arrval(i) & ", "
+'  response.write arrval(i) & "<br>" & chr(13)
+ next 
+ if xstr = "" then
+  xstr = xup(xvar)
+  xupform = xstr
+ else
+  xupform = left(xstr, len(xstr)-2)
+ end if
+end function
+
+   sub initform()  

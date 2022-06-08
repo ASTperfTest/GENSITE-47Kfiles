@@ -1,0 +1,61 @@
+﻿:  CxMethod_ASP_checkgipapconfig_594848678()
+  
+dim smtpserver
+dim smtpserverport
+dim smtpssendusing
+
+dim smtpusername
+dim smtppassword
+dim smtpauthenticate
+
+'smtpserver = "mail.coa.gov.tw"
+'smtpserverport = 25
+'smtpssendusing = 1
+'smtpssendusing = 2
+'讀sysappara.xml 裡的設定值
+smtpserver = getgipapconfigtext("emailserverip")
+smtpserverport = getgipapconfigtext("emailserverport")
+smtpssendusing = getgipapconfigtext("emailserversendusing")
+
+function send_email_authenticate(s_email,r_email,re_sbj,re_body, smtpusername, smtppassword, smtpauthenticate)
+    set objemail = createobject("cdo.message")
+    objemail.bodypart.charset = "utf-8"'response.charset
+    objemail.from       = s_email
+    objemail.to         = r_email
+    objemail.subject    = re_sbj
+    objemail.htmlbody   = re_body
+    objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/sendusing") = smtpssendusing
+    objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/smtpserver") = smtpserver
+    objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/smtpserverport") = smtpserverport
+
+    if smtpusername <> "" then
+        objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/sendusername") = smtpusername
+        objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/sendpassword") = smtppassword
+        objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/smtpauthenticate") = smtpauthenticate
+    end if
+
+
+    objemail.configuration.fields.update
+    objemail.send
+    set objemail=nothing
+end function
+
+function send_email(s_email,r_email,re_sbj,re_body)
+    dim smtpusername
+    dim smtppassword
+    dim smtpauthenticate
+
+    'smtpusername = "taft_km"
+    'smtppassword = "p@ssw0rd"
+ 'smtpauthenticate = "1"
+ 
+ smtpusername = getgipapconfigtext("emailsendusername")
+ smtppassword = getgipapconfigtext("emailsendpassword")
+ smtpauthenticate = getgipapconfigtext("emailsmtpauthenticate")
+
+    call send_email_authenticate(s_email,r_email,re_sbj,re_body, smtpusername, smtppassword, smtpauthenticate)
+end function
+
+
+
+ 

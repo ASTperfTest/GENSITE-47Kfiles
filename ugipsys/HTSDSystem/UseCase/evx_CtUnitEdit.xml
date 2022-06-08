@@ -1,0 +1,102 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<OperationContract>
+	<Code>GE1T11</Code>
+	<APCat>GE1</APCat>
+	<formSpec>CtUnitEdit</formSpec><htPattern>genEdit</htPattern>
+	<htSpecPattern>AEdit</htSpecPattern>
+	<htCodePath>/GipDSD</htCodePath>
+	<Version>
+		<Date>2003/5/18</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<FromEvent type="Client" id="11"/>
+		<ContractSpec>
+			<Name>evx_CtUnitEdit</Name>
+			<Type>Client</Type>
+			<ResponsibilityList>
+				<Responsibility>[編修] -- 編修主題單元				
+					1.輸入欄位: 類別, 名稱, 對應資料;</Responsibility>
+			</ResponsibilityList>
+			<PreConditionList>
+				<PreCondition></PreCondition>
+			</PreConditionList>
+			<AnchorList>
+				<Anchor>
+					<AnchorLabel>查詢</AnchorLabel>
+					<AnchorType>A</AnchorType>
+					<AnchorDesc>重設查詢條件</AnchorDesc>
+					<AnchorURI>CtUnitQuery.asp</AnchorURI>
+					<checkRight>1</checkRight>
+					<AnchorPos>Top</AnchorPos>
+					<AnchorWPK></AnchorWPK>
+				</Anchor>
+				<Anchor>
+					<AnchorLabel>新增</AnchorLabel>
+					<AnchorType>A</AnchorType>
+					<AnchorDesc>新增</AnchorDesc>
+					<AnchorURI>CtUnitAdd.asp</AnchorURI>
+					<checkRight>4</checkRight>
+					<AnchorPos>Top</AnchorPos>
+					<AnchorWPK></AnchorWPK>
+				</Anchor>
+				<Anchor>
+					<AnchorLabel>回前頁</AnchorLabel>
+					<AnchorType>Back</AnchorType>
+					<AnchorDesc>回前頁</AnchorDesc>
+					<AnchorURI></AnchorURI>
+					<checkRight></checkRight>
+					<AnchorPos>Top</AnchorPos>
+				</Anchor>
+			</AnchorList>
+			<DescriptionList>
+				<Description></Description>
+			</DescriptionList>
+			<RefObjectList>
+				<RefObject xRef="Y" xUpdate="Y">主題單元</RefObject>
+			</RefObjectList>
+			<OutputList>
+				<Output></Output>
+			</OutputList>
+			<PostConditionList>
+				<PostCondition eop="">
+					<!-- instanceCreate/instanceDelete/attributeModify/AssocFormed/AssocBroken -->
+				</PostCondition>
+			</PostConditionList>
+			<htDEntityList>
+				<htDEntity xRef="Y" xUpdate="Y">CtUnit</htDEntity>
+			</htDEntityList>
+			<CrossReferenceList>
+				<CrossReference></CrossReference>
+			</CrossReferenceList>
+			<NoteList>
+				<Note></Note>
+			</NoteList>
+			<ExceptionList>
+				<Exception></Exception>
+			</ExceptionList>
+			<ActorList>
+				<Actor></Actor>
+			</ActorList>
+		</ContractSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+</OperationContract>

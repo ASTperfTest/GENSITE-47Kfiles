@@ -1,0 +1,38 @@
+﻿set ansi_nulls on
+go
+set quoted_identifier on
+go
+if not exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[hakkalangexamtopic]') and objectproperty(id, n'isusertable') = 1)
+begin
+create table [dbo].[hakkalangexamtopic](
+ [et_id] [int] identity(1,1) not null,
+ [icuitem] [int] not null,
+ [tune_id] [nvarchar](20) not null,
+ [et_correct] [nvarchar](50) null,
+ constraint [pk_hakkalangexamtopic] primary key clustered 
+(
+ [et_id] asc
+) on [primary]
+) on [primary]
+end
+go
+set ansi_nulls on
+go
+set quoted_identifier on
+go
+if not exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[hakkalangexamoption]') and objectproperty(id, n'isusertable') = 1)
+begin
+create table [dbo].[hakkalangexamoption](
+ [et_id] [int] not null,
+ [eo_title] [nvarchar](50) not null,
+ [eo_answer] [nvarchar](50) null,
+ [eo_sort] [tinyint] not null,
+ constraint [pk_hakkalangexamoption] primary key clustered 
+(
+ [et_id] asc,
+ [eo_sort] asc
+) on [primary]
+) on [primary]
+end
+
+ 

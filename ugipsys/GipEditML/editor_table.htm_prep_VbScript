@@ -1,0 +1,114 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sub tabstrip_change()
+if (tabstrip.value = 0) then
+page1.style.visibility = "hidden"
+page0.style.visibility = "visible"
+end if
+if (tabstrip.value = 1) then
+page0.style.visibility = "hidden"
+page1.style.visibility = "visible"
+end if
+end sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+function onkeypress___1093083425():if (event.keycode < 45 || event.keycode > 57) event.returnvalue = false;
+end function
+
+
+
+
+function onkeypress___1093083425():if (event.keycode < 45 || event.keycode > 57) event.returnvalue = false;
+end function
+
+
+
+
+function onkeypress___1093083425():if (event.keycode < 45 || event.keycode > 57) event.returnvalue = false;
+end function
+
+
+
+
+
+
+
+
+function onkeypress___1093083425():if (event.keycode < 45 || event.keycode > 57) event.returnvalue = false;
+end function
+
+
+
+
+function onkeypress___1093083425():if (event.keycode < 45 || event.keycode > 57) event.returnvalue = false;
+end function
+
+
+
+
+
+
+
+
+
+
+                          function onclick___1093083425():window.close();
+end function                          function onclick___1093083425():tableok();
+end function
+window.settimeout('tabstrip.blur()',100);
+
+                                                           function cx_pseudoconstructor():while(1):onkeypress___1093083425():onkeypress___1093083425():onkeypress___1093083425():onkeypress___1093083425():onkeypress___1093083425():onclick___1093083425():onclick___1093083425():end while end function
+ 

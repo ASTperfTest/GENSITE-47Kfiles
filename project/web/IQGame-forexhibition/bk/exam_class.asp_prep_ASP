@@ -1,0 +1,93 @@
+﻿: 
+'題目
+class examtopic 
+ private fields
+ ' 物件初始化
+ private sub class_initialize()
+  set fields = server.createobject("scripting.dictionary") 
+        fields.add "ct_id", 0
+        fields.add "et_id", 0
+        fields.add "ct_stitle", ""
+        fields.add "ct_examtype", ""
+        fields.add "et_tuneid", ""
+        fields.add "et_correct", null        
+        
+        set options = server.createobject("scripting.dictionary")
+        fields.add "options", server.createobject("scripting.dictionary")
+    end sub
+
+ ' 物件結束
+    private sub class_terminate()
+  set fields = nothing
+  set options = nothing
+    end sub
+
+ ' 設定指定的屬性
+    public sub setfield(sname, vvalue)
+        if fields.exists(sname) then
+            if isobject(vvalue) then
+                set fields(sname) = vvalue
+            else
+                fields(sname) = vvalue
+            end if
+        end if
+    end sub
+
+    ' 取得指定的屬性
+    public function getfield(sname)
+        getfield = null
+        if fields.exists(sname) then
+            if isobject(fields(sname)) then
+                set getfield = fields(sname)
+            else
+                getfield = fields(sname)
+            end if
+        end if
+    end function
+end class
+
+
+'選項
+class examoption
+ private fields
+ 
+ ' 物件初始化
+ private sub class_initialize()
+  set fields = server.createobject("scripting.dictionary")
+   fields.add "optetid", 0        
+   fields.add "opttitle", null
+   fields.add "optanswer", null
+   fields.add "optsort", null
+    end sub
+
+ ' 物件結束
+    private sub class_terminate()
+  set fields = nothing
+    end sub
+
+ ' 設定指定的屬性
+    public sub setfield(sname, vvalue)
+        if fields.exists(sname) then
+            if isobject(vvalue) then
+                set fields(sname) = vvalue
+            else
+                fields(sname) = vvalue
+            end if
+        end if
+    end sub
+
+    ' 取得指定的屬性
+    public function getfield(sname)
+        getfield = null
+        if fields.exists(sname) then
+            if isobject(fields(sname)) then
+                set getfield = fields(sname)
+            else
+                getfield = fields(sname)
+            end if
+        end if
+    end function
+    
+end class
+ 
+ 

@@ -1,0 +1,63 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "ge1t21" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+
+
+
+
+
+  
+ sqlcom = "select * from cattreeroot where ctrootid = "& itemid 
+ set rs = conn.execute(sqlcom)
+
+
+ ftypename = rs("ctrootname")
+
+
+   const cid     = 2 'catid
+   const cname   = 3 'catname
+   const cparent = 7 'dataparent
+   const cchild  = 8 'childcount
+   const clevel  = 6 'datalevel
+' sqlcom = "select * from cattreenode where ctrootid = "& pkstr(itemid,"") &" order by datalevel, catshoworder"
+' response.write sqlcom
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if instr(session("ugrpid")&",", "htsd,") > 0 then 
+                             =itemid
+   end if 
+
+   response.write "treeroot = gfld(""forumtoc"", """ & ftypename & """, ""catlist.asp?itemid="& itemid &"&catid=0"")" & vbcrlf
+ nowcount = 0
+
+ sqlcom = "select * from cattreenode where ctrootid = "& pkstr(itemid,"") &" order by datalevel, catshoworder"
+ set rs = conn.execute(sqlcom)
+ while not rs.eof
+  xparent = "treeroot"
+  if rs(clevel) > 1 then xparent = "n" & rs(cparent)
+  if rs("ctnodekind") = "c" then
+   catlink = "catlist.asp?itemid="& itemid &"&catid="& rs("ctnodeid")
+   response.write "n"& rs(cid) &"= insfld(" & xparent &", gfld(""forumtoc"", """& rs(cname) &""", """& catlink &"""))" & vbcrlf
+  else
+      forumlink = "ctunitnodeedit.asp?phase=edit&ctnodeid=" & rs("ctnodeid")
+      response.write "insdoc("& xparent &", glnk(""forumtoc"", """& rs("catname") &""", """& forumlink &"""))" & vbcrlf
+  end if
+  rs.movenext
+ wend
+ 
+ 

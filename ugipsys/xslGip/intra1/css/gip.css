@@ -1,0 +1,44 @@
+body {
+	font-size: 12px;
+	color: #333333;
+	background-color: #FFFFFF;
+	margin: 0;
+	padding: 0;
+	background-image: url(../images/login_bg.jpg);
+	background-repeat: no-repeat;
+	background-position: center top;
+	text-align: center;
+}
+a {
+	color: #333333;
+        text-decoration: none;
+}
+a:hover {
+	color: #CC0000;
+}
+.doclink {
+	margin: 153px auto 0;
+}
+.doclink .forget {
+	margin-left: 103px;
+}
+.doclink .doc {
+	margin-left: 25px;
+}
+.login {
+	margin: 105px auto 55px;
+}
+.inputbutton {
+	background: url(../images/form_but_bg.gif) repeat-x left top;
+	padding: 5px 2px 0px 2px;
+	border: 1px solid #BBBBBB;
+	line-height: 120%;
+        margin-left: 3px;
+}
+.inputtext  {
+	color: #333333;
+	border: 1px solid #BBBBBB;
+}
+.copyright {
+	color: #000000;
+}

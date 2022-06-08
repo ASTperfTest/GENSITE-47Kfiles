@@ -1,0 +1,21 @@
+﻿: @ codepage = 65001 
+  
+response.expires = 0
+htprogcap="局長/民意 信箱"
+htprogfunc="局長信箱維護"
+htprogcode="bm010"
+htprogprefix="msession"
+response.expires = 0
+
+   CxMethod_ASP_server_1606199358()
+  
+ set rsreg = server.createobject("adodb.recordset")
+ 
+ sql = "" & _
+  " update mailbox set " & _
+  " email = '" & replace(trim(request("email")), "'", "''") & "' " & _
+  " where mailord = '" & replace(request("mailord"), "'", "''") & "'"
+ 'response.write sql
+ conn.execute(sql)
+ response.write "<script language='javascript'>alert('down!');location.replace('index.asp');</script>"
+ 

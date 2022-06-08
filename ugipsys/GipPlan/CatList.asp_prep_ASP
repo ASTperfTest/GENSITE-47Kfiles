@@ -1,0 +1,177 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "ge1t21" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+ catid = request.querystring("catid")
+ notdatatext = "無子目錄"
+ notdatack = "n"
+
+ if catid = 0 then
+  sql = "select 0 as ctnodeid, ctrootname as catname, editdate" _
+   & ", (select count(*) from cattreenode where ctnodekind='c' and dataparent=0 " _
+   & " and ctrootid = " & itemid & ") as xchildcount" _
+   & ", (select count(*) from cattreenode where ctnodekind='u' and dataparent=0 " _
+   & " and ctrootid = " & itemid & ") as xdatacount" _
+   & " from cattreeroot where ctrootid=" & pkstr(itemid,"")
+   datalevel = 0
+'  response.write sql
+'  response.end
+  set rs = conn.execute(sql)
+  sqlcom = "select htx.* " _
+   & ", (select count(*) from cattreenode where ctnodekind='c' and dataparent=htx.ctnodeid " _
+   & " and ctrootid = " & itemid & ") as xchildcount" _
+   & ", (select count(*) from cattreenode where ctnodekind='u' and dataparent=htx.ctnodeid " _
+   & " and ctrootid = " & itemid & ") as xdatacount" _
+   & " from cattreenode as htx where ctnodekind='c' and ctrootid = n'"& itemid &"' and datalevel = 1 order by catshoworder"
+  set rscom = conn.execute(sqlcom)
+ else
+  sql = "select htx.* " _
+   & ", (select count(*) from cattreenode where ctnodekind='c' and dataparent=htx.ctnodeid " _
+   & " and ctrootid = " & itemid & ") as xchildcount" _
+   & ", (select count(*) from cattreenode where ctnodekind='u' and dataparent=htx.ctnodeid " _
+   & " and ctrootid = " & itemid & ") as xdatacount" _
+   & " from cattreenode as htx where ctnodeid = "& catid
+  set rs = conn.execute(sql)
+   datalevel = rs("datalevel")
+  sqlcom = "select htx.* " _
+   & ", (select count(*) from cattreenode where ctnodekind='c' and dataparent=htx.ctnodeid " _
+   & " and ctrootid = " & itemid & ") as xchildcount" _
+   & ", (select count(*) from cattreenode where ctnodekind='u' and dataparent=htx.ctnodeid " _
+   & " and ctrootid = " & itemid & ") as xdatacount" _
+   & " from cattreenode as htx where ctnodekind='c' and dataparent = "& catid &" order by catshoworder"
+  set rscom = conn.execute(sqlcom)
+  if rs.eof and rscom.eof then
+   notdatatext = "目錄已刪除選擇其他目錄"
+   notdatack = "y"
+  end if
+ end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       if notdatack = "n" then 
+
+
+       end if 
+
+
+
+
+
+
+
+
+
+
+
+   if catid <> 0 then
+    if not rs.eof then
+      pforumname = rs("catname")
+      datalevel = rs("datalevel") + 1
+      datatop = 0
+      dataparent = rs("ctnodeid")
+      delck = ""
+      if rs("xdatacount") = 0 and rs("xchildcount") = 0 then delck = "y" 
+
+
+
+
+
+
+
+
+                                     =rs("ctnodeid"):           =itemid:          =delck:     =rs("catname")
+                         =rs("xdatacount")
+                         =rs("xchildcount")
+          =d7date(rs("editdate"))
+
+     end if
+    else
+     pforumname = "根目錄"
+     datalevel = 1
+      datatop = 0
+      dataparent = 0 
+
+
+
+
+
+
+
+
+          =pforumname
+                         =rs("xdatacount")
+                         =rs("xchildcount")
+          =d7date(rs("editdate"))
+
+   end if
+ if not rscom.eof then 
+
+                                              =pforumname
+
+      do while not rscom.eof
+      delck = ""
+      if rscom("xdatacount") = 0 and rscom("xchildcount") = 0 then delck = "y" 
+
+                                      =rscom("ctnodeid"):           =itemid:          =delck:     =rscom("catname")
+                         =rscom("xdatacount")
+                         =rscom("xchildcount")
+          =d7date(rscom("editdate"))
+
+      rscom.movenext
+      loop
+     else 
+
+                                                     =notdatatext
+
+     end if 
+
+
+
+  if (htprogright and 1)=1 then
+
+
+  
+ sql = "select * from cattreeroot where ctrootid<>" & pkstr(request.querystring("itemid"),"")
+ set rsx = conn.execute(sql)
+ while not rsx.eof
+  response.write "<option value=""" & rsx("ctrootid") & """>" & rsx("ctrootname") & "</option>" & vbcrlf
+  rsx.movenext
+ wend
+
+
+
+
+  end if
+
+
+
+
+                                                     =itemid:          =catid
+
+
+
+                                                     =itemid:          =catid
+
+
+
+                                                =itemid:          =catid
+
+
+
+                                     =request.querystring:              =datalevel 

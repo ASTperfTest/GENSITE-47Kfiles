@@ -1,0 +1,245 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      sub formmodsubmit()
+    
+ nmsg = "請務必填寫「{0}」，不得為空白！"
+ lmsg = "「{0}」欄位長度最多為{1}！"
+ dmsg = "「{0}」欄位應為 yyyy/mm/dd ！"
+ imsg = "「{0}」欄位應為數值！"
+ pmsg = "「{0}」欄位圖檔類型必須為 " &chr(34) &"gif,jpg,jpeg" &chr(34) &" 其中一種！"
+  
+ if reg.htx_stitle.value = empty then 
+  msgbox replace(nmsg,"{0}","詞彙標題"), 64, "sorry!"
+  reg.htx_stitle.focus
+  window.event.returnvalue=false 
+  exit sub
+ end if
+
+ if  len(reg.htx_xbody.value)>500 then 
+  msgbox "請勿超過五百字"
+  reg.htx_stitle.focus
+  window.event.returnvalue=false 
+  exit sub
+ end if
+ 
+ if reg.htx_fctupublic.value = empty then 
+  msgbox replace(nmsg,"{0}","公開選項"), 64, "sorry!"
+  reg.htx_fctupublic.focus
+ window.event.returnvalue=false   
+     exit sub
+ end if
+
+   end sub
+
+ 

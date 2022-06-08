@@ -1,0 +1,241 @@
+﻿: 
+' 題目主檔
+class cudtgeneric
+ private fields
+ 
+ ' 物件初始化
+ private sub class_initialize()
+  set fields = server.createobject("scripting.dictionary")
+  fields.add "id", 0
+  fields.add "title", null
+  fields.add "topcat", null
+    end sub
+
+ ' 物件結束
+    private sub class_terminate()
+  set fields = nothing
+    end sub
+
+ ' 設定指定的屬性
+    public sub setfield(sname, vvalue)
+        if fields.exists(sname) then
+            if isobject(vvalue) then
+                set fields(sname) = vvalue
+            else
+                fields(sname) = vvalue
+            end if
+        end if
+    end sub
+
+    ' 取得指定的屬性
+    public function getfield(sname)
+        getfield = null
+        if fields.exists(sname) then
+            if isobject(fields(sname)) then
+                set getfield = fields(sname)
+            else
+                getfield = fields(sname)
+            end if
+        end if
+    end function
+    
+end class
+
+' 腔調題目類別
+class examtopic
+
+ private fields
+
+ ' 物件初始化
+ private sub class_initialize()
+  set fields = server.createobject("scripting.dictionary")
+  fields.add "id", 0
+        fields.add "cuitemid", 0
+        fields.add "tuneid", ""
+        fields.add "correct", null
+        
+        set options = server.createobject("scripting.dictionary")
+        fields.add "options", server.createobject("scripting.dictionary")
+    end sub
+
+ ' 物件結束
+    private sub class_terminate()
+  set fields = nothing
+  set options = nothing
+    end sub
+
+ ' 設定指定的屬性
+    public sub setfield(sname, vvalue)
+        if fields.exists(sname) then
+            if isobject(vvalue) then
+                set fields(sname) = vvalue
+            else
+                fields(sname) = vvalue
+            end if
+        end if
+    end sub
+
+    ' 取得指定的屬性
+    public function getfield(sname)
+        getfield = null
+        if fields.exists(sname) then
+            if isobject(fields(sname)) then
+                set getfield = fields(sname)
+            else
+                getfield = fields(sname)
+            end if
+        end if
+    end function
+    
+    ' 檢查資料完整性
+    public function validate()
+  if not isnumeric(me.getfield("cuitemid")) then err.raise vbobjecterror + 1, "", "cuitemid error"
+  if len(me.getfield("tuneid")) = 0 then err.raise vbobjecterror + 1, "", "tuneid error"
+    end function
+    
+    ' 新增選項
+ public function addoption(oexamoption)
+  me.getfield("options").add me.getfield("options").count, oexamoption
+ end function
+ 
+end class
+
+' 題目選項類別
+class examoption
+
+ private fields
+
+ ' 物件初始化
+ private sub class_initialize()
+  set fields = server.createobject("scripting.dictionary")
+        fields.add "topicid", 0
+        fields.add "title", ""
+        fields.add "answer", null
+        fields.add "sort", null
+    end sub
+
+ ' 物件結束
+    private sub class_terminate()
+  set fields = nothing
+    end sub
+
+ ' 設定指定的屬性
+    public sub setfield(sname, vvalue)
+        if fields.exists(sname) then
+            if isobject(vvalue) then
+                set fields(sname) = vvalue
+            else
+                fields(sname) = vvalue
+            end if
+        end if
+    end sub
+
+    ' 取得指定的屬性
+    public function getfield(sname)
+        getfield = null
+        if fields.exists(sname) then
+            if isobject(fields(sname)) then
+                set getfield = fields(sname)
+            else
+                getfield = fields(sname)
+            end if
+        end if
+    end function
+    
+    ' 檢查資料完整性
+    public function validate()
+  if not isnumeric(me.getfield("topicid")) then err.raise vbobjecterror + 1, "", "topicid error"
+  if len(me.getfield("title")) = 0 then err.raise vbobjecterror + 1, "", "title error"
+  if not isnumeric(me.getfield("sort")) then err.raise vbobjecterror + 1, "", "sort error"
+    end function
+
+end class
+
+' 使用者作答主檔類別
+class examuserrecord
+
+ private fields
+
+ ' 物件初始化
+ private sub class_initialize()
+  set fields = server.createobject("scripting.dictionary")
+        fields.add "id", 0
+        fields.add "userid", 0
+        fields.add "examtype", null
+        fields.add "createtime", null
+    end sub
+
+ ' 物件結束
+    private sub class_terminate()
+  set fields = nothing
+    end sub
+
+ ' 設定指定的屬性
+    public sub setfield(sname, vvalue)
+        if fields.exists(sname) then
+            if isobject(vvalue) then
+                set fields(sname) = vvalue
+            else
+                fields(sname) = vvalue
+            end if
+        end if
+    end sub
+
+    ' 取得指定的屬性
+    public function getfield(sname)
+        getfield = null
+        if fields.exists(sname) then
+            if isobject(fields(sname)) then
+                set getfield = fields(sname)
+            else
+                getfield = fields(sname)
+            end if
+        end if
+    end function
+
+end class
+
+' 使用者回答明細類別
+class examuseranswer
+
+ private fields
+
+ ' 物件初始化
+ private sub class_initialize()
+  set fields = server.createobject("scripting.dictionary")
+        fields.add "id", 0
+        fields.add "recordid", 0
+        fields.add "answerid", null
+        fields.add "iscorrect", false
+    end sub
+
+ ' 物件結束
+    private sub class_terminate()
+  set fields = nothing
+    end sub
+
+ ' 設定指定的屬性
+    public sub setfield(sname, vvalue)
+        if fields.exists(sname) then
+            if isobject(vvalue) then
+                set fields(sname) = vvalue
+            else
+                fields(sname) = vvalue
+            end if
+        end if
+    end sub
+
+    ' 取得指定的屬性
+    public function getfield(sname)
+        getfield = null
+        if fields.exists(sname) then
+            if isobject(fields(sname)) then
+                set getfield = fields(sname)
+            else
+                getfield = fields(sname)
+            end if
+        end if
+    end function
+
+end class
+ 

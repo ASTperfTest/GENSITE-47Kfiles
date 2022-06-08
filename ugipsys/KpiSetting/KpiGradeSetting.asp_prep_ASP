@@ -1,0 +1,159 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ htprogcap="單元資料維護"
+ htprogfunc="編修"
+ htuploadpath=session("public")+"data/"
+ htprogcode="cw02"
+ htprogprefix="cw02" 
+ 
+ dim rank0 : rank0 = request.querystring("id")
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_874801204()
+  
+ apath = server.mappath(htuploadpath) & "\"
+ 
+ if request.querystring("phase") = "edit" then
+  set xup = server.createobject("tabs.upload")
+ else
+  set xup = server.createobject("tabs.upload")
+  xup.codepage=65001
+  xup.start apath
+ end if
+ 
+ function xupform(xvar)
+  xupform = xup.form(xvar)
+ end function
+ 
+ if xupform("submittask") = "update" then
+  doupdatedb()
+  showdonebox("資料更新成功！")  
+ else 
+  showform()
+ end if 
+
+ sub doupdatedb()
+  sql = ""
+  for each form in xup.form  
+   if form.name <> "submittask" then
+    sql = sql & "update kpi_set_score set rank0_1 = " & form & ", modtime = getdate() where rank0_2 = '" & form.name & "';"   
+   end if
+  next
+  conn.execute(sql)
+ end sub  
+
+   sub showdonebox(lmsg) 
+
+
+
+
+
+
+
+
+
+                 =lmsg
+
+
+
+
+   end sub 
+   
+sub showform()
+ 
+ dim title
+ sql = "select rank1 from kpi_set_ind where rank0 = '" & rank0 & "'"
+ set rrs = conn.execute(sql)
+ if not rrs.eof then
+  title = rrs("rank1")
+ end if
+ rrs.close
+ set rrs = nothing
+ 
+ sql = "select * from kpi_set_score where rank0 = '" & rank0 & "' order by rank0_4, rank0_2"
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "<script>alert('找不到設定值');history.back();</script>"
+ else
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     =title
+
+
+
+
+
+
+
+                                                                  =rank0
+
+
+    
+   dim first : first = true
+   dim flag : flag = ""
+   while not rs.eof        
+    if flag <> rs("rank0_4") then
+     if not first then
+      response.write "</table>"
+     else
+      first = false
+     end if
+     response.write "<table width=""100%"" id=""listtable"">" & vbcrlf
+     response.write "<tr><th colspan=""2"">" & rs("rank0_3") & "</th></tr>" & vbcrlf
+     flag = rs("rank0_4")
+    end if
+     response.write "<tr>" & vbcrlf
+     response.write "<th width=""30%"">" & rs("rank0_0") & "：</th>" & vbcrlf
+     response.write "<td class=""etablecontent""><input name=""" & rs("rank0_2") & """ value=""" & rs("rank0_1") & """ size=""10"">&nbsp;點</td>" & vbcrlf
+     response.write "</tr>" & vbcrlf   
+    
+    rs.movenext 
+   wend 
+   response.write "</table>" & vbcrlf
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               =rank0
+
+
+  
+ end if 
+ set rs = nothing  
+end sub
+ 

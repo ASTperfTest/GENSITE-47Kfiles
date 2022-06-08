@@ -1,0 +1,14 @@
+﻿: @ codepage = 65001 
+  
+ response.cachecontrol = "no-cache" 
+ response.addheader "pragma", "no-cache" 
+ response.expires = -1
+
+
+
+  
+ response.write(" ")
+   response.end()
+ 
+
+ 

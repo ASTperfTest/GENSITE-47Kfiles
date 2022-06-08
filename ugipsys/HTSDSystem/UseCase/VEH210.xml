@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UseCase>
+	<Name>派車管理</Name>
+	<Code>VEH210</Code>
+	<APCat>VEH</APCat>
+	<Version>
+		<Date>2005/7/25</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<ExpandedSpec>
+			<Type>primary</Type>
+			<Type>essential</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<Purpose></Purpose>
+			<PreCondition>
+				<UseCase></UseCase>
+			</PreCondition>
+			<DescriptionList>
+				<Description>
+				</Description>
+			</DescriptionList>
+			<TypicalCourseOfEvents>
+				<Event type="Client" id="0" pattern="ComboList">
+					綜合條列 (申請待派，已派)，新增(補單)
+				</Event>
+				<Event type="Client" id="11" pattern="BatchList">
+					派車申請列表
+				</Event>
+				<Event type="Client" id="12" pattern="BatchAdd">
+					新增派車單
+				</Event>
+				<Event type="Client" id="21" pattern="BatchList">
+					已派車列表
+				</Event>
+				<Event type="Client" id="23" pattern="Edit">
+					編修派車單
+				</Event>
+				<Event type="Client" id="31" pattern="Add">
+					新增派車補單
+				</Event>
+			</TypicalCourseOfEvents>
+			</ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+	<Version>
+		<Date>2005/7/25</Date>
+		<Author>chen</Author>
+		<Kind>HighLevel</Kind>
+		<HighLevelSpec>
+			<Type>primary</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<DescriptionList>
+				<Description>
+				</Description>
+			</DescriptionList>
+			<VisitRecordList>
+				<VisitRecord>
+					<Who/>
+					<Date/>
+					<Location/>
+					<comment/>
+				</VisitRecord>
+			</VisitRecordList>
+		</HighLevelSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject/>
+				<Description/>
+				<Who/>
+				<DueDate/>
+				<DoneDate/>
+				<Conclusion/>
+			</TBD>
+		</TBDList>
+	</Version>
+</UseCase>

@@ -1,0 +1,38 @@
+﻿:  
+ response.expires = 0
+ htprogcap = "�q�ױm��"
+ htprogfunc = "�q�ױm�Ϻ��@"
+ htprogcode = "bbs010"
+ htprogprefix = "msession" 
+ response.expires = 0 
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+ 
+ sql = "select count(*) from talk05"
+ set ts = conn.execute(sql)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                               = ts(0) + 1  

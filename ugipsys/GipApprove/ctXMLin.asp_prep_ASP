@@ -1,0 +1,41 @@
+﻿: @ codepage = 65001 
+   
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="資料審稿"
+htprogcode="gc1ap2"
+htprogprefix="dsdxml" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   
+
+ sql = "select u.*,b.sbasetablename from cattreenode as n left join ctunit as u on u.ctunitid=n.ctunitid" _
+  & " left join basedsd as b on u.ibasedsd=b.ibasedsd" _
+  & " where n.ctnodeid=" & pkstr(request.querystring("ctnodeid"),"")
+ set rs = conn.execute(sql)
+ session("ctunitid") = rs("ctunitid")
+ session("ctunitname") = rs("ctunitname")
+ session("ibasedsd") = rs("ibasedsd")
+ session("fctunitonly") = rs("fctunitonly")
+ session("pvxdmp") = rs("pvxdmp") 
+ if isnull(rs("sbasetablename")) then
+  session("sbasetablename") = "cudtx" & session("ibasedsd")
+ else
+  session("sbasetablename") = rs("sbasetablename")
+ end if 
+ if isnumeric(rs("ibasedsd")) then
+
+
+                                          =rs("ibasedsd")
+
+     response.end
+ elseif rs("ctunitkind")="u" then
+
+
+                                            =rs("ctunitid")
+
+     response.end
+ end if 
+ 

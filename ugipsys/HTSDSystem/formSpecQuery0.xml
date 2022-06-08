@@ -1,0 +1,68 @@
+﻿<?xml version="1.0"  encoding="utf-8" ?>
+<htPage>
+  <HTProgPrefix></HTProgPrefix>
+  <HTProgCode></HTProgCode>
+  <HTProgPath></HTProgPath>
+  <HTGenPattern></HTGenPattern>
+  <htForm>
+	<formModel id="">
+		<fieldList>
+		<tableName></tableName>
+			<field>
+				<fieldName></fieldName>
+				<fieldLabel></fieldLabel>
+				<dataType></dataType>
+				<dataLen></dataLen>
+				<isPrimaryKey></isPrimaryKey>
+				<canNull></canNull>
+				<fieldDesc></fieldDesc>
+				<inputType></inputType>
+			</field>
+		</fieldList>
+		<paramKind>value</paramKind>
+		<whereCondition> LIKE '%{0}%'</whereCondition>
+				<fkLink>
+					<joinType>LEFT</joinType>
+					<asAlias></asAlias>
+					<refTable></refTable>
+					<fkFieldList>
+						<refField></refField>
+						<myField></myField>
+					</fkFieldList>
+				</fkLink>
+	  <anchorList>
+		<anchor>
+			<type></type>
+			<funcLabel></funcLabel>
+			<url></url>
+			<action></action>
+		</anchor>
+	  </anchorList>
+	</formModel>
+  </htForm>
+
+  <pageSpec>
+	<pageHead></pageHead>
+	<pageFunction></pageFunction>
+	<aidLinkList>
+	</aidLinkList>
+	<formUI ref="">
+		<pxHTML>
+<CENTER>
+<TABLE border="0" class="eTable" cellspacing="1" cellpadding="2" width="90%">
+<TR><TD class="eTableLable" align="right"></TD>
+<TD class="eTableContent"><refField></refField></TD>
+</TR>
+</TABLE>
+</CENTER>
+		</pxHTML>
+		<scriptCode><![CDATA[
+<SCRIPT LANGUAGE="vbs">
+
+</SCRIPT>
+		]]></scriptCode>
+	</formUI>
+	<UINotes>
+	</UINotes>
+  </pageSpec>	
+</htPage>

@@ -1,0 +1,77 @@
+@charset "big5";
+img{
+	border:none;
+}
+h1{
+	margin:0;
+	padding:0;
+}
+h2{
+	color:#666;
+	font-size:15px;
+	margin:0 0 6px 0;
+	padding:0;
+}
+p{
+	margin:0 0 18px 0;
+	line-height:18px;
+}
+a{
+	color:#006;
+}
+#content{
+	
+}
+#flashmap{
+	text-align:center;
+}
+.season2010{
+	margin:24px;
+	padding:12px 0;
+}
+.season_lable{
+	position:absolute;
+	margin:12px 0 0 0;
+}
+.season_block{
+	margin:0 12px;
+	padding:6px 6px 6px 84px;
+	background:#fff;
+	min-height:120px;
+}
+.season_block a{
+	color:#000;
+	margin:0 6px 0 0;
+	text-decoration:none;
+}
+.season_block a:hover{
+	color:#333;
+	text-decoration:underline;
+}
+.spring{
+	background:url(../image/season_bg_spring.gif);
+}
+.summer{
+	background:url(../image/season_bg_summer.gif);
+}
+.autumn{
+	background:url(../image/season_bg_autumn.gif);
+}
+.winter{
+	background:url(../image/season_bg_winter.gif);
+}
+#crop{
+	padding:10px;
+	border:#999 2px dashed;
+	margin:0 0 24px 0;
+}
+.photo{
+	padding:3px;
+	border:#CCC solid 1px;
+	max-width: 400px;
+}
+.queryBox{
+	margin-top:5px;
+	margin-right:24px;
+	float:right;
+}

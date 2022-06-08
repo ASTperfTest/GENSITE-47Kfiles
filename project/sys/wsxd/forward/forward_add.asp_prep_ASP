@@ -1,0 +1,28 @@
+﻿:  
+function deamp(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   deamp=""
+   exit function
+  end if
+   deamp = replace(xs,"&","&amp;")
+end function
+ 
+ xitem = request.querystring("xitem")
+ if xitem <>"" then xitem= "xitem=" & xitem
+ ctnode = request.querystring("ctnode")
+ if ctnode <>"" then ctnode = "&ctnode=" & ctnode
+ mp = request.querystring("mp")
+ if mp="" then mp ="1"
+ xmp=mp 
+ mp = "&mp=" & mp
+ 
+ xcturl = xitem & ctnode & mp
+ 
+ 
+ 
+
+
+
+                                                                =xmp
+                                           =deamp(xcturl) 

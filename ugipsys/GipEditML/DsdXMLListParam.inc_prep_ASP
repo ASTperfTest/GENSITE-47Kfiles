@@ -1,0 +1,12 @@
+﻿: 
+sub xpcondition
+ if request.form("htx_stitle") <> "" then
+  wherecondition = replace("ghtx.stitle like n'%{0}%'", "{0}", request.form("htx_stitle") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_idept") <> "" then
+  wherecondition = replace("ghtx.idept = n'{0}'", "{0}", request.form("htx_idept") )
+  fsql = fsql & " and " & wherecondition
+ end if
+end sub
+ 

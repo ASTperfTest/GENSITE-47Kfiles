@@ -1,0 +1,146 @@
+﻿
+
+
+
+
+   
+ for each param in allmodel2.selectnodes("//fieldlist/field[formlist!='']") 
+     if not (nulltext(param.selectsinglenode("fieldname"))="fctupublic" and session("checkyn")="y") then
+        if nulltext(param.selectsinglenode("inputtype"))<>"hidden" and nulltext(param.selectsinglenode("fieldname"))<>"idept" and nulltext(param.selectsinglenode("fieldname"))<>"mmofolderid" then
+      response.write "<tr><td class=""label"" align=""right"">"
+      if nulltext(param.selectsinglenode("cannull")) = "n" then _
+   response.write "<span class=""must"">*</span>"
+      response.write nulltext(param.selectsinglenode("fieldlabel")) & "</td>"
+      response.write "<td class=""etablecontent"">"
+        end if
+  if formfunction = "edit" and nulltext(param.selectsinglenode("isprimarykey"))="y" then 
+   orginputtype = param.selectsinglenode("inputtype").text
+   param.selectsinglenode("inputtype").text = "readonly"
+   processparamfield param
+   param.selectsinglenode("inputtype").text = orginputtype
+  elseif nulltext(param.selectsinglenode("fieldname"))="idept" then
+      if (htprogright and 64) <> 0 then
+          response.write "<tr><td class=""label"" align=""right"">"
+          if nulltext(param.selectsinglenode("cannull")) = "n" then _
+    response.write "<span class=""must"">*</span>"
+          response.write nulltext(param.selectsinglenode("fieldlabel")) & "</td>"
+          response.write "<td class=""etablecontent"">"       
+   response.write "<select name=""htx_idept"" size=1>" & vbcrlf 
+   sqlcom ="select d.deptid,d.deptname,d.parent,len(d.deptid)-1,d.seq," & _
+    "(select count(*) from dept where parent=d.deptid and nodekind='d') " & _
+    "  from dept as d where d.nodekind='d' " _
+    & " and d.deptid like '" & session("deptid") & "%'" _
+    & " order by len(d.deptid), d.parent, d.seq" 
+   'response.write sqlcom
+   set rss = conn.execute(sqlcom)
+   if not rss.eof then
+    arydept = rss.getrows(200)
+    glastmsglevel = 0
+    genlist 0, 0, 1, 0
+           expandfrom arydept(cid, 0), 0, 0
+   end if
+   response.write "</select>"
+   response.write "</td></tr>"        
+      else
+   response.write "<input type=""hidden"" name=""htx_idept"">" & vbcrlf
+      end if
+  elseif nulltext(param.selectsinglenode("fieldname"))="mmofolderid" then
+   sqlm="select mm.mmositeid+mm.mmofoldername as mmofolderid,mm.mmositeid,mm.mmofoldername,ms.uploadsiteftpip,ms.uploadsiteftpport,ms.uploadsiteftpid,ms.uploadsiteftppwd " & _
+    "from ctunit c left join mmofolder mm on c.mmofolderid=mm.mmofolderid " & _
+    " left join mmosite ms on mm.mmositeid=ms.mmositeid " & _
+    "where c.ctunitid='"&session("ctunitid")&"'"
+   set rsm=conn.execute(sqlm)
+   if not rsm.eof then xmmofolderid=rsm("mmofolderid")
+          response.write "<tr><td class=""label"" align=""right"">"
+          if nulltext(param.selectsinglenode("cannull")) = "n" then _
+    response.write "<span class=""must"">*</span>"
+          response.write nulltext(param.selectsinglenode("fieldlabel")) & "</td>"
+          response.write "<td class=""etablecontent"">"       
+   response.write "<select name=""htx_mmofolderid"" size=1>" & vbcrlf
+     sqlcom="select case mmofoldername when 'zzz' then 0 else mmofolderid end mmofolderid, " & _
+      "case mm.mmofolderparent when 'zzz' then ms.mmositename else mm.mmofoldernameshow end mmofoldernameshow, " & _
+      "case mmofolderparent when 'zzz' then 0 else (select mmofolderid from mmofolder where mmositeid=mm.mmositeid and mmofoldername=mm.mmofolderparent) end mmofolderparent " & _
+      ",1 " & _
+    ",1 " & _
+    ",case mmofoldername when 'zzz' then " & _
+    " (select count(*) from mmofolder mm2 left join mmosite ms2 on mm2.mmositeid=ms2.mmositeid where (ms2.deptid is null or ms2.deptid like '" & session("deptid") & "%' or ms2.deptid = left('" & session("deptid") & "',len(ms2.deptid))) and (mm2.deptid is null or mm2.deptid = left('" & session("deptid") & "',len(mm2.deptid)) or mm2.deptid like '"&session("deptid")&"%') and mm2.mmofolderparent='zzz') " & _
+    " else " & _
+    " (select count(*) from mmofolder mm2 left join mmosite ms2 on mm2.mmositeid=ms2.mmositeid where (ms2.deptid is null or ms2.deptid like '" & session("deptid") & "%' or ms2.deptid = left('" & session("deptid") & "',len(ms2.deptid))) and (mm2.deptid is null or mm2.deptid = left('" & session("deptid") & "',len(mm2.deptid)) or mm2.deptid like '"&session("deptid")&"%') and mm2.mmofolderparent=mm.mmofoldername and mm2.mmositeid=mm.mmositeid) " & _
+    " end childcount " & _
+    "from mmofolder mm left join mmosite ms on mm.mmositeid=ms.mmositeid " & _
+    "where (ms.deptid is null or ms.deptid like '" & session("deptid") & "%' or ms.deptid = left('" & session("deptid") & "',len(ms.deptid))) and (mm.deptid is null or  mm.deptid = left('" & session("deptid") & "', len(mm.deptid)) or mm.deptid like '"&session("deptid")&"%') "  
+   if xmmofolderid<>"" then 
+    sqlcom=sqlcom & " and case mmofoldername when 'zzz' then mmofoldername else mm.mmositeid + mmofoldername end like '"&xmmofolderid&"%' "
+   end if
+   sqlcom=sqlcom & " order by case mmofolderparent when 'zzz' then '' else mmofolderparent end, mmofolderid"
+'    response.write sqlcom
+   set rss = conn.execute(sqlcom)
+   if not rss.eof then
+    arydept = rss.getrows(200)
+    glastmsglevel = 0
+    genlist 0, 0, 1, 0
+           expandfrom arydept(cid, 0), 0, 0
+   end if
+   response.write "</select>"
+   response.write "<input type=button value =""新增子目錄"" class=""cbutton"" onclick=""mmofolderadd()"">"
+   response.write "</td></tr>"              
+  else
+       processparamfield param      
+  end if
+'------- checkgipconfig("xxcheckimportant") -------- start -------------------------------------------------------- 
+  if checkgipconfig("keywordautogen") then
+   if session("codeid")<>"7" and nulltext(param.selectsinglenode("fieldname")) = "ximportant" then
+ 
+
+   
+   end if
+  end if 
+'------- checkgipconfig("xxcheckimportant") -------- end -------------------------------------------------------- 
+'------- checkgipconfig("keywordautogen") -------- start -------------------------------------------------------- 
+  if checkgipconfig("keywordautogen") then
+         if nulltext(param.selectsinglenode("fieldname"))="xkeyword" then 
+       response.write "<input type=""button"" value=""自動產生"" class=""cbutton"" onclick=""vbs:keywordmake"">"
+        end if  
+  end if 
+'------- checkgipconfig("keywordautogen") -------- end -------------------------------------------------------- 
+        if nulltext(param.selectsinglenode("inputtype"))<>"hidden" and nulltext(param.selectsinglenode("fieldname"))<>"idept" then
+      response.write "</td></tr>"
+       end if
+     end if
+ next
+
+
+
+
+
+
+
+
+
+
+     if session("codeid")="7" then 
+
+        end if 
+
+     if trim(session("ctunitname")) = "客語認證線上試題卷" then 
+
+     end if 
+     if session("checkyn")="y" then 
+
+        end if 
+
+        set xhtpagedom = session("codexmlspec")
+     for each xop in xhtpagedom.selectnodes("//addopurl") 
+                      =nulltext(xop.selectsinglenode("opurl")):     =nulltext(xop.selectsinglenode("opname"))
+       next 
+
+
+            if (htprogright and 4)<>0 then 
+                if nulltext(allmodel.selectsinglenode("//sbasedsdxml/addyn"))="" then 
+
+         end if
+            end if
+
+            if (htprogright and 4)<>0  then 
+
+            end if 

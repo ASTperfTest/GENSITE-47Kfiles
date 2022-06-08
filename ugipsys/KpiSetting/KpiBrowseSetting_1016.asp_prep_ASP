@@ -1,0 +1,243 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ htprogcap="單元資料維護"
+ htprogfunc="編修"
+ htuploadpath=session("public")+"data/"
+ htprogcode="cw02"
+ htprogprefix="cw02" 
+ 
+ dim rank0 : rank0 = request.querystring("id")
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_874801204()
+  
+ apath = server.mappath(htuploadpath) & "\"
+ 
+ if request.querystring("phase") = "edit" then
+  set xup = server.createobject("tabs.upload")
+ else
+  set xup = server.createobject("tabs.upload")
+  xup.codepage=65001
+  xup.start apath
+ end if
+ 
+ function xupform(xvar)
+  xupform = xup.form(xvar)
+ end function
+ 
+ if xupform("submittask") = "update" then
+  
+  doupdatedb()
+  showdonebox "資料更新成功！", "0"
+  
+ elseif xupform("submittask") = "delete" then 
+ 
+  sql = "update kpi_set_score set xstatus = 'd', deltime = getdate(), modtime = getdate() where rank0_2 = '" & xupform("deleteid") & "'"
+  conn.execute(sql)
+  showdonebox "刪除成功！", "1"
+  
+ elseif xupform("submittask") = "add" then  
+ 
+  'response.write xupform("ctnodeidnew") & "~" & xupform("ctnodegradenew")
+  dim maxid : maxid = ""
+  sql = "select max(rank0_2) as maxid from kpi_set_score where rank0_4 = 'st_22'"
+  set mrs = conn.execute(sql)
+  if not mrs.eof then
+   maxid = mrs("maxid")
+  end if
+  set mrs = nothing
+  maxid = mid(maxid, len("st_22") + 1)
+  maxid = cint(maxid) + 1
+  maxid = "st_22" & maxid
+  sql = "insert into kpi_set_score(rank0, rank0_0, rank0_1, rank0_2, rank0_3, rank0_4, xstatus, addtime, modtime) "
+  sql = sql & "values('st_2', '" & xupform("ctnodeidnew") & "', '" & xupform("ctnodegradenew") & "'," 
+  sql = sql & "'" & maxid & "', n'瀏覽行為特殊給點', 'st_22', 'y', getdate(), getdate())"
+  conn.execute(sql)
+  showdonebox "資料新增成功！", "1"
+  
+ else
+  showform()
+ end if 
+
+ sub doupdatedb()
+  sql = ""
+  for each form in xup.form     
+   if instr(form.name, "st_") > 0 then
+    if instr(form.name, "ctnodestatus") > 0 then
+     sql = sql & "update kpi_set_score set xstatus = '" & form & "', modtime = getdate() where rank0_2 = '" & mid(form.name, len("ctnodestatus") + 1 ) & "';"
+    else     
+     sql = sql & "update kpi_set_score set rank0_1 = " & form & ", modtime = getdate() where rank0_2 = '" & form.name & "';"   
+    end if
+   end if
+  next  
+  conn.execute(sql)
+ end sub  
+ 
+ function getctnodename(nodeid)
+  sql = "select catname from cattreenode where ctnodeid = " & nodeid
+  set nrs = conn.execute(sql)
+  if not nrs.eof then
+   getctnodename = nrs("catname")
+  end if
+  set nrs = nothing
+ end function
+
+   sub showdonebox(lmsg, atype) 
+
+
+
+
+
+
+
+
+
+                 =lmsg
+       if atype = "1" then
+
+       else 
+
+       end if 
+
+
+
+   end sub 
+   
+sub showform()
+ 
+ dim title
+ sql = "select rank1 from kpi_set_ind where rank0 = '" & rank0 & "'"
+ set rrs = conn.execute(sql)
+ if not rrs.eof then
+  title = rrs("rank1")
+ end if
+ rrs.close
+ set rrs = nothing
+ 
+ sql = "select * from kpi_set_score where rank0 = '" & rank0 & "' order by rank0_4, rank0_2"
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "<script>alert('找不到設定值');history.back();</script>"
+ else
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     =title
+
+
+
+
+
+
+
+                                                                   =rank0
+
+
+
+
+    
+   dim first : first = true
+   dim first2 : first2 = true
+   dim flag : flag = ""
+   while not rs.eof        
+    if flag <> rs("rank0_4") then
+     if not first then
+      response.write "</table>" & vbcrlf
+     else
+      first = false
+     end if
+     response.write "<table width=""100%"" id=""listtable"">" & vbcrlf
+     if rs("rank0_4") = "st_22" then
+      response.write "<tr><th colspan=""5"">" & rs("rank0_3") & "</th></tr>" & vbcrlf
+     else
+      response.write "<tr><th colspan=""2"">" & rs("rank0_3") & "</th></tr>" & vbcrlf
+     end if     
+     flag = rs("rank0_4")
+    end if
+    
+    if rs("rank0_4") = "st_21" then     
+     response.write "<tr>" & vbcrlf
+     response.write "<th width=""30%"">" & rs("rank0_0") & "：</th>" & vbcrlf
+     if rs("rank0_2") = "st_211" then
+      response.write "<td class=""etablecontent""><input name=""" & rs("rank0_2") & """ value=""" & rs("rank0_1") & """ size=""10"">&nbsp;點&nbsp;/&nbsp;每會員每日</td>" & vbcrlf    
+     else
+      response.write "<td class=""etablecontent""><input name=""" & rs("rank0_2") & """ value=""" & rs("rank0_1") & """ size=""10"">&nbsp;點&nbsp;/&nbsp;每頁</td>" & vbcrlf         
+     end if     
+     response.write "</tr>" & vbcrlf 
+    else
+     if first2 then      
+            response.write "<tr><th width=""34%"">單元標題</th><th class=""etablecontent"">ctnode值</th>" & _
+             "<th class=""etablecontent"">加權點數</th><th class=""etablecontent"">狀態</th><th class=""etablecontent"">&nbsp;</th></tr>" & vbcrlf 
+      first2 = false
+     end if
+      response.write "<tr>" & vbcrlf
+            response.write "<td><span class=""etablecontent""><input name=""ctnodename" & rs("rank0_0") & """ class=""rdonly"" value=""" & getctnodename(rs("rank0_0")) & """ size=""35""  readonly=""true""></span></td>" & vbcrlf 
+            response.write "<td><input name=""ctnode" & rs("rank0_0") & """ class=""rdonly"" value=""" & rs("rank0_0") & """ size=""20"" readonly=""true""></td>" & vbcrlf 
+            response.write "<td><input name=""" & rs("rank0_2") & """ value=""" & rs("rank0_1") & """ size=""10"">&nbsp;點&nbsp;/&nbsp;每頁</td>" & vbcrlf 
+      response.write "<td><input name=""ctnodestatus" & rs("rank0_2") & """ value=""" & rs("xstatus") & """ size=""10"" ></td>" & vbcrlf 
+            response.write "<td><input name=""button"" type=""button"" class=""cbutton"" onclick=""formdelete('" & rs("rank0_2") & "')"" value =""刪除""></td>" & vbcrlf 
+            response.write "</tr>" & vbcrlf      
+    end if          
+    rs.movenext 
+   wend 
+   response.write "<tr>" & vbcrlf
+      response.write "<td><span class=""etablecontent""><input name=""ctnodenamenew"" class=""rdonly"" value="""" size=""35""  readonly=""true""></span></td>" & vbcrlf 
+      response.write "<td><input name=""ctnodeidnew"" value="""" size=""20""></td>" & vbcrlf 
+      response.write "<td><input name=""ctnodegradenew"" value="""" size=""10"">&nbsp;點&nbsp;/&nbsp;每頁</td>" & vbcrlf 
+   response.write "<td><input name=""ctnodestatusnew"" value="""" size=""10"" class=""rdonly"" readonly=""true""></td>" & vbcrlf 
+      response.write "<td><input name=""button"" type=""button"" class=""cbutton"" onclick=""formadd()"" value =""新增""></td>" & vbcrlf 
+      response.write "</tr>" & vbcrlf      
+   response.write "</table>" & vbcrlf
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               =rank0
+
+
+  
+ end if 
+ set rs = nothing  
+end sub
+ 

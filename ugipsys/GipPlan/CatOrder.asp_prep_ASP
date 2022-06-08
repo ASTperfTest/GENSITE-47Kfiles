@@ -1,0 +1,52 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "pn03m04" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+  
+ catid = request.querystring("catid")
+ itemcount = request.querystring("itemcount")
+
+       sqlcom = "select count(catid) from catalogue where dataparent = "& catid
+    set rscom = conn.execute(sqlcom)
+     itemcount = rscom(0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                            =itemid:          =catid
+                                                    =catid
+
+
+         sqlcom = "select * from catalogue where dataparent = "& catid &" order by catshoworder"
+    set rs2 = conn.execute(sqlcom)
+         if not rs2.eof then 
+                           =itemcount
+          do while not rs2.eof 
+                           =rs2("catid"):     =rs2("catname")
+         rs2.movenext
+       loop 
+
+        end if  

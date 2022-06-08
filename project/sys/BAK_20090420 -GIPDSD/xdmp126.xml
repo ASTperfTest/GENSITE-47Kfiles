@@ -1,0 +1,90 @@
+<?xml version="1.0" standalone="yes"?>
+<MpDataSet>
+  <MenuTree>126</MenuTree>
+  <MpStyle>Style1</MpStyle>
+  <DataSet>
+    <DataLable>BlockA</DataLable>
+    <DataRemark>草莓新聞</DataRemark>
+    <DataNode>2077</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>4</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>Y</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockB</DataLable>
+    <DataRemark>草莓加工</DataRemark>
+    <DataNode>2058</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockC</DataLable>
+    <DataRemark>草莓食譜</DataRemark>
+    <DataNode>2079</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>125</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>Y</IsExcerpt>
+    <ShowStyle>Style3</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockD</DataLable>
+    <DataRemark>草莓品種</DataRemark>
+    <DataNode>2049</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>250</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockE</DataLable>
+    <DataRemark>苺好時光</DataRemark>
+    <DataNode>2052</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>250</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>Y</IsExcerpt>
+    <ShowStyle>Style3</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+</MpDataSet>

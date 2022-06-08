@@ -1,0 +1,122 @@
+﻿: @ codepage = 65001 
+  
+response.addheader "content-disposition","attachment; filename=epaper.xls"
+response.charset ="utf-8"
+response.contenttype = "content-language;content=utf-8" 
+response.contenttype = "application/vnd.ms-excel"
+response.buffer = false
+
+   response.expires = 0
+htprogcap="電子報管理"
+htprogfunc="發送清單"
+htprogcode="gw1m51"
+htprogprefix="esend" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+ server.scripttimeout = 5000
+ set rsreg = server.createobject("adodb.recordset")
+ fsql=session("epaper_sql")
+ 
+'-- modify by leo  新增判斷式(發送清單、重複清單)  --- start ---
+     if request("repeat") <> "" then
+   repeat = request("repeat")
+  end if
+'-- modify by leo  新增判斷式(發送清單、重複清單)  ---  end  ---
+
+
+nowpage=request.querystring("nowpage")  '現在頁數
+
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      perpagesize=9999999'cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=50  
+      end if 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+      'strsql=server.urlencode(fsql)
+   end if    
+end if   
+
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap:                         if repeat = "1" then htprogfunc = "重複清單" end if :    =htprogfunc
+
+
+
+
+
+  if not rsreg.eof then
+
+
+
+
+
+
+
+
+           
+ fsql=session("epaper_sql")
+set rsreg = conn.execute(fsql)         
+    for i=1 to perpagesize                  
+
+
+  pkey = ""
+pkey = pkey & "&epubid=" & rsreg("epubid")
+if pkey<>"" then  pkey = mid(pkey,2)
+
+  =rsreg("email")
+
+
+  =rsreg("senddate")
+
+
+  =rsreg("account")
+
+
+  =rsreg("realname")
+
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+ 
+   
+
+
+
+
+
+
+
+
+
+  end if 

@@ -1,0 +1,210 @@
+﻿: @ codepage = 65001 
+  
+response.expires = 0
+htprogcap=""
+htprogfunc=""
+htprogcode="kforumlist"
+htprogprefix = "knowledgecommand" 
+response.charset = "utf-8"
+dim ictunitid : ictunitid = "935"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_kpifunction_280790202()
+  
+dim questionid : questionid = request.querystring("questionid")
+dim discussid : discussid = request.querystring("discussid")
+if request("submittask") = "delete" then
+
+ sql = "select status from knowledgeforum where gicuitem = " & discussid 
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  if rs("status") = "d" then 
+   response.write "<script>alert('article can not be deleted!!');window.location.href='knowledgeforumlist.asp';</script>"
+   response.end
+  end if
+ end if
+ rs.close
+ set rs = nothing
+ 
+ dim selecteditems : selecteditems = request("selecteditems")
+ dim items : items = split(selecteditems, ";")
+ dim counter : counter = 0
+ for each item in items
+  if item <> "" then   
+   sql = "select status from knowledgeforum where gicuitem = " & item 
+   set rs = conn.execute(sql)
+   if not rs.eof then
+    if rs("status") = "d" then 
+    else
+     deletecommend item '---刪除評價--- 
+     deleteopinion item '---刪除意見---   
+     deletediscuss item '---刪除討論---  
+     '---更新parent的count---    
+     sql = "select * from knowledgeforum where gicuitem = " & item
+     set delrs = conn.execute(sql)
+     while not delrs.eof 
+      commandcount = cint(delrs("commandcount"))
+      gradecount = cint(delrs("gradecount"))
+      gradepersoncount = cint(delrs("gradepersoncount"))
+      parenticuitem = delrs("parenticuitem")     
+      sql = "update knowledgeforum set discusscount = discusscount - 1, commandcount = commandcount - " & commandcount & ", " & _
+         "gradecount = gradecount - " & gradecount & ", gradepersoncount = gradepersoncount - " & gradepersoncount & " " & _
+         "where gicuitem = " & discussid   
+      conn.execute(sql)     
+      delrs.movenext     
+     wend    
+     delrs.close
+     set delrs = nothing
+     counter = counter + 1      
+    end if   
+   end if
+   rs.close
+   set rs = nothing
+  end if
+ next
+ showdonebox "刪除完成，共刪除 " & counter & " 筆"
+else
+ showform
+end if
+
+
+   sub showdonebox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+                              =htprogprefix:                       =request.querystring("questionid")
+
+
+
+   end sub 
+  
+sub showform
+ '-------------------------------------------------------------
+ dim questiontitle
+ sql = "select stitle from cudtgeneric where icuitem = " & discussid
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  questiontitle = rs("stitle")
+ end if
+ rs.close
+ set rs = nothing
+ '-------------------------------------------------------------
+
+ sql = "select *,knowledgeforum.status as kstatus,knowledgeforum.commandcount from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem " & _
+    "inner join member on cudtgeneric.ieditor = member.account  " & _
+    "where (knowledgeforum.parenticuitem = " & discussid & ") and (cudtgeneric.ictunit = " & ictunitid & ") " & _
+    "order by xpostdate desc"
+ set rs = conn.execute(sql)   
+ if rs.eof then  
+  response.write "<script>alert('本討論無意見');history.back();</script>"
+  response.end
+ else
+  dim recordcount
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     =questionid:              =discussid:            =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+
+
+         =questiontitle
+
+
+                                                                                         =discussid
+
+
+
+
+
+
+
+
+
+
+     
+   while not rs.eof 
+    recordcount = recordcount + 1
+  
+
+                                                                        =rs("icuitem")
+
+
+                                                                       =questionid:              =discussid:              =rs("icuitem"):            =request.querystring("nowpage"):             =request.querystring("pagesize")
+       
+      if len(rs("xbody")) > 75 then
+       response.write mid(rs("xbody"), 1, 75) & "..."
+      else
+       response.write rs("xbody")
+      end if
+     
+
+
+
+                             =rs("ieditor"):    =rs("realname"):    =rs("nickname")
+                                          =rs("kstatus")
+                                          =rs("xpostdate")
+
+     
+    rs.movenext
+   wend 
+   rs.close
+   set rs = nothing
+  
+
+
+
+
+
+
+
+
+
+
+
+
+                =recordcount
+
+
+
+
+
+
+                         =recordcount
+
+
+
+
+
+
+
+
+
+
+
+                                                                                   =questionid:              =discussid:            =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+  
+ end if
+end sub
+ 

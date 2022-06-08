@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="big5"?>
+<UseCase>
+	<Name>資訊叫修</Name>
+	<Code>IP101</Code>
+	<APCat>IP</APCat>
+	<Version>
+		<Date>2003/11/16</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<ExpandedSpec>
+			<Type>primary</Type>
+			<Type>essential</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<Purpose></Purpose>
+			<PreCondition>
+				<UseCase></UseCase>
+			</PreCondition>
+			<DescriptionList>
+				<Description>
+					<UL>
+						<LI>功能：提供叫修功能</LI>
+						<LI>作業時機：當資訊系統出問題需要叫修情形時。</LI>
+						<LI>前期作業....</LI>
+					</UL>
+				</Description>
+			</DescriptionList>
+			<TypicalCourseOfEvents>
+				<Event type="Client" id="0" ContractXML="evx_infoProbList.xml">
+				[清單] 列出已提出叫修服務的項目
+				</Event>
+				<Event type="Client" id="10" ContractXML="evx_infoProbAdd.xml">
+				[新增] 填寫叫修單
+				</Event>
+				<Event type="Client" id="11" ContractXML="evx_infoProbEdit.xml">
+				[檢視] 檢視叫修回應結果
+				</Event>
+				<Event type="Client" id="12" ContractXML="evx_infoTest.xml">
+				[檢視] test
+				</Event>
+			</TypicalCourseOfEvents>
+		</ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+	<Version>
+		<Date>2003/11/16</Date>
+		<Author>chen</Author>
+		<Kind>HighLevel</Kind>
+		<HighLevelSpec>
+			<Type>primary</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<DescriptionList>
+				<Description>
+					<UL>
+						<LI>功能：提供叫修功能</LI>
+						<LI>作業時機：當資訊系統出問題需要叫修情形時。</LI>
+						<LI>前期作業....</LI>
+					</UL>
+				</Description>
+			</DescriptionList>
+			<VisitRecordList>
+				<VisitRecord>
+					<Who/>
+					<Date/>
+					<Location/>
+					<comment/>
+				</VisitRecord>
+			</VisitRecordList>
+		</HighLevelSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject/>
+				<Description/>
+				<Who/>
+				<DueDate/>
+				<DoneDate/>
+				<Conclusion/>
+			</TBD>
+		</TBDList>
+	</Version>
+</UseCase>

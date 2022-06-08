@@ -1,0 +1,63 @@
+﻿
+
+
+
+
+
+
+
+
+
+        function setHref(url) {
+            var isIE = (navigator.appName.indexOf("Microsoft") != -1) ? true : false;
+     if (!isIE) {
+                parent.location.href = url;
+            } else {
+                var lha = document.getElementById('_lha');
+                if (!lha) {
+                    lha = document.createElement('a');
+                    lha.id = '_lha';
+                    lha.target = '_parent';  // Set target: for IE
+                    document.body.appendChild(lha);
+                }
+                lha.href = url;
+                lha.click();
+            }
+        }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

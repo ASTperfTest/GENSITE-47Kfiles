@@ -1,0 +1,33 @@
+﻿: @ codepage=65001 
+  
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     sql="select ibasedsd,sbasedsdname from basedsd where ibasedsd is not null and inuse='y' order by ibasedsd"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend 

@@ -1,0 +1,203 @@
+@charset "utf-8";
+
+/* cp add pantology */
+.pantology {
+	margin-right: 10px;
+	margin-left: 10px;
+	border-top: 3px double #F5F5F5;
+	border-bottom: 3px double #F5F5F5;
+	border-right-style: none;
+	border-left-style: none;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.pantology .head {
+	background: url(../images1/pantology_head_bg.gif) no-repeat left bottom;
+	height: 16px;
+	width: 38px;
+}
+.pantology .body {
+	background: url(../images1/pantology_bg.gif) repeat-y left top;
+	padding: 10px 5px 20px 50px;
+
+}
+.pantology .foot {
+	background: url(../images1/pantology_foot_bg.gif) no-repeat left top;
+	height: 16px;
+	width: 38px;
+}
+.pantology h2 {
+	border-bottom: 3px dotted #E3E3E3;
+	font-size: 130%;
+	margin: 0 0 10px;
+	font-weight: bold;
+	line-height: 140%;
+	color: #666600;
+	background: url(../images1/iocn_h2.gif) no-repeat left bottom;
+	padding: 3px 10px 2px 35px;
+}
+.type01 {
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #F1EBBA;
+	margin: 0;
+	padding: 8px 0;
+	font-size: 100%;
+}
+.type01 img {
+	vertical-align: middle;
+}
+.type01 th {
+/*	width: 15%;*/
+	border: 1px solid #F1EBBA;
+	padding: 4px 4px 4px 6px;
+	background: #FFFFD9;
+	color: #737300;
+	text-align: left;
+	vertical-align: top;
+	line-height: 140%;
+}
+.type01 label {
+	color: #737300;
+	vertical-align: middle;
+}
+.type01 td {
+	border: 1px solid #F1EBBA;
+	padding: 6px 4px 4px 6px;
+	text-align: left;
+	vertical-align: top;
+	color: #333333;
+	line-height: 140%;
+}
+.type02 {
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #C8E3E3;
+	margin: 0;
+	padding: 8px 0;
+	font-size: 100%;
+}
+.type02 img {
+	vertical-align: middle;
+}
+.type02 th {
+	border: 1px solid #C8E3E3;
+	padding: 4px 4px 4px 6px;
+	background: #DFEEEE;
+	color: #387272;
+	text-align: left;
+	vertical-align: top;
+	line-height: 140%;
+}
+.type02 td {
+	border: 1px solid #C8E3E3;
+	padding: 6px 4px 4px 6px;
+	text-align: left;
+	vertical-align: top;
+	color: #333333;
+	line-height: 140%;
+}
+.type02 td a {
+	color: #339999;
+}
+.pantology a {
+	text-decoration: none;
+	color: #CC9900;
+	line-height: 130%;
+}
+.pantology a:hover, .type02 td a:hover {
+	color: #990000;
+	text-decoration: underline;
+}
+.top {
+	text-align: right;
+	margin-right: 5px;
+	background: url(../images1/iocn_top.gif) no-repeat right center;
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+	padding-right: 5px;
+	height: 14px;
+	margin-top: 10px;
+}
+.pantology hr {
+	border-style: none;
+	height: 1px;
+	color: #eeeeee;
+	margin-top: 30px;
+	margin-bottom: 5px;
+}
+.pantology textarea {
+	height: 200px;
+	width: 98%;
+	border: 1px solid #F1EBBA;
+	color: #666666;
+	padding: 4px;
+}
+.Function2 a.add {
+	background:  url("../images1/func_bg_add.gif") no-repeat 0px 0px;
+}
+.Function2 a.retrieve {
+	background:  url("../images1/func_bg_retrieve.gif") no-repeat 0px 0px;
+}
+.Function2 a.word {
+	background:  url("../images1/func_bg_word.gif") no-repeat 0px 0px;
+}
+.Function2 a.add_more {
+	background:  url("../images1/func_bg_more.gif") no-repeat 0px 0px;
+	padding-right: 20px;
+}
+.Function2 a:hover {
+	color: #666666;
+	text-decoration: none;
+}
+.pantology .s01 {
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+.pantology .button01 {
+	background: url(../images1/buttona.gif) no-repeat left top;
+	height: 21px;
+	width: 68px;
+	font-size: 13px;
+	color: #006699;
+	border: none;
+	padding-top: 2px;
+	margin-right: 5px;
+	margin-left: 5px;
+	padding-left: 5px;
+}
+.pantology .button02 {
+	background: url(../images1/button02.gif) no-repeat left top;
+	height: 21px;
+	width: 68px;
+	font-size: 13px;
+	color: #006600;
+	border: none;
+	padding-top: 2px;
+	margin-right: 5px;
+	margin-left: 5px;
+	padding-left: 5px;
+}
+.pantology .button03 {
+	background: url(../images1/button03.gif) no-repeat left top;
+	height: 21px;
+	width: 68px;
+	font-size: 13px;
+	color: #990000;
+	border: none;
+	padding-top: 2px;
+	margin-right: 5px;
+	margin-left: 5px;
+	padding-left: 5px;
+}
+.pantology .browseby {
+	padding: 5px 10px;
+	background: #F5F5F5;
+}
+.pantology .input {
+	width: 80%;
+	color: #999999;
+	padding: 3px 3px 1px;
+	border: 1px solid #EAE195;
+}

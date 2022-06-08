@@ -1,0 +1,143 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="選取文章"
+htprogfunc="查詢"
+htprogcode="gc1ap1"
+htprogprefix="pickpage" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+                                   =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+tasklable="查詢" & htprogcap
+
+ if request("rtfunc") <>"" then session("rtfunc") = request("rtfunc")
+ if request("wimg") <>"" then session("wimg") = request("wimg")
+
+ showhtmlhead()
+ formfunction = "query"
+ showform()
+ initform()
+ showhtmltail()
+
+
+   sub initform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+  sub showform() 
+
+
+                       =htprogprefix
+
+
+
+
+
+
+
+
+
+
+     sql="select ibasedsd,sbasedsdname from basedsd where ibasedsd is not null and inuse='y' order by ibasedsd"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+  
+ sql = "select ctrootid, ctrootname from cattreeroot where 1=1 " _
+  & " and (deptid is null or deptid like '" & session("deptid") & "%'" _
+  & " or '" & session("deptid") & "' like deptid+'%')"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showhtmlhead() ------
+
+  sub showhtmltail() 
+
+
+
+
+
+  end sub '--- showhtmltail() ------ 

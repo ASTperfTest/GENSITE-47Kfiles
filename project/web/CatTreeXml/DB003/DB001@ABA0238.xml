@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<node name="學者知識樹" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=&amp;ActorType=003">
+<node name="A00農產業總論" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=A00&amp;ActorType=003">
+</node>
+<node name="AA0農藝產業總論" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AA0&amp;ActorType=003">
+</node>
+<node name="AAA農藝-糧食作物產業" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AAA&amp;ActorType=003">
+</node>
+<node name="AAB農藝-特用作物產業" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AAB&amp;ActorType=003">
+</node>
+<node name="AB0園藝產業總論" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AB0&amp;ActorType=003">
+</node>
+<node name="ABA園藝--果樹產業" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA&amp;ActorType=003">
+<node name="01總論" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA01&amp;ActorType=003">
+</node>
+<node name="02荔枝" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA02&amp;ActorType=003">
+<node name="01總論" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0201&amp;ActorType=003" />
+<node name="02植物學" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0202&amp;ActorType=003" />
+<node name="03品種" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0203&amp;ActorType=003" />
+<node name="04選種" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0204&amp;ActorType=003" />
+<node name="05植物育種" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0205&amp;ActorType=003" />
+<node name="06植物生理" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0206&amp;ActorType=003" />
+<node name="07產區" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0207&amp;ActorType=003" />
+<node name="08休閒採果" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0208&amp;ActorType=003" />
+<node name="09產期" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0209&amp;ActorType=003" />
+<node name="10栽培管理" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0210&amp;ActorType=003" />
+<node name="11產期調節" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0211&amp;ActorType=003" />
+<node name="12水土保持" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0212&amp;ActorType=003" />
+<node name="13植物保護" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0213&amp;ActorType=003" />
+<node name="14生理障礙" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0214&amp;ActorType=003" />
+<node name="15營養診斷與肥培管理" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0215&amp;ActorType=003" />
+<node name="16農業機械" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0216&amp;ActorType=003" />
+<node name="17採收後處理" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0217&amp;ActorType=003" />
+<node name="18成份營養與利用" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0218&amp;ActorType=003" />
+<node name="19加工" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0219&amp;ActorType=003" />
+<node name="20安全" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0220&amp;ActorType=003" />
+<node name="21加工產品" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0221&amp;ActorType=003" />
+<node name="22產銷研究及推廣" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0222&amp;ActorType=003" />
+<node name="23生產成本" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0223&amp;ActorType=003" />
+<node name="24荔枝專家" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0224&amp;ActorType=003" />
+<node name="25農業資材" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0225&amp;ActorType=003" />
+<node name="26市場資訊" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0226&amp;ActorType=003" />
+<node name="27鮮果選購" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0227&amp;ActorType=003" />
+<node name="28多元化利用" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0228&amp;ActorType=003" />
+<node name="29保鮮技術" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0229&amp;ActorType=003" />
+<node name="30休閒採果" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0230&amp;ActorType=003" />
+<node name="31優良產銷班" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0231&amp;ActorType=003" />
+<node name="32產銷資訊" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0232&amp;ActorType=003" />
+<node name="33產業活動資訊" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0233&amp;ActorType=003" />
+<node name="34電子商務" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0234&amp;ActorType=003" />
+<node name="35產量、品質資訊" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0235&amp;ActorType=003" />
+<node name="36產業組織" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0236&amp;ActorType=003" />
+<node name="37競爭力與特色" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0237&amp;ActorType=003" />
+<node name="38績效" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0238&amp;ActorType=003" />
+<node name="03團隊合作" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0239&amp;ActorType=003" />
+<node name="04經費" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA0240&amp;ActorType=003" />
+</node>
+<node name="03柑橘" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA03&amp;ActorType=003">
+</node>
+<node name="04梨" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA04&amp;ActorType=003">
+</node>
+<node name="05草莓" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA05&amp;ActorType=003">
+</node>
+<node name="06楊桃" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA06&amp;ActorType=003">
+</node>
+<node name="07葡萄" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA07&amp;ActorType=003">
+</node>
+<node name="08芒果" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA08&amp;ActorType=003">
+</node>
+<node name="09印度棗" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA09&amp;ActorType=003">
+</node>
+<node name="10蓮霧" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA10&amp;ActorType=003">
+</node>
+<node name="11番石榴" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA11&amp;ActorType=003">
+</node>
+<node name="12番荔枝" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA12&amp;ActorType=003">
+</node>
+<node name="13香蕉" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA13&amp;ActorType=003">
+</node>
+<node name="14鳳梨" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA14&amp;ActorType=003">
+</node>
+<node name="15梅" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABA15&amp;ActorType=003">
+</node>
+</node>
+<node name="ABB園藝產品--蔬菜" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABB&amp;ActorType=003">
+</node>
+<node name="ABC園藝產業--觀賞植物" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ABC&amp;ActorType=003">
+</node>
+<node name="AC0林產業總論" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AC0&amp;ActorType=003">
+</node>
+<node name="ACA林產業—森林經營與管理" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ACA&amp;ActorType=003">
+</node>
+<node name="ACB林產業—育林" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ACB&amp;ActorType=003">
+</node>
+<node name="ACC林產業—林產利用" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ACC&amp;ActorType=003">
+</node>
+<node name="ACD林產業—森林生物學" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ACD&amp;ActorType=003">
+</node>
+<node name="ACE林產品總論" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ACE&amp;ActorType=003">
+</node>
+<node name="AD0種苗產業總論" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AD0&amp;ActorType=003">
+</node>
+<node name="ADA種苗產業—農藝、園藝及森林植物" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ADA&amp;ActorType=003">
+</node>
+<node name="ADB種苗產品總論" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=ADB&amp;ActorType=003">
+</node>
+<node name="AE0有機農業" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AE0&amp;ActorType=003">
+</node>
+<node name="AEA有機農產品總論" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AEA&amp;ActorType=003">
+</node>
+<node name="AF0畜產業總論" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AF0&amp;ActorType=003">
+</node>
+<node name="AFA畜產業—家畜" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AFA&amp;ActorType=003">
+</node>
+<node name="AFB畜產業—家禽" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AFB&amp;ActorType=003">
+</node>
+<node name="AFC畜產業—其他動物" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AFC&amp;ActorType=003">
+</node>
+<node name="AFD畜產業—芻飼料與添加物" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AFD&amp;ActorType=003">
+</node>
+<node name="AFE畜產品總論" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AFE&amp;ActorType=003">
+</node>
+<node name="AG0漁產業總論" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AG0&amp;ActorType=003">
+</node>
+<node name="AGA漁產業—漁撈" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AGA&amp;ActorType=003">
+</node>
+<node name="AGB漁產業—水產養殖" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AGB&amp;ActorType=003">
+</node>
+<node name="AGC漁產業—水產加工" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AGC&amp;ActorType=003">
+</node>
+<node name="AGD漁產品總論" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AGD&amp;ActorType=003">
+</node>
+<node name="AGE生鮮漁產品" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AGE&amp;ActorType=003">
+</node>
+<node name="AGF加工漁產品" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AGF&amp;ActorType=003">
+</node>
+<node name="AGG休閒漁業" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AGG&amp;ActorType=003">
+</node>
+<node name="AGH水族觀賞" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AGH&amp;ActorType=003">
+</node>
+<node name="AH0生物技術產業總論" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AH0&amp;ActorType=003">
+</node>
+<node name="AHA生物技術產業--農藝產品" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AHA&amp;ActorType=003">
+</node>
+<node name="AHB生物技術產業--園藝產品" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AHB&amp;ActorType=003">
+</node>
+<node name="AHC生物技術產業--林業產品" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AHC&amp;ActorType=003">
+</node>
+<node name="AHD生物技術產業--畜產品" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AHD&amp;ActorType=003">
+</node>
+<node name="AHE生物技術產業--漁產品" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AHE&amp;ActorType=003">
+</node>
+<node name="AI0農業氣象總論" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AI0&amp;ActorType=003">
+</node>
+<node name="AIA農業氣象--小時" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AIA&amp;ActorType=003">
+</node>
+<node name="AIB農業氣象-日" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AIB&amp;ActorType=003">
+</node>
+<node name="AIC農業氣象-旬" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AIC&amp;ActorType=003">
+</node>
+<node name="AID農業氣象-月" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AID&amp;ActorType=003">
+</node>
+<node name="AIE農業氣象-年" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AIE&amp;ActorType=003">
+</node>
+<node name="AJ0農業藥物毒物" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AJ0&amp;ActorType=003">
+</node>
+<node name="AJA農業藥物毒物-植物保護" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AJA&amp;ActorType=003">
+</node>
+<node name="AJB農業藥物毒物-植物保護資材" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AJB&amp;ActorType=003">
+</node>
+<node name="AK0動植物防疫檢疫" url="CatTreeList.aspx?DatabaseId=DB001&amp;CategoryId=AK0&amp;ActorType=003">
+</node>
+</node>

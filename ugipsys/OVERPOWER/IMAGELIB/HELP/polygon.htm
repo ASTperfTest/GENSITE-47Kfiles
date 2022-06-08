@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#006E8E" text="#FFFFFF" link="#00FF00" vlink="#00FF00" alink="#00FF00"  cellspacing="0" cellpadding="0">
+<div align="center">
+  <table width="98%" border="0" cellspacing="0" cellpadding="0" height="100%" align="left">
+    <tr>
+      <td width="10">&nbsp;</td>
+      <td valign="top"> 
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><br>
+          <img src="method.gif" width="30" height="30" align="absmiddle"> <b><font size="3">POLYGON<br>
+          <br>
+          </font></b>Draws a series of lines on the canvas connecting the points 
+          passed in and closing the shape by drawing a line from the last point 
+          to the first point.<br>
+          <br>
+          <b>Procedure </b>Polygon(Points: Array (x,x) of <a href="defs.htm#Stringcolor">Integer</a>)<br>
+          <br>
+          <b>Description<br>
+          </b>Use Polygon to draw a closed, many-sided shape on the canvas, using 
+          the value of Pen. After drawing the complete shape, Polygon fills the 
+          shape using the value of Brush. To draw a polygon on the canvas, without 
+          filling it, use the <a href="polyline.htm">Polyline</a> method, specifying 
+          the first point a second time at the end.<br>
+          <br>
+          <b>Example<br>
+          </b><i>Set ILIB = server.createobject("Overpower.Imagelib") <br>
+          ILIB.WIDTH = 401 <br>
+          ILIB.HEIGHT = 401 <br>
+          Randomize() <br>
+          Dim pts(10,1) <br>
+          for i=0 to ubound(pts)<br>
+          pts(i,0)=Rnd(1)*401 <br>
+          pts(i,1)=Rnd(1)*401<br>
+          next <br>
+          ILIB.PenWidth = 20<br>
+          ILIB.Brushcolor = &quot;#FF00FF&quot;</i></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><i><br>
+          ILIB.Polygon pts<br>
+          ILIB.PictureBinaryWrite 2,0, "" </i></font></p>
+        </td>
+    </tr>
+  </table>
+  <p align="left">&nbsp; </p>
+</div>
+</body>
+</html>

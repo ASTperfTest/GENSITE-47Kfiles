@@ -1,0 +1,272 @@
+﻿:                      codepage="65001"
+  
+ function getsecureval(param)
+  if isempty(param) or param = "" then
+   getsecureval = param
+   exit function
+  end if
+ 
+  if isnumeric(param) then
+   getsecureval = clng(param)
+  else
+   getsecureval = replace(cstr(param), "'", "''")
+  end if
+ end function
+ 
+ picnum = getsecureval(request("picnum"))
+ loginid = getsecureval(request("loginid"))
+ token = getsecureval(request("token"))
+ p1 = getsecureval(request("p1"))
+ p2 = getsecureval(request("p2"))
+ p3 = getsecureval(request("p3"))
+ p4 = getsecureval(request("p4"))
+ p5 = getsecureval(request("p5"))
+ p6 = getsecureval(request("p6"))
+ p7 = getsecureval(request("p7"))
+ p8 = getsecureval(request("p8"))
+ p9 = getsecureval(request("p9"))
+ p10 = getsecureval(request("p10"))
+ p11 = getsecureval(request("p11"))
+ p12 = getsecureval(request("p12"))
+ p13 = getsecureval(request("p13"))
+ p14 = getsecureval(request("p14"))
+ p15 = getsecureval(request("p15"))
+ p16 = getsecureval(request("p16"))
+ p17 = getsecureval(request("p17"))
+ p18 = getsecureval(request("p18"))
+ p19 = getsecureval(request("p19"))
+ p20 = getsecureval(request("p20"))
+ p21 = getsecureval(request("p21"))
+ p22 = getsecureval(request("p22"))
+ p23 = getsecureval(request("p23"))
+ p24 = getsecureval(request("p24"))
+ p25 = getsecureval(request("p25"))
+ p26 = getsecureval(request("p26"))
+ p27 = getsecureval(request("p27"))
+ p28 = getsecureval(request("p28"))
+ p29 = getsecureval(request("p29"))
+ p30 = getsecureval(request("p30"))
+ p31 = getsecureval(request("p31"))
+ p32 = getsecureval(request("p32"))
+ p33 = getsecureval(request("p33"))
+ p34 = getsecureval(request("p34"))
+ p35 = getsecureval(request("p35"))
+ p36 = getsecureval(request("p36"))
+ diff = getsecureval(request("difficult"))
+ '檢查送過來的資料是否有齊全
+ if picnum="" or loginid="" or token="" or diff="" then 
+  response.write "資料不同步，請按f5重新整理！"
+  response.end()
+ end if
+ for i = 1 to 36
+  if eval("p"&i)="" then 
+   response.write "資料不同步，請按f5重新整理！"
+   response.end()
+  end if
+ next
+ 
+ set conn = server.createobject("adodb.connection")
+ conn.connectionstring = application("connstrpuzzle")
+ conn.connectiontimeout=0
+ conn.cursorlocation = 3
+ conn.open
+ 
+ '確認是否在登入時限內
+ sql = "select * from sso where token='"& token &"' " 
+ set rs = conn.execute (sql)
+ if dateadd("n",30,rs("lastactivetime"))<now() then 
+  response.write "登入時間過久，請重新登入！"
+  response.end()
+ end if
+ 
+ '檢查遊戲狀態是否正確
+ sql = "select * from gamelog where login_id='"& loginid &"' order by ser_no desc " 
+ set rs = conn.execute (sql)
+ checkgame=0
+ if not rs.eof then 
+  if rs("pic_id")<>picnum then checkgame = checkgame + 1
+  if rs("login_id")<>loginid then checkgame = checkgame + 1
+  if rs("pic1")<>p1 then checkgame = checkgame + 1
+  if rs("pic2")<>p2 then checkgame = checkgame + 1
+  if rs("pic3")<>p3 then checkgame = checkgame + 1
+  if rs("pic4")<>p4 then checkgame = checkgame + 1
+  if rs("pic5")<>p5 then checkgame = checkgame + 1
+  if rs("pic6")<>p6 then checkgame = checkgame + 1
+  if rs("pic7")<>p7 then checkgame = checkgame + 1
+  if rs("pic8")<>p8 then checkgame = checkgame + 1
+  if rs("pic9")<>p9 then checkgame = checkgame + 1
+  if rs("pic10")<>p10 then checkgame = checkgame + 1
+  if rs("pic11")<>p11 then checkgame = checkgame + 1
+  if rs("pic12")<>p12 then checkgame = checkgame + 1
+  if rs("pic13")<>p13 then checkgame = checkgame + 1
+  if rs("pic14")<>p14 then checkgame = checkgame + 1
+  if rs("pic15")<>p15 then checkgame = checkgame + 1
+  if rs("pic16")<>p16 then checkgame = checkgame + 1
+  if rs("pic17")<>p17 then checkgame = checkgame + 1
+  if rs("pic18")<>p18 then checkgame = checkgame + 1
+  if rs("pic19")<>p19 then checkgame = checkgame + 1
+  if rs("pic20")<>p20 then checkgame = checkgame + 1
+  if rs("pic21")<>p21 then checkgame = checkgame + 1
+  if rs("pic22")<>p22 then checkgame = checkgame + 1
+  if rs("pic23")<>p23 then checkgame = checkgame + 1
+  if rs("pic24")<>p24 then checkgame = checkgame + 1
+  if rs("pic25")<>p25 then checkgame = checkgame + 1
+  if rs("pic26")<>p26 then checkgame = checkgame + 1
+  if rs("pic27")<>p27 then checkgame = checkgame + 1
+  if rs("pic28")<>p28 then checkgame = checkgame + 1
+  if rs("pic29")<>p29 then checkgame = checkgame + 1
+  if rs("pic30")<>p30 then checkgame = checkgame + 1
+  if rs("pic31")<>p31 then checkgame = checkgame + 1
+  if rs("pic32")<>p32 then checkgame = checkgame + 1
+  if rs("pic33")<>p33 then checkgame = checkgame + 1
+  if rs("pic34")<>p34 then checkgame = checkgame + 1
+  if rs("pic35")<>p35 then checkgame = checkgame + 1
+  if rs("pic36")<>p36 then checkgame = checkgame + 1
+ end if
+ 
+ if checkgame>2 then 
+  response.write "資料不同步，請按f5重新整理！"
+  response.end()
+ end if
+ 
+ '寫入本次遊戲狀態  
+ sql="gamelog"
+ set rs = server.createobject("adodb.recordset")
+   rs.open sql,conn,1,3
+   rs.addnew
+   rs("pic_id")=picnum
+ rs("login_id")=loginid
+ rs("pic1")=p1
+ rs("pic2")=p2
+ rs("pic3")=p3
+ rs("pic4")=p4
+ rs("pic5")=p5
+ rs("pic6")=p6
+ rs("pic7")=p7
+ rs("pic8")=p8
+ rs("pic9")=p9
+ rs("pic10")=p10
+ rs("pic11")=p11
+ rs("pic12")=p12
+ rs("pic13")=p13
+ rs("pic14")=p14
+ rs("pic15")=p15
+ rs("pic16")=p16
+ rs("pic17")=p17
+ rs("pic18")=p18
+ rs("pic19")=p19
+ rs("pic20")=p20
+ rs("pic21")=p21
+ rs("pic22")=p22
+ rs("pic23")=p23
+ rs("pic24")=p24
+ rs("pic25")=p25
+ rs("pic26")=p26
+ rs("pic27")=p27
+ rs("pic28")=p28
+ rs("pic29")=p29
+ rs("pic30")=p30
+ rs("pic31")=p31
+ rs("pic32")=p32
+ rs("pic33")=p33
+ rs("pic34")=p34
+ rs("pic35")=p35
+ rs("pic36")=p36
+ check=0
+ for i = 1 to 36
+  if cint(eval("p"&i))<>cint(i) then check = check + 1
+ next
+ if check = 0 then 
+  rs("picstate")="y"
+  check = "y"
+ else
+  rs("picstate")="n"
+ end if 
+ rs("gametime")=now
+ rs("difficult")=diff
+   rs.update
+   rs.close 
+ 
+ '更新登入時間
+ sql = "update sso set lastactivetime=getdate() where token='"& token &"' " 
+ set rs = conn.execute (sql)
+ 
+ sql = "select * from account where login_id = '"& loginid &"' " 
+ set rs = conn.execute (sql)
+ 
+ '扣掉點數
+ if not rs.eof then 
+  energy = rs("energy")
+ ' energy = energy - 1
+ ' sql = "update account set energy= '"& energy &"' where login_id = '"& loginid &"' " 
+ ' set rs1 = conn.execute (sql)  
+ end if
+ 
+ '本拼圖完成後把遊戲狀態清掉並將資料寫入game history中
+ if check="y" then   
+  sql = "select * from gamelog where login_id='"& loginid &"'" 
+  set rs = conn.execute (sql)
+  while not rs.eof 
+   sql="gamehistory"
+   set rs1 = server.createobject("adodb.recordset")
+     rs1.open sql,conn,1,3
+     rs1.addnew
+     rs1("pic_id")=rs("pic_id")
+   rs1("login_id")=rs("login_id")
+   rs1("pic1")=rs("pic1")
+   rs1("pic2")=rs("pic2")
+   rs1("pic3")=rs("pic3")
+   rs1("pic4")=rs("pic4")
+   rs1("pic5")=rs("pic5")
+   rs1("pic6")=rs("pic6")
+   rs1("pic7")=rs("pic7")
+   rs1("pic8")=rs("pic8")
+   rs1("pic9")=rs("pic9")
+   rs1("pic10")=rs("pic10")
+   rs1("pic11")=rs("pic11")
+   rs1("pic12")=rs("pic12")
+   rs1("pic13")=rs("pic13")
+   rs1("pic14")=rs("pic14")
+   rs1("pic15")=rs("pic15")
+   rs1("pic16")=rs("pic16")
+   rs1("pic17")=rs("pic17")
+   rs1("pic18")=rs("pic18")
+   rs1("pic19")=rs("pic19")
+   rs1("pic20")=rs("pic20")
+   rs1("pic21")=rs("pic21")
+   rs1("pic22")=rs("pic22")
+   rs1("pic23")=rs("pic23")
+   rs1("pic24")=rs("pic24")
+   rs1("pic25")=rs("pic25")
+   rs1("pic26")=rs("pic26")
+   rs1("pic27")=rs("pic27")
+   rs1("pic28")=rs("pic28")
+   rs1("pic29")=rs("pic29")
+   rs1("pic30")=rs("pic30")
+   rs1("pic31")=rs("pic31")
+   rs1("pic32")=rs("pic32")
+   rs1("pic33")=rs("pic33")
+   rs1("pic34")=rs("pic34")
+   rs1("pic35")=rs("pic35")
+   rs1("pic36")=rs("pic36")
+   rs1("picstate")=rs("picstate")  
+   rs1("gametime")=rs("gametime")
+     rs1.update
+     rs1.close
+   
+   rs.movenext
+  wend
+  '把遊戲狀態清掉
+  sql = "delete from gamelog where login_id='"& loginid &"'" 
+  set rs1 = conn.execute (sql)
+  response.write "0" '回給flash拼圖完成
+ elseif energy = 0 then 
+  response.write "x" '回給flash點數不足
+ else
+  response.write energy '回給flash剩餘點數
+ end if
+ 
+ rs.close()
+ 'rs1.close()
+ conn.close()
+ 

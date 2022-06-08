@@ -1,0 +1,133 @@
+﻿
+
+
+
+
+
+
+
+function script___602562887() {src("../js/jquery-1.3.2.min.js");}
+function script____48672356() {src("./js/jquery.Jcrop.min.js");}
+function script___1999473370() {src("./js/jquery.Jcrop.js");}
+
+
+
+
+
+        $(document).ready(function() {
+        $('#CropBox').Jcrop({
+                onSelect :updateCoords
+            });
+        });
+
+        function updateCoords(c) {
+            $('#SetX').val(c.x);
+            $('#SetY').val(c.y);
+            $('#SetW').val(c.w);
+            $('#SetH').val(c.h);            
+        };
+
+        function checkFile(imgFile) {
+            var fType = imgFile.value.substring(imgFile.value.lastIndexOf("."), imgFile.value.length);
+            if (fType.toLowerCase() != ".jpg" && fType.toLowerCase() != ".jpeg" && fType.toLowerCase() != ".gif")
+                alert('只允許上傳JPG或GIF影像檔');
+        }
+        
+        function checkfocuscontent(item) {
+            if (item.value == "請輸入圖片說明") {
+                item.value = "";
+            }
+        }
+
+        function isExistFile(control) {
+            var fControl = control.id.substring(control.id.lastIndexOf("_"), control.id.length);
+            if (fControl == null) { fControl = control.id; }
+            if (fControl != null) {
+                if (fControl == "btnPreview") {
+                    if (document.getElementById('FileUpload').value == "") {
+                        alert('請選擇圖片。');
+                        return false;
+                    }
+                }
+                else {
+                    if (document.getElementById('hidFileName').value == "") {
+                        alert('請選擇圖片。');
+                        return false;
+                    }
+                }
+
+                if (fControl == "btnOK") {
+                    if (document.getElementById('txtHint').value == "請輸入圖片說明" || document.getElementById('txtHint').value == "") {
+                        alert('請輸入圖片說明。');
+                        return false;
+                    }
+                }
+                if (fControl == "btnSelect") {
+                    if (document.getElementById('SetX').value == ""
+                      | document.getElementById('SetY').value == ""
+                      | document.getElementById('SetW').value == ""
+                      | document.getElementById('SetH').value == ""
+                      | document.getElementById('SetW').value == "0"
+                      | document.getElementById('SetH').value == "0") {
+                            alert('請圈選圖片範圍');
+                            return false;
+                        }
+                }
+            }
+        }
+
+    
+
+
+
+
+
+
+
+
+
+
+                                           function onchange____1735043869() {checkFile(this)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                              function onfocus___1216680659() {checkfocuscontent(this);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

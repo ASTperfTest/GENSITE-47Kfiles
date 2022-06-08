@@ -1,0 +1,305 @@
+@charset "utf-8";
+@import url("common.css");
+/* 農委會蝴蝶蘭主題館 */
+/* CSS Document for mp */
+
+/* ---------------------------------------------------------中欄新聞區1--認識蝴蝶蘭與蝴蝶蘭小故事 */
+.News0 {
+	margin: 0px;
+	width: 100%;
+}
+.News0 .left {
+	margin: 0px;
+	padding: 20px 0px 0px 30px;
+	vertical-align: top;
+	background-image: url(../images/news0_left.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	height: 186px;
+	width: 50%;
+}
+.News0 .left h1 {
+	font-size: 16px;
+	color: #0A5363;
+	margin: 0px;
+	background-image: url(../images/bullet9.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	padding-left: 30px;
+	height: 25px;
+	padding-top: 3px;
+	padding-right: 10px;
+}
+.News0 .left p {
+	color: #0A5363;
+	font-size: 13px;
+	margin: 5px 0px 0px;
+	padding-left: 30px;
+}
+.News0 .left a {
+	color: #0A5363;
+}
+.News0 .left a:hover, .News0 .right a:hover {
+	color: #CC6666;
+	text-decoration: underline;
+}
+.News0 .right {
+	margin: 0px;
+	padding: 20px 20px 0px 10px;
+	vertical-align: top;
+	background-image: url(../images/news0_right.gif);
+	background-repeat: no-repeat;
+	background-position: right top;
+	height: 186px;
+	width: 50%;
+}
+.News0 .right h1 {
+	font-size: 16px;
+	color: #C0A021;
+	margin: 0px;
+	background-image: url(../images/bullet10.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	padding-left: 30px;
+	height: 25px;
+	padding-top: 3px;
+	padding-right: 10px;
+}
+.News0 .right p {
+	color: #C0A021;
+	font-size: 13px;
+	margin: 5px 0px 0px;
+	padding-left: 30px;
+}
+.News0 .right a {
+	color: #C0A021;
+}
+
+/* ---------------------------------------------------------中欄新聞區1--駐館公告 */
+.News1 {
+	margin-bottom: 5px;
+	margin-top: 10px;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+.News1 h3 {
+	font-size: 100%;
+	line-height: 135%;
+	color: #0A5363;
+	background: url(../images/h3bg.gif) no-repeat 0px 0px;
+	margin: 0px;
+	padding: 3px 0px 6px 30px;
+	letter-spacing: .05em;
+	height: 29px;
+}
+.News1 .Body , .News2 .Body , .News3 .Body {
+	padding: 0px 5px;
+}
+.News1 .Body h4 {
+	font-size: 100%;
+	font-weight: normal;
+	margin: 12px 0px 10px;
+	padding: 0px;
+	clear: both;
+	line-height: 135%;
+	letter-spacing: .05em;
+	color: #0A5363;
+}
+.News1 .Body img {
+	float: left;
+	border: 1px solid #807650;
+	margin: 0px 9px 9px 0px;
+	width: 150px;
+}
+.News1 .Body p {
+	font-size: 80%;
+	line-height: 150%;
+	margin: 0px 0px 12px;
+	padding: 0px;
+}
+.News1 .Body ul , .News2 .Body ul, .News3 .Body ul {
+	clear: both;
+	margin: 10px 0px 0px;
+	padding: 0px;
+}
+.News1 .Body ul li {
+	font-size: 80%;
+	line-height: 145%;
+	background: url(../images/bullet11.gif) no-repeat 2px 4px;
+	list-style: none;
+	padding: 0px 5px 5px 18px;
+	margin: 0px;
+}
+.News1 .Foot {
+	background-image: url(../images/bullet12.gif);
+	background-repeat: repeat-x;
+	background-position: left top;
+	margin-top: 5px;
+	height: 7px;
+	margin-bottom: 10px;
+}
+/* --------------------------------------------------------- 中欄新聞區2--台灣新聞 */
+.News2 {
+	margin-bottom: 5px;
+	clear: left;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+.News2 h3 {
+	font-size: 100%;
+	line-height: 135%;
+	color: #0A5363;
+	background: url(../images/h3bg.gif) no-repeat 0px 0px;
+	margin: 0px;
+	padding: 3px 0px 6px 30px;
+	letter-spacing: .05em;
+	height: 29px;
+}
+.News2 .photo {
+	margin-top: 15px;
+	margin-right: 4px;
+	margin-bottom: 5px;
+	margin-left: 4px;
+	float: left;
+	border: 10px solid #BFE9FF;
+	width: 150px;
+	height: 100px;
+}
+.News2 .Body ul li, .News3 .Body ul li {
+	font-size: 80%;
+	line-height: 145%;
+	background: url(../images/bullet2.gif) no-repeat 2px 3px;
+	list-style: none;
+	padding: 0px 5px 5px 18px;
+	margin: 0px;
+}
+/* --------------------------------------------------------- 中欄新聞區3--簽證及護照事務 */
+.News3 {
+	margin-bottom: 5px;
+	clear: left;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+.News3 h3 {
+	font-size: 100%;
+	line-height: 135%;
+	color: #0A5363;
+	background: url(../images/h3bg.gif) no-repeat 0px 0px;
+	margin: 0px;
+	padding: 3px 0px 6px 30px;
+	letter-spacing: .05em;
+	height: 29px;
+}
+.News3 table {
+	width: auto;
+	margin-top: 12px;
+}
+.News3 .left {
+	padding-right: 10px;
+	padding-left: 10px;
+	font-size: 13px;
+	color: #0A5363;
+	line-height: 18px;
+	width: 50%;
+}
+.News3 .left img ,.News3 .right img {
+	float: left;
+	width: 90px;
+	border: 5px solid #BBE8FF;
+	margin-top: 0px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-left: 0px;
+}
+.News3 .right {
+	font-size: 13px;
+	line-height: 18px;
+	color: #0A5363;
+	padding-right: 10px;
+	padding-left: 10px;
+	width: 50%;
+}
+/* --------------------------------------------------------- 訂閱電子報 */
+.Epaper {
+	padding: 2px 0px;
+	margin: 0px 0px 8px 10px;
+	width: 180px;
+	background-image: url(../images/epaper_bg.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+}
+.Epaper h3 {
+	font-size: 100%;
+	color: #0A759D;
+	margin: 0px;
+	padding: 15px 5px 8px 35px;
+}
+.Epaper .Body {
+	padding: 5px 6px 20px 8px;
+	text-align: center;
+}
+.Epaper .Body form {
+	margin: 0px;
+}
+.Epaper .Body form input.Text {
+	margin-bottom: 5px;
+	border: 1px solid #CCCCCC;
+	text-align: left;
+}
+.Epaper .Body form .Button {
+	background-color: #999999;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-right-color: #333333;
+	border-bottom-color: #000000;
+}
+/* --------------------------------------------------------- 相簿 */
+.Album {
+	padding: 2px 0px;
+	margin: 0px 0px 20px 10px;
+	width: 180px;
+}
+.Album h3 {
+	background: #FAD6C8 url(../images/album_bg.gif) no-repeat left top;
+	font-size: 100%;
+	color: #AC4100;
+	margin: 0px;
+	padding: 16px 5px 8px 35px;
+}
+.Album .Body {
+	background: #FAD6C8 url(../images/album_body.gif) no-repeat left bottom;
+	padding: 8px 8px 15px;
+	text-align: center;
+}
+.Album .Body img {
+	border: 1px solid #666666;
+	width: 150px;
+	margin-bottom: 3px;
+}
+.Album .Body p {
+	font-size: 80%;
+	line-height: 135%;
+	padding: 0px 0px 0px 5px;
+	text-align: left;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 12px;
+	color: #333333;
+}
+.Album .Body p a {
+	color: #333333;
+}
+
+/*-------------------------------------------------------- 廣告區 */
+.AD {
+	text-align: center;
+	margin: 10px auto;
+}
+.AD img{
+	text-align: center;
+	display: block;
+	margin-bottom: 5px;
+	border: none;
+}

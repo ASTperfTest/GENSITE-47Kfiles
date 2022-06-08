@@ -1,0 +1,113 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               
+          
+function send() {
+ var form = document.post;
+ if ( form.reply.value == "" ) {
+  alert("您忘了填寫回應內容了！");
+  form.reply.focus();
+  return false;
+ }
+ if ( form.yy.value == "" || form.mm.value == "" || form.dd.value == "" ) {
+  alert("您忘了填寫日期了！");
+  form.yy.focus();
+  return false;
+ }
+ return true;
+}
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   function onSubmit____516022209() {return send()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function href____1206670856() {history.go(-1);}
+
+
+
+ 

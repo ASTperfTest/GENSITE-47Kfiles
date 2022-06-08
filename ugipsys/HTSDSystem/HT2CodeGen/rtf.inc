@@ -1,0 +1,540 @@
+﻿<%
+dim par(10)
+
+function rtf_open(filename)
+	dim fs, xfin, body
+	
+	set fs = CreateObject("scripting.filesystemobject")
+	set xfin = fs.opentextfile(Server.MapPath(filename))
+	
+	body = ""
+	do while Not xfin.AtEndOfStream		
+		body = body & xfin.readline
+	loop
+	rtf_open = body
+end function
+
+function rtf_readpar(filename)
+	dim fs, xfin, body, keyword1, keyword2, p1, p2
+	
+	set fs = CreateObject("scripting.filesystemobject")
+	set xfin = fs.opentextfile(Server.MapPath(filename))
+	
+	body = ""
+	do while Not xfin.AtEndOfStream		
+		body = body & xfin.readline
+	loop
+	
+	keyword1 = "\trowd "
+	keyword2 = "\itap0 "
+	
+	p1 = instr(body, keyword1)
+	if p1 = 0 then
+		rtf_readpar = ""
+		exit function
+	end if
+	
+	p2 = instrrev(body, keyword2)
+	if p2 = 0 then
+		rtf_readpar = ""
+		exit function
+	end if
+	
+	rtf_readpar = mid(body, p1, p2 + len(keyword2) - p1)
+end function
+
+sub rtf_header(rtf, line, string)
+	dim header, p1, p2, keyword, times, pos, p3, p4, c, format
+	
+	rtf_find rtf, "{\header", 1, header, p1, p2
+	if header = "" then
+		exit sub
+	end if
+	
+	keyword = "\par "
+	times = 0
+	pos = 0
+	do while (times < line)
+		pos = instr(pos + 1, header, keyword)	
+		if pos = 0 then
+			exit sub
+		end if
+		times = times + 1
+	loop
+	
+	p3 = 0
+	p4 = pos + len(keyword) - 1
+	for i = pos to 2 step -1
+		c = mid(header, i, 1)
+		if c = "{" then
+			if mid(header, i-1, 1) <> "}" then
+				p3 = i
+				exit for
+			elseif mid(header, i-6, 5) = keyword then
+				p3 = i
+				exit for
+			end if
+		end if
+	next
+	
+	if p3 = 0 then
+		exit sub
+	end if
+	
+	format = find_format(mid(header, p3, p4 - p3 + 1))
+	'StrReplace header, p3, p4, "{" & format & dbcs_encode(string) & " \par }"
+	StrReplace header, p3, p4, "{" & format & string & " " & keyword
+	StrReplace rtf, p1, p2, header
+	
+end sub
+
+sub rtf_addfont(rtf, def)
+	dim fonttbl, p1, p2
+	
+	rtf_find rtf, "{\fonttbl", 1, fonttbl, p1, p2
+	if fonttbl = "" then
+		exit sub
+	end if
+	if instr(fonttbl, def) > 0 then
+		exit sub
+	end if
+	
+	fonttbl = left(fonttbl, len(fonttbl) - 1) & def & "}"
+	StrReplace rtf, p1, p2, fonttbl
+end sub
+
+function rtf_addrow(n, fields)
+	dim keyword, format, pos, row, a, i, value
+	
+	keyword = "\cell "
+	format = "\loch\af0\hich\af0\dbch\f18 "
+	
+	pos = 1
+	row = par(n)
+	a = split(fields, ";", -1, 1)
+	for i = 0 to ubound(a)
+		pos = instr(pos, row, keyword, 0)
+		if pos = 0 then
+			exit for
+		elseif pos > 0 then
+			value = format & a(i) & keyword
+			'value = format & dbcs_encode(a(i)) & keyword
+			StrReplace row, pos, pos + len(keyword) - 1, value
+			pos = pos + len(value)
+		end if
+	next
+	
+	rtf_addrow = row
+end function
+
+sub rtf_field(rtf, n, string)
+	dim i, p1, p2, target, s2
+		
+	for i = 1 to 999
+		rtf_find rtf, "{\field", i, target, p1, p2
+		if target = "" then
+			exit sub
+		end if
+		if instr(target, "MERGEFIELD " & n & " ") > 0 then
+			s2 = "{\loch\af0\hich\af0\dbch\f18 " & string & "}"
+			's2 = "{\loch\af0\hich\af0\dbch\f18 " & dbcs_encode(string) & "}"
+			StrReplace rtf, p1, p2, s2
+			exit sub
+		end if
+	next
+end sub
+
+sub rtf_duphead(rtf, line)
+	dim keyword1, keyword1a, keyword2, keyword2a, i, pos
+	
+	'\Trleft --Position in twips of the leftmost edge of the table with respect to 
+	'the left edge of its column.
+	
+	'\trkeep --Table row keep together. This row cannot be split by a page break.
+	'This property is assumed to be off unless the control word is present. 
+	
+	'\trhdr --Table row header. This row should appear at the top of every page 
+	'the current table appears on. 
+	
+	'\trbrdrt --Table row border top. 
+	
+	keyword1  = "\trleft-28\trbrdrt"		
+	keyword1a = "\trleft-28\trkeep\trbrdrt"
+	keyword2  = "\trleft-28\trhdr\trbrdrt"
+	keyword2a = "\trleft-28\trkeep\trhdr\trbrdrt"
+	for i = 1 to line * 2
+		pos = instr(rtf, keyword1)
+		if pos > 0 then
+			StrReplace rtf, pos, pos + len(keyword1) - 1, keyword2
+		else
+			pos = instr(rtf, keyword1a)
+			if pos > 0 then
+				StrReplace rtf, pos, pos + len(keyword1a) - 1, keyword2a
+			end if
+		end if
+	next
+end sub
+
+function rtf_lastrow(rtf, keep)
+	dim keyword1, keyword2, keyword3, p1, p2, p3, ret, s, inctrl, indata, inspace, insep, i, c
+	
+	keyword1 = "\itap0 "
+	keyword2 = "{\trowd "
+	keyword3 = "\trowd "
+	p1 = instrrev(rtf, keyword1)
+	if p1 = 0 then
+		rtf_lastrow = ""
+		exit function
+	end if
+	
+	p2 = instrrev(rtf, keyword2, p1-1)
+	if p2 = 0 then
+		rtf_lastrow = ""
+		exit function
+	end if
+
+	p3 = instrrev(rtf, keyword3, p2-1)
+	if p3 = 0 then
+		rtf_lastrow = ""
+		exit function
+	end if
+	
+	ret = mid(rtf, p3, p1 + len(keyword1) - p3)
+	
+	' 刪除非控制字串及 \par, \qc
+	s = ""
+	inctrl = false
+	indata = false
+	inspace = false
+	insep =  false
+	for i = 1 to len(ret)
+		c = mid(ret, i, 1)
+		select case c
+		case "\"
+			if mid(ret, i, 5) = "\par " then
+				inctrl = false
+				indata = true
+				inspace = false
+				insep =  false
+				i = i + 4
+			elseif mid(ret, i, 4) = "\qc " and not keep then
+				inctrl = false
+				indata = true
+				inspace = false
+				insep =  false
+				i = i + 3
+			elseif mid(ret, i+1, 1) <> "'" then
+				inctrl = true
+				indata = false
+				inspace = false
+				insep =  false
+			else
+				inctrl = false
+				indata = true
+				inspace = false
+				insep =  false
+			end if
+		case " "
+			inctrl = false
+			indata = false
+			inspace = true
+			insep =  false
+		case "{", "}", vbcrlf
+			inctrl = false
+			indata = false
+			inspace = false
+			insep = true
+		case else
+			if not inctrl then
+				inctrl = false
+				indata = true
+				inspace = false
+				insep =  false
+			end if
+		end select
+		if not indata then
+			s = s & c
+		end if			
+	next
+	
+	rtf_lastrow = s
+		
+end function
+
+function par_merge(p, s)
+	dim ret, a, i, dif
+	
+	ret = p
+	a = split(s, ",", -1, 1)
+	
+	for i = 0 to ubound(a)
+		a(i) = cint(a(i))
+	next
+	
+	dif = 0
+	for i = 0 to ubound(a)-1 step 2
+		ret = par_merge1(ret, a(i) - dif, a(i + 1) - dif)
+		dif = dif + a(i + 1) - a(i)
+	next
+	
+	par_merge = ret
+
+end function
+
+function par_merge1(p, n1, n2)
+	dim ret
+	
+	if p = "" then
+		par_merge1 = ""
+		exit function
+	end if
+	
+	if n2 <= n1 then
+		par_merge1 = ""
+		exit function
+	end if
+	
+	ret = p
+	merge_field ret, n1, n2, 1
+	merge_field ret, n1, n2, 2
+	merge_cell  ret, n1, n2
+	par_merge1 = ret	
+end function
+
+sub merge_field(p, n1, n2, part)
+	dim keyword1, keyword2, keyword3, times, pos, width, cellx, p1, p2, pos1, pos2
+
+	keyword1 = "\cltxlrtbv\clftsWidth3\clwWidth"
+	keyword2 = "\cellx"
+	keyword3 = "{\trowd"
+	
+	if part = 1 then
+		pos = 0
+	else
+		pos = instr(1, p, keyword3)
+	end if
+	
+	times = 0
+	width = 0
+	cellx = 0
+	do while (times < n2)
+		pos = instr(pos + 1, p, keyword1)	
+		if pos = 0 then
+			exit sub
+		end if
+		times = times + 1
+		if (times >= n1) then
+			p1 = len(keyword1)
+			width = width + cint(mid(p, pos + p1, instr(pos + p1, p, " ") - pos - p1 + 1))
+		end if
+		if (times = n1) then
+			pos1 = pos + len(keyword1)
+			p1 = instr(pos, p, keyword2)
+			p2 = len(keyword2)
+			cellx = cint(mid(p, p1 + p2, instr(p1 + p2, p, "\") - p1 - p2)) - width
+		end if		
+	loop
+	
+	p1 = instr(pos + 1, p, keyword2)
+	pos2 = instr(p1 + 1, p, "\") - 1
+	
+	StrReplace p, pos1, pos2, width & " " & keyword2 & (cellx + width)
+	
+end sub
+
+sub merge_cell(p, n1, n2)
+	dim keyword, times, pos, pos1, pos2
+	
+	keyword = "\cell "
+	
+	times = 0
+	pos = 0
+	do while (times < n2)
+		pos = instr(pos + 1, p, keyword)	
+		if pos = 0 then
+			exit sub
+		end if
+		times = times + 1
+		if (times = n1) then
+			pos1 = pos + len(keyword1)
+		end if
+	loop
+	
+	pos2 = pos + len(keyword) - 1
+	
+	StrReplace p, pos1, pos2, keyword
+	
+end sub
+
+sub find_repeat(src, str, num, dif)
+	dim mPrev, mFrom, repeat, i, a
+
+	a = split(src, ",",  -1, 1)	
+	mPrev = a(0)
+	mFrom = 0
+	repeat = false
+	str = a(0)
+	num = ""
+	for i = 1 to ubound(a)
+		if (a(i) = mPrev) and (a(i) <> "") then
+			repeat = true
+		else	
+			mPrev = a(i)
+			str = str & "," & a(i)
+			if repeat then
+				repeat = false
+				if num = "" then
+					num = mFrom + dif & "," & i - 1 + dif
+				else
+					num = num & "," & mFrom + dif & "," & i - 1 + dif
+				end if
+			end if
+			mFrom = i		
+		end if
+	next
+end sub
+
+sub rtf_find(rtf, keyword, n, target, pos1, pos2)
+	dim times, pos, level, i, c
+	
+	times = 0
+	pos = 0
+	do while (times < n)
+		pos = instr(pos + 1, rtf, keyword)	
+		if pos = 0 then
+			target = ""
+			pos1 = 0
+			pos2 = 0
+			exit sub
+		end if
+		times = times + 1
+	loop
+	
+	level = 1
+	i = pos + 1
+	do while i < len(rtf)
+		c = mid(rtf, i, 1)
+		select case c
+		case "{"
+			level = level + 1
+		case "}"
+			level = level - 1
+		end select
+		if level = 0 then
+			target = mid(rtf, pos, i - pos + 1)
+			pos1 = pos
+			pos2 = i
+			exit sub
+		end if
+		i = i + 1
+	loop
+	
+	target = mid(rtf, pos)
+	pos1 = pos
+	pos2 = len(rtf)
+end sub
+
+function find_format(txt)
+	dim pos, i, c, three, five
+	
+	pos = instr(txt, "{\fs")
+	if pos = 0 then
+		pos = instr(txt, "{\loch")
+		if pos = 0 then
+			pos = instr(txt, "{\hich")
+			if pos = 0 then
+				pos = instr(txt, "{\dbch")
+				if pos = 0 then
+					find_format = ""
+					exit function
+				end if
+			end if
+		end if
+	end if
+	
+	for i = pos to len(txt)
+		c = mid(txt, i, 1)
+		if c = " " then
+			three = mid(txt, i+1, 3)
+			five = mid(txt, i+1, 5)
+			if three <> "\fs" and five <> "\loch" and five <> "\hich" and five <> "\dbch" then
+				find_format = mid(txt, pos + 1, i - pos)
+				exit function
+			end if
+		end if
+	next
+end function
+
+sub find_head_tail(rtf, head, tail)
+	dim keyword, pos
+	
+	keyword = "\itap0 "
+	pos = instrrev(rtf, keyword)
+	if pos = 0 then
+		head = left(rtf, len(rtf) - 1)
+		tail = right(rtf, 1)
+	else
+		head = left(rtf, pos + len(keyword) - 1)
+		tail = mid(rtf, pos + len(keyword))
+	end if	
+end sub
+
+sub find_head_body(rtf, head, body)
+	dim pos, level, i, c
+	
+	pos = instr(rtf, "{\info")
+	if pos = 0 then
+		head = ""
+		body = ""
+		exit sub
+	end if
+	
+	level = 2
+	for i = pos+1 to len(rtf)
+		c = mid(rtf, i, 1)
+		if c = "{" then
+			level = level + 1
+		elseif c = "}" then
+			level = level - 1
+		end if
+		if level = 1 then
+			head = mid(rtf, 1, i)
+			body = mid(rtf, i + 1, len(rtf) - i - 1)
+			exit sub
+		end if
+	next
+	
+	head = ""
+	body = ""	
+end sub
+
+function dbcs_encode(text)
+	dim s, i, c, t, l
+	
+	s = ""
+	for i = 1 to len(text)
+		c = mid(text, i, 1)
+		t = Server.URLEncode(c)
+		l = len(t)
+		select case l
+		case 1
+			s = s & t
+		case 3
+			s = s & "\'" & mid(t, 2, 2)
+		case 4
+			s = s & "\'" & mid(t, 2, 2) & "\'" & LCase(hex(asc(mid(t, 4))))
+		case 6 
+			s = s & "\'" & mid(t, 2, 2) & "\'" & mid(t, 5, 2)
+		end select
+	next		
+
+	dbcs_encode = s		
+end function
+
+sub StrReplace(s1, pos1, pos2, s2)
+	s1 = mid(s1, 1, pos1 - 1) & _
+		 s2 & _
+		 mid(s1, pos2 + 1)	
+end sub
+
+%>

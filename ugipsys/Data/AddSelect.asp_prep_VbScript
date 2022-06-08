@@ -1,0 +1,74 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ sub addform()
+
+  msg1 = "請輸入分類名稱！"
+  if trim(reg.catname.value) = empty then
+     msgbox msg1, 64, "sorry!"
+     reg.catname.focus
+     exit sub
+  end if
+
+Cx_0dummy  msg = "抱歉!"& vbcrlf & vbcrlf &"類別名稱字數過多，請勿超過10個中文字。"& vbcrlf & vbcrlf &"請重新輸入 !"               
+Cx_0dummy  msg = "抱歉!"& vbcrlf & vbcrlf &"類別名稱字數過多，請勿超過20個字元。"& vbcrlf & vbcrlf &"請重新輸入 !"           
+Cx_0dummy  if blen(reg.catname.value) > 20 then
+   msgbox msg, 64, "sorry!"          
+   reg.catname.focus          
+   exit sub
+  end if
+
+  catname = reg.catname.value
+  window.returnvalue = "addselectconfig.asp?catname="& catname &"&datatype=Cx_0dummy&language=Cx_0dummy" 
+  window.close 
+ end sub
+ 
+function blen(xs)
+ xl = len(xs)
+ for i=1 to len(xs)
+  if asc(mid(xs,i,1))<0 then xl = xl + 1
+ next
+ blen = xl
+end function
+ 
+
+ 

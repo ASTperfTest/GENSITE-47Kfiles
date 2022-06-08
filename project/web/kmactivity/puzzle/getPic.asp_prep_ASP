@@ -1,0 +1,128 @@
+﻿:                      codepage="65001"
+   
+ set conn = server.createobject("adodb.connection")
+ conn.connectionstring = application("connstrpuzzle")
+ conn.connectiontimeout=0
+ conn.cursorlocation = 3
+ conn.open
+
+ sql = "select count(*) as total from picdata"
+ set rs = conn.execute (sql)
+ picnumbers=rs("total")'宣告現有圖庫數量
+ 
+ function getsecureval(param)
+  if isempty(param) or param = "" then
+   getsecureval = param
+   exit function
+  end if
+ 
+  if isnumeric(param) then
+   getsecureval = clng(param)
+  else
+   getsecureval = replace(cstr(param), "'", "''")
+  end if
+ end function
+
+ function getpic()
+  'randomize   
+  'x = int(rnd()*puzzlen)+1
+  'x = right("00" & x ,3) '亂數取圖片編號
+  'x="001" '測試用拼圖編號
+  sql = "select top 1 * from picdata where pic_open='y' order by newid()"  ' and (convert(char(8),gametime,11)=convert(char(8),getdate(),11))      
+  set rs1 = conn.execute (sql)
+  getpic=rs1("ser_no")
+ end function
+ 
+ function searchdata(loginid,picno)  
+  sql = "select * from gamehistory where login_id = '"& loginid &"' and pic_id='"& picno &"' and (picstate='y' or picstate='f')"  ' and (convert(char(8),gametime,11)=convert(char(8),getdate(),11))      
+  set rs1 = conn.execute (sql) 
+  if not rs1.eof then 
+   searchdata=1'有玩過此張拼圖
+  else
+   searchdata=0
+  end if
+ end function
+ 
+ if getsecureval(request("token"))="" then 
+  response.write "請先登入會員！"  
+  response.end()
+ end if 
+ 
+ '取得登入時間
+ sql = "select * from sso where token='"& getsecureval(request("token")) &"' "  
+ set rs = conn.execute (sql)
+ 
+ if not rs.eof then 
+  if dateadd("n",30,rs("lastactivetime"))<now() then 
+   response.write "登入時間過久，請重新登入！"
+  else
+   '先檢查是否己經玩完所有的圖片了
+   sql = "select count(*) as total from gamehistory where login_id = '"& rs("login_id") &"' and (picstate='y' or picstate='f') "
+   set rs1 = conn.execute (sql)
+   if not rs1.eof then 
+    if cint(rs1("total"))= picnumbers then 
+     response.write "您今天己完成所有圖庫，請明日再登入遊戲。"
+     response.end()
+    end if
+   end if
+   '先檢查是否今天己經玩超過圖庫總數
+   sql = "select count(*) as total from gamehistory where login_id = '"& rs("login_id") &"' and (convert(char(8),gametime,11)=convert(char(8),getdate(),11)) and (picstate='y' or picstate='f') "   
+   set rs1 = conn.execute (sql)
+   if not rs1.eof then 
+    if cint(rs1("total"))= picnumbers then 
+     response.write "您今天己完成所有圖庫，請明日再登入遊戲。"
+     response.end()
+    elseif cint(rs1("total")) >=5 then
+     response.write "您今天己完成5個拼圖，請明日再登入遊戲。"
+     response.end()     
+    else
+     picid=getpic() '取得隨機圖片編號
+     checkpic=searchdata(rs("login_id"),picid)'檢查是否有玩過此拼圖
+    end if  
+   end if   
+   while checkpic=1
+    picid=getpic()
+    checkpic=searchdata(rs("login_id"),picid)
+   wend
+   sql = "select * from account where login_id = '"& rs("login_id") &"'  "  
+   set rs1 = conn.execute (sql)
+   sql = "select * from gamelog where login_id = '"& rs("login_id") &"'  "  
+   set rs2 = conn.execute (sql)
+   difficult=""
+   if not rs2.eof then     
+    response.write "1<->" '有玩到一半拼圖的狀態
+    picid = rs2("pic_id")
+    difficult = rs2("difficult")
+   else 
+    response.write "0<->" '新的拼圖picid=picdata.ser_no
+   end if   
+   response.write picid & "<->"
+   sql = "select * from picdata where ser_no = '"& picid &"'  "  
+   set rs3 = conn.execute (sql)
+   if not rs3.eof then response.write rs3("pic_no") & "<->" & rs3("pic_name")
+   response.write "<->" & rs1("login_id") & "<->" 
+   if rs1("nickname")="" then 
+    if len(rs1("realname"))=1 then 
+     response.write rs1("realname")
+    else
+     response.write left(rs1("realname"),1)&"＊"&right(rs1("realname"),len(rs1("realname"))-2)
+    end if
+   else
+    response.write rs1("nickname")
+   end if
+   response.write "<->" & rs1("energy") 
+   if not rs3.eof then response.write "<->" & rs3("pic_link")
+   if difficult<>"" then response.write "<->" & difficult
+   sql = "select count(*) as total from gamelog where pic_id = '"& picid &"' and login_id='"& rs("login_id") &"'"
+   set rs3 = conn.execute (sql)
+   response.write "<->"& cint(rs3("total"))-1
+  end if
+ else
+  response.write "您還未登入！"
+ end if
+ rs.close
+ 'rs1.close
+ 'rs2.close
+ 'rs3.close
+ conn.close()
+ 

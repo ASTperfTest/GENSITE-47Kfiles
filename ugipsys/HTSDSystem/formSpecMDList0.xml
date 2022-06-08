@@ -1,0 +1,84 @@
+﻿<?xml version="1.0"  encoding="utf-8" ?>
+<htPage>
+  <HTProgPrefix></HTProgPrefix>
+  <HTProgCode></HTProgCode>
+  <HTProgPath></HTProgPath>
+  <HTGenPattern></HTGenPattern>
+  <htForm>
+	<formModel id="">
+		<fieldList>
+		<tableName></tableName>
+			<field>
+				<fieldName></fieldName>
+				<fieldLabel></fieldLabel>
+				<dataType></dataType>
+				<dataLen></dataLen>
+				<isPrimaryKey></isPrimaryKey>
+				<canNull></canNull>
+				<fieldDesc></fieldDesc>
+				<inputType></inputType>
+			</field>
+		</fieldList>
+				<fkLink>
+					<joinType>LEFT</joinType>
+					<asAlias></asAlias>
+					<refTable></refTable>
+					<fkFieldList>
+						<refField></refField>
+						<myField></myField>
+					</fkFieldList>
+				</fkLink>
+	  <anchorList>
+		<anchor>
+			<type></type>
+			<funcLabel></funcLabel>
+			<url></url>
+			<action></action>
+		</anchor>
+	  </anchorList>
+	</formModel>
+  </htForm>
+
+  <pageSpec>
+	<pageHead>資料管理</pageHead>
+	<pageFunction>編修</pageFunction>
+	<aidLinkList>
+		<anchor>
+			<funcLabel></funcLabel>
+			<url></url>
+		</anchor>
+	</aidLinkList>
+	<formUI ref="">
+		<masterRef></masterRef>
+		<pxHTML>
+<CENTER>
+<TABLE border="0" class="eTable" cellspacing="1" cellpadding="2" width="90%">
+<TR><TD class="eTableLable" align="right"><font color="red">*</font></TD>
+<TD class="eTableContent"><refField></refField></TD>
+</TR>
+</TABLE>
+</CENTER>
+		</pxHTML>
+		<scriptCode><![CDATA[
+<SCRIPT LANGUAGE="vbs">
+
+</SCRIPT>
+		]]></scriptCode>
+	  <detailRow>
+		<anchor>
+			<type>button</type>
+			<funcLabel>新增xx資料</funcLabel>
+			<url>xxAdd.asp</url>
+			<action>window.navigate</action>
+		</anchor>
+		<detailRef></detailRef>
+		<colSpec>
+			<colLabel></colLabel>
+			<content><refField></refField></content>
+		</colSpec>
+	  </detailRow>
+	</formUI>
+	<UINotes>
+	</UINotes>
+  </pageSpec>
+</htPage>

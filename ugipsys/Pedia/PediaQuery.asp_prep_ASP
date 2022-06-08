@@ -1,0 +1,157 @@
+﻿: @ codepage = 65001 
+  
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="資料清單"
+htprogcode="pedia01"
+htprogprefix="pediaquery" 
+
+dim ictunitid : ictunitid = request.querystring("ictunit")
+
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_checkgipconfig_1275316133()
+   CxMethod_ASP_dbutil_10064021()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     if ictunitid = session("pediaunitid") then 
+
+
+
+
+     end if 
+     if ictunitid = session("pediaadditionalunitid") then 
+
+
+
+
+     end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     if ictunitid = session("pediaunitid") then 
+
+     end if 
+     if ictunitid = session("pediaadditionalunitid") then 
+                                                   =request.querystring("picuitem")
+     end if 
+
+
+
+
+
+                                                          =request.querystring("ictunit") 

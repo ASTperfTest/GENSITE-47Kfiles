@@ -1,0 +1,99 @@
+﻿:  response.expires = 0
+htprogcap="�ҵ{"
+htprogfunc="�s��"
+htprogcode="pa001"
+htuploadpath=session("public")+"class/"
+htprogprefix="paact" 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_453315802()
+   response.expires = 0 
+   CxMethod_ASP_selecttree_859552413()
+   CxMethod_ASP_checkgipconfig_1275316133()
+   CxMethod_ASP_htuigen_1591615763()
+   CxMethod_ASP_hyftdgip_754890524()
+  
+
+apath=server.mappath(htuploadpath) & "\"
+set xup = server.createobject("updownexpress.fileupload")
+xup.open 
+function xupform(xvar)
+on error resume next
+ xstr = ""
+ arrval = xup.multival(xvar)
+ for i = 1 to ubound(arrval)
+  xstr = xstr & arrval(i) & ", "
+'  response.write arrval(i) & "<br>" & chr(13)
+ next 
+ if xstr = "" then
+  xstr = xup(xvar)
+  xupform = xstr
+ else
+  xupform = left(xstr, len(xstr)-2)
+ end if
+end function
+
+id=xupform("id")
+pid=xupform("pid")
+
+if  xupform("submit")="�ק�" then
+
+ filename1_note=xupform("filename1_note")
+ ofilename1=xupform("ofilename1")
+ 
+  for each xatt in xup.attachments
+    ofname = xatt.filename
+    if ofname <> ofilename1 and ofname<>"" then
+        if xup.isfileexist( apath & ofilename1) then 
+                      xup.deletefile apath & ofilename1
+                    end if
+          xatt.savefile apath & ofname, false
+          sql="update docdownload_attach set filename='" & ofname & "' where id=" & id
+                    conn.execute(sql)
+      end if    
+  next 
+  
+  sql="update docdownload_attach set filename_note='" & filename1_note & "' where id=" & id
+  conn.execute(sql)
+
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+
+                                               =pid 
+
+
+
+
+   else 
+ sql="delete docdownload_attach where id=" & id
+  conn.execute(sql)
+  ofilename1=xupform("ofilename1")
+ if xup.isfileexist( apath & ofilename1) then 
+ xup.deletefile apath & ofilename1
+ end if 
+
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+
+                                               =pid 
+
+
+
+   end if  

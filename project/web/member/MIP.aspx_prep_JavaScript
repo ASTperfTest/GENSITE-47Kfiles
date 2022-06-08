@@ -1,0 +1,38 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        var joinMemberUrl = 'Cx_0dummy'
+        if (joinMemberUrl == '') {
+        }
+        else {
+            document.getElementById('tb1').style.display = 'none';
+            window.location.href = joinMemberUrl;
+        }
+    
+
+
+
+
+ 

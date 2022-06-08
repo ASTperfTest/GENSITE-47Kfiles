@@ -1,0 +1,87 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+response.charset = "utf-8"
+htprogcode = "webgeb1"
+   
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ sqlcom ="select d.deptid,d.deptname,d.parent,len(d.deptid)-1,d.seq," & _
+  "(select count(*) from dept where parent=d.deptid and nodekind='d') " & _
+  "  from dept as d where d.nodekind='d' " _
+  & " and d.deptid like n'" & session("deptid") & "%'" _
+  & " order by len(d.deptid), d.parent, d.seq" 
+'response.write sqlcom
+ set rss = conn.execute(sqlcom)
+ if not rss.eof then
+  arydept = rss.getrows(300)
+  glastmsglevel = 0
+  genlist 0, 0, 1, 0
+         expandfrom arydept(cid, 0), 0, 0
+ end if
+
+
+
+
+
+
+
+
+               if (htprogright and 2)=2 then 
+                                                                end if 
+
+
+
+
+
+
+
+
+
+
+
+
+                                  =request("id"):         =request("type") 

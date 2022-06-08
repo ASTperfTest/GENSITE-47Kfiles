@@ -1,0 +1,28 @@
+主題單元38資料轉檔(2005/11/10)
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,38,'Y','N','0','1',N'行政院院區開放參觀宣傳影片(版本五)',N'http://www.ey.gov.tw/web/eyvisit/media/p5-n.wmv',N'2004/11/09',N'6',N'sysop',N'2005/08/02 17:56:36',N'2004/11/09 18:51:42'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(3965)
+[htx.vedioid = '21'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,38,'Y','N','0','1',N'行政院院區開放參觀宣傳影片(版本四)',N'http://www.ey.gov.tw/web/eyvisit/media/p4-n.wmv',N'2004/11/09',N'5',N'sysop',N'2005/08/02 17:56:30',N'2004/11/09 18:51:15'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(3966)
+[htx.vedioid = '20'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,38,'Y','N','0','1',N'行政院院區開放參觀宣傳影片(版本三)',N'http://www.ey.gov.tw/web/eyvisit/media/p3-n.wmv',N'2004/11/09',N'4',N'sysop',N'2005/08/02 17:56:23',N'2004/11/09 18:50:41'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(3967)
+[htx.vedioid = '19'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,38,'Y','N','0','1',N'行政院院區開放參觀宣傳影片(版本二)',N'http://www.ey.gov.tw/web/eyvisit/media/p2-n.wmv',N'2004/11/09',N'3',N'sysop',N'2005/08/02 17:56:16',N'2004/11/09 18:50:05'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(3968)
+[htx.vedioid = '18'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,38,'Y','N','0','1',N'行政院院區開放參觀宣傳影片(版本一)',N'http://www.ey.gov.tw/web/eyvisit/media/p1-n.wmv',N'2004/11/09',N'2',N'sysop',N'2005/08/02 17:56:09',N'2004/11/09 18:48:45'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(3969)
+[htx.vedioid = '17'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,38,'Y','N','0','1',N'行政院游院長立法院第五屆第三會期口頭施政報告',N'http://videooftaiwan.streamguys.com/politics/20030225-IuSekKhun.wmv',N'2003/08/11',N'1',N'sysop',N'2003/08/11 18:03:37',N'2003/08/11 18:03:37'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(3970)
+[htx.vedioid = '16'] 資料轉檔完成!
+----------------------------------------------------------------------------
+===============================================================================
+轉檔 6 筆, 共成功 6 筆!

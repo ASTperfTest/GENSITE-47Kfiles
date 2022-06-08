@@ -1,0 +1,175 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0
+htprogcap="意見信箱"
+htprogfunc="意見信箱維護"
+htprogcode="bm010"
+htprogprefix="msession"
+response.expires = 0 
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+ set rsreg = server.createobject("adodb.recordset")
+ 
+ set rs2 = conn.execute("select * from mailbox")
+ if not rs2.eof then email = trim(rs2("email")) 
+ status = trim(request("status"))
+ if status = "" then status = "0"
+ 
+ select case status
+  case "0":
+   sql2 = "select count(*) from prosecute where mailord = 1"
+  case "1"
+   sql2 = "select count(*) from prosecute where mailord = 1 and sendflag = '1'"
+  case "2"
+   sql2 = "select count(*) from prosecute where mailord = 1 and (sendflag is null or sendflag='')"
+ end select
+ 
+ set ts = conn.execute(sql2)
+ recordcount = ts(0)
+ 
+ select case status
+  case "0":
+   sql2 = "select id ,name, email, date, replydate, isnull(reply,'') reply, docid,sendflag from prosecute where mailord = 1 order by id desc"
+  case "1"
+   sql2 = "select id ,name, email, date, replydate, isnull(reply,'') reply, docid,sendflag from prosecute where mailord = 1 and sendflag = '1' order by id desc"
+  case "2"
+   sql2 = "select id ,name, email, date, replydate, isnull(reply,'') reply, docid,sendflag from prosecute where mailord = 1 and  (sendflag is null or sendflag='') order by id desc"
+ end select 
+ set rs = conn.execute(sql2)
+ 
+ perpagerecords = 10
+ nowpage = request("page")
+ totalpage = int(recordcount / perpagerecords)
+ if nowpage = "" then nowpage = 1 
+ if recordcount mod perpagerecords <> 0 then totalpage = totalpage + 1
+
+
+
+         =session("mysitename")
+
+
+
+
+
+
+
+
+          =session("mysitename")
+
+
+
+
+
+
+
+
+
+
+                                                    = email 
+
+
+
+
+
+
+
+
+
+    
+  if status = "0" then response.write " selected" end if
+
+
+
+    
+  if status = "1" then response.write " selected" end if
+
+
+
+    
+  if status = "2" then response.write " selected" end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          = totalpage :         = nowpage 
+                                                                                                    =status
+  
+ pageno = 1
+ while pageno <= totalpage
+  response.write "<option value=" & pageno
+  if int(pageno) = int(nowpage) then response.write " selected"
+  response.write ">" & pageno & "</option>"
+  pageno = pageno + 1
+ wend
+
+
+            = perpagerecords 
+   if nowpage > 1 then 
+
+                          = nowpage - 1 :           =status
+   end if 
+
+   if (totalpage - nowpage) > 0 then  
+
+                            = nowpage + 1 :           =status
+   end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ ii = 1
+ while not rs.eof
+  if ii>(nowpage-1) * perpagerecords and ii <= nowpage*perpagerecords then
+
+
+                                          = ii 
+                                                = datevalue(rs("date")) 
+                                    = trim(rs("name")) 
+                                                                            = rs("id") :                   = nowpage 
+                                          = rs("email") 
+                                                 if rs("replydate") <> "" then response.write datevalue(rs("replydate")) else response.write "&nbsp;" end if 
+
+  
+         if trim(rs("reply")) = "" then
+          response.write "尚未回信,<a href='input.asp?id=" & rs("id") & "&mailord=1&page=" & nowpage & "'>輸入回信內容</a>"
+  else
+   response.write "<a href='input.asp?id=" & rs("id") & "&mailord=1&page=" & nowpage & "'>觀看回信內容</a>"
+  end if
+
+
+                                           if trim(rs("sendflag")) = "1" then response.write "寄出" else response.write "&nbsp;" end if  
+
+  
+  end if
+  rs.movenext
+  ii = ii + 1
+ wend
+ 

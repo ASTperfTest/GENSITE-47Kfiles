@@ -1,0 +1,424 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="相關連結"
+htprogfunc="編修連結"
+htuploadpath="/public/"
+htprogcode="gc1ap1"
+htprogprefix="cupage" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+dim pkey
+dim rsreg
+dim formfunction
+tasklable="編輯" & htprogcap
+
+ apath=server.mappath(htuploadpath) & "\"
+ if request.querystring("phase")<>"edit" then
+set xup = server.createobject("tabs.upload")
+xup.codepage=65001
+xup.start apath
+else
+set xup = server.createobject("tabs.upload")
+end if
+
+function xupform(xvar)
+ xupform = xup.form(xvar)
+end function
+
+if xupform("submittask") = "update" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  editinbothcase()
+ else
+  doupdatedb()
+  showdonebox("資料更新成功！")
+ end if
+
+elseif xupform("submittask") = "delete" then
+ sql = "delete from cudtpage where ixcupage=" & pkstr(request.querystring("ixcupage"),"")
+ conn.execute sql
+ showdonebox("資料刪除成功！")
+
+else
+ editinbothcase()
+end if
+
+
+sub editinbothcase
+ sqlcom = "select htx.*, n.stitle as show_npageid from cudtpage as htx join cudtgeneric as n on htx.npageid=n.icuitem" _
+  & " where htx.ixcupage=" & pkstr(request.querystring("ixcupage"),"")
+ set rsreg = conn.execute(sqlcom)
+ pkey = ""
+ pkey = pkey & "&ixcupage=" & rsreg("ixcupage")
+ if pkey<>"" then  pkey = mid(pkey,2)
+
+ showhtmlhead()
+ if errmsg <> "" then showerrbox()
+ formfunction = "edit"
+ showform()
+ initform()
+ showhtmltail()
+end sub
+
+
+function qqrs(fldname)
+ if xupform("submittask")="" then
+  xvalue = rsreg(fldname)
+ else
+  xvalue = ""
+  if xupform("htx_"&fldname) <> "" then
+   xvalue = xupform("htx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+  sub initform() 
+
+
+
+
+
+
+
+                          =qqrs("atitle")
+                            =qqrs("xicuitem")
+                            =qqrs("ixcupage")
+                         =qqrs("adesc")
+                           =qqrs("npageid")
+                            =qqrs("show_npageid")
+                         =qqrs("blist")
+                           =qqrs("listseq")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                          =htuploadpath
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+
+  sub showform()   '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_cupageforme_583822212()
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showhtmlhead() ------
+
+
+  sub showhtmltail() 
+
+
+
+
+
+  end sub '--- showhtmltail() ------
+
+
+  sub showerrbox() 
+
+              =errmsg
+
+
+  
+    end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 搛邠d{xbo apu牷a伈] errmsg="xxx"  exit sub ------
+' if request("tfx_taxid") <> "" then
+'   sql = "select * from client where taxid = '"& request("tfx_taxid") &"'"
+'   set rsreg = conn.execute(sql)
+'   if not rsreg.eof then
+'  if trim(rsreg("clientid")) <> request("pfx_clientid") then
+'   errmsg = "u峇@sv!!衪sj峇@s!"
+'   exit sub
+'  end if
+'   end if
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "update cudtpage set "
+  sql = sql & "atitle=" & pkstr(xupform("htx_atitle"),",")
+  sql = sql & "adesc=" & pkstr(xupform("htx_adesc"),",")
+  sql = sql & "npageid=" & pkstr(xupform("htx_npageid"),",")
+  sql = sql & "blist=" & pkstr(xupform("htx_blist"),",")
+  sql = sql & "listseq=" & pkstr(xupform("htx_listseq"),",")
+ sql = left(sql,len(sql)-1) & " where ixcupage=" & pkstr(request.querystring("ixcupage"),"")
+
+ conn.execute(sql)  
+end sub '---- doupdatedb() ----
+
+  sub showdonebox(lmsg) 
+ mpkey = ""
+ mpkey = mpkey & "&icuitem=" & xupform("htx_xicuitem")
+ if mpkey<>"" then  mpkey = mid(mpkey,2)
+ doneuri= ""
+ if doneuri = "" then doneuri = htprogprefix & "list.asp"
+
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+                 =lmsg
+                               =doneuri:    =mpkey
+
+
+
+  end sub '---- showdonebox() ----  

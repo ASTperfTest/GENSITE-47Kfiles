@@ -1,0 +1,328 @@
+﻿: @ codepage = 65001 
+  
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="資料審稿"
+if request("ctnodeid")="" then
+ htprogfunc="待審清單"
+else
+ htprogfunc="資料清單"
+end if
+htprogcode="gc1ap2"
+htprogprefix="gipapprove" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+if request("ctrootid")<>"" then session("ctrootid") = request("ctrootid")
+if request("submittask")<>"" then
+    sqlupdate=""
+    for each x in request.form
+ if left(x,5)="ckbox" and request(x)<>"" then
+     xn=mid(x,6)
+     sqlupdate=sqlupdate+"update cudtgeneric set fctupublic=n'"&request("fctupublic")&"', " & _
+      "ieditor=n'"&session("userid")&"', deditdate=getdate() " & _
+      "where icuitem=" & request("xphkeyicuitem"&xn) & ";"
+        end if
+    next 
+    if sqlupdate<>"" then conn.execute(sqlupdate)
+
+
+
+                     =htprogprefix:                     =request("ctrootid"):             =request("ctnodeid")
+
+      
+ response.end
+else
+    nowpage=request.querystring("nowpage")  '現在頁數
+    if nowpage="" then
+     fsql="select c.icuitem,c.stitle,c.xkeyword,ct.ctunitname,cm.mvalue xreftopdatacat,d.deptname,c.deditdate,ctn.catname,c.fctupublic,cm2.mvalue xreffctupublic,ctr.pvxdmp " & _
+ " from cudtgeneric c " & _
+ " left join cattreenode ctn on c.ictunit=ctn.ctunitid " & _
+ " left join cattreeroot ctr on ctn.ctrootid=ctr.ctrootid " & _
+ " left join ctuserset2 cus2 on ctn.ctnodeid=cus2.ctnodeid and cus2.userid=n'"&session("userid")&"' " & _
+ " left join ctunit ct on c.ictunit=ct.ctunitid " & _
+ " left join codemain cm on c.topcat=cm.mcode and cm.codemetaid=n'topdatacat' " & _
+ " left join codemain cm2 on c.fctupublic=cm2.mcode and cm2.codemetaid=n'ispublic3' " & _
+ " left join dept d on c.idept=d.deptid " & _
+ " where cus2.rights=1 "
+ if request("ctnodeid")<>"" then
+  fsql=fsql&" and ctn.ctnodeid =n'"&request("ctnodeid")&"'"
+ else
+  fsql=fsql&" and c.fctupublic=n'p'"
+ end if
+ if request("htx_catname")<>"" then
+  fsql=fsql&" and ctn.catname like n'%"+request("htx_catname")+"%'"
+ end if
+ if request("htx_stitle")<>"" then
+  fsql=fsql&" and c.stitle like n'%"+request("htx_stitle")+"%'"
+ end if
+ if request("htx_idates") <> "" then
+   ranges = request("htx_idates")
+   rangee = request("htx_idatee")
+   if rangee = "" then rangee=ranges
+  fsql = fsql & " and c.deditdate between n'"+ranges+"' and n'"+rangee+"'"
+ end if
+ if (htprogright and 64) = 0 then
+  fsql = fsql & " and c.idept=" & pkstr(session("deptid"),"")
+ end if
+ fsql = fsql & " order by ctn.ctrootid,c.deditdate desc"
+ session("gipapprovelist")=fsql
+    else
+     fsql=session("gipapprovelist")
+    end if
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=15  
+      end if 
+
+ set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+' rsreg.cachesize = perpagesize
+
+ 
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,3,1
+set rsreg = conn.execute(fsql)
+ rsreg.cachesize = perpagesize
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+   end if    
+end if   
+end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     =htprogprefix:                                             =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       =htprogprefix
+
+                                           =request("ctrootid")
+                                           =request("ctnodeid")
+
+
+                            =htprogcap
+                     =htprogfunc
+
+    if (htprogright and 2)=2 then
+
+    end if
+
+
+
+
+
+
+
+
+
+
+
+
+      sql="select mcode,mvalue from codemain where codemetaid=n'ispublic3' order by msortvalue desc"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      =nowpage:    =totpage
+                                          =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+          if cint(nowpage) <>1 then 
+                        =htprogprefix:                    =(nowpage-1):             =perpagesize
+         end if
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):             =perpagesize
+          end if
+
+
+                                 if perpagesize=15 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+                                  if perpagesize=300 then:            end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+if not rsreg.eof then   
+
+    for i=1 to perpagesize
+     xurl = session("mywwwsiteurl") & "/content.asp?mp=" & rsreg("pvxdmp") & "&cuitem="  & rsreg("icuitem")
+     pkey = "icuitem=" & rsreg("icuitem")
+     if rsreg("fctupublic")="p" then
+      fctupublicstr="<font color=red>"&rsreg("xreffctupublic")&"</font>"
+     else
+      fctupublicstr=rsreg("xreffctupublic")
+     end if
+     
+        'enableurl =replace(replace(replace(replace(replace(xurl,":","%3a"),"/","%2f"),"?","%3f"),"=","%3d"),"&","%26")
+        'enableurl = encodeuri(xurl)
+        'enableurl = ="http://enable.nat.gov.tw/servlet1?inputurl="& xurl &"&analyzinggrade=aplus"
+
+
+                                                   =i
+                                        =i:            =rsreg("icuitem")
+
+   =fctupublicstr
+
+            =xurl
+
+   =rsreg("catname")
+                                        =rsreg("stitle")
+
+
+   =rsreg("deptname")
+
+   =rsreg("deditdate")
+                                                                         =xurl
+
+                                                                       =rsreg("icuitem")
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+  else
+
+
+
+  end if 

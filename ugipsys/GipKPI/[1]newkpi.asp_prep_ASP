@@ -1,0 +1,349 @@
+﻿:  response.expires = 0
+htprogcap="主題館績效統計"
+htprogfunc="查詢清單"
+htprogcode="gc1ap9"
+htprogprefix="newkpi" 
+   CxMethod_ASP_kpilistparam_1660807637()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+response.charset = "buf-8"
+response.codepage = "65001"
+dim nodearray(999)
+dim cols, nodetree
+set cols=server.createobject("scripting.dictionary")
+set nodetree=server.createobject("scripting.dictionary")
+
+sub outcode(xstr)
+ xmlstr = xmlstr & xstr
+end sub
+
+sub outcode1(xstr)
+ excelstr = excelstr & xstr
+end sub
+
+function nctabchar(n)
+ if ctabchar = "" then
+  nctabchar = ""
+ else
+  nctabchar = string(n,ctabchar)
+ end if
+end function
+
+sub traversetree (parent)
+ sqlcom = "select ctnodeid, catname, ctnodekind, datalevel, dcondition, unit.ctunitid from cattreenode as node " _
+  & " left join ctunit as unit on unit.ctunitid=node.ctunitid " _
+  & " where node.ctrootid = "& pkstr(ctroot,"") &" and dataparent=" & parent & " and node.inuse='y'  " _
+  & " and unit.redirecturl is null " _
+  & " order by node.catshoworder "
+  
+ set rst = conn.execute(sqlcom)
+
+ while not rst.eof
+  nodetree.add nodecount, nctabchar(cint(rst("datalevel"))-1)&rst("catname") 
+  set nodearray(nodecount) = server.createobject("scripting.dictionary") 
+  if rst("ctunitid")<>"" then
+   if request("htx_func")="dept" then
+    sql = "select  idept, count(*) as xcount, min(dept.abbrname) as colname  from cudtgeneric as htx " _
+     & " left join infouser as u on htx.ieditor=u.userid  " _
+     & " left join dept on dept.deptid = htx.idept  " _
+     & " where htx.ictunit=" & rst("ctunitid") _
+     & " and htx.deditdate between '" & replace(htx_idates, "'", "''") & "' and '" & replace(htx_idatee, "'", "''") & "' "
+    if rst("dcondition")<>"" then
+     sql = sql & " and " & rst("dcondition")
+    end if
+    sql = sql & " group by htx.idept " _
+     & " order by htx.idept desc"
+    set rsx = conn.execute(sql)
+    'response.write sql
+    while not rsx.eof
+     if rsx("colname")<>"" then
+      
+      nodearray(nodecount).add trim(rsx("colname")), trim(rsx("xcount"))
+      'response.write nodecount & rst("catname") & " == " & trim(rsx("colname")) & rsx("xcount") & "<br>"
+      'response.write trim(rsx("colname")) & "=" & nodearray(nodecount).item(trim(rsx("colname"))) & "<br>"
+      'dic.add rs("colname"), rs("xcount")
+      if not cols.exists(trim(rsx("colname"))) then
+      ' cols.add trim(rsx("idept")), trim(rsx("colname"))
+       cols.add trim(rsx("colname")), trim(rsx("colname"))
+      ' response.write rsx("idept") & " == " & rsx("colname") & "<br>"
+      end if
+     end if
+     rsx.movenext
+    wend
+   else
+    sql = "select  count(*) as xcount, htx.ieditor, min(u.username) as colname  from cudtgeneric as htx " _
+     & " left join infouser as u on htx.ieditor=u.userid  " _
+     & " where htx.ictunit=" & rst("ctunitid") _
+     & " and htx.deditdate between '" & replace(htx_idates, "'", "''") & "' and '" & replace(htx_idatee, "'", "''") & "' "
+    if rst("dcondition")<>"" then
+     sql = sql & " and " & rst("dcondition")
+    end if
+    sql = sql & " group by htx.ieditor " _
+     & " order by htx.ieditor desc"
+    set rsx = conn.execute(sql)  
+    while not rsx.eof
+     if rsx("colname")<>"" then
+      nodearray(nodecount).add trim(rsx("colname")), trim(rsx("xcount"))
+      if not cols.exists(trim(rsx("colname"))) then
+       cols.add trim(rsx("colname")), trim(rsx("colname"))
+      end if
+     end if
+     rsx.movenext
+    wend    
+   end if
+  else
+   'nodearray(nodecount)
+  end if
+
+  nodecount = nodecount + 1
+  if rst("ctnodekind") = "c" then   traversetree rst("ctnodeid")
+  rst.movenext
+ wend
+end sub 
+
+sub gendataview()
+ outcode "<tr><td></td>"
+ 'response.write "<table border=1 width=3000>"
+ 'response.write "<tr><td></td>"
+
+ for each k2 in cols
+  outcode "<th>" & k2 & "</th>"
+  'response.write "<td>" & k2 & "</td>"
+ next 
+ outcode "</tr><tr>"
+ 'response.write "</tr><tr>"
+ for each k1 in nodetree
+  outcode "<td nowrap style=color:#616161;font-size:13px;background-color:#e4e3e3;><b>" & nodetree.item(k1) & "</b></td>"
+  'response.write "<td>" & nodetree.item(k1) & "</td>"
+  for each k2 in cols
+   if nodearray(k1).exists(k2) then 
+    outcode "<td align=center>" & nodearray(k1).item(k2) & "</td>"
+    'response.write "<td align=right>" & nodearray(k1).item(k2) & "</td>"
+   else
+    outcode "<td align=center>0</td>"
+    'response.write "<td align=right>0</td>"
+   end if
+  next 
+  outcode "</tr>"
+  'response.write "</tr>"
+ next
+ 'outcode "</table>"
+ 'response.write "</table>"
+ set clos = nothing
+ set nodetree = nothing 
+end sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+ dim ctroot, orgroot, dtlevel, xmlstr, excelstr
+ xmlstr=""
+ excelstr=""
+ ctabchar = "　　"
+ ctroot = request("htx_ctrootid")
+ htx_idates = request("htx_idates")
+ htx_idatee = request("htx_idatee") 
+ if not isdate(htx_idates) or not isdate(htx_idatee) then
+  htx_idates = year(date) & "/" & month(date) & "/" & day(date) & " "
+  htx_idatee = htx_idates
+ end if 
+ dim nodecount : nodecount = 0  
+ dim xcatcount(10)
+ traversetree 0
+ gendataview
+ if trim(request("submit")) = "匯出" then
+  date_str = year(date) & "-" & month(date) & "-" & day(date) & "-" & hour(time) & "-" & minute(time) & "-" & second(time)
+  response.addheader "content-disposition","attachment; filename=kpi_" & date_str & ".xls"
+
+           =xmlstr
+
+
+  
+  response.end
+ end if
+
+
+
+         = htprogcap 
+
+
+
+
+
+
+
+
+
+
+
+                                                        =htprogcap
+
+
+
+
+
+
+                                                       = startdate 
+
+                                                     = enddate 
+
+
+
+
+
+
+
+  
+ sqlr = " select ctrootid, ctrootname from cattreeroot " & _
+  " where inuse = 'y' order by ctrootid "
+ set rsr = conn.execute(sqlr)
+ while not rsr.eof
+
+                   = trim(rsr("ctrootid")) :     if ctroot = trim(rsr("ctrootid")) then :             end if :    = rsr("ctrootname") 
+  
+  rsr.movenext
+ wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+response.write xmlstr
+ 

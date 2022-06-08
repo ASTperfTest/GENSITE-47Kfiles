@@ -1,0 +1,53 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+   htprogcode = "ht001"
+
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+
+         =title
+
+
+
+
+       =title
+
+    if (htprogright and 4)=4 then :                                            end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      sql="select mcode,mvalue from codemain where codemetaid=n'boolyn' order by msortvalue"
+    set rss=conn.execute(sql)
+    while not rss.eof
+
+                     =rss(0):     =rss(1)
+       rss.movenext
+    wend
+
+
+      if (htprogright and 2)=2 then 
+
+
+      end if  

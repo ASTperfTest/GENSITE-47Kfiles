@@ -1,0 +1,172 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="單元資料維護"
+htprogfunc="新增"
+htuploadpath=session("public")+"data/"
+htprogcode="gc1ap1"
+htprogprefix="dsdxml" 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_10064021()
+  
+'response.write "xx="+request("ctnodeidstr")
+'response.end
+    set rsreg = server.createobject("adodb.recordset")
+    nowpage = request.querystring("nowpage")  '現在頁數  
+
+    if nowpage="" then
+ fsql = "select cg.icuitem,cg.stitle,cg.xkeyword,cg.created_date,cg.xpostdate, htx.ctunitname, " & _
+  "xref1.mvalue as xref1ctunitkind " & _
+  "from cattreenode as ctn " & _
+  "left join ctunit as htx on ctn.ctunitid=htx.ctunitid " & _
+  "left join cudtgeneric as cg on cg.ictunit=htx.ctunitid " & _
+  "left join codemainlong as xref1 on xref1.mcode = htx.ctunitkind and xref1.codemetaid='refctukind' " & _
+  "left join codemain as xref3 on xref3.mcode = htx.fctunitonly and xref3.codemetaid='boolyn' " & _
+  "where cg.fctupublic='y' " 
+ if request("ctnodeidstr")<>"" then
+  fsql=fsql&" and ctn.ctnodeid in ("+request("ctnodeidstr")+")" 
+ end if
+ if request("htx_ctunitkind")<>"" then
+  fsql=fsql&" and htx.ctunitkind = '"+request("htx_ctunitkind")+"'"
+ end if
+ if request("htx_ctunitname")<>"" then
+'  fsql=fsql&" and htx.ctunitname like '%"+request("htx_ctunitname")+"%'"
+ end if 
+ if request("htx_stitle")<>"" then
+  fsql=fsql&" and cg.stitle like '%"+request("htx_stitle")+"%'"
+ end if 
+ if request("htx_xkeyword")<>"" then
+  fsql=fsql&" and cg.xkeyword like '%"+request("htx_xkeyword")+"%'"
+ end if 
+ if request("htx_idates") <> "" then
+   ranges = request("htx_idates")
+   rangee = request("htx_idatee")
+   if rangee = "" then rangee=ranges
+  fsql = fsql & " and cg.created_date between '"+ranges+"' and '"+rangee+"'"
+ end if
+ fsql = fsql & " order by cg.xpostdate desc,cg.ictunit "
+ session("refidsql") = fsql 
+    else
+     fsql = session("refidsql")
+    end if 
+'    response.write fsql
+'    response.end
+
+'----------hyweb gip db connection patch----------
+'    rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+    
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=15
+      end if 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+   end if   
+
+'response.write cstr(nowpage)+"[]"+cstr(totrec)+"[]"+cstr(perpagesize)+"[]"+cstr(totpage)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      =nowpage:    =totpage
+                                          =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+          if cint(nowpage) <>1 then 
+                                                     =(nowpage-1):             =perpagesize
+         end if
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                                                     =(nowpage+1):             =perpagesize
+          end if
+
+
+                                    if perpagesize=15 then:            end if
+                                  if perpagesize=30 then:            end if
+                                  if perpagesize=50 then:            end if
+                                  if perpagesize=300 then:            end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    if not rsreg.eof then              
+     for i=1 to perpagesize                   
+
+
+                                                         =rsreg("icuitem")
+          =rsreg("stitle")
+          =rsreg("ctunitname")
+          =rsreg("xref1ctunitkind")
+          =rsreg("xpostdate")
+          =rsreg("xkeyword")
+          =rsreg("created_date")
+
+  
+             rsreg.movenext
+             if rsreg.eof then exit for 
+     next 
+    end if    
+
+
+
+
+
+
+
+                                                                                        =perpagesize
+
+
+
+
+                                                               =nowpage 

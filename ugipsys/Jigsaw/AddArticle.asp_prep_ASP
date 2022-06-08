@@ -1,0 +1,43 @@
+﻿: 
+ response.expires = 0
+ response.expiresabsolute = now() - 1 
+ response.addheader "pragma","no-cache" 
+ response.addheader "cache-control","private" 
+ response.cachecontrol = "no-cache"
+ 
+ 
+
+ check = request("check")
+ session("jigcheck") = check
+ response.write "1"
+ response.end
+ 
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' 'conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+ 
+ epubid = request("epubid")
+ check = request("check")
+ uncheck = request("uncheck")
+ ctrootid = request("ctrootid")
+ 
+ checkarr = split(check, ";")
+ uncheckarr = split(uncheck, ";")
+ 
+ 
+
+ 
+       
+
+ 
+ 
+
+ 

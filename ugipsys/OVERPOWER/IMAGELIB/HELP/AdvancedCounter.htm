@@ -1,0 +1,88 @@
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#006E8E" text="#FFFFFF" link="#00FF00" vlink="#00FF00" alink="#00FF00"  cellspacing="0" cellpadding="0">
+<div align="center">
+  <table width="98%" border="0" cellspacing="0" cellpadding="0" height="100%" align="left">
+    <tr>
+      <td width="10">&nbsp;</td>
+      <td valign="top"> 
+        <p align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><br>
+          <img src="examples.gif" width="30" height="30" align="absmiddle"> <b><font size="3">ADVANCED 
+          COUNTER <br>
+          <br>
+          </font></b>Here is an example of the counter working:</font></p>
+        <p align="center"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"> 
+          <img src="advcounter.gif" border="1"> </font></p>
+        <p align="left"><br>
+          <font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF">It's 
+          not too hard create a counter using Imagelib. Just follow this steps:<br>
+          <br>
+          <img src="passo1.gif" width="20" height="38" align="left" hspace="10">Create 
+          10 images with the same size. Each one contains a number from 0 to 9 
+          (1,2,3,4,5,6,7,8,9,0) and save then to a directory like c:\counter as 
+          1.gif, 2.gif, 3.gif...</font></p>
+        <p align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><img src="passo2.gif" width="24" height="39" align="left" hspace="10">Create 
+          an ASP file on a directory acessible by the web server and name it counter.asp. 
+          And add the ASP tags &lt;% and %&gt;.</font></p>
+        <p align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><img src="passo3.gif" width="25" height="40" align="left" hspace="10"> 
+          Now we want to use a file on the current disk to store the counter values, 
+          so add on the ASP file: <br>
+          <br>
+          <i>contagem = 0<br>
+          </i></font><i><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF">Set 
+          Sistema = CreateObject("Scripting.FileSystemObject")<br>
+          if Sistema.FileExists(&quot;c:\counter\counter.val&quot;) then<br>
+          &nbsp; Set arquivo = Sistema.GetFile("c:\counter\counter.val")<br>
+          &nbsp; Set texto = arquivo.OpenAsTextStream(1, -2) <br>
+          &nbsp; contagem = texto.readline<br>
+          &nbsp; texto.close <br>
+          end if <br>
+          contagem = contagem + 1<br>
+          Set texto = sistema.CreateTextFile("c:\counter\counter.val", true, false) 
+          <br>
+          texto.writeline contagem</font></i><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><br>
+          <br>
+          <img src="passo4.gif" width="26" height="38" align="left" hspace="10">We 
+          should now create the Overpower Imagelib object by inserting the line:<br>
+          <i><br>
+          <br>
+          set ILIB = server.createobject("Overpower.ImageLib")</i></font></p>
+        <p align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><img src="passo5.gif" width="25" height="39" align="left" hspace="10">It's 
+          time to get the counter size. To do this, we must know the size of each 
+          number image. To do this, insert the follow line:<br>
+          <br>
+          <i>Dim iwidth, iheight<br>
+          PictureSize </i><i>&quot;c:\counter\1.GIF"</i>, iwidth,iheight<br>
+          <br>
+          <img src="passo6.gif" width="25" height="40" align="left" hspace="10"> 
+          Now we have to draw the counter image on the picture:<br>
+          <br>
+          <br>
+          <i>contagemstr = contagem <br>
+          ILIB.HEIGHT=iheight <br>
+          ILIB.WIDTH=iwidth*len(contagemstr)+1 <br>
+          for a = 1 to len(contagemstr)<br>
+          numero = mid(contagemstr,a,1) <br>
+          ILIB.InsertPicture &quot;c:\counter\&quot;+numero+".GIF",(a-1)*iwidth,0,false,0,0 
+          <br>
+          next <br>
+          </i><br>
+          <img src="passo7.gif" width="25" height="40" align="left" hspace="10"> 
+          The last step is to make the ASP return the image:<br>
+          <br>
+          <br>
+          <i>ILIB.PictureBinaryWrite 2, 0, &quot;&quot;<br>
+          </i><br>
+          To use the the ASP you just create, add the line to your HTML code:<br>
+          &lt;IMG SRC=&quot;counter.asp&quot;&gt; <br>
+          <br>
+          </font></p>
+        </td>
+    </tr>
+  </table>
+  <p align="left">&nbsp; </p>
+</div>

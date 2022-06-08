@@ -1,0 +1,34 @@
+﻿: 
+
+set conn = server.createobject("adodb.connection")
+conn.open "provider=sqloledb;data source=127.0.0.1;user id=hygip;password=hyweb;initial catalog=mgipcoanew"
+
+
+  
+ sql = "select * from hyftdindexbuild where ctnodeid = 0"
+ 
+ set rs = conn.execute(sql)
+  
+ while not rs.eof 
+ 
+  siteid = rs("siteid")
+  icuitem = rs("icuitem") 
+  basedsd = rs("basedsd") 
+  ctunit = rs("ctunit") 
+  ctnodeid = rs("ctnodeid")
+  
+  sql = "insert into hyftdindexdelete values(" & siteid & ", " & icuitem & ", " & _
+     basedsd & ", " & ctunit & ", " & ctnodeid & ", getdate(), 0) "
+  'response.write sql & "<br>"
+  conn.execute(sql)
+  
+  rs.movenext  
+ wend
+ rs.close
+ set rs = nothing
+ 
+ sql = "delete from hyftdindexbuild where ctnodeid = 0"
+ conn.execute(sql)
+
+ 
+ 

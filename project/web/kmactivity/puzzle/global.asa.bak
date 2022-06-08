@@ -1,0 +1,13 @@
+﻿<script language=VBScript runat=server>
+sub session_onstart()
+	
+end sub
+
+
+sub Application_OnStart
+
+	application("ConnStrPuzzle")="Provider=SQLOLEDB;Data Source=kwpi-coa-dev;User ID=sa;Password=gss;Initial Catalog=puzzle"
+	
+end sub
+
+</script>

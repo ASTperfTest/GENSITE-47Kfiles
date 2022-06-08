@@ -1,0 +1,246 @@
+﻿: @  codepage="65001" 
+
+   
+response.expires = 0
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+'設定詞彙程式路徑
+phrasemodurl = ""
+htprogcode="news"
+htprogprefix="newsapprove" 
+
+kwtitle =request("kwtitle")
+subjectid = request("subjectid")
+validate  = request("validate")
+if validate="" then validate = "p"
+sort  = request("sort")
+if sort="" then sort = "title"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_checkgipconfig_1275316133()
+   CxMethod_ASP_dbutil_10064021()
+  
+set conn = server.createobject("adodb.connection")
+conn.connectionstring = session("odbcdsn")
+conn.cursorlocation = 3
+conn.open
+
+ dim pass : pass = request.querystring("pass")
+ dim notpass : notpass = request.querystring("notpass")
+ dim id : id = request.querystring("id")
+ dim memberid : memberid = session("userid")
+ 
+ if pass = "y" then
+  passarticle
+ elseif notpass = "y" then
+  notpassarticle
+ else 
+  dim subject, subjectarr
+  dim flag : flag = false
+  '---找出此user所管理的主題館---
+  sql = "select cattreeroot.ctrootid, cattreeroot.ctrootname " & _
+     "from nodeinfo inner join cattreeroot on nodeinfo.ctrootid = cattreeroot.ctrootid " & _
+     "where (nodeinfo.owner = " & pkstr(memberid, "") & " or exists(select userid from infouser where userid= " & pkstr(memberid, "") & " and charindex('sysadm',ugrpid) > 0))"
+  set rs = conn.execute(sql)
+  while not rs.eof 
+   flag = true
+   subject = subject & rs("ctrootid") & ","
+   rs.movenext
+  wend
+  if flag then
+   showform
+  else 
+   showdonebox "無權限", "false"
+  end if
+ end if
+
+
+   sub showdonebox(lmsg, btype) 
+
+
+
+
+                                   =htprogprefix
+
+
+
+
+
+            =lmsg
+     if btype = "true" then 
+
+     else 
+
+     end if 
+
+
+
+
+
+   end sub 
+
+ sub showform
+ 
+  set conn = server.createobject("adodb.connection") 
+  conn.open session("odbcdsn")
+ 
+ if  request("create")="true" then
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                            =request("ctrootid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+  
+  else
+   xsql = "select * from subjectphrase where rowid='" & request("rowid")& "'"
+   set xsqllist = conn.execute (xsql) 
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                            =request("ctrootid"):          =xsqllist("rowid")
+
+                                                   =xsqllist("rowid")
+                                                    =trim(xsqllist("phrase"))
+
+
+
+
+
+                                                            =trim(xsqllist("phrase"))
+
+
+
+
+
+                                                                =xsqllist("content")
+
+
+
+
+
+
+
+                                         if xsqllist("fctupublic") = "y" then response.write "selected" end if 
+                                         if xsqllist("fctupublic") = "n" then response.write"selected" end if 
+
+
+
+
+
+
+
+                                                             =request("ctrootid")
+
+
+
+
+                                                                     =xsqllist("rowid")
+
+
+
+
+
+  end if  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    end sub  

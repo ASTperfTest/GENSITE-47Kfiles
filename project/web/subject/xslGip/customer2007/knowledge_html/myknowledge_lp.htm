@@ -1,0 +1,418 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>農業知識入口網-農業知識家</title>
+<link href="../style/common.css" rel="stylesheet" type="text/css" />
+<script language="javascript">AC_FL_RunContent = 0;</script>
+<script src="../AC_RunActiveContent.js" language="javascript"></script>
+
+</head>
+
+<body>
+<!--header star (style A)-->
+<div class="header">
+  <h1><a href="#">農業知識入口網</a></h1>
+<script language="javascript">
+	if (AC_FL_RunContent == 0) {
+		alert("這個頁面必須具備 AC_RunActiveContent.js。");
+	} else {
+		AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0','width','720','height','141','id','banner','align','middle','name','banner','src','banner','quality','high','wmode','transparent','allowscriptaccess','sameDomain','allowfullscreen','false','pluginspage','http://www.macromedia.com/go/getflashplayer','movie','banner' ); //end AC code
+	}
+</script>
+<noscript>
+	<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" name="banner" width="720" height="141" align="middle" id="banner">
+	<param name="allowScriptAccess" value="sameDomain" />
+	<param name="allowFullScreen" value="false" />
+	<param name="movie" value="../banner.swf" />
+    <param name="quality" value="high" />
+    <param name="wmode" value="transparent" />
+    <embed src="../banner.swf" quality="high" wmode="transparent" width="720" height="141" name="banner" align="middle" allowScriptAccess="sameDomain" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+  </object>
+</noscript>
+</div>
+<!--header End-->
+  <!--nav star (style A)-->
+<ul class="nav">
+  <li><a href="#">回入口網首頁</a></li>
+  <li><a href="#">關於本站</a></li>
+  <li><a href="#">常見問題</a></li>
+  <li><a href="#">網站導覽</a></li>
+</ul>
+<!--nav end-->
+<!--subnav star (style G)-->
+<ul class="subnav">
+  <li><a href="#">主題館</a></li>
+  <li><a href="#">知識庫</a></li>
+  <li><a href="#">問答題庫</a></li>
+</ul>
+<!--subnav end-->
+
+<!--layout Table star (style A)-->
+<table class="layout">
+  <tr>
+    <td class="center">
+    <!--分眾 group star (style G)-->
+    <ul class="group">
+      <li><a href="#">首頁</a></li>
+      <li><a href="#">知識分類</a></li>
+      <li class="active"><a href="#">我的知識</a></li>
+    </ul>
+    <!--分 group眾 end-->
+	
+	<!--我要發問 star -->
+	<div class="ask"><a href="#"><img src="../images/btn_1.gif" alt="我要發問" border="0" /></a></div>
+	<!--我要發問 end -->
+	
+	<!--path star (style B)-->
+	<div class="path">目前位置：<a href="#">首頁</a>&gt;<a href="#">最新發問</a></div>
+	<!--path end-->
+	
+	<h3>我的個人紀錄</h3>
+	
+	<!-- 我的發問TAB LIST／開始 -->
+	<div id="Magazine">
+		<div id="MagTabs">
+		<ul>
+			<li class="current"><a href="#"><span>我的發問</span></a></li>
+			<li><a href="#"><span>我的討論</span></a></li>
+			<li><a href="#"><span>我的追蹤</span></a></li>
+		</ul>
+		</div>
+		<div class="Event">
+		
+		<!--資料篩選/開始 -->
+			<div>
+			  <form id="form1" name="form1" method="post" action="">
+			    <label>資料篩選：
+			      <select name="select2">
+			        <option selected="selected">請選擇知識分類</option>
+			        <option>分類1</option>
+			        <option>分類2</option>
+	            </select>
+				   
+			      <!--select name="select3">
+			        <option selected="selected">請選擇次分類</option>
+			        <option>分類1</option>
+			        <option>分類2</option>
+	            </select>
+				   
+			      <select name="select4">
+			        <option selected="selected">請選擇次次分類</option>
+			        <option>分類1</option>
+			        <option>分類2</option>
+	            </select-->
+		        </label>
+		      </form>
+		    </div>
+		<!--資料篩選/結束 -->
+
+		<!--瀏覽排序/開始 -->
+			<div class="View">瀏覽排序依：建立日期<a href="#"><img src="../images/down.gif" alt="由新到舊" border="0" /></a>│<a href="#">更新日期</a>│<a href="#">討論數</a>│<a href="#">評價</a>│<a href="#">瀏覽數</a>│<a href="#">專家補充</a></div>
+		<!--瀏覽排序/結束 -->
+		
+		<!--分頁/開始 -->
+			<div class="Page">
+			<form name="form2" id="form2" method="post" action="">
+			第<span class="Number">1/6</span>頁，共<span class="Number">89</span>筆，<img src="../images/arrow_left.gif" alt="左方箭頭" hspace="5" /><a href="javascript:history.go(-1);">上一頁</a>
+			，跳至第
+				<select name="select" id="select">
+				<option selected="selected">1</option>
+				<option>2</option>
+				</select>
+				<label for="select">頁</label>
+			  ，<a href="javascript:history.go(+1);">下一頁</a><img src="../images/arrow_right.gif" alt="右方箭頭" hspace="5" />，每頁  
+				<select name="select">
+				  <option>5</option>
+				  <option selected="selected">10</option>
+				</select>
+				<label for="select">筆</label>
+				資料
+			  </form>  
+			</div>
+		<!--分頁/結束 -->
+		
+		<!--表格條列 /開始 -->
+		<div class="lp">		
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" summary="問題列表資料表格">
+		  <tr>
+			<th scope="col">狀態</th>
+			<th scope="col">問題標題</th>
+			<th scope="col">知識分類</th>
+			<th scope="col">建立日期</th>
+			<th scope="col">更新日期</th>
+			<th scope="col">討論</th>
+			<th scope="col">評價</th>
+		    <th scope="col">瀏覽</th>
+		    <th scope="col">專家</th>
+		    <th scope="col">管理</th>
+		  </tr>
+		  <tr>
+			<td><img src="../images/refresh.gif" alt="update" /></td>
+			<td><a href="#">問題標題問題標題問題標題問題標題</a></td>
+		    <td>農-花卉-病蟲害</td>
+		    <td>[2007/07/31]</td>
+			<td>[2007/07/31]</td>
+			<td>77</td>
+			<td>
+			<div class="staricon">
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_half_11x11.gif" align=top>	  		</div>	  		</td>
+			<td align="right">12</td>
+			<td>V</td>
+		    <td><a href="#"><img src="../images/management.gif" alt="管理" border="0" /></a></td>
+		  </tr>
+		  <tr>
+			<td><img src="../images/draft.gif" alt="draft" /></td>
+			<td>問題標題問題標題問題標題問題標題</td>
+		    <td>農-花卉-病蟲害</td>
+		    <td>[2007/07/31]</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td align="right">&nbsp;</td>
+			<td>&nbsp;</td>
+		    <td><a href="#"><img src="../images/management.gif" alt="管理" border="0" /></a></td>
+		  </tr>
+		  <tr>
+			<td><img src="../images/refresh.gif" alt="update" /></td>
+			<td><a href="#">問題標題問題標題問題標題問題標題</a></td>
+		    <td>農-花卉-病蟲害</td>
+		    <td>[2007/07/31]</td>
+			<td>[2007/07/31]</td>
+			<td>77</td>
+			<td>
+			<div class="staricon">
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_half_11x11.gif" align=top>	  		</div>	  		</td>
+			<td align="right">12</td>
+			<td>V</td>
+		    <td><a href="#"><img src="../images/management.gif" alt="管理" border="0" /></a></td>
+		  </tr>
+		  <tr>
+			<td><img src="../images/refresh.gif" alt="update" /></td>
+			<td><a href="#">問題標題問題標題問題標題問題標題</a></td>
+		    <td>農-花卉-病蟲害</td>
+		    <td>[2007/07/31]</td>
+			<td>[2007/07/31]</td>
+			<td>77</td>
+			<td>
+			<div class="staricon">
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_half_11x11.gif" align=top>	  		</div>	  		</td>
+			<td align="right">12</td>
+			<td>V</td>
+		    <td><a href="#"><img src="../images/management.gif" alt="管理" border="0" /></a></td>
+		  </tr>
+		  <tr>
+			<td><img src="../images/refresh.gif" alt="update" /></td>
+			<td><a href="#">問題標題問題標題問題標題問題標題</a></td>
+		    <td>農-花卉-病蟲害</td>
+		    <td>[2007/07/31]</td>
+			<td>[2007/07/31]</td>
+			<td>77</td>
+			<td>
+			<div class="staricon">
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_half_11x11.gif" align=top>	  		</div>	  		</td>
+			<td align="right">12</td>
+			<td>V</td>
+		    <td><a href="#"><img src="../images/management.gif" alt="管理" border="0" /></a></td>
+		  </tr>
+		  <tr>
+			<td><img src="../images/refresh.gif" alt="update" /></td>
+			<td><a href="#">問題標題問題標題問題標題問題標題</a></td>
+		    <td>農-花卉-病蟲害</td>
+		    <td>[2007/07/31]</td>
+			<td>[2007/07/31]</td>
+			<td>77</td>
+			<td>
+			<div class="staricon">
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_half_11x11.gif" align=top>	  		</div>	  		</td>
+			<td align="right">12</td>
+			<td>V</td>
+		    <td><a href="#"><img src="../images/management.gif" alt="管理" border="0" /></a></td>
+		  </tr>
+		  <tr>
+			<td><img src="../images/refresh.gif" alt="update" /></td>
+			<td><a href="#">問題標題問題標題問題標題問題標題</a></td>
+		    <td>農-花卉-病蟲害</td>
+		    <td>[2007/07/31]</td>
+			<td>[2007/07/31]</td>
+			<td>77</td>
+			<td>
+			<div class="staricon">
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_half_11x11.gif" align=top>	  		</div>	  		</td>
+			<td align="right">12</td>
+			<td>V</td>
+		    <td><a href="#"><img src="../images/management.gif" alt="管理" border="0" /></a></td>
+		  </tr>
+		  <tr>
+			<td><img src="../images/refresh.gif" alt="update" /></td>
+			<td><a href="#">問題標題問題標題問題標題問題標題</a></td>
+		    <td>農-花卉-病蟲害</td>
+		    <td>[2007/07/31]</td>
+			<td>[2007/07/31]</td>
+			<td>77</td>
+			<td>
+			<div class="staricon">
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_half_11x11.gif" align=top>	  		</div>	  		</td>
+			<td align="right">12</td>
+			<td>V</td>
+		    <td><a href="#"><img src="../images/management.gif" alt="管理" border="0" /></a></td>
+		  </tr>
+		  <tr>
+			<td><img src="../images/refresh.gif" alt="update" /></td>
+			<td><a href="#">問題標題問題標題問題標題問題標題</a></td>
+		    <td>農-花卉-病蟲害</td>
+		    <td>[2007/07/31]</td>
+			<td>[2007/07/31]</td>
+			<td>77</td>
+			<td>
+			<div class="staricon">
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_half_11x11.gif" align=top>	  		</div>	  		</td>
+			<td align="right">12</td>
+			<td>V</td>
+		    <td><a href="#"><img src="../images/management.gif" alt="管理" border="0" /></a></td>
+		  </tr>
+		  <tr>
+			<td><img src="../images/refresh.gif" alt="update" /></td>
+			<td><a href="#">問題標題問題標題問題標題問題標題</a></td>
+		    <td>農-花卉-病蟲害</td>
+		    <td>[2007/07/31]</td>
+			<td>[2007/07/31]</td>
+			<td>77</td>
+			<td>
+			<div class="staricon">
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+			<img class=rating src="../images/icn_star_half_11x11.gif" align=top>	  		</div>	  		</td>
+			<td align="right">12</td>
+			<td>V</td>
+		    <td><a href="#"><img src="../images/management.gif" alt="管理" border="0" /></a></td>
+		  </tr>
+		</table>
+		</div>
+		<!--表格條列 /結束 -->
+		
+		<!--搜尋我的知識/開始 -->
+			<div class="mysearch">
+			  <form id="form3" name="form3" method="post" action="">
+			    <label for="textfield">搜尋我的知識：</label>
+			    <input name="textfield" type="text" id="textfield" value="請輸入關鍵字" />
+		        <input class="btn2" type="submit" name="Submit" value="搜尋" />
+		        <input class="btn2" type="submit" name="Submit" value="進階查詢" />
+			  </form>
+		    </div>
+		<!--搜尋我的知識/結束 -->
+		
+	    </div>
+	</div>
+	<!-- 我的發問TAB LIST／結束 -->
+	
+	
+	</td>
+    <td class="right">
+    	<!--search star (style C)-->
+        <div class="search">
+        	<h2>搜尋服務</h2>
+            <form>
+                <label for="search">search</label>
+                <input name="search" type="text" accesskey="s" class="txt" />
+                <label for="站內單元" class="ckb"><input name="站內單元" type="checkbox" id="" value="站內單元" />站內單元</label>
+                <label for="知識庫" class="ckb"><input name="知識庫" type="checkbox" id="" value="知識庫" class="ckb" />知識庫</label>
+                <label for="知識家" class="ckb"><input name="知識家" type="checkbox" id="" value="知識家" class="ckb" />知識家</label>
+                <label for="主題館" class="ckb"><input name="主題館" type="checkbox" id="" value="主題館" class="ckb" />主題館</label>
+              <input name="search" type="image" src="../images/searchBtn.gif" alt="search" class="btn" />
+              <input name="search" type="image" src="../images/SearchBtn2.gif" alt="search" class="btn" />
+            </form></div>
+        <!--search end-->
+
+<!--login star-->
+<div class="login">
+    <h2>會員資訊</h2>
+    <div class="body">
+        <form>
+		<p>農業知識入口網會員 劉小七，您好：
+		  <br />
+		  這是您第100次登入</p>
+            <input name="search" type="image" src="../images/modify.gif" alt="修改個人資料" class="btn" />
+            <input name="search" type="image" src="../images/knowledge.gif" alt="我的個人知識" class="btn" />
+            <input name="search" type="image" src="../images/logout.gif" alt="會員登出" class="btn" />
+        </form>
+        </div>
+    <div class="foot"></div>
+</div>
+<!--login end-->
+<!--rbox star (style B)-->
+<div class="rbox">
+    <h2>我的個人統計</h2>
+    <div class="body">
+		<ul>
+			<li>我的發問：<span class="number2">200</span>題</li>
+			<li>參與討論：<span class="number2">999</span>次</li>
+			<li>追蹤問題：<span class="number2">125</span>題</li>
+			<li>給予評價：<span class="number2">355</span>次</li>
+			<li>發表意見：<span class="number2">105</span>次</li>
+			<li>平均評價
+			  <div class="staricon">
+				<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+				<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+				<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+				<img class=rating src="../images/icn_star_full_11x11.gif" align=top>
+				<img class=rating src="../images/icn_star_half_11x11.gif" align=top> 
+			  </div>
+			  <br />
+			  (13人評價)
+		  </li>
+		</ul>
+	</div>
+    <div class="foot"></div>
+</div>
+<!--rbox end--></td>
+  </tr>
+</table>
+<!--layout Table End-->
+<!--footer star (style A)-->
+<div class="footer">
+	<img src="../images/webindoor.gif" alt="農業知識入口網" />
+  <p>行政院農業委員會 版權所有© 2007 COA All Rights Reserved‧<br />
+    最佳瀏覽狀態為 IE5.0 以上‧1024*768 解析度最佳<br />
+    地址：10014 臺北市中正區南海路 37 號‧電話： (02)2381-2991 ‧服務時間： AM8:30~PM5:30 <br />
+  </p>
+<div class="copyright"><a href="#">版權宣告</a>｜<a href="#">隱私權保護</a>｜<a href="#">資訊安全政策</a></div>
+</div>
+<!--footer End-->
+</body>
+</html>

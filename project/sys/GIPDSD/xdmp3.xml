@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MpDataSet>
+	<MenuTree>34</MenuTree>
+	<MenuTree1>34</MenuTree1>
+	<MenuTree2>34</MenuTree2>
+	<Sitemap>34</Sitemap>
+	<MpStyle>style3</MpStyle>
+	<DataSet>
+		<DataLable>MpStyle</DataLable>
+		<DataRemark>MpStyle</DataRemark>
+		<DataNode>1571</DataNode>
+		<SqlCondition/>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+		<SqlTop>1</SqlTop>
+		<WithContent>Y</WithContent>
+		<ContentData>Y</ContentData>
+		<ContentLength></ContentLength>
+	</DataSet>
+	<DataSet>
+		<DataLable>TopLink</DataLable>
+		<DataRemark>TopLink</DataRemark>
+		<DataNode>1592</DataNode>
+		<SqlCondition/>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+		<SqlTop>5</SqlTop>
+		<WithContent>Y</WithContent>
+		<ContentData>Y</ContentData>
+		<ContentLength></ContentLength>
+	</DataSet>
+	<DataSet>
+		<DataLable>WebLink</DataLable>
+		<DataRemark>分網連結</DataRemark>
+		<DataNode>1570</DataNode>
+		<SqlCondition/>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+		<SqlTop>5</SqlTop>
+		<WithContent>Y</WithContent>
+		<ContentData>Y</ContentData>
+		<ContentLength></ContentLength>
+	</DataSet>
+	<DataSet>
+		<DataLable>SolarTerms</DataLable>
+		<DataRemark>節氣</DataRemark>
+		<DataNode>1593</DataNode>
+		<SqlCondition/>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+		<SqlTop>1</SqlTop>
+		<WithContent>Y</WithContent>
+		<ContentData>Y</ContentData>
+		<ContentLength></ContentLength>
+	</DataSet>
+	<DataSet>
+		<DataLable>AD</DataLable>
+		<DataRemark>宣導Banner</DataRemark>
+		<DataNode>1575</DataNode>
+		<SqlCondition/>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC, ra</SqlOrderBy>
+		<SqlTop>10</SqlTop>
+		<WithContent>Y</WithContent>
+		<ContentData>Y</ContentData>
+		<ContentLength></ContentLength>
+		<Israndom>Y</Israndom>
+	</DataSet>
+	<DataSet>
+		<DataLable>BlockA</DataLable>
+		<DataRemark>最燒推薦</DataRemark>
+		<DataNode>1579</DataNode>
+		<SqlCondition/>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+		<SqlTop>2</SqlTop>
+		<WithContent>Y</WithContent>
+		<ContentData>N</ContentData>
+		<ContentLength></ContentLength>
+	</DataSet>
+	<DataSet>
+		<DataLable>BlockB</DataLable>
+		<DataRemark>最新主題館文章</DataRemark>
+		<DataNode>1576</DataNode>
+		<SqlCondition/>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+		<SqlTop>0</SqlTop>
+		<WithContent>Y</WithContent>
+		<ContentData>N</ContentData>
+		<ContentLength></ContentLength>
+		<RSS>
+			<URL>http://kmwebsys.coa.gov.tw/site/coa/wsxd2/RSS_newsub_article.asp</URL>
+			<RssTop>5</RssTop>
+		</RSS>
+	</DataSet>		
+
+
+	<DataSet>
+		<DataLable>BlockC</DataLable>
+		<DataRemark>主題報導專欄</DataRemark>
+		<DataNode>1567</DataNode>
+		<SqlCondition/>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC, ra</SqlOrderBy>
+		<SqlTop>1</SqlTop>
+		<WithContent>Y</WithContent>
+		<ContentData>N</ContentData>
+		<ContentLength></ContentLength>
+		<Israndom>Y</Israndom>
+	</DataSet>
+	<DataSet>
+		<DataLable>BlockD</DataLable>
+		<DataRemark>最新消息</DataRemark>
+		<DataNode>1580</DataNode>
+		<SqlCondition/>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+		<SqlTop>5</SqlTop>
+		<WithContent>Y</WithContent>
+		<ContentData>N</ContentData>
+		<ContentLength></ContentLength>
+	</DataSet>
+	<DataSet>
+		<DataLable>Footer</DataLable>
+		<DataRemark>頁尾資訊</DataRemark>
+		<DataNode>1576</DataNode>
+		<SqlCondition/>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+		<SqlTop>1</SqlTop>
+		<WithContent>Y</WithContent>
+		<ContentData>Y</ContentData>
+		<ContentLength></ContentLength>
+	</DataSet>
+	<DataSet>
+		<DataLable>Copyright</DataLable>
+		<DataRemark>頁尾連結</DataRemark>
+		<DataNode>1577</DataNode>
+		<SqlCondition/>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+		<SqlTop>5</SqlTop>
+		<WithContent>Y</WithContent>
+		<ContentData>Y</ContentData>
+		<ContentLength></ContentLength>
+	</DataSet>
+	<DataSet>
+		<DataLable>BlockG</DataLable>
+		<DataRemark>日出日落</DataRemark>
+		<DataNode>1572</DataNode>
+		<SqlCondition>xpostDate=CONVERT(varchar(12), GETDATE(), 101) </SqlCondition>
+		<SqlOrderBy></SqlOrderBy>
+		<SqlTop>10</SqlTop>
+		<WithContent>N</WithContent>
+		<ContentData>Y</ContentData>
+		<ContentLength></ContentLength>
+	</DataSet>	
+	<DataSet>
+		<DataLable>KMDOC</DataLable>
+		<DataRemark>KMDOC</DataRemark>
+		<DataNode>1572</DataNode>
+		<SqlCondition/>
+		<SqlOrderBy>xPostDate DESC</SqlOrderBy>
+		<SqlTop>0</SqlTop>
+		<WithContent>N</WithContent>
+		<ContentData>N</ContentData>
+		
+	</DataSet>
+</MpDataSet>

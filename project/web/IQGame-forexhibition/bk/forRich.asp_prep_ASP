@@ -1,0 +1,32 @@
+﻿: @ codepage = 65001 
+  response.contenttype="text/html; charset=utf-8"
+   CxMethod_ASP_exam_util_inc_1220515710() : CxMethod_ASP_exam_class_789638872()
+  
+'tune_id=request.querystring("tuneid")
+examcount=request.querystring("ecount")
+examtype=request.querystring("examtype")
+xseason=request.querystring("xseason")
+xcity=request.querystring("xcity")
+
+'icuitemlist = getexamitemlist(examcount,examtype,tune_id)  
+icuitemlist = getexamitemlist(examcount,examtype,xseason,xcity)  
+'for i=0 to ubound(icuitemlist)
+for i=0 to 0
+    set otopic=gettopicbycuitem(icuitemlist(i))  
+  eid=otopic.getfield("et_id")
+  stitle=otopic.getfield("ct_stitle")
+   iexamtype=otopic.getfield("ct_examtype")
+     answer=otopic.getfield("et_correct")
+     urltemp=urltemp & "&title" & i+1 & "=" & stitle
+  '取得目前題目選項 
+    if iexamtype<>"1"  then ' <>是非 
+     set options=getalloption(eid ) 
+      for x=0 to options.count-1
+        xoption=options(x).getfield("opttitle")       
+        urltemp=urltemp & "&c" & i+1 & x+1 & "=" & xoption     
+      next     
+    end if    
+    urltemp=urltemp & "&a" & i+1 & "=" & answer 
+next
+response.write urltemp
+ 

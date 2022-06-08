@@ -1,0 +1,64 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+   
+    function check_login()
+{
+      
+     var Title = document.getElementById("Txt_topic");
+  var file = document.form1.Banner_Upload.value;
+     
+ if(Title.value == "")
+ { 
+  alert("請輸入主題");
+  event.returnValue = false;
+  
+ }
+ else if(file == "")
+ {
+      alert("請選擇圖片上傳");
+   event.returnValue = false;        
+ }
+ 
+ 
+}
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      function OnClick____279615735() {go_Click}
+                         function onClick___246243625() {self.close();return false}
+
+
+
+
+
+
+
+
+ 

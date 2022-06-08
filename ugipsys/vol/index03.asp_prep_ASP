@@ -1,0 +1,122 @@
+﻿:  response.expires = 0
+htprogcap="志工資料"
+htprogfunc="志工資料"
+htprogcode="ap03"
+htprogprefix="msession" 
+   response.expires = 0 
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+   CxMethod_ASP_checkgipconfig_1275316133()
+   CxMethod_ASP_htuigen_1591615763()
+   CxMethod_ASP_hyftdgip_754890524()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  sql="select * from volitient order by unit"
+  sqlcnt="select count(*) from volitient"
+
+  set rs=conn.execute(sql)
+  set rscnt=conn.execute(sqlcnt)
+
+  dim nowpage, page
+  nowpage = request("page")
+  if nowpage = "" then
+        nowpage = 1
+  end if
+
+  page = int(rscnt(0) / 10)
+  if rscnt(0) mod 10 <> 0 then
+        page = page + 1
+  end if
+  if page=0 then
+   page=1
+  end if   
+
+
+
+
+
+          response.write page:         response.write nowpage
+
+            
+        dim pageno
+        pageno = 1
+        while pageno<=page 
+                response.write "<option "
+                if int(pageno) = int(nowpage) then
+                        response.write "selected"
+                end if
+                response.write " value=" & pageno & " >" & pageno & "</option>"
+                pageno = pageno + 1
+        wend
+                
+                
+       
+
+
+
+
+
+
+
+
+
+
+
+
+   
+    dim count
+    count=1
+    while not rs.eof
+     
+      if count>(nowpage-1) * 10 and count <= nowpage*10 then
+    
+
+                                   =trim(rs("id")) :       =trim(rs("id")) 
+            =trim(rs("name")) 
+            
+sql2="select * from codemain where codemetaid='forest_unit' and mcode='" & trim(rs("unit"))  & "'"
+   set rs2=conn.execute(sql2)
+  if not rs2.eof then 
+   response.write trim(rs2("mvalue")) 
+  end if
+
+          
+      end if
+      rs.movenext
+      count = count + 1
+    wend    
+ 

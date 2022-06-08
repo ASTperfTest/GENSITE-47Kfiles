@@ -1,0 +1,27 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here ===========  

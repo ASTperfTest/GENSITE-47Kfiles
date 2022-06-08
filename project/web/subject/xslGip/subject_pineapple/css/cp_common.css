@@ -1,0 +1,72 @@
+@charset "utf-8";
+/* CSS Document */
+/* 新聞局駐外單位 德國 中文版 */
+
+/* --------------------------------------------------------- 友善列印, 轉寄友人, 回上一頁 */
+.Function {
+	font-size: 80%;
+	text-align: right;
+	margin: 0px 20px 15px 0px;
+	padding: 0px;
+	list-style: none;
+}
+.Function li {
+	margin-right: 8px;
+	display: inline;
+}
+.Function a {
+	padding-left: 20px;
+}
+.Function a.Print {
+	background: url(../images/icon_print.gif) no-repeat 2px 0px;
+	color: #006600;
+}
+.Function a.Back {
+	background: url(../images/icon_back.gif) no-repeat 4px 0px;
+	color: #006600;
+}
+.Function a.Forward {
+	background: url(../images/icon_forward.gif) no-repeat 1px 1px;
+	color: #006600;
+}
+
+/* --------------------------------------------------------- 日期 */
+.Date {
+	font-size: 80%;
+	text-align: right;
+	color: #BD5F00;
+	letter-spacing: normal;
+}
+/* -------------------------------------------------------------- 附件下載 */
+.Download {
+	font-size: 80%;
+	line-height: 150%;
+	padding: 0px;
+	margin-top: 10px;
+	margin-right: 10px;
+	margin-bottom: 15px;
+	margin-left: 10px;
+}
+.Download h3 {
+	font-size: 120%;
+	color: #BD5F00;
+	font-weight: normal;
+	letter-spacing: 0.15em;
+	margin-top: 1.5em;
+	margin-bottom: 0.2em;
+	padding-bottom: 2px;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #999999;
+	padding-left: 20px;
+}
+.Download ul {
+	list-style: none;
+	padding: 0px 0px 0px 20px;
+	margin: 5px 0px 0px;
+}
+.Download ul li {
+	background: url(../images/icon_download.gif) no-repeat 0px 9px;
+	margin: 0px;
+	padding: 5px 10px 3px 18px;
+}

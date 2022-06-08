@@ -1,0 +1,279 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_server_1606199358()
+  
+ catsql = request.querystring("catsql")
+'===> 設定共有幾個欄位【請從 0 開始計算】
+ rowsno = 1
+
+'===> 設定說明內容
+ readmetext = "※ 檢視請點選「"& subject &"」"
+
+'===> 設定 sql
+ deforderlist = ""
+
+  if  request.form("selectkey") <> "" then
+    setsql = "select distinct dataunit.unitid, dataunit.subject, datacat.catname "&_
+    "from datacat inner join "&_
+         "dataunit on datacat.catid = dataunit.catid right outer join "&_
+         "datacontent on dataunit.unitid = datacontent.unitid where dataunit.datatype = n'"& datatype &"' and dataunit.language = n'"& language &"'"
+  else
+    setsql = "select dataunit.unitid, dataunit.subject, datacat.catname "&_
+    "from datacat inner join "&_
+         "dataunit on datacat.catid = dataunit.catid "&_
+         "where dataunit.datatype = n'"& datatype &"' and dataunit.language = n'"& language &"'"
+  end if
+
+         xnowcatid = request.form("catid")
+         if catsql <> "" then  xnowcatid = catsql
+
+     if xnowcatid <> "" and request.form("selectkey") = "" then
+   setsql = setsql & " and datacat.catid = "& xnowcatid &" order by datacat.catshoworder, dataunit.showorder"
+     elseif xnowcatid <> "" and request.form("selectkey") <> "" then
+   setsql = setsql & " and datacat.catid = "& xnowcatid
+   setsql = setsql & " and (datacontent.content like n'%"& request.form("selectkey") &"%' or dataunit.subject like n'%"& request.form("selectkey") &"%')"
+  elseif xnowcatid = "" and request.form("selectkey") <> "" then
+   setsql = setsql & " and (datacontent.content like n'%"& request.form("selectkey") &"%' or dataunit.subject like n'%"& request.form("selectkey") &"%')"
+  elseif xnowcatid = "" and request.form("selectkey") = "" then
+   setsql = setsql & " order by datacat.catshoworder, dataunit.showorder"
+     end if
+
+
+'===> 欄位排序設定
+ orderfield = ""
+ ordername = ""
+
+
+
+   CxMethod_ASP_pagelist_head_2047408230()
+
+
+
+
+
+
+
+
+
+
+
+                                                     =title
+
+
+
+
+
+
+
+
+             if (htprogright and 8)=8 and xnowcatid <> "" and request.form("selectkey") = "" and orderbyck = "y" then :                                             end if 
+             if (htprogright and 4)=4 then :                                      =language:             =datatype:            end if 
+             if (htprogright and 2)=2 then :                                  =language:             =datatype:              end if 
+
+
+
+                                                                         =subject
+
+
+
+
+
+                                                           =language:             =datatype
+
+
+
+
+       sqlcom = "select * from datacat where language = n'"& language &"' and datatype = n'"& datatype &"' order by catshoworder"
+       set rs2 = conn.execute(sqlcom)
+        if not rs2.eof then
+         nowcatid = request.form("catid")
+          if request.form("catid") = "" then nowcatid = 0
+          if catsql <> "" then  nowcatid = catsql 
+
+         do while not rs2.eof 
+                           =rs2("catid"):      if rs2("catid") = cint(nowcatid) then :            end if :    =rs2("catname")
+        rs2.movenext
+      loop
+     else 
+
+        end if 
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_pagelist_body_2057145396()
+
+
+
+
+
+                                                                      =subject
+
+
+                for gxo=1 to setpagecon
+        if not rs.eof then 
+                                                 =gxo
+                        =rs("catname")
+                                                           =language:                 =datatype:               =rs("unitid"):     =rs("subject")
+
+        rs.movenext
+        end if
+       next 
+
+
+
+
+
+
+
+
+
+
+
+   if xnowcatid <> "" and request.form("selectkey") = "" then 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                    =language:             =datatype:                             =xnowcatid
+
+
+       sqlcom = "select subject, editdate, unitid "&_
+       "from dataunit where "&_
+          "catid = "& xnowcatid &" and language = n'"& language &"' and datatype = n'"& datatype &"' order by showorder"
+       set rs2 = conn.execute(sqlcom)
+        if not rs2.eof then 
+                           =itemcount
+         do while not rs2.eof 
+                           =rs2("unitid"):     =leftstr(rs2("subject"))
+        rs2.movenext
+      loop 
+
+        end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end if 
+
+   CxMethod_ASP_pagelist_end_1945342327()
+  
+if xnowcatid <> "" and request.form("selectkey") = "" then
+
+ function leftstr(s)
+  l = 15
+  if language = "e" then l = 30
+  if len(s) > l then
+    leftstr = left(s,l) & "..."
+  else
+    leftstr=s
+  end if
+ end function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end if  

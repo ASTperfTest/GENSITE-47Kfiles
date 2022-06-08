@@ -1,0 +1,91 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ sub formsubmit()
+  if trim(addforum.forumname.value) = empty then
+     msgbox "請輸入討論板名稱！", 16, "sorry!"
+     addforum.forumname.focus
+     exit sub
+  elseif blen(addforum.forumname.value) > 30 then
+     msgbox "討論板名稱字數過多！", 16, "sorry!"
+     addforum.forumname.focus
+     exit sub
+  end if
+  addforum.submit
+ end sub
+
+ function blen(xs)
+ xl = len(xs)
+ for i=1 to len(xs)
+  if asc(mid(xs,i,1))<0 then xl = xl + 1
+ next
+ blen = xl
+end function
+
+ sub del()
+  chky=msgbox("您要刪除此討論板及所屬文章!"& vbcrlf & vbcrlf &"　確定嗎？"& vbcrlf , 48+1, "請注意！！")
+   if chky<>vbok then
+    exit sub
+   end if
+  addforum.action="forumconfig.asp?itemid=Cx_0dummy&configck=del"
+  addforum.submit
+ end sub
+
+ 

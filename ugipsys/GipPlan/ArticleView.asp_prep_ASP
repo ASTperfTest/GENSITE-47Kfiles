@@ -1,0 +1,18 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "pn03m04" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+   forumid = request.querystring("forumid")
+   forumes = request.querystring("forumes") 
+
+
+
+
+
+
+
+
+
+
+                                                                                             =itemid:            =forumid:            =forumes 

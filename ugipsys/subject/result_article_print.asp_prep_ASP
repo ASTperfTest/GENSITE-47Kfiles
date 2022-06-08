@@ -1,0 +1,301 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+htprogcap="主題館績效統計"
+response.charset = "utf-8"
+htprogcode = "webgeb2"
+response.addheader "content-disposition","attachment; filename=subject_article.xls"
+response.charset ="utf-8"
+response.contenttype = "content-language;content=utf-8" 
+response.contenttype = "application/vnd.ms-excel"
+   
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+id =request("id")
+if trim(id) = "147" then '蝴蝶主題館
+ id = 31
+end if
+if trim(id) = "148" then '鳳梨主題館
+ id = 32
+end if
+atype =request("atype")
+if atype = "1" then
+ subjecttitle = "主題館建置面(含不公開文章篇數)清單"
+ 
+ sql = "select isnull(ctunit.ctunitname, '') as ctunitname"
+ sql = sql & "   ,cudtgeneric.stitle"
+ sql = sql & "   ,cudtgeneric.xpostdate"
+ sql = sql & "   ,cudtgeneric.icuitem"
+ sql = sql & "   ,cudtgeneric.fctupublic"
+ sql = sql & "   ,cudtgeneric.clickcount"
+ sql = sql & "   ,isnull( dept.deptname, '') as deptname"
+ sql = sql & "   ,cattreenode.ctnodeid "
+ sql = sql & " from cattreenode inner join cudtgeneric on cattreenode.ctunitid = cudtgeneric.ictunit "
+ sql = sql & " left join infouser on cudtgeneric.ieditor = infouser.userid "
+ sql = sql & " left join dept on infouser.deptid = dept.deptid "
+ sql = sql & " left join ctunit on cattreenode.ctunitid = ctunit.ctunitid "
+ sql = sql & " where cattreenode.ctrootid = '"& id &"'" 
+ if session("dates") <> "" then
+  sql = sql & " and cudtgeneric.xpostdate >= '"& session("dates") &"'"
+ end if
+ if session("datee") <> "" then
+  sql = sql & " and cudtgeneric.xpostdate <= '"& session("datee") &"'"
+ end if
+ if request("orderby") = "unit" then
+  sql = sql & " order by ctunit.ctunitname"
+ elseif request("orderby") = "postdate" then
+  sql = sql & " order by cudtgeneric.xpostdate desc "
+ elseif request("orderby") = "dept" then
+  sql = sql & " order by dept.deptname"
+ elseif request("orderby") = "clickcount" then
+  sql = sql & " order by cudtgeneric.clickcount"
+ end if
+ 
+ set rs = conn.execute(sql)
+ 
+elseif atype = "5" then
+ subjecttitle = "主題館建置面(文章篇數)清單"
+ 
+ sql = "select isnull(ctunit.ctunitname, '') as ctunitname"
+ sql = sql & "   ,cudtgeneric.stitle"
+ sql = sql & "   ,cudtgeneric.xpostdate"
+ sql = sql & "   ,cudtgeneric.icuitem"
+ sql = sql & "   ,cudtgeneric.fctupublic"
+ sql = sql & "   ,cudtgeneric.clickcount"
+ sql = sql & "   ,isnull( dept.deptname, '') as deptname"
+ sql = sql & "   ,cattreenode.ctnodeid "
+ sql = sql & " from cattreenode inner join cudtgeneric on cattreenode.ctunitid = cudtgeneric.ictunit "
+ sql = sql & " left join infouser on cudtgeneric.ieditor = infouser.userid "
+ sql = sql & " left join dept on infouser.deptid = dept.deptid "
+ sql = sql & " left join ctunit on cattreenode.ctunitid = ctunit.ctunitid "
+ sql = sql & " where cattreenode.ctrootid = '"& id &"'and cudtgeneric.fctupublic = 'y'" 
+ if session("dates") <> "" then
+  sql = sql & " and cudtgeneric.xpostdate >= '"& session("dates") &"'"
+ end if
+ if session("datee") <> "" then
+  sql = sql & " and cudtgeneric.xpostdate <= '"& session("datee") &"'"
+ end if
+ if request("orderby") = "unit" then
+  sql = sql & " order by ctunit.ctunitname"
+ elseif request("orderby") = "postdate" then
+  sql = sql & " order by cudtgeneric.xpostdate desc "
+ elseif request("orderby") = "dept" then
+  sql = sql & " order by dept.deptname"
+ elseif request("orderby") = "clickcount" then
+  sql = sql & " order by cudtgeneric.clickcount"
+ end if
+ 
+ set rs = conn.execute(sql)
+
+elseif atype = "2" then
+ 
+ subjecttitle = "主題館建置面(圖片張數)清單"
+ 
+ sql = "select isnull(ctunit.ctunitname, '') as ctunitname"
+ sql = sql & "   ,cudtgeneric.stitle "
+ sql = sql & "   ,cudtgeneric.xpostdate "
+ sql = sql & "   ,cudtgeneric.icuitem "
+ sql = sql & "   ,cudtgeneric.fctupublic"
+ sql = sql & "   ,cudtgeneric.clickcount"
+ sql = sql & "   ,isnull( dept.deptname, '') as deptname"
+ sql = sql & "   ,cattreenode.ctnodeid "
+ sql = sql & " from cattreenode inner join cudtgeneric on cattreenode.ctunitid = cudtgeneric.ictunit "
+ sql = sql & " left join infouser on cudtgeneric.ieditor = infouser.userid "
+ sql = sql & " left join dept on infouser.deptid = dept.deptid "
+ sql = sql & " left join ctunit on cattreenode.ctunitid = ctunit.ctunitid "
+ sql = sql & " where cudtgeneric.ximgfile is not null and cattreenode.ctrootid = '"& id &"'" 'and cudtgeneric.fctupublic = 'y'"   文章/篇(含不公開) 故將條件註解掉
+ if session("dates") <> "" then
+  sql = sql & " and cudtgeneric.xpostdate >= '"& session("dates") &"'"
+ end if
+ if session("datee") <> "" then
+  sql = sql & " and cudtgeneric.xpostdate <= '"& session("datee") &"'"
+ end if
+ if request("orderby") = "unit" then
+  sql = sql & " order by ctunit.ctunitname"
+ elseif request("orderby") = "postdate" then
+  sql = sql & " order by cudtgeneric.xpostdate desc "
+ elseif request("orderby") = "dept" then
+  sql = sql & " order by dept.deptname"
+ elseif request("orderby") = "clickcount" then
+  sql = sql & " order by cudtgeneric.clickcount"
+ end if
+ set rs = conn.execute(sql)
+ 
+elseif atype = "3" then
+ 
+ subjecttitle = "主題館建置面(附件/篇)清單"
+ 
+ sql = "select distinct cudtgeneric.icuitem"
+ sql = sql & "   ,isnull(ctunit.ctunitname, '') as ctunitname"
+ sql = sql & "   ,cudtgeneric.stitle"
+ sql = sql & "   ,cudtgeneric.xpostdate"
+ sql = sql & "   ,cudtgeneric.fctupublic"
+ sql = sql & "   ,cudtgeneric.clickcount"
+ sql = sql & "   ,isnull( dept.deptname, '') as deptname"
+ sql = sql & "   ,cattreenode.ctnodeid "
+ sql = sql & "   ,(select count(*) from cudtattach where xicuitem =cudtgeneric.icuitem) as count "
+ sql = sql & " from cudtgeneric inner join cattreenode on cudtgeneric.ictunit = cattreenode.ctunitid "
+ sql = sql & " inner join cudtattach on cudtgeneric.icuitem = cudtattach.xicuitem "
+ sql = sql & " left join ctunit on cattreenode.ctunitid = ctunit.ctunitid "
+ sql = sql & " left join infouser on cudtgeneric.ieditor = infouser.userid "
+ sql = sql & " left join dept on infouser.deptid = dept.deptid "
+ sql = sql & " where cattreenode.ctrootid = '"& id &"'" 'and cudtgeneric.fctupublic = 'y'"  文章/篇(含不公開) 故將條件註解掉
+ if session("dates") <> "" then
+  sql = sql & " and cudtgeneric.xpostdate >= '"& session("dates") &"'"
+ end if
+ if session("datee") <> "" then
+  sql = sql & " and cudtgeneric.xpostdate <= '"& session("datee") &"'"
+ end if
+ 
+ if request("orderby") = "unit" then
+  sql = sql & " order by ctunit.ctunitname"
+ elseif request("orderby") = "postdate" then
+  sql = sql & " order by cudtgeneric.xpostdate desc "
+ elseif request("orderby") = "dept" then
+  sql = sql & " order by dept.deptname"
+ elseif request("orderby") = "attach" then
+  sql = sql & " order by count"
+ elseif request("orderby") = "clickcount" then
+  sql = sql & " order by cudtgeneric.clickcount"
+ end if
+ set rs = conn.execute(sql)
+
+elseif atype = "4" then
+ 
+ subjecttitle = "主題館互動面內容清單"
+ 
+ sql = "select isnull(ctunit.ctunitname, '') as ctunitname"
+ sql = sql & "   ,cudtgeneric.stitle"
+ sql = sql & "   ,cudtgeneric.xpostdate"
+ sql = sql & "   ,cudtgeneric.icuitem"
+ sql = sql & "   ,cudtgeneric.fctupublic"
+ sql = sql & "   ,cudtgeneric.clickcount"
+ sql = sql & "   ,isnull( dept.deptname, '') as deptname"
+ sql = sql & "   ,cattreenode.ctnodeid"
+ sql = sql & "   ,subjectforum.commandcount"
+ sql = sql & "   ,subjectforum.gradecount"
+ sql = sql & "   ,subjectforum.gradepersoncount "
+ sql = sql & " from cattreenode "
+ sql = sql & " inner join cudtgeneric on cattreenode.ctunitid = cudtgeneric.ictunit "
+ sql = sql & " inner join subjectforum on cudtgeneric.icuitem = subjectforum.gicuitem "
+ sql = sql & " left join infouser on cudtgeneric.ieditor = infouser.userid "
+ sql = sql & " left join dept on infouser.deptid = dept.deptid "
+ sql = sql & " left join ctunit on cattreenode.ctunitid = ctunit.ctunitid " 
+ sql = sql & " where subjectforum.gradepersoncount is not null and cattreenode.ctrootid = '"& id &"'" 'and cudtgeneric.fctupublic = 'y'"  文章/篇(含不公開) 故將條件註解掉
+ if session("dates") <> "" then
+  sql = sql & " and cudtgeneric.xpostdate >= '"& session("dates") &"'"
+ end if
+ if session("datee") <> "" then
+  sql = sql & " and cudtgeneric.xpostdate <= '"& session("datee") &"'"
+ end if
+ if request("orderby") = "dept" then
+  sql = sql & " order by dept.deptname "
+ elseif request("orderby") = "person" then
+  sql = sql & " order by subjectforum.commandcount desc "
+ elseif request("orderby") = "star" then
+  sql = sql & " order by subjectforum.gradecount desc "
+ elseif request("orderby") = "avgstar" then
+  sql = sql & " order by (case when subjectforum.gradepersoncount < 1 then 0 else subjectforum.gradecount / subjectforum.gradepersoncount end) desc "
+ elseif request("orderby") = "clickcount" then
+  sql = sql & " order by cudtgeneric.clickcount"
+ end if
+ set rs = conn.execute(sql)
+  
+end if
+response.write "<hr>"
+
+
+
+         = htprogcap 
+
+
+
+
+
+                 =subjecttitle
+   if atype = "3" then
+                      =session("dates"):      =session("datee")
+   elseif atype = "4" then
+                      =session("dates"):      =session("datee")
+   else
+                      =session("dates"):      =session("datee")
+   end if
+
+
+
+
+
+
+   if atype = "4" then
+
+
+
+   else
+
+   end if
+   if atype = "3" then
+
+   end if
+
+
+
+  
+ i=1
+ 
+ commandcount = 0 '推薦人數
+ gradecount = 0 '總得星數
+ gradepersoncount = 0 '星數人數
+ while not rs.eof
+
+
+       =i
+                                                                                            =rs("icuitem"):           =rs("ctnodeid"):       =id:     =rs("stitle")
+                                                                                   =id:           =rs("icuitem"):     =rs("stitle")
+       =rs("clickcount")
+   if rs("fctupublic") = "y" then
+
+   else
+
+   end if
+   if atype = "4" then
+ commandcount = commandcount + rs("commandcount")
+ gradecount = gradecount + rs("gradecount")
+ gradepersoncount = gradepersoncount + rs("gradepersoncount")
+ 
+       =rs("commandcount")
+       =rs("gradecount")
+       
+ if rs("gradepersoncount") <> 0 then
+  response.write left(rs("gradecount")/rs("gradepersoncount"),4)
+ else
+  response.write 0
+ end if
+   else
+       =rs("ctunitname")
+   end if
+   if atype = "3" then
+       =rs("count")
+   end if
+       =datevalue(rs("xpostdate"))
+       =rs("deptname")
+
+   rs.movenext
+  i=i+1
+ wend
+
+  if atype = "4" then
+
+
+
+       =commandcount
+       =gradecount
+       
+ if gradepersoncount <> 0 then
+  response.write left(gradecount/gradepersoncount,4)
+ else
+  response.write 0
+ end if
+
+
+
+  end if 

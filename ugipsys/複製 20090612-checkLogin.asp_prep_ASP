@@ -1,0 +1,145 @@
+﻿: @ codepage = 65001 
+   
+ response.cachecontrol = "no-cache"
+ response.addheader "pragma", "no-cache"
+ response.expires = -1 
+
+
+   CxMethod_ASP_dbfunc_874801204()
+   CxMethod_ASP_checkgipconfig_1465664730()
+   CxMethod_ASP_web_sqlinjection_176928617()
+
+  
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+'----------hyweb gip db connection patch----------
+
+ 
+ if session("dgbas_uid") <> "" then
+  sqlcom = "select i.*, d.tdatacat " _
+   & " from infouser as i left join dept as d on i.deptid=d.deptid " _
+   & " where userid=" & pkstrwithsripthtml(session("dgbas_uid"),"")
+ else
+  sqlcom = "select i.*, d.tdatacat " _
+   & " from infouser as i left join dept as d on i.deptid=d.deptid " _
+   & " where userid=" & pkstrwithsripthtml(request.form("tfx_username"),"") _
+   & " and password=" & pkstrwithsripthtml(request.form("tfx_password"),"")
+ end if 
+
+ set rs = conn.execute(sqlcom)
+ if rs.eof then
+
+
+
+
+
+
+
+
+  
+ else
+
+   if checkgipconfig("useripcheck") then
+   
+   if isnumeric(rs("netip1")) then
+     raip = split(request.servervariables("remote_addr"),".")
+    ipwrong = false
+    for xi = 1 to ubound(raip) + 1
+      if isnumeric( rs("netmask" & xi) ) then
+        netmask = cint( rs("netmask" & xi) )
+       else
+         netmask = 255
+       end if
+     'response.write raip(xi-1) & ", rip=" & rs("netip"&xi) & ", mask=" & netmask & "<br>"
+     'response.write (raip(xi-1) and netmask) & "," & (cint(rs("netip"&xi)) and netmask) & "<br>"
+     if (raip(xi-1) and netmask) <> (cint(rs("netip"&xi)) and netmask) then ipwrong = true
+    next
+
+    if ipwrong then
+
+
+
+
+
+
+
+  
+       response.end
+    end if
+   end if
+  end if
+ 
+  if checkgipconfig("userlogfile") then
+ 
+   sql = " insert into userlogininfo(userid,logintime,loginip,act) " & _
+      " values(" & pkstrwithsripthtml(request.form("tfx_username"),"") &  ", " & _
+      " getdate(), '" & request.servervariables("remote_addr") & "', '登入') "
+   sql = " set nocount on;" & sql & "; select @@identity as newid"
+   set rsx = conn.execute(sql)
+   session("loginlogsid") = rsx(0)
+
+  end if
+
+ 
+'  if checkgipconfig("mmofoler") then
+''    session("mmopublic") = "/site/coa/public/" 
+'  end if
+
+  session("lastvisit")  = rs("lastvisit")
+  session("lastip")   = rs("lastip")
+  session("visitcount") = rs("visitcount")
+  lastvisit = date()
+  visitcount = rs("visitcount") + 1
+  sql = " update infouser set lastvisit = " & pkstr(lastvisit, "") & ", visitcount = " & visitcount & ", " & _
+     " lastip = '" & request.servervariables("remote_addr") & "' where userid = " & pkstrwithsripthtml(rs("userid"), "") & " "
+  
+  conn.execute(sql)
+  
+  session("pwd")     = true
+  session("userid")   = striphtml( rs("userid") )
+  session("username")  = striphtml( rs("username") )
+  session("ugrpid")   = rs("ugrpid")
+  session("deptid")   = rs("deptid")
+  session("tdatacat")  = rs("tdatacat")
+  session("uploadpath") = xpath
+  if isnull(rs("email")) then
+   session("email")   = ""
+  else
+   session("email")   = striphtml( rs("email") )
+  end if
+  
+  
+  xpath = "/public/data/" & trim( rs("uploadpath") ) 
+  if right(xpath,1) <> "/" then xpath = xpath & "/"
+  
+  if checkgipconfig("checkloginpassword") then
+   session("password") = rs("password")
+  end if
+  
+  if checkgipconfig("accountdeny") then
+     if instr(session("ugrpid"), "999") > 0 then
+       session("pwd") = false
+        response.write "<script language=javascript>alert('您沒有權限使用此系統！');history.go(-1);</script>"
+        response.end
+      end if
+    end if
+    
+  if checkgipconfig("eatwebformap") then
+   session("eatwebformap") = trim(rs("eatwebformap") & " ")
+  end if
+
+
+      if instr(session("ugrpid")&",", "htsd,") > 0 then 
+
+
+      else 
+
+      end if 
+
+
+
+   end if  

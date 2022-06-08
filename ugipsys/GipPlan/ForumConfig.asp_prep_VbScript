@@ -1,0 +1,190 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  alert("精華區編修成功！")
+  window.parent.parent.forumtoc.location.href="articleview.asp?itemid=Cx_0dummy&forumid=Cx_0dummy&forumes=Cx_0dummy"
+  window.parent.parent.catalogue.location.reload
+  alert("文章刪除成功！")
+  window.parent.parent.forumtoc.location.href="articleview.asp?itemid=Cx_0dummy&forumid=Cx_0dummy"
+  window.parent.parent.catalogue.location.reload
+<script language=vbscript></script>Cx_0dummy
+
+
+
+
+
+
+
+
+
+
+
+
+   alert("排序成功！")
+  document.location.href="catview.asp?itemid=Cx_0dummy&catid=Cx_0dummy&dataparent=Cx_0dummy"
+  window.parent.catalogue.location.reload
+<script language=vbscript>  alert("刪除成功！")
+  document.location.href="page.asp"
+  window.parent.catalogue.location.reload
+<script language=vbscript>  alert("編修成功！")
+  document.location.href="forumview.asp?itemid=Cx_0dummy&forumid=Cx_0dummy"
+  window.parent.catalogue.location.reload
+<script language=vbs>  alert("新增完成！")
+  document.location.href="catview.asp?itemid=Cx_0dummy&catid=Cx_0dummy"
+  window.parent.catalogue.location.reload
+<script language=vbs>
+ 

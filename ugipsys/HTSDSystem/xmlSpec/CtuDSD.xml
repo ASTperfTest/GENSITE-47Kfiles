@@ -1,0 +1,54 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<DataSchemaDef>
+	<dsTable>
+		<tableName>CtuDSD</tableName>
+		<tableDesc>單元資料對應</tableDesc>
+		<fieldList>
+			<field>
+				<fieldName>iCtUnit</fieldName>
+				<fieldLabel>主題單元ID</fieldLabel>
+				<dataType>int</dataType>
+				<dataLen>4</dataLen>
+				<inputLen>6</inputLen>
+				<canNull>N</canNull>
+				<isPrimaryKey>Y</isPrimaryKey>
+				<identity>N</identity>
+				<inputType>hidden</inputType>
+				<fieldDesc>foreign key to CtUnit</fieldDesc>
+				<refLookup></refLookup>
+				<rows></rows>
+				<cols></cols>
+			</field>
+			<field>
+				<fieldName>fCtUnitOnly</fieldName>
+				<fieldLabel>只顯示此單元資料</fieldLabel>
+				<dataType>char</dataType>
+				<dataLen>1</dataLen>
+				<inputLen>1</inputLen>
+				<canNull>N</canNull>
+				<isPrimaryKey>N</isPrimaryKey>
+				<identity>N</identity>
+				<inputType>refSelect</inputType>
+				<fieldDesc></fieldDesc>
+				<refLookup>boolYN</refLookup>
+				<rows></rows>
+				<cols></cols>
+			</field>
+			<field>
+				<fieldName>iBaseDSD</fieldName>
+				<fieldLabel>單元資料定義</fieldLabel>
+				<dataType>int</dataType>
+				<dataLen>4</dataLen>
+				<inputLen>6</inputLen>
+				<canNull>N</canNull>
+				<isPrimaryKey>N</isPrimaryKey>
+				<identity>N</identity>
+				<inputType>refSelect</inputType>
+				<fieldDesc></fieldDesc>
+				<refLookup>refBaseDSD</refLookup>
+				<rows></rows>
+				<cols></cols>
+			</field>
+		</fieldList>
+	</dsTable>
+</DataSchemaDef>

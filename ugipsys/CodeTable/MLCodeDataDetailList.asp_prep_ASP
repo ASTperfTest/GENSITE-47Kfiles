@@ -1,0 +1,235 @@
+﻿: @ codepage = 65001 
+   
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="代碼維護"
+htprogcode="pn90m02"
+htprogprefix="codedatadetail" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_checkgipconfig_1275316133()
+   session("sortflag")=false
+ session("codeid")=request.querystring("codeid")
+ session("codename")=request.querystring("codename") 
+ if request.querystring("ml")<>"" then  session("ml") = request.querystring("ml")
+ sql="select * from codemetadef where codeid=" & pkstr(request.querystring("codeid"),"")
+ set rscode=conn.execute(sql)
+ if not isnull(rscode("codesortfld")) then session("sortflag")=true
+ if rscode("codexmlspec") <> "" then 
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true 
+ 
+  loadxml = server.mappath(".") & "\xmlspec\" & rscode("codexmlspec") & ".xml"
+'  response.write loadxml & "<hr>"
+  xv = htpagedom.load(loadxml)
+'  response.write xv & "<hr>"
+    if htpagedom.parseerror.reason <> "" then 
+      response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+      response.end()
+    end if
+   set session("codexmlspec") = htpagedom
+
+
+                                           =session("codeid")
+
+     response.end
+ end if
+set rsreg = server.createobject("adodb.recordset")
+
+fsql=request.querystring("strsql")  
+fsql2=""
+if fsql="" or request.querystring("t")="query" then
+ fselect = "select h." & rscode("codevaluefld") & ",h." & rscode("codedisplayfld")
+ ffrom = " from " & rscode("codetblname") & " as h"
+ fwhere = " where 1=1"
+ forder = ""
+    if not isnull(rscode("codesrcitem")) then
+     fwhere = fwhere & " and h." & rscode("codesrcfld") & "=" & pkstr(rscode("codesrcitem"),"")
+    end if
+ if not isnull(rscode("codesortfld")) then 
+  fselect = fselect & ",h." & rscode("codesortfld")
+  forder = " order by h." & rscode("codesortfld")
+ end if
+ if rscode("isml") = "y" then
+  fselect = fselect & ",ml." & rscode("codedisplayfld") & " as mlvalue"
+  ffrom = ffrom & " left join codemainml as ml on ml.mcode=h." & rscode("codevaluefld") _
+   & " and ml.mlid=" & pkstr(session("ml"),"")
+  if not isnull(rscode("codesrcitem")) then
+   ffrom = ffrom & " and ml.codemetaid=" & pkstr(rscode("codesrcitem"),"")
+  end if
+ end if
+    if request.querystring("t")="query" then
+     if request("tfx_codevalue")<>"" then
+      fwhere=fwhere & " and h." & rscode("codevaluefld") & " like n'%" & request("tfx_codevalue") & "%' "
+     end if
+     if request("tfx_codedisplay")<>"" then
+      fwhere=fwhere & " and h." & rscode("codedisplayfld") & " like n'%" & request("tfx_codedisplay") & "%'"     
+     end if  
+     if request("tfx_codesort")<>"" then
+      fwhere=fwhere & " and h." & rscode("codesortfld") & " like n'%" & request("tfx_codesort") & "%'"     
+     end if     
+    end if
+ fsql = fselect & ffrom & fwhere & forder  
+end if
+'response.write fsql & "<hr>"
+'response.end
+nowpage=request.querystring("nowpage")  '現在頁數
+
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+
+
+
+
+
+
+
+                                     =htprogprefix
+
+
+                                                    =title
+
+
+
+
+
+
+
+                                 =session("codeid"):         =session("codename")
+
+                          if (htprogright and 2)=2 then :                                     =request.querystring("codeid"):             =request.querystring("codename"):            end if 
+         if (htprogright and 4)=4 then :                                    end if 
+    if checkgipconfig("codeml") then 
+  if rscode("isml")="y" then
+   response.write "多國語言：<select name=""changeml"" size=""1"">" & vbcrlf
+   xsql = "select * from codemain where codemetaid=n'sysml' order by msortvalue"
+   set rsselect = conn.execute(xsql)
+   while not rsselect.eof
+    response.write "<option value=" & rsselect("mcode") & ">" & rsselect("mvalue") & "</option>"
+    rsselect.movenext
+   wend
+   response.write "</select>"
+  end if
+ end if
+
+
+
+
+
+
+
+
+
+
+  if rsreg.eof  then
+ response.write "<font color=red size=3>====查無資料====</font>"
+else
+
+totrec=rsreg.recordcount       '總筆數
+
+perpagesize=cint(request.querystring("pagesize"))
+
+if perpagesize <= 0 then  
+   perpagesize=15  
+end if 
+
+rsreg.pagesize=perpagesize       '每頁筆數
+
+if cint(nowpage)<1 then 
+   nowpage=1
+elseif cint(nowpage) > rsreg.pagecount then 
+   nowpage=rsreg.pagecount 
+end if             
+
+rsreg.absolutepage=nowpage
+totpage=rsreg.pagecount       '總頁數
+
+strsql=server.urlencode(fsql)  
+
+
+                                      =nowpage:    =totpage
+                                          =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+
+          if nowpage <>1 then 
+                        =htprogprefix:                   =session("codeid"):             =session("codename"):            =(nowpage-1):           =strsql:             =perpagesize
+         end if
+
+           if nowpage<>rsreg.pagecount then 
+                        =htprogprefix:                   =session("codeid"):             =session("codename"):            =(nowpage+1):           =strsql:             =perpagesize
+          end if
+
+
+                                 if perpagesize=15 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+                                  if perpagesize=300 then:            end if
+
+
+
+
+
+
+                                                   =rscode("codevaluefldname")
+                                                   =rscode("codedisplayfldname")
+
+   if not isnull(rscode("codesortfld")) then
+                                                   =rscode("codesortfldname")
+   end if
+
+                      
+   for i=1 to perpagesize
+
+   if not isnull(rscode("codesortfld")) then
+                                                                                       =rsreg(0):            =rsreg(1):         =rsreg(2):     =rsreg(0)
+   else
+                                                                                       =rsreg(0):            =rsreg(1):     =rsreg(0)
+   end if
+                                        =rsreg(1)
+                                        =rsreg("mlvalue")
+   if not isnull(rscode("codesortfld")) then
+                                        =rsreg(2)
+   end if
+
+       rsreg.movenext   
+     if rsreg.eof then exit for       
+  next
+
+
+
+
+
+
+
+
+  end if
+
+                       =request("ml")
+
+
+                                     =htprogprefix:                   =session("codeid"):             =session("codename"):                                   = strsql:                  =perpagesize
+
+
+
+
+                                     =htprogprefix:                   =session("codeid"):             =session("codename"):            =nowpage:                = strsql
+
+
+
+                                  =htprogprefix:                   =session("codeid"):             =session("codename") 

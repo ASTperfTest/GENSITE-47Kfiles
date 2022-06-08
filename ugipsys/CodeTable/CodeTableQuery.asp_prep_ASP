@@ -1,0 +1,157 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="代碼定義管理"
+htprogfunc="查詢條件"
+htprogcode="pn50m03"
+htprogprefix="codetable" 
+   CxMethod_ASP_server_1606199358()
+  
+tasklable="查詢" & htprogcap
+
+ showhtmlhead()
+ formfunction = "query"
+ showform()
+ initform()
+ showhtmltail()
+
+
+   sub initform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+  sub showform() 
+
+
+                       =htprogprefix
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid=n'boolyn' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+
+
+  if formfunction = "query" then 
+          if (htprogright and 2) <> 0 then 
+
+
+          end if
+  elseif formfunction = "edit" then 
+          if (htprogright and 8) <> 0 then 
+
+           end if 
+
+          if (htprogright and 16) <> 0 then 
+
+         end if 
+
+
+
+   else '-- add ---
+            if (htprogright and 4)<>0 then 
+
+            end if
+
+            if (htprogright and 4)<>0  then 
+
+            end if
+
+   end if 
+
+
+
+
+
+
+
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+
+
+                                   =htprogprefix
+
+
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+    if (htprogright and 4)=4 then
+
+    end if
+
+
+
+
+
+
+
+
+  end sub '--- showhtmlhead() ------
+
+  sub showhtmltail() 
+
+
+
+
+
+  end sub '--- showhtmltail() ------ 

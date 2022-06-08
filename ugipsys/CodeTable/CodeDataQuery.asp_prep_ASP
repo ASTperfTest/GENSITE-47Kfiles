@@ -1,0 +1,84 @@
+﻿: @ codepage = 65001 
+  response.expires=0
+htprogcap="代碼維護"
+htprogcode="pn90m02"
+htprogprefix="codedata" 
+   CxMethod_ASP_server_1606199358()
+  
+sql="select * from codemetadef where codeid=n'" & request.querystring("codeid") & "'"
+set rscode=conn.execute(sql)
+tasklable="查詢" & htprogcap
+
+ showhtmlhead()
+ formfunction = "query"
+ showform()
+ initform()
+ showhtmltail()
+
+
+   sub initform() 
+
+
+               =htprogprefix:                                 =request.querystring("codeid"):             =request.querystring("codename")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform() 
+
+   CxMethod_ASP_codedataqueryform_164190413()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                                                    =title
+
+
+
+
+
+
+
+                                                 =request.querystring("codeid"):         =session("codename")
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+   sub showhtmltail() 
+
+
+
+
+
+   end sub '--- showhtmltail() ------ 

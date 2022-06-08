@@ -1,0 +1,150 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   alert("value值已建立，無法再次建立！")
+   window.history.back
+ <script language=vbs></script>Cx_0dummy
+
+
+
+
+
+
+
+
+Cx_0dummy 
+Cx_0dummyCx_0dummy<table border="0" width="100%" cellspacing="0" cellpadding="0"></table> 
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sub formadd
+msg4 = "請務必輸入「value值」，不得為空白！"
+msg5 = "請務必輸入「display值」，不得為空白！"
+
+  if reg.tfx_value.value = empty then
+     msgbox msg4, 64, "sorry!"
+     reg.tfx_value.focus
+     exit sub
+  end if
+  if reg.tfx_display.value = empty then
+     msgbox msg5, 64, "sorry!"
+     reg.tfx_display.focus
+     exit sub
+  end if  
+  if blen(reg.tfx_value.value) > 20 then
+  chky=msgbox("注意！"& vbcrlf & vbcrlf &"　代碼值超過8個字元,你確定新增資料嗎？"& vbcrlf , 48+1, "請注意！！")
+  if chky=vbok then  
+    reg.submittask.value = "新增存檔"
+    reg.submit   
+      end if
+  else
+   reg.submittask.value = "新增存檔"
+   reg.submit         
+  end if        
+end sub
+
+sub formreset
+ reg.reset
+end sub
+
+ 

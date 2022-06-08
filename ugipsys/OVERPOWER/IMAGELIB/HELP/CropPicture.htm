@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#006E8E" text="#FFFFFF" link="#00FF00" vlink="#00FF00" alink="#00FF00"  cellspacing="0" cellpadding="0">
+<div align="center">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%" align="left">
+    <tr>
+      <td width="10">&nbsp;</td>
+      <td valign="top"> 
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><br>
+          <img src="method.gif" width="30" height="30" align="absmiddle"> <b><font size="3">CropPicture<br>
+          <br>
+          </font></b>Crops the picture using the desired area.<br>
+          <br>
+          <b>Procedure </b>CropPicture(x: <a href="http://www.overpower.com.br/imagelib/help/defs.htm#integer">Integer</a>, 
+          y: <a href="http://www.overpower.com.br/imagelib/help/defs.htm#integer">Integer</a>, 
+          x2: <a href="http://www.overpower.com.br/imagelib/help/defs.htm#integer">Integer</a>, 
+          y2:<a href="http://www.overpower.com.br/imagelib/help/defs.htm#integer">Integer</a>)<br>
+          <br>
+          <b>Description<br>
+          </b>Use CropPicture to crop the picture starting from x, y and ending 
+          on x2, y2. It makes the image smaller.<br>
+          <br>
+          <b>Example<br>
+          </b></font><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><i><br>
+          </i></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF">&lt;%<img src="ex2.gif" width="150" height="49" align="right" hspace="50"><br>
+          Set ILIB = server.createobject(&quot;Overpower.Imagelib&quot;) <br>
+          ILIB.WIDTH = 240<br>
+          ILIB.Height = 50<br>
+          ILIB.FontSize = 30<br>
+          ILIB.FontColor = &quot;#FF0000&quot;<br>
+          ILIB.TextOut &quot;HEY THERE&quot;,1,1<br>
+          ILIB.CropPicture 90,1,ILIB.Width,50<br>
+          ILIB.PictureBinaryWrite 2, 0, &quot;&quot;<br>
+          </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">%&gt;<i> 
+          </i></font></p>
+        </td>
+    </tr>
+  </table>
+  <p align="left">&nbsp; </p>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<script language=VBScript runat=server>
+
+sub session_onstart()
+	
+	session("ODBCDSN")="Provider=SQLOLEDB;Data Source=127.0.0.1;User ID=hygip;Password=hyweb;Initial Catalog=mGIPcoanew"
+	session("KMDBConnStr")="Provider=SQLOLEDB;Data Source=127.0.0.1;User ID=hygip;Password=hyweb;Initial Catalog=coa"
+	session("mySiteID") = "coa"
+	session("Public") = "site/coa/public/"
+	session("PageCount") = 10
+	session("myURL") = "http://kwpi-coa-ma-kmweb.gss.com.tw/"
+	session("myWWWsite") = "http://kwpi-coa-ma-kmwebsys.gss.com.tw"
+	session("harvest_myXDURL") = "http://hygipadmin.coa.gov.tw/site/coa/wsxd2"
+	session("harvest_url") = "http://kwpi-coa-ma-harvest.gss.com.tw/"
+	
+	session("relatedDocumentURL") = "http://rdoc.coa.gov.tw/VSMws.svc/getRelDoc/{siteID}/{docID}?group={group}&top={top}"
+
+	session("ActivityId") = "activity1"
+	session("harvest_myStyle") = "aotp"
+	session("harvest_mpTree") = 4
+
+	'2010-6-18::Tommy::{
+	session("WebURL") = "http://kwpi-coa-ma-kmweb.gss.com.tw/"		'會員 email 認證網址(最後請以 '/' 結尾)
+	session("WebDESKey") = "F7F741E99D0137"						'加解密金鑰 = 14位十六進位數（0—9,A,B,C,D,E,F）
+	'2010-6-18::Tommy::}
+
+end sub
+
+sub Application_OnStart
+
+	Application("HyftdServer") = "127.0.0.1"
+	Application("HyftdPort") = 2816
+	Application("HyftdGroupName") = "Intra"
+	Application("HyftdAssociateDataName") = "brief"
+	
+	Application("SiteUnitId") = "1"
+	Application("KnowledgeTankId") = "0"
+	Application("KnowledgeHomeId") = "3"
+	Application("TopicId") = "2"
+	Application("PediaId") = "4"
+	
+	Application("SiteCatTreeRoot") = "34"
+	
+	Application("KnowledgeTankDatabaseId") = "DB020"
+	
+	Application("ActivityID") = "10"
+	
+end sub
+
+Sub Application_OnEnd()
+
+End Sub
+
+</script>

@@ -1,0 +1,43 @@
+﻿: @ codepage = 65001 
+  
+'-----931021特定分眾修改預設勾選
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+'----修改dtd/dsd xml預設勾選
+set fso = server.createobject("scripting.filesystemobject")
+xpath = "/site/"+session("mysiteid")+"/gipdsd/"
+set fldr = fso.getfolder(server.mappath(xpath))
+ 
+if fldr.files.count > 0 then
+    for each sf in fldr.files
+     if (left(sf.name,5)="cudtx" or left(sf.name,7)="ctunitx") and left(sf.name,12)<>"ctunitxorder" then
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true             
+  loadxml = server.mappath(xpath+sf.name)             
+      xv = htpagedom.load(loadxml)
+    if htpagedom.parseerror.reason <> "" then 
+       response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+       response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+       response.end()
+    end if 
+'----刪除特定分眾
+  set cudtgenericnode=htpagedom.selectsinglenode("dataschemadef/dstable[tablename='cudtgeneric']/fieldlist")  
+  if nulltext(cudtgenericnode.selectsinglenode("field[fieldname='vgroup']"))<>"" then
+   set fieldnode = htpagedom.selectsinglenode("//fieldlist/field[fieldname='vgroup']")
+   cudtgenericnode.removechild fieldnode
+  end if
+'----回存  
+  htpagedom.save(server.mappath(xpath+sf.name))
+  response.write sf.name+"<br>"  
+    end if
+    next
+end if
+
+response.write "<br>done931021!"
+ 

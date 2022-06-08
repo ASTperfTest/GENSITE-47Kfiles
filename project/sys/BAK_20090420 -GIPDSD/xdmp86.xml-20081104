@@ -1,0 +1,90 @@
+<?xml version="1.0" standalone="yes"?>
+<MpDataSet>
+  <MenuTree>86</MenuTree>
+  <MpStyle>Style1</MpStyle>
+  <DataSet>
+    <DataLable>BlockA</DataLable>
+    <DataRemark>茶事新聞</DataRemark>
+    <DataNode>1667</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>6</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>Y</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockB</DataLable>
+    <DataRemark>台灣特色茶</DataRemark>
+    <DataNode>1645</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>5</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>80</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>Y</IsExcerpt>
+    <ShowStyle>Style3</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockC</DataLable>
+    <DataRemark>茶葉小常識</DataRemark>
+    <DataNode>4029</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>75</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>Y</IsExcerpt>
+    <ShowStyle>Style3</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockD</DataLable>
+    <DataRemark>泡茶真功夫</DataRemark>
+    <DataNode>1662</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>80</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>Y</IsExcerpt>
+    <ShowStyle>Style3</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockE</DataLable>
+    <DataRemark>各國茶文化</DataRemark>
+    <DataNode>1664</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>2</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>80</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>Y</IsExcerpt>
+    <ShowStyle>Style3</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+</MpDataSet>

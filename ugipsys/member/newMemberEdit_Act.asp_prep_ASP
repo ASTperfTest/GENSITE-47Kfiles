@@ -1,0 +1,403 @@
+﻿: @ codepage = 65001 
+   
+'#####(autogen) 開始：此段程式碼為自動產生，註解部份請勿刪除 #####
+'下列有設定部份如有需要可自行設定
+'此版本為  ver.0.2
+'此段程式碼產生日期為： 2009/6/10 上午 09:59:37
+'(可修改)未來是否自動更新此程式中的 pattern (y/n) : y
+
+'(可修改)此程式是否記錄 log 檔
+activelog4u=true
+
+'(可修改)錯誤發生時要到那個頁面,未填時直接結束，1. 可以是 / :首頁, 2. http://xxx.xxx.xxx.xxx/ooo.htm
+onerrorpath="/"
+
+'目前程式位置在
+progpath="d:\hyweb\gensite\ugipsys\member\newmemberediy_act.asp"
+
+'--------- (可修改)要檢查的 request 變數名稱 --------
+genparamsarray=array()
+genparamspattern=array("<", ">", "%3c", "%3e", ";", "%27", "'", "=", "+", "*", "/", "%", "@", "~", "!", "#", "$", "&", "\", "(", ")", "{", "}", "[", "]") '#### 要檢查的 pattern(程式會自動更新):genpat ####
+genparamsmessage=now() & vbtab & "error(1):request變數含特殊字元"
+
+'-------- (可修改)只檢查單引號，如 request 變數未來將要放入資料庫，請一定要設定(防 sql injection) --------
+sqlinjparamsarray=array("realnametext","nicknametext")
+sqlinjparamspattern=array("'") '#### 要檢查的 pattern(程式會自動更新):db ####
+sqlinjparamsmessage=now() & vbtab & "error(2):request變數含單引號"
+
+'-------- (可修改)只檢查 html標籤符號，如 request 變數未來將要輸出，請設定 (防 cross site scripting)--------
+xssparamsarray=array("realnametext","nicknametext")
+xssparamspattern=array("<", ">", "%3c", "%3e") '#### 要檢查的 pattern(程式會自動更新):html ####
+xssparamsmessage=now() & vbtab & "error(3):request變數含html標籤符號"
+
+'-------- (可修改)檢查數字格式 --------
+chknumericarray=array()
+chknumericmessage=now() & vbtab & "error(4):request變數不為數字格式"
+
+'-------- (可修改)檢察日期格式 --------
+chkdatearray=array()
+chkdatemessage=now() & vbtab & "error(5):request變數不為日期格式"
+
+'##########################################
+
+'--------- 檢查 request 變數名稱 --------
+sub chkpattern(parray, patern, message)
+ for each str in parray 
+  p=xupform(str)
+  for each ptn in patern
+   if (instr(p, ptn) >0) then
+    message = message & vbtab & progpath & vbtab & "xupform(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+    log4u(message) '寫入到 log
+    onerroraction
+   end if
+  next
+ next
+end sub
+
+'-------- 檢查數字格式 --------
+sub chknumeric(parray, message)
+ for each str in parray
+  p=xupform(str)
+  if not isnumeric(p) then
+   message = message & vbtab & progpath & vbtab & "xupform(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'--------檢察日期格式 --------
+sub chkdate(parray, message)
+ for each str in parray
+  p=xupform(str)
+  if not isdate(p) then
+   message = message & vbtab & progpath & vbtab & "xupform(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'onerror
+sub onerroraction()
+ if (onerrorpath<>"") then 
+  response.redirect(onerrorpath)
+  response.end
+ end if
+end sub
+
+'log 放在網站根目錄下的 /logs，檔名： yyyymmdd_log4u.txt
+function log4u(strlog)
+ if (activelog4u) then
+  fldr=server.mappath("/") & "/logs"
+  filename=year(date()) & right("0"&month(date()), 2) & right("0"&day(date()),2)
+  
+  filename = filename & "_log4u.txt"
+  
+  dim fso, f
+  set fso = createobject("scripting.filesystemobject")
+  
+  '產生新的目錄
+  if (not fso.folderexists(fldr)) then
+   set f = fso.createfolder(fldr)
+  else
+   showabsolutepath = fso.getabsolutepathname(fldr)
+  end if
+  
+  const forreading = 1, forwriting = 2, forappending = 8
+  '開啟檔案
+  set fso = createobject("scripting.filesystemobject")
+  set f = fso.opentextfile( fldr & "\" & filename , forappending, true, -1)
+  f.write strlog  & vbcrlf
+ end if
+end function
+'##### 結束：此段程式碼為自動產生，註解部份請勿刪除 #####
+
+
+response.expires = 0
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+htprogcode="newmember"
+htprogprefix = "newmember"
+
+
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_server_1606199358()
+   
+ 
+'dim conn 
+'set conn = server.createobject("adodb.connection")
+'strcn="provider=sqloledb;data source=10.10.5.127;user id=hygip;password=hyweb;initial catalog=mgipcoanew"
+
+'----------hyweb gip db connection patch----------
+''conn.open strcn
+'set conn = server.createobject("hywebdb3.dbexecute")
+'conn.connectionstring = session("odbcdsn")
+'----------hyweb gip db connection patch----------
+set conn = server.createobject("adodb.connection")
+conn.connectionstring=session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+
+'園藝專家
+' dim isgardenpro
+' isgardenpro = request("gardenpro")
+'response.write request.querystring("gardenpro")
+'response.write  request("gardenpro") & "123"
+'response.end
+' if isgardenpro == "1" then
+' expertsql = "insert into gardening_expert "
+' expertsql = expertsql & "(account,introduction,sort_order) values " 
+' expertsql = expertsql & "('"& id &"','test',2)"
+' conn.execute(expertsql)
+' end if
+
+ htuploadpath = session("public")
+ apath = server.mappath(htuploadpath) & "\"
+ 
+  set xup = server.createobject("tabs.upload")
+  xup.codepage = 65001
+  xup.start apath
+  
+function xupform(xvar)
+ xupform = trim(xup.form(xvar))
+end function
+
+dim id
+id = request.querystring("account")
+
+'sam 檢查字串與用的
+chkpattern genparamsarray, genparamspattern, genparamsmessage
+chkpattern sqlinjparamsarray, sqlinjparamspattern, sqlinjparamsmessage
+chkpattern xssparamsarray, xssparamspattern, xssparamsmessage
+
+
+'園藝專家
+dim isgardenpro
+
+isgardenpro = replace(xupform("gardenpro"),"'","''")
+intro = replace(xupform("textfield"),"'","''")
+order = replace(xupform("order"),"'","''")
+'response.write order&"<br>"
+'response.write xupform("order")
+'response.end
+
+if order = "" then order=dbnull end if 
+
+'response.write aaa
+'response.end
+'有勾園藝專家的時候
+if isgardenpro <> "" then
+ 
+ '有資料就update
+ '沒有就新增
+ expertsql = "select * from gardening_expert where account=" & "'" & id&"'"
+ set garden_rs = conn.execute(expertsql)
+
+ if not garden_rs.eof then
+  'response.write "進入修改"
+  'response.end  
+  expertsql = "update gardening_expert set "
+  expertsql = expertsql  & " introduction  =" & "'" & intro &"',"
+  expertsql = expertsql  & " sort_order =" & "'" & order &"'"
+  expertsql = expertsql  & " where  account= "& "'"  & id & "'"
+  conn.execute(expertsql)
+ else
+  'response.write "進入新增"
+  'response.end
+  expertsql = "insert into gardening_expert "
+  expertsql = expertsql & "(account,introduction,sort_order) values " 
+  expertsql = expertsql & "('"& id &"','"& intro &"','"& order &"')"
+  conn.execute(expertsql)
+ end if
+else
+ 'response.write "進入刪除"
+ 'response.end
+ expertsql = "delete from gardening_expert " 
+ expertsql = expertsql  & " where  account= "& "'"  & id & "'"
+ conn.execute(expertsql)
+end if
+
+
+accounttext = replace(xupform("accounttext"),"'","''")
+accounttext = trim(accounttext)
+
+
+set rs2 = conn.execute("select count(email) as count from member where (account <> '" & accounttext & "') and (email = '" &  trim(replace(xupform("emailtext"),"'","''")) & "')")
+if not rs2.eof then
+ emailcount = rs2("count")
+end if 
+if emailcount > 0 then
+    response.write "<script>alert('e-mail 已被登記使用(" & emailcount  & "次)，請重新輸入');history.back();</script>"
+    response.end
+end if
+
+
+
+photo = replace(xupform("imgfile"),"'","''")
+accountsql = "select count(*) as account from member where account = '" & accounttext & "'"
+set rsreg = conn.execute(accountsql) 
+
+
+if rsreg("account") = 1 and id <> accounttext then
+ response.write "<script>alert('此帳號已註冊');history.back();</script>"
+else  
+ realnametext   = replace(xupform("realnametext"),"'","''")
+ nicknametext   = xupform("nicknametext")
+ passwd     = replace(xupform("passwd"),"'","''")
+ password2    = replace(xupform("password2"),"'","''")
+ idntext    = replace(xupform("idntext"),"'","''")
+ member_orgtext      = replace(xupform("member_orgtext"),"'","''")
+ com_teltext   = replace(xupform("com_tel"),"'","''")
+ com_exttext   = replace(xupform("com_ext"),"'","''")
+ ptitletext   = replace(xupform("ptitle"),"'","''")
+ birthyeartext  = replace(xupform("birthyeartext"),"'","''")
+ birthmonthtext     = replace(xupform("birthmonthtext"),"'","''")
+ birthdaytext  = replace(xupform("birthdaytext"),"'","''")
+ sextext    = replace(xupform("sex"),"'","''")
+ homeaddrtext  = replace(xupform("homeaddrtext"),"'","''")
+ ziptext    = replace(xupform("ziptext"),"'","''")
+ phonetext   = replace(xupform("phonetext"),"'","''")
+ home_exttext  = replace(xupform("home_exttext"),"'","''")
+ mobiletext   = replace(xupform("mobiletext"),"'","''")
+ faxtext    = replace(xupform("faxtext"),"'","''")
+ emailtext   = replace(xupform("emailtext"),"'","''")
+ emailverified  = replace(xupform("emailverified"),"'","''")
+ 'status=replace(xupform("status"),"'","''")
+ uploadright   = replace(xupform("uploadright"),"'","''")
+ uploadpiccount     = replace(xupform("uploadpiccount"),"'","''")
+ scholarvalidate=replace(xupform("scholarvalidate"),"'","''")
+ id_type2=replace(xupform("id_type2"),"'","''")
+ knowledgepro  = replace(xupform("knowledgepro"),"'","''")
+ kmcat    = replace(xupform("kmcat"),"'","''")
+ showcursoricon     = replace(xupform("showcursoricon"),"'","''")'0812 grace
+ remark       = replace(xupform("remark"),"'","''")'0812 grace
+
+ if knowledgepro="1" then
+  knowledgepro="1"
+ else
+  knowledgepro="0"
+ end if
+ 
+ birthday = birthyeartext & birthmonthtext & birthdaytext
+
+sql = "update member set  "
+sql = sql  & "account =" & "'" & accounttext &"'"
+sql = sql  & ",realname =" & "'" & realnametext &"'"
+sql = sql  & ",nickname =" & "'" & nicknametext &"'"
+sql = sql  & ",passwd = "& "'" & passwd  &"'"
+sql = sql  & ",id = "& "'" & idntext  &"'"
+sql = sql  & ",member_org = "&"'" & member_orgtext  &"'"
+sql = sql  & ",com_tel = "&"'" & com_teltext  &"'"
+sql = sql  & ",com_ext = "&"'" & com_exttext  &"'"
+sql = sql  & ",ptitle = "& "'" & ptitletext  &"'"
+sql = sql  & ",birthday = "& "'" & birthday  &"'"
+sql = sql  & ",sex = "& "'" & sextext  &"'"
+sql = sql  & ",homeaddr = "& "'" & homeaddrtext  &"'"
+sql = sql  & ",zip = "& "'" & ziptext  &"'"
+sql = sql  & ",phone = "&"'" & phonetext  &"'"
+sql = sql  & ",home_ext = "& "'" & home_exttext  &"'"
+sql = sql  & ",mobile = "& "'" & mobiletext  &"'"
+sql = sql  & ",fax = "&"'" & faxtext  &"'"
+sql = sql  & ",email = "&"'" & emailtext  &"'"
+if emailverified = "y" then
+sql = sql  & ",mcode = "&"'" & emailverified  &"'"
+else
+sql = sql  & ",mcode = null"
+end if
+'sql = sql  & ",status = "&"'" & status  &"'"
+sql = sql  & ",uploadright = "&"'" & uploadright  &"'"
+sql = sql  & ",uploadpiccount = "&"'" & uploadpiccount  &"'"
+
+'新增功能:可直接改為學者會員身分  
+scholarcheck = replace(xupform("scholarcheck"),"'","''") 
+if scholarcheck = "1" then
+    sql = sql  & ",scholarvalidate = "&"'y'"
+ sql = sql  & ",id_type2 = "&"'1'"
+end if
+'sql = sql  & ",scholarvalidate = "&"'" & scholarvalidate  &"'"
+sql = sql  & ",id_type3 = "&"'" & knowledgepro  &"'"
+sql = sql  & ",kmcat = "&"'" & kmcat  &"'"
+sql = sql  & ",remark = "&"'" & remark  &"'"'0812 grace
+
+'開啟動態游標處理 grace
+cursorcheck = replace(xupform("cursorcheck"),"'","''")
+if cursorcheck = "1" then
+ sql = sql  & ",showcursoricon = "&"'1'"'0812 grace
+else
+ sql = sql  & ",showcursoricon = "&"'0'"'0812 grace
+end if
+'開啟動態游標處理 end
+
+
+
+
+if  trim(photo)<>"" then
+ 'nfname = year(now()) & month(now()) & day(now()) & hour(now())& minute(now()) & second(now()) 
+ nfname = xup.form("imgfile").filename
+ pos = instr(nfname, ".")
+ nfname = year(now()) & month(now()) & day(now()) & hour(now())& minute(now()) & second(now()) &"." & mid(nfname, pos + 1)
+ route =  "\"& "public" & "\" & nfname
+ xup.form("imgfile").saveas apath & nfname, true 
+ sql = sql  & ",photo = "&"'" & route  &"'"
+end if 
+
+sql = sql  & " where account = " & "'" & id&"'" 
+
+
+conn.execute(sql)
+
+
+
+'訂閱電子報處理
+epapercheck = replace(xupform("epapercheck"),"'","''")
+if epapercheck = "1" then
+ checksql = "select * from epaper where email = '"&emailtext&"'"
+ set check_epaper = conn.execute(checksql)
+ if check_epaper.eof then
+  sql1 = "insert into epaper (email,createtime,ctrootid) values ('"&emailtext&"', getdate(),'21')"
+  conn.execute(sql1)
+ end if
+else
+ sql2 = "delete from epaper where email = '"& emailtext &"'"
+ conn.execute(sql2)
+end if
+'訂閱電子報處理end
+
+
+
+'存檔後回原頁 grace
+if request.querystring("from") = "list" then
+    response.redirect "newmemberlist.asp?keep=y&validate="&session("validate")&"&nowpage="&request.querystring("nowpage")&"&pagesize="&request.querystring("pagesize")
+elseif request.querystring("from")  = "query" then
+    response.redirect "newmemberquery_act.asp?nowpage="&request.querystring("nowpage")&"&pagesize="&request.querystring("pagesize")
+else
+    response.redirect "newmemberlist.asp?keep=y&validate="&session("validate")
+end if
+'存檔後回原頁 end
+
+
+end if 
+
+function chg_uni(str)        'ascii轉unicode
+ dim old,new_w,istr
+ old = str
+ new_w = ""
+ for istr = 1 to len(str)
+  if ascw(mid(old,istr,1)) < 0 then
+   new_w = new_w & "&#" & ascw(mid(old,istr,1))+65536 & ";"
+  elseif        ascw(mid(old,istr,1))>0 and ascw(mid(old,istr,1))<127 then
+   new_w = new_w & mid(old,istr,1)
+  else
+   new_w = new_w & "&#" & ascw(mid(old,istr,1)) & ";"
+  end if
+ next
+ chg_uni=new_w
+end function
+ 

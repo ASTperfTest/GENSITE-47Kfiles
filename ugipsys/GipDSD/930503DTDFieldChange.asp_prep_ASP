@@ -1,0 +1,61 @@
+﻿: @ codepage = 65001 
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+set fso = server.createobject("scripting.filesystemobject")
+
+xpath = "/site/"+session("mysiteid")+"/gipdsd/"
+
+set fldr = fso.getfolder(server.mappath(xpath))
+ 
+if fldr.files.count > 0 then
+    for each sf in fldr.files
+     if (left(sf.name,5)="cudtx" or left(sf.name,7)="ctunitx") and left(sf.name,12)<>"ctunitxorder" then
+'     if sf.name="cudtx4.xml" then
+'      on error resume next
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true             
+  loadxml = server.mappath(xpath+sf.name)             
+      xv = htpagedom.load(loadxml)
+    if htpagedom.parseerror.reason <> "" then 
+       response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+       response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+       response.end()
+    end if 
+  set cudtgenericnode=htpagedom.selectsinglenode("dataschemadef/dstable[tablename='cudtgeneric']/fieldlist")
+  set fxml = server.createobject("microsoft.xmldom")
+  fxml.async = false
+  fxml.setproperty "serverhttprequest", true
+  loadxml = server.mappath("/gipdsd/schema0.xml")
+  xv = fxml.load(loadxml)
+    if fxml.parseerror.reason <> "" then 
+       response.write("fxml parseerror on line " &  fxml.parseerror.line)
+       response.write("<br>reasonxx: " &  fxml.parseerror.reason)
+       response.end()
+    end if 
+  set xfieldnode = fxml.selectsinglenode("//dstable/fieldlist/field[fieldname='ximgfile']").clonenode(true)  
+      if nulltext(cudtgenericnode.selectsinglenode("field[fieldname='ximgfile']"))="" then    
+   cudtgenericnode.appendchild xfieldnode  
+'----回存  
+   htpagedom.save(server.mappath(xpath+sf.name))
+   response.write sf.name+"<br>"
+    end if        
+
+
+    end if
+    next
+end if
+
+'response.write "<xmp>"+htpagedom.xml+"</xmp>"
+'response.end
+
+
+
+response.write "<br>done!"
+ 

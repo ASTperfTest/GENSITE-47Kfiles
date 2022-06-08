@@ -1,0 +1,53 @@
+﻿
+
+
+
+
+
+
+
+
+
+        function moreKnowledge() {
+            var keyword = "Cx_0dummy";
+            if (keyword != "") {
+                document.SearchForm.Keyword.value = keyword;
+                document.SearchForm.action = "/kp.asp?xdURL=Search/SearchResultList.asp";
+                document.SearchForm.debug.value = false;
+                document.SearchForm.submit();
+            } else {
+                alert("please insert searchworld");
+            }
+        }
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

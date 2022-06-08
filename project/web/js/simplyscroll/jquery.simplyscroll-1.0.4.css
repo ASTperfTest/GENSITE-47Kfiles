@@ -1,0 +1,126 @@
+/* Container DIV - automatically generated */
+.simply-scroll-container
+{
+    padding-top:25px;
+    position: relative;
+}
+
+/* Clip DIV - automatically generated */
+.simply-scroll-clip
+{
+    margin-left:20px;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+}
+
+/* UL/OL/DIV - the element that simplyScroll is inited on
+Class name automatically added to element */
+.simply-scroll-list
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.simply-scroll-list li
+{
+    /* 
+        padding: 0;
+        margin: 0;    
+        list-style: none; 
+    */    
+}
+
+.simply-scroll-list li img
+{
+    border: none;
+    display: block;
+}
+
+/* Master button styles - note that left and right 
+versions are included although they are not used in this example */
+
+.simply-scroll-btn
+{
+    position: absolute;
+    z-index: 3;
+    cursor: pointer;
+    display:block;
+    margin-left:25px;
+}
+
+.simply-scroll-btn-up
+{
+    right: 6px;
+    top: 16px;    
+}
+.simply-scroll-btn-up.disabled
+{
+    display:none;
+}
+.simply-scroll-btn-up:hover
+{
+    
+}
+
+.simply-scroll-btn-down
+{
+    right: 6px;
+    bottom: 6px;    
+}
+.simply-scroll-btn-down.disabled
+{
+    display:none;
+}
+.simply-scroll-btn-down:hover
+{
+    
+}
+
+/* Container DIV */
+.vert
+{
+     /*width: 340px; wider than clip for custom button pos. */
+    height: 500px;
+}
+
+/* Clip DIV */
+.vert .simply-scroll-clip
+{
+    height: 500px;	
+	/* width: 200px; */
+}
+
+
+.vert .simply-scroll-btn-up
+{
+    left: 0;
+    top: 0;
+    background-image: url(/js/simplyscroll/scrollup.png);
+    width: 120px;
+    height: 20px;    
+}
+
+.vert .simply-scroll-btn-down
+{
+    left: 0;
+    top: 530px;
+    background-image: url(/js/simplyscroll/scrolldown.png);
+    width: 120px;
+    height: 20px;    
+}
+
+
+
+/* Explicitly set height/width of each list item */
+.vert .simply-scroll-list li img
+{
+    width: 130px;
+    height: 32px;        
+}

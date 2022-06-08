@@ -1,0 +1,34 @@
+﻿: @ codepage = 65001 
+
+
+
+   CxMethod_ASP_dhtuigen_111803172()
+   
+
+ xmlspec = "fcudtx9"
+ set htpagedom = server.createobject("microsoft.xmldom")
+ htpagedom.async = false
+
+' loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/" & xmlspec & ".xml")
+ loadxml = server.mappath(xmlspec & ".xml")
+ xv = htpagedom.load(loadxml)
+' response.write xv & "<hr>"
+   if htpagedom.parseerror.reason <> "" then 
+      response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+      response.end()
+   end if
+   set session("hyxformspec") = htpagedom
+    set dsroot = htpagedom.selectsinglenode("dataschemadef")  
+
+ for each xfield in dsroot.selectnodes("//field") 
+  xfid = nulltext(xfield.selectsinglenode("fieldseq"))
+  xfname = nulltext(xfield.selectsinglenode("fieldname"))
+  xflabel = nulltext(xfield.selectsinglenode("fieldlabel"))
+ 
+
+                       =xfname:            =xfname:                         =xflabel
+
+     
+ next
+ 

@@ -1,0 +1,226 @@
+﻿:                      codepage="65001"
+  
+ function getsecureval(param)
+  if isempty(param) or param = "" then
+   getsecureval = param
+   exit function
+  end if
+ 
+  if isnumeric(param) then
+   getsecureval = clng(param)
+  else
+   getsecureval = replace(cstr(param), "'", "''")
+  end if
+ end function
+ 
+ picnum = getsecureval(request("picnum"))
+ loginid = getsecureval(request("loginid"))
+ token = getsecureval(request("token"))
+ p1 = getsecureval(request("p1"))
+ p2 = getsecureval(request("p2"))
+ p3 = getsecureval(request("p3"))
+ p4 = getsecureval(request("p4"))
+ p5 = getsecureval(request("p5"))
+ p6 = getsecureval(request("p6"))
+ p7 = getsecureval(request("p7"))
+ p8 = getsecureval(request("p8"))
+ p9 = getsecureval(request("p9"))
+ p10 = getsecureval(request("p10"))
+ p11 = getsecureval(request("p11"))
+ p12 = getsecureval(request("p12"))
+ p13 = getsecureval(request("p13"))
+ p14 = getsecureval(request("p14"))
+ p15 = getsecureval(request("p15"))
+ p16 = getsecureval(request("p16"))
+ p17 = getsecureval(request("p17"))
+ p18 = getsecureval(request("p18"))
+ p19 = getsecureval(request("p19"))
+ p20 = getsecureval(request("p20"))
+ p21 = getsecureval(request("p21"))
+ p22 = getsecureval(request("p22"))
+ p23 = getsecureval(request("p23"))
+ p24 = getsecureval(request("p24"))
+ p25 = getsecureval(request("p25"))
+ p26 = getsecureval(request("p26"))
+ p27 = getsecureval(request("p27"))
+ p28 = getsecureval(request("p28"))
+ p29 = getsecureval(request("p29"))
+ p30 = getsecureval(request("p30"))
+ p31 = getsecureval(request("p31"))
+ p32 = getsecureval(request("p32"))
+ p33 = getsecureval(request("p33"))
+ p34 = getsecureval(request("p34"))
+ p35 = getsecureval(request("p35"))
+ p36 = getsecureval(request("p36"))
+ diff = getsecureval(request("difficult"))
+ 
+ '檢查送過來的資料是否有齊全
+ if picnum="" or loginid="" or token="" or diff="" then 
+  response.write "資料不同步，請按f5重新整理！"
+  response.end()
+ end if
+ for i = 1 to 36
+  if eval("p"&i)="" then 
+   response.write "資料不同步，請按f5重新整理！"
+   response.end()
+  end if
+ next
+ 
+ '檢查送過來的資料是否有兩兩相同的狀況
+ 'for i = 1 to 36
+ ' for j = i+1 to 36
+ '  if cstr(eval("p"&i))=cstr(eval("p"&j)) then 
+ '   response.write "資料不同步，請按f5重新整理！"
+ '   response.end()
+ '  end if
+ ' next
+ 'next
+ 
+ set conn = server.createobject("adodb.connection")
+ conn.connectionstring = application("connstrpuzzle")
+ conn.connectiontimeout=0
+ conn.cursorlocation = 3
+ conn.open
+ 
+ '確認是否在登入時限內
+ sql = "select * from sso where token='"& token &"' " 
+ set rs = conn.execute (sql)
+ if dateadd("n",30,rs("lastactivetime"))<now() then 
+  response.write "登入時間過久，請重新登入！"
+  response.end()
+ end if
+ 
+ '檢查遊戲狀態是否正確
+ sql = "select * from gamelog where login_id='"& loginid &"' order by ser_no desc " 
+ set rs = conn.execute (sql)
+ checkgame=0
+ if not rs.eof then 
+  if cstr(rs("pic_id"))<>cstr(picnum) then checkgame = checkgame + 1  
+  if cstr(rs("login_id"))<>cstr(loginid) then checkgame = checkgame + 1
+  if cstr(rs("pic1"))<>cstr(p1) then checkgame = checkgame + 1
+  if cstr(rs("pic2"))<>cstr(p2) then checkgame = checkgame + 1
+  if cstr(rs("pic3"))<>cstr(p3) then checkgame = checkgame + 1
+  if cstr(rs("pic4"))<>cstr(p4) then checkgame = checkgame + 1
+  if cstr(rs("pic5"))<>cstr(p5) then checkgame = checkgame + 1
+  if cstr(rs("pic6"))<>cstr(p6) then checkgame = checkgame + 1
+  if cstr(rs("pic7"))<>cstr(p7) then checkgame = checkgame + 1
+  if cstr(rs("pic8"))<>cstr(p8) then checkgame = checkgame + 1
+  if cstr(rs("pic9"))<>cstr(p9) then checkgame = checkgame + 1
+  if cstr(rs("pic10"))<>cstr(p10) then checkgame = checkgame + 1
+  if cstr(rs("pic11"))<>cstr(p11) then checkgame = checkgame + 1
+  if cstr(rs("pic12"))<>cstr(p12) then checkgame = checkgame + 1
+  if cstr(rs("pic13"))<>cstr(p13) then checkgame = checkgame + 1
+  if cstr(rs("pic14"))<>cstr(p14) then checkgame = checkgame + 1
+  if cstr(rs("pic15"))<>cstr(p15) then checkgame = checkgame + 1
+  if cstr(rs("pic16"))<>cstr(p16) then checkgame = checkgame + 1
+  if cstr(rs("pic17"))<>cstr(p17) then checkgame = checkgame + 1
+  if cstr(rs("pic18"))<>cstr(p18) then checkgame = checkgame + 1
+  if cstr(rs("pic19"))<>cstr(p19) then checkgame = checkgame + 1
+  if cstr(rs("pic20"))<>cstr(p20) then checkgame = checkgame + 1
+  if cstr(rs("pic21"))<>cstr(p21) then checkgame = checkgame + 1
+  if cstr(rs("pic22"))<>cstr(p22) then checkgame = checkgame + 1
+  if cstr(rs("pic23"))<>cstr(p23) then checkgame = checkgame + 1
+  if cstr(rs("pic24"))<>cstr(p24) then checkgame = checkgame + 1
+  if cstr(rs("pic25"))<>cstr(p25) then checkgame = checkgame + 1
+  if cstr(rs("pic26"))<>cstr(p26) then checkgame = checkgame + 1
+  if cstr(rs("pic27"))<>cstr(p27) then checkgame = checkgame + 1
+  if cstr(rs("pic28"))<>cstr(p28) then checkgame = checkgame + 1
+  if cstr(rs("pic29"))<>cstr(p29) then checkgame = checkgame + 1
+  if cstr(rs("pic30"))<>cstr(p30) then checkgame = checkgame + 1
+  if cstr(rs("pic31"))<>cstr(p31) then checkgame = checkgame + 1
+  if cstr(rs("pic32"))<>cstr(p32) then checkgame = checkgame + 1
+  if cstr(rs("pic33"))<>cstr(p33) then checkgame = checkgame + 1
+  if cstr(rs("pic34"))<>cstr(p34) then checkgame = checkgame + 1
+  if cstr(rs("pic35"))<>cstr(p35) then checkgame = checkgame + 1
+  if cstr(rs("pic36"))<>cstr(p36) then checkgame = checkgame + 1  
+ else
+  response.write "資料不同步，請按f5重新整理！"
+  response.end() 
+ end if
+ 
+ if checkgame>2 then 
+  response.write "資料不同步，請按f5重新整理！"
+  response.end()
+ end if
+ 
+ '寫入本次遊戲狀態  
+ sql="gamelog"
+ set rs = server.createobject("adodb.recordset")
+   rs.open sql,conn,1,3
+   rs.addnew
+   rs("pic_id")=picnum
+ rs("login_id")=loginid
+ rs("pic1")=p1
+ rs("pic2")=p2
+ rs("pic3")=p3
+ rs("pic4")=p4
+ rs("pic5")=p5
+ rs("pic6")=p6
+ rs("pic7")=p7
+ rs("pic8")=p8
+ rs("pic9")=p9
+ rs("pic10")=p10
+ rs("pic11")=p11
+ rs("pic12")=p12
+ rs("pic13")=p13
+ rs("pic14")=p14
+ rs("pic15")=p15
+ rs("pic16")=p16
+ rs("pic17")=p17
+ rs("pic18")=p18
+ rs("pic19")=p19
+ rs("pic20")=p20
+ rs("pic21")=p21
+ rs("pic22")=p22
+ rs("pic23")=p23
+ rs("pic24")=p24
+ rs("pic25")=p25
+ rs("pic26")=p26
+ rs("pic27")=p27
+ rs("pic28")=p28
+ rs("pic29")=p29
+ rs("pic30")=p30
+ rs("pic31")=p31
+ rs("pic32")=p32
+ rs("pic33")=p33
+ rs("pic34")=p34
+ rs("pic35")=p35
+ rs("pic36")=p36
+ check=0
+ for i = 1 to 36
+  if cint(eval("p"&i))<>cint(i) then check = check + 1
+ next
+ rs("picstate")="f" 
+ rs("gametime")=now
+ rs("difficult")=diff
+ check="f"
+   rs.update
+   rs.close 
+ 
+ '更新登入時間
+ sql = "update sso set lastactivetime=getdate() where token='"& token &"' " 
+ set rs = conn.execute (sql)
+ 
+ '本拼圖完成後把遊戲狀態清掉並將資料寫入game history中
+ if check="f" then   
+  sql = "declare @login_id varchar(50)"
+        sql = sql & vbcrlf & "set @login_id = '"& loginid &"'" 
+        sql = sql & vbcrlf & "begin tran"
+        sql = sql & vbcrlf & " insert into gamehistory (pic_id, login_id, pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8, pic9, pic10, pic11, pic12, pic13, pic14, pic15, pic16, pic17, pic18, pic19, pic20, pic21, "
+        sql = sql & vbcrlf & "   pic22, pic23, pic24, pic25, pic26, pic27, pic28, pic29, pic30, pic31, pic32, pic33, pic34, pic35, pic36, picstate, gametime, difficult)"
+        sql = sql & vbcrlf & ""
+        sql = sql & vbcrlf & " select pic_id, login_id, pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8, pic9, pic10, pic11, pic12, pic13, pic14, pic15, pic16, pic17, pic18, pic19, pic20, pic21, "
+        sql = sql & vbcrlf & "   pic22, pic23, pic24, pic25, pic26, pic27, pic28, pic29, pic30, pic31, pic32, pic33, pic34, pic35, pic36, picstate, gametime, difficult"
+        sql = sql & vbcrlf & " from gamelog where login_id = @login_id"
+        sql = sql & vbcrlf & ""
+        sql = sql & vbcrlf & " delete from gamelog where login_id = @login_id"
+        sql = sql & vbcrlf & "commit  "
+  set rs1 = conn.execute (sql)
+  
+  response.write "放棄成功！" '回給flash放棄成功 
+ end if
+ 
+ 'rs.close()
+ 'rs1.close()
+ conn.close()
+ 

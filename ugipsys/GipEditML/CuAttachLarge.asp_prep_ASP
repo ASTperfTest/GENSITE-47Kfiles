@@ -1,0 +1,74 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+server.scripttimeout = 3000
+htprogcap="資料附件"
+htprogfunc="新增"
+htuploadpath=session("public")+"attachment/"
+htprogcode="gc1ap1"
+htprogprefix="cuattach" 
+   CxMethod_ASP_server_1606199358()
+  
+   sqlp = "select mvalue from codemain where codemetaid='attachmentlarge' and mcode='1'"
+   set rsp = conn.execute(sqlp)
+   xfileitemcount = 0
+   if rsp.eof then
+
+
+
+
+   response.end     
+   else
+    folderspec = rsp(0)
+   end if 
+   set fso = createobject("scripting.filesystemobject")
+   if not fso.folderexists(folderspec) then
+
+
+
+
+   response.end     
+   else
+    set f = fso.getfolder(folderspec)
+   end if
+   set fc = f.files
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  for each f1 in fc
+ xfileitemcount = xfileitemcount + 1
+
+
+
+                                   =f1.name
+
+                       =f1.name
+                        =formatnumber((f1.size/1024/1024),2)
+
+  next
+
+
+
+
+
+
+
+                    =xfileitemcount 

@@ -1,0 +1,28 @@
+﻿
+
+
+
+
+
+  =rsreg("email")
+
+
+
+
+                            =rsreg("createtime")
+
+
+
+
+
+
+
+
+  if formfunction = "edit" then 
+
+          if (htprogright and 16) <> 0 then 
+
+         end if 
+
+
+   end if  

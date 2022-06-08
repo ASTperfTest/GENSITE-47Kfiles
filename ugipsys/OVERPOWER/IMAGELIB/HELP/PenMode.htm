@@ -1,0 +1,154 @@
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#006E8E" text="#FFFFFF" link="#00FF00" vlink="#00FF00" alink="#00FF00"  cellspacing="0" cellpadding="0">
+<div align="center">
+  <table width="98%" border="0" cellspacing="0" cellpadding="0" height="100%" align="left">
+    <tr>
+      <td width="10">&nbsp;</td>
+      <td valign="top">
+        <div align="center"> 
+          <p align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><br>
+            <img src="box.gif" width="30" height="30" align="absmiddle"> <b><font size="3">PENMODE<br>
+            <br>
+            </font></b>Determines how the pen draws lines on the canvas.<br>
+            <br>
+            <b>property </b>PenMode: <a href="defs.htm#integer">Integer</a><br>
+            <br>
+            <b>Description<br>
+            </b>Set Mode to determine how the color of the pen interacts with 
+            the color on the image. The effects of Mode are described in the following 
+            table:<br>
+            </font></p>
+          <table border="0" cellspacing="5" cellpadding="0">
+            <tr> 
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>Value</b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>Pixels 
+                color </b></font></td>
+            </tr>
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>1 
+                (Black) </b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Always 
+                black </font></td>
+            </tr>
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>2 
+                (White)</b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Always 
+                white </font></td>
+            </tr>
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>3 
+                (Nop)</b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Unchanged 
+                </font></td>
+            </tr>
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>4 
+                (Not)</b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Inverse 
+                of canvas background color </font></td>
+            </tr>
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>5 
+                (Copy)</b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Pen 
+                color specified in Color property (Default)</font></td>
+            </tr>
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>6 
+                (Not Copy)</b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Inverse 
+                of pen color </font></td>
+            </tr>
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>7 
+                (Merge pen not)</b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Combination 
+                of pen color and inverse of canvas background </font></td>
+            </tr>
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>8 
+                (Mask pen Not) </b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Combination 
+                of colors common to both pen and inverse of canvas background. 
+                </font></td>
+            </tr>
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>9 
+                (Merge not pen)</b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Combination 
+                of canvas background color and inverse of pen color </font></td>
+            </tr>
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>10 
+                (Mask not Pen)</b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Combination 
+                of colors common to both canvas background and inverse of pen</font></td>
+            </tr>
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>11 
+                (Merge)</b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Combination 
+                of pen color and canvas background color </font></td>
+            </tr>
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>12 
+                (Not merge)</b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Inverse 
+                of pmMerge: combination of pen color and canvas background color 
+                </font></td>
+            </tr>
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>13 
+                (Mask)</b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Combination 
+                of colors common to both pen and canvas background </font></td>
+            </tr>
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>14 
+                (Not mask)</b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Inverse 
+                of pmMask: combination of colors common to both pen and canvas 
+                background </font></td>
+            </tr>
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>15 
+                (Xor)</b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Combination 
+                of colors in either pen or canvas background, but not both </font></td>
+            </tr>
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>16 
+                (Not xor)</b></font></td>
+              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Inverse 
+                of pmXor: combination of colors in either pen or canvas background, 
+                but not both</font></td>
+            </tr>
+          </table>
+          <br>
+          <table border="0" cellspacing="0" cellpadding="0" align="left">
+            <tr> 
+              <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>Note: 
+                &nbsp;&nbsp;</b></font></td>
+              <td valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The 
+                default value is 5 (Copy)</font></td>
+            </tr>
+          </table>
+          <p align="left"><br>
+            <br>
+            <br>
+            <font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"> 
+            </font></p>
+        </div>
+        </td>
+    </tr>
+  </table>
+  <p align="left">&nbsp; </p>
+</div>
+</body>
+</html>

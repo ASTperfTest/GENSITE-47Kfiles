@@ -1,0 +1,371 @@
+﻿: @ codepage=65001 
+   response.expires = 0
+htprogcap="gip資料匯出"
+htprogfunc="清單"
+htprogprefix="gipdataxmlgen" 
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbutil_10064021()
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+function xstdtime2(dt)    
+   if len(dt)=0 or isnull(dt) then
+      xstdtime2=""
+   else
+        xyear = cstr(year(dt))     '補零
+        xmonth = right("00"+ cstr(month(dt)),2)
+        xday = right("00"+ cstr(day(dt)),2)
+        xhour = right("00" + cstr(hour(dt)),2)
+        xminute = right("00" + cstr(minute(dt)),2)
+        xsecond = right("00" + cstr(second(dt)),2)
+        xstdtime2 = xyear & "/" & xmonth & "/" & xday & " " & xhour & ":" & xminute & ":" & xsecond
+   end if
+end function
+
+htuploadpath=session("public")+"gipdataxml" 
+sourcepath = server.mappath(session("public")+"data") & "\"
+sourcepath2 = server.mappath(session("public")+"attachment") & "\"
+'response.write sourcepath & "<br>"
+'response.write sourcepath2 & "<br>"
+'response.write server.mappath(htuploadpath)
+
+if request("submittask")<>"" then
+ ct=chr(9)
+ '----處理dtd或dsd xml
+ set htpagedom = server.createobject("microsoft.xmldom")
+ htpagedom.async = false
+ htpagedom.setproperty("serverhttprequest") = true  
+    '----找出對應的dsd,若不存在則用dtd
+    set fso = server.createobject("scripting.filesystemobject")
+ filepath = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx" & request("ctunitid") & ".xml")
+ if fso.fileexists(filepath) then
+  loadxml = filepath
+ else
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/cudtx" & request("ibasedsd") & ".xml")
+ end if      
+ xv = htpagedom.load(loadxml) 
+   if htpagedom.parseerror.reason <> "" then 
+      response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reason: " &  htpagedom.parseerror.reason)
+      response.end()
+   end if
+ set refmodel = htpagedom.selectsinglenode("//dstable")
+ set allmodel = htpagedom.selectsinglenode("//dataschemadef")      
+' response.write "<xmp>"+allmodel.xml+"</xmp>" 
+' response.end
+ basedsdtablename = nulltext(refmodel.selectsinglenode("tablename"))
+' response.write basedsdtablename
+' response.end
+ xmlpath = htuploadpath+"/outxml/"+request("ctunitid")+".xml"
+ set xfout = fso.createtextfile(server.mappath(xmlpath),true,true)
+ xfout.writeline "<?xml version=""1.0""  encoding=""utf-16"" ?>"
+ xfout.writeline "<gipdataxml>" 
+ xfout.writeline ct & "<gipdata>" 
+    sqlxml=""
+'    on error resume next
+ outputcount = 0
+    for each x in request.form
+  if left(x,5)="ckbox" and request(x)<>"" then
+   xfout.writeline ct & ct & "<fieldlist>" 
+      xn=mid(x,6)
+      sqlxml="select * from cudtgeneric htx left join " & basedsdtablename & " ghtx on htx.icuitem=ghtx.gicuitem " & _
+       " where htx.icuitem=" & request("xphkeyicuitem"&xn) & ";"
+      set rsxml=conn.execute(sqlxml)
+   '----master處理
+   for each param in allmodel.selectnodes("dstable[tablename='cudtgeneric']/fieldlist/field[fieldname!='icuitem' and fieldname!='ibasedsd' and fieldname!='ictunit']") 
+    xfout.writeline ct & ct & ct & "<field>" 
+    xfout.writeline ct & ct & ct & ct & "<fieldname>"+nulltext(param.selectsinglenode("fieldname"))+"</fieldname>" 
+    xstr = ""
+    if param.selectsinglenode("fieldname").text="createddate" or param.selectsinglenode("fieldname").text="deditdate" then    
+     if not isnull(rsxml(nulltext(param.selectsinglenode("fieldname")))) then     
+      xstr = xstdtime2(rsxml(nulltext(param.selectsinglenode("fieldname"))))
+     else    
+      xstr = ""
+     end if
+    else
+     if not isnull(rsxml(nulltext(param.selectsinglenode("fieldname")))) then     
+      xstr = rsxml(nulltext(param.selectsinglenode("fieldname")))
+     else    
+      xstr = ""
+     end if    
+    end if
+    xfout.writeline ct & ct & ct & ct & "<fieldvalue><![cdata["+cstr(xstr)+"]]></fieldvalue>" 
+    xfout.writeline ct & ct & ct & "</field>" 
+       '----主圖與檔案下載式檔案複製
+       if not isnull(rsxml("ximgfile")) then
+     if fso.fileexists(sourcepath+rsxml("ximgfile")) then
+      fso.copyfile sourcepath+rsxml("ximgfile"),server.mappath(htuploadpath+"/data")+"\"+rsxml("ximgfile")
+     end if
+   
+ end if
+       if not isnull(rsxml("filedownload")) then
+     if fso.fileexists(sourcepath+rsxml("filedownload")) then
+      fso.copyfile sourcepath+rsxml("filedownload"),server.mappath(htuploadpath+"/data")+"\"+rsxml("filedownload")
+     end if
+   
+ end if  
+   next    
+   '----detail表處理
+   for each param in refmodel.selectnodes("fieldlist/field")
+    xfout.writeline ct & ct & ct & "<field>" 
+    xfout.writeline ct & ct & ct & ct & "<fieldname>"+nulltext(param.selectsinglenode("fieldname"))+"</fieldname>" 
+    xstr = ""
+    if not isnull(rsxml(nulltext(param.selectsinglenode("fieldname")))) then 
+     xstr = rsxml(nulltext(param.selectsinglenode("fieldname")))
+    else    
+     xstr = ""
+    end if
+    xfout.writeline ct & ct & ct & ct & "<fieldvalue><![cdata["+cstr(xstr)+"]]></fieldvalue>" 
+    xfout.writeline ct & ct & ct & "</field>" 
+   next  
+   '----準備附件xml
+   sqla = "select cda.*,i.oldfilename from cudtattach cda left join imagefile i on cda.nfilename=i.newfilename " & _
+    "where cda.blist='y' and cda.xicuitem=" & pkstr(request("xphkeyicuitem"&xn),"")
+   set rsa =  conn.execute(sqla)
+   if not rsa.eof then
+    xfout.writeline ct & ct & ct & "<attachlist>" 
+       while not rsa.eof
+     xfout.writeline ct & ct & ct & ct & "<attach>" 
+     xfout.writeline ct & ct & ct & ct & ct & "<atitle><![cdata["+rsa("atitle")+"]]></atitle>" 
+     xfout.writeline ct & ct & ct & ct & ct & "<adesc><![cdata["+rsa("adesc")+"]]></adesc>" 
+     xfout.writeline ct & ct & ct & ct & ct & "<nfilename>"+rsa("nfilename")+"</nfilename>" 
+     xfout.writeline ct & ct & ct & ct & ct & "<oldfilename>"+rsa("oldfilename")+"</oldfilename>" 
+     xfout.writeline ct & ct & ct & ct & ct & "<blist>"+rsa("blist")+"</blist>" 
+     xfout.writeline ct & ct & ct & ct & ct & "<aeditor>"+rsa("aeditor")+"</aeditor>" 
+     xfout.writeline ct & ct & ct & ct & ct & "<aeditdate>"+cstr(rsa("aeditdate"))+"</aeditdate>" 
+     xfout.writeline ct & ct & ct & ct & ct & "<listseq>"+rsa("listseq")+"</listseq>"            
+     xfout.writeline ct & ct & ct & ct & "</attach>" 
+     '----複製附件檔案
+        if not isnull(rsa("nfilename")) then
+      if fso.fileexists(sourcepath2+rsa("nfilename")) then
+       fso.copyfile sourcepath2+rsa("nfilename"),server.mappath(htuploadpath+"/attachment")+"\"+rsa("nfilename")
+      end if
+    
+ end if       
+        rsa.movenext
+       wend
+    xfout.writeline ct & ct & ct & "</attachlist>" 
+   end if
+   xfout.writeline ct & ct & "</fieldlist>" 
+   outputcount = outputcount + 1
+        end if
+    next 
+ xfout.writeline ct & "</gipdata>" 
+ xfout.writeline "</gipdataxml>"  
+
+
+
+
+
+
+
+
+           =outputcount
+           =xmlpath
+
+
+
+   
+ response.end
+else
+ sqlc = "select ctunitname from ctunit where ctunitid=" & request("htx_ctunitid")
+ set rsc = conn.execute(sqlc)
+ if not rsc.eof then xctunitname = rsc(0)
+    nowpage=request.querystring("nowpage")  '現在頁數
+    if nowpage="" then
+     fsql="select c.icuitem,c.stitle from cudtgeneric c "
+  fsql = fsql & " where ictunit='"&request("htx_ctunitid")&"' order by c.icuitem"
+  session("gipdataxmlgenlist")=fsql
+    else
+     fsql=session("gipdataxmlgenlist")
+    end if
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=9999 
+      end if 
+  set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+' rsreg.cachesize = perpagesize
+
+'----------hyweb gip db connection patch----------
+' rsreg.open fsql,conn,3,1
+set rsreg = conn.execute(fsql)
+ rsreg.cachesize = perpagesize
+'----------hyweb gip db connection patch----------
+
+ 
+ if not rsreg.eof then 
+    totrec=rsreg.recordcount       '總筆數
+    if totrec>0 then 
+       
+       rsreg.pagesize=perpagesize       '每頁筆數
+ 
+       if cint(nowpage)<1 then 
+          nowpage=1
+       elseif cint(nowpage) > rsreg.pagecount then 
+          nowpage=rsreg.pagecount 
+       end if             
+ 
+       rsreg.absolutepage=nowpage
+       totpage=rsreg.pagecount       '總頁數
+    end if    
+ end if   
+end if
+
+
+
+
+
+
+
+
+
+
+
+                                     =htprogprefix:                                             =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       =htprogprefix
+
+                                           =request("htx_ibasedsd")
+                                           =request("htx_ctunitid")
+                                             =xctunitname
+
+                            =htprogcap
+                           =xctunitname
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      =nowpage:    =totpage
+                                          =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+          if cint(nowpage) <>1 then 
+                        =htprogprefix:                    =(nowpage-1):             =perpagesize
+         end if
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):             =perpagesize
+          end if
+
+
+                                 if perpagesize=15 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+                                   if perpagesize=9999 then:            end if
+
+
+
+
+
+
+
+
+
+
+  
+if not rsreg.eof then   
+
+    for i=1 to perpagesize
+
+
+                                                   =i
+                                        =i:            =rsreg("icuitem")
+                                        =rsreg("stitle")
+
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+  else
+
+
+
+  end if 

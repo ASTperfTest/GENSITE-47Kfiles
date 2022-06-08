@@ -1,0 +1,10 @@
+﻿[Add.Code]
+iemenu.ocx=iemenu.ocx
+
+[iemenu.ocx]
+file-win32-x86=thiscab
+file-win32-alpha=http://activex.microsoft.com/controls/iexplorer/alpha/iemenu.cab
+file-win32-mips=http://activex.microsoft.com/controls/iexplorer/mips/iemenu.cab
+file-win32-ppc=http://activex.microsoft.com/controls/iexplorer/ppc/iemenu.cab
+clsid={7823A620-9DD9-11CF-A662-00AA00C066D2}
+FileVersion=4,71,115,0

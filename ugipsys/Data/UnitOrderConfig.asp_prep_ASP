@@ -1,0 +1,21 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_server_1606199358()
+  
+ xtype = request.querystring("xtype")
+ catsql = request.querystring("catsql")
+ if xtype = "unitorderby" then
+ unitid = request.form("unitid")
+ unitidarrar = split(unitid,",")
+  nowshoworder = 0
+   for xno = 0 to ubound(unitidarrar)
+    nowshoworder = nowshoworder + 1
+  sql2 = "update dataunit set showorder =" & nowshoworder & " where unitid ="& unitidarrar(xno)
+  set rs2 = conn.execute(sql2)
+   next
+   msg = "排序完成！"
+ end if
+
+
+           =msg
+                                                      =language:             =datatype:           =catsql 

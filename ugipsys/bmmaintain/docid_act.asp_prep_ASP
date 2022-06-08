@@ -1,0 +1,36 @@
+﻿: @ codepage = 65001 
+  
+response.expires = 0
+htprogcap="局長/民意 信箱"
+htprogfunc="局長信箱維護"
+htprogcode="bm010"
+htprogprefix="msession"
+response.expires = 0
+
+   CxMethod_ASP_server_1606199358()
+  
+ set rsreg = server.createobject("adodb.recordset")
+
+ id = request("id")
+ dateline = request("yy") & "/" & request("mm") & "/" & request("dd")
+
+ if request("submit") = "刪除" then
+  sql2 = "delete prosecute where id = " & replace(id, "'", "''")
+  conn.execute(sql2)
+  response.write "<script language='javascript'>alert('刪除完成!');location.replace('index.asp');</script>"
+ else
+  sql2 = "" & _
+   " update prosecute set " & _
+   " docid = '" & replace(trim(request("docid")), "'", "''") & "', " & _
+   " unit = '" & request("datafrom1") & "', " & _
+   " classname = '', "
+  if isdate(dateline) then
+   sql2 = sql2 & " dateline = '" & dateline & "' "
+  else
+   sql2 = sql2 & " dateline = null "
+  end if
+  sql2 = sql2 & " where id = " & replace(id, "'", "''")
+  conn.execute(sql2)
+  response.write "<script language='javascript'>alert('修改完成!');location.replace('index.asp');</script>"
+ end if
+ 

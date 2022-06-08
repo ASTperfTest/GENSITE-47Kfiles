@@ -1,0 +1,283 @@
+﻿: @ codepage = 65001 
+  
+htprogcap="多媒體物件目錄管理"
+htprogcode="gc1ap3"
+htprogprefix="mmo"
+
+   
+response.expires = 0 
+response.charset="utf-8"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+  
+dim rsreg
+tasklable="編修" & htprogcap
+dim formfunction
+dim ftperrormsg
+ftperrormsg=""
+dim deptcheck
+if request("submittask")="編修存檔" then
+ if request("htx_deptid")<>"" then
+  xdeptid="'"&request("htx_deptid")&"'"
+ else
+  xdeptid="null"
+ end if
+ sql="update mmosite set mmositename=" & pkstr(request("htx_mmositename"),",") _
+  & "mmositedesc=" & pkstr(request("htx_mmositedesc"),",") _
+  & "uploadsiteftpip=" & pkstr(request("htx_uploadsiteftpip"),",") _
+  & "uploadsiteftpport=" & pkstr(request("htx_uploadsiteftpport"),",") _
+  & "uploadsiteftpid=" & pkstr(request("htx_uploadsiteftpid"),",") _
+  & "uploadsiteftppwd=" & pkstr(request("htx_uploadsiteftppwd"),",") _
+  & "uploadsitehttp=" & pkstr(request("htx_uploadsitehttp"),",") _
+  & "deptid=" & xdeptid _
+  & " where mmositeid='" & request("htx_mmositeid") & "'"
+' response.write sql
+' response.end
+ conn.execute(sql)
+
+
+
+
+
+
+
+
+
+
+   response.end
+elseif request("submittask")="ftptest" then
+   if request("htx_uploadsiteftpip")<>"" and request("htx_uploadsiteftpport")<>"" and request("htx_uploadsiteftpid")<>"" and request("htx_uploadsiteftppwd")<>"" then
+  ftperrormsg=""
+  fileaction=""
+  ftpfilepath="public/"&request("mmositeid")
+  ftpdo request("htx_uploadsiteftpip"),request("htx_uploadsiteftpport"),request("htx_uploadsiteftpid"),request("htx_uploadsiteftppwd"),fileaction,ftpfilepath,"","",""    
+  if ftperrormsg<>"" then
+
+
+
+
+
+
+
+
+
+
+       response.end
+  else
+
+
+
+
+
+
+
+
+
+
+       response.end
+  end if
+   end if  
+elseif request("submittask")="刪除" then
+ '----先檢查ftp同步站台是否ok,若不ok,則end
+   if request("htx_uploadsiteftpip")<>"" and request("htx_uploadsiteftpport")<>"" and request("htx_uploadsiteftpid")<>"" and request("htx_uploadsiteftppwd")<>"" then
+  ftperrormsg=""
+  fileaction=""
+  ftpfilepath="public/"&request("mmositeid")
+  ftpdo request("htx_uploadsiteftpip"),request("htx_uploadsiteftpport"),request("htx_uploadsiteftpid"),request("htx_uploadsiteftppwd"),fileaction,ftpfilepath,"","",""    
+  if ftperrormsg<>"" then
+
+
+
+
+
+
+
+
+
+
+       response.end
+  end if
+   end if  
+ '----ftp處理,若刪除ftp同步站台不ok,則end
+   if request("htx_uploadsiteftpip")<>"" and request("htx_uploadsiteftpport")<>"" and request("htx_uploadsiteftpid")<>"" and request("htx_uploadsiteftppwd")<>"" then
+  ftperrormsg=""
+  fileaction="deletedir"
+  ftpfilepath="public/"&request("mmositeid")
+  ftpdo request("htx_uploadsiteftpip"),request("htx_uploadsiteftpport"),request("htx_uploadsiteftpid"),request("htx_uploadsiteftppwd"),fileaction,"",ftpfilepath,"",""    
+   end if
+ if ftperrormsg<>"" then
+
+
+
+
+
+
+             =ftperrormsg
+
+
+
+       response.end
+ end if
+     
+ '----刪除資料庫資料
+ sqld="delete mmofolder where mmositeid='" & request("htx_mmositeid") & "';delete mmosite where mmositeid='" & request("htx_mmositeid") & "'"
+ conn.execute(sqld)
+ '----刪除本機目錄
+ fldrpath=session("mmopublic")+request("htx_mmositeid") 
+ set fso = createobject("scripting.filesystemobject")
+ if fso.folderexists(server.mappath(fldrpath)) then
+  fso.deletefolder(server.mappath(fldrpath))
+ end if
+
+
+
+
+
+
+
+
+
+
+   response.end
+else
+ deptcheck=false
+ sql="select m.* " & _ 
+  ",(select count(*) from mmofolder where mmositeid=m.mmositeid) mmositechildcount,d.deptname " & _
+  "from mmosite m " & _
+  " left join dept d on m.deptid=d.deptid " & _
+  "where m.mmositeid='"&request.querystring("mmositeid")&"'"
+ set rsreg=conn.execute(sql)
+ if isnull(rsreg("deptid")) or (len(rsreg("deptid")) >= len(session("deptid")) and left(rsreg("deptid"),len(session("deptid")))=session("deptid")) then deptcheck=true
+ showhtmlhead()
+ formfunction = "edit"
+ showform()
+ initform()
+ showhtmltail()
+end if 
+function qqrs(fldname)
+ if request("submittask")="" then
+  xvalue = rsreg(fldname)
+ else
+  xvalue = ""
+  if request("htx_"&fldname) <> "" then
+   xvalue = request("htx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function
+
+
+   sub initform() 
+
+   end sub '---- initform() ----
+
+   sub showform() 
+
+   CxMethod_ASP_mmositeform_2045481802()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                           =title
+
+       if (htprogright and 4)=4 then
+                                                               =rsreg("mmositeid")
+   end if
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+   sub showhtmltail() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              =qqrs("mmositeid")
+                                =qqrs("mmositename")
+                                =qqrs("mmositedesc")
+                                    =qqrs("uploadsiteftpip")
+                                      =qqrs("uploadsiteftpport")
+                                    =qqrs("uploadsiteftpid")
+                                     =qqrs("uploadsiteftppwd")
+                                   =qqrs("uploadsitehttp")
+                           =qqrs("deptid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmltail() ------ 

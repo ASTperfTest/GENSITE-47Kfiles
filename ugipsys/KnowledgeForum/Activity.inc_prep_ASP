@@ -1,0 +1,254 @@
+﻿: 
+sub activityknowledge(cuitem)
+ 'step 1:檢查是否為活動期間
+ 'step 2:判斷得分種類 1:一般發問  2分 2:主題館發問 3分 4:已存在討論 1分
+ 'step 3:新增發問得分至活動資料表
+ 'step 3-1: 新增前先判斷是否已存在資料表中,避免重複作業
+ 'step 1------------------------------------------------------------
+ 
+ if activityendflag() = "true" then
+  '判斷是否已存在活動資料表中
+  sql = "select cuitemid from dbo.knowledgeactivity where cuitemid = '" & cuitem &"'"
+  set rs = conn.execute(sql)
+  if not rs.eof then
+   sql2 = "update knowledgeactivity set state=1,modifytime=getdate()  where cuitemid = " & cuitem
+   conn.execute(sql2)
+   exit sub
+  end if
+  rs.close
+  set rs = nothing
+  
+  'step2--------------------------------------------------------
+  dim score,strtype,editor
+  sql = "select icuitem from dbo.activitysubjectknowledge where icuitem = '" & cuitem &"'"
+  set rs = conn.execute(sql)
+  if not rs.eof then
+   score = "3"
+   strtype = "2"
+  else
+   score = "2"
+   strtype = "1"
+  end if
+  rs.close
+  set rs = nothing
+  '新增發問得分
+  '取得題目資訊
+  sql = "select ieditor from dbo.cudtgeneric where icuitem = '" & cuitem &"'"
+  set rs = conn.execute(sql)
+  if not rs.eof then
+   editor = rs("ieditor")
+  else
+   editor = ""
+  end if
+  rs.close
+  set rs = nothing
+  
+  sql2 = "insert into knowledgeactivity (cuitemid ,type ,grade ,memberid ,state) values(" & cuitem &"," & strtype &", " & score &", '" & editor &"', 1) "
+  conn.execute(sql2)
+
+  '------檢查是否有討論------
+  sql = "select cudtgeneric.icuitem,convert(varchar(20),xpostdate,120) as xpostdate ,ieditor from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem "
+  sql = sql & "where (knowledgeforum.parenticuitem = " & cuitem & ") and (knowledgeforum.status = 'n') and (cudtgeneric.ictunit = 933) and ( cudtgeneric.fctupublic = 'y' ) and ( cudtgeneric.siteid = 3 )"
+
+  set rs = conn.execute(sql)
+  dim discussscore ,checktime
+  dim activityid 
+  activityid = getactivityid()
+  while not rs.eof 
+   ''檢查討論發表時間:活動前得1分,活動中得2分
+   checktime = rs("xpostdate")
+   sql5 = "select activityid from activity where ( convert(datetime,'" & checktime & "') between activitystarttime and activityendtime) and activityid = '" & activityid & "'"
+ 
+   set rs5 = conn.execute(sql5)
+   if not rs5.eof then
+    
+    discussscore = "2"
+   else
+    discussscore = "1"
+   
+   end if
+   rs5.close
+   set rs5 = nothing
+
+   sql2 = "insert into knowledgeactivity (cuitemid ,type ,grade ,memberid ,state) values(" & rs("icuitem") &",4, " & discussscore & ", '" & rs("ieditor") &"', 1) "
+   conn.execute(sql2)  
+   rs.movenext
+  wend
+  rs.close
+  set rs = nothing
+  
+ else
+  exit sub
+ end if
+ 
+
+end sub
+
+sub publictempdiscuss(cuitem)
+
+'活動結束就不再做任何處理
+ if activityendflag() = "false" then
+  exit sub
+ else
+  sql = "select cuitemid from dbo.knowledgeactivity where cuitemid = '" & cuitem &"'"
+  set rs = conn.execute(sql)
+  if rs.eof then
+   exit sub
+  end if
+  rs.close
+  set rs = nothing
+  
+  '找出暫存討論
+  sql = "select cudtgeneric.icuitem,convert(varchar(20),xpostdate,120) as xpostdate ,ieditor from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem "
+  sql = sql & "where (knowledgeforum.parenticuitem = " & cuitem & ") and (knowledgeforum.status = 'n') and (cudtgeneric.ictunit = 933) and ( cudtgeneric.fctupublic = 'n' ) and ( cudtgeneric.siteid = 3 ) and ( isnull(cudtgeneric.abstract,'') <> 'y')"
+
+  set rs = conn.execute(sql)
+  
+  dim discussscore ,checktime,activityid
+  activityid = getactivityid()
+  
+  while not rs.eof 
+   '公開所有暫存討論,並算活動積分
+   sqlupd = "update cudtgeneric set fctupublic='y' where icuitem = " & rs("icuitem")
+   conn.execute(sqlupd)
+   
+   '更新討論數
+   sqludpdis = "update knowledgeforum set discusscount = discusscount +1 where gicuitem = " & cuitem
+   conn.execute(sqludpdis)
+   
+   '紀錄公開的討論
+   sqlins = "insert into activitytempdiscuss ( icuitem, memberid, publishtime ) values( " & rs("icuitem") & ", '" & rs("ieditor") & "', getdate())"
+   conn.execute(sqlins)
+   
+   ''檢查討論發表時間:活動前得1分,活動中得2分
+   checktime = rs("xpostdate")
+   sql5 = "select activityid from activity where ( convert(datetime,'" & checktime & "') between activitystarttime and activityendtime) and activityid = '" & activityid & "'"
+ 
+   set rs5 = conn.execute(sql5)
+   if not rs5.eof then
+    discussscore = "2"
+   else
+    discussscore = "1"
+   
+   end if
+   rs5.close
+   set rs5 = nothing
+   '計算活動得分
+   sql2 = "insert into knowledgeactivity (cuitemid ,type ,grade ,memberid ,state) values(" & rs("icuitem") &",4, " & discussscore & ", '" & rs("ieditor") &"', 1) "
+   conn.execute(sql2)  
+   rs.movenext
+  wend
+  rs.close
+  set rs = nothing
+
+ end if
+
+end sub
+
+
+sub unusableactivityknowledge(cuitem)
+ 
+ '活動結束就不再做任何處理
+ if activityendflag() = "false" then
+  exit sub
+ else
+  '判斷是否為活動題目
+  sql = "select cuitemid from dbo.knowledgeactivity where cuitemid = '" & cuitem &"'"
+  set rs = conn.execute(sql)
+  if rs.eof then
+   exit sub
+  end if
+  rs.close
+  set rs = nothing
+  
+  'state=0 表示此活動下架、不公開 or 刪除
+  sql2 = "update knowledgeactivity set state=0,modifytime=getdate()  where cuitemid = " & cuitem
+  conn.execute(sql2)
+ end if
+
+end sub
+
+sub activitydiscuss(cuitem,add)
+
+ '判斷是否為活論討論
+ sql = "select cuitemid from dbo.knowledgeactivity where cuitemid = '" & cuitem &"'"
+ set rs = conn.execute(sql)
+ if rs.eof then
+  exit sub
+ end if
+ rs.close
+ set rs = nothing
+ 
+ 'state=0 表示此討論不納入活動討論中,反之則納入
+ if add = "false" then
+  sql2 = "update knowledgeactivity set state=0,modifytime=getdate()  where cuitemid = " & cuitem
+ else
+  sql2 = "update knowledgeactivity set state=1,modifytime=getdate()  where cuitemid = " & cuitem
+ end if
+ conn.execute(sql2)
+ 
+end sub
+
+
+
+function activityflag
+
+ activityflag= "false"
+ dim activityid 
+ activityid = getactivityid() 
+
+ sql = "select activityid from activity where (getdate() between activitystarttime and activityendtime) and activityid = '" & activityid & "'"
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  activityflag = "true"
+ end if
+ rs.close
+ set rs = nothing
+
+end function
+
+
+
+
+function activityendflag
+
+ activityendflag= "false"
+ dim activityid 
+ activityid = getactivityid()
+
+ sql = "select activityid from activity where (getdate() < activityendtime) and activityid = '" & activityid & "'"
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  activityendflag = "true"
+ end if
+ rs.close
+ set rs = nothing
+
+end function
+
+function getactivityid
+
+ getactivityid= "knowledge2010" 
+ 
+end function
+
+
+
+'管理者手動將問題反餽回主題館的額外積分(得1分)
+sub publishtosubject(cuitem)
+
+ sql = "select cuitemid from dbo.knowledgeactivity where cuitemid = '" & cuitem &"' and grade < 3" 
+  
+ set rs = conn.execute(sql)
+ if rs.eof then
+  exit sub
+ end if
+ rs.close
+ set rs = nothing
+   
+ sql2 = "update knowledgeactivity set grade=grade +1 ,modifytime=getdate()  where cuitemid = " & cuitem
+ conn.execute(sql2)
+ 
+end sub
+
+ 

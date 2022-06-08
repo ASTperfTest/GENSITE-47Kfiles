@@ -1,0 +1,50 @@
+﻿:  
+response.expires = 0
+response.contenttype = "text/xml" 
+
+
+  
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+ sql = " select top 3 cudtgeneric.icuitem, cudtgeneric.stitle, cattreenode.catname, cattreeroot.ctrootname, cudtgeneric.showtype, "
+ sql = sql & " cattreenode.ctrootid, cattreenode.ctnodeid, cudtgeneric.xpostdate, cudtgeneric.xurl, cudtgeneric.filedownload "
+ sql = sql & " from cudtgeneric inner join ctunit on cudtgeneric.ictunit = ctunit.ctunitid inner join "
+  sql = sql & " cattreeroot inner join cattreenode on cattreeroot.ctrootid = cattreenode.ctrootid on ctunit.ctunitid = cattreenode.ctunitid " 
+  sql = sql & " where (cudtgeneric.fctupublic = 'y') and (cudtgeneric.siteid = '2') and (cattreenode.inuse = 'y') and (cattreeroot.vgroup = 'xx') and (cattreeroot.inuse = 'y') " 
+  sql = sql & " order by cudtgeneric.xpostdate desc,ximportant desc,icuitem desc"
+
+  'response.write "<aa>" & sql & "</aa>"
+ set rs = conn.execute(sql)
+ 
+ if not rs.eof then
+  while not rs.eof 
+   response.write "<item>" & vbcrlf
+   response.write "<title><![cdata[" & rs("stitle") & "]]></title>" & vbcrlf
+   response.write "<description><![cdata[" & "[" & rs("catname") & "]" & rs("ctrootname") & "]]></description>" & vbcrlf
+   response.write "<pubdate><![cdata[" & rs("xpostdate") & "]]></pubdate>" & vbcrlf
+   if rs("showtype") = "1" then
+    response.write "<link><![cdata[" & "ct.asp?xitem=" & rs("icuitem") & "&amp;ctnode=" & rs("ctnodeid") & "&amp;mp=" & rs("ctrootid") & "]]></link>" & vbcrlf       
+   elseif rs("showtype") = "2" then
+    response.write "<link><![cdata[" & rs("xurl") & "]]></link>" & vbcrlf       
+   elseif rs("showtype") = "3" then
+    response.write "<link><![cdata[" & "/public/data/" & rs("filedownload") & "]]></link>" & vbcrlf       
+   else
+    response.write "<link><![cdata[]]></link>" & vbcrlf   
+   end if
+   
+   response.write "</item>" & vbcrlf
+   rs.movenext
+  wend
+ end if 
+'' conn.close
+ 

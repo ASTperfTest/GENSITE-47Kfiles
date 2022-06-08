@@ -1,0 +1,660 @@
+﻿: @ codepage = 65001 :   
+response.charset = "utf-8"
+
+dim fso
+dim folder
+dim xpath
+dim uppath
+dim uploadcount
+
+dim bhaveerror
+dim strerrormessage
+
+const defaultuploadcount = 3
+
+'// requset
+xpath = request("xpath")
+uploadcount = request("uploadcount")
+
+'// initial
+set fso = server.createobject("scripting.filesystemobject")
+
+uppath = session("uploadpath") & xpath
+if right(uppath,1)<>"/" then
+    uppath = uppath & "/"
+end if
+if right(xpath,1)<>"/" then
+    xpath = xpath & "/"
+end if
+if left(xpath,1)="/" then
+    xpath = mid(xpath,2)
+end if
+
+'// upload counter = 空時, 預設 show 3 筆.
+if uploadcount="" or not isnumeric(uploadcount) then
+    uploadcount = defaultuploadcount
+end if
+
+
+if "" & session("uploadpath") = "" then
+    bhaveerror=true
+    strerrormessage = "太久沒動作, 請重新登入: "
+    strerrormessage = strerrormessage & "<a href='http://" & request.servervariables("server_name") & "' target='_top'>" & request.servervariables("server_name") & "<a>"
+end if
+
+
+
+                                                              =response.charset
+
+
+
+
+
+
+
+  
+if not bhaveerror then
+
+
+
+
+                                  =session("uploadpath"):   =xpath
+
+
+
+
+
+
+
+
+                                             =xpath
+
+
+
+
+
+
+
+
+
+             for i = 0 to uploadcount -1 
+
+
+                =i+1
+                                     =i
+
+             next 
+
+
+
+
+
+
+
+
+
+
+                                                        =session("uploadpath")
+                                                    =xpath
+
+
+
+  
+    set folder = fso.getfolder(server.mappath(uppath))
+    dim totalfilesize
+    dim totalfoldersize
+
+    totalfoldersize = 0
+    totalfilesize = 0
+
+    if folder.files.count > 0 or folder.subfolders.count > 0 then
+        if folder.files.count > 0 then
+        
+
+          
+        end if
+
+
+
+
+
+
+
+
+
+            
+
+            '// list folder
+            for each folderdir in folder.subfolders
+                folderdate = rdt(folderdir.datelastmodified)
+                foldersize = replacesize(folderdir.size)
+                totalfoldersize = totalfoldersize + folderdir.size
+            
+
+
+                                           =server.urlencode(xpath & folderdir.name):     =getfolderimageicon(folderdir.name) & "&nbsp;" 
+            =folderdir.name
+                                             =foldersize
+                                             =folderdate
+
+                                                                     =i:                                              =folderdir.name
+
+
+            
+            next
+
+
+            '// list files
+            i=0
+            for each folderfiles in folder.files
+                i=i+1
+                filedate = rdt(folderfiles.datelastmodified)
+                filesize = replacesize(folderfiles.size)
+                totalfilesize = totalfilesize + folderfiles.size
+
+                
+            if i mod 2 = 0 then
+                response.write " bgcolor='#e0e0f0' "
+            end if 
+                                                                                                           =folderfiles.name
+                                                                  =session("uploadpath"):   =xpath:   =folderfiles.name:     =getfileimageicon(folderfiles.name) & "&nbsp;" 
+                  =folderfiles.name
+
+                                                 =filesize
+                                                 =filedate
+
+                                                                     =i:                                               =folderfiles.name
+                                                                     =i:                                                  =folderfiles.name
+                                                                        =i:                                                 =folderfiles.name
+
+
+
+
+            
+                next
+            
+
+          
+        if folder.files.count > 0 then
+        
+
+
+          
+        end if
+        
+
+
+        
+   response.write "<br/>共有 <em><b>" & folder.subfolders.count & "</b></em> 個資料夾和 <em><b>" & folder.files.count & "</b></em> 個檔案" & vbcrlf
+   response.write ", 整個資料夾共佔用 <em><b>" & replacesize(totalfilesize + totalfoldersize) & "</b></em> " & vbcrlf
+   response.write "<br/>其中資料夾共佔用 <em><b>" & replacesize(totalfoldersize) & "</b></em> " & vbcrlf
+   response.write ", 檔案共佔用 <em><b>" & replacesize(totalfilesize) & "</b></em> " & vbcrlf
+   
+
+
+              else 
+
+              end if 
+
+
+
+
+
+
+
+                                             =xpath
+
+
+
+
+
+                                                   =xpath
+                                            =session("uploadpath"):   =xpath
+
+
+
+
+
+
+                                                    =session("uploadpath")
+                                                =xpath
+
+
+
+
+
+                                                   =xpath
+                                            =session("uploadpath"):   =xpath
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                 =server.urlencode(xpath)
+
+
+
+
+
+
+
+
+
+                 =server.urlencode(xpath)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+dim myparentpath
+myparentpath = xpath
+if right(myparentpath,1) = "/" then
+    myparentpath =left(myparentpath,len(myparentpath)-1)
+end if
+myparentpath = trimlastdelimit(myparentpath,"/")
+if right(myparentpath,1) <> "/" then
+    myparentpath = myparentpath & "/"
+end if
+if myparentpath = xpath then
+    myparentpath = ""
+end if
+
+                 =server.urlencode(myparentpath)
+
+
+
+
+  
+else
+    response.write strerrormessage
+end if
+
+
+
+  
+
+set fso = nothing
+set conn = nothing
+
+
+
+'// 用於顯示 易於讀取的 檔案大小.
+function replacesize(filesize)
+
+    if filesize < 1024 then
+        replacesize = left(filesize,instr(filesize,".") + 2) & " bytes"
+        exit function
+    end if
+
+    filesize = filesize / 1024
+
+    if filesize < 1024 then
+        replacesize = left(filesize,instr(filesize,".") + 2) & " kb"
+        exit function
+    end if
+
+    filesize = filesize / 1024
+
+    if filesize < 1024 then
+        replacesize = left(filesize,instr(filesize,".") + 2) & " mb"
+        exit function
+    end if
+
+    filesize = filesize / 1024
+    replacesize = left(filesize,instr(filesize,".") + 2) & " gb"
+    'tb不計(現在一般硬碟未有如此大的空間)
+end function
+
+
+'// 用於顯示 易於讀取的 檔案日期/時間.
+function rdt(datetime)
+    rdt = "yyyy/mm/dd ampm hh:nn:ss"
+    datetime = cdate(datetime)
+    y = right("0000" & datepart("yyyy" ,datetime),4) '取出年
+    m = right("0" & datepart("m" ,datetime),2)  '取出月
+    d = right("0" & datepart("d" ,datetime),2)  '取出日
+    h = datepart("h" ,datetime)  '取出時
+
+    if instr(rdt,"ampm") <> 0 then
+        ampm = "am"
+
+        if h > 12 then
+            h = h - 12
+            ampm = "pm"
+        end if
+
+    end if
+
+    h = right("0" & h,2)
+    n = right("0" & datepart("n" ,datetime),2)  '取出分
+    s = right("0" & datepart("s" ,datetime),2)  '取出秒
+
+    rdt = replace(rdt , "yyyy" , y)
+    rdt = replace(rdt , "mm" , m)
+    rdt = replace(rdt , "dd" , d)
+    rdt = replace(rdt , "ampm" , ampm)
+    rdt = replace(rdt , "hh" , h)
+    rdt = replace(rdt , "nn" , n)
+    rdt = replace(rdt , "ss" , s)
+end function
+
+
+'// purpose: 去掉字串裡, 某個符號右邊的字元.
+'// input:
+'//     inputstring, 字串
+'//     mydelimit, 某個符號
+'// ps: "特定符號" 可以是多個字元, 例如 "&amp;",
+'// ex: ret = trimlastdelimit(inputstring,delimit)
+function trimlastdelimit(byval inputstring, byval mydelimit)
+    dim returnvalue
+    dim tempindex
+    dim tempstring
+
+    returnvalue = inputstring
+    if inputstring <> "" and mydelimit <> "" then
+        if instr(inputstring,mydelimit) > 0 then
+            tempstring=strreverse(inputstring)
+            mydelimit = strreverse(mydelimit)
+            tempindex = len(tempstring) - instr(tempstring,mydelimit)
+            returnvalue = left(inputstring,tempindex - len(mydelimit) + 1)
+        end if
+    end if
+    trimlastdelimit = returnvalue
+end function
+
+
+'// purpose: get icon
+'// return: image filepath.
+'// ex: ret = getfolderimageicon(filename)
+function getfolderimageicon(byval filename)
+    dim returnvalue
+    dim imagefolder
+    dim fileicon
+    dim helpstr
+
+    imagefolder = "/xfup/icons/"
+    'fileicon = "dir.gif"
+    fileicon = "folder.gif"
+    helpstr = "資料夾"
+
+    if fileicon <> "" then
+        returnvalue = imagefolder & fileicon
+    end if
+
+    returnvalue = "<img src='" & returnvalue & "' alt='" & filename & " (" & helpstr & ")' border='0' align='middle' />"
+
+    getfolderimageicon = returnvalue
+end function
+
+
+'// purpose: get icon
+'// return: image filepath.
+'// ex: ret = getfileimageicon(filename)
+function getfileimageicon(byval filename)
+    dim returnvalue
+    dim imagefolder
+    dim fileicon
+    dim helpstr
+    dim casecondition
+
+    imagefolder = "/xfup/icons/"
+    fileicon = ""
+    helpstr = ""
+    casecondition = lcase(right(filename,len(filename)-instrrev(filename,".")))
+
+    select case casecondition
+    case "ace","arj","bz2","cab","iso","jar","lzh","rar","tar","uue"
+        fileicon = "rar.gif"
+        helpstr = "winrar 壓縮檔"
+
+    case "asp","aspx", "inc"
+        fileicon = "asp.gif"
+        helpstr = "active server pages 文件"
+
+    case "avi", "mkv", "mov", "wmv"
+        fileicon = "mov.gif"
+        helpstr = "視訊短片"
+
+    case "bak"
+        fileicon = "unknown.gif"
+        helpstr = "備份檔"
+
+    case "bat"
+        fileicon = "exe.gif"
+        helpstr = "batch 批次檔"
+
+    case "bmp"
+        fileicon = "bmp.gif"
+        helpstr = "點陣圖影像"
+
+    case "c"
+        fileicon = "c.gif"
+        helpstr = "c file"
+
+    case "chm"
+        fileicon = "chm.gif"
+        helpstr = "已編譯的 html help 檔案"
+
+    case "com" , "exe"
+        fileicon = "exe.gif"
+        helpstr = "執行檔"
+
+    case "config",  "asa" , "asax"
+        fileicon = "text.gif"
+        helpstr = "config 設定文件"
+
+    case "cgi","pl"
+        fileicon = "unknown.gif"
+        helpstr = "perl 檔案"
+
+    case "css"
+        fileicon = "css.gif"
+        helpstr = "cascading style sheet 文件"
+
+    case "db"
+        fileicon = "dll.gif"
+        helpstr = "資料庫檔案"
+
+    case "dll"
+        fileicon = "dll.gif"
+        helpstr = "應用程式擴充"
+
+    case "doc"
+        fileicon = "word.gif"
+        helpstr = "microsoft word 文件"
+
+    case "gif"
+        fileicon = "gif.gif"
+        helpstr = lcase(right(filename,len(filename) - instrrev(filename,"."))) & " 影像"
+
+    case "htm","html"
+        fileicon = "html.gif"
+        helpstr = "html document"
+
+    case "ini"
+        fileicon = "ini.gif"
+        helpstr = "組態設定值"
+
+    case "jpg","jpeg"
+        fileicon = "jpg.gif"
+        helpstr = lcase(right(filename,len(filename) - instrrev(filename,"."))) & " 影像"
+
+    case "js"
+        fileicon = "js.gif"
+        helpstr = "javascript 檔案"
+
+    case "mdb"
+        fileicon = "access.gif"
+        helpstr = "access 資料庫"
+
+    case "mid","midi"
+        fileicon = "midi.gif"
+        helpstr = "midi sequence"
+
+    case "mp3"
+        fileicon = "mp3.gif"
+        helpstr = "mp3 格式聲音"
+
+    case "mpeg"
+        fileicon = "mpeg.gif"
+        helpstr = "電影檔 (mpeg)"
+
+    case "pdf"
+        fileicon = "pdf.gif"
+        helpstr = "adobe acrobat document"
+
+    case "php"
+        fileicon = "text.gif"
+        helpstr = "php 檔案"
+
+    case "png"
+        fileicon = "png.gif"
+        helpstr = lcase(right(filename,len(filename) - instrrev(filename,"."))) & " 影像"
+
+    case "ppt"
+        fileicon = "ppt.gif"
+        helpstr = "powerpoint 投影片"
+
+    case "ra", "rm", "rmvb"
+        fileicon = "realplayer.gif"
+        helpstr = "realplayer 多媒體檔案"
+
+    case "svn", "svn-base"
+        fileicon = "svn.gif"
+        helpstr = "svn 檔案"
+
+    case "swf", "fls"
+        fileicon = "swf.gif"
+        helpstr = "flash 檔案"
+
+    case "txt", "sql", "log", "text", "csv"
+        fileicon = "text.gif"
+        helpstr = "純文字文件"
+
+    case "vbs"
+        fileicon = "vbs.gif"
+        helpstr = "vbscript 檔案"
+
+    case "wav"
+        fileicon = "wav.gif"
+        helpstr = "聲音"
+
+    case "xml"
+        fileicon = "xml.gif"
+        helpstr = "extensible markup language"
+
+    case "xls" 
+        fileicon = "excel.gif"
+        helpstr = "extensible stylesheet language"
+
+    case "xsl"
+        fileicon = "xsl.gif"
+        helpstr = "extensible stylesheet language"
+
+    case "zip", "gzip"
+        fileicon = "zip.gif"
+        helpstr = "zip 壓縮檔"
+
+    case else
+        if instr(casecondition,".") > 0 then
+            fileicon = "unknown.gif"
+        else
+            fileicon = "unknown2.gif"
+        end if
+        helpstr = "檔案" & casecondition
+    end select
+
+    if fileicon <> "" then
+        returnvalue = imagefolder & fileicon
+    end if
+
+    returnvalue = "<img src='" & returnvalue & "' alt='" & server.mappath(session("uploadpath") & xpath) & "\" & filename & " (" & helpstr & ")' border='0' width='18' align='middle' />"
+
+    getfileimageicon = returnvalue
+end function
+ 

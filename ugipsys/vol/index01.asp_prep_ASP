@@ -1,0 +1,7 @@
+﻿:  response.expires = 0
+htprogcap="志工回報單"
+htprogfunc="新增"
+htprogcode="ap01"
+htprogprefix="paact" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_checkgipconfig_1275316133() 

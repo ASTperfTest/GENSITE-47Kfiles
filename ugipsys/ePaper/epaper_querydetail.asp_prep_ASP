@@ -1,0 +1,195 @@
+﻿: 
+ response.expires = 0
+ response.expiresabsolute = now() - 1 
+ response.addheader "pragma","no-cache" 
+ response.addheader "cache-control","private" 
+ response.cachecontrol = "no-cache"
+
+ typeid = request("typeid")
+ key = request("key")
+ 
+ dim result
+ if typeid = "user_ou" then
+ result = getuserounamebyid(key)
+ elseif typeid = "category_name" then
+ result = getcategorynamebyid(key)
+ elseif typeid = "user_name" then
+ result = getusernamebyid(key)
+ elseif typeid = "document" then
+ result = getdocumentdetail(key)
+ elseif typeid = "category_id" then
+ result = getcategoryidbyids(key)
+ end if
+ 
+ response.write result
+ 
+ function getcategorynamebyid(categoryid)
+ 
+  '建立物件
+     set xmlhttp = server.createobject ("microsoft.xmlhttp")
+     '要檢查的網址
+     urls = session("kmapiurl") & "/category/"
+
+     if categoryid <> "" then
+     urls = urls & categoryid & "?load_path=false&format=xml&tid=0&who=" & session("kmapiactor") & "&pi=0&ps=10&api_key=" & session("kmapikey")
+     else
+     response.write "未傳入categoryid"
+     end if
+
+     xmlhttp.open "get", urls, false
+     xmlhttp.send
+  if xmlhttp.status=404 then
+          response.write "找不到頁面"
+     elseif xmlhttp.status=200 then
+    set domdocument = server.createobject("msxml2.domdocument")
+    domdocument.loadxml(xmlhttp.responsexml.xml)
+    set objcategorynodes = domdocument.documentelement.childnodes(2).childnodes
+    getcategorynamebyid = objcategorynodes(3).text
+  else
+    response.write xmlhttp.status
+  end if
+ end function
+ 
+ function getuserounamebyid(subjectid)
+  '建立物件
+   set xmlouhttp = server.createobject ("microsoft.xmlhttp")
+   '要檢查的網址
+   urls =  session("kmapiurl") & "/subject/fetch/user/ous/"
+
+   if subjectid <> "" then
+   urls = urls & subjectid & "?load_path=false&format=xml&tid=0&who=" & session("kmapiactor") & "&pi=0&ps=10&api_key=" & session("kmapikey")
+   else
+   response.write "未傳入subjectid"
+   end if
+
+   xmlouhttp.open "get", urls, false
+   xmlouhttp.send
+   
+   if xmlouhttp.status=404 then
+     response.write "找不到頁面"
+   elseif xmlouhttp.status=200 then
+    set oudocument = server.createobject("msxml2.domdocument")
+    oudocument.loadxml(xmlouhttp.responsexml.xml)
+    set objounodes = oudocument.documentelement.selectnodes("//a:subject")
+    if objounodes.length > 0 then
+     set oudetailnodes = objounodes(0).childnodes
+     getuserounamebyid = oudetailnodes(1).text
+    else
+     getuserounamebyid = empty
+    end if
+   else
+     response.write xmlouhttp.status
+   end if
+ end function
+ 
+ function getusernamebyid(subjectid)
+  '建立物件
+   set xmluserhttp = server.createobject ("microsoft.xmlhttp")
+   '要檢查的網址
+   urls = session("kmapiurl") & "/user/exact/"
+
+   if subjectid <> "" then
+   urls = urls & subjectid & "?load_path=false&format=xml&tid=0&who=" & session("kmapiactor") & "&pi=0&ps=10&api_key=" & session("kmapikey")
+   else
+   response.write "未傳入subjectid"
+   end if
+
+   xmluserhttp.open "get", urls, false
+   xmluserhttp.send
+   
+   if xmluserhttp.status=404 then
+     response.write "找不到頁面"
+   elseif xmluserhttp.status=200 then
+    set userdocument = server.createobject("msxml2.domdocument")
+    userdocument.loadxml(xmluserhttp.responsexml.xml)
+    set objusernodes = userdocument.documentelement.selectnodes("//a:displayname")
+    if objusernodes.length > 0 then
+     set userdetailnodes = objusernodes(0).childnodes
+     getusernamebyid = objusernodes(0).text
+    else
+     getusernamebyid = empty
+    end if
+   else
+     response.write xmluserhttp.status
+   end if
+ end function
+ 
+ function getdocumentdetail(documentid)
+  '建立物件
+   set xmldocumenthttp = server.createobject ("microsoft.xmlhttp")
+   '要檢查的網址
+   urls = session("kmapiurl") & "/document/"
+
+   if documentid <> "" then
+   urls = urls & documentid & "?load_path=false&format=xml&tid=0&who=" & session("kmapiactor") & "&pi=0&ps=10&api_key=" & session("kmapikey")
+   else
+   response.write "未傳入documentid"
+   end if
+   xmldocumenthttp.open "get", urls, false
+   xmldocumenthttp.send
+   
+   if xmldocumenthttp.status=404 then
+    response.write "找不到頁面"
+   elseif xmldocumenthttp.status=200 then
+    set document = server.createobject("msxml2.domdocument")
+    document.loadxml(xmldocumenthttp.responsexml.xml)
+    '組合title|userid|creationdate
+    set titlenodes = document.documentelement.selectnodes("//a:versiontitle")
+    set titlechildnodes = titlenodes(0).childnodes
+    set useridnodes = document.documentelement.selectnodes("//a:versioncreatorid")
+    set useridchildnodes = useridnodes(0).childnodes
+    set creationdatenodes = document.documentelement.selectnodes("//a:versioncreationdatetime")
+    set creationdatechildnodes = creationdatenodes(0).childnodes
+    getdocumentdetail = titlechildnodes(0).text & "|" & useridchildnodes(0).text & "|" & creationdatechildnodes(0).text
+   else
+     response.write xmluserhttp.status
+   end if
+ 
+ end function
+ 
+ function getcategoryidbyids(categoryids)
+   '建立物件
+   set xmlcategoryidhttp = server.createobject ("microsoft.xmlhttp")
+   '要檢查的網址
+   urls = session("kmapiurl") & "/category/path/"
+   dim result
+   arycategoryid = split(categoryids,"|")
+   if ubound(arycategoryid) > -1 then
+       for i = 0 to ubound(arycategoryid)
+        url = urls & arycategoryid(i) & "?load_path=false&format=xml&tid=0&who=" & session("kmapiactor") & "&pi=0&ps=10&api_key=" & session("kmapikey")
+        
+        xmlcategoryidhttp.open "get", url, false
+        xmlcategoryidhttp.send
+       
+        if xmlcategoryidhttp.status=404 then
+         response.write "找不到頁面"
+        elseif xmlcategoryidhttp.status=200 then
+        set categorydocument = server.createobject("msxml2.domdocument")
+        categorydocument.loadxml(xmlcategoryidhttp.responsexml.xml)
+        set objcategorynodes = categorydocument.documentelement.selectnodes("//a:categoryid")
+        for c = 0 to objcategorynodes.length -1
+         if objcategorynodes(c).childnodes(0).text = session("categorytreerootnode") then
+          result = arycategoryid(i)
+          exit for
+         end if
+        next
+        if result <> "" then
+        exit for
+        end if
+        else
+          response.write xmlcategoryidhttp.status
+        end if
+       next
+   else
+   response.write "未傳入categoryids"
+   end if
+   
+   if result <> "" then
+   getcategoryidbyids = result
+   else
+   getcategoryidbyids = empty
+   end if
+ 
+ end function
+
+ 

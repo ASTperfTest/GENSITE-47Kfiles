@@ -1,0 +1,94 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	margin: 20px 0;
+	letter-spacing: 1px;
+	background: url(../images/mailq_body_bg.gif) no-repeat right 28px
+}
+.Question {
+	margin: 0 30px 0;
+	padding: 18px 10px 10px;
+	text-align: center;
+	border: 1px solid #bbb;
+	width: auto;
+}
+.head {
+	width: 100%;
+	margin: 0;
+	padding: 0 0 3px;
+	border-collapse: collapse;
+	border-bottom: 3px solid #ccc;
+	overflow: hidden;
+}
+h1 , h2 {
+	font-size: 1em;
+	line-height: 100%;
+	margin: 0;
+	padding: 0;
+}
+h1 {
+	float: left;
+}
+h2 {
+	float: right;
+}
+.head h2 img , .head h1 img {
+	margin: 0;
+	padding: 0;
+}
+
+
+table.body {
+	width: 100%;
+	margin: 0 0 10px;
+	padding: 0;
+	border-collapse: collapse;
+}
+.body caption {
+}
+.body th {
+	font-weight: normal;
+	font-size: .75em;
+	line-height: 165%;
+	vertical-align: top;
+	text-align: right;
+	padding: 5px 12px .25em 0;
+	border-bottom: 1px solid #cccccc;
+	white-space: nowrap;
+	background: url(../images/th_bg.gif) no-repeat right 10px;
+}
+.body td {
+	font-size: .75em;
+	line-height: 165%;
+	text-align: left;
+	vertical-align: top;
+	border-bottom: 1px solid #cccccc;
+	padding: 5px 0 .25em 3px;
+}
+.body td p {
+	font-size: inherit;
+	line-height: inherit;
+	margin: 0 0 .25em;
+	padding:0;
+}
+textarea {
+	font-size: inherit;
+	line-height: 165%;
+	height: 10em;
+	width: 98%;
+	margin-bottom: 8px;
+}
+
+a {
+	color: #0e40be;
+}
+a:hover {
+	text-decoration: none;
+	color: #f16c00;
+}
+
+form {
+	margin:0;
+	padding:0;
+}

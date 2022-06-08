@@ -1,0 +1,91 @@
+﻿: @ codepage = 65001 :    response.expires = 0
+   htprogcode = "ge1t21" 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_client_1900334733()
+   CxMethod_ASP_dbfunc_874801204()
+
+
+
+
+
+
+
+
+
+
+  
+ itemid = 4  '-- 要處理哪個 tree
+ 
+ sqlcom = "select * from cattreeroot where ctrootid = "& itemid 
+ set rs = conn.execute(sqlcom)
+
+
+ ftypename = rs("ctrootname")
+
+
+   const cid     = 2 'catid
+   const cname   = 3 'catname
+   const cparent = 7 'dataparent
+   const cchild  = 8 'childcount
+   const clevel  = 6 'datalevel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     sql="select deptid,deptname from dept where inuse='y' order by kind, deptid"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+
+
+
+   response.write "treeroot = gfld(""forumtoc"", """ & ftypename & """, ""catlist.asp?itemid="& itemid &"&catid=0"")" & vbcrlf
+ nowcount = 0
+
+ sqlcom = "select n.*, u.ctunitkind from cattreenode as n left join ctunit as u on u.ctunitid=n.ctunitid where ctrootid = "& pkstr(itemid,"") &" order by datalevel, catshoworder"
+ set rs = conn.execute(sqlcom)
+ while not rs.eof
+  xparent = "treeroot"
+  if rs(clevel) > 1 then xparent = "n" & rs(cparent)
+  if rs("ctnodekind") = "c" then
+   catlink = "catlist.asp?itemid="& itemid &"&catid="& rs("ctnodeid")
+   catlink = ""
+   response.write "n"& rs(cid) &"= insfld(" & xparent &", gfld(""forumtoc"", """& rs(cname) &""", """& catlink &"""))" & vbcrlf
+  elseif rs("ctunitkind") <> "u" then
+      forumlink = "ctxmlin.asp?itemid="& itemid &"&ctnodeid="& rs("ctnodeid")
+      forumlink = ""
+      
+        forumcheck = "<input type=checkbox name='ctnodeid' value='" & rs("ctnodeid") & "'>" & rs("catname")
+      
+      response.write "insdoc(n"& rs(cparent) &", glnk(""forumtoc"", """& forumcheck &""", """& forumlink &"""))" & vbcrlf
+  end if
+  rs.movenext
+ wend
+
+
+ 

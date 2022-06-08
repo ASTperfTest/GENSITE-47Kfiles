@@ -1,0 +1,62 @@
+<script language=VBScript runat=server>
+sub session_onstart()
+	
+	session("GIPODBC")="Provider=SQLOLEDB;Data Source=127.0.0.1;User ID=hyGIP;Password=hyweb;Initial Catalog=mGIPcoanew"
+	session("ODBCDSN")="Provider=SQLOLEDB;Data Source=127.0.0.1;User ID=hyGIP;Password=hyweb;Initial Catalog=mGIPcoanew"
+	session("KMDBConnStr")="Provider=SQLOLEDB;Data Source=127.0.0.1;User ID=hygip;Password=hyweb;Initial Catalog=coa"
+	session("KMODBC")="Provider=SQLOLEDB;Data Source=127.0.0.1;User ID=hyGIP;Password=hyweb;Initial Catalog=coa"
+	session("mySiteMMOURL") = "http://kwpi-coa-ma-kmwebsys.gss.com.tw"
+	session("mySiteURL") = "http://kwpi-coa-ma-kmwebsys.gss.com.tw/site/coa"
+	session("myWWWSiteURL") = "http://kwpi-coa-ma-kminter.gss.com.tw"
+	session("myWWWSiteTest") = "http://kwpi-coa-ma-kmweb.gss.com.tw"
+	session("Public") = "/site/coa/public/"
+	session("mySiteID") = "coa"
+	session("PageCount") = 10
+	session.Timeout = 60
+	session.CodePage = 65001
+	session("coasiteURL") = "http://kwpi-coa-ma-kmwebsys.gss.com.tw/site/coa"	
+
+	session("ActivityId") = "activity1"
+	session("影音專區URL") = "http://kwpi-coa-kmweb.gss.com.tw/"
+
+	session("PediaBaseDSD") = "43"
+	session("PediaUnitId") = "2155"
+	session("PediaAdditionalUnitId") = "2156"
+	session("CategoryTreeRootNode") = "2"
+	session("KmAPIURL") = "http://kwpi-coa-ma-kmintra.gss.com.tw/coa/api"
+	session("KMAPIKey") = "188a0e0577c54d5284f09821091e7fc7"
+	session("KMAPIActor") = "admin"
+     	'---
+	'session("myWWWPath_xslGip") = "C:\project\uEngmoe\sys\xdmpManager(2)\xslGip"
+	'session("myWWWPath_xslGip_template") = "C:\project\uEngmoe\sys\xdmpManager(2)"
+	
+	'珍貴老照片,UnitId
+	session("珍貴老照片UnitId") = 4346	
+
+	'珍貴老照片,UnitId
+	session("農業百年發展史RootId") = 388
+	
+end sub
+
+sub Application_OnStart
+
+	Application("HyftdServer") = "127.0.0.1"
+	Application("HyftdPort") = 2816
+	Application("HyftdGroupName") = "Intra"
+	Application("HyftdAssociateDataName") = "brief"
+	
+	Application("SiteUnitId") = "1"
+	Application("KnowledgeTankId") = "0"
+	Application("KnowledgeHomeId") = "3"
+	Application("TopicId") = "2"
+	
+	Application("SiteCatTreeRoot") = "34"
+	
+	Application("KnowledgeTankDatabaseId") = "DB020"
+	
+end sub
+
+Sub Application_OnEnd()
+
+End Sub
+</script>

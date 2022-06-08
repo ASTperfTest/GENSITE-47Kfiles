@@ -1,0 +1,209 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                function onclick___151089436() {formDelete()}
+                                  function onclick___1352909932() {formBack()}
+
+
+
+
+
+ function formDelete()
+ {
+  var checkitems = "";
+  var count = Cx_0dummy;
+  if ( count == 1 ) {
+   if( document.reg.ckbox.checked ) {
+    checkitems += document.reg.ckbox.value + ";"; 
+   }         
+  }
+  else {
+   for( var i = 0; i < Cx_0dummy; i++) {
+    if( document.reg.ckbox[i].checked ) {
+     checkitems += document.reg.ckbox[i].value + ";"; 
+    }         
+   }  
+  }
+  document.getElementById("submitTask").value = "delete";  
+  document.getElementById("selectedItems").value = checkitems;    
+  //alert(checkitems);
+  document.reg.submit();
+ } 
+
+
+
+
+
+
+
+ 

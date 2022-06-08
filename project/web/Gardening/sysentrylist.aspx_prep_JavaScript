@@ -1,0 +1,136 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                          function OnClick___1764120399() {Sort_Click}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $(document).ready(function() {
+
+        });
+        function ApproveEntry(id) {
+            $('#Action').val('ApproveEntry|' + id);
+            document.forms[0].submit();
+        }
+        function HideEntry(id) {
+            $('#Action').val('HideEntry|' + id);
+            document.forms[0].submit();
+        }
+  function ConfirmDelete(id) {
+            if (confirm('是否確認刪除？\r\n注意：經刪除後即無法回復！')) {
+                $('#Action').val('DeleteEntry|' + id);
+                document.aspnetForm.submit();
+            }
+        }
+        function EditEntry(id) {
+            $('#Action').val('EditEntry|' + id);
+            document.aspnetForm.submit();
+        }
+    
+
+
+
+
+ 

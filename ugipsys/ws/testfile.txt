@@ -1,0 +1,241 @@
+
+Form2003/8/12:¤U¤È 01:34:51
+--form--------------
+
+totalbytes=0
+
+Form2003/8/12:¤U¤È 01:36:00
+--form--------------
+
+--QueryString--------------
+
+xx:1
+---end-------------
+
+
+Form2003/8/12:¤U¤È 01:38:43
+--form--------------
+
+--QueryString--------------
+
+invoke:importUser?m0=loginusername=demo_admin?m1=loginpassword=welcome?m2=loginsiteshortname=Demo?m3=locale=zh_cn?m4=xmlcontents=111 222 ss114111
+
+---end-------------
+
+Form2003/8/12:¤U¤È 01:41:03
+--form--------------
+
+--QueryString--------------
+
+invoke:importUser
+
+param0:loginusername=demo_admin
+
+param1:loginpassword=welcome
+
+param2:loginsiteshortname=Demo
+
+param3:locale=zh_cn
+
+param4:xmlcontents=<person recstatus="1"><userid>aa</userid><name><fn> è² è²¬äº?</fn></name><email>ea</email><extension><userOrgID>114</userOrgID><Account_Password>11</Account_Password></extension></person>
+
+---end-------------
+
+Form2003/8/12:¤U¤È 01:44:13
+--form--------------
+
+--QueryString--------------
+
+invoke:importUser
+
+param0:loginusername=demo_admin
+
+param1:loginpassword=welcome
+
+param2:loginsiteshortname=Demo
+
+param3:locale=zh_cn
+
+param4:xmlcontents=<person recstatus="1"><userid>aa</userid><name><fn> ­t³d¤H </fn></name><email>ea</email><extension><userOrgID>114</userOrgID><Account_Password>11</Account_Password></extension></person>
+
+---end-------------
+
+Form2003/8/12:¤U¤È 01:53:05
+--form--------------
+
+--QueryString--------------
+
+invoke:importUser
+
+param0:loginusername=demo_admin
+
+param1:loginpassword=welcome
+
+param2:loginsiteshortname=Demo
+
+param3:locale=zh_cn
+
+param4:xmlcontents=<person recstatus="1"><userid>aa</userid><name><fn> ­t³d¤H </fn></name><email>ea</email><extension><userOrgID>114</userOrgID><Account_Password>11</Account_Password></extension></person>
+
+:=<person recstatus="1"><userid>aa</userid><name><fn> ­t³d¤H </fn></name><email>ea</email><extension><userOrgID>114</userOrgID><Account_Password>11</Account_Password></extension></person>
+
+---end-------------
+
+Form2003/8/12:¤U¤È 01:55:26
+--form--------------
+
+--QueryString--------------
+
+invoke:importUser
+
+param0:loginusername=demo_admin
+
+param1:loginpassword=welcome
+
+param2:loginsiteshortname=Demo
+
+param3:locale=zh_cn
+
+param4:xmlcontents=<person recstatus="1"><userid>aa</userid><name><fn> ­t³d¤H </fn></name><email>ea</email><extension><userOrgID>114</userOrgID><Account_Password>11</Account_Password></extension></person>
+
+:=<person recstatus="1"><userid>aa</userid><name><fn> ­t³d¤H </fn></name><email>ea</email><extension><userOrgID>114</userOrgID><Account_Password>11</Account_Password></extension></person>
+
+load result :=True
+
+---end-------------
+
+Form2003/8/12:¤U¤È 01:56:17
+--form--------------
+
+--QueryString--------------
+
+invoke:importUser
+
+param0:loginusername=demo_admin
+
+param1:loginpassword=welcome
+
+param2:loginsiteshortname=Demo
+
+param3:locale=zh_cn
+
+param4:xmlcontents=<person recstatus="1"><userid>aa</userid><name><fn> µª­t³d¤H </fn></name><email>ea</email><extension><userOrgID>114</userOrgID><Account_Password>1</Account_Password></extension></person>
+
+:=<person recstatus="1"><userid>aa</userid><name><fn> µª­t³d¤H </fn></name><email>ea</email><extension><userOrgID>114</userOrgID><Account_Password>1</Account_Password></extension></person>
+
+load result :=True
+
+---end-------------
+
+Form2003/8/12:¤U¤È 02:45:23
+--form--------------
+
+--QueryString--------------
+
+invoke:importUser
+
+param0:loginusername=demo_admin
+
+param1:loginpassword=welcome
+
+param2:loginsiteshortname=Demo
+
+param3:locale=zh_cn
+
+param4:xmlcontents=<person recstatus="1"><userid>aa</userid><name><fn> µª­t³d¤H </fn></name><email>ea</email><extension><userOrgID>114</userOrgID><Account_Password>1</Account_Password></extension></person>
+
+xml :=<person recstatus="1"><userid>aa</userid><name><fn> µª­t³d¤H </fn></name><email>ea</email><extension><userOrgID>114</userOrgID><Account_Password>1</Account_Password></extension></person>
+
+load result :=True
+
+---end-------------
+
+Form2003/8/12:¤U¤È 02:50:45
+--form--------------
+
+--QueryString--------------
+
+invoke:importUser
+
+param0:loginusername=demo_admin
+
+param1:loginpassword=welcome
+
+param2:loginsiteshortname=Demo
+
+param3:locale=zh_cn
+
+param4:xmlcontents=<?xml version="1.0"  encoding="utf-8" ?><person recstatus="1"><userid>aa</userid><name><fn> µª­t³d¤H </fn></name><email>ea</email><extension><userOrgID>443</userOrgID><Account_Password>1</Account_Password></extension></person>
+
+xml :=<?xml version="1.0"  encoding="utf-8" ?>
+<person recstatus="1"><userid>aa</userid><name><fn> µª­t³d¤H </fn></name><email>ea</email><extension><userOrgID>443</userOrgID><Account_Password>1</Account_Password></extension></person>
+
+load result :=True
+http://10.10.5.73:7777/webservices/IlaWebServices?invoke=importUser
+&param0=loginusername%3Ddemo_admin
+&param1=loginpassword%3Dwelcome
+&param2=loginsiteshortname%3DDemo
+&param3=locale%3Dzh_cn
+&param4=xmlcontents%3D%3Cperson+recstatus%3D%221%22%3E
+%3Cuserid%3Eaa%3C%2Fuserid%3E
+%3Cname%3E%3Cfn%3E+%E7%AD%94%E8%B2%A0%E8%B2%AC%E4%BA%BA+%3C%2Ffn%3E%3C%2Fname%3E
+%3Cemail%3Eea%3C%2Femail%3E
+%3Cextension%3E%3CuserOrgID%3E443%3C%2FuserOrgID%3E%3CAccount_Password%3E1%3C%2FAccount_Password%3E%3C%2Fextension%3E%3C%2Fperson%3E
+
+http://10.10.5.73:7777/webservices/IlaWebServices?invoke=importUser&param0=loginusername%3Ddemo_admin
+&param1=loginpassword%3Dwelcome&param2=loginsiteshortname%3DDemo&param3=locale%3Dzh_cn
+&param4=xmlcontents%3D%3Cperson+recstatus%3D%221%22%3E%3Cuserid%3Eaa%3C%2Fuserid%3E
+%3Cname%3E%3Cfn%3E+%E7%AD%94%E8%B2%A0%E8%B2%AC%E4%BA%BA+%3C%2Ffn%3E%3C%2Fname%3E
+%3Cemail%3Eea%3C%2Femail%3E%3Cextension%3E%3CuserOrgID%3E443%3C%2FuserOrgID%3E%3CAccount_Password%3E1%3C%2FAccount_Password%3E%3C%2Fextension%3E%3C%2Fperson%3E
+
+pt.htm post
+http://mofsys.hyweb.com.tw/ws/ga.asp?invoke=importUser
+&param0=loginusername%3Ddemo_admin
+&param1=loginpassword%3Dwelcome
+&param2=loginsiteshortname%3DDemo
+&param3=locale%3Dzh_cn
+&param4=xmlcontents%3D%3Cperson+recstatus%3D%221%22%3E
+%3Cuserid%3Eaa%3C%2Fuserid%3E
+%3Cname%3E%3Cfn%3E+%B5%AA%ADt%B3d%A4H+%3C%2Ffn%3E%3C%2Fname%3E
+%3Cemail%3Eea%3C%2Femail%3E%3Cextension%3E%3CuserOrgID%3E443%3C%2FuserOrgID%3E%3CAccount_Password%3E1%3C%2FAccount_Password%3E%3C%2Fextension%3E%3C%2Fperson%3E
+
+iLearnUserAdd.asp
+http://10.10.5.73:7777/webservices/IlaWebServices?invoke=importUser
+&param0=loginusername%3Ddemo%5Fadmin
+&param1=loginpassword%3Dwelcome
+&param2=loginsiteshortname%3DDemo
+&param3=locale%3Dzh%5Fcn
+&param4=xmlcontents%3D%3Cperson+recstatus%3D%221%22%3E
+%3Cuserid%3Ea2%3C%2Fuserid%3E
+%3Cname%3E%3Cfn%3E+%B5%AA%ADt%B3d%A4H+%3C%2Ffn%3E%3C%2Fname%3E
+%3Cemail%3Eea%3C%2Femail%3E
+%3Cextension%3E%3CuserOrgID%3E443%3C%2FuserOrgID%3E%3CAccount%5FPassword%3E1%3C%2FAccount%5FPassword%3E%3C%2Fextension%3E%3C%2Fperson%3E---end-------------
+
+µª-19030=>B5AA		%E7%AD%94
+­t-21132=>AD74		%E8%B2%A0
+³d-19612=>B364		%E8%B2%AC
+¤H-23480=>A448		%E4%BA%BA
+%B5%AA%ADt%B3d%A4H
+Form2003/8/12:¤U¤È 04:37:56
+--form--------------
+
+--QueryString--------------
+
+invoke:importUser
+
+param0:loginusername=demo_admin
+
+param1:loginpassword=welcome
+
+param2:loginsiteshortname=Demo
+
+param3:locale=zh_cn
+
+param4:xmlcontents=<person recstatus="1"><userid>aa</userid><name><fn> µª­t³d¤H </fn></name><email>ea</email><extension><userOrgID>443</userOrgID><Account_Password>1</Account_Password></extension></person>
+
+xml :=<person recstatus="1"><userid>aa</userid><name><fn> µª­t³d¤H </fn></name><email>ea</email><extension><userOrgID>443</userOrgID><Account_Password>1</Account_Password></extension></person>
+
+load result :=True
+
+---end-------------
+

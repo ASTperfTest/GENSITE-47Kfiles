@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>插入表格</title>
+<link href="/css/editor.css" rel="stylesheet" type="text/css">
+<link href="/css/popup.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div id="PopFormName">連結設定</div>
+<form name="f1" action="" method="" id="PopForm">
+  <h1></h1>
+  <table cellspacing="0">
+  <tr>
+    <td class="Label">http</td>
+    <td><input name="url" type="text" class="InputText" size="50"></td>
+  </tr>
+  <tr>
+    <td class="Label">Title</td>
+    <td><input name="title" type="text" class="InputText" size="50"></td>
+  </tr>
+  <tr>
+    <td class="Label">開新視窗</td>
+    <td><input name="newWindow" type="radio" value="Y">
+      是
+        <input name="newWindow" type="radio" value="N">
+      否</td>
+    </tr>
+</table>
+<hr>
+
+<input onclick="TableOK();" type="button" class="InputButton" value="確定">
+<input name="Reset" type="reset" class="InputButton" value="取消">
+</form>
+<SCRIPT language=javascript>
+var oMyObject = window.dialogArguments;
+if (oMyObject!=undefined) {
+//alert(oMyObject.url);
+if (oMyObject.href!=undefined)	f1.url.value = oMyObject.href;
+if (oMyObject.title!=undefined)	f1.title.value = oMyObject.title;
+}
+
+function TableOK(){
+	var nw = "N";
+	if (f1.newWindow.item(0).checked)	nw = "Y";
+window.returnValue = "<A><URL><![CDATA[" + f1.url.value + "]]></URL><TITLE><![CDATA[" 
+	+ f1.title.value + "]]></TITLE><newWindow>"
+	 + nw + "</newWindow></A>";
+window.close();
+}
+
+</SCRIPT>
+
+</body>
+</html>

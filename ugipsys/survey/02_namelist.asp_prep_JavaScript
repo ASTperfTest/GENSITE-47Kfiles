@@ -1,0 +1,717 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      function onClick____1206670856() {history.go(-1);}
+
+
+
+
+                               
+          
+function Page_Onchange(form) {
+ location.assign("02_namelist.asp?page=" + form.select.value + "&select2=" + form.select2.value + "&select3=" + form.select3.value + "&subjectid=Cx_0dummy")
+}
+ 
+function select2_Onchange(form, select3) {
+ if ( form.options[form.selectedIndex].value == "sex" ) {
+  select3.length = "3";
+  select3.options[0].value = "";
+  select3.options[0].text = "不拘";
+  select3.options[1].value = "M";
+  select3.options[1].text = "男";
+  select3.options[2].value = "F";
+  select3.options[2].text = "女";
+  select3.selectedIndex = 0;
+ } else if ( form.options[form.selectedIndex].value == "eid" ) {
+  select3.length = "6";
+  select3.options[0].value = "";
+  select3.options[0].text = "不拘";
+  select3.options[1].value = "1";
+  select3.options[1].text = "到院住院病患";
+  select3.options[2].value = "2";
+  select3.options[2].text = "到院門診病患";
+  select3.options[3].value = "3";
+  select3.options[3].text = "病患家屬";
+  select3.options[4].value = "4";
+  select3.options[4].text = "社區民眾";
+  select3.options[5].value = "5";
+  select3.options[5].text = "其他";
+  select3.selectedIndex = 0;
+ } else if ( form.options[form.selectedIndex].value == "age" ) {
+  select3.length = "9";
+  select3.options[0].value = "";
+  select3.options[0].text = "不拘";
+  select3.options[1].value = "1";
+  select3.options[1].text = "0到11歲以下";
+  select3.options[2].value = "2";
+  select3.options[2].text = "12到17歲";
+  select3.options[3].value = "3";
+  select3.options[3].text = "18到23歲";
+  select3.options[4].value = "4";
+  select3.options[4].text = "24到29歲";
+  select3.options[5].value = "5";
+  select3.options[5].text = "30到39歲";
+  select3.options[6].value = "6";
+  select3.options[6].text = "40到49歲";
+  select3.options[7].value = "7";
+  select3.options[7].text = "50到59歲";
+  select3.options[8].value = "8";
+  select3.options[8].text = "60歲以上";
+  select3.selectedIndex = 0;
+ } else if ( form.options[form.selectedIndex].value == "addrarea" ) {
+  select3.length = "26";
+  select3.options[0].value = "";
+  select3.options[0].text = "不拘";
+  select3.options[1].value = "1";
+  select3.options[1].text = "台北縣";
+  select3.options[2].value = "2";
+  select3.options[2].text = "宜蘭縣";
+  select3.options[3].value = "3";
+  select3.options[3].text = "桃園縣";
+  select3.options[4].value = "4";
+  select3.options[4].text = "新竹縣";
+  select3.options[5].value = "5";
+  select3.options[5].text = "苗栗縣";                                                
+  select3.options[6].value = "6";
+  select3.options[6].text = "台中縣";
+  select3.options[7].value = "7";
+  select3.options[7].text = "彰化縣";
+  select3.options[8].value = "8";
+  select3.options[8].text = "南投縣";
+  select3.options[9].value = "9";
+  select3.options[9].text = "雲林縣";
+  select3.options[10].value = "10";
+  select3.options[10].text = "嘉義縣";
+  select3.options[11].value = "11";
+  select3.options[11].text = "台南縣";
+  select3.options[12].value = "12";
+  select3.options[12].text = "高雄縣";
+  select3.options[13].value = "13";
+  select3.options[13].text = "屏東縣";
+  select3.options[14].value = "14";
+  select3.options[14].text = "台東縣";
+  select3.options[15].value = "15";
+  select3.options[15].text = "花蓮縣";
+  select3.options[16].value = "16";
+  select3.options[16].text = "澎湖縣";
+  select3.options[17].value = "17";
+  select3.options[17].text = "基隆市";
+  select3.options[18].value = "18";
+  select3.options[18].text = "新竹市";                                
+  select3.options[19].value = "19";
+  select3.options[19].text = "台中市";
+  select3.options[20].value = "20";
+  select3.options[20].text = "嘉義市";
+  select3.options[21].value = "21";
+  select3.options[21].text = "台南市";                                
+  select3.options[22].value = "22";
+  select3.options[22].text = "台北市";
+  select3.options[23].value = "23";
+  select3.options[23].text = "高雄市";                                                                
+  select3.options[24].value = "24";
+  select3.options[24].text = "金門縣";
+  select3.options[25].value = "25";
+  select3.options[25].text = "連江縣";                
+  select3.selectedIndex = 0;                
+ } else if ( form.options[form.selectedIndex].value == "familymember" ) {
+  select3.length = "7";
+  select3.options[0].value = "";
+  select3.options[0].text = "不拘";
+  select3.options[1].value = "1";
+  select3.options[1].text = "1人";
+  select3.options[2].value = "2";
+  select3.options[2].text = "2人";
+  select3.options[3].value = "3";
+  select3.options[3].text = "3人";
+  select3.options[4].value = "4";
+  select3.options[4].text = "4人";
+  select3.options[5].value = "5";
+  select3.options[5].text = "5至8人";
+  select3.options[6].value = "6";
+  select3.options[6].text = "8人以上";
+  select3.selectedIndex = 0;                
+ } else if ( form.options[form.selectedIndex].value == "money" ) {
+  select3.length = "7";
+  select3.options[0].value = "";
+  select3.options[0].text = "不拘";
+  select3.options[1].value = "1";
+  select3.options[1].text = "5000元以下";
+  select3.options[2].value = "2";
+  select3.options[2].text = "5000到1萬元";
+  select3.options[3].value = "3";
+  select3.options[3].text = "1萬到3萬元";
+  select3.options[4].value = "4";
+  select3.options[4].text = "3萬到5萬元";
+  select3.options[5].value = "5";
+  select3.options[5].text = "5萬到10萬元";
+  select3.options[6].value = "6";
+  select3.options[6].text = "10萬元以上";
+  select3.selectedIndex = 0;
+ } else if ( form.options[form.selectedIndex].value == "job" ) {
+  select3.length = "8";
+  select3.options[0].value = "";
+  select3.options[0].text = "不拘";
+  select3.options[1].value = "1";
+  select3.options[1].text = "軍";
+  select3.options[2].value = "2";
+  select3.options[2].text = "公";
+  select3.options[3].value = "3";
+  select3.options[3].text = "商";
+  select3.options[4].value = "4";
+  select3.options[4].text = "教職";
+  select3.options[5].value = "5";
+  select3.options[5].text = "自由業";
+  select3.options[6].value = "6";
+  select3.options[6].text = "服務業";
+  select3.options[7].value = "7";
+  select3.options[7].text = "其他";
+  select3.selectedIndex = 0;
+ } else if ( form.options[form.selectedIndex].value == "edu" ) {
+  select3.length = "6";
+  select3.options[0].value = "";
+  select3.options[0].text = "不拘";
+  select3.options[1].value = "1";
+  select3.options[1].text = "小學及小學以下";
+  select3.options[2].value = "2";
+  select3.options[2].text = "國(初)中";
+  select3.options[3].value = "3";
+  select3.options[3].text = "高中(職)";
+  select3.options[4].value = "4";
+  select3.options[4].text = "大學(專)";
+  select3.options[5].value = "5";
+  select3.options[5].text = "研究所以上";
+  select3.selectedIndex = 0;
+ }
+}
+   
+
+
+
+ 

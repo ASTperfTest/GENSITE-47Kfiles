@@ -1,0 +1,244 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="代碼維護"
+htprogfunc="代碼清單"
+htprogcode="pn90m02"
+htprogprefix="codexml" 
+   CxMethod_ASP_codexmllistparam_2134708443()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_htcodegen_55136918()
+  
+   set htpagedom = session("codexmlspec")
+   set refmodel = htpagedom.selectsinglenode("//dstable")
+
+ set rsreg = server.createobject("adodb.recordset")
+ fsql=request.querystring("strsql")
+
+if fsql="" then
+ xselect = "htx.*"
+ xfrom = nulltext(refmodel.selectsinglenode("tablename")) & " as htx "
+ xrcount = 0
+ for each param in refmodel.selectnodes("fieldlist/field[showlist='y' and reflookup!='']")
+  xrcount = xrcount + 1
+  xalias = "xref" & xrcount
+  sql="select * from codemetadef where codeid=n'" & param.selectsinglenode("reflookup").text & "'"
+        set rslk=conn.execute(sql)  
+        xafldname = xalias & param.selectsinglenode("fieldname").text
+  xselect = xselect & ", " & xalias & "." & rslk("codedisplayfld") & " as " & xafldname
+  xfrom = "(" & xfrom & " left join " & rslk("codetblname") & " as " & xalias & " on " _
+   & xalias & "." & rslk("codevaluefld") & " = htx." & param.selectsinglenode("fieldname").text
+  if not isnull(rslk("codesrcfld")) then _
+      xfrom = xfrom & " and " & xalias & "." & rslk("codesrcfld") & "=n'" & rslk("codesrcitem") & "'"
+  xfrom = xfrom & ")"
+        ' --- 把 detailrow 裡的 reffield 換掉
+'         param.selectsinglenode("fieldname").text = xafldname
+        ' -----------------------------------
+ next
+
+ fsql = "select " & xselect & " from " & xfrom 
+ fsql = fsql & " where 1=1 " 
+ if nulltext(refmodel.selectsinglenode("wherelist")) <> "" then _
+  fsql = fsql & " and " & refmodel.selectsinglenode("wherelist").text
+
+ for each param in refmodel.selectnodes("fieldlist/field[paramkind]")
+   paramkind = nulltext(param.selectsinglenode("paramkind"))
+   paramcode = nulltext(param.selectsinglenode("fieldname"))
+   paramkindpad = ""
+   if paramkind = "range" then  paramkindpad = "s"
+   if request.form("htx_" & paramcode & paramkindpad) <> "" then
+  select case paramkind
+    case "range"
+   ranges = request.form("htx_" & paramcode & "s")
+   rangee = request.form("htx_" & paramcode & "e")
+   if rangee = "" then rangee=ranges
+   wherecondition = replace("htx." & paramcode & " between '{0}' and '{1}'", _
+    "{0}", ranges)
+   wherecondition = replace(wherecondition, "{1}", rangee)
+    case "value"
+   wherecondition = replace("htx." & paramcode & " = {0}", "{0}", _
+    pkstr(request.form("htx_" & paramcode),""))
+    case else  '-- like
+   wherecondition = replace("htx." & paramcode & " like {0}", "{0}", _
+    pkstr("%"&request.form("htx_" & paramcode)&"%",""))
+  end select
+  fsql = fsql & " and " & wherecondition
+   end if
+ next
+ xpcondition
+ if nulltext(refmodel.selectsinglenode("orderlist")) <> "" then
+  fsql = fsql & " order by " & refmodel.selectsinglenode("orderlist").text
+ end if
+' response.write fsql & "<hr>"
+' response.end
+end if
+'response.write fsql
+'response.end
+
+nowpage=request.querystring("nowpage")  '現在頁數
+
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=15  
+      end if 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+      strsql=server.urlencode(fsql)
+   end if    
+end if   
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap
+                          =session("codeid"):         =nulltext(htpagedom.selectsinglenode("//tabledesc"))
+
+
+
+
+
+
+
+
+    if (htprogright and 2)=2 then
+
+    end if
+    if (htprogright and 4)=4 then
+
+    end if
+
+
+
+
+
+
+
+                                       =htprogprefix
+
+  if not rsreg.eof then
+
+                                      =nowpage:    =totpage
+                                          =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+          if cint(nowpage) <>1 then 
+                        =htprogprefix:                    =(nowpage-1):           =strsql:             =perpagesize
+         end if
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):           =strsql:             =perpagesize
+          end if
+
+
+                                 if perpagesize=15 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+                                  if perpagesize=300 then:            end if
+
+
+
+
+
+  
+ for each param in refmodel.selectnodes("fieldlist/field[showlist='y']")
+  response.write "<td class=etablelable>" & nulltext(param.selectsinglenode("fieldlabel")) & "</td>"
+ next
+    response.write "</tr>"
+
+    for i=1 to perpagesize                  
+
+
+  pkey = ""
+ for each param in refmodel.selectnodes("fieldlist/field[isprimarykey='y']")
+  kf = param.selectsinglenode("fieldname").text
+  pkey = pkey & "&" & kf & "=" & rsreg(kf)
+ next
+ if pkey<>"" then  pkey = mid(pkey,2)
+
+ xrcount = 0
+ for each param in refmodel.selectnodes("fieldlist/field[showlist='y']")
+  kf = param.selectsinglenode("fieldname").text
+  if nulltext(param.selectsinglenode("reflookup")) <> "" then
+   xrcount = xrcount + 1
+   kf = "xref" & xrcount & kf
+  end if
+
+
+    if nulltext(param.selectsinglenode("isprimarykey")) = "y" then 
+                             =pkey
+    =rsreg(kf)
+
+    else 
+    =rsreg(kf)
+    end if 
+
+  
+ next
+
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+  else
+
+
+
+
+  end if
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

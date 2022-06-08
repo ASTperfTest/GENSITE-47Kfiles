@@ -1,0 +1,119 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="單元資料定義"
+htprogcode="ge1t01"
+htprogprefix="basedsd" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty "serverhttprequest", true
+ loadxml = server.mappath("/gipdsd/xmlspec/schema0.xml")
+ xv = oxml.load(loadxml)
+  if oxml.parseerror.reason <> "" then
+    response.write("xml parseerror on line " &  oxml.parseerror.line)
+    response.write("<br>reason: " &  oxml.parseerror.reason)
+    response.end()
+  end if
+  
+ set fxml = server.createobject("microsoft.xmldom")
+ fxml.async = false
+ fxml.setproperty "serverhttprequest", true
+ loadxml = server.mappath("/gipdsd/xmlspec/schemafield0.xml")
+ xv = fxml.load(loadxml)
+  if fxml.parseerror.reason <> "" then
+    response.write("xml parseerror on line " &  fxml.parseerror.line)
+    response.write("<br>reason: " &  fxml.parseerror.reason)
+    response.end()
+  end if
+
+   set dxml = oxml.selectsinglenode("dataschemadef/dstable")
+ xibasedsd = request.querystring("ibasedsd")
+ sqlcom = "select * from basedsd where ibasedsd=" & pkstr(xibasedsd,"")
+ set rsmaster = conn.execute(sqlcom)
+ formid = "cudtx" & xibasedsd
+ if not isnull(rsmaster("sbasetablename")) then formid=rsmaster("sbasetablename")
+ 
+ dxml.selectsinglenode("tabledesc").text = rsmaster("sbasedsdname")
+ dxml.selectsinglenode("tablename").text = formid
+ 
+ fsql = "select htx.*, xref1.mvalue as xrxdatatype " _
+  & " from (basedsdfield as htx left join codemain as xref1 on xref1.mcode = htx.xdatatype and xref1.codemetaid='htddatatype')"
+ fsql = fsql & " where 1=1"
+ fsql = fsql & " and htx.ibasedsd=" & pkstr(rsmaster("ibasedsd"),"")
+ fsql = fsql & " order by htx.xfieldseq"
+ set rslist = conn.execute(fsql)
+
+   set flxml = dxml.selectsinglenode("fieldlist")
+
+
+ while not rslist.eof 
+'  response.write rslist("xfieldname") & "<br>"
+  set xfieldnode = fxml.selectsinglenode("dataschemafield/field").clonenode(true)
+  xfieldnode.selectsinglenode("fieldseq").text = rslist("xfieldseq")
+  if not isnull(rslist("xfieldname")) then
+   xfieldnode.selectsinglenode("fieldname").text = rslist("xfieldname")
+  else
+   xfieldnode.selectsinglenode("fieldname").text = formid & "f" & rslist("ibasefield")
+  end if
+  
+  if not isnull(rslist("xfieldname")) then
+   paramcode = rslist("xfieldname")
+  else
+   paramcode = formid & "f" & rslist("ibasefield")
+  end if
+  paramtype = rslist("xrxdatatype")
+  paramsize=10
+  if paramtype="varchar" then paramsize = rslist("xdatalen")
+  if paramtype="char" then paramsize = rslist("xdatalen") 
+  xfieldnode.selectsinglenode("fieldlabelinit").text = rslist("xfieldlabel")
+  xfieldnode.selectsinglenode("fieldlabel").text = rslist("xfieldlabel")
+  if not isnull(rslist("xfielddesc")) then _
+   xfieldnode.selectsinglenode("fielddesc").text = rslist("xfielddesc")
+  xfieldnode.selectsinglenode("datatype").text = rslist("xrxdatatype")
+  if not isnull(rslist("xdatalen")) then _  
+   xfieldnode.selectsinglenode("datalen").text = rslist("xdatalen")
+  if not isnull(rslist("xinputlen")) then _   
+   xfieldnode.selectsinglenode("inputlen").text = rslist("xinputlen")
+  xfieldnode.selectsinglenode("isprimarykey").text = rslist("xisprimarykey")
+  xfieldnode.selectsinglenode("cannull").text = rslist("xcannull")
+  xfieldnode.selectsinglenode("identity").text = rslist("xidentity")
+  xfieldnode.selectsinglenode("inputtype").text = rslist("xinputtype")
+  if not isnull(rslist("xclientdefault")) then _   
+   xfieldnode.selectsinglenode("clientedit").text = rslist("xclientdefault")
+  if rslist("inuse") = "y" then
+   xfieldnode.selectsinglenode("showlistclient").text = rslist("xfieldseq")
+   xfieldnode.selectsinglenode("showlist").text = rslist("xfieldseq")
+   xfieldnode.selectsinglenode("formlistclient").text = rslist("xfieldseq")
+   xfieldnode.selectsinglenode("formlist").text = rslist("xfieldseq")
+   xfieldnode.selectsinglenode("querylistclient").text = rslist("xfieldseq")
+   xfieldnode.selectsinglenode("querylist").text = rslist("xfieldseq")
+   xfieldnode.selectsinglenode("paramkind").text = "like"
+  end if   
+  if rslist("xcannull") = "n" then
+   xfieldnode.selectsinglenode("formlistclient").text = rslist("xfieldseq")
+   xfieldnode.selectsinglenode("formlist").text = rslist("xfieldseq")
+  end if   
+'  if error.num > 0 then 
+'   response.write rslist("xfieldname") & "<br>"
+'   response.end
+'  end if
+  if not isnull(rslist("xreflookup")) then _   
+   xfieldnode.selectsinglenode("reflookup").text = rslist("xreflookup")
+  if not isnull(rslist("xrows")) then _   
+   xfieldnode.selectsinglenode("rows").text = rslist("xrows")
+  if not isnull(rslist("xcols")) then _   
+   xfieldnode.selectsinglenode("cols").text = rslist("xcols")
+
+  flxml.appendchild xfieldnode
+   rslist.movenext
+ wend
+ oxml.save(server.mappath("/gipdsd/xmlspec/" & rsmaster("sbasetablename") & ".xml"))
+
+response.write "xml schema產生完成!"
+response.end
+
+
+ 

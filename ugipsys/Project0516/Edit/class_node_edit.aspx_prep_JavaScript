@@ -1,0 +1,89 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+     function check_name()
+{
+      
+     var Title = document.getElementById("Txt_Class");
+     var sort = document.getElementById("Txt_sortvalue");
+     var type = document.getElementById("ddl_class1");
+    
+    if(type.value == "--請選擇--")
+ {
+     alert("請選擇分類")
+     event.returnValue = false;
+ } 
+ else if(Title.value == "")
+ { 
+  alert("請輸入類別名稱");
+  event.returnValue = false;
+  
+ }
+ else if(sort.value == "")
+ {
+     alert("請輸入排序值(1~99)")
+     event.returnValue = false;
+ }
+ else if(isNaN(sort.value))
+ {
+     alert("排序值請輸入數字!(1~99)")
+     event.returnValue = false;
+ }
+
+ 
+ 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                            function OnClick___1715794415() {btn_Add_Click}
+                                                              function OnClick____1727098064() {btn_Edit_Click}
+                                  function OnClick___1174845174() {btn_Cancel_Click}
+                                                                          function OnClick___1383300503() {btn_Delete_Click}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

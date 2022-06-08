@@ -1,0 +1,70 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="主題館績效統計"
+htprogfunc="查詢清單"
+htprogcode="jigsaw"
+htprogprefix="newkpi" 
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_client_5214970()
+  
+
+
+ordersiteunit= request("ordersiteunit")
+ordersubject= request("ordersubject")
+orderknowledgetank= request("orderknowledgetank")
+orderknowledgehome= request("orderknowledgehome")
+check="1234"
+if (instr(check,ordersiteunit)>0) then
+ check=replace(check,ordersiteunit,"")
+ else
+ response.write "<script language='javascript'>alert('輸入不正確！');history.go(-1);</script>"
+ response.end
+end if
+ if (instr(check,ordersubject)>0) then
+ check=replace(check,ordersubject,"")
+ else
+ response.write "<script language='javascript'>alert('輸入不正確！');history.go(-1);</script>"
+ response.end
+end if
+ if (instr(check,orderknowledgetank)>0) then
+ check=replace(check,orderknowledgetank,"")
+ else
+ response.write "<script language='javascript'>alert('輸入不正確！');history.go(-1);</script>"
+ response.end
+end if
+ if (instr(check,orderknowledgehome)>0) then
+ check=replace(check,orderknowledgehome,"")
+ else
+ response.write "<script language='javascript'>alert('輸入不正確！');history.go(-1);</script>"
+ response.end
+end if
+
+
+ sql="select cudtgeneric.stitle as stitle, knowledgejigsaw.parenticuitem as parenticuitem, knowledgejigsaw.gicuitem as gicuitem ,cudtgeneric.icuitem as icuitem from knowledgejigsaw inner join cudtgeneric on knowledgejigsaw.gicuitem = cudtgeneric.icuitem where knowledgejigsaw.parenticuitem='" &request("icuitem")&"' and (cudtgeneric.stitle <> '議題關聯知識文章單元順序設定')"           
+
+ set rs= conn.execute(sql)
+
+ while not rs.eof
+sql1="update [mgipcoanew].[dbo].[cudtgeneric] set  fctupublic ='"&request(rs("gicuitem"))&"' where (icuitem = '"&rs("icuitem")&"')"
+
+conn.execute(sql1)
+
+rs.movenext
+
+
+wend
+
+sql2="select cudtgeneric.stitle as stitle, knowledgejigsaw.parenticuitem as parenticuitem, knowledgejigsaw.gicuitem as gicuitem ,cudtgeneric.icuitem as icuitem from knowledgejigsaw inner join cudtgeneric on knowledgejigsaw.gicuitem = cudtgeneric.icuitem where knowledgejigsaw.parenticuitem='" &request("icuitem")&"' and (cudtgeneric.stitle = '議題關聯知識文章單元順序設定')" 
+'response.write sql2
+set rs2= conn.execute(sql2)
+
+sql3="update [mgipcoanew].[dbo].[knowledgejigsaw]set [ordersiteunit] = '"&ordersiteunit&"',[ordersubject] = '"&ordersubject&"',[orderknowledgetank] = '"&orderknowledgetank&"',[orderknowledgehome] = '"&orderknowledgehome&"' where gicuitem='"&rs2("gicuitem")&"'"
+
+conn.execute(sql3)
+
+ 
+response.redirect "index.asp"
+response.end
+ 

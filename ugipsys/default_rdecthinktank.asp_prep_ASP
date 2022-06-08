@@ -1,0 +1,36 @@
+﻿: 
+if  session("mysiteid") = "" then response.redirect "default_rdecthinktank.htm"
+
+
+response.cachecontrol = "no-cache" 
+response.addheader "pragma", "no-cache" 
+response.expires = -1
+if session("pwd") = true then
+ framerows = "87,*"
+ framerows = "60,*"
+' framecols = "159,*"
+ framecols = "180,*"
+ framecols = "167,*"
+ topfile="ntopmenu_rdecthinktank.asp"
+ leftfile="nstackmenu.asp"
+ leftfile="function.asp"
+ rightfile="site/rdecthinktank/aspsession.asp"   
+' rightfile="gipedit/ctnodetlist.asp?ctrootid=4"
+else
+ framerows = "0,*"
+ framecols = "0,*"
+ topfile=""
+    leftfile=""
+    rightfile="giplogin_rdecthinktank.asp"   
+end if  
+
+
+
+         =session("mysitename")
+
+
+                  =framerows
+                                                        =topfile
+                    =framecols
+                                                           =leftfile
+                                   =rightfile 

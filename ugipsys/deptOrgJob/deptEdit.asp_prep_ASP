@@ -1,0 +1,431 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogfunc="編修組織"
+htuploadpath="/public/"
+htprogcode="pn02m02"
+htprogprefix="dept" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+         =title
+
+   CxMethod_ASP_dbutil_10064021()
+  
+dim pkey
+dim rsreg
+dim formfunction
+
+ apath=server.mappath(htuploadpath) & "\"
+  set xup = server.createobject("updownexpress.fileupload")
+  xup.open 
+
+function xupform(xvar)
+on error resume next
+ xstr = ""
+ arrval = xup.multival(xvar)
+ for i = 1 to ubound(arrval)
+  xstr = xstr & arrval(i) & ", "
+'  response.write arrval(i) & "<br>" & chr(13)
+ next 
+ if xstr = "" then
+  xstr = xup(xvar)
+  xupform = xstr
+ else
+  xupform = left(xstr, len(xstr)-2)
+ end if
+end function
+
+if xupform("submittask") = "update" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  editinbothcase()
+ else
+  doupdatedb()
+  showdonebox("資料更新成功！")
+ end if
+
+elseif xupform("submittask") = "delete" then
+ sql = "delete from dept where deptid=" & pkstr(request.querystring("deptid"),"")
+ conn.execute sql
+ showdonebox("資料刪除成功！")
+
+else
+ editinbothcase()
+end if
+
+
+sub editinbothcase
+ sqlcom = "select d.*, (select count(*) from dept where parent=d.deptid) as child " _
+  & " from dept as d where d.deptid=" & pkstr(request.querystring("deptid"),"")
+  
+ set rsreg = conn.execute(sqlcom)
+ pkey = ""
+ pkey = pkey & "&deptid=" & rsreg("deptid")
+ if pkey<>"" then  pkey = mid(pkey,2)
+
+ showhtmlhead()
+ if errmsg <> "" then showerrbox()
+ formfunction = "edit"
+ showform()
+ initform()
+ showhtmltail()
+end sub
+
+
+function qqrs(fldname)
+ if xupform("submittask")="" then
+  xvalue = rsreg(fldname)
+  
+ else
+  xvalue = ""
+  if xupform("htx_"&fldname) <> "" then
+   xvalue = xupform("htx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+  sub initform() 
+
+
+
+
+
+
+
+                          =qqrs("deptid")
+                            =qqrs("deptname")
+                            =qqrs("abbrname")
+                             =qqrs("edeptname")
+                             =qqrs("eabbrname")
+                            =qqrs("deptcode")
+                           =qqrs("orgrank")
+                       =qqrs("seq")
+                        =qqrs("kind")
+                         =qqrs("inuse")
+                                =qqrs("tdatacat")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                          =htuploadpath
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+
+  sub showform()   '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_deptforme_1069127044()
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+       =title
+
+
+                            =pkey
+                           =pkey
+
+
+
+                     =htprogfunc
+
+  end sub '--- showhtmlhead() ------
+
+
+  sub showhtmltail() 
+
+
+
+
+
+
+
+
+  end sub '--- showhtmltail() ------
+
+
+  sub showerrbox() 
+
+              =errmsg
+
+
+  
+    end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' if request("tfx_taxid") <> "" then
+'   sql = "select * from client where taxid = n'"& request("tfx_taxid") &"'"
+'   set rsreg = conn.execute(sql)
+'   if not rsreg.eof then
+'  if trim(rsreg("clientid")) <> request("pfx_clientid") then
+'   errmsg = "「統一編號」重複!!請重新輸入客戶統一編號!"
+'   exit sub
+'  end if
+'   end if
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "update dept set "
+  sql = sql & "deptname=" & pkstr(xupform("htx_deptname"),",")
+  sql = sql & "abbrname=" & pkstr(xupform("htx_abbrname"),",")
+  sql = sql & "edeptname=" & pkstr(xupform("htx_edeptname"),",")
+  sql = sql & "eabbrname=" & pkstr(xupform("htx_eabbrname"),",")
+  sql = sql & "deptcode=" & pkstr(xupform("htx_deptcode"),",")
+  sql = sql & "codename=" & pkstr(xupform("htx_deptname") & " (" & xupform("htx_deptcode") & ")",",")
+  sql = sql & "seq=" & pkstr(xupform("htx_seq"),",")
+  sql = sql & "orgrank=" & pkstr(xupform("htx_orgrank"),",")
+  sql = sql & "kind=" & pkstr(xupform("htx_kind"),",")
+  sql = sql & "inuse=" & pkstr(xupform("htx_inuse"),",")
+  sql = sql & "tdatacat=" & pkstr(xupform("htx_tdatacat"),",")
+ sql = left(sql,len(sql)-1) & " where deptid=" & pkstr(request.querystring("deptid"),"")
+
+ conn.execute(sql)  
+end sub '---- doupdatedb() ----
+
+  sub showdonebox(lmsg) 
+ mpkey = ""
+ if mpkey<>"" then  mpkey = mid(mpkey,2)
+ doneuri= ""
+ if doneuri = "" then doneuri = htprogprefix & "list.asp"
+
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+                 =lmsg
+                                =doneuri:    =mpkey
+
+
+
+
+  end sub '---- showdonebox() ----  

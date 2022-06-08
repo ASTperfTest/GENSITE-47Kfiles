@@ -1,0 +1,397 @@
+﻿
+
+
+
+
+
+
+
+           function onchange___299894691() {ShowCNS();}
+
+                   function onchange___299894691() {ShowCNS();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  function onchange____1676524768() {document.getElementById("txtFrontColor").value = document.getElementById("ddlFrontColor").options[document.getElementById("ddlFrontColor").selectedIndex].value; ShowCNS();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function onchange___299894691() {ShowCNS();}
+
+                  function onchange____173749944() {document.getElementById("txtBackColor").value = document.getElementById("ddlBackColor").options[document.getElementById("ddlBackColor").selectedIndex].value; ShowCNS();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       function onchange___299894691() {ShowCNS();}
+
+
+   function onchange___299894691() {ShowCNS();}
+    function onchange___299894691() {ShowCNS();}
+
+                      function onclick___299894691() {ShowCNS();}
+
+
+
+
+
+        function ShowCNS(){
+            var CNS = document.getElementById("txtCNS").value;
+            
+            var arrCNS = CNS.split("-");
+            
+            var AdditionalParameter = ""
+            
+            var fontsize = document.getElementById("ddlFontSize").options[document.getElementById("ddlFontSize").selectedIndex].value;
+            if(fontsize.length > 0){
+                AdditionalParameter += "&fontsize=" + fontsize
+            }            
+            
+            var fgcolor = document.getElementById("txtFrontColor").value;
+            if(fgcolor.length > 0){
+                AdditionalParameter += "&fgcolor=" + fgcolor
+            }
+            
+            
+            var bgcolor = document.getElementById("txtBackColor").value; 
+            if(bgcolor.length > 0){
+                AdditionalParameter += "&bgcolor=" + bgcolor
+            }
+            
+            var width = document.getElementById("txtWidth").value; 
+            if(width.length > 0){
+                AdditionalParameter += "' width='" + width
+            }
+            
+            var height = document.getElementById("txtHeight").value; 
+            if(height.length > 0){
+                AdditionalParameter += "' width='" + height
+            }
+            
+            if(arrCNS.length = 2){
+                var res = "����: <input id='txtResultMing' size=100 type='text' value=\"<img src='http://www.cns11643.gov.tw/AIDB/png.do?page=" + arrCNS[0] + "&code=" + arrCNS[1] + AdditionalParameter + "' class='CNSIMG'/>\"> <input type='button' value='�ƻs��ŶKi'         'CopyToClipboard(\"txtResultMing\")'> <img src='http://www.cns11643.gov.tw/AIDB/png.do?page=" + arrCNS[0] + "&code=" + arrCNS[1] + AdditionalParameter + "' border='0' style='vertical-align:text-bottom' />        ";
+                res += "����: <input id='txtResultKai' size=100 type='text' value=\"<img src='http://www.cns11643.gov.tw/cgi-bin/ttf2png?page=" + arrCNS[0] + "&number=" + arrCNS[1] + AdditionalParameter + "'  class='CNSIMG'/>\"> <input type='button' value='�ƻs��ŶKi'         'CopyToClipboard(\"txtResultKai\")'> <img src='http://www.cns11643.gov.tw/cgi-bin/ttf2png?page=" + arrCNS[0] + "&number=" + arrCNS[1] + AdditionalParameter + "' border='0' style='vertical-align:text-bottom' />        ";
+                res += "����: <input id='txtResultSung' size=100 type='text' value=\"<img src='http://www.cns11643.gov.tw/cgi-bin/ttf2png?page=" + arrCNS[0] + "&face=sung&number=" + arrCNS[1] + AdditionalParameter + "'  class='CNSIMG'/>\"> <input type='button' value='�ƻs��ŶKi'         'CopyToClipboard(\"txtResultSung\")'> <img src='http://www.cns11643.gov.tw/cgi-bin/ttf2png?page=" + arrCNS[0] + "&face=sung&number=" + arrCNS[1] + AdditionalParameter + "' border='0' style='vertical-align:text-bottom' />";
+                
+                document.getElementById("divDisplay").innerHTML = res;
+            }
+            else{
+                alert('�榡���~ !!');
+            }
+        }
+        
+        function CopyToClipboard(InputName){
+ 
+           document.getElementById(InputName).focus();
+ 
+           document.getElementById(InputName).select(); 
+ 
+           CopiedTxt = document.selection.createRange();
+ 
+           CopiedTxt.execCommand("Copy");
+ 
+        }
+ 
+    
+
+
+
+
+
+ 

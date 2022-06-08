@@ -1,0 +1,245 @@
+﻿
+
+
+                               
+          
+function send(){
+ var form=document.form1; 
+ if(CheckAccount(form) == false){
+  form.account.focus();
+  return false;
+ }
+ else if(form.realname.value==""){
+  alert("您忘了填寫真實姓名了！"); 
+  form.realname.focus(); 
+  return false;
+ }
+ else if(form.actor[0].checked==false && form.actor[1].checked==false && form.actor[2].checked==false ){
+  alert("您忘了選身份類別了！"); 
+  form.actor[0].focus(); 
+  return false;
+ }
+ else if(form.member_org.value==""){
+  alert("您忘了填寫所屬機關名稱了！"); 
+  form.member_org.focus(); 
+  return false;
+ }
+ else if(form.com_tel.value==""){
+  alert("您忘了填寫所屬機關電話了！"); 
+  form.com_tel.focus(); 
+  return false;
+ }
+ else if(form.ptitle.value==""){
+  alert("您忘了填寫職稱了！"); 
+  form.ptitle.focus(); 
+  return false;
+ }
+ else if(CheckPasswd(form) == false){
+  return false;
+ }
+ else if(CheckEmail(form) == false){
+  form.email.focus();
+  return false;
+ }
+ else if(CheckIDn(form) == false){
+  form.idn.focus();
+  return false;
+ }
+ return true;
+}  
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                       function onsubmit____516022209() {return send()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

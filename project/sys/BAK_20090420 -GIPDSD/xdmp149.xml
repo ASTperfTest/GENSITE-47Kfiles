@@ -1,0 +1,90 @@
+<?xml version="1.0" standalone="yes"?>
+<MpDataSet>
+  <MenuTree>149</MenuTree>
+  <MpStyle>Style1</MpStyle>
+  <DataSet>
+    <DataLable>BlockA</DataLable>
+    <DataRemark>第一層單層條列</DataRemark>
+    <DataNode>2247</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>3</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockB</DataLable>
+    <DataRemark>第一層自定分類</DataRemark>
+    <DataNode>2251</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>3</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockC</DataLable>
+    <DataRemark>第二層內容</DataRemark>
+    <DataNode>2257</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>Y</IsExcerpt>
+    <ShowStyle>Style3</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockD</DataLable>
+    <DataRemark>第二層圖片條列</DataRemark>
+    <DataNode>2256</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>4</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style2</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockE</DataLable>
+    <DataRemark />
+    <DataNode>0</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+</MpDataSet>

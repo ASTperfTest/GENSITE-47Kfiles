@@ -1,0 +1,82 @@
+﻿:  response.expires = 0
+htprogcap="���ʺ޲z"
+htprogfunc="���w�ǭ��m��"
+htprogcode="pa005"
+htprogprefix="psenroll" 
+   response.expires = 0 
+
+   CxMethod_ASP_dbutil_453315802()
+  
+
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+'----------hyweb gip db connection patch----------
+
+
+ sql = "select htx.*, a.actname, a.actcat, a.actdesc, a.acttarget, xref2.mvalue as xractcat" _
+  & ", (select count(*) from paenroll as e where e.pasid=htx.pasid) as ercount" _
+  & " from pasession as htx join ppact as a on a.actid=htx.actid" _
+  & " left join codemain as xref2 on xref2.mcode = a.actcat and xref2.codemetaid='ppactcat'" _
+  & " where htx.pasid=" & session("pasid")
+ set rs = conn.execute(sql)
+
+
+
+
+
+
+
+
+
+
+
+                            =rs("actname"):         =rs("dtnote")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     
+ fsql = "select htx.pasid, htx.ckvalue, htx.erdate, htx.status, htx.psnid as xpsnid, p.*" _
+  & " from (paenroll as htx left join papsninfo as p on p.psnid = htx.psnid)" _
+  & " where htx.status='y' and htx.pasid=" & session("pasid")
+ set rsreg = conn.execute(fsql)
+
+    while not rsreg.eof           
+
+
+                                                    =rsreg("pname")
+                                                    =rsreg("email")
+                                                    =d7date(rsreg("birthday"))
+                                                    =rsreg("myorg")
+                                                  =rsreg("zipcode"):     =rsreg("addr")
+
+
+
+      
+         rsreg.movenext
+ wend
+    

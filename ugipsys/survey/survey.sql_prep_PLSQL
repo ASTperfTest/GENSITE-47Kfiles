@@ -1,0 +1,107 @@
+﻿if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[m011]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[m011]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[m012]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[m012]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[m013]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[m013]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[m014]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[m014]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[m015]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[m015]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[m016]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[m016]
+go
+
+create table [dbo].[m011] (
+ [gicuitem] [int] not null ,
+ [m011_subjectid] [int] null ,
+ [m011_subject] [nchar] (200) collate chinese_taiwan_stroke_cs_as null ,
+ [m011_questno] [int] null ,
+ [m011_bdate] [datetime] null ,
+ [m011_edate] [datetime] null ,
+ [m011_notetype] [ntext] collate chinese_taiwan_stroke_cs_as null ,
+ [m011_haveprize] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [m011_jumpquestion] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [m011_onlyonce] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [m011_pflag] [nchar] (10) collate chinese_taiwan_stroke_cs_as null 
+) on [primary] textimage_on [primary]
+go
+
+create table [dbo].[m012] (
+ [m012_subjectid] [int] not null ,
+ [m012_questionid] [int] not null ,
+ [m012_title] [nvarchar] (3000) collate chinese_taiwan_stroke_cs_as null ,
+ [m012_answerno] [int] null ,
+ [m012_type] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [m012_modifyuser] [nchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [m012_updatetime] [datetime] null ,
+ [m012_createuser] [nchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [m012_createtime] [datetime] null 
+) on [primary]
+go
+
+create table [dbo].[m013] (
+ [m013_subjectid] [int] not null ,
+ [m013_questionid] [int] not null ,
+ [m013_answerid] [int] not null ,
+ [m013_title] [nvarchar] (3000) collate chinese_taiwan_stroke_cs_as null ,
+ [m013_default] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [m013_nextord] [int] null ,
+ [m013_no] [int] null ,
+ [m013_modifyuser] [nchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [m013_updatetime] [datetime] null ,
+ [m013_createuser] [nchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [m013_createtime] [datetime] null 
+) on [primary]
+go
+
+create table [dbo].[m014] (
+ [m014_id] [int] not null ,
+ [m014_a] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as not null ,
+ [m014_b] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [m014_c] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [m014_d] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [m014_e] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [m014_f] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [m014_g] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [m014_h] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [m014_pflag] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [m014_reply] [ntext] collate chinese_taiwan_stroke_cs_as null ,
+ [m014_subjectid] [int] not null ,
+ [m014_polldate] [datetime] null
+) on [primary] textimage_on [primary]
+go
+
+create table [dbo].[m015] (
+ [m015_id] [int] identity (1, 1) not null ,
+ [m015_subjectid] [int] not null ,
+ [m015_questionid] [int] not null ,
+ [m015_answerid] [int] not null ,
+ [m015_modifyuser] [nchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [m015_updatetime] [datetime] not null 
+) on [primary]
+go
+
+create table [dbo].[m016] (
+ [m016_id] [int] identity (1, 1) not null ,
+ [m016_subjectid] [int] not null ,
+ [m016_questionid] [int] not null ,
+ [m016_answerid] [int] not null ,
+ [m016_userid] [int] null ,
+ [m016_content] [ntext] collate chinese_taiwan_stroke_cs_as not null ,
+ [m016_updatetime] [datetime] not null 
+) on [primary] textimage_on [primary]
+go
+
+
+ 

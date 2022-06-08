@@ -1,0 +1,133 @@
+﻿: @ codepage = 65001 
+  
+response.expires = 0
+htprogcap=""
+htprogfunc=""
+htprogcode="kforumlist"
+htprogprefix=""
+dim ibasedsd : ibasedsd = "39"
+dim ictunit : ictunit = "934"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_selecttree_859552413()
+
+
+
+
+
+
+
+   sub showcantfindbox(lmsg) 
+
+
+
+
+
+
+
+
+              =lmsg
+
+
+
+
+   end sub 
+  
+ '---if request("submittask")="submit"時, 寄送email給專家---
+ '---else 秀出表單頁---
+ dim submittask : submittask = request("submittask") 
+ if submittask = "submit" then 
+  handlemail
+ else 
+  showform
+ end if
+
+   sub showform 
+
+
+
+
+
+                                                                   =request.querystring("questionid"):            =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+
+
+
+
+
+  
+ dim questionid
+ questionid = request.querystring("questionid")
+ sql = "select member.account, member.realname, knowledgeforum.expertsenddate, knowledgeforum.expertreplydate, knowledgeforum.status, knowledgeforum.expertid, "
+ sql = sql & "cudtgeneric.xbody, knowledgeforum.expertrand, knowledgeforum.gicuitem from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem "
+ sql = sql & "inner join member on knowledgeforum.expertid = member.account "
+ sql = sql & "where knowledgeforum.parenticuitem = " & questionid & " and cudtgeneric.ictunit = " & ictunit & " order by knowledgeforum.expertsenddate desc"
+ set rsreg = conn.execute(sql)
+ if rsreg.eof then
+  showcantfindbox "無資料"    
+ else
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     while not rsreg.eof 
+
+                                                                   =trim(rsreg("account")):            =request.querystring("nowpage"):             =request.querystring("pagesize"):     =trim(rsreg("account"))
+                        =trim(rsreg("realname"))
+                                            =rsreg("expertsenddate")
+
+       if rsreg("status") = "w" then response.write "&nbsp;" 
+       if rsreg("status") <> "w" then response.write "v" 
+
+                                            =rsreg("expertreplydate")
+                                                                                           =questionid:                =rsreg("gicuitem"):            =request.querystring("nowpage"):             =request.querystring("pagesize"):     =rsreg("xbody")
+
+
+       if rsreg("status") = "w" then 
+                                                                                                    =questionid:      =rsreg("gicuitem"):      =rsreg("expertrand"):      =rsreg("expertid")
+       else 
+
+       end if 
+
+
+
+    
+    rsreg.movenext
+   wend
+  
+
+
+
+
+
+
+
+
+
+
+                                                                                 =request.querystring("questionid"):            =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+
+                 =session("mywwwsiteurl")
+
+
+  
+ end if
+ rsreg.close
+ set rsreg = nothing
+
+
+
+   end sub  

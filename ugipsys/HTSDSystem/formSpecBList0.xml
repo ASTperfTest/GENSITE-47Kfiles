@@ -1,0 +1,65 @@
+﻿<?xml version="1.0"  encoding="utf-8" ?>
+<htPage>
+  <HTProgPrefix></HTProgPrefix>
+  <HTProgCode></HTProgCode>
+  <HTProgPath></HTProgPath>
+  <HTGenPattern></HTGenPattern>
+	<resultSet>
+		<sql>
+			<selectList></selectList>
+			<fromList></fromList>
+			<whereList>1=1</whereList>
+			<orderList></orderList>
+		</sql>
+		<fieldList>
+			<tableName></tableName>
+			<field>
+				<fieldName></fieldName>
+				<fieldLabel></fieldLabel>
+				<dataType></dataType>
+				<dataLen></dataLen>
+				<isPrimaryKey></isPrimaryKey>
+				<canNull></canNull>
+				<fieldDesc></fieldDesc>
+				<inputType></inputType>
+			</field>
+		</fieldList>
+		<fieldListLink>
+				<fkLink>
+					<joinType>LEFT</joinType>
+					<asAlias></asAlias>
+					<refTable></refTable>
+					<fkFieldList>
+						<refField></refField>
+						<myField></myField>
+					</fkFieldList>
+				</fkLink>
+		</fieldListLink>
+		<valueType>direct</valueType>
+	</resultSet>
+	<pageSpec>
+		<pageHead></pageHead>
+		<pageFunction></pageFunction>
+		<aidLinkList>
+		</aidLinkList>
+		<taskLinkList>
+			<taskLink>
+				<taskName>選擇1</taskName>
+				<taskURL></taskURL>
+			</taskLink>
+		</taskLinkList>
+			<scriptCode><![CDATA[
+<SCRIPT LANGUAGE="vbs">
+
+</SCRIPT>
+		]]></scriptCode>
+		<detailRow>
+			<colSpec>
+				<colLabel></colLabel>
+				<content><refField></refField></content>
+			</colSpec>
+		</detailRow>
+	<UINotes>
+	</UINotes>
+	</pageSpec>
+</htPage>

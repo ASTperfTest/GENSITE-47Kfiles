@@ -1,0 +1,48 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sub formaddsubmit() 
+    
+'----- �τ��submit�e���ˬd�x��b�o�� �a�p�u�� not valid �� exit sub ���}------------
+'msg1 = "�аȥ���g�u�Ȥ�s���v�a���o���ťաi"
+'msg2 = "�аȥ���g�u�Ȥ�w�١v�a���o���ťաi"
+'
+'  if reg.pfx_clientid.value = empty then
+'     msgbox msg1, 64, "sorry!"
+'     settab 0
+'     reg.pfx_clientid.focus
+'     exit sub
+'  end if
+ nmsg = "�аȥ���g�u{0}�v�a���o���ťաi"
+ lmsg = "�u{0}�v�����׳̦h��{1}�i"
+ dmsg = "�u{0}�v������� yyyy/mm/dd �i"
+ imsg = "�u{0}�v��������ƭȡi"
+ pmsg = "�u{0}�v���������������� " &chr(34) &"gif,jpg,jpeg" &chr(34) &" �䤤�@�ءi"
+ 
+ 

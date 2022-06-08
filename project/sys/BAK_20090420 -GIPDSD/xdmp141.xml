@@ -1,0 +1,90 @@
+<?xml version="1.0" standalone="yes"?>
+<MpDataSet>
+  <MenuTree>141</MenuTree>
+  <MpStyle>Style1</MpStyle>
+  <DataSet>
+    <DataLable>BlockA</DataLable>
+    <DataRemark>鴨寨頭條</DataRemark>
+    <DataNode>2204</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>100</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>Y</IsPostDate>
+    <IsExcerpt>Y</IsExcerpt>
+    <ShowStyle>Style3</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockB</DataLable>
+    <DataRemark>寨主現身</DataRemark>
+    <DataNode>2207</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>100</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>Y</IsPostDate>
+    <IsExcerpt>Y</IsExcerpt>
+    <ShowStyle>Style3</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockC</DataLable>
+    <DataRemark>鴨寨美食</DataRemark>
+    <DataNode>2211</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>4</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>100</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>Y</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style2</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockD</DataLable>
+    <DataRemark>健康鴨肉</DataRemark>
+    <DataNode>2216</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>4</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>100</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>Y</IsPostDate>
+    <IsExcerpt>Y</IsExcerpt>
+    <ShowStyle>Style3</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockE</DataLable>
+    <DataRemark>鴨寨風光</DataRemark>
+    <DataNode>2225</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>8</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style2</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+</MpDataSet>

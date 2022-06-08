@@ -1,0 +1,76 @@
+﻿: @ codepage = 65001 
+  
+apath=server.mappath(session("uploadpath")) & "\"
+set xup = server.createobject("tabs.upload")
+xup.codepage=65001
+xup.start apath
+
+function xupform(xvar)
+ xupform = xup.form(xvar)
+end function
+
+
+
+act = xupform("send")
+ xpath = xupform("xxpath")
+ uppath = session("uploadpath") & xpath
+ if right(uppath,1)<>"/" then uppath = uppath & "/"
+
+if act = "新增" then 
+
+'set fldr = fso.getfolder(server.mappath(uppath))
+ set fso = createobject("scripting.filesystemobject")
+ set f = fso.createfolder(server.mappath(uppath & xupform("newfolder")))
+
+
+
+
+
+
+
+
+
+             =replace(server.mappath(uppath & xupform("newfolder")),"\","\\")
+
+
+
+
+
+   
+ response.end
+ 
+elseif act <> "送出" then 
+ response.end
+end if
+ 
+
+
+'============  photo upload ==================
+
+apath = server.mappath(uppath)
+ if right(apath,1)<>"/" then apath = apath & "/"
+
+
+for each form in xup.form
+     if form.isfile then
+        'response.write form.name & "=" & form.filename & "," & form.savename
+        xup.form(form.name).save(apath)
+    end if
+
+next
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    =xpath
+                                           =xpath 

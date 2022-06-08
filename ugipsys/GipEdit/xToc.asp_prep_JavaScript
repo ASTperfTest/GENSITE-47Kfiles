@@ -1,0 +1,26 @@
+﻿
+
+
+
+
+
+
+
+
+function script____616959201() {src("xtoc.js");}CxConstr_1140493434();
+
+setDepthPerXML(2)
+setCategoryOpenImgSrc('image/ftv2folderopen.gif')
+setCategoryClosedImgSrc('image/ftv2folderclosed.gif')
+setDocumentImgSrc('image/ftv2doc.gif')
+setServletURL('getTreeToc.asp')
+
+
+
+
+
+
+
+
+
+ 

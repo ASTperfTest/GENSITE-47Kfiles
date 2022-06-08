@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data>
+	<application>
+		<plus_speed>10</plus_speed> //1表示現實1天遊戲16天
+		<time_delta>0</time_delta>  //createDate加幾秒,預防承辦人rollback db
+		<auto_save>1</auto_save>
+		<auto_save_interval>30</auto_save_interval>
+		<starting_money>200</starting_money>
+		<fish_money>1000</fish_money>
+		<salt_string>hello i am eddie</salt_string>
+	</application>
+	<price>
+		<bucket>3</bucket> //水桶
+		<nitrosomana>25</nitrosomana> //亞硝酸氧化菌
+		<injector>16</injector> //針筒
+		<methyleneblue>12</methyleneblue> //甲基藍溶液
+		<uvlight>15</uvlight> //紫外燈
+		<algae>4</algae> //綠藻
+		<rotifera>7</rotifera> //輪蟲
+		<shrimp>6</shrimp> //蝦
+	</price>
+	<fishes>
+		<anemone>
+			<is_available>1</is_available>
+		</anemone>
+		<bream>
+			<is_available>1</is_available>
+		</bream>
+		<clownfish>
+			<is_available>1</is_available>
+		</clownfish>
+		<hippocampus>
+			<is_available>1</is_available>
+		</hippocampus>
+	</fishes>
+</data>

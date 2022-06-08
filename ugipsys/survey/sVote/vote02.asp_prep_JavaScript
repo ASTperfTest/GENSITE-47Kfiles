@@ -1,0 +1,126 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+ie4 = ((navigator.appName == "Microsoft Internet Explorer") && (parseInt(navigator.appVersion) >= 4 ));
+NN4 = (navigator.appName == "Netscape" && parseInt(navigator.appVersion) >= 4)
+z = "xyz";
+function toggle(targetId) {
+ if ( NN4 || ie4 ) {
+  if ( z != "xyz" ) {
+   if ( z != document.all(targetId) )
+    z.style.display = "none";
+  }
+  target = document.all(targetId);
+  if ( target.style.display == "none" ) {
+   target.style.display = "";
+   z = document.all(targetId);
+  } else {
+   target.style.display = "none";
+   z = "xyz";
+  }
+ }
+}
+ie4 = ((navigator.appName == "Microsoft Internet Explorer") && (parseInt(navigator.appVersion) >= 4 ));
+NN4 = (navigator.appName == "Netscape" && parseInt(navigator.appVersion) >= 4)
+z = "xyz";
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

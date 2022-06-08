@@ -1,0 +1,60 @@
+﻿: @ codepage=65001 language="vbscript"
+
+
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbutil_10064021()
+  
+'----新增----
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+ specid=request.querystring("specid")
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty("serverhttprequest") = true 
+ set oxsl = server.createobject("microsoft.xmldom")
+ '----xmlspec處理開始
+ xv = oxml.load(server.mappath("xmlspec/"&specid&"add.xml"))
+ if oxml.parseerror.reason <> "" then 
+  response.write("htpagedom parseerror on line " &  oxml.parseerror.line)
+  response.write("<br>reason: " &  oxml.parseerror.reason)
+  response.end()
+ end if
+ '----代碼tag更換
+ for each fieldnode in oxml.selectnodes("//fieldlist/field[reflookup!='']")
+     sql="select * from codemetadef where codeid='" & nulltext(fieldnode.selectsinglenode("reflookup")) & "'"
+     set rslk=conn.execute(sql)  
+     if not rslk.eof then
+      sqlrss="select " & rslk("codevaluefld") & "," & rslk("codedisplayfld") & " from " & rslk("codetblname") & " where 1=1"
+      if not isnull(rslk("codesrcfld")) then _
+       sqlrss = sqlrss & " and " & rslk("codesrcfld") & "='" & rslk("codesrcitem") & "'"
+      sqlrss = sqlrss & " order by " & rslk("codesortfld") 
+      set rss=conn.execute(sqlrss)
+      if not rss.eof then
+          codestr=""
+      while not rss.eof
+       codestr=codestr&"<code name="""&rss(0)&""" value="""&rss(1)&"""/>"
+       rss.movenext
+      wend
+      codestr="<reflookup>"&codestr&"</reflookup>"
+      set nxml0 = server.createobject("microsoft.xmldom")
+      nxml0.loadxml(codestr)
+      set newnode0 = nxml0.documentelement 
+      fieldnode.replacechild newnode0,fieldnode.selectsinglenode("reflookup")     
+         end if
+     end if
+ next
+ '----xmlspec處理結束
+ '----load xsl
+ oxsl.load(server.mappath("xslgip/patternadd.xsl"))
+ oxsl.selectsinglenode("//xsl:template[@match='htpage']/html/body/form/@action").text="add_do_action.asp?specid="&specid
+ '----轉換為html字串
+ response.contenttype = "text/html" 
+ outstring = replace(oxml.transformnode(oxsl),"<meta http-equiv=""content-type"" content=""text/html; charset=utf-16"">","")
+ outstring = replace(outstring,"&amp;","&")
+ response.write replace(outstring,"&amp;","&")  
+ 

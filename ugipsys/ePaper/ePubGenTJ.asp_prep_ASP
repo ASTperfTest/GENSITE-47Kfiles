@@ -1,0 +1,380 @@
+﻿
+  @ codepage = 65001
+   response.expires = 0
+htprogcode="gw1m51"
+htprogprefix="epub"
+response.codepage = 65001
+response.charset = "utf-8"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_checkgipconfig_1275316133()
+  
+ 
+function deamp(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   deamp=""
+   exit function
+  end if
+   deamp = replace(xs,"&","&amp;")
+end function 
+ 
+ 
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+function message(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   message=""
+   exit function
+  elseif instr(1,xs,"<p",1)>0 or instr(1,xs,"<br",1)>0 or instr(1,xs,"<td",1)>0 then
+  message=xs
+   exit function
+  end if
+   xs = replace(xs,vbcrlf&vbcrlf,"<p>")
+   xs = replace(xs,vbcrlf,"<br/>")
+   message = replace(xs,chr(10),"<br/>")
+end function
+
+
+'----ftp參數處理
+ ftperrormsg=""
+ ftpfilepath="public/epaper"
+ sqlp = "select * from uploadsite where uploadsiteid='file'"
+ set rsp = conn.execute(sqlp)
+ if not rsp.eof  then
+     xftpip = rsp("uploadsiteftpip")
+     xftpport = rsp("uploadsiteftpport")
+     xftpid = rsp("uploadsiteftpid")
+     xftppwd = rsp("uploadsiteftppwd")
+    end if
+'----ftp參數處理end
+
+
+ eptreeid = session("eptreeid")  '-- 電子報的 tree
+
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty "serverhttprequest", true
+
+ loadxml = server.mappath("/site/" & session("mysiteid") & "/public/epaper/epaper"&eptreeid &".xml")
+ xv = oxml.load(loadxml)
+ 'response.write /site/" & session("mysiteid") & "/public/epaper/epaper"&eptreeid &".xml & "<hr>"
+ 'response.end
+     
+
+  if oxml.parseerror.reason <> "" then
+    response.write("xml parseerror on line " &  oxml.parseerror.line)
+    response.write("<br>reason: " &  oxml.parseerror.reason)
+    response.end()
+  end if
+
+   set dxml = oxml.selectsinglenode("epaper")
+
+ epubid = request.querystring("epubid")
+ formid = "ep" & epubid
+ sqlcom = "select * from eppub where epubid=" & pkstr(epubid,"")
+ set rsmaster = conn.execute(sqlcom)
+ xmaxno = rsmaster("maxno")
+         
+ 
+
+
+' dxml.selectsinglenode("epubid").text = epubid
+' dxml.selectsinglenode("title").text = rsmaster("title")
+ dxml.selectsinglenode("epapertitle").text = rsmaster("title")
+ dxml.selectsinglenode("epubdate").text = rsmaster("pubdate")
+ dxml.selectsinglenode("epaperxmlcssurl").text = dxml.selectsinglenode("epaperxmlcssurl").text & "/epaper/epaper" & eptreeid & ".css"
+ if nulltext(dxml.selectsinglenode("epaperxmlimgpath"))<>"" then _
+  dxml.selectsinglenode("epaperxmlimgpath").text = dxml.selectsinglenode("epaperxmlimgpath").text & eptreeid & "/"
+ 'response.write dxml.selectsinglenode("epaperxmlimgurl").text & "<hr>"
+ 'response.end
+ epaperurl = dxml.selectsinglenode("epaperurl").text
+
+ sqlcom = "select n.*, u.ibasedsd from cattreenode as n join ctunit as u on n.ctunitid=u.ctunitid" _
+  & " where n.inuse='y' and ctrootid = "& eptreeid _
+  & " order by n.catshoworder"
+ set rs = conn.execute(sqlcom)
+
+cvbcrlf = vbcrlf
+ctab = ""
+        
+ 
+'tj tjcategoryroot start
+
+
+  sqlstrvol=" select  max(cast(dbo.article.vol as float))  as vol  "
+  sqlstrvol=sqlstrvol & " from   dbo.article inner join  dbo.cudtgeneric on dbo.article.gicuitem=dbo.cudtgeneric.icuitem "                   
+  sqlstrvol=sqlstrvol & " where  dbo.cudtgeneric.ictunit = 12"  
+                sqlstrvol=sqlstrvol & " order by   dbo.article.vol desc"
+  
+         set rstvol = conn.execute(sqlstrvol)
+         vol=""
+  
+  if not rstvol.eof then
+     vol=rstvol("vol")
+  end if
+
+
+            slstr = "<tjcategoryroot><vol>" & vol &"</vol>" 
+            
+            
+            
+            
+            
+             
+    xtrcategorytemp=""
+    sqltemp = "select  mvalue  from   dbo.codemain where   (codemetaid = n'tjcategory') order by  mvalue"
+ set rstemp = conn.execute(sqltemp)
+
+  
+  
+   do while not rstemp.eof 
+ xtrcategory = "<tjcategory><name>" & rstemp("mvalue") & "</name>" 
+ 
+    
+     sqlstr=" select  dbo.cudtgeneric.icuitem, dbo.cudtgeneric.stitle,dbo.article.writer,dbo.cudtgeneric.xabstract  "
+  sqlstr=sqlstr & " from   dbo.article inner join  dbo.cudtgeneric on dbo.article.gicuitem = dbo.cudtgeneric.icuitem "
+  sqlstr=sqlstr & " where dbo.cudtgeneric.topcat = '" & rstemp("mvalue") & "' and dbo.article.vol='" & vol & "'"
+     
+         slstr=  slstr & xtrcategory
+        
+        
+        
+    set rsstr = conn.execute(sqlstr)
+    
+     xtrcategorytemp=""
+     
+     do while not rsstr.eof 
+     xtrcategorytemp=""
+       xtrcategorytemp="<tj_article>"
+     xtrcategorytemp=xtrcategorytemp & "<tj_articletitle>" & rsstr("stitle") & "</tj_articletitle>"
+     xtrcategorytemp=xtrcategorytemp & "<tj_articlebody>" & rsstr("xabstract") & "</tj_articlebody>"
+     xtrcategorytemp=xtrcategorytemp & "<tj_articlewriter>" & rsstr("writer") & "</tj_articlewriter>"
+             xurl="<tj_articleurl>ct.asp?ctnode=122&xitem=" & rsstr("icuitem") & "</tj_articleurl>"
+            
+      xurl= deamp(xurl)  
+             
+              xtrcategorytemp=xtrcategorytemp & xurl
+       
+         xtrcategorytemp=xtrcategorytemp & "</tj_article>"
+         
+         slstr= slstr & xtrcategorytemp
+         rsstr.movenext
+       loop
+     
+     
+     
+        slstr=  slstr & "</tjcategory>"           
+              
+    rstemp.movenext
+  
+  loop
+            
+          
+             xtrcategory = "<tjcategory><name>other</name>" 
+    
+     sqlstr=" select  dbo.cudtgeneric.icuitem, dbo.cudtgeneric.stitle,dbo.article.writer,dbo.cudtgeneric.xabstract  "
+  sqlstr=sqlstr & " from   dbo.article inner join  dbo.cudtgeneric on dbo.article.gicuitem = dbo.cudtgeneric.icuitem "
+  sqlstr=sqlstr & " where dbo.cudtgeneric.topcat is null and dbo.article.vol='" & vol & "'"
+   
+     slstr=  slstr & xtrcategory
+    set rsstr = conn.execute(sqlstr)
+    
+     
+     xtrcategorytemp=""
+     
+     do while not rsstr.eof 
+     xtrcategorytemp=""
+       xtrcategorytemp="<tj_article>"
+     xtrcategorytemp=xtrcategorytemp & "<tj_articletitle>" & rsstr("stitle") & "</tj_articletitle>"
+     xtrcategorytemp=xtrcategorytemp & "<tj_articlebody>" & rsstr("xabstract") & "</tj_articlebody>"
+     xtrcategorytemp=xtrcategorytemp & "<tj_articlewriter>" & rsstr("writer") & "</tj_articlewriter>"
+             xurl="<tj_articleurl>ct.asp?ctnode=122&xitem=" & rsstr("icuitem") & "</tj_articleurl>"
+            
+     xurl= deamp(xurl)  
+             
+              xtrcategorytemp=xtrcategorytemp & xurl
+       
+         xtrcategorytemp=xtrcategorytemp & "</tj_article>"
+            slstr=  slstr & xtrcategorytemp
+         rsstr.movenext
+       loop
+     
+
+               slstr=  slstr & "</tjcategory>" 
+
+        
+          slstr=slstr&"</tjcategoryroot>"
+
+
+ while not rs.eof
+  slstr = slstr & "<epsection><secid>" & rs("ctnodeid") & "</secid><secname>"&rs("catname")&"</secname><securl>"&dxml.selectsinglenode("epaperurl").text&"</securl>"
+  os = ""
+   xsql = "select top " & xmaxno
+   xsql =xsql & " (select count(*) from cudtattach as dhtx where blist='y' and dhtx.xicuitem=ghtx.icuitem) as attachcount ,"
+   xsql =xsql & " ictunit, ibasedsd, icuitem, stitle, xbody, ximgfile, xurl, xpostdate, xabstract"
+   '判斷是否有rss欄位, 如果rss='y'則為外部匯入資料直接另開視窗到xurl..apple 10/20
+   ifsql="sp_columns @table_name = 'cudtgeneric' , @column_name ='rss'"
+   set ifrs = conn.execute(ifsql)
+   if not ifrs.eof then
+    xsql = xsql & ",rss "
+   end if
+   '-----------------------------------------------------------------------------
+   xsql = xsql & " from cudtgeneric as ghtx" _
+    & " where ictunit = " & rs("ctunitid") _
+    & " and (xpostdate between " & pkstr(rsmaster("dbdate"),"") & " and " & pkstr(rsmaster("dedate"),")") _
+    & " and fctupublic = 'y' "
+   'response.write xsql & "<hr>"
+   'response.end
+   set rsx = conn.execute(xsql)
+
+   if not rsx.eof then
+    while not rsx.eof
+     os = os & "<xitemlist>"
+     if not isnull(rsx("ximgfile")) then
+      os = os & "<ximgfile>/public/data/"&rsx("ximgfile")&"</ximgfile>"
+     end if
+     os = os & "<xitemurl>"&dxml.selectsinglenode("epaperurl").text&"</xitemurl>"
+     os = os & "<xitem>"&rsx("icuitem")&"</xitem>"
+     os = os & "<stitle><![cdata["&rsx("stitle")&"]]></stitle>"
+     os = os & "<xabstract><![cdata["&rsx("xabstract")&"]]></xabstract>"     
+                                        os = os & "<xurl><![cdata["&rsx("xurl")&"]]></xurl>"
+     os = os & "<xpostdate>"&rsx("xpostdate")&"</xpostdate>"
+     os = os & "<attachcount>"&rsx("attachcount")&"</attachcount>"
+
+     '判斷是否有rss欄位, 如果rss='y'則為外部匯入資料直接另開視窗到xurl..apple 2004/10/20
+     if not ifrs.eof then
+      if not isnull(rsx("rss")) then
+       os = os & "<newwindow>" & rsx("rss") & "</newwindow>"
+      end if
+     end if
+     '-----------------------------------------------------------------------------
+     xxbody = rsx("xbody")
+     os = os & "<xbody><![cdata["&xxbody&"]]></xbody>"
+
+         '判斷是否有附件, 如果attachcount > 0 則為有附件 列出附件列表..apple 2006/05/08
+                        if rsx("attachcount") > 0 then
+                           attsql = "select dhtx.*"
+                           attsql = attsql & " from cudtattach as dhtx"
+                           attsql = attsql & " where blist='y'"
+                           attsql = attsql & " and dhtx.xicuitem=" & pkstr(rsx("icuitem"),"")
+                           attsql = attsql & " order by dhtx.listseq"
+                            'response.write "attsql: "& attsql & "<hr>"
+                   'response.end
+                           set rsattlist = conn.execute(attsql)
+                           'response.write "<hr>"
+                           'response.write "附件" & rsattlist("nfilename")
+                           if  not rsattlist.eof then
+                               os = os & "<attachmentlist>" & vbcrlf
+                               rsattlist.movefirst
+
+                               'response.write "附件" & rsattlist("nfilename")
+
+                               while not rsattlist.eof
+                                os = os & "<attachment>"
+                                os = os & "<url><![cdata[public/attachment/" & rsattlist("nfilename")&"]]></url>"
+                                os = os & "<caption><![cdata[" & rsattlist("atitle") & "]]></caption>"
+                                os = os & "</attachment>"
+                                rsattlist.movenext
+                               wend
+                               os = os & "</attachmentlist>"
+                            else
+                                'response.write "no附件"
+                            end if
+                            'response.write "<hr>"
+                        end if
+
+     os = os & "</xitemlist>"
+     rsx.movenext
+    wend
+   end if
+
+  slstr = slstr & os & "</epsection>" & cvbcrlf
+           
+'  response.write slstr & "<hr>"
+  rs.movenext
+ wend
+       
+
+ slstr = "<epaperxml><epsectionlist>" & cvbcrlf & slstr & "</epsectionlist> </epaperxml>"
+'  response.write slstr & "<hr>"
+ set sxml = server.createobject("microsoft.xmldom")
+ sxml.async = false
+ sxml.setproperty "serverhttprequest", true
+ xv = sxml.loadxml(slstr)
+  if sxml.parseerror.reason <> "" then
+    response.write("xml parseerror on line " &  sxml.parseerror.line)
+    response.write("<br>reasonyy: " &  sxml.parseerror.reason)
+    response.end()
+  end if
+' response.write sxml.xml & "<hr>"
+' response.end
+
+' dxml.selectsinglenode("epsectionlist").text = slstr
+ set xfieldnode = sxml.selectsinglenode("epaperxml/epsectionlist").clonenode(true)
+ oxml.selectsinglenode("epaper").appendchild xfieldnode
+ 'response.write "/site/" & session("mysiteid") & "/public/epaper/" & formid & ".xml"
+ 'response.end
+
+ oxml.save(server.mappath("/site/" & session("mysiteid") & "/public/epaper/" & formid & ".xml"))
+ '----ftp機制
+   if xftpip<>"" and xftpid<>"" and xftppwd<>"" then
+  fileaction="movefile"
+  filetarget=formid & ".xml"
+  filesource=server.mappath("/site/" & session("mysiteid") & "/public/epaper/" & formid & ".xml")
+  ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,"",filetarget,filesource
+      end if
+
+'-----------------------------顯示----------
+ '----load epaper.xml
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty "serverhttprequest", true
+ loadxml = server.mappath("/site/" & session("mysiteid") & "/public/epaper/" & formid & ".xml")
+ xv = oxml.load(loadxml)
+        
+   
+
+   if oxml.parseerror.reason <> "" then
+      response.write("xml parseerror on line " &  oxml.parseerror.line)
+      response.write("<br>reasonaa: " &  oxml.parseerror.reason)
+      response.end()
+   end if
+   '----load epaper.xsl
+ set oxsl = server.createobject("microsoft.xmldom")
+ oxsl.load(server.mappath("/site/" & session("mysiteid") & "/public/epaper/epaper"&eptreeid &".xsl"))
+'response.write "hello2"
+'response.end
+
+ response.contenttype = "text/html"
+ outstring = replace(oxml.transformnode(oxsl),"<meta http-equiv=""content-type"" content=""text/html; charset=utf-16"">","")
+ outstring = replace(outstring,"&amp;","&")
+ response.write replace(outstring,"&amp;","&")
+
+
+'-----------------------------gen html file start ----------
+ if checkgipconfig("epapergenhtmlfile") then
+     dim savehtmlfile
+     const adsavecreateoverwrite = 2
+     savehtmlfile = server.mappath("/site/" & session("mysiteid") & "/public/epaper/epaper"&eptreeid &"_"& formid &".htm")
+
+        dim objstream
+        set objstream = server.createobject("adodb.stream")
+        objstream.open()
+        objstream.charset = "utf-8"
+        objstream.writetext(outstring)
+        objstream.savetofile savehtmlfile, adsavecreateoverwrite
+        objstream.close()
+ end if
+
+response.end
+
+ 

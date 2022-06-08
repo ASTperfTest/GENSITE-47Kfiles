@@ -1,0 +1,156 @@
+﻿: @ codepage=65001 
+   response.expires = 0
+htprogcap="gip資料匯入"
+htprogfunc="新增匯入"
+htprogcode="gw1m95"
+htprogprefix="gipdataimport" 
+   CxMethod_ASP_dbutil_10064021()
+
+
+
+
+                               =htprogprefix
+
+
+
+  
+htprogright=255
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+tasklable="查詢" & htprogcap
+
+ showhtmlhead()
+ formfunction = "query"
+ showform()
+ initform()
+ showhtmltail()
+
+
+   sub initform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+  sub showform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       =htprogprefix
+
+
+
+
+
+
+
+
+
+
+
+     sql="select ibasedsd,sbasedsdname from basedsd where ibasedsd is not null and inuse='y' order by ibasedsd"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            if (htprogright and 4)<>0 then 
+
+
+            end if
+
+
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showhtmlhead() ------
+
+  sub showhtmltail() 
+
+
+
+
+
+  end sub '--- showhtmltail() ------ 

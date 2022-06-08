@@ -1,0 +1,293 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+response.charset="utf-8"
+'response.charset="big5"
+htprogcap=""
+htprogfunc="變更主題單元"
+htuploadpath="/"
+htprogcode="gc1ap1"
+htprogprefix="dsdxml" 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_xdbutil_1468464061()
+   CxMethod_ASP_htuigen_1591615763()
+   CxMethod_ASP_checkgipconfig_1275316133()
+   CxMethod_ASP_hyftdgip_754890524()
+
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+  
+tasklable="查詢" & htprogcap
+ cq=chr(34)
+ ct=chr(9)
+ cl="<" & "%"
+ cr="%" & ">"
+
+   set htpagedom = session("codexmlspec")
+   set allmodel2 = session("codexmlspec2")      
+   set refmodel = htpagedom.selectsinglenode("//dstable")
+   set allmodel = htpagedom.selectsinglenode("//dataschemadef")
+
+ showhtmlhead()
+ formfunction = "query"
+ showform()
+ initform()
+ showhtmltail()
+
+
+   sub initform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+  sub showform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showform() ------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  sub showhtmlhead() 
+
+
+
+
+                                   =htprogprefix
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+  'init==================================================================
+  if request.querystring("ispostback") <> "" then
+   session.contents("ispostback") = request.querystring("ispostback")
+  end if 
+  
+  if session.contents("ispostback") = "0" then
+   session.contents("changeunit") = request.querystring("ictunit")
+  end if
+  
+  if request.querystring("topcat") <> "" then
+   session.contents("topcat") = request.querystring("topcat")
+  end if
+  
+  'response.write(cstr(session.contents("ispostback")))
+  if request.querystring("icuitem") <> "" then
+   session.contents("cuitem") = request.querystring("icuitem")
+  end if
+ 
+  if request.querystring("ictunit") <> "" then
+   session.contents("ctunit") = request.querystring("ictunit")   
+  end if 
+ 
+  if request.querystring("ibasedsd") <> "" then
+   session.contents("basedsd") = request.querystring("ibasedsd")
+  end if
+ 
+  if request.querystring("changeunit") <> "" then
+   session.contents("changeunit") = request.querystring("changeunit")
+  end if
+    
+  if session.contents("ispostback") = "0" then
+   session.contents("ispublic") = "n"      
+  end if  
+  if request.querystring("ispublic") <> "" then
+   session.contents("ispublic") = request.querystring("ispublic") 
+  end if
+  
+ 'response.write(session.contents("ctunit")&",")
+ 'response.write(session.contents("changeunit"))
+  
+  if (request.form("submit")<>"") then
+   if (session("userid")<>"") then
+    if(session.contents("topcat") = "") then
+     response.write("<script language='javascript'> alert('請選擇資料大類後再執行此功能')</script>")
+    else
+     sql="exec sp_move_document " & cstr(session.contents("cuitem")) & "," + cstr(session.contents("changeunit")) &_
+     ",'" & cstr(session.contents("ispublic")) & "','" & cstr(session.contents("topcat")) & "' "
+     conn.execute(sql)
+     sql = "select ident_current('cudtgeneric') as xx"    
+     set rs = conn.execute(sql)
+     xnewidentity = rs("xx")
+ 
+     '建立文件索引
+     if checkgipconfig("hyftdgip") then
+      hyftdgipstr=hyftdgip("add",xnewidentity)
+     end if 
+     
+     response.redirect("dsdxmllist.asp?ibasedsd="& request.form("ibasedsd"))
+    end if
+    'response.write("<script language='javascript'> alert('" & cstr(session.contents("cuitem")) & "," & cstr(session.contents("changeunit")) & "," & cstr(session.contents("ispublic")) & "," & cstr(session.contents("topcat")) & "')</script>")
+   end if
+  end if
+ 
+
+
+  
+  '----1.1xmlspec檔案檢查
+ set fso = server.createobject("scripting.filesystemobject")
+ loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx" & cstr(session.contents("changeunit")) & ".xml")
+ if not fso.fileexists(loadxml) then
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/cudtx" & cstr(session.contents("basedsd")) & ".xml")
+ end if
+ 
+ '----2.1開xmldom物件, load .xml
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty "serverhttprequest", true
+ xv = oxml.load(loadxml)
+ if oxml.parseerror.reason <> "" then
+  response.write("xml parseerror on line " &  oxml.parseerror.line)
+  response.write("<br>reason: " &  oxml.parseerror.reason)
+  response.end()
+ end if 
+ 
+ xformclientcatreflookup=nulltext(oxml.selectsinglenode("//dataschemadef/dstable/fieldlist/field[fieldname='"+nulltext(oxml.selectsinglenode("//dataschemadef/formclientcat"))+"']/reflookup"))
+
+
+
+
+
+                                                                                                        =htprogfunc
+
+     if htprogright > 0 then 
+
+
+
+
+
+
+
+
+
+
+
+          
+     sql="select cu.ctunitid,cu.ctunitname,cu.ibasedsd from ctunit cu where cu.ctunitid=" & session.contents("ctunit")
+     set rss=conn.execute(sql)
+      
+        =rss("ctunitname")
+
+                  
+     sql="select cu.ctunitid,cu.ctunitname,cu.ibasedsd from ctunit cu where cu.ctunitkind not in ('u','1')"
+     set rss=conn.execute(sql)
+      
+
+         while not rss.eof 
+                                     =rss("ctunitid"):      if cstr(rss("ctunitid")) = cstr(session.contents("changeunit")) then :                         end if 
+       =rss("ctunitname")
+
+         rss.movenext 
+      wend 
+
+         if session.contents("changeunit") <> "" then 
+
+
+
+
+                             if session("ispublic") = "y" then :            end if 
+                                         if session("ispublic") = "n" then :            end if 
+
+          if xformclientcatreflookup <>"" then 
+
+
+
+                          if session("topcat") = "" then :            end if 
+
+
+        
+      sql="select codemetaid, mcode, mvalue, msortvalue from codemain where codemetaid = '"& xformclientcatreflookup &"'"
+      set rss=conn.execute(sql)
+      
+         while not rss.eof 
+                       =rss("mcode"):      if session("topcat") = rss("mcode") then :            end if 
+        =rss("mvalue")
+
+         rss.movenext 
+      wend 
+
+        end if 
+
+
+         end if 
+
+
+     end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showhtmlhead() ------
+
+  sub showhtmltail() 
+
+
+
+
+
+  end sub '--- showhtmltail() ------ 

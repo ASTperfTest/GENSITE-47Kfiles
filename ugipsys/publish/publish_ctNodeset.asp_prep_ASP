@@ -1,0 +1,290 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+htprogcode="publish"
+htprogprefix = "publish"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbutil_10064021()
+  
+ dim atype : atype = request.querystring("type")
+ dim add : add = request.querystring("add")
+ dim del : del = request.querystring("del")
+ dim id : id = request.querystring("id")
+ dim subjectid : subjectid = request.querystring("subjectid")
+ dim ctnodeid : ctnodeid = request.querystring("ctnodeid")
+
+
+ if subjectid = "" then subjectid = "0"
+ 
+ if add = "y" then
+  addnode
+ elseif del = "y" then
+  delnode
+ else
+  showform
+ end if
+
+  
+
+
+ 
+sub addnode 
+ dim flag : flag = true
+ dim status 
+
+    select case atype
+        case "knowledge"
+            status = "k"
+        case "news"
+            status = "y"
+        case "subject"
+            status = "s"
+    end select
+
+ sql = "select id from knowledgetosubject where subjectid = " & subjectid & " and ctnodeid = " & ctnodeid & " and status = " & pkstr(status, "")
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  flag = false
+ end if
+ rs.close
+ set rs = nothing
+ if not flag then
+  showdonebox "此節點已存在", "false"
+ else  
+  sql = "select cattreeroot.ctrootid as subjectid, cattreeroot.ctrootname as subjectname, " & _
+     "isnull(basedsd.ibasedsd, 0) as basedsdid, isnull(basedsd.sbasedsdname, ' ') as basedsdname, " & _
+     "isnull(ctunit.ctunitid, 0) as ctunitid, isnull(ctunit.ctunitname, ' ') as ctunitname, " & _
+     "cattreenode.ctnodeid as ctnodeid, cattreenode.catname as ctnodename " & _
+     "from cattreeroot inner join cattreenode on cattreeroot.ctrootid = cattreenode.ctrootid " & _
+     "left outer join ctunit on cattreenode.ctunitid = ctunit.ctunitid " & _
+     "left outer join basedsd on ctunit.ibasedsd = basedsd.ibasedsd " & _
+     "where (cattreeroot.ctrootid = " & pkstr(subjectid, "") & ") and (cattreenode.ctnodeid = " & pkstr(ctnodeid, "") & ")"
+  set rs = conn.execute(sql)
+  if not rs.eof then  
+   sqlinsert = "insert into knowledgetosubject(subjectid, subjectname, basedsdid, basedsdname, ctunitid, ctunitname, ctnodeid, ctnodename, status) " &_
+         "values(" & rs("subjectid") & ", " & pkstr(rs("subjectname"), ",") & _
+         rs("basedsdid") & ", " & pkstr(rs("basedsdname"), ",") & rs("ctunitid") & ", " & pkstr(rs("ctunitname"), ",") & _
+         rs("ctnodeid") & ", " & pkstr(rs("ctnodename"), ",") & pkstr(status, "") & ")"  
+  end if
+  rs.close
+  set rs = nothing 
+  conn.execute(sqlinsert)
+  showdonebox "新增完成", "true"
+ end if
+end sub
+
+  
+sub delnode
+ sql = "update knowledgetosubject set status = 'z' where id = " & id
+ conn.execute(sql)
+ showdonebox "刪除完成", "true"
+end sub
+
+   sub showdonebox(lmsg, btype) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+       if btype = "true" then 
+                                                          =atype
+       else 
+
+       end if 
+
+
+
+   end sub 
+   
+sub showform 
+
+ dim status
+ if atype = "knowledge" then
+  status = "k" '---知識家發佈, 資料庫的欄位status = k---
+ elseif atype = "news" then
+  status = "y" '---知識家發佈, 資料庫的欄位status = y---
+ elseif atype = "subject" then
+  status = "s" '---知識家發佈, 資料庫的欄位status = s---
+ end if
+ 
+ sql = "select * from knowledgetosubject where status = " & pkstr(status, "") & " order by subjectid "
+ set rs = conn.execute(sql)
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     while not rs.eof             
+        
+
+
+                                =rs("id"):                           =rs("subjectname")
+                                                =rs("id"):                           =rs("subjectid")
+
+
+                               =rs("id"):                           =rs("ctunitname")
+                             =rs("id"):                           =rs("ctunitid")
+
+
+                               =rs("id"):                           =rs("ctnodename")
+                             =rs("id"):                           =rs("ctnodeid")
+
+
+                                                                            =rs("id")
+
+
+       
+      rs.movenext
+     wend 
+     rs.close
+     set rs = nothing
+    
+
+
+
+                            if subjectid = "" then :            end if 
+         
+        sql = "select "
+        sql = sql & vbcrlf & "   ctrootid "
+        sql = sql & vbcrlf & " , ctrootname  "
+        sql = sql & vbcrlf & " , (select count(*) from knowledgetosubject where status='" & status & "' and knowledgetosubject.subjectid = cattreeroot.ctrootid) reccount "
+        sql = sql & vbcrlf & "from cattreeroot where (vgroup = 'xx') and (inuse = 'y') "
+        sql = sql & vbcrlf & "order by reccount "
+                                
+        set rs = conn.execute(sql)
+        while not rs.eof
+         temp = ""
+             if trim(subjectid) = trim(rs("ctrootid")) then temp = "selected"         
+
+                                        if rs("reccount") >0 then
+                                            response.write "<option value=""" & rs("ctrootid") & """ " & temp & ">" & rs("ctrootname") & " (已設定)</option>" & vbcrlf
+                                        else
+                                            response.write "<option value=""" & rs("ctrootid") & """ " & temp & ">" & rs("ctrootname") & "</option>" & vbcrlf
+                                        end if
+                                                 
+         rs.movenext
+        wend
+        rs.close
+        set rs = nothing
+       
+
+
+
+
+         
+        if subjectid <> "0" then
+         sql = "select cattreenode.ctnodeid, cattreenode.catname " & _
+            "from cattreeroot inner join cattreenode on cattreeroot.ctrootid = cattreenode.ctrootid " & _
+            "where (cattreeroot.vgroup = 'xx') and (cattreeroot.inuse = 'y') and (cattreenode.inuse = 'y') " & _
+            "and (cattreeroot.ctrootid = " & pkstr(subjectid, "") & ") and (cattreenode.ctunitid is not null) "
+         set rs = conn.execute(sql)
+         while not rs.eof
+          response.write "<option value=""" & rs("ctnodeid") & """>" & rs("catname") & "</option>" & vbcrlf
+          rs.movenext
+         wend
+         rs.close
+         set rs = nothing
+        else
+         response.write "<option value=""0"" selected>請先選擇主題館</option>" & vbcrlf
+        end if
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                       =atype
+
+
+
+
+
+                                                       =atype
+
+
+
+                                                       =atype
+
+
+
+                                                       =atype
+
+
+
+
+
+
+   end sub  

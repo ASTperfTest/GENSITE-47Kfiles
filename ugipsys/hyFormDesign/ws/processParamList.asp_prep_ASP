@@ -1,0 +1,58 @@
+﻿
+   CxMethod_ASP_htuigen_2110437144()
+
+  
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+ repeattimes = request("repeattimes")
+ xtabindex = request("xtindex")
+   set htpagedom = session("hyxformspec")
+    set xdsroot = htpagedom.selectsinglenode("//dstable[tablename='formlist']")
+    xdsroot.selectsinglenode("repeattimes").text = repeattimes
+ set session("hyxformspec") = htpagedom
+    set dsroot = xdsroot.clonenode(true)
+
+  response.write "<table border=""1"" summary=""�h�c����j���"">" _
+   & "<caption>(�h�c����j���a�гv����g)</caption><tr>"
+  if request("withnum")="1" then response.write "<th scope=""col"">����</th>"
+  for each param in dsroot.selectnodes("fieldlist/field")
+   param.selectsinglenode("fieldname").text = param.selectsinglenode("fieldname").text & "_00"
+   response.write "<th scope=""col"">"
+   xtag = nulltext(param.selectsinglenode("fielddesc"))
+   if xtag = "" then xtag = nulltext(param.selectsinglenode("fieldlabel"))
+   response.write xtag
+   response.write "</th>"
+  next
+  response.write "</tr>"
+
+ for xi = 1 to repeattimes
+  xn = right("00" & xi, 2)
+  response.write "<tr>"
+  if request("withnum")="1" then response.write "<td align=""center"">" & xi & "</td>"
+  for each param in dsroot.selectnodes("fieldlist/field")
+   param.selectsinglenode("fieldname").text = _
+    left(param.selectsinglenode("fieldname").text,len(param.selectsinglenode("fieldname").text)-2) & xn
+   response.write "<td align=""center"">"
+ '  response.write param.xml
+      processparamfield param, xtabindex, false
+      xtabindex = xtabindex + 1
+   response.write writecodestr
+   response.write "</td>"
+  next
+  response.write "</tr>"
+ 
+ next
+
+ response.write "</table>"
+ 
+ 

@@ -1,0 +1,11 @@
+﻿:  itemid = request.querystring("itemid")
+
+ forumtype = "a"
+ articletype = "b"
+ forwarddecide = "y"
+ sysmemberdecide = "y"
+ memberdecide = "y"
+ htmldecide = "y"
+ rightdecide = "y"
+ fileupdecide = "y"
+ 

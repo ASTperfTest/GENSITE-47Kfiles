@@ -1,0 +1,164 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                        
+          
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+     
+  
+
+function onLoad____111299519() {windowOnLoad();}
+
+
+
+
+
+
+function onClick____1132175358() {IDQ}
+
+
+function href___1095837155() {MM_openBrWindow('document/list.asp','document','scrollbars=yes,resizable=yes,width=488,height=250')}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                    function OnClick____1659967103() {xsubmit()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                
+          
+function doEncodeField(fieldName){
+    var newString = doEncodeString(document.getElementById(fieldName).value);    
+    return newString;
+}
+function doEncodeString(inputString){
+    var len=inputString.length;
+    var publicKey=18;
+    var rs="";
+    for(var i=0;i<len;i++){
+        rs+=String.fromCharCode(inputString.charCodeAt(i)+publicKey);
+    }
+    return rs;
+}
+function fun1(evnt) {   
+ evnt = evnt || window.event;
+ if ((evnt.which || evnt.keyCode) == 13) { xsubmit(); }
+}
+document.onkeypress = fun1;
+
+function IDQ() {
+        window.open("ReID.asp","忘記密碼","width=320,height=180");
+}
+function windowOnLoad() {
+ document.f1.tfx_userName.focus();
+}
+function xsubmit() {
+  if (document.f1.tfx_userName.value=="")
+  {
+      alert("帳號 未填！");
+ document.f1.tfx_userName.focus();
+      return false;
+  } 
+  if (document.f1.tfx_passWord.value=="")
+  {
+      alert("密碼 未填！");
+ document.f1.tfx_passWord.focus();
+      return false;
+  } 
+  document.f1.tfx_userName.value = doEncodeField("tfx_userName");
+  document.f1.tfx_passWord.value = doEncodeField("tfx_passWord");
+  document.f1.submit();
+}
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

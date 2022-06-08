@@ -1,0 +1,204 @@
+﻿: @ codepage = 65001 
+  
+'-----930511新聞局xmlspec總修改
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+set fso = server.createobject("scripting.filesystemobject")
+
+xpath = "/site/"+session("mysiteid")+"/gipdsd/"
+set fldr = fso.getfolder(server.mappath(xpath))
+ 
+if fldr.files.count > 0 then
+    for each sf in fldr.files
+     if (left(sf.name,5)="cudtx" or left(sf.name,7)="ctunitx") and left(sf.name,12)<>"ctunitxorder" then
+'     if sf.name="930510新聞局216.xml" or sf.name="930510新聞局235.xml" then
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true             
+  loadxml = server.mappath(xpath+sf.name)             
+      xv = htpagedom.load(loadxml)
+    if htpagedom.parseerror.reason <> "" then 
+       response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+       response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+       response.end()
+    end if 
+'----修改xkeyword長度    
+      if nulltext(htpagedom.selectsinglenode("//fieldlist/field[fieldname='xkeyword']"))<>"" then 
+   set fieldnode = htpagedom.selectsinglenode("//fieldlist/field[fieldname='xkeyword']")   
+     fieldnode.selectsinglenode("datalen").text = 80
+     fieldnode.selectsinglenode("inputlen").text = 60
+  end if
+'----ieditor中clientdefault多組問題
+      if nulltext(htpagedom.selectsinglenode("//fieldlist/field[fieldname='ieditor']"))<>"" then 
+   set fieldnode = htpagedom.selectsinglenode("//fieldlist/field[fieldname='ieditor']")   
+   for each param in fieldnode.selectnodes("field[fieldname='clientdefault']") 
+    fieldnode.removechild param
+   next
+   for each param in fieldnode.selectnodes("field[fieldname='dbsave']") 
+    fieldnode.removechild param
+   next
+       set nxml = server.createobject("microsoft.xmldom")
+       nxml.loadxml("<clientdefault><type>clientfunc</type><set>date()</set></clientdefault>")
+       set nxmlnewnode = nxml.documentelement  
+       fieldnode.appendchild nxmlnewnode   
+       set nxml2 = server.createobject("microsoft.xmldom")
+       nxml2.loadxml("<dbsave><type>donothing</type><set></set></dbsave>")
+       set nxmlnewnode2 = nxml2.documentelement  
+       fieldnode.appendchild nxmlnewnode2   
+  end if  
+'----ieditor中clientdefault多組問題
+      if nulltext(htpagedom.selectsinglenode("//fieldlist/field[fieldname='ieditor']"))<>"" then 
+   set fieldnode = htpagedom.selectsinglenode("//fieldlist/field[fieldname='ieditor']")   
+   for each param in fieldnode.selectnodes("clientdefault") 
+    fieldnode.removechild param
+   next
+   for each param in fieldnode.selectnodes("dbsave") 
+    fieldnode.removechild param
+   next
+       set nxml = server.createobject("microsoft.xmldom")
+       nxml.loadxml("<clientdefault><type>session</type><set>userid</set></clientdefault>")
+       set nxmlnewnode = nxml.documentelement  
+       fieldnode.appendchild nxmlnewnode   
+       set nxml2 = server.createobject("microsoft.xmldom")
+       nxml2.loadxml("<dbsave><type>session</type><set>userid</set></dbsave>")
+       set nxmlnewnode2 = nxml2.documentelement  
+       fieldnode.appendchild nxmlnewnode2   
+  end if  
+'----deditdate中clientdefault多組問題
+      if nulltext(htpagedom.selectsinglenode("//fieldlist/field[fieldname='deditdate']"))<>"" then 
+   set fieldnode = htpagedom.selectsinglenode("//fieldlist/field[fieldname='deditdate']")   
+   for each param in fieldnode.selectnodes("clientdefault") 
+    fieldnode.removechild param
+   next
+   for each param in fieldnode.selectnodes("dbsave") 
+    fieldnode.removechild param
+   next
+       set nxml = server.createobject("microsoft.xmldom")
+       nxml.loadxml("<clientdefault><type>clientfunc</type><set>date()</set></clientdefault>")
+       set nxmlnewnode = nxml.documentelement  
+       fieldnode.appendchild nxmlnewnode   
+       set nxml2 = server.createobject("microsoft.xmldom")
+       nxml2.loadxml("<dbsave><type>sqlfunc</type><set>getdate()</set></dbsave>")
+       set nxmlnewnode2 = nxml2.documentelement  
+       fieldnode.appendchild nxmlnewnode2   
+  end if  
+'----created_date中clientdefault多組問題
+      if nulltext(htpagedom.selectsinglenode("//fieldlist/field[fieldname='created_date']"))<>"" then 
+   set fieldnode = htpagedom.selectsinglenode("//fieldlist/field[fieldname='created_date']")   
+   for each param in fieldnode.selectnodes("clientdefault") 
+    fieldnode.removechild param
+   next
+   for each param in fieldnode.selectnodes("dbsave") 
+    fieldnode.removechild param
+   next
+       set nxml = server.createobject("microsoft.xmldom")
+       nxml.loadxml("<clientdefault><type>clientfunc</type><set>date()</set></clientdefault>")
+       set nxmlnewnode = nxml.documentelement  
+       fieldnode.appendchild nxmlnewnode   
+       set nxml2 = server.createobject("microsoft.xmldom")
+       nxml2.loadxml("<dbsave><type>donothing</type><set></set></dbsave>")
+       set nxmlnewnode2 = nxml2.documentelement  
+       fieldnode.appendchild nxmlnewnode2   
+  end if  
+'----修改showtype/filedownload/refid多組問題  
+  set cudtgenericnode=htpagedom.selectsinglenode("dataschemadef/dstable[tablename='cudtgeneric']/fieldlist")
+  for each param in cudtgenericnode.selectnodes("field[fieldname='showtype']") 
+   cudtgenericnode.removechild param
+  next
+  for each param in cudtgenericnode.selectnodes("field[fieldname='filedownload']") 
+   cudtgenericnode.removechild param
+  next
+  for each param in cudtgenericnode.selectnodes("field[fieldname='refid']") 
+   cudtgenericnode.removechild param
+  next
+  set fxml = server.createobject("microsoft.xmldom")
+  fxml.async = false
+  fxml.setproperty "serverhttprequest", true
+  loadxml = server.mappath("/gipdsd/schemafield2.xml")
+  xv = fxml.load(loadxml)
+    if fxml.parseerror.reason <> "" then 
+       response.write("fxml parseerror on line " &  fxml.parseerror.line)
+       response.write("<br>reasonxx: " &  fxml.parseerror.reason)
+       response.end()
+    end if    
+  set xfieldnode = fxml.selectsinglenode("//dataschemafield").clonenode(true)  
+  for each param in xfieldnode.selectnodes("field") 
+   cudtgenericnode.appendchild param
+  next 
+  '----只有ctunitx235與323xml之filedownload.formlist='05',其餘為空白
+  if not (sf.name="ctunitx235.xml" or sf.name="ctunitx323.xml") then
+          if nulltext(htpagedom.selectsinglenode("//fieldlist/field[fieldname='filedownload']"))<>"" then 
+   set fieldnode = htpagedom.selectsinglenode("//fieldlist/field[fieldname='filedownload']")   
+     fieldnode.selectsinglenode("formlist").text = ""
+   end if  
+  end if 
+'----xpostdatee改成 xpostdateend   
+      if nulltext(htpagedom.selectsinglenode("//fieldlist/field[fieldname='xpostdatee']"))<>"" then    
+   set fieldnode = htpagedom.selectsinglenode("//fieldlist/field[fieldname='xpostdatee']")  
+     fieldnode.selectsinglenode("fieldname").text = "xpostdateend"
+    end if
+'----加ximgfile
+      if nulltext(htpagedom.selectsinglenode("//fieldlist/field[fieldname='ximgfile']"))="" then 
+      set cudtgenericnode=htpagedom.selectsinglenode("dataschemadef/dstable[tablename='cudtgeneric']/fieldlist")
+      set fxml = server.createobject("microsoft.xmldom")
+      fxml.async = false
+      fxml.setproperty "serverhttprequest", true
+      loadxml = server.mappath("/gipdsd/schema0.xml")
+      xv = fxml.load(loadxml)
+        if fxml.parseerror.reason <> "" then 
+       response.write("fxml parseerror on line " &  fxml.parseerror.line)
+       response.write("<br>reasonxx: " &  fxml.parseerror.reason)
+       response.end()
+        end if 
+      set xfieldnode = fxml.selectsinglenode("//dstable/fieldlist/field[fieldname='ximgfile']").clonenode(true)  
+      cudtgenericnode.appendchild xfieldnode  
+    end if
+'----加前台樣版呈現修改tag                
+  set root = htpagedom.selectsinglenode("dataschemadef")
+  set formclientcatnode = root.selectnodes("formclientcat")
+  if formclientcatnode.length = 0 then
+       set nxml0 = server.createobject("microsoft.xmldom")
+       nxml0.loadxml("<formclientcat></formclientcat>")
+       set newnode = nxml0.documentelement 
+       root.insertbefore newnode,root.childnodes.item(0)  
+  end if
+  set showclientsqlorderbynode = root.selectnodes("showclientsqlorderby")
+  if showclientsqlorderbynode.length = 0 then
+       set nxml0 = server.createobject("microsoft.xmldom")
+       nxml0.loadxml("<showclientsqlorderby></showclientsqlorderby>")
+       set newnode = nxml0.documentelement 
+       root.insertbefore newnode,root.childnodes.item(0)  
+  end if
+  set formclientstylenode = root.selectnodes("formclientstyle")
+  if formclientstylenode.length = 0 then
+       set nxml0 = server.createobject("microsoft.xmldom")
+       nxml0.loadxml("<formclientstyle>std</formclientstyle>")
+       set newnode = nxml0.documentelement 
+       root.insertbefore newnode,root.childnodes.item(0)  
+  end if
+  set showclientstylenode = root.selectnodes("showclientstyle")
+  if showclientstylenode.length = 0 then
+       set nxml0 = server.createobject("microsoft.xmldom")
+       nxml0.loadxml("<showclientstyle>std</showclientstyle>")
+       set newnode = nxml0.documentelement 
+       root.insertbefore newnode,root.childnodes.item(0)  
+  end if
+'----回存    
+  htpagedom.save(server.mappath(xpath+sf.name))
+  response.write sf.name+"<br>"
+    end if
+    next
+end if
+
+
+'----sp_rename 'cudtgeneric.[xpostdatee]', 'xpostdateend', 'column'
+
+
+
+response.write "<br>done3!"
+ 

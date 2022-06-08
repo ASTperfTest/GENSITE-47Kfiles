@@ -1,0 +1,12 @@
+﻿
+ bName = navigator.appName;
+ //alert (bName);
+ bVer = parseInt(navigator.appVersion);
+ if (bName == "Microsoft Internet Explorer" && bVer >=4) 
+  window.location.href="/gipSiteEntry_rdecthinktank.asp?siteID=rdecthinktank";
+ else 
+  window.location.href="defaultx.htm";
+
+
+
+ 

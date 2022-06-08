@@ -1,0 +1,193 @@
+﻿: 
+response.expires = 0
+htprogcap=""
+htprogfunc=""
+htprogcode="kforumlist"
+htprogprefix=""
+dim ibasedsd : ibasedsd = "39"
+dim ictunit : ictunit = "934"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_selecttree_859552413()
+
+
+
+
+
+
+
+  
+ '---if request("submittask")="submit"時, 寄送email給專家---
+ '---else 秀出表單頁---
+ dim submittask : submittask = request("submittask") 
+ if submittask = "submit" then 
+  handlemail
+ else 
+  showform
+ end if
+
+   CxMethod_ASP_expertmail_2068927381()
+   CxMethod_ASP_expertcommon_1836107611()
+  
+ '---在專家回覆的單元中新增一筆資料---ictunit = 934---knowledgeforum.status = 'w'---
+ '---一個專家就新增一筆---
+ sub handlemail
+  dim questionid : questionid = request.querystring("questionid")
+  dim experts : experts = request("experts")
+  dim stitle : stitle = getstitle(questionid, "1")
+  dim items
+  dim icuitem
+  if instr(experts, ",") > 0 then
+   experts = experts & ","
+   items = split(experts, ",")
+  else
+   redim items(1)
+   items(0) = experts
+  end if  
+  dim myrand
+  for i = 0 to ubound(items) - 1
+   icuitem = ""
+   sql = "insert into cudtgeneric(ibasedsd, ictunit, fctupublic, stitle, ieditor, idept, showtype, siteid, xbody) " & _
+      "values(" & ibasedsd & ", " & ictunit & ", 'y', '" & stitle & "', 'expert', '0', '1', '3', '')"
+   sql = "set nocount on;" & sql & "; select @@identity as newid" 
+   'response.write sql & "<hr>"   
+   set rs = conn.execute(sql)
+   icuitem = rs(0)
+   myrand = getrand()
+   sql = "insert into knowledgeforum(gicuitem, parenticuitem, status, expertid, expertrand, expertsenddate, expertsend) " & _
+      "values(" & icuitem & ", " & questionid & ", 'w', '" & items(i) & "', '" & myrand & "', getdate(), 'y')"
+   response.write sql & "<hr>"   
+   conn.execute(sql)
+   sendemail questionid, items(i), request("mailbody"), myrand, icuitem
+  next
+  showdonebox "轉寄成功"
+ end sub
+ 
+
+   sub showdonebox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+                                                                      =request.querystring("questionid"):            =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+
+   end sub 
+   sub showcantfindbox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+
+
+
+
+   end sub 
+   sub showform 
+
+
+
+
+                                                                   =request.querystring("questionid"):            =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+
+  
+ dim questionid
+ questionid = request.querystring("questionid")
+ sql = "select * from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem "
+ sql = sql & "where icuitem = " & questionid 
+ set rsreg = conn.execute(sql)
+ if rsreg.eof then
+  showcantfindbox "無資料"  
+ else
+
+                                                                                                           =questionid:            =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                              =rsreg("stitle")
+
+
+
+                                                                                                                       =trim(rsreg("xbody"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                       =request.querystring("questionid"):            =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+
+                                                                      =request.querystring("questionid"):            =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+  
+ end if
+ rsreg.close
+ set rsreg = nothing
+
+
+
+   end sub  

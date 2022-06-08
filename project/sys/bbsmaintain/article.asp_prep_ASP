@@ -1,0 +1,62 @@
+﻿: 
+ response.expires = 0
+ htprogcap = "�q�ױm��"
+ htprogfunc = "�q�ױm�Ϻ��@"
+ htprogcode = "bbs010"
+ htprogprefix = "msession"
+ response.expires = 0
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+ 
+ 
+ bid = trim(request("bid"))
+ mid2 = trim(request("mid"))
+ sid = trim(request("sid"))
+ if bid = "" or mid2 = "" or sid = "" then
+  response.redirect "index.asp"
+  response.end
+ end if
+ 
+ sql = "" & _
+  " select nickname, date, title, message " & _
+  " from article where mid = " & pkstr(mid2, "") & _
+  " and sid = " & pkstr(sid, "") & _
+  " and bid = " & pkstr(bid, "")
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.redirect "index.asp"
+  response.end
+ end if
+
+
+
+
+
+
+
+
+
+                = session("bbs_name") 
+
+
+                                           = sid 
+                                           = mid2 
+                                           = bid 
+
+
+          = trim(rs("nickname")) 
+
+
+
+                                                                          = trim(rs("title")) 
+
+
+
+                                                                      = trim(rs("message")) 
+
+
+
+          = rs("date")  

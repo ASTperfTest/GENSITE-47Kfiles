@@ -1,0 +1,229 @@
+﻿:  response.expires = 0
+htprogcap="�ҵ{�޲z"
+htprogfunc="�s�w�覸"
+htprogcode="pa001"
+htprogprefix="pasession" 
+
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_453315802()
+  
+if request("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+   sub initform() 
+
+
+
+
+
+
+
+                         =request("actid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_pasessionform_2056504503()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                                                     =htprogcap:                        =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+
+   sub showhtmltail() 
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- ��ݸ�������ˬd�{���x��b�o�� �a�p�u�ҡa�����ɳ] errmsg="xxx" �� exit sub ------
+' sql = "select * from client where clientid = '"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "�u�Ȥ�s���v����!!�э��s�إ߫Ȥ�s��!"
+'  exit sub
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "insert into pasession("
+ sqlvalue = ") values("
+ if request("htx_bdate") <> "" then
+  sql = sql & "bdate" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_bdate"),",")
+ end if
+ if request("htx_actid") <> "" then
+  sql = sql & "actid" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_actid"),",")
+ end if
+ if request("htx_dtnote") <> "" then
+  sql = sql & "dtnote" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_dtnote"),",")
+ end if
+ if request("htx_plimit") <> "" then
+  sql = sql & "plimit" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_plimit"),",")
+ end if
+ if request("htx_pasnum") <> "" then
+  sql = sql & "pasnum" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_pasnum"),",")
+ end if
+ if request("htx_refpage") <> "" then
+  sql = sql & "refpage" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_refpage"),",")
+ end if
+ if request("htx_astatus") <> "" then
+  sql = sql & "astatus" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_astatus"),",")
+ end if
+ if request("htx_place") <> "" then
+  sql = sql & "refpage" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_place"),",")
+ end if
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+
+' response.write sql 
+' response.end
+ conn.execute(sql)  
+end sub '---- doupdatedb() ----
+
+
+
+   sub showdonebox() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                             =htprogprefix:            =request.servervariables("query_string")
+
+
+
+   end sub '---- showdonebox() ----  

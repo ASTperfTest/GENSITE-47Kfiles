@@ -1,0 +1,87 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+server.scripttimeout = 3000
+htprogcap="資料附件"
+htprogfunc="新增"
+htuploadpath=session("public")+"attachment/"
+htprogcode="gc1ap1"
+htprogprefix="cuattach" 
+   CxMethod_ASP_server_1606199358()
+
+  
+
+dim xnewidentity
+'----ftp參數處理
+ ftperrormsg=""
+ ftpfilepath="public/attachment"
+ sqlp = "select * from uploadsite where uploadsiteid='file'"
+ set rsp = conn.execute(sqlp)
+ if not rsp.eof  then
+     xftpip = rsp("uploadsiteftpip")
+     xftpport = rsp("uploadsiteftpport")
+     xftpid = rsp("uploadsiteftpid")
+     xftppwd = rsp("uploadsiteftppwd")
+    end if
+'----ftp參數處理end 
+ apath=server.mappath(htuploadpath) & "\"
+ nfname=request("nfname")
+  if request("action")="del" then
+ 
+   if xftpip<>"" and xftpid<>"" and xftppwd<>"" then
+  fileaction="dele"
+  filetarget=nfname
+  filesource=apath + nfname
+   
+  ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,"",filetarget,filesource 
+      end if  
+  end if
+  if request("action")="add" then
+          if xftpip<>"" and xftpid<>"" and xftppwd<>"" then
+  fileaction="movefile"
+  filetarget=nfname
+  filesource=apath + nfname
+   
+  ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,"",filetarget,filesource 
+      end if  
+  end if  
+  
+   if request("action")="mod" then
+          if xftpip<>"" and xftpid<>"" and xftppwd<>"" then
+                fileaction="dele"
+  filetarget=request("ofname")
+  filesource=apath + request("ofname")
+   
+  ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,"",filetarget,filesource 
+   
+  fileaction="movefile"
+  filetarget=nfname
+  filesource=apath + nfname
+   
+  ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,"",filetarget,filesource 
+      end if  
+  end if    
+      
+      response.redirect "cuattachlist.asp?icuitem=" & request("icuitem")
+
+function ftpdo(ftpip,ftpport,ftpid,ftppwd,fileaction,ftpfilepath,filedir,filetarget,filesource) '----ftp機制  2004/7/7
+
+ set oftp = createobject("ftpcom.ftp")
+ oftp.connect ftpip,ftpport,ftpid,ftppwd
+ 
+ if left(oftp.getmsg,1) = "2" then 
+  if ftpfilepath <> "" then oftp.execute("cwd " + ftpfilepath)
+  if fileaction="createdir" then oftp.createdir(filedir)
+  if fileaction="deletedir" then oftp.deletedir(filedir)
+  if fileaction="movefile" then oftp.movefile filetarget,filesource,1,0
+  if fileaction="dele" then oftp.execute("dele " + filetarget)
+  if left(oftp.getmsg,1) <> "2" then ftperrormsg="  ftp機制出現錯誤,ftp未成功!"
+  oftp.logoffserver 
+  set oftp = nothing
+ else
+  ftperrormsg="  ftp機制出現錯誤,ftp未成功!"
+  oftp.logoffserver 
+  set oftp = nothing
+ end if 
+end function
+
+  

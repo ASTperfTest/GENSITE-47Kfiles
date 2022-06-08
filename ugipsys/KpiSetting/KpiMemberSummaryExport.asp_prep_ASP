@@ -1,0 +1,185 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ htprogcap = "單元資料維護"
+ htprogfunc = "查詢"
+ htprogcode="kpi01"
+ htprogprefix="" 
+ response.charset = "utf-8"
+ response.buffer = false
+
+   CxMethod_ASP_server_1606199358()
+  
+ dim filename : filename = replace( dateadd("d", -1 , year(now) & "/" & month(now) & "/" & day(now) ), "/" , "")
+ response.addheader "content-disposition", "attachment;filename=" & filename & ".xls" 
+ response.contenttype = "application/vnd.ms-excel" 
+
+ dim account : account = request.querystring("account")
+ dim realname : realname = request.querystring("realname")
+ dim nickname : nickname = request.querystring("nickname")
+ dim homeaddr : homeaddr = request.querystring("homeaddr")
+ dim mobile : mobile = request.querystring("mobile")
+ dim email : email = request.querystring("email")
+ dim id : id = request.querystring("id")
+ dim phone : phone = request.querystring("phone")
+ dim level : level = request.querystring("level")
+ dim gradetype : gradetype = request.querystring("gradetype")
+ dim gradefrom : gradefrom = request.querystring("gradefrom")
+ dim gradeto : gradeto = request.querystring("gradeto")
+ dim condition : condition = ""
+ dim gradetypethis : gradetypethis = request.querystring("gradetypethis")
+ 
+ sqlselect = "select membergradesummary.memberid, membergradesummary.browsetotal, membergradesummary.logintotal, " & _
+       "membergradesummary.sharetotal, membergradesummary.contenttotal, membergradesummary.additionaltotal, " & _
+       "membergradesummary.calculatetotal, member.realname, isnull(member.nickname, '') as nickname,member.homeaddr, member.mobile, member.email, member.phone, member.id "
+ sqlfrom = "from membergradesummary inner join member on membergradesummary.memberid = member.account "
+ sqlwhere = "where 1 = 1 "
+ 
+ if account <> "" then 
+  condition = condition & "帳號：" & account & ","
+  sqlwhere = sqlwhere & "and member.account like '%" & account & "%' "
+ end if
+ if realname <> "" then 
+  condition = condition & "真實姓名：" & realname & ","
+  sqlwhere = sqlwhere & "and member.realname like '%" & realname & "%' "
+ end if
+ if nickname <> "" then 
+  condition = condition & "暱稱：" & nickname & ","
+  sqlwhere = sqlwhere & "and member.nickname like '%" & nickname & "%' "
+ end if
+ if id <> "" then 
+  condition = condition & "身分證字號：" & id & ","
+  sqlwhere = sqlwhere & "and member.id like '%" & id & "%' "
+ end if
+ if homeaddr <> "" then 
+  condition = condition & "住址：" & homeaddr & ","
+  sqlwhere = sqlwhere & "and member.homeaddr like '%" & homeaddr & "%' "
+ end if
+ 
+ if phone <> "" then 
+  condition = condition & "電話(住家)：" & phone & ","
+  sqlwhere = sqlwhere & "and member.phone like '%" & phone & "%' "
+ end if
+ if mobile <> "" then 
+  condition = condition & "電話(手機)：" & mobile & ","
+  sqlwhere = sqlwhere & "and member.mobile like '%" & mobile & "%' "
+ end if
+ if email <> "" then 
+  condition = condition & "email：" & email & ","
+  sqlwhere = sqlwhere & "and member.email like '%" & email & "%' "
+ end if
+ 
+ if level <> "" then 
+  if level = "1" then
+   name = "入門級"
+  elseif level = "2" then
+   name = "進階級"
+  elseif level = "3" then
+   name = "高手級"
+  elseif level = "4" then
+   name = "達人級"
+  end if
+  condition = condition & "會員等級：" & name & ","
+  sqlwhere = sqlwhere & "and membergradesummary.calculatetotal >= " & getgradebylevel(cint(level)) & " "
+  sqlwhere = sqlwhere & "and membergradesummary.calculatetotal < " & getgradebylevel(cint(level) + 1) & " "
+ end if
+ if gradefrom <> "" or gradeto <> "" then 
+  if gradetype = "1" then 
+   condition = condition & "分數類別：會員總積分,"
+   sqlwhere = sqlwhere & "and membergradesummary.calculatetotal "
+  elseif gradetype = "2" then 
+   condition = condition & "分數類別：吸收度(瀏覽行為)積分,"
+   sqlwhere = sqlwhere & "and membergradesummary.browsetotal "
+  elseif gradetype = "3" then 
+   condition = condition & "分數類別：持久度(登入行為)積分,"
+   sqlwhere = sqlwhere & "and membergradesummary.logintotal "
+  elseif gradetype = "4" then 
+   condition = condition & "分數類別：分享度(互動行為)積分,"
+   sqlwhere = sqlwhere & "and membergradesummary.sharetotal "
+  elseif gradetype = "5" then 
+   condition = condition & "分數類別：貢獻度(內容價值)積分,"
+   sqlwhere = sqlwhere & "and membergradesummary.contenttotal "
+  elseif gradetype = "6" then 
+   condition = condition & "分數類別：踴躍度(活動參與)積分,"
+   sqlwhere = sqlwhere & "and membergradesummary.additionaltotal "
+  end if
+  if gradefrom <> "" and gradeto <> "" then
+   condition = condition & "會員總積分：" & gradefrom & "~" & gradeto & ","
+   sqlwhere = sqlwhere & "between " & gradefrom & " and " & gradeto & " "
+  elseif gradefrom <> "" and gradeto = "" then
+   condition = condition & "會員總積分：大於 " & gradefrom & ","
+   sqlwhere = sqlwhere & ">= " & gradefrom & " "
+  elseif gradefrom = "" and gradeto <> "" then
+   condition = condition & "會員總積分：小於 " & gradeto & ","
+   sqlwhere = sqlwhere & "<= " & gradeto & " "
+  end if      
+ end if
+ 
+ if gradetypethis = "1" then
+  sqlorder = "order by membergradesummary.calculatetotal desc"
+ elseif gradetypethis = "2" then
+  sqlorder = "order by membergradesummary.browsetotal desc, membergradesummary.calculatetotal desc"
+ elseif gradetypethis = "3" then
+  sqlorder = "order by membergradesummary.logintotal desc, membergradesummary.calculatetotal desc"
+ elseif gradetypethis = "4" then
+  sqlorder = "order by membergradesummary.sharetotal desc, membergradesummary.calculatetotal desc"
+ elseif gradetypethis = "5" then
+  sqlorder = "order by membergradesummary.contenttotal desc, membergradesummary.calculatetotal desc"
+ elseif gradetypethis = "6" then
+  sqlorder = "order by membergradesummary.additionaltotal desc, membergradesummary.calculatetotal desc"
+ else 
+  sqlorder = "order by membergradesummary.calculatetotal desc"
+ end if
+ 
+ if len(condition) > 0 then condition = left(condition, len(condition) - 1)
+ 
+ response.write "<table border=""1"">" & vbcrlf
+ response.write "<tr><td colspan=""14""><font face=""新細明體"">匯出日期：" & date() & "</font></td></tr>" & vbcrlf 
+ response.write "<tr><td colspan=""14""><font face=""新細明體"">條件 => " & condition & "</font></td></tr>" & vbcrlf
+ response.write "<tr><td colspan=""14""><font face=""新細明體"">&nbsp;</font></td>"
+ response.write "<tr><td><font face=""新細明體"">帳號</font></td><td><font face=""新細明體"">真實姓名</font></td>" & _
+         "<td><font face=""新細明體"">暱稱</font></td><td><font face=""新細明體"">身分證字號</font></td><td><font face=""新細明體"">email</font></td><td><font face=""新細明體"">電話(住家)</font></td><td><font face=""新細明體"">電話(手機)</font></td><td><font face=""新細明體"">住址</font></td>" & _
+ "<td><font face=""新細明體"">總得分</font></td>" & _
+ "<td><font face=""新細明體"">瀏覽得點</font></td><td><font face=""新細明體"">登入得點</font></td>" & _
+         "<td><font face=""新細明體"">互動得點</font></td><td><font face=""新細明體"">內容價值</font></td>" & _
+         "<td><font face=""新細明體"">參與活動</font></td></tr>" & vbcrlf
+ 
+ set rs = conn.execute(sqlselect & sqlfrom & sqlwhere & sqlorder) 
+ while not rs.eof
+  response.write "<tr><td><font face=""新細明體"">&nbsp;" & rs("memberid") & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & trim(rs("realname")) & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & trim(rs("nickname")) & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & trim(rs("id")) & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & trim(rs("email")) & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & trim(rs("phone")) & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & trim(rs("mobile")) & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & trim(rs("homeaddr")) & "</font></td>" & _
+          "<td><font face=""新細明體"">" & rs("calculatetotal") & "</font></td>" & _
+          "<td><font face=""新細明體"">" & rs("browsetotal") & "</font></td>" & _
+          "<td><font face=""新細明體"">" & rs("logintotal") & "</font></td>" & _
+          "<td><font face=""新細明體"">" & rs("sharetotal") & "</font></td>" & _
+          "<td><font face=""新細明體"">" & rs("contenttotal") & "</font></td>" & _
+          "<td><font face=""新細明體"">" & rs("additionaltotal") & "</font></td></tr>" & vbcrlf
+  rs.movenext
+ wend
+ rs.close
+ set rs = nothing
+ 
+ response.write "</table>" & vbcrlf
+ 
+ function getgradebylevel( level )
+  dim grade : grade = 0
+  if level > 4 then 
+   grade = 99999
+  else
+   sql = "select top 1 * from codemain where codemetaid = 'gradelevel' and mcode = '" & level & "'"
+   set rs = conn.execute(sql)
+   if not rs.eof then
+    grade = rs("mvalue")
+   end if
+   rs.close
+   set rs = nothing
+  end if
+  getgradebylevel = grade
+ end function
+ 

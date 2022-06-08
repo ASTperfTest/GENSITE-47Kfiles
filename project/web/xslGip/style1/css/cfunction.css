@@ -1,0 +1,175 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+/*不清楚啥的四季共用功能 */
+
+/*2008.09 活動新增*/
+.align_center {
+	text-align:center;
+}
+.align_center td {
+	text-align:center;
+	line-height: 150%;
+}
+
+/*新增會員：我的設定*/
+.myset_layout{
+	border-collapse:collapse;
+}
+.myset_layout td {
+	vertical-align:top;
+	text-align: center;
+}
+.myset_data {
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #F1EBBA;
+	margin: 0;
+	padding: 8px 0;
+	font-size: 100%;
+}
+.myset_data th {
+/*	width: 15%;*/
+	border: 1px solid #F1EBBA;
+	padding: 4px 4px 4px 6px;
+	background: #FFFFD9;
+	color: #737300;
+	text-align: left;
+	vertical-align: top;
+	line-height: 200%;
+}
+.myset_data td {
+	border: 1px solid #F1EBBA;
+	padding: 6px 4px 4px 6px;
+	text-align: left;
+	vertical-align: top;
+	color: #333333;
+	line-height: 200%;
+}
+
+
+/*0526新增*/
+.title3 {
+ font-size: 13px;
+ font-weight: bold;
+ margin: 0px;
+ padding: 0px 0px 0px 15px;
+ color: #336600;
+ line-height: 150%;
+ background: url(../images2/icom_i02.gif) no-repeat 3px 3px;
+}
+.style {
+ border-collapse: collapse;
+ margin: 5px 0 0;
+ padding: 0;
+ width: 100%;
+}
+.style td {
+ text-align: center;
+ border: 1px dotted #CCCC99;
+ padding-top: 15px;
+ padding-bottom: 10px;
+}
+.style td h5 {
+ font-size: 13px;
+ margin: 0;
+ padding: 0;
+ text-align: center;
+}
+.style td h5 a {
+ text-decoration: none;
+ color: #999900;
+}
+.style td h5 a:hover {
+ color: #990000;
+ text-decoration: underline;
+}
+.style td img {
+ width: 110px;
+ border: 3px double #CCCCCC;
+}
+
+
+/*20080829 chiung*/
+.gotop {
+        text-align: center;
+        padding: 30px 0 0;
+        margin: 0;
+}
+.gotop img {
+        border: none;
+        margin-right: -40px;
+}
+
+/*知識家擴充*/
+.knowledgepic {
+	margin: 5px 0px;
+	clear: both;
+}
+.knowledgepic img {
+	max-width: 400px;
+	_width: 400px;
+}
+.knowledgepic p {
+	color:#666666;
+	line-height: 200%;
+	padding: 5px;
+}
+.knowledgepic ol {
+	margin-bottom: 5px;
+}
+.knowledgepic ol li {
+	list-style-type: decimal;
+	padding-left: 30px;
+	text-indent: 40px;
+}
+.knowledgepic .importanttext {
+	color:#990000;
+}
+
+/*頁頭頁尾資訊*/
+.Preface {
+	font-size: 12px;
+	line-height: 150%;
+	margin: 5px 5px 10px;
+	padding: 0;
+}
+.Preface ol , .Preface ul {
+	margin: 5px 0 8px 30px;
+	padding: 0;
+}
+.Preface li {
+	margin: 0;
+	padding: 0;
+}
+.Preface p {
+	margin: 5px 0 8px;
+	padding: 0;
+}
+
+.Afterword {
+	clear: both;
+	font-size: 12px;
+	line-height: 150%;
+	margin: 20px 0 20px;
+	padding: 10px 5px 0;
+}
+div.oList + div.Afterword {
+	border-top: 1px dotted #BBBBBB;
+}
+.Afterword ol , .Preface ul {
+	margin: 5px 0 8px 30px;
+	padding: 0;
+}
+.Afterword li {
+	margin: 0;
+	padding: 0;
+}
+.Afterword p {
+	margin: 5px 0 8px;
+	padding: 0;
+}
+div.lpTable + div.Afterword {
+	border-top: 1px dotted #FFFFFF;
+}
+

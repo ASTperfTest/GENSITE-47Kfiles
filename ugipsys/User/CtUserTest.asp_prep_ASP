@@ -1,0 +1,130 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "ge1t21" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+
+
+  
+ itemid = 4  '-- 要處理哪個 tree
+ 
+ sqlcom = "select * from cattreeroot where ctrootid = "& itemid 
+ set rs = conn.execute(sqlcom)
+
+
+ ftypename = rs("ctrootname")
+
+
+   const cid     = 2 'catid
+   const cname   = 3 'catname
+   const cparent = 7 'dataparent
+   const cchild  = 8 'childcount
+   const clevel  = 6 'datalevel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  userid = request("userid")
+
+
+                                              =userid 
+
+
+   response.write "treeroot = gfld(""forumtoc"", """ & ftypename & """, ""catlist.asp?itemid="& itemid &"&catid=0"")" & vbcrlf
+ nowcount = 0
+
+ sqlcom = "select t.*, u.rights " _
+  & ", (select count(*) from cattreenode as c where c.dataparent=t.ctnodeid " _
+  & " and c.ctnodekind='c') as haschildfolder " _
+  & ", (select count(*) from cattreenode as c join ctuserset as cu on cu.ctnodeid=c.ctnodeid " _
+  & " and cu.userid=" & pkstr(userid,"") _
+  & " where c.dataparent=t.ctnodeid and cu.rights is not null) as haschild " _
+  & " from cattreenode as t left join ctuserset as u on u.ctnodeid=t.ctnodeid " _
+  & " and u.userid=" & pkstr(userid,"") _
+  & " where ctrootid = "& pkstr(itemid,"") _
+  &" order by datalevel, catshoworder"
+ set rs = conn.execute(sqlcom)
+ while not rs.eof
+  xparent = "treeroot"
+  if rs(clevel) > 1 then xparent = "n" & rs(cparent)
+  if rs("ctnodekind") = "c" then
+   catlink = "catlist.asp?itemid="& itemid &"&catid="& rs("ctnodeid")
+   catlink = "#"
+   if rs("haschild")<> 0 then 
+    response.write "n"& rs(cid) &"= insfld(" & xparent &", gfld(""forumtoc"", """& rs("haschildfolder")&rs(cname)&rs("haschild") &""", """& catlink &"""))" & vbcrlf
+   elseif rs("haschildfolder") <> 0 then
+    childcount = 0
+    checkallchild rs("ctnodeid")
+    if childcount > 0 then
+     response.write "n"& rs(cid) &"= insfld(" & xparent &", gfld(""forumtoc"", """& rs("haschildfolder")&rs(cname)&rs("haschild")&childcount &""", """& catlink &"""))" & vbcrlf
+    else
+     response.write "n"& rs(cid) &"= insfld(" & xparent &", gfld(""forumtoc"", """& rs("haschildfolder")&rs(cname)&rs("haschild")&childcount &""", """& catlink &"""))" & vbcrlf
+    end if
+   end if
+  else
+      forumlink = "ctxmlin.asp?itemid="& itemid &"&ctnodeid="& rs("ctnodeid")
+      forumlink = "#"
+      
+'      sql1 = "select count(*) from ctuserset where userid='" & userid & "' and ctnodeid=" & rs("ctnodeid")
+'      set rs1 = conn.execute(sql1)
+'      if cint(rs1(0)) = 0 then
+      if isnull(rs("rights")) then
+        forumcheck = "<input type=checkbox name='ctnodeid' value='" & rs("ctnodeid") & "'>" & rs("catname")
+      else
+        forumcheck = "<input type=checkbox name='ctnodeid' value='" & rs("ctnodeid") & "' checked>" & rs("catname")
+      end if
+      
+      if not isnull(rs("rights")) then _
+       response.write "insdoc(n"& rs(cparent) &", glnk(""forumtoc"", """& forumcheck &""", """& forumlink &"""))" & vbcrlf
+  end if
+  rs.movenext
+ wend
+
+
+
+
+
+
+
+
+
+  
+sub checkallchild (xnodeid)
+ response.write "// " & xnodeid & "==>" & childcount & vbcrlf
+ xsql = "select t.* " _
+  & ", (select count(*) from cattreenode as c where c.dataparent=t.ctnodeid " _
+  & " and c.ctnodekind='c') as haschildfolder " _
+  & ", (select count(*) from cattreenode as c join ctuserset as cu on cu.ctnodeid=c.ctnodeid " _
+  & " and cu.userid=" & pkstr(userid,"") _
+  & " where c.dataparent=t.ctnodeid and cu.rights is not null) as haschild " _
+  & " from cattreenode as t where t.dataparent = "& xnodeid
+' response.write "// " & xnodeid & "==>" & xsql & vbcrlf
+ set xrs = conn.execute(xsql)
+ while not xrs.eof
+  if xrs("haschild") > 0 then 
+   childcount = childcount + xrs("haschild") 
+  elseif xrs("haschildfolder") > 0 then
+   checkallchild xrs("ctnodeid")
+  end if
+  
+  xrs.movenext
+ wend
+ response.write "// " & xnodeid & "==>" & childcount & vbcrlf
+end sub
+ 

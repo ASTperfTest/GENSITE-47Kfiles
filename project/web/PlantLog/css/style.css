@@ -1,0 +1,421 @@
+body
+{
+    background-color: #E0C48D;
+    margin: 0px;
+    padding: 0px;
+}
+#wrap
+{
+    margin: 0 auto;
+    width: 960px;
+    font-size: 100%;
+}
+#wrap #header
+{
+    height: 403px;
+    width: 960px;
+    position: relative;
+}
+#wrap #header #menu
+{
+    position: absolute;
+    bottom: 0px !important;
+    bottom: -1px;
+    left: 0px !important;
+    left: -40px;
+}
+#wrap #header #coaTime
+{
+    font: 110px Arial, Helvetica, sans-serif;
+    position: absolute;
+    top: 20px;
+    right: 60px;
+    color: #FFFF00;
+}
+#wrap #header #menu ul li
+{
+    list-style: none;
+    background: #FFC;
+    width: 147px;
+    height: 54px;
+    float: left;
+    margin-right: 3px;
+    cursor: hand;
+}
+#wrap #header #menu ul .btnDistrict
+{
+    width: 147px;
+    height: 54px;
+    float: left;
+}
+#wrap #header #menu ul .btnstyle01
+{
+    background: url(../images/COA_PlantGrowth_btn_01.gif) no-repeat 0px -54px;
+}
+#wrap #header #menu ul .btnstyle01 a:hover
+{
+    background: url(../images/COA_PlantGrowth_btn_01.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul .btnstyle01 .now
+{
+    background: url(../images/COA_PlantGrowth_btn_01.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul .btnstyle02
+{
+    background: url(../images/COA_PlantGrowth_btn_02.gif) no-repeat 0px -54px;
+}
+#wrap #header #menu ul .btnstyle02 a:hover
+{
+    display: inline-block;
+    background: url(../images/COA_PlantGrowth_btn_02.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul .btnstyle02 .now
+{
+    background: url(../images/COA_PlantGrowth_btn_02.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul .btnstyle03
+{
+    background: url(../images/COA_PlantGrowth_btn_03.gif) no-repeat 0px -54px;
+}
+#wrap #header #menu ul .btnstyle03 a:hover
+{
+    background: url(../images/COA_PlantGrowth_btn_03.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul .btnstyle03 .now
+{
+    background: url(../images/COA_PlantGrowth_btn_03.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul .btnstyle04
+{
+    background: url(../images/COA_PlantGrowth_btn_04.gif) no-repeat 0px -54px;
+}
+#wrap #header #menu ul .btnstyle04 a:hover
+{
+    background: url(../images/COA_PlantGrowth_btn_04.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul .btnstyle04 .now
+{
+    background: url(../images/COA_PlantGrowth_btn_04.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul .btnstyle05
+{
+    background: url(../images/COA_PlantGrowth_btn_05.gif) no-repeat 0px -54px;
+}
+#wrap #header #menu ul .btnstyle05 a:hover
+{
+    background: url(../images/COA_PlantGrowth_btn_05.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul .btnstyle05 .now
+{
+    background: url(../images/COA_PlantGrowth_btn_05.gif) no-repeat 0px 0px;
+}
+#wrap #header #menu ul li:hover
+{
+}
+#wrap #header #menu ul
+{
+    padding-left: 10px;
+}
+
+
+#wrap #content
+{
+    background: #FFF url(../images/COA_PlantGrowth_02.jpg) no-repeat top;
+    padding: 50px 30px;
+}
+#wrap #content p, #wrap #content ol li, #wrap #content ul li
+{
+    line-height: 1.5em;
+    color: #333;
+    margin-left: 50px;
+}
+
+#wrap #content ul li
+{
+    list-style: square;
+}
+#wrap #content ol ol ul li
+{
+    margin-left: 0px;
+}
+#wrap #content ol li ul li
+{
+    margin-left: -20px;
+}
+.datestyle
+{
+    color: #F00;
+}
+.center
+{
+    text-align: center;
+}
+
+.menu
+{
+    background-color: white;
+    height: 35px;
+    font-weight: normal;
+}
+.menu table
+{
+    float: left;
+    height: 32px;
+    margin-top: 2px;
+    border: solid 0px #000;
+}
+.menu td
+{
+    background-color: #D7FE80;
+    padding-right: 6px;
+    padding-left: 6px;
+    vertical-align: middle;
+    text-align: center;
+    border: solid 0px #000;
+}
+.menu td:hover
+{
+    background-color: #888;
+    color: #fff;
+}
+.menu a
+{
+    cursor: pointer;
+    float: left;
+    color: #18498C;
+    text-decoration: none;
+}
+.menu a:hover
+{
+    color: #fff;
+}
+.menu #current
+{
+    background-color: #888;
+}
+.menu #current a
+{
+    color: #fff;
+}
+
+table.userinfo
+{
+    width: 100%;
+    background: #FFFFFF;
+    border-width: 1px;
+    border-style: solid;
+    border-spacing: 1px;
+    border-color: #D7FE80;
+    color: #F2FF95;
+}
+table.userinfo th
+{
+    width: 1%;
+    white-space: nowrap;
+    text-align: left;
+    vertical-align: middle;
+    padding: 2px;
+    background-color: #84A500;
+}
+table.userinfo td
+{
+    vertical-align: top;
+    text-align: left;
+    padding: 2px;
+    background-color: #84A500;
+}
+.descriptiveText
+{
+    color: White;
+}
+.descriptiveText2
+{
+    color: Red;
+}
+table.grid
+{
+    width: 100%;
+    background: #FFFFFF;
+    border-width: 1px;
+    border-style: solid;
+    border-spacing: 1px;
+    border-color: #D7FE80;
+}
+table.grid th
+{
+    white-space: nowrap;
+    text-align: left;
+    padding: 2px;
+    background-color: #F2FF95;
+}
+table.grid td
+{
+    padding: 2px;
+    background-color: #F2FF95;
+}
+
+.pageTable
+{
+    border: 0px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+
+.pageStyle
+{
+    line-height: 20px;
+    color: #333333;
+    border: 0px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: dotted;
+    border-left-style: none;
+    border-top-color: #C3DEF2;
+    border-right-color: #C3DEF2;
+    border-bottom-color: #C3DEF2;
+    border-left-color: #C3DEF2;
+    background-color: #EEEEEE;
+    padding-left: 5px;
+    font-size: 12px;
+}
+
+.pager
+{
+    font-size: 12px;
+    background-color: #EEEEEE;
+    text-align: center;
+}
+
+.pager a:visited
+{
+    padding: 2px 6px;
+    border: solid 1px #ddd;
+    background: #fff;
+    text-decoration: none;
+}
+.pager .AtStart
+{
+    margin-right: 20px;
+    padding: 2px 6px;
+    background: #fff;
+    color: #aaa;
+}
+.pager .Prev
+{
+    margin-right: 20px;
+    padding: 2px 6px;
+    border: solid 2px #ddd;
+    background: #fff;
+}
+.pager .break
+{
+    padding: 2px 6px;
+    border: none;
+    background: #fff;
+    text-decoration: none;
+}
+.pager .Next
+{
+    margin-left: 20px;
+    padding: 2px 6px;
+    border: solid 2px #ddd;
+    background: #fff;
+}
+.pager .AtEnd
+{
+    margin-left: 20px;
+    padding: 2px 6px;
+    background: #fff;
+    color: #aaa;
+}
+.pager .curPage
+{
+    font-weight: bold;
+    font-size: 13px;
+    vertical-align: middle;
+    color: #FF0084;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 2px;
+    padding-bottom: 0px;
+}
+.pager a:hover
+{
+    color: #fff;
+    background: #0063DC;
+    border-color: #036;
+    text-decoration: none;
+}
+.pages div.Results
+{
+    text-align: center;
+    color: #aaa;
+    margin-top: 2px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 15px;
+    font-size: 11px;
+    font-family: Arial, Helvetica;
+}
+
+.total_page
+{
+    font-size: 12px;
+    line-height: 20px;
+    color: #FF0084;
+    background-color: #E7FFFF;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-top-color: #E7FFFF;
+    border-right-color: #E7FFFF;
+    border-bottom-color: #E7FFFF;
+    border-left-color: #E7FFFF;
+}
+.total_page input
+{
+    background-color: Transparent;
+    border: solid 0px;
+}
+
+.backwhite
+{
+    line-height: 20px;
+    color: #333333;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: dotted;
+    border-left-style: none;
+    border-top-color: #C3DEF2;
+    border-right-color: #C3DEF2;
+    border-bottom-color: #C3DEF2;
+    border-left-color: #C3DEF2;
+    background-color: #FFFFFF;
+    padding-left: 5px;
+    font-size: 12px;
+}
+.text
+{
+    font-size: 13px;
+    line-height: 20px;
+    color: #00829E;
+}

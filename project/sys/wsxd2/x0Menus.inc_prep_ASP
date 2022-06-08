@@ -1,0 +1,129 @@
+﻿:                       =mytreenode
+  
+ response.write "<xrootid>"&xrootid&"</xrootid>"
+ response.write "<upparent>"&upparent&"</upparent>"
+ 
+ if cstr(xrootid)<>nulltext(refmodel.selectsinglenode("menutree")) _
+   and cstr(xrootid)<>nulltext(refmodel.selectsinglenode("menutree2")) then
+  xrootid = nulltext(refmodel.selectsinglenode("menutree"))
+  mytreenode = 0
+  response.write "<xrootid>"&xrootid&"</xrootid>"
+  response.write "<upparent>"&upparent&"</upparent>"
+ end if
+
+  if mytreenode=0 then
+  sqlcom = "select * from cattreeroot where ctrootid=" & xrootid
+  set rs = conn.execute(sqlcom)
+
+
+               =deamp(rs("purpose"))
+  
+  showchildren
+  response.write "</menucat>"
+  else
+   sqlcom = "select a.*, c.redirecturl, c.newwindow, c.ibasedsd, c.ctunitkind " _
+  & " from cattreenode as a " _
+  & " left join ctunit as c on c.ctunitid=a.ctunitid" _
+  & " where a.dataparent=" & upparent _
+  & " and a.ctrootid = " & pkstr(xrootid,"") _
+  & " order by a.catshoworder"
+
+  set rs = conn.execute(sqlcom)
+  while not rs.eof
+   if rs("ctunitkind") = "k" then
+       xurl = "kmdoit.asp?"&rs("redirecturl")
+      elseif rs("ctnodekind") = "c" then  '-- folder
+    xurl = "np.asp?ctnode="&rs("ctnodeid") 
+   else
+    if rs("redirecturl")<> "" then
+     xurl = rs("redirecturl")
+    elseif rs("ctunitkind") ="2" then
+     xurl = "lp.asp?ctnode="&rs("ctnodeid") & "&amp;ctunit=" & rs("ctunitid") & "&amp;basedsd=" & rs("ibasedsd")
+    elseif isnumeric(rs("ibasedsd")) then
+     xurl = "np.asp?ctnode="&rs("ctnodeid") & "&amp;ctunit=" & rs("ctunitid") & "&amp;basedsd=" & rs("ibasedsd")
+    end if
+        end if
+
+                         =rs("newwindow")
+               =deamp(rs("catname"))
+                   =deamp(xurl)
+  
+   if rs("ctnodeid") = cint(mytreenode)  then
+    showchildren
+   end if
+  response.write "</menucat>"
+  rs.movenext
+ wend
+  end if
+
+
+
+  
+ xrootid=nulltext(refmodel.selectsinglenode("menutree2"))
+ if xrootid<>"" then
+
+   response.write "<menubar2>" 
+   sqlcom = "select a.*, c.redirecturl, c.newwindow, c.ibasedsd, c.ctunitkind " _
+  & " from cattreenode as a " _
+  & " left join ctunit as c on c.ctunitid=a.ctunitid" _
+  & " where a.datalevel=1 and a.ctrootid = " & pkstr(xrootid,"") _
+  & " order by a.catshoworder"
+
+ set rs = conn.execute(sqlcom)
+ while not rs.eof
+   if rs("ctunitkind") = "k" then
+       xurl = "kmdoit.asp?"&rs("redirecturl")
+      elseif rs("ctnodekind") = "c" then  '-- folder
+    xurl = "np.asp?ctnode="&rs("ctnodeid") 
+   else
+    if rs("redirecturl")<> "" then
+     xurl = rs("redirecturl")
+    elseif rs("ctunitkind") ="2" then
+     xurl = "lp.asp?ctnode="&rs("ctnodeid") & "&amp;ctunit=" & rs("ctunitid") & "&amp;basedsd=" & rs("ibasedsd")
+    elseif isnumeric(rs("ibasedsd")) then
+     xurl = "np.asp?ctnode="&rs("ctnodeid") & "&amp;ctunit=" & rs("ctunitid") & "&amp;basedsd=" & rs("ibasedsd")
+    end if
+        end if
+
+                         =rs("newwindow")
+               =rs("catname")
+                   =xurl
+
+    
+  rs.movenext
+ wend
+
+
+   end if 
+  
+sub showchildren
+      sqlcom = "select a.*, c.redirecturl, c.newwindow, c.ibasedsd, c.ctunitkind " _
+     & " from cattreenode as a " _
+     & " left join ctunit as c on c.ctunitid=a.ctunitid" _
+     & " where a.dataparent=" & mytreenode & " and a.ctrootid = " & pkstr(xrootid,"") _
+     & " order by a.catshoworder"
+   
+    set rsx = conn.execute(sqlcom)
+    while not rsx.eof
+      if rsx("ctunitkind") = "k" then
+          xurl = "kmdoit.asp?"&rsx("redirecturl")
+         elseif rsx("ctnodekind") = "c" then  '-- folder
+       xurl = "np.asp?ctnode="&rsx("ctnodeid") 
+      else
+       if rsx("redirecturl")<> "" then
+        xurl = rsx("redirecturl")
+       elseif rsx("ctunitkind") ="2" then
+        xurl = "lp.asp?ctnode="&rsx("ctnodeid") & "&amp;ctunit=" & rsx("ctunitid") & "&amp;basedsd=" & rsx("ibasedsd")
+       elseif isnumeric(rsx("ibasedsd")) then
+        xurl = "np.asp?ctnode="&rsx("ctnodeid") & "&amp;ctunit=" & rsx("ctunitid") & "&amp;basedsd=" & rsx("ibasedsd")
+       end if
+           end if
+
+                           =rsx("newwindow")
+                =deamp(rsx("catname"))
+                    =deamp(xurl)
+
+        rsx.movenext
+    wend
+end sub
+ 

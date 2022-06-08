@@ -1,0 +1,249 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="ʺa]p"
+htprogfunc="sw"
+htuploadpath="/"
+htprogcode="hf011"
+htprogprefix="hfdfield" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+if request("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+   sub initform() 
+
+
+
+
+
+
+
+                             =request("fkind")
+
+
+   if request("part")<>"formlist" then 
+
+   end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_hfdfieldform_24239144()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+
+   sub showhtmltail() 
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- ݸˬd{xbo apuҡaɳ] errmsg="xxx"  exit sub ------
+' sql = "select * from client where clientid = n'"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "uȤsv!!эsإ߫Ȥs!"
+'  exit sub
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+   set htpagedom = session("hyxformspec")
+    set dsroot = htpagedom.selectsinglenode("//dataschemadef")  
+ set xfieldnode = dsroot.selectsinglenode("//field").clonenode(true)
+
+ xfieldnode.selectsinglenode("fieldname").text = request("xuf_fieldname")
+ xfieldnode.selectsinglenode("fieldlabel").text = request("xuf_fieldlabel")
+ xfieldnode.selectsinglenode("datatype").text = request("xuf_datatype")
+ xfieldnode.selectsinglenode("inputtype").text = request("xuf_inputtype")
+ xfieldnode.selectsinglenode("inputlen").text = request("xuf_inputlen")
+ xfieldnode.selectsinglenode("datalen").text = request("xuf_inputlen")
+ xfieldnode.selectsinglenode("cannull").text = request("xuf_cannull")
+ xfieldnode.selectsinglenode("fielddesc").text = request("xuf_fielddesc")
+ xfieldnode.selectsinglenode("isprimarykey").text = request("xuf_isprimarykey")
+ 
+ if request("xuf_itemlist")<>"" then
+  itemary = split(request("xuf_itemlist"),vbcrlf)
+  for i = 0 to ubound(itemary)
+   if itemary(i)<>"" then
+    set nitem = htpagedom.createelement("item")
+    set ncode = htpagedom.createelement("mcode")
+     ncode.text = itemary(i)
+     nitem.appendchild ncode
+    set nvalue = htpagedom.createelement("mvalue")
+     nvalue.text = itemary(i)
+     nitem.appendchild nvalue
+    xfieldnode.appendchild nitem
+   end if
+  next
+  
+ end if
+ xtablename = "formuser"
+ if request("part")="formlist" then xtablename="formlist"
+ dsroot.selectsinglenode("dstable[tablename='" & xtablename &"']/fieldlist").appendchild xfieldnode
+ set session("hyxformspec") = htpagedom
+' response.write server.mappath(".")&"\hf_" & session("hyformid") & ".xml"
+' htpagedom.save(server.mappath(".")&"\hf_" & session("hyformid") & ".xml")
+
+end sub
+
+
+
+   sub showdonebox() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+
+                              =htprogprefix:            =request.servervariables("query_string")
+
+
+
+   end sub '---- showdonebox() ----  

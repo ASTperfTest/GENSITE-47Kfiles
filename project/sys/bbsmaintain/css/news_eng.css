@@ -1,0 +1,51 @@
+/*	
+	國工局全球網 - All Rights Reserved.
+	
+	Produicted By 凌網科技 HyWeb Tech. Co., Ltd.2004.
+	http://www.hyweb.com.tw　
+	HyWeb CSS Style(writed by m10/Carol13 Chen) 2004/02/26
+*/
+
+/* ---------news 最新消息   announce 重要業務公告  ------- */
+#news {
+	float: left;
+	width: 358px;
+	background-image: url(../images/news_bgEng.gif);
+	background-repeat: repeat-y;
+	text-align: left;
+	font-size: 12px;
+	color: #E66100;
+	margin-bottom: 0px;
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+
+}
+#news .newsList {
+	list-style-image: url(../images/point2.gif);
+	line-height: 26px;
+	margin-right: 30px;
+}
+
+
+#news .newsList a {
+	color: #4A689B;
+	line-height: 14px;
+	text-decoration: none;
+}
+#news .newsList a:hover {
+	color: #0052E8;
+}
+
+
+#announce {
+	width: 177px;
+	float: right;
+}
+#announce .text {
+	font-size: 13px;
+	color: #565656;
+	line-height: 20px;
+	margin-right: 16px;
+	margin-left: 5px;
+	text-align: left;
+	margin-top: 0px;
+}

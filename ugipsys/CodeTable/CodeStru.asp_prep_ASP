@@ -1,0 +1,321 @@
+﻿: @ codepage = 65001 
+   
+response.expires=0
+response.charset="utf-8"
+htprogcap="代碼維護"
+htprogcode="pn90m02"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+dim j
+xflag=false
+if request("myid")="" then
+   myid="a"
+else
+   myid=request("myid")
+   sql="select codename from codemetadef where codeid=n'" & myid & "'"
+   set rsxxx=conn.execute(sql)
+   xxxcodename=rsxxx("codename")
+end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+rcount=0
+sql="select distinct c2.codetype from ugrpcode uc left join codemetadef c2 on uc.codeid = c2.codeid " & _
+ "where  uc.ugrpid in (" & idstr & ") and c2.showornot='y' order by c2.codetype"
+  if instr(session("ugrpid")&",", "htsd,") > 0 then  
+ sql="select distinct c2.codetype from ugrpcode uc left join codemetadef c2 on uc.codeid = c2.codeid " & _
+  "where  1=1 order by c2.codetype"
+  end if
+set rsc=conn.execute(sql)
+while not rsc.eof 
+ rcount=rcount+1
+ rsc.movenext
+wend
+ xpos=instr(session("ugrpid"),",")
+ if xpos>0 then
+  idstr=replace(session("ugrpid"),", ","','")
+  idstr="'"&idstr&"'"
+ else
+  idstr="'" & session("ugrpid") & "'"
+ end if
+
+sql="select code.codetype,code.codeid,code.codename, " & _
+ "(select count(c1.codeid) from (select distinct uc.codeid,c2.codetype from ugrpcode uc left join codemetadef c2 on uc.codeid = c2.codeid " & _
+ "where  uc.ugrpid in (" & idstr & ") and c2.showornot='y') c1 where c1.codetype = code.codetype) as xcount " & _
+ "from " & _
+ "(select distinct uc.codeid,c2.codename,c2.codetype from ugrpcode uc left join codemetadef c2 on uc.codeid = c2.codeid " & _
+ "where  uc.ugrpid in (" & idstr & ") and c2.showornot='y') code left join  codemetadef c on c.codeid=code.codeid " & _
+ "order by c.codetype, c.coderank,c.codeid"
+  if instr(session("ugrpid")&",", "htsd,") > 0 then  
+ sql="select code.codetype,code.codeid,code.codename, " & _
+  "(select count(c1.codeid) from (select distinct uc.codeid,c2.codetype from ugrpcode uc left join codemetadef c2 on uc.codeid = c2.codeid " & _
+  "where  uc.ugrpid in (" & idstr & ") and c2.showornot='y') c1 where c1.codetype = code.codetype) as xcount " & _
+  "from " & _
+  "(select distinct uc.codeid,c2.codename,c2.codetype from ugrpcode uc left join codemetadef c2 on uc.codeid = c2.codeid " & _
+  "where  uc.ugrpid in (" & idstr & ") and c2.showornot='y') code left join  codemetadef c on c.codeid=code.codeid " & _
+  "order by c.codetype, c.coderank,c.codeid"
+ sql = "select codetype, codeid, codename, " _
+  & " (select count(*) from codemetadef as c1 where c1.codetype=c.codetype) as xcount" _
+  & " from codemetadef as c " _
+  & " order by c.codetype, c.coderank,c.codeid"
+  end if
+
+
+
+ 
+'sql="select distinct c2.codetype, c2.codeid, c2.codename, " & _
+' "(select count(*) from codemetadef as c1 where c1.codetype = c2.codetype and c1.showornot='y') as xcount " & _
+' "from ugrpcode uc left join codemetadef c2 on uc.codeid=c2.codeid and uc.ugrpid in (" & idstr & ") " & _
+' "where c2.showornot='y' order by c2.codetype desc,convert(int,c2.coderank),c2.codeid "
+'response.write sql 
+set rscode=conn.execute(sql)
+if not rscode.eof then
+
+
+
+  xx=""
+  xxx=""
+  p=0
+  xchildcount=0    
+  pivotfig="plus"
+  pmfig="t"
+  pmfig2=""
+  leadfig = "dotsl"
+
+  while not rscode.eof   
+'--------------資料表
+              if ucase(trim(rscode("codetype")))<>xx then
+    if xx <> "" and xflag then
+   response.write "</ul>" & cvcrlf
+   xflag=false
+   end if            
+                 p=p+1
+                 if p>1 then                 
+       pmfig=""
+   end if
+                 if rcount=p then 
+      pmfig="b"
+      leadfig="space"
+            end if
+
+                           =rscode("codetype")
+                              =rscode("codetype"):                     =pivotfig:       =pmfig:                                                                                 =rscode("codetype")
+   
+                 xx=ucase(trim(rscode("codetype")))
+              end if
+'--------------代碼
+      if xxx = "" then
+   response.write "<ul>" & cvcrlf
+   end if
+                 xchildcount=xchildcount+1
+           if rscode("xcount")=xchildcount then
+                    pmfig2="b"
+      xflag=true
+                 end if
+
+                           =rscode("codeid")
+                                         =leadfig
+                              =rscode("codeid"):                         =pmfig2
+                                                          =rscode("codeid"):             =rscode("codename"):                                                                                                 =rscode("codeid"):                 =rscode("codename")
+   
+                 xxx=rscode("codeid")
+               if rscode("xcount")=xchildcount then
+              pmfig2=""
+        xchildcount=0
+        xxx=""
+   end if
+'--------------              
+           rscode.movenext
+    wend
+                        response.write "</ul>" & vbcrlf
+'--------
+
+
+  end if
+
+
+
+
+                   =xxxcodename
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               =myid
+
+                                                              =myid:             =xxxcodename 

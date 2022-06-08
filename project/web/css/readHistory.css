@@ -1,0 +1,93 @@
+
+.panelHistory {
+position: fixed;
+top: 90px;
+right: 0;
+display: none;
+-moz-border-radius-topleft: 20px;
+-webkit-border-top-left-radius: 20px;
+-moz-border-radius-bottomleft: 20px;
+-webkit-border-bottom-left-radius: 20px;
+width: 220px;
+height: auto;
+padding: 5px 5px 5px 5px;
+filter: alpha(opacity=85);
+opacity: .85;
+}
+
+.panelHistory p{
+margin: 0 0 15px 0;
+padding: 0;
+color: #cccccc;
+}
+
+
+.rbox
+{
+    margin: 0pt 0pt 15px 15px;
+    width: 200px;
+    font-size:12px;
+}
+.rbox
+{
+    padding: 0pt 0pt 15px;
+}
+.rbox h2
+{
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 100%;
+    margin: 0pt;
+    padding: 15px 18px 5px;
+    letter-spacing: 2px;
+}
+.rbox div.body_nt
+{
+    padding: 10px 18px 0pt;
+}
+.rbox ul
+{
+    list-style: none;
+    margin: 5px 0pt 0pt;
+    padding: 0pt;
+    width: 100%;
+}
+.rbox li
+{
+    background: url('/images/ReadHistory/login2_li_bg.gif') repeat-x scroll left bottom transparent;
+    padding: 0pt 0pt 3px;
+    margin: 0pt 0pt 8px;
+    text-decoration: none;
+}
+.rbox li a
+{
+    display: block;
+    background: url('/images/ReadHistory/login2_a_bg.gif') no-repeat scroll 1px 0pt transparent;    
+    text-decoration: none;
+    color: rgb(68, 68, 68);
+    padding-left:20px;
+    text-align:left;
+}
+.rbox li a:hover
+{
+    display: block;
+    background: url('/images/ReadHistory/login2_hover_bg.gif') no-repeat scroll 1px 0pt transparent;
+    text-decoration: none;
+    padding-left:20px;
+    color: rgb(246, 93, 0);
+    text-align:left;
+}
+
+.rbox
+{
+    background: url('/images/ReadHistory/right_div_bg_nt.png') no-repeat scroll 0pt bottom transparent;
+}
+.rbox h2
+{
+    background: url('/images/ReadHistory/rb_nt.png') no-repeat scroll 0pt 0pt transparent;
+}
+.rbox .body_nt
+{
+    background: url('/images/ReadHistory/rb_body_nt.gif') repeat-y scroll 0pt 0pt transparent;
+}

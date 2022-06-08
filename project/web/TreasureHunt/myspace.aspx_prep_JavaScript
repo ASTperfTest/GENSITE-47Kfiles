@@ -1,0 +1,128 @@
+﻿
+
+
+
+        var buttonDisable = "Cx_0dummy";
+        var voteDisplay = "Cx_0dummy";
+        jQuery(document).ready(function(){
+      if(buttonDisable=="false"){
+         jQuery("#submitLotteryA").attr("disabled",false);
+         jQuery("#submitLotteryB").attr("disabled",false);
+         jQuery("#submitLotteryC").attr("disabled",false);
+      } 
+      if(voteDisplay == "true"){
+         jQuery("#present").show();
+      }
+        });
+
+        function VoteLottery(objectId,voteValue){
+            disableButton=  document.getElementById(objectId);
+            if(confirm("兌換過後就不可反悔喔!!"))
+            {
+                disableButton.disabled = (disableButton.disabled == "" ? "disabled" : "");
+                document.getElementById("hideVote").value=voteValue;
+                document.forms[0].submit();
+            }
+        }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                  function onclick___1900342919() {VoteLottery('submitLotteryA','D');}
+
+
+
+                                                                  function onclick___1900520393() {VoteLottery('submitLotteryB','E');}
+
+
+
+                                                                  function onclick___1900414727() {VoteLottery('submitLotteryC','F');}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

@@ -1,0 +1,253 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_exam_header_74609694() : CxMethod_ASP_exam_config_2044058075() : CxMethod_ASP_exam_util_inc_1220515710() : CxMethod_ASP_exam_class_1551061325()
+  
+response.contenttype = "text/html; charset=utf-8"
+
+icuitem = request.querystring("icuitem")
+
+'取得腔調題目
+set otopic = gettopicbycuitem(connhakka, icuitem)
+
+'取得 cudtgeneric
+set ocudtgeneric = getcudtgeneric(connhakka, otopic.getfield("cuitemid"))
+
+sexamtype = ocudtgeneric.getfield("topcat")
+'sexamtype = "9"
+
+if sexamtype = "3" or sexamtype = "5" or sexamtype = "7" or sexamtype = "9" then
+ on error resume next
+ 
+ otopic.setfield "options", getalloption(connhakka, otopic.getfield("id"))
+ 
+ if err.number <> 0 then
+  for i = 0 to 3
+   set oexamoption = new examoption
+   oexamoption.setfield "topicid", otopic.getfield("id")
+   oexamoption.setfield "title", ""
+   oexamoption.setfield "answer", ""
+   oexamoption.setfield "sort", i
+   otopic.addoption oexamoption
+  next
+ end if
+ 
+ on error goto 0
+end if
+
+bolupdatesuccessful = false
+
+if request.servervariables("http_method") = "post" and instr(request.servervariables("content_type"), "multipart/form-data") > 0 then
+ 'on error resume next
+ 
+ connhakka.begintrans
+ 
+ set oupload = server.createobject("tabs.upload")
+ oupload.codepage = 65001
+ oupload.start server.mappath("./")
+ 
+ scorrect = oupload.form("correct")
+ soptions = oupload.form("option")
+ 
+ otopic.setfield "correct", scorrect
+ 
+ updatetopic connhakka, otopic
+ 
+ select case sexamtype
+  case "3", "5", "9"
+   '刪除所有選項
+   delalloption connhakka, otopic
+   
+   '重新新增選項
+   aoptions = split(soptions, ",")
+   for i = 0 to ubound(aoptions)
+    if aoptions(i) <> "" then
+     set ooption = new examoption
+     ooption.setfield "topicid", otopic.getfield("id")
+     ooption.setfield "title", aoptions(i)
+     if cint(icorrect) = i then
+      otopic.setfield "answer", "y"
+     end if
+     ooption.setfield "sort", i
+     createoption connhakka, ooption
+    end if
+   next
+  case "7"
+   '刪除所有選項
+   delalloption connhakka, otopic
+   
+   '重新新增選項
+   on error resume next
+   aoptions = split(soptions, ",")
+   for i = 0 to ubound(aoptions) step 2
+    if aoptions(i) <> "" and aoptions(i + 1) <> "" then
+     set ooption = new examoption
+     ooption.setfield "topicid", otopic.getfield("id")
+     ooption.setfield "title", aoptions(i)
+     ooption.setfield "answer", aoptions(i + 1)
+     ooption.setfield "sort", i
+     createoption connhakka, ooption
+    end if
+   next
+ end select
+ 
+ if err.number <> 0 then
+  connhakka.rollbacktrans
+  response.write err.description
+ else
+  connhakka.committrans
+  bolupdatesuccessful = true
+ end if
+ 
+ 'on error goto 0
+ 
+end if
+
+   CxMethod_ASP_exam_footer_959185072()
+  
+if bolupdatesuccessful then
+ response.redirect "../gipedit/dsdxmllist.asp"
+end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 =otopic.getfield("id")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           =sexamtype
+
+                          =otopic.getfield("correct")
+
+
+
+
+     
+   set options = otopic.getfield("options")
+   for i = 0 to options.count - 1
+    response.write "addoption('" & options(i).getfield("title") & "');"
+   next
+   
+                          =otopic.getfield("correct")
+
+
+     
+   set options = otopic.getfield("options")
+   for i = 0 to options.count - 1
+    response.write "addmatch('" & options(i).getfield("title") & "', '" & options(i).getfield("answer") & "');"
+   next
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      if sexamtype = "1" then 
+
+
+
+
+
+
+
+      elseif sexamtype = "3" or sexamtype = "5" or sexamtype = "9" then 
+
+
+
+
+
+
+
+      elseif sexamtype = "7" then 
+
+
+
+
+
+
+
+      end if  

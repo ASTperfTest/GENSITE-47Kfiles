@@ -1,0 +1,87 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0 
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+server.scripttimeout = 2000
+
+'----將資料表欄位型態放入陣列中
+redim colname(2,0)
+i=0
+tablename = request("tbl")
+fsql = "sp_columns " & pkstr(tablename,"")
+set rslist = conn.execute(fsql)
+if not rslist.eof then
+    while not rslist.eof
+     redim preserve colname(2,i)
+     colname(0,i)=i: colname(1,i)=rslist("type_name"): colname(2,i)=rslist("column_name")
+     i=i+1
+     rslist.movenext
+    wend 
+end if
+'for j=0 to ubound(colname,2)
+'    response.write cstr(colname(0,j))+"[]"+colname(1,j)+"[]"+colname(2,j)+"<br>"
+'next
+'response.end
+'----取出資料表資料並串成字串
+cvbcrlf = "<br>" & vbcrlf
+sql="select * from " & tablename
+set rsd=conn.execute(sql)
+sqlins=""
+if not rsd.eof then
+    while not rsd.eof
+        sqlinsstr1="insert into "&tablename&" ("
+        sqlinsstr2=" values("        
+ for k=0 to ubound(colname,2)
+     if not isnull(rsd(colname(0,k))) then
+      if instr(colname(1,k),"identity")>0 then
+          sqlinsstr1 = sqlinsstr1 + "xi_" + colname(2,k) + ","
+          sqlinsstr2 = sqlinsstr2 + cstr(rsd(colname(0,k))) + ","
+      else
+          sqlinsstr1 = sqlinsstr1 + colname(2,k) + ","
+          sqlinsstr2 = sqlinsstr2 + strcombine(rsd(colname(0,k)),colname(1,k))
+      end if
+     end if
+ next
+ sqlinsstr=left(sqlinsstr1,len(sqlinsstr1)-1) + ")" + left(sqlinsstr2,len(sqlinsstr2)-1) + ");" + cvbcrlf 
+ response.write sqlinsstr
+     rsd.movenext
+    wend 
+end if
+
+response.end
+
+'----字串組合檢查欄位型態函數 
+function strcombine(colvalue,coltype)
+ xstr=""
+ if coltype="int" or coltype="tinyint" or coltype="smallint" or coltype="smallint" or coltype="float" then
+  xstr=cstr(colvalue)+","
+ else
+  xstr=pkstr((colvalue),",") 
+ end if
+ strcombine=xstr
+end function
+
+'----quote處理
+function pkstr (s, endchar)
+  if isnull(s) then
+ pkstr = "null" & endchar
+  else
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ pkstr="'" & s & "'" & endchar
+  end if
+end function 
+ 

@@ -1,0 +1,3 @@
+﻿: 
+response.redirect "../../gipsiteentry.asp?siteid=coa" 
+ 

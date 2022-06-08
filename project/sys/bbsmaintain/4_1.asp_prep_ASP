@@ -1,0 +1,33 @@
+﻿:  
+ response.expires = 0
+ htprogcap = "�q�ױm��"
+ htprogfunc = "�q�ױm�Ϻ��@"
+ htprogcode = "bbs010"
+ htprogprefix = "msession" 
+ response.expires = 0 
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+ 
+ sql = "select content from talk03"
+ set rs = conn.execute(sql)
+ if not rs.eof then content = trim(rs("content"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                       = content  

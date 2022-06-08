@@ -1,0 +1,33 @@
+﻿: @ codepage = 65001 
+
+
+
+   
+
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("connstring")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("connstring")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+ 
+ sql = "select p.*, h.postop from info_part as p left join info_hpset as h " _
+  & " on p.part_id=h.part_id and h.user_id=n'" & session("userid") & "'" _
+  & " where p.pubtype=n'系統'"
+ set rs = conn.execute(sql)
+ 
+ while not rs.eof
+  if isnull(rs("postop")) then
+
+                 =rs("part_desc"):                =rs("part_id"):                        =rs("part_name")
+
+     
+  end if
+  rs.movenext
+ wend
+ 

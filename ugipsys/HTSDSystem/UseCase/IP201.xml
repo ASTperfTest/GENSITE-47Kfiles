@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="big5"?>
+<UseCase>
+	<Name>叫修指派</Name>
+	<Code>IP201</Code>
+	<APCat>IP</APCat>
+	<Version>
+		<Date>2003/11/17</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<ExpandedSpec>
+			<Type>primary</Type>
+			<Type>essential</Type>
+			<ActorList>
+				<Actor initiator="Y">測試</Actor>
+			</ActorList>
+			<Purpose></Purpose>
+			<PreCondition>
+				<UseCase></UseCase>
+			</PreCondition>
+			<DescriptionList>
+				<Description>
+				</Description>
+			</DescriptionList>
+			<TypicalCourseOfEvents>
+				<Event type="Client" id="0" ContractXML="evx_ttxx1.xml">
+				</Event>
+				<Event type="Client" id="10">
+				</Event>
+				<Event type="Client" id="11">
+				</Event>
+			</TypicalCourseOfEvents>
+		</ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version><Version>
+		<Date>2003/11/16</Date>
+		<Author>chen</Author>
+		<Kind>HighLevel</Kind>
+		<HighLevelSpec>
+			<Type>primary</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<DescriptionList>
+				<Description>
+				</Description>
+			</DescriptionList>
+			<VisitRecordList>
+				<VisitRecord>
+					<Who/>
+					<Date/>
+					<Location/>
+					<comment/>
+				</VisitRecord>
+			</VisitRecordList>
+		</HighLevelSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject/>
+				<Description/>
+				<Who/>
+				<DueDate/>
+				<DoneDate/>
+				<Conclusion/>
+			</TBD>
+		</TBDList>
+	</Version>
+</UseCase>

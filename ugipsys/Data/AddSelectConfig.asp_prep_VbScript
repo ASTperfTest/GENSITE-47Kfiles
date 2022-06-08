@@ -1,0 +1,39 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ window.parent.mainframe.document.all("xid").value=Cx_0dummy         
+ window.parent.mainframe.document.all("addname").value="Cx_0dummy"         
+ window.parent.mainframe.selectadd 
+ window.location.href = "../leftmenu2.htm"         
+
+ 

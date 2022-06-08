@@ -1,0 +1,116 @@
+﻿:  response.expires = 0
+htprogcap="�ҵ{"
+htprogfunc="�s��"
+htprogcode="pa001"
+htprogprefix="paact" 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_453315802()
+  
+ set rsreg = server.createobject("adodb.recordset")
+
+ fsql="select * from docdownload_attach where pid=" & request("id")
+ 
+ set rs=conn.execute(fsql)
+ 
+
+' ���o�ثe��ƪ�o��������
+pageno = request.querystring("pageno")
+if pageno = "" then
+   intpageno = 1
+else
+   intpageno = convert.toint32(pageno)
+end if
+
+
+strsql = "select count(*) from docdownload_attach where pid=" & request("id")
+
+' �إ�command����sql���o     
+set rs2=conn.execute(strsql)
+intmaxrec = rs2(0)
+if intmaxrec > 0 then              
+   intmaxpagecount=intmaxrec\10
+   if (intmaxrec mod 10) <> 0 then
+       intmaxpagecount=intmaxpagecount+1
+   end if
+else
+   intmaxpagecount=1
+end if    
+'***** �p�⭶�ƶ���*****
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    =request("id") 
+
+
+
+
+
+
+
+
+
+
+           =intmaxrec 
+
+           
+           n = 1
+           do while n <= intmaxpagecount 
+                 response.write "<option value='" & n & "'" 
+                 if n = intpageno then 
+                    response.write " selected " 
+                 end if
+                 response.write ">" & n & "</option>" 
+                 n = n + 1
+           loop
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  intcount=1
+   do while not rs.eof 
+    if intcount<=(intpageno*10) and intcount>(intpageno-1)*10 then 
+
+
+
+
+                                   =trim(rs("id")) :      =intcount & ". " :    =trim(rs("filename")) 
+
+
+
+     =trim(rs("filename_note"))  
+
+
+
+   
+   end if
+   intcount=intcount+1
+   rs.movenext
+   loop                      
+ 

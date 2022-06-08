@@ -1,0 +1,247 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="點閱統計"
+htprogfunc="點閱統計"
+htprogcode="gw1m22"
+htprogprefix="msession" 
+   response.expires = 0 
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbutil_10064021()
+  
+
+'取得某節點的點閱次數
+function getaccesscount(nodeid)
+
+ set rs77 = server.createobject("adodb.recordset")
+ sql77 = " select count(*) from giphitunit where hittime between n'"& date1 &"' and n'"& date2 &"' and ictnode=n'"& nodeid &"' "
+
+'----------hyweb gip db connection patch----------
+' rs77.open sql77, conn, 1, 3
+set rs77 =  conn.execute(sql77)
+
+'----------hyweb gip db connection patch----------
+
+ cnt = rs77(0)
+ rs77.close
+ set rs77=nothing
+ getaccesscount = cnt
+ 
+end function
+
+
+'遞迴處理每個子節點
+sub processchildnode(rootid, parentid)
+ set rs95 = server.createobject("adodb.recordset")
+ 
+ sql95 = " select * from cattreenode where ctrootid=n'"& rootid &"' and dataparent = n'"& parentid &"' order by catshoworder "
+ 'response.write sql95 &"<br>"
+
+'----------hyweb gip db connection patch----------
+' rs95.open sql95, conn, 1, 3
+set rs95 =  conn.execute(sql95)
+
+'----------hyweb gip db connection patch----------
+
+ if not rs95.eof then
+
+
+   
+  while not rs95.eof
+   accesscnt = getaccesscount(trim(rs95("ctnodeid")))
+   response.write "<li>"& trim(rs95("ctnodeid")) &" - "& trim(rs95("catname")) &" - <b>"& accesscnt &"</b></li>"
+      
+   processchildnode rootid, trim(rs95("ctnodeid"))
+    
+   'if trim(rs95("ctnodekind"))="c" then
+   ' processchildnode rootid, trim(rs95("ctnodeid"))
+   'else
+   ' accesscnt = getaccesscount(trim(rs95("ctnodeid")))
+   ' response.write "<b>"& accesscnt &"</b>"
+   'end if  
+   
+   rs95.movenext
+  wend
+
+
+    
+ end if
+ rs95.close
+ set rs95=nothing
+end sub
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ set rs88 = server.createobject("adodb.recordset")
+ treecnt = 0
+ sql = " select * from cattreeroot where pvxdmp is not null order by ctrootid "
+
+'----------hyweb gip db connection patch----------
+' rs88.open sql , conn , 1 , 3
+set rs88 =  conn .execute(sql )
+
+'----------hyweb gip db connection patch----------
+
+ if not rs88.eof then
+  while not rs88.eof
+   treecnt = treecnt + 1
+   rootid = trim(rs88("ctrootid"))
+   rootname = trim(rs88("ctrootname"))
+
+                                                    =rootid:      =rootname
+     
+   rs88.movenext
+  wend
+ else
+  response.write "no data"
+ end if
+ rs88.close
+ set rs88=nothing  
+
+
+
+
+
+
+
+
+
+
+
+  
+ date1 = request("htx_dbdate")
+ date2 = request("htx_dedate")
+
+if date1<>"" and date2<>"" then
+
+ treeroot = request("treeroot")
+
+ set rs = server.createobject("adodb.recordset")
+   
+ sql = " select * from cattreeroot where ctrootid in ( "& treeroot &" ) "
+ 
+
+'----------hyweb gip db connection patch----------
+' rs.open sql , conn , 1 , 3
+set rs =  conn .execute(sql )
+
+'----------hyweb gip db connection patch----------
+
+ if not rs.eof then
+  while not rs.eof
+
+   response.write trim(rs("ctrootid")) &" - "& trim(rs("ctrootname")) &" - "& trim(rs("vgroup")) &"<br>"
+   
+   processchildnode trim(rs("ctrootid")),0
+  
+   rs.movenext
+  wend
+ else
+  response.write "no data"
+ end if
+ 
+ rs.close
+ set rs=nothing 
+ 
+
+
+  
+end if
+ 

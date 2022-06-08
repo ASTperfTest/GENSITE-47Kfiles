@@ -1,0 +1,105 @@
+﻿: @ codepage = 65001 
+  
+response.expires = 0
+htprogcap="意見信箱"
+htprogfunc="意見信箱維護"
+htprogcode="bm010"
+htprogprefix="msession"
+response.expires = 0
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+set rsreg = server.createobject("adodb.recordset")
+
+ id = request("id")
+ sql = "" & _
+  " select name, addr, email, tele, date, docid, dateline, unit, " & _
+  " isnull(context, '') context " & _
+  " from prosecute where id = " & replace(id, "'", "''")
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "<script language='javascript'>alert('操作錯誤！');history.go(-1);</script>"
+  response.end
+ end if
+ 
+ dateline = rs("dateline")
+
+
+
+         =session("mysitename")
+
+
+
+
+
+
+
+
+          =session("mysitename")
+
+
+
+
+
+
+
+
+                                    = datevalue(rs("date")) 
+
+
+
+                                    = trim(rs("name")) 
+
+
+
+                                    = trim(rs("tele")) 
+
+
+
+                                                    = trim(rs("email")) :     = trim(rs("email")) 
+
+
+
+                                    = trim(rs("addr")) 
+
+
+
+                                    = replace(trim(rs("context")), vbcrlf, "<br>") 
+
+
+
+                                          = id 
+
+
+                                                              = trim(rs("docid")) 
+
+
+
+
+
+  
+ sql_dept = "select deptid, deptname, abbrname, orgrank, kind from dept where deptid like '01%' order by deptid"
+ set rs_dept = conn.execute(sql_dept)
+ while not rs_dept.eof
+  if trim(rs("unit")) = trim(rs_dept("deptid")) then
+   response.write "<option value='" & trim(rs_dept("deptid")) & "' selected>" & trim(rs_dept("deptname")) & "</option>" & vbcrlf
+  else
+   response.write "<option value='" & trim(rs_dept("deptid")) & "'>" & trim(rs_dept("deptname")) & "</option>" & vbcrlf
+  end if
+  rs_dept.movenext
+ wend
+
+
+
+
+  
+ if dateline <>"" then
+  yy = year(dateline)
+  mm = month(dateline)
+  dd = day(dateline)
+ end if
+
+
+
+                                                                           =yy :                                                                 = mm :                                                                 = dd  

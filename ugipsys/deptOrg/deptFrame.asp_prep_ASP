@@ -1,0 +1,17 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "pn02m02" 
+   CxMethod_ASP_server_1606199358()
+   
+  catalogueframe = "180,*"
+
+
+
+
+
+
+
+
+
+                  =catalogueframe
+                                                                                          =itemid 

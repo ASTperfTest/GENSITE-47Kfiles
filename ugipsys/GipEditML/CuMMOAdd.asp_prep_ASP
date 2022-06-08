@@ -1,0 +1,341 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="多媒體物件選取"
+htprogfunc="新 增"
+htprogcode="gc1ap1"
+htprogprefix="cummo" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_htuigen_1591615763()
+   CxMethod_ASP_selecttree_859552413()
+   CxMethod_ASP_checkgipconfig_1275316133()
+
+
+
+
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+
+function d6date(dt)     '轉成民國年  999/99/99 給資料型態為smalldatetime 使用
+ if len(dt)=0 or isnull(dt) then
+      d6date=""
+ else
+                      xy=right("000"+ cstr((year(dt)-1911)),2)     '補零
+                      xm=right("00"+ cstr(month(dt)),2)
+                      xd=right("00"+ cstr(day(dt)),2)
+                      d6date=xy &  xm &  xd
+                  end if
+end function
+
+cq=chr(34)
+ct=chr(9)
+cl="<" & "%"
+cr="%" & ">"
+formfunction = "add"    
+
+'----檔案目錄處理
+if request.querystring("phase")<>"add" and request.querystring("submittask")<>"show" then
+    apath = server.mappath(session("mmopublic"))
+    set xup = server.createobject("tabs.upload")
+    xup.codepage=65001
+    xup.start apath
+else
+    set xup = server.createobject("tabs.upload")
+end if
+
+function xupform(xvar)
+ xupform = xup.form(xvar)
+end function     
+
+if xupform("submittask")="add" then
+ '----940406 mmo上傳路徑/ftp等參數處理
+ '----ftp所需參數
+ sqlm="select mm.mmositeid+mm.mmofoldername as mmofolderid,mm.mmositeid,mm.mmofoldername,ms.uploadsiteftpip,ms.uploadsiteftpport,ms.uploadsiteftpid,ms.uploadsiteftppwd " & _
+  " from mmofolder mm left join mmosite ms on mm.mmositeid=ms.mmositeid " & _
+  "where mm.mmofolderid="&xupform("htx_mmofolderid") 
+ set rsm=conn.execute(sqlm)
+ if not rsm.eof then 
+  xmmofolderid=rsm("mmofolderid")
+     xftpipmmo = rsm("uploadsiteftpip")
+     xftpportmmo = rsm("uploadsiteftpport")
+     xftpidmmo = rsm("uploadsiteftpid")
+     xftppwdmmo = rsm("uploadsiteftppwd")
+  mmoftpfilepath="public/"&xmmofolderid 
+ end if
+ '----上傳路徑
+ mmopath = session("mmopublic") & xmmofolderid
+ if right(mmopath,1)<>"/" then mmopath = mmopath & "/"
+ '----mmo上傳路徑/ftp等參數處理完成
+        '----開始處理form相關
+        set htpagedom = session("codexmlspec")
+        set allmodel2 = session("codexmlspec2")  
+        set refmodel = htpagedom.selectsinglenode("//dstable")
+        set allmodel = htpagedom.selectsinglenode("//dataschemadef")
+    
+   '----資料庫處理
+ set fso = server.createobject("scripting.filesystemobject")
+ '----新增主表
+ sql = "insert into  cudtgeneric("
+ sqlvalue = ") values("
+ for each param in allmodel.selectnodes("dstable[tablename='cudtgeneric']/fieldlist/field[formlist!='']") 
+  if nulltext(param.selectsinglenode("fieldname")) = "ximportant" _
+     and xupform("xxcheckimportant")="y" then
+   sql = sql & "ximportant,"
+   sqlvalue = sqlvalue & pkstr(d6date(date()),",")
+  elseif nulltext(param.selectsinglenode("identity"))<>"y" then 
+   processinsert param
+  end if
+ next
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+ sql = "set nocount on;"&sql&"; select @@identity as newid"
+ set rsx = conn.execute(sql)
+ xnewidentity = rsx(0)
+'------- 記錄 異動 log -------- start -------------------------------------------------------- 
+ if checkgipconfig("userlogfile") then
+  sql = "insert into useractionlog(loginsid,xtarget,xaction,recordnumber,objtitle) values(" _
+   & dfn(session("loginlogsid")) & "'0a','1'," _
+   & dfn(xnewidentity) _
+   & pkstr(xupform("htx_stitle"),")")
+  conn.execute sql
+ end if 
+'------- 記錄 異動 log -------- end -------------------------------------------------------- 
+
+ '----新增明細表
+     sql = "insert into  " & nulltext(refmodel.selectsinglenode("tablename")) & "(gicuitem,"
+     sqlvalue = ") values(" & dfn(xnewidentity)
+     for each param in refmodel.selectnodes("fieldlist/field[formlist!='']") 
+  processinsert param
+     next
+     sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+     conn.execute(sql) 
+ '----關鍵字詞處理
+ if xupform("htx_xkeyword")<>"" then
+     redim iarray(1,0)
+     xstr=""
+     xreturnvalue=""
+     sqlinsert=""
+     xkeywordarray=split(xupform("htx_xkeyword"),",")
+     weightsum=0
+     for i=0 to ubound(xkeywordarray)
+      redim preserve iarray(1,i)
+  '----分開字詞與權重符號
+  xpos=instr(xkeywordarray(i),"*")
+  if xpos<>0 then
+   xstr=left(trim(xkeywordarray(i)),xpos-1)
+   iarray(0,i)=xstr
+   iarray(1,i)=mid(xkeywordarray(i),xpos+1)
+  else
+   xstr=trim(xkeywordarray(i))
+   iarray(0,i)=xstr
+   iarray(1,i)=1  
+  end if 
+  weightsum=weightsum+iarray(1,i)
+     next   
+     '----串sql字串 
+     for k=0 to ubound(iarray,2)
+      sqlinsert=sqlinsert+"insert into cudtkeyword values("+dfn(xnewidentity)+"'"+iarray(0,k)+"',"+cstr(round(iarray(1,k)*100/weightsum))+");"
+     next
+     if sqlinsert<>"" then conn.execute(sqlinsert)
+ end if     
+
+
+
+
+
+   response.end 
+elseif request("submittask")="show" then
+    sql="select ctunitid,ibasedsd " & _
+     "from ctunit where ctunitid=" & request("htx_ctunitid")   
+    set rsm=conn.execute(sql)
+    if not isnull(rsm(0)) then
+     xctunitid=rsm(0)
+     xibasedsd=rsm(1)
+     session("ctunitid") = xctunitid
+     session("ibasedsd") = xibasedsd   
+     loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx" & cstr(xctunitid) & ".xml")     
+    end if
+    set fso = server.createobject("scripting.filesystemobject")
+    if not fso.fileexists(loadxml) then
+ loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/cudtx" & session("ibasedsd") & ".xml")
+    end if 
+    
+    '----找出對應的ctunitx???? xmlspec檔案(若找不到則抓default), 並依fieldseq排序成物件存入session
+    set fso = server.createobject("scripting.filesystemobject")
+    set oxml = server.createobject("microsoft.xmldom")
+    oxml.async = false
+    oxml.setproperty "serverhttprequest", true
+    
+    xv = oxml.load(loadxml)
+    if oxml.parseerror.reason <> "" then
+ response.write("xml parseerror on line " &  oxml.parseerror.line)
+ response.write("<br>reason: " &  oxml.parseerror.reason)
+ response.end()
+    end if
+    set session("codexmlspec") = oxml
+    '----load xsl樣板
+    set oxsl = server.createobject("microsoft.xmldom")
+    oxsl.async = false
+    xv = oxsl.load(server.mappath("/gipdsd/xmlspec/ctunitxorder.xsl"))          
+    '----混合field順序
+    set nxml0 = server.createobject("microsoft.xmldom")
+    nxml0.loadxml(oxml.transformnode(oxsl))
+    set session("codexmlspec2") = nxml0  
+    '----開始處理form相關
+    set htpagedom = session("codexmlspec")
+    set allmodel2 = session("codexmlspec2")  
+    set refmodel = htpagedom.selectsinglenode("//dstable")
+    set allmodel = htpagedom.selectsinglenode("//dataschemadef")
+end if
+
+
+
+
+
+
+
+
+
+
+
+  if request("submittask")="show" then
+   CxMethod_ASP_cummoform_1966765007()
+  else
+
+
+
+
+
+
+
+
+    sql="select ctunitid,ctunitname from ctunit ct left join basedsd b on ct.ibasedsd=b.ibasedsd where rdsdcat='mmo'"
+  set rss=conn.execute(sql)
+  while not rss.eof
+
+                   =rss(0):     =rss(1)
+     rss.movenext
+  wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            =session("mysitemmourl")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if request("submittask")="show" then
+                              =request("htx_mmofolderid_1")
+   for each xparam in allmodel.selectnodes("//fieldlist/field[formlist!='']") 
+     if not (nulltext(xparam.selectsinglenode("fieldname"))="fctupublic" and session("checkyn")="y") then
+  addprocessinit xparam
+     end if
+ next
+ if nulltext(allmodel.selectsinglenode("//fieldlist/field[fieldname='topcat']/showlist"))<>"" then _
+  response.write "reg.htx_topcat.value = """ & left(session("tdatacat"),1) & """" 
+  end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if request("submittask")="show" then
+
+
+
+
+
+
+
+  
+ for each param in allmodel.selectnodes("//fieldlist/field[formlist!='' and inputtype!='hidden']") 
+  processvalid param
+ next
+
+
+
+
+
+
+
+
+
+
+  end if 

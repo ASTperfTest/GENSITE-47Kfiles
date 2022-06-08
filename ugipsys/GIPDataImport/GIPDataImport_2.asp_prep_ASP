@@ -1,0 +1,199 @@
+﻿: @ codepage=65001 
+   response.expires = 0
+htprogcap="gip資料匯入"
+htprogfunc="新增匯入(確認)"
+htprogcode="gw1m95"
+htprogprefix="gipdataimport" 
+   CxMethod_ASP_dbutil_10064021()
+
+
+
+
+                               =htprogprefix
+
+
+
+  
+htprogright=255
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+ set fso = server.createobject("scripting.filesystemobject")
+ inxmlpath = session("public")+"gipdataxml/inxml"
+ xmlfile = request("htx_xmlfile")
+ if not fso.fileexists(server.mappath(inxmlpath)+"\"+xmlfile) then
+  response.write "xml檔案不存在!"
+  response.end
+ end if
+ if request("htx_importway") = "overwrite" then
+  ximportway = "overwrite"
+  ximportwaystr = "覆寫(overwrite,刪除原檔案匯入此主題單元中資料後新增)"
+ else
+  ximportway = "append"
+  ximportwaystr = "接續新增(append,原檔案匯入此主題單元中資料不刪除)" 
+ end if
+ sqlc = "select g.ctunitname from ctunit g where g.ctunitid="&pkstr(request("htx_ctunitid"),"")
+ set rsc = conn.execute(sqlc)
+
+ showhtmlhead()
+ showform()
+ initform()
+ showhtmltail()
+
+
+   sub initform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+  sub showform() 
+
+
+
+
+                =htprogprefix
+
+
+
+
+
+
+
+                                                  =request("htx_ibasedsd")
+
+
+
+
+                                                  =request("htx_ctunitid"):     =rsc("ctunitname")
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ sqlg = "select g.*,c.ctunitname from gipdataimport g left join ctunit c on g.xmlctunitid=c.ctunitid " & _
+   " where g.xmlctunitid="&pkstr(request("htx_ctunitid"),"")&" and xmlfile="&pkstr(xmlfile,"")&" order by xmldate desc"
+ set rsg = conn.execute(sqlg)
+ if not rsg.eof then
+  while not rsg.eof
+
+
+
+    =rsg("xmlfile")
+
+
+    =rsg("xmldate")
+
+
+    =rsg("xmleditor")
+
+
+    =rsg("xmlsuccess")
+
+
+    =rsg("xmlfail")
+
+
+  
+          rsg.movenext
+     wend
+ end if
+
+
+
+
+
+                                                 =xmlfile:     =apath & xmlfile
+
+
+
+
+                                                   =ximportway:                              =ximportwaystr
+
+
+
+
+  =date()
+
+
+
+
+  =session("username")
+
+
+
+
+
+
+
+            if (htprogright and 4)<>0 then 
+
+
+            end if
+
+
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showhtmlhead() ------
+
+  sub showhtmltail() 
+
+
+
+
+
+  end sub '--- showhtmltail() ------
+
+
+
+
+
+
+
+
+            =session("mysitemmourl") 

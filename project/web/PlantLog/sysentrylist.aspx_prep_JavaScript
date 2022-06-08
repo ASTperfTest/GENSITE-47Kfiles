@@ -1,0 +1,124 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                          function OnClick___1764120399() {Sort_Click}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $(document).ready(function() {
+
+        });
+        function ApproveEntry(id) {
+            $('#Action').val('ApproveEntry|' + id);
+            document.forms[0].submit();
+        }
+        function HideEntry(id) {
+            $('#Action').val('HideEntry|' + id);
+            document.forms[0].submit();
+        }
+    
+
+
+
+
+ 

@@ -1,0 +1,174 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<htPage>
+	<HTProgPrefix>BgtOProjAdd</HTProgPrefix>
+	<HTProgCode>BP029</HTProgCode>
+	<HTProgPath></HTProgPath>
+	<HTGenPattern></HTGenPattern>
+	<htForm>
+		<formModel id="BgtOProjAdd">
+			<fieldList>
+				<tableName>OProjectMain</tableName>
+				<field>
+					<fieldName>ProjetName</fieldName>
+					<fieldLabel>計畫名稱</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>300</dataLen>
+					<inputLen>60</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textarea</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows>5</rows>
+					<cols>60</cols>
+				</field>
+			</fieldList>
+			<fieldList>
+				<tableName>BudgetChangeMain</tableName>
+				<field>
+					<fieldName>DeptIDIn</fieldName>
+					<fieldLabel>流入預算單位</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>refDept</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>ProjNameIn</fieldName>
+					<fieldLabel>流入計劃名稱</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>300</dataLen>
+					<inputLen>50</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>ProjectDescription</fieldName>
+					<fieldLabel>流入預算實施目的作業方法</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>500</dataLen>
+					<inputLen>500</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textarea</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows>5</rows>
+					<cols>60</cols>
+				</field>
+				<field>
+					<fieldName>AssignAcct</fieldName>
+					<fieldLabel>流入預算指定專帳管理</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>4</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>AssignAcct</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>AssignBkAcct</fieldName>
+					<fieldLabel>流入預算指定銀行帳戶</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>2</dataLen>
+					<inputLen>2</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>AssignBkAcct</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>InformUse</fieldName>
+					<fieldLabel>流入預算是否可開始執行</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>boolYN</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+			<anchorList>
+				<anchor>
+					<type></type>
+					<funcLabel></funcLabel>
+					<url></url>
+					<action></action>
+				</anchor>
+			</anchorList>
+		</formModel>
+	</htForm>
+	<pageSpec>
+		<pageHead>預算異動流用</pageHead>
+		<pageFunction>新增研究計劃預算</pageFunction>
+		<aidLinkList>
+			<anchor>
+				<funcLabel></funcLabel>
+				<url></url>
+			</anchor>
+		</aidLinkList>
+		<formUI ref="BgtOProjAdd">
+			<pxHTML>
+				<CENTER>
+					<TABLE border="0" class="bluetable" cellspacing="1" cellpadding="2" width="90%">
+						<TR><TD class="lightbluetable" align="right"><font color="red">*</font>計畫名稱：</TD>
+							<TD class="whitetablebg"><refField>OProjectMain/ProjetName</refField></TD>
+						</TR>
+						<TR><TD class="lightbluetable" align="right"><font color="red">*</font>流入預算單位：</TD>
+							<TD class="whitetablebg"><refField>BudgetChangeMain/DeptIDIn</refField></TD>
+						</TR>
+						<TR><TD class="lightbluetable" align="right"><font color="red">*</font>流入計劃名稱：</TD>
+							<TD class="whitetablebg"><refField>BudgetChangeMain/ProjNameIn</refField></TD>
+						</TR>
+						<TR><TD class="lightbluetable" align="right">流入預算實施目的作業方法：</TD>
+							<TD class="whitetablebg"><refField>BudgetChangeMain/ProjectDescription</refField></TD>
+						</TR>
+						<TR><TD class="lightbluetable" align="right">流入預算指定專帳管理：</TD>
+							<TD class="whitetablebg"><refField>BudgetChangeMain/AssignAcct</refField></TD>
+						</TR>
+						<TR><TD class="lightbluetable" align="right">流入預算指定銀行帳戶：</TD>
+							<TD class="whitetablebg"><refField>BudgetChangeMain/AssignBkAcct</refField></TD>
+						</TR>
+						<TR><TD class="lightbluetable" align="right"><font color="red">*</font>流入預算是否可開始執行：</TD>
+							<TD class="whitetablebg"><refField>BudgetChangeMain/InformUse</refField></TD>
+						</TR>
+					</TABLE>
+				</CENTER>
+			</pxHTML>
+			<scriptCode><![CDATA[
+<SCRIPT LANGUAGE="vbs">
+
+</SCRIPT>
+		]]></scriptCode>
+		</formUI>
+	</pageSpec>
+</htPage>

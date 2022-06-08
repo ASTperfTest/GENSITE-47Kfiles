@@ -1,0 +1,39 @@
+﻿: @codepage = 65001 
+   CxMethod_ASP_dbfunc_874801204()
+  
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+ sqlcom = "select i.*, d.deptname, t.mvalue as topdatacat " _
+  & " from infouser as i left join dept as d on i.deptid=d.deptid " _
+  & " left join codemain as t on t.codemetaid='topdatacat' and t.mcode=i.tdatacat" _
+  & " where userid='" & session("userid") & "'"
+ set rs = conn.execute(sqlcom)
+
+
+
+         =session("mysitename")
+
+
+
+
+
+
+                                          =session("mysiteid")
+
+
+                      =session("mysitename")
+
+   =rs("username"):     =rs("userid"):    =rs("deptname"):    =rs("topdatacat")
+         =d7date(session("lastvisit")):     =session("lastip"):    =session("visitcount")
+
+                                            =session("mysiteid") 

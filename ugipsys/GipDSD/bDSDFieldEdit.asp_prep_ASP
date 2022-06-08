@@ -1,0 +1,444 @@
+﻿: @ codepage = 65001 
+  
+response.expires = 0
+htprogcap="單元資料定義"
+htprogfunc="編修欄位"
+htuploadpath="/public/"
+htprogcode="ge1t01"
+htprogprefix="bdsdfield" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+dim pkey
+dim rsreg
+dim formfunction
+tasklable="編輯" & htprogcap
+
+ apath=server.mappath(htuploadpath) & "\"
+if request.querystring("phase")<>"edit" then
+set xup = server.createobject("tabs.upload")
+xup.codepage=65001
+xup.start apath
+else
+set xup = server.createobject("tabs.upload")
+end if
+
+function xupform(xvar)
+ xupform = xup.form(xvar)
+end function
+
+if xupform("submittask") = "update" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  editinbothcase()
+ else
+  doupdatedb()
+  showdonebox("資料更新成功！")
+ end if
+
+elseif xupform("submittask") = "delete" then
+ sql = "delete from basedsdfield where ibasefield=" & pkstr(request.querystring("ibasefield"),"")
+ conn.execute sql
+ showdonebox("資料刪除成功！")
+
+else
+ editinbothcase()
+end if
+
+
+sub editinbothcase
+ sqlcom = "select htx.* from basedsdfield as htx where htx.ibasefield=" & pkstr(request.querystring("ibasefield"),"")
+ set rsreg = conn.execute(sqlcom)
+ pkey = ""
+ pkey = pkey & "&ibasefield=" & rsreg("ibasefield")
+ if pkey<>"" then  pkey = mid(pkey,2)
+
+ showhtmlhead()
+ if errmsg <> "" then showerrbox()
+ formfunction = "edit"
+ showform()
+ initform()
+ showhtmltail()
+end sub
+
+
+function qqrs(fldname)
+ if xupform("submittask")="" then
+  xvalue = rsreg(fldname)
+ else
+  xvalue = ""
+  if xupform("htx_"&fldname) <> "" then
+   xvalue = xupform("htx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+  sub initform() 
+
+
+
+
+
+
+
+                             =qqrs("xfieldseq")
+                            =qqrs("ibasedsd")
+                              =qqrs("xfieldname")
+                              =qqrs("ibasefield")
+                         =qqrs("inuse")
+                               =qqrs("xfieldlabel")
+                              =qqrs("xfielddesc")
+                             =qqrs("xdatatype")
+                            =qqrs("xdatalen")
+                             =qqrs("xcannull")
+                              =qqrs("xinputtype")
+                              =qqrs("xreflookup")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                          =htuploadpath
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+
+  sub showform()   '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_bdsdfieldforme_439626788()
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showhtmlhead() ------
+
+
+  sub showhtmltail() 
+
+
+
+
+
+  end sub '--- showhtmltail() ------
+
+
+  sub showerrbox() 
+
+              =errmsg
+
+
+  
+    end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' if request("tfx_taxid") <> "" then
+'   sql = "select * from client where taxid = '"& request("tfx_taxid") &"'"
+'   set rsreg = conn.execute(sql)
+'   if not rsreg.eof then
+'  if trim(rsreg("clientid")) <> request("pfx_clientid") then
+'   errmsg = "「統一編號」重複!!請重新輸入客戶統一編號!"
+'   exit sub
+'  end if
+'   end if
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "update basedsdfield set "
+  sql = sql & "xfieldseq=" & pkstr(xupform("htx_xfieldseq"),",")
+  sql = sql & "xfieldname=" & pkstr(xupform("htx_xfieldname"),",")
+  sql = sql & "inuse=" & pkstr(xupform("htx_inuse"),",")
+  sql = sql & "xfieldlabel=" & pkstr(xupform("htx_xfieldlabel"),",")
+  sql = sql & "xfielddesc=" & pkstr(xupform("htx_xfielddesc"),",")
+  sql = sql & "xdatatype=" & pkstr(xupform("htx_xdatatype"),",")
+  sql = sql & "xdatalen=" & pkstr(xupform("htx_xdatalen"),",")
+  sql = sql & "xcannull=" & pkstr(xupform("htx_xcannull"),",")
+  sql = sql & "xinputtype=" & pkstr(xupform("htx_xinputtype"),",")
+  sql = sql & "xreflookup=" & pkstr(xupform("htx_xreflookup"),",")
+ sql = left(sql,len(sql)-1) & " where ibasefield=" & pkstr(request.querystring("ibasefield"),"")
+
+ conn.execute(sql)  
+end sub '---- doupdatedb() ----
+
+  sub showdonebox(lmsg) 
+ mpkey = ""
+ mpkey = mpkey & "&ibasedsd=" & xupform("htx_ibasedsd")
+ if mpkey<>"" then  mpkey = mid(mpkey,2)
+ doneuri= "basedsdeditlist.asp"
+ if doneuri = "" then doneuri = htprogprefix & "list.asp"
+
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+                 =lmsg
+                               =doneuri:    =mpkey
+
+
+
+  end sub '---- showdonebox() ----  

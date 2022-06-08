@@ -1,0 +1,56 @@
+﻿
+
+  
+function blen(xs)              '檢測中英文夾雜字串實際長度
+  xl = len(xs)
+  for p=1 to len(xs)
+ if asc(mid(xs,p,1))<0 then xl = xl + 1
+  next
+  blen = xl
+end function
+
+function pkstr (s, endchar)
+  if s="" then
+ pkstr = "null" & endchar
+  else
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ pkstr="'" & s & "'" & endchar
+  end if
+end function
+
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+'----------hyweb gip db connection patch----------
+
+
+ xkeyword=pkstr(request.querystring("xkeyword"),"")
+ xkeyword=mid(xkeyword,2)
+ xkeyword=left(xkeyword,len(xkeyword)-1)
+ xstr=""
+ xreturnvalue=""
+ xkeywordarray=split(xkeyword,",")
+ for i=0 to ubound(xkeywordarray)
+  '----去除最後括號
+  xpos=instrrev(xkeywordarray(i),"(")
+  if xpos<>0 then
+   xstr=left(trim(xkeywordarray(i)),xpos-1)
+  else
+   xstr=trim(xkeywordarray(i))
+  end if
+  sql="select stitle from actorinformation ai left join cudtgeneric cdt " & _
+   " on ai.gicuitem=cdt.icuitem where stitle=n'"&xstr&"'"
+'   response.write "<sql>"&sql&"</sql>"
+  set rsc=conn.execute(sql)
+  if rsc.eof then xreturnvalue=xreturnvalue+xstr+";"
+ next
+ if xreturnvalue<>"" then xreturnvalue=left(xreturnvalue,len(xreturnvalue)-1)
+ response.write "<xkeywordstr>"+xreturnvalue+"</xkeywordstr>"
+ 

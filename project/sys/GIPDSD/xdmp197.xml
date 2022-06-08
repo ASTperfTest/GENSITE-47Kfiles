@@ -1,0 +1,107 @@
+<?xml version="1.0" standalone="yes"?>
+<MpDataSet>
+  <MenuTree>197</MenuTree>
+  <MpStyle>Style1</MpStyle>
+  <DataSet>
+    <DataLable>BlockA</DataLable>
+    <DataRemark>Hot news</DataRemark>
+    <DataNode>3117</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>6</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>30</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style2</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockB</DataLable>
+    <DataRemark>豬與我們</DataRemark>
+    <DataNode>3133</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength>150</ContentLength>
+    <IsTitle>Y</IsTitle>
+    <IsPic>Y</IsPic>
+    <IsPostDate>Y</IsPostDate>
+    <IsExcerpt>Y</IsExcerpt>
+    <ShowStyle>Style3</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockC</DataLable>
+    <DataRemark>一豬獨秀</DataRemark>
+    <DataNode>0</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>3</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style2</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockD</DataLable>
+    <DataRemark />
+    <DataNode>0</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockE</DataLable>
+    <DataRemark />
+    <DataNode>0</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop />
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+	<DataLable>BlockF</DataLable>
+	<DataRemark>主題報導</DataRemark>
+	<DataNode></DataNode>
+	<SqlCondition />
+	<SqlOrderBy />
+	<SqlTop>4</SqlTop>
+	<WithContent>N</WithContent>
+	<ContentData>N</ContentData>
+	<ContentLength>80</ContentLength>
+	<IsTitle>Y</IsTitle>
+	<IsPic>Y</IsPic>
+	<IsPostDate>N</IsPostDate>
+	<IsExcerpt>Y</IsExcerpt>
+	<ShowStyle>Style2</ShowStyle>
+	<mpShow>Y</mpShow>
+  </DataSet>
+</MpDataSet>

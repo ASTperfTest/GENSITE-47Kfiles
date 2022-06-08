@@ -1,0 +1,162 @@
+﻿: 
+ 
+ '---傳入問題的icuitem---
+ sub deletequestion( item )
+  dim disitems
+  sql = "select cudtgeneric.icuitem, cudtgeneric.ieditor, convert(varchar, cudtgeneric.xpostdate, 111) as xpostdate "
+  sql = sql & "from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem "
+  sql = sql & "where (knowledgeforum.gicuitem = " & item & ") and (knowledgeforum.status = 'n') "
+  sql = sql & "and (cudtgeneric.ictunit = 932) "
+  set ars = conn.execute(sql)  
+  'response.write sql & "<hr />"
+  while not ars.eof
+   checksharedetail ars("ieditor"), "shareask", ars("xpostdate"), ars("icuitem")   
+   disitems = ars("icuitem")
+   ars.movenext
+  wend 
+  ars.close
+  set ars = nothing
+  updatestatus disitems
+ end sub
+ 
+ '---傳入討論的icuitem---
+ sub deletediscuss( item )
+  dim disitems
+  sql = "select cudtgeneric.icuitem, cudtgeneric.ieditor, convert(varchar, cudtgeneric.xpostdate, 111) as xpostdate "
+  sql = sql & "from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem "
+  sql = sql & "where (knowledgeforum.gicuitem = " & item & ") and (knowledgeforum.status = 'n') "
+  sql = sql & "and (cudtgeneric.ictunit = 933) "
+  set ars = conn.execute(sql)  
+  'response.write sql & "<hr />"
+  while not ars.eof
+   checksharedetail ars("ieditor"), "sharediscuss", ars("xpostdate"), ars("icuitem")   
+   disitems = ars("icuitem")
+   ars.movenext
+  wend 
+  ars.close
+  set ars = nothing  
+  updatestatus disitems
+ end sub
+
+ '---刪除評價---傳入討論的icuitem---
+ sub deletecommend( item )
+  dim disitems
+  sql = "select cudtgeneric.icuitem, cudtgeneric.ieditor, convert(varchar, cudtgeneric.xpostdate, 111) as xpostdate "
+  sql = sql & "from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem "
+  sql = sql & "where (knowledgeforum.parenticuitem = " & item & ") and (knowledgeforum.status = 'n') "
+  sql = sql & "and (cudtgeneric.ictunit = 938) "
+  set ars = conn.execute(sql)  
+  'response.write sql & "<hr />"
+  while not ars.eof
+   checksharedetail ars("ieditor"), "sharecommend", ars("xpostdate"), ars("icuitem")   
+   disitems = disitems & ars("icuitem") & ","
+   ars.movenext
+  wend 
+  ars.close
+  set ars = nothing
+  disitem = split(disitems, ",")
+  for each i in disitem
+   if i <> "" then
+    updatestatus i
+   end if
+  next
+ end sub
+ 
+ '---刪除意見---傳入討論的icuitem---
+ sub deleteopinion( item )
+  dim disitems
+  sql = "select cudtgeneric.icuitem, cudtgeneric.ieditor, convert(varchar, cudtgeneric.xpostdate, 111) as xpostdate "
+  sql = sql & "from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem "
+  sql = sql & "where (knowledgeforum.parenticuitem = " & item & ") and (knowledgeforum.status = 'n') "
+  sql = sql & "and (cudtgeneric.ictunit = 935) "
+  set ars = conn.execute(sql)  
+  'response.write sql & "<hr />"
+  while not ars.eof
+   checksharedetail ars("ieditor"), "shareopinion", ars("xpostdate"), ars("icuitem")   
+   disitems = disitems & ars("icuitem") & ","
+   ars.movenext
+  wend 
+  ars.close
+  set ars = nothing
+  disitem = split(disitems, ",")
+  for each i in disitem
+   if i <> "" then
+    updatestatus i
+   end if
+  next
+ end sub
+ 
+ '---檢查sharedetail的內容---
+ sub checksharedetail( memberid, sharetype, sharedate, articleid )
+ 
+  dim limitscore : limitscore = getlimitscore()  
+  dim grade : grade = 0
+  dim oldgrade : oldgrade = 0
+  dim totalgrade : totalgrade = 0 '---當日最高得分---
+  
+  '---取出當日最後一筆---會得到最高分數---
+  sql = "select sum(sharegrade) as sharegrade from membergradesharedetail "
+  sql = sql & "where memberid = '" & memberid & "' and convert(varchar, sharedate, 111) = '" & sharedate & "' "
+  sql = sql & "and sharesave <> 'n'"
+  set srs = conn.execute(sql)  
+  'response.write sql & "<hr />"
+  if not srs.eof then
+   totalgrade = srs("sharegrade")
+  end if
+  srs.close
+  set srs = nothing 
+  
+  '---取出當筆的分數---
+  sql = "select memberid, sharedate, sharetype, sharegrade, shareoldgrade, sharesave, articleid "
+  sql = sql & "from membergradesharedetail where articleid = " & articleid
+  set srs = conn.execute(sql)  
+  'response.write sql & "<hr />"
+  if not srs.eof then
+   grade = srs("sharegrade")
+   oldgrade = srs("shareoldgrade")
+  end if
+  srs.close
+  set srs = nothing
+  
+  '---mark detail sharesave to 'n'
+  marksharesave articleid
+  
+  '---減去分數---  
+  if (totalgrade - grade) < limitscore then
+   minusgradebytypeandgrade memberid, sharedate, sharetype, grade  
+  end if
+    
+ end sub
+ 
+ sub minusgradebytypeandgrade( memberid, sharedate, sharetype, grade )
+  sql = "update membergradeshare set " & sharetype & " = " & sharetype & " - " & grade & " "
+  sql = sql & "where memberid = '" & memberid & "' and convert(varchar, sharedate, 111) = '" & sharedate & "' "  
+  conn.execute(sql)  
+  'response.write sql & "<hr />"
+ end sub
+ 
+ sub marksharesave( articleid )
+  sql = "update membergradesharedetail set sharesave = 'n' where articleid = " & articleid  
+  conn.execute(sql)  
+  'response.write sql & "<hr />"
+ end sub
+ 
+ function getlimitscore
+  dim limit
+  sql = "select rank0_1 from kpi_set_score where rank0_2 = 'st_411'"
+  set lrs = conn.execute(sql)
+  if not lrs.eof then
+   limit = lrs("rank0_1")
+  end if
+  lrs.close
+  set lrs = nothing
+  getlimitscore = limit
+ end function
+ 
+ sub updatestatus( articleid )
+  sql = "update knowledgeforum set status = 'd' where gicuitem = " & articleid  
+  conn.execute(sql) 
+  'response.write sql & "<hr />"
+ end sub
+ 
+ 

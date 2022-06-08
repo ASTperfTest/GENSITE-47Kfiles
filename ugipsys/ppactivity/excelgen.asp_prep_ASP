@@ -1,0 +1,44 @@
+﻿:  response.expires = 0
+htprogcap="���ʾǭ��޲z"
+htprogfunc="�m��"
+htprogcode="pa010"
+htprogprefix="pppsninfo" 
+   CxMethod_ASP_pppsninfolistparam_532624226()
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_453315802()
+  
+ set rsreg = server.createobject("adodb.recordset")
+ 
+
+  
+               sqldata = "select * from papsninfo order by cdate"
+               set rsdata = conn.execute(sqldata)
+               if not rsdata.eof then
+                  set fs= server.createobject("scripting.filesystemobject")
+                  filename = uploadtemppath & replace(startday,"/","_") & "~" & replace(endday,"/","_") & ".csv"
+                  exportfile = server.mappath(filename)
+                  set txtf = fs.createtextfile(exportfile)
+   
+                  datatemp = "�s��,�����ҹ�,�m�w,�x�ͤ�,�ʧo,email,�s���q��,�p���a�},��¾����,¾��,�̰��ǿ�,�����ߺd,�a�Ⱦ��c,���q�τ@�s��,�줽�a�},���q�q��,�ǯu,�����ӷ�,��ʹq��,�ѻp�ҵ{"
+                  txtf.writeline datatemp
+                  counter1=1
+                  while not rsdata.eof
+                         sql="select c.actname from paenroll a,pasession b,ppact c where a.psnid='" &  trim(rsdata("psnid")) & "' and a.pasid=b.pasid and b.actid=c.actid"
+                         set rs=conn.execute(sql)
+                           
+                     datatemp = counter1 & "," & trim(rsdata("psnid")) & "," & trim(rsdata("pname")) &"," & trim(rsdata("birthday")) & "," & trim(rsdata("sex")) & "," & trim(rsdata("email")) & "," & trim(rsdata("tel")) & "," & trim(rsdata("emergcontact")) & "," & rsdata("deptname") & "," & rsdata("jobname")& "," & rsdata("topedu")& "," & rsdata("meatkind")& "," & trim(rsdata("corpname")) & "," & rsdata("corpid") & "," & rsdata("corpaddr") & "," & rsdata("corptel")& "," & rsdata("corpfax")& "," & rsdata("datafrom")& "," & rsdata("mobile")& "," 
+                     do while not rs.eof
+                          datatemp=datatemp & trim(rs("actname"))& "�b"
+                     rs.movenext
+                     loop
+                     txtf.writeline datatemp
+                     counter1=counter1+1
+                     rsdata.movenext
+                  wend
+                  response.redirect filename
+               else
+                  response.write "<font color='#993300'>�l��ƥi�ѷץx�i</font><br>"
+                  flag = false
+               end if
+          
+ 

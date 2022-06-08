@@ -1,0 +1,37 @@
+﻿: @ codepage = 65001 :   
+'response.cachecontrol = "no-cache" 
+'response.addheader "pragma", "no-cache" 
+response.expires = -1
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty("serverhttprequest") = true 
+ 
+ qstr = request.querystring
+ if instr(qstr,"mp=")=0 then qstr = qstr & "&mp=" & session("mptree")
+' response.write qstr & "<hr>"
+ for each xf in request.form
+  if request(xf)<>"" then  qstr = qstr & "&" & xf & "=" & server.urlencode(request.form(xf))
+ next
+ if left(qstr,1)="&" then qstr = mid(qstr,2)
+' response.write session("myxdurl") & "/wsxd2/xdopml.asp?mp=" & session("mptree") & "&" & qstr
+' response.end
+ xv = oxml.load(session("myxdurl") & "/wsxd2/xdopml.asp?" & qstr)
+    if oxml.parseerror.reason <> "" then 
+        response.write("xhtpagedom parseerror on line " &  oxml.parseerror.line)
+        response.write("<br>reason: " &  oxml.parseerror.reason)
+        response.end()
+    end if
+        xmystyle=nulltext(oxml.selectsinglenode("//hpmain/mystyle"))
+   if xmystyle="" then xmystyle=session("mystyle")  
+
+ response.contenttype = "text/xml" 
+ response.write replace(oxml.xml,"<?xml version=""1.0""?>","<?xml version=""1.0"" encoding=""utf-8""?> ")
+ 

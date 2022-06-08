@@ -1,0 +1,132 @@
+﻿: 
+ response.expires = 0
+ htprogcap = "�q�ױm��"
+ htprogfunc = "�q�ױm�Ϻ��@"
+ htprogcode = "bbs010"
+ htprogprefix = "msession"
+ response.expires = 0
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+
+
+ bid = trim(request("bid"))
+ if bid = "" then
+  response.redirect "index.asp"
+  response.end
+ end if
+
+ sql = "select name from talk05 where id = " & pkstr(bid, "")
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.redirect "index.asp"
+  response.end
+ end if
+ session("bbs_name") = trim(rs("name"))
+
+
+ sql = "select count(*) from article where bid = " & pkstr(bid, "")
+ set ts = conn.execute(sql)
+
+ pagecount = 10
+ page = 1
+ if request("page") <> "" then page = request("page")
+
+ totalpage = 1
+ if ts(0) > 0 then
+  totalpage = ts(0) \ pagecount
+  if ts(0) mod pagecount <> 0 then totalpage = totalpage + 1
+ end if
+
+
+
+
+
+
+
+
+
+                = session("bbs_name") 
+
+
+                                 = totalpage :                                              = page 
+                                                                        = bid 
+  
+ n = 1
+ while n <= totalpage
+  response.write "<option value='" & n & "'"
+  if int(n) = int(page) then response.write " selected"
+  response.write ">" & n & "</option>"
+  n = n + 1
+ wend
+
+                         = pagecount 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ sql = "" & _
+  " select nickname, date, id, mid, sid, bid, title, cnt, " & _
+  " isnull(isethics, 0) isethics " & _
+  " from article where bid = " & pkstr(bid, "") & _
+  " order by mid desc, sid "
+ set rs = conn.execute(sql)
+ i = 0
+ while not rs.eof
+  i = i + 1
+  if i > (page - 1) * pagecount and i <= page * pagecount then
+   if int("0" & pre_mid) <> int(rs("mid")) then
+    if color_str = "" then
+     color_str = " bgcolor=#dddddd"
+    else
+     color_str = ""
+    end if
+    pre_mid = rs("mid")
+   end if
+
+       = color_str 
+                         = i 
+                                  = rs("mid") :        = rs("sid") :        = bid :    = trim(rs("title")) :        if rs("isethics") = "1" then response.write "<img src=images/ethics_logo.gif border=0>" 
+                 = trim(rs("nickname")) 
+                 = rs("date") 
+                                   = rs("cnt") 
+
+  
+  end if
+  rs.movenext
+ wend
+
+
+
+
+
+
+
+
+
+            = totalpage :              = page 
+                                                                        = bid 
+  
+ n = 1
+ while n <= totalpage
+  response.write "<option value='" & n & "'"
+  if int(n) = int(page) then response.write " selected"
+  response.write ">" & n & "</option>"
+  n = n + 1
+ wend
+
+                         = pagecount  

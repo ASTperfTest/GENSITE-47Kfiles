@@ -1,0 +1,175 @@
+﻿
+
+   CxMethod_ASP_dbfunc_1723934251()
+   
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+sub dxpcondition
+ if request("xq_bcat") <> "" then
+  fsql = fsql & " and ghtx.topcat=" & pkstr(request("xq_bcat"),"")
+ end if
+ if request("xq_bdept") <> "" then
+  fsql = fsql & " and ghtx.idept=" & pkstr(request("xq_bdept"),"")
+ end if
+ if request("xq_postdates") <> "" then
+   ranges = request("xq_postdates")
+   rangee = request("xq_postdatee")
+   if rangee = "" then rangee="2050/1/1"
+   wherecondition = replace("ghtx.xpostdate between '{0}' and '{1}'", "{0}", ranges)
+   wherecondition = replace(wherecondition, "{1}", rangee)
+  fsql = fsql & " and " & wherecondition
+ end if
+end sub
+
+ if not isnumeric(request("ctunit")) then
+  response.write "</articlelist>"
+  response.end
+ end if
+ 
+ session("odbcdsn")="provider=sqloledb;data source=10.10.5.128;user id=hygip;password=hyweb;initial catalog=gipmof"
+' session("odbcdsn")="provider=sqloledb;data source=210.69.109.16;user id=hymof;password=mof0530;initial catalog=mofgip"
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+'----------hyweb gip db connection patch----------
+
+
+ sql = "select * from ctunit where ctunitid=" & request("ctunit")
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "</articlelist>"
+  response.end
+ end if
+ 
+ xbasedsd = rs("ibasedsd")
+ xunitname = rs("ctunitname")
+
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true 
+ 
+  loadxml = server.mappath("/gipdsd") & "\xmlspec\cudtx" & xbasedsd & ".xml"
+'  response.write loadxml & "<hr>"
+  xv = htpagedom.load(loadxml)
+'  response.write xv & "<hr>"
+    if htpagedom.parseerror.reason <> "" then 
+      response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br/>reasonxx: " &  htpagedom.parseerror.reason)
+   response.write "</articlelist>"
+      response.end()
+    end if
+
+   set refmodel = htpagedom.selectsinglenode("//dstable")
+   set allmodel = htpagedom.selectsinglenode("//dataschemadef")
+
+ sqlcom = "select htx.*, ghtx.*, xtc.mvalue as xtopcat, d.deptname " _
+  & " from " & nulltext(refmodel.selectsinglenode("tablename")) _
+  & " as htx join cudtgeneric as ghtx on ghtx.icuitem=htx.gicuitem "_
+  & " left join codemain as xtc on xtc.mcode = ghtx.topcat and xtc.codemetaid=n'topdatacat'" _
+  & " left join dept as d on d.deptid=ghtx.idept" _
+  & " where ghtx.ictunit=" & pkstr(request("ctunit"),"")
+' set rsreg = conn.execute(sqlcom)
+ 
+ xbody = "xbody"
+
+ xselect = "htx.*, ghtx.*"
+ xfrom = nulltext(refmodel.selectsinglenode("tablename")) & " as htx " _
+   & " join cudtgeneric as ghtx on ghtx.icuitem=htx.gicuitem "
+ xrcount = 0
+ for each param in refmodel.selectnodes("fieldlist/field[formlist='y' and reflookup!='']")
+  xrcount = xrcount + 1
+  xalias = "xref" & xrcount
+  sql="select * from codemetadef where codeid=n'" & param.selectsinglenode("reflookup").text & "'"
+        set rslk=conn.execute(sql)  
+        xafldname = xalias & param.selectsinglenode("fieldname").text
+  xselect = xselect & ", " & xalias & "." & rslk("codedisplayfld") & " as " & xafldname
+  xfrom = "(" & xfrom & " left join " & rslk("codetblname") & " as " & xalias & " on " _
+   & xalias & "." & rslk("codevaluefld") & " = htx." & param.selectsinglenode("fieldname").text
+  if not isnull(rslk("codesrcfld")) then _
+      xfrom = xfrom & " and " & xalias & "." & rslk("codesrcfld") & "=n'" & rslk("codesrcitem") & "'"
+  xfrom = xfrom & ")"
+        ' --- 把 detailrow 裡的 reffield 換掉
+'         param.selectsinglenode("fieldname").text = xafldname
+        ' -----------------------------------
+ next
+ for each param in allmodel.selectnodes("//dstable[tablename='cudtgeneric']/fieldlist/field[formlist='y' and reflookup!='']")
+  xrcount = xrcount + 1
+  xalias = "xref" & xrcount
+  sql="select * from codemetadef where codeid='" & param.selectsinglenode("reflookup").text & "'"
+        set rslk=conn.execute(sql)  
+        xafldname = xalias & param.selectsinglenode("fieldname").text
+  xselect = xselect & ", " & xalias & "." & rslk("codedisplayfld") & " as " & xafldname
+  xfrom = "(" & xfrom & " left join " & rslk("codetblname") & " as " & xalias & " on " _
+   & xalias & "." & rslk("codevaluefld") & " = ghtx." & param.selectsinglenode("fieldname").text
+  if not isnull(rslk("codesrcfld")) then _
+      xfrom = xfrom & " and " & xalias & "." & rslk("codesrcfld") & "=n'" & rslk("codesrcitem") & "'"
+  xfrom = xfrom & ")"
+        ' --- 把 detailrow 裡的 reffield 換掉
+'         param.selectsinglenode("fieldname").text = xafldname
+        ' -----------------------------------
+ next
+
+ fsql = "select " & xselect & " from " & xfrom 
+ fsql = fsql & " where ghtx.ictunit= " & pkstr(request("ctunit")," ")
+ if session("fctunitonly")="y" then fsql = fsql & " and ghtx.ictunit=" & session("ctunitid") & " "
+ if nulltext(refmodel.selectsinglenode("wherelist")) <> "" then _
+  fsql = fsql & " and " & refmodel.selectsinglenode("wherelist").text
+
+ dxpcondition
+
+ if nulltext(refmodel.selectsinglenode("orderlist")) <> "" then
+  fsql = fsql & " order by " & refmodel.selectsinglenode("orderlist").text
+ else
+  fsql = fsql & " order by xpostdate desc"
+ end if
+
+
+ set rsreg = conn.execute(fsql)
+
+ rdcount = 0
+ while rdcount < 100 and not rsreg.eof 
+  rdcount = rdcount + 1
+  response.write "<mofarticle>" & vbcrlf
+  kf = "stitle"
+   response.write "<" & kf & "><![cdata["
+    response.write rsreg(kf)
+   response.write "]]></" & kf & ">" & vbcrlf
+
+  for each param in allmodel.selectnodes("//fieldlist/field[formlist='y']")
+   kf = param.selectsinglenode("fieldname").text
+   response.write "<" & kf & "><![cdata["
+    response.write rsreg(kf)
+   response.write "]]></" & kf & ">" & vbcrlf
+  next
+
+  xrcount = 0
+  for each param in refmodel.selectnodes("fieldlist/field[formlist='y' and reflookup!='']")
+   xrcount = xrcount + 1
+   xalias = "xref" & xrcount
+         kf = xalias & param.selectsinglenode("fieldname").text
+   response.write "<" & kf & "><![cdata["
+    response.write rsreg(kf)
+   response.write "]]></" & kf & ">" & vbcrlf
+  next
+  for each param in allmodel.selectnodes("//dstable[tablename='cudtgeneric']/fieldlist/field[formlist='y' and reflookup!='']")
+   xrcount = xrcount + 1
+   xalias = "xref" & xrcount
+         kf = xalias & param.selectsinglenode("fieldname").text
+   response.write "<" & kf & "><![cdata["
+    response.write rsreg(kf)
+   response.write "]]></" & kf & ">" & vbcrlf
+  next
+
+  response.write "</mofarticle>" & vbcrlf
+
+  rsreg.movenext
+ wend          
+ 

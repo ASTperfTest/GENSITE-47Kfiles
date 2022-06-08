@@ -1,0 +1,75 @@
+﻿
+                               
+          
+function check(){
+ var form=document.form1; 
+ //if(CheckAccount(form) == false){
+ // form.account.focus();
+ // return false;
+ //}
+ //else 
+ if(form.oldPWD.value==""){
+  alert("請輸入舊密碼！"); 
+  form.oldPWD.focus(); 
+  return false;
+ }
+ else if(CheckPasswd(form) == false){
+  return false;
+ }
+ //else if(CheckEmail(form) == false){
+ // form.email.focus();
+ // return false;
+ //}
+ //else if(CheckIDn(form) == false){
+ // form.idn.focus();
+ // return false;
+ //}
+ return true;
+}  
+     
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                 function onSubmit___1220732557() {return check()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

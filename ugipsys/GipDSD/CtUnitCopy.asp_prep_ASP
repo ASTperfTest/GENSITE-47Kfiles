@@ -1,0 +1,185 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbutil_10064021()
+
+  
+
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+'----1.取得所需參數
+set htpagedom = server.createobject("microsoft.xmldom")
+htpagedom.async = false
+htpagedom.setproperty("serverhttprequest") = true 
+loadxml = server.mappath("/gipdsd/ctunitcrosssitecopy.xml")
+xv = htpagedom.load(loadxml)
+if htpagedom.parseerror.reason <> "" then 
+ response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+ response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+ response.end()
+end if
+'----source db name/target db name
+sourcedb = nulltext(htpagedom.selectsinglenode("ctunitcrosssitecopy/sourcedb"))
+targetdb = nulltext(htpagedom.selectsinglenode("ctunitcrosssitecopy/targetdb"))
+
+
+'----2.loop ctuintcopylist
+for each ctuintcopy in htpagedom.selectnodes("ctunitcrosssitecopy/ctuintcopylist/ctuintcopy")   
+ on error resume next
+ sourcectunitid = nulltext(ctuintcopy.selectsinglenode("sourcectunitid"))
+ targetctunitid = nulltext(ctuintcopy.selectsinglenode("targetctunitid"))
+ '----來源sql
+ sqlsource = "select u.* from "&sourcedb&".dbo.ctunit as u " _
+  & " left join "&sourcedb&".dbo.basedsd as b on u.ibasedsd=b.ibasedsd" _
+  & " where u.ctunitid=" & sourcectunitid
+ set rssource = conn.execute(sqlsource)
+ sctunitid = rssource("ctunitid")
+ sibasedsd = rssource("ibasedsd")
+ '----目標sql
+ sqltarget = "select u.* from "&targetdb&".dbo.ctunit as u " _
+  & " left join "&targetdb&".dbo.basedsd as b on u.ibasedsd=b.ibasedsd" _
+  & " where u.ctunitid=" & targetctunitid
+ set rstarget = conn.execute(sqltarget)
+ tctunitid = rstarget("ctunitid")
+ tibasedsd = rstarget("ibasedsd")
+ if err.number<>0 then
+  response.write "sourcectunitid["+sourcectunitid+"]/targetctunitid["+targetctunitid+"]錯誤發生!<br>發生原因:"+err.description+"<hr>"
+ else
+     '----選取複製目標
+     sqlmaster = "select cdtg.*,cdt.* from "&sourcedb&".dbo.cudtgeneric cdtg " & _
+      "left join "&sourcedb&".dbo.cudtx" & sibasedsd & " cdt on cdtg.icuitem=cdt.gicuitem " & _
+      "where ictunit=" & sctunitid
+     set rsmaster = conn.execute(sqlmaster)
+     '----先刪除處理
+      '----刪除targetdb.dbo.cudtgeneric資料
+      sqldelete1 = "delete cdtg from "&targetdb&".dbo.cudtgeneric cdtg " & _
+       "left join giphy.dbo.ctunitcopy cc on cdtg.icuitem=cc.icuitem " & _
+       "where cc.sourcedb=n'"&sourcedb&"' and cc.targetdb=n'"&targetdb&"' and cc.sctunitid="&sctunitid&" and cc.tctunitid="&tctunitid&";"
+      '----刪除targetdb.dbo.cudtx??資料
+      sqldelete2 = "delete cdtg from "&targetdb&".dbo.cudtx" & tibasedsd & " cdtg " & _
+       "left join giphy.dbo.ctunitcopy cc on cdtg.gicuitem=cc.icuitem " & _
+       "where cc.sourcedb=n'"&sourcedb&"' and cc.targetdb=n'"&targetdb&"' and cc.sctunitid="&sctunitid&" and cc.tctunitid="&tctunitid&";"
+      '----刪除giphy.dbo.ctunitcopy資料
+      sqldelete3 = "delete giphy.dbo.ctunitcopy where sourcedb=n'"&sourcedb&"' and targetdb=n'"&targetdb&"' and sctunitid="&sctunitid&" and tctunitid="&tctunitid&";"
+      sqldelete = sqldelete1+sqldelete2+sqldelete3
+'response.write sqldelete
+'response.end      
+      conn.execute(sqldelete)
+     '----再新增copy處理
+     if not rsmaster.eof then
+      while not rsmaster.eof 
+          '----master table處理
+      sql = "insert into  "&targetdb&".dbo.cudtgeneric(ibasedsd,ictunit,deditdate,created_date,"
+      sqlvalue = ") values("&tibasedsd&","&tctunitid&",getdate(),getdate()," 
+          if not isnull(rsmaster("fctupublic")) then
+   sql = sql & "fctupublic,"
+   sqlvalue = sqlvalue & pkstr(rsmaster("fctupublic"),",")            
+          end if
+          if not isnull(rsmaster("avbegin")) then
+   sql = sql & "avbegin,"
+   sqlvalue = sqlvalue & pkstr(rsmaster("avbegin"),",")            
+          end if
+          if not isnull(rsmaster("avend")) then
+   sql = sql & "avend,"
+   sqlvalue = sqlvalue & pkstr(rsmaster("avend"),",")            
+          end if
+          if not isnull(rsmaster("stitle")) then
+   sql = sql & "stitle,"
+   sqlvalue = sqlvalue & pkstr(rsmaster("stitle"),",")            
+          end if
+          if not isnull(rsmaster("ieditor")) then
+   sql = sql & "ieditor,"
+   sqlvalue = sqlvalue & pkstr(rsmaster("ieditor"),",")            
+          end if
+          if not isnull(rsmaster("idept")) then
+   sql = sql & "idept,"
+   sqlvalue = sqlvalue & pkstr(rsmaster("idept"),",")            
+          end if
+          if not isnull(rsmaster("topcat")) then
+   sql = sql & "topcat,"
+   sqlvalue = sqlvalue & pkstr(rsmaster("topcat"),",")            
+          end if
+          if not isnull(rsmaster("vgroup")) then
+   sql = sql & "vgroup,"
+   sqlvalue = sqlvalue & pkstr(rsmaster("vgroup"),",")            
+          end if
+          if not isnull(rsmaster("xkeyword")) then
+   sql = sql & "xkeyword,"
+   sqlvalue = sqlvalue & pkstr(rsmaster("xkeyword"),",")            
+          end if
+          if not isnull(rsmaster("ximportant")) then
+   sql = sql & "ximportant,"
+   sqlvalue = sqlvalue & rsmaster("ximportant") & ","           
+          end if
+          if not isnull(rsmaster("xurl")) then
+   sql = sql & "xurl,"
+   sqlvalue = sqlvalue & pkstr(rsmaster("xurl"),",")            
+          end if
+          if not isnull(rsmaster("xnewwindow")) then
+   sql = sql & "xnewwindow,"
+   sqlvalue = sqlvalue & pkstr(rsmaster("xnewwindow"),",")            
+          end if
+          if not isnull(rsmaster("xpostdate")) then
+   sql = sql & "xpostdate,"
+   sqlvalue = sqlvalue & pkstr(rsmaster("xpostdate"),",")            
+          end if
+          if not isnull(rsmaster("xbody")) then
+   sql = sql & "xbody,"
+   sqlvalue = sqlvalue & pkstr(rsmaster("xbody"),",")            
+          end if
+      sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+      sql = "set nocount on;"&sql&"; select @@identity as newid"
+          set rsx = conn.execute(sql)
+          xnewidentity = rsx(0)  
+          '----slave table處理  
+      sql = "insert into  "&targetdb&".dbo.cudtx" & tibasedsd & "(gicuitem,"
+      sqlvalue = ") values(" & xnewidentity & ","  
+      if tibasedsd = "2" then
+           if not isnull(rsmaster("cudtx2f5")) then
+       sql = sql & "cudtx2f5,"
+       sqlvalue = sqlvalue & pkstr(rsmaster("cudtx2f5"),",")            
+           end if      
+           if not isnull(rsmaster("cudtx2f7")) then
+       sql = sql & "cudtx2f7,"
+       sqlvalue = sqlvalue & pkstr(rsmaster("cudtx2f7"),",")            
+           end if      
+           if not isnull(rsmaster("cudtx2f9")) then
+       sql = sql & "cudtx2f9,"
+       sqlvalue = sqlvalue & pkstr(rsmaster("cudtx2f9"),",")            
+           end if      
+      elseif tibasedsd = "4" then        
+           if not isnull(rsmaster("cudtx4f14")) then
+       sql = sql & "cudtx4f14,"
+       sqlvalue = sqlvalue & pkstr(rsmaster("cudtx4f14"),",")            
+           end if      
+      elseif tibasedsd = "7" then        
+           if not isnull(rsmaster("cudtx7f8")) then
+       sql = sql & "cudtx7f8,"
+       sqlvalue = sqlvalue & pkstr(rsmaster("cudtx7f8"),",")            
+           end if      
+      end if
+      sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")" 
+      conn.execute(sql)
+      '----
+      sqllog = "insert into giphy.dbo.ctunitcopy values('"&sourcedb&"','"&targetdb&"',"&sctunitid&","&tctunitid&","&xnewidentity&",'"&sibasedsd&"',"&tibasedsd&")"
+      conn.execute(sqllog)
+      rsmaster.movenext
+         wend
+     end if
+     if err.number<>0 then
+      response.write "sourcectunitid["+sourcectunitid+"]/targetctunitid["+targetctunitid+"]錯誤發生!<br>發生原因:"+err.description+"<hr>"
+     else
+      response.write "sourcectunitid["+sourcectunitid+"]-->targetctunitid["+targetctunitid+"]完成!<hr>"
+     end if     
+'response.write sctunitid&"[]"&sibasedsd&"[]"&xslavetable&"[]"&tctunitid&"[]"&tibasedsd&"<br>"  
+ end if
+next
+response.write "<hr>完成2!"
+response.end
+
+ 

@@ -1,0 +1,14 @@
+body {
+background-color:#E9E9E9;
+}
+h3
+{
+border-bottom:2px solid #AAAAAA;
+}
+#list td{
+border:solid 1px #cccccc;
+}
+#list th{
+border:solid 1px #cccccc;
+background-color:#cccccc;
+}

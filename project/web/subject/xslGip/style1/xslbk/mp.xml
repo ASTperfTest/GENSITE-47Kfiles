@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt"
+	xmlns:user="urn:user-namespace-here" version="1.0">
+	<xsl:output method="html" encoding="utf-8" omit-xml-declaration="yes" indent="yes" standalone="yes" />
+	<xsl:include href="headpart.xsl" />
+	<xsl:include href="hySearch.xsl" />
+	<xsl:include href="epaper.xsl"/>
+	<xsl:include href="footer.xsl"/>
+	
+	<xsl:template match="hpMain">
+		<html xmlns="http://www.w3.org/1999/xhtml">
+			<head>
+				<title>GIP</title>
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				<link href="xslGIP/style1/css/home.css" rel="stylesheet" type="text/css" />
+			</head>
+			<body>
+		<!-- 網頁標題 Start-->
+					<xsl:apply-templates select="." mode="headinfo" />
+		<!-- 網頁標題 End-->
+				
+		<!-- 快速導覽列 Start-->
+				<div class="Title"></div>
+					<xsl:apply-templates select="MenuBar2" />
+		<!-- 快速導覽列 End-->
+				
+		<!-- 左方功能選單區 Start-->
+				<div class="Func">
+				<!-- 主要選單 Start-->
+					<xsl:for-each select="MenuBar">
+						<xsl:apply-templates select="MenuCat" />
+					</xsl:for-each>
+				<!-- 主要選單 End-->
+					
+				<!-- AD Start-->
+					<xsl:apply-templates select="AD" />
+				<!-- AD End-->
+				</div> <!--class="Func"-->
+		<!-- 左方功能選單區 End-->
+
+		<!-- 中央主資料區 Start-->
+				<div class="Main">
+					<xsl:apply-templates select="BlockA" />
+					<xsl:apply-templates select="BlockB" />
+					<xsl:apply-templates select="BlockC" />
+				</div> <!--class="Main"-->
+		<!-- 中央主資料區 End-->
+
+		<!-- 右方資料區 Start-->
+				<div class="Column">
+					<xsl:apply-templates select="." mode="xsSearch" />
+					<xsl:apply-templates select="." mode="xsEPaper" />
+					<xsl:apply-templates select="BlockD" />
+				</div> <!-- class="Column" -->
+		<!-- 右方資料區 End-->
+		
+		<!-- 頁尾資訊 Start-->
+				<xsl:apply-templates select="Copyright" />
+		<!-- 頁尾資訊 End-->
+			</body>
+		</html>
+	</xsl:template>
+
+<!-- 快速導覽列 -->
+	<xsl:template match="MenuBar2">
+		<div class="layout">
+			<div class="Quickview">
+				<xsl:for-each select="MenuCat">
+					│<a>
+							<xsl:attribute name="href">
+								<xsl:value-of select="redirectURL" />
+							</xsl:attribute>
+							<xsl:if test="@newWindow='Y'">
+								<xsl:attribute name="target">_nwGip</xsl:attribute>
+							</xsl:if>
+							<xsl:value-of select="Caption" />
+						</a>		
+				</xsl:for-each>
+		│</div>
+		</div>
+	</xsl:template>
+<!-- 快速導覽列 -->
+
+<!-- 主要選單 -->
+	<xsl:template match="MenuCat">
+		<div class="Link">
+			<div class="Head">
+				<a>
+					<xsl:attribute name="href">
+						<xsl:value-of select="redirectURL" />
+					</xsl:attribute>
+					<xsl:if test="@newWindow='Y'">
+						<xsl:attribute name="target">_nwGip</xsl:attribute>
+					</xsl:if>
+					<xsl:value-of select="Caption" />
+				</a>
+			</div>
+			<xsl:if test="MenuItem">
+				<xsl:for-each select="MenuItem">
+					<xsl:apply-templates select="." />
+				</xsl:for-each>
+			</xsl:if>
+		</div>
+	</xsl:template>
+
+	<xsl:template match="MenuItem">
+		<a>
+			<xsl:attribute name="href">
+				<xsl:value-of select="redirectURL" />
+			</xsl:attribute>
+			<xsl:if test="@newWindow='Y'">
+				<xsl:attribute name="target">_nwGip</xsl:attribute>
+			</xsl:if>
+			<xsl:value-of select="Caption" />
+		</a>
+	</xsl:template>
+<!-- 主要選單 -->
+
+<!-- BlockA Start -->
+	<xsl:template match="BlockA">
+		<div class="News">
+			<div class="Top">
+				<img src="xslgip/style1/images/main/space.gif" alt=" " />
+			</div>
+			<div class="Head">
+				<xsl:value-of select="Caption" />
+			</div>
+			<xsl:for-each select="Article">
+				<xsl:apply-templates select="." />
+			</xsl:for-each>
+		</div>
+	</xsl:template>
+
+	<xsl:template match="//BlockA/Article">
+		<div class="Body">
+			<h1>
+				<xsl:value-of select="Caption" />
+			</h1>
+			<xsl:if test="xImgFile">
+				<img>
+					<xsl:attribute name="src">
+						<xsl:value-of select="xImgFile" />
+					</xsl:attribute>
+					<xsl:attribute name="alt">
+						<xsl:value-of select="Caption" />
+					</xsl:attribute>
+				</img>
+			</xsl:if>
+			<p>
+				<xsl:value-of disable-output-escaping="yes" select="Content" />
+			</p>
+		</div>
+		<div class="Foot">
+			<span class="More">
+				<a><xsl:attribute name="href">ct.asp?xItem=<xsl:value-of select="@iCuItem" />&amp;ctNode=<xsl:value-of select="../@xNode" /></xsl:attribute>
+        詳全文</a>
+			</span>
+		</div>
+	</xsl:template>
+<!-- BlockA End -->
+
+<!-- BlockB Start -->
+	<xsl:template match="BlockB">
+		<div class="News">
+			<div class="Head">
+				<xsl:value-of select="Caption" />
+			</div>
+			<div class="Body">
+				<ul>
+					<xsl:for-each select="Article">
+						<xsl:apply-templates select="." />
+					</xsl:for-each>
+				</ul>
+			</div>
+			<div class="Foot">
+				<span class="More">
+					<a>
+				<xsl:attribute name="href">np.asp?ctNode=<xsl:value-of select="@xNode" /></xsl:attribute>
+    更多</a>
+				</span>
+			</div>
+		</div>
+	</xsl:template>
+
+	<xsl:template match="//BlockB/Article">
+		<li>
+			<a>
+				<xsl:attribute name="href">
+					<xsl:value-of select="xURL" />
+				</xsl:attribute>
+				<xsl:attribute name="title">
+					<xsl:value-of select="Caption" />
+				</xsl:attribute>
+				<xsl:if test="@newWindow='Y'">
+					<xsl:attribute name="target">_nwGip</xsl:attribute>
+				</xsl:if>
+				<xsl:value-of select="Caption" />
+			</a>
+			<span class="Date">
+				<xsl:value-of select="PostDate" />
+			</span>
+			<span> (<xsl:value-of select="DeptName" />) </span>
+		</li>
+	</xsl:template>
+<!-- BlockB End -->
+
+<!-- BlockC Start -->
+	<xsl:template match="BlockC">
+		<div class="News">
+			<div class="Head">
+				<xsl:value-of select="Caption" />
+			</div>
+			<div class="Body">
+				<ul>
+					<xsl:for-each select="Article">
+						<xsl:apply-templates select="." />
+					</xsl:for-each>
+				</ul>
+			</div>
+			<div class="Foot">
+				<span class="More">
+					<a>
+				<xsl:attribute name="href">np.asp?ctNode=<xsl:value-of select="@xNode" /></xsl:attribute>
+     更多</a>
+				</span>
+			</div>
+		</div>
+	</xsl:template>
+
+	<xsl:template match="//BlockC/Article">
+		<li>
+			<a>
+				<xsl:attribute name="href">
+					<xsl:value-of select="xURL" />
+				</xsl:attribute>
+				<xsl:attribute name="title">
+					<xsl:value-of select="Caption" />
+				</xsl:attribute>
+				<xsl:if test="@newWindow='Y'">
+					<xsl:attribute name="target">_nwGip</xsl:attribute>
+				</xsl:if>
+				<xsl:value-of select="Caption" />
+			</a>
+			<span class="Date">
+				<xsl:value-of select="PostDate" />
+			</span>
+			<span> (<xsl:value-of select="DeptName" />) </span>
+		</li>
+	</xsl:template>
+<!-- BlockC End -->
+
+<!-- BlockD Start -->
+	<xsl:template match="BlockD">
+		<div class="Dic">
+			<div class="Head">
+				<xsl:value-of select="Caption" />
+			</div>
+			<div class="Body">
+				<xsl:for-each select="Article">
+					<xsl:apply-templates select="." />
+				</xsl:for-each>
+			</div>
+			<div class="Foot">
+				<span class="More">
+					<a>
+				<xsl:attribute name="href">np.asp?ctNode=<xsl:value-of select="@xNode" /></xsl:attribute>
+    更多主題</a>
+				</span>
+			</div>
+		</div>
+	</xsl:template>
+
+	<xsl:template match="//BlockD/Article">
+		<h1>
+			<xsl:value-of select="Caption" />
+		</h1>
+		<p>
+			<xsl:value-of disable-output-escaping="yes" select="Content" />
+		</p>
+	</xsl:template>
+<!-- BlockD End -->
+
+<!-- AD Start-->
+	<xsl:template match="AD">
+		<div class="AD">
+			<p>
+				<xsl:for-each select="//AD/Article">
+					<a>
+						<xsl:attribute name="href">
+							<xsl:value-of select="xURL" />
+						</xsl:attribute>
+						<xsl:if test="@newWindow='Y'">
+							<xsl:attribute name="target">_nwGip</xsl:attribute>
+						</xsl:if>
+						<img border="0" width="120">
+							<xsl:attribute name="src">
+								<xsl:value-of select="xImgFile" />
+							</xsl:attribute>
+							<xsl:attribute name="alt">
+								<xsl:value-of select="Caption" />
+							</xsl:attribute>
+						</img>
+					</a>
+				</xsl:for-each>
+			</p>
+		</div>
+	</xsl:template>
+<!-- AD End-->
+
+</xsl:stylesheet>

@@ -1,0 +1,512 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="主題單元管理"
+htprogfunc="編修"
+htuploadpath="/public/"
+htprogcode="ge1t11"
+htprogprefix="ctunit" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+   CxMethod_ASP_checkgipconfig_1275316133()
+  
+dim pkey
+dim rsreg
+dim formfunction
+dim xcount
+tasklable="編輯" & htprogcap
+
+ apath=server.mappath(htuploadpath) & "\"
+  set xup = server.createobject("tabs.upload")
+'  xup.start apath 
+
+function xupform(xvar)
+ xupform = xup.form(xvar)
+end function
+
+function xxupform(xvar)
+on error resume next
+ xstr = ""
+ arrval = xup.multival(xvar)
+ for i = 1 to ubound(arrval)
+  xstr = xstr & arrval(i) & ", "
+'  response.write arrval(i) & "<br>" & chr(13)
+ next 
+ if xstr = "" then
+  xstr = xup(xvar)
+  xupform = xstr
+ else
+  xupform = left(xstr, len(xstr)-2)
+ end if
+end function
+ response.write xupform("submittask") & "xxx<hr>"
+ response.write xup.form("htx_ctunitname") & "<hr>"
+
+if xupform("submittask") = "update" then
+ response.write xupform("htx_ctunitname") & "<hr>"
+ response.end
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  editinbothcase()
+ else
+  doupdatedb()
+  showdonebox("資料更新成功！")
+ end if
+
+elseif xupform("submittask") = "delete" then
+ sql = "delete from ctunit where ctunitid=" & pkstr(request.querystring("ctunitid"),"")
+ conn.execute sql
+ showdonebox("資料刪除成功！")
+
+else
+ editinbothcase()
+end if
+
+
+sub editinbothcase
+ sqlcount = "select count(*) from cudtgeneric where ictunit=" & pkstr(request.querystring("ctunitid"),"")
+ set rscount=conn.execute(sqlcount)
+ xcount=rscount(0)
+ sqlcom = "select htx.*,bd.sbasedsdname from ctunit as htx left join basedsd bd on htx.ibasedsd=bd.ibasedsd " & _
+  "where htx.ctunitid=" & pkstr(request.querystring("ctunitid"),"")
+ set rsreg = conn.execute(sqlcom)
+ pkey = ""
+ pkey = pkey & "&ctunitid=" & rsreg("ctunitid")
+ if pkey<>"" then  pkey = mid(pkey,2)
+
+ showhtmlhead()
+ if errmsg <> "" then showerrbox()
+ formfunction = "edit"
+ showform()
+ initform()
+ showhtmltail()
+end sub
+
+'response.write "xx="&xcount
+function qqrs(fldname)
+ if request("submittask")="" then
+  xvalue = rsreg(fldname)
+ else
+  xvalue = ""
+  if request("htx_"&fldname) <> "" then
+   xvalue = request("htx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+  sub initform() 
+
+
+
+
+
+
+
+                              =qqrs("ctunitname")
+                            =qqrs("ctunitid")
+                             =qqrs("ctunitlogo")
+                              =qqrs("ctunitkind")
+                               =qqrs("redirecturl")
+                             =qqrs("newwindow")
+                            =qqrs("ibasedsd")
+                               =qqrs("fctunitonly")
+                           =qqrs("checkyn")
+                          =qqrs("deptid")
+                              =qqrs("headerpart")
+                              =qqrs("footerpart")
+    if checkgipconfig("ctunitexpirecheck") then 
+                                   =qqrs("ctunitexpireday")
+   end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                          =htuploadpath
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+
+  sub showform()   '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if checkgipconfig("ctunitexpirecheck") then 
+
+
+
+
+
+   end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_ctunitforme_2070498854()
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+    if (htprogright and 1)=1 then
+
+    end if
+    if (htprogright and 8)=8 then
+                                   =rsreg("ctunitid"):            =rsreg("ibasedsd")
+    end if
+    if (htprogright and 8)=8 then
+                                   =rsreg("ctunitid"):            =rsreg("ibasedsd")
+    end if
+    if (htprogright and 4)=4 then
+
+    end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showhtmlhead() ------
+
+
+  sub showhtmltail() 
+
+
+
+
+
+  end sub '--- showhtmltail() ------
+
+
+  sub showerrbox() 
+
+              =errmsg
+
+
+  
+    end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' if request("tfx_taxid") <> "" then
+'   sql = "select * from client where taxid = '"& request("tfx_taxid") &"'"
+'   set rsreg = conn.execute(sql)
+'   if not rsreg.eof then
+'  if trim(rsreg("clientid")) <> request("pfx_clientid") then
+'   errmsg = "「統一編號」重複!!請重新輸入客戶統一編號!"
+'   exit sub
+'  end if
+'   end if
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "update ctunit set "
+  sql = sql & "ctunitname=" & pkstr(xupform("htx_ctunitname"),",")
+ if xupform("htimgactck_ctunitlogo") <> "" then
+   actck = xupform("htimgactck_ctunitlogo")
+   if actck="editlogo" or actck="addlogo" then
+  fname = ""
+  for each xatt in xup.attachments
+    if xatt.name = "htimg_ctunitlogo" then
+   ofname = xatt.filename
+   fnext = ""
+   if instr(ofname, ".")>0 then fnext=mid(ofname, instr(ofname, "."))
+   tstr = now()
+   nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext
+   sql = sql & "ctunitlogo=" & pkstr(nfname,",")
+   if xupform("hoimg_ctunitlogo") <> "" then _
+    xup.deletefile apath & xupform("hoimg_ctunitlogo")
+   xatt.savefile apath & nfname, false
+    end if
+  next
+   elseif actck="dellogo" then
+  xup.deletefile apath & xupform("hoimg_ctunitlogo")
+  sql = sql & "ctunitlogo=null,"
+   end if
+ end if
+
+  if checkgipconfig("ctunitexpirecheck") then
+  sql = sql & "ctunitexpireday=" & pkstr(xupform("htx_ctunitexpireday"),",")
+ end if
+  sql = sql & "ctunitkind=" & pkstr(xupform("htx_ctunitkind"),",")
+  sql = sql & "redirecturl=" & pkstr(xupform("htx_redirecturl"),",")
+  sql = sql & "newwindow=" & pkstr(xupform("htx_newwindow"),",")
+  sql = sql & "ibasedsd=" & pkstr(xupform("htx_ibasedsd"),",")
+  sql = sql & "headerpart=" & pkstr(xupform("htx_headerpart"),",")
+  sql = sql & "footerpart=" & pkstr(xupform("htx_footerpart"),",")
+  sql = sql & "fctunitonly=" & pkstr(xupform("htx_fctunitonly"),",")
+  sql = sql & "checkyn=" & pkstr(xupform("htx_checkyn"),",")
+  sql = sql & "deptid=" & pkstr(xupform("htx_deptid"),",")
+ sql = left(sql,len(sql)-1) & " where ctunitid=" & pkstr(request.querystring("ctunitid"),"")
+
+ conn.execute(sql)  
+end sub '---- doupdatedb() ----
+
+  sub showdonebox(lmsg) 
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+                 =lmsg
+                               =htprogprefix:            =session("querypage_no")
+
+
+
+  end sub '---- showdonebox() ----  

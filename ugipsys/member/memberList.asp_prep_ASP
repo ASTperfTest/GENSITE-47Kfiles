@@ -1,0 +1,174 @@
+﻿: @ codepage = 65001 
+  
+response.expires = 0 
+htprogcode = "ht002"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+'nowpage=request.querystring("nowpage")
+'現在頁數
+nowpage=1
+if len(trim(request("nowpage"))) > 0 then
+ nowpage=cint(trim(request("nowpage")))
+end if
+
+'每頁筆數
+mpp=20
+if len(trim(request("mpp"))) > 0 then
+ mpp=cint(trim(request("mpp")))
+end if
+if mpp <> 10 and mpp <> 20 and mpp <> 30 and mpp <> 50 and mpp <> 100 and mpp <> 200 then
+ mpp=20
+end if
+
+'總筆數
+m_num=0
+sql="select count(*) from member"
+set rs=conn.execute(sql)
+m_num=cint(trim(rs(0)))
+
+'總頁數
+p_num = fix((m_num-1)/mpp) + 1
+
+if nowpage > p_num then
+ nowpage=p_num
+end if
+if nowpage < 1 then
+ nowpage=1
+end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                               = nowpage :      = p_num 
+
+
+
+                                               = m_num 
+
+
+
+
+  
+ for ipage = 1 to p_num
+
+                                 = ipage 
+  
+  if ipage=nowpage then
+
+
+  
+  end if
+
+                   = ipage 
+  
+ next
+
+
+
+  
+ if nowpage > 1 then
+
+
+                                                = (nowpage-1) :        = mpp 
+  
+ end if
+ if nowpage < p_num then
+
+
+                                                = (nowpage+1) :        = mpp 
+  
+ end if
+
+
+
+
+                                    if mpp=10 then:            end if
+                                    if mpp=20 then:            end if
+                                    if mpp=30 then:            end if
+                                    if mpp=50 then:            end if
+                                     if mpp=100 then:            end if
+                                     if mpp=200 then:            end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ num_start = (nowpage-1) * mpp + 1
+ num_end = nowpage * mpp
+
+ sql="select account, realname, email, createtime from member order by createtime desc"
+ set rs=conn.execute(sql)
+ i=0
+ while not rs.eof
+  i=i+1
+  if i >= num_start and i <= num_end then
+
+
+                                                    = i 
+                                       = trim(rs("account")) 
+                                       = trim(rs("realname")) 
+                                       = trim(rs("email")) 
+                                       = trim(rs("createtime")) 
+                                                                                     = trim(rs("account")) 
+                                                                                         = trim(rs("account")) 
+
+  
+  end if
+  rs.movenext
+ wend
+
+
+
+
+
+
+
+
+
+      CxMethod_ASP_footer_1134060862() 

@@ -1,0 +1,93 @@
+﻿: 
+response.expires = -1
+function wordfreq(xbody,xword)
+ xtimes = 0
+ xstr = xbody
+ xpos = instr(xstr,xword)
+ while xpos <> 0
+  xtimes = xtimes + 1
+  xstr = mid(xstr, xpos+len(xword))
+  xpos = instr(xstr,xword)
+ wend
+ wordfreq = xtimes
+end function  
+
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+'----------hyweb gip db connection patch----------
+
+
+on error resume next
+
+ 'get xml string
+ set oxmldoc = server.createobject("microsoft.xmldom")
+ oxmldoc.async = false
+ xv = oxmldoc.load( request)
+ 
+ xkeyword = oxmldoc.selectsinglenode("//xbody").text
+ xreturnvalue = ""
+
+  '----叫用hysearch, 若xstr不存在串入字串中
+  ' step 1: 使用 createobject 產生 object. dll name: hysdk, class name: hyft  
+  set obj = server.createobject("hysdk.hyft.1")
+
+  ' step 2: 呼叫 hyft_connect 連結 hyftd hyft_connect() 傳回值為連線 id, 存放於 obj.ret_val 中
+    idxstr = session("mysiteid")
+    x = obj.hyft_connect("localhost", 2816, idxstr , "", "")
+  id = obj.ret_val
+     if id = -1 then
+         '若是連線失敗, 則錯誤訊息存放於 obj.errmsg
+         response.write "連線 hyftd 發生錯誤, 錯誤訊息: " & obj.errmsg & "<br><br>"
+         response.end
+     end if
+
+  query=xkeyword
+
+  ' step 3: 啟用hyft_textkeys斷詞功能,如果成功,會得到一個key_id,
+  x=obj.hyft_textkeys(id, query,5)
+  key_id = obj.ret_val
+        '若是連線失敗, 則錯誤訊息存放於 obj.errmsg
+  if key_id = -1 then
+         response.write "連線 hyftd 發生錯誤, 錯誤訊息: " & obj.errmsg & "<br><br>"
+         response.end
+      end if
+
+
+  ' step 4: 算出query中斷詞的數目
+  x=obj.hyft_num_keys(id,key_id)
+  num =obj.ret_val
+ 
+'  if num > 5 then num = 5
+  
+  for i = 0 to num-1
+   x=obj.hyft_keylen(id,key_id,i)
+   key_len=obj.ret_val
+   
+   x=obj.hyft_onekey(id,key_id,i,key_len)
+   key=obj.key
+   xtimes = wordfreq(xkeyword,key)
+   if xtimes <>1 then
+    xreturnvalue=xreturnvalue+key+"*"+cstr(xtimes)+","
+   else
+    xreturnvalue=xreturnvalue+key+","
+   end if
+  next  
+  x=obj.hyft_free_key(id,key_id)
+
+  set obj=nothing   
+  '----hysearch完成
+   
+ if xreturnvalue<>"" then xreturnvalue=left(xreturnvalue,len(xreturnvalue)-1)
+'response.write  xreturnvalue
+'response.end
+ oxmldoc.selectsinglenode("//xbody").text = xreturnvalue
+' response.write "<?xml version=""1.0"" encoding=""utf-8"" ?>" & vbcrlf
+' response.write "<xbodylist><xbody><![cdata["+xreturnvalue+"]]></xbody></xbodylist>"
+' response.write oxmldoc.xml
+ response.contenttype = "text/xml"
+ oxmldoc.save(response) 
+ 

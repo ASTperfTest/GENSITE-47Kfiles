@@ -1,0 +1,580 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+server.scripttimeout = 3000
+htprogcap="資料附件"
+htprogcap="附件管理"
+htprogfunc="編修"
+htuploadpath=session("public")+"attachment/"
+htprogcode="gc1ap1"
+htprogprefix="cuattach" 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_checkgipconfig_1275316133()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+'----ftp參數處理
+ ftperrormsg=""
+ ftpfilepath="public/attachment"
+ sqlp = "select * from uploadsite where uploadsiteid='file'"
+ set rsp = conn.execute(sqlp)
+ if not rsp.eof  then
+     xftpip = rsp("uploadsiteftpip")
+     xftpport = rsp("uploadsiteftpport")
+     xftpid = rsp("uploadsiteftpid")
+     xftppwd = rsp("uploadsiteftppwd")
+    end if
+'----ftp參數處理end 
+dim pkey
+dim rsreg
+dim formfunction
+tasklable="編輯" & htprogcap
+
+ apath=server.mappath(htuploadpath) & "\"
+ if request.querystring("phase")<>"edit" then
+set xup = server.createobject("tabs.upload")
+xup.codepage=65001
+xup.start apath
+else
+set xup = server.createobject("tabs.upload")
+end if
+
+function xupform(xvar)
+ xupform = xup.form(xvar)
+end function
+
+if xupform("submittask") = "update" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  editinbothcase()
+ else
+  doupdatedb()
+  showdonebox("資料更新成功！")
+ end if
+
+elseif xupform("submittask") = "delete" then
+        set fso = server.createobject("scripting.filesystemobject")
+        if fso.fileexists(apath & xupform("hofile_nfilename")) then _
+  fso.deletefile apath & xupform("hofile_nfilename")
+ if xftpip<>"" and xftpid<>"" and xftppwd<>"" then
+  fileaction="dele"
+  filetarget=xupform("hofile_nfilename")
+  filesource=apath + xupform("hofile_nfilename")
+  ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,"",filetarget,filesource  
+ end if                
+ sql = "delete from cudtattach where ixcuattach=" & pkstr(request.querystring("ixcuattach"),"")
+ conn.execute sql
+ sqld = "delete imagefile where newfilename='"&xupform("hofile_nfilename")&"'"
+ conn.execute(sqld)
+ showdonebox("資料刪除成功！")
+else
+ editinbothcase()
+end if
+
+
+sub editinbothcase
+ sqlcom = "select htx.*, xrefnfilename.oldfilename as fxr_nfilename from (cudtattach as htx left join imagefile as xrefnfilename on xrefnfilename.newfilename = htx.nfilename) where htx.ixcuattach=" & pkstr(request.querystring("ixcuattach"),"")
+ set rsreg = conn.execute(sqlcom)
+ pkey = ""
+ pkey = pkey & "&ixcuattach=" & rsreg("ixcuattach")
+ if pkey<>"" then  pkey = mid(pkey,2)
+
+ showhtmlhead()
+ if errmsg <> "" then showerrbox()
+ formfunction = "edit"
+ showform()
+ initform()
+ showhtmltail()
+end sub
+
+
+function qqrs(fldname)
+ if xupform("submittask")="" then
+  xvalue = rsreg(fldname)
+ else
+  xvalue = ""
+  if xupform("htx_"&fldname) <> "" then
+   xvalue = xupform("htx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+  sub initform() 
+
+
+
+
+
+
+
+                          =qqrs("atitle")
+                              =qqrs("ixcuattach")
+                            =qqrs("xicuitem")
+                         =qqrs("adesc")
+
+
+                              =qqrs("nfilename"):       =qqrs("fxr_nfilename")
+
+                         =qqrs("blist")
+                           =qqrs("listseq")
+   if checkgipconfig("attachmentkind") then 
+                               =qqrs("attachkinda")
+   end if
+   if checkgipconfig("attachmenttype") then
+                              =qqrs("attachtype")
+   end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                          =htuploadpath
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+
+  sub showform()   '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_cuattachforme_1755305226()
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showhtmlhead() ------
+
+
+  sub showhtmltail() 
+
+
+
+
+
+  end sub '--- showhtmltail() ------
+
+
+  sub showerrbox() 
+
+              =errmsg
+
+
+  
+    end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' if request("tfx_taxid") <> "" then
+'   sql = "select * from client where taxid = '"& request("tfx_taxid") &"'"
+'   set rsreg = conn.execute(sql)
+'   if not rsreg.eof then
+'  if trim(rsreg("clientid")) <> request("pfx_clientid") then
+'   errmsg = "「統一編號」重複!!請重新輸入客戶統一編號!"
+'   exit sub
+'  end if
+'   end if
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "update cudtattach set "
+  sql = sql & "atitle=" & pkstr(xupform("htx_atitle"),",")
+  sql = sql & "adesc=" & pkstr(xupform("htx_adesc"),",")
+  sql = sql & "blist=" & pkstr(xupform("htx_blist"),",")
+  sql = sql & "listseq=" & pkstr(xupform("htx_listseq"),",")
+  if checkgipconfig("attachmentkind") then
+  sql = sql & "attachkinda=" & pkstr(xupform("htx_attachkinda"),",")
+  end if
+  if checkgipconfig("attachmenttype") then
+  sql = sql & "attachtype=" & pkstr(xupform("htx_attachtype"),",")
+  end if
+    if checkgipconfig("attachlarge") and xupform("htfile_nfiletype")="2" then '----大型物件
+      if xupform("htfile_nfilename_large")<>xupform("org_nfilename_large") then '----物件有更換時
+ sqlp = "select mvalue from codemain where codemetaid='attachmentlarge' and mcode='1'"
+ set rsp = conn.execute(sqlp)
+ sourcefilepath = rsp(0) & "\" & xupform("htfile_nfilename_large")
+ set fso = createobject("scripting.filesystemobject")
+ encodeornot="n"
+ if xupform("bfx_encodeornot")<>"" then encodeornot=xupform("bfx_encodeornot")
+ if encodeornot = "n" then '----不更換檔名,檢查是否重複,若有重複reject
+     filespec = htuploadpath & xupform("htfile_nfilename_large")
+     if fso.fileexists(server.mappath(filespec)) then     
+
+
+
+
+
+    response.end
+     else
+      ofname = xupform("htfile_nfilename_large")
+      nfname = xupform("htfile_nfilename_large")
+      end if
+ else    '----更換檔名
+  ofname = xupform("htfile_nfilename_large")
+  fnext = ""
+  if instrrev(ofname, ".")>0 then fnext=mid(ofname, instrrev(ofname, "."))
+  tstr = now()
+  nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext    
+ end if
+ '----刪除原有檔案
+ orgfilespec = htuploadpath & xupform("org_nfilename_large")
+ if fso.fileexists(server.mappath(orgfilespec)) then fso.deletefile server.mappath(orgfilespec)
+ if xftpip<>"" and xftpid<>"" and xftppwd<>"" then
+  fileaction="dele"        
+  filetarget=xupform("org_nfilename_large")
+  filesource=apath + xupform("org_nfilename_large")
+  ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,"",filetarget,filesource  
+ end if   
+ xsql = "delete imagefile where newfilename=" & pkstr(xupform("org_nfilename_large"),"")
+ conn.execute xsql 
+ '----檔案複製
+ set myfile = fso.getfile(sourcefilepath)
+ myfile.copy apath + nfname
+ '----ftp處理
+   if xftpip<>"" and xftpid<>"" and xftppwd<>"" then
+  fileaction="movefile"
+  filetarget=nfname
+  filesource=apath + nfname
+  ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,"",filetarget,filesource  
+      end if      
+ '----串sql字串
+ sql = sql & "nfilename=" & pkstr(nfname,",")
+ '----新增至imagefile
+ xsql = "insert into imagefile(newfilename, oldfilename) values(" _
+  & pkstr(nfname,",") & pkstr(ofname,")")
+ conn.execute xsql      
+     
+      end if
+    else         '----一般物件
+ if xupform("htfileactck_nfilename") <> "" then
+   actck = xupform("htfileactck_nfilename")
+   if actck="editlogo" or actck="addlogo" then
+  fname = ""
+  for each form in xup.form
+   if form.isfile then 
+    if form.name = "htfile_nfilename" then
+   ofname = form.filename
+   fnext = ""
+   if instrrev(ofname, ".")>0 then fnext=mid(ofname, instrrev(ofname, "."))
+   tstr = now()
+   nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext
+   sql = sql & "nfilename=" & pkstr(nfname,",")
+   if xupform("hofile_nfilename") <> "" then
+          set fso = server.createobject("scripting.filesystemobject")
+    if fso.fileexists( apath & xupform("hofile_nfilename")) then _
+     fso.deletefile apath & xupform("hofile_nfilename")
+            if xftpip<>"" and xftpid<>"" and xftppwd<>"" then
+         fileaction="dele"        
+         filetarget=xupform("hofile_nfilename")
+         filesource=apath + xupform("hofile_nfilename")
+         ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,"",filetarget,filesource  
+            end if             
+     
+    xsql = "delete imagefile where newfilename=" & pkstr(xupform("hofile_nfilename"),"")
+    conn.execute xsql
+   end if
+   xup.form(form.name).saveas apath & nfname, true
+     if xftpip<>"" and xftpid<>"" and xftppwd<>"" then
+    fileaction="movefile"
+    filetarget=nfname
+    filesource=apath + nfname
+    ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,"",filetarget,filesource  
+        end if     
+   xsql = "insert into imagefile(newfilename, oldfilename) values(" & pkstr(nfname,",") & pkstr(ofname,")")
+   conn.execute xsql
+    end if
+   end if 
+  next
+   elseif actck="dellogo" then
+         set fso = server.createobject("scripting.filesystemobject") 
+  if fso.fileexists( apath & xupform("hofile_nfilename")) then _
+   xup.deletefile apath & xupform("hofile_nfilename")
+          if xftpip<>"" and xftpid<>"" and xftppwd<>"" then
+       fileaction="dele"
+    filetarget=xupform("hofile_nfilename")
+    filesource=apath + xupform("hofile_nfilename")
+    ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,"",filetarget,filesource  
+          end if        
+  xsql = "delete imagefile where newfilename=" & pkstr(xupform("hofile_nfilename"),"")
+  conn.execute xsql
+  sql = sql & "nfilename=null,"
+   end if
+ end if
+    end if
+ sql = left(sql,len(sql)-1) & " where ixcuattach=" & pkstr(request.querystring("ixcuattach"),"")
+
+ conn.execute(sql)  
+end sub '---- doupdatedb() ----
+
+  sub showdonebox(lmsg) 
+ mpkey = ""
+ mpkey = mpkey & "&icuitem=" & xupform("htx_xicuitem")
+ if mpkey<>"" then  mpkey = mid(mpkey,2)
+ doneuri= ""
+ if doneuri = "" then doneuri = htprogprefix & "list.asp"
+
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+  if ftperrormsg="" then
+                     =lmsg
+  else
+          =lmsg:                    =ftperrormsg
+  end if
+                               =doneuri:    =mpkey
+
+
+
+  end sub '---- showdonebox() ----  

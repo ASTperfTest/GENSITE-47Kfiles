@@ -1,0 +1,335 @@
+﻿: 
+ '---���ѩ��---
+ dim jigsawictunit : jigsawictunit = 2199
+ dim jigsawflag : jigsawflag = false
+ '---�ˬd�ǥj��xitem�o�_�����ѩ�ϫ�ictunit---
+ jigsawsql = "select * from cudtgeneric where icuitem = " & xitem & " and ictunit = " & jigsawictunit & " and fctupublic = 'y' "
+ set jigsawrs = conn.execute(jigsawsql)
+ if not jigsawrs.eof then
+  jigsawflag = true
+ end if
+ jigsawrs.close
+ set jigsawrs = nothing
+ 
+ if jigsawflag then
+  response.write "<jigsaw>"
+  
+  '---�m��---
+  jigsawsql = "select * from cudtgeneric where icuitem = " & xitem       
+  set jigsawrs = conn.execute(jigsawsql)
+  if not jigsawrs.eof then
+   response.write "<stitle><![cdata[" & jigsawrs("stitle") & "]]></stitle>"     
+  end if
+  jigsawrs.close
+  set jigsawrs = nothing
+  
+  '---�̷sĳ�d---
+  getlatestissue xitem
+  
+  '---���xĳ�d�ƨ�---
+  dim unit, subject, tank, home
+  jigsawsql = "select * from cudtgeneric inner join knowledgejigsaw on cudtgeneric.icuitem = knowledgejigsaw.gicuitem " _
+       & "where knowledgejigsaw.parenticuitem = " & xitem & " and cudtgeneric.topcat = 'c'"
+  set jigsawrs = conn.execute(jigsawsql)
+  if not jigsawrs.eof then
+   unit = jigsawrs("ordersiteunit")
+   subject = jigsawrs("ordersubject")
+   tank = jigsawrs("orderknowledgetank")
+   home = jigsawrs("orderknowledgehome")
+  end if
+  jigsawrs.close
+  set jigsawrs = nothing
+  
+  '---����ĳ�dxml by order---
+  genarticlexml xitem, unit, subject, tank, home
+  
+  '---�����귽����---
+  getreflinkxml xitem
+  
+  '---added by joey �q�װ�---
+  getdiscussionxml xitem
+  
+  
+  response.write "</jigsaw>"
+ end if
+ 
+ 
+ 'added by joey --ĳ�d�q�װ�
+ sub getdiscussionxml(id)
+  response.write "<discussion>"
+  jigid = 0
+  flag = true
+  jigsawsql = "select * from cudtgeneric inner join knowledgejigsaw on cudtgeneric.icuitem = knowledgejigsaw.gicuitem " _
+       & "where knowledgejigsaw.parenticuitem = " & id & " and cudtgeneric.topcat = 'f'"
+  set jigsawrs = conn.execute(jigsawsql)
+  
+  if not jigsawrs.eof then 
+   jigid = jigsawrs("icuitem")
+   response.write "<isopen>" & jigsawrs("fctupublic") & "</isopen>"
+  end if
+  
+  
+  jigsawrs.close
+  set jigsawrs = nothing
+  '---�c�x�峹---
+  jigsql = "select cudtgeneric.xbody,cudtgeneric.ieditor, knowledgejigsaw.path, convert(varchar, cudtgeneric.xpostdate, 111) as xpostdate from cudtgeneric inner join knowledgejigsaw on cudtgeneric.icuitem = knowledgejigsaw.gicuitem " & _
+        "where (knowledgejigsaw.parenticuitem = " & jigid & ") and (knowledgejigsaw.status = 'y') " & _
+       "order by knowledgejigsaw.orderarticle desc,xpostdate asc"
+  set jigrs = conn.execute(jigsql)  
+  while not jigrs.eof 
+   response.write "<article>"
+   response.write "<xbody><![cdata[" & jigrs("xbody") & "]]></xbody>"
+   response.write "<ieditor><![cdata[" & jigrs("ieditor") & "]]></ieditor>"
+   response.write "<xpostdate>" & jigrs("xpostdate") & "</xpostdate>"   
+   response.write "</article>"
+   jigrs.movenext
+  wend
+  response.write "</discussion>"
+  'by joey 
+  'response.write "<sqljoey1>" & jigsawsql & "</sqljoey1>"
+  'response.write "<sqljoey2>" & jigsql & "</sqljoey2>"
+ end sub 
+ 
+ '---�̷sĳ�d--- 
+ sub getlatestissue( id )
+  response.write "<latestissue>"
+  jigid = 0
+  flag = true
+  jigsawsql = "select * from cudtgeneric inner join knowledgejigsaw on cudtgeneric.icuitem = knowledgejigsaw.gicuitem " _
+       & "where knowledgejigsaw.parenticuitem = " & id & " and cudtgeneric.topcat = 'a'"
+  set jigsawrs = conn.execute(jigsawsql)
+  
+  
+  if not jigsawrs.eof then 
+   jigid = jigsawrs("icuitem")
+   response.write "<isopen>" & jigsawrs("fctupublic") & "</isopen>"
+  end if
+  jigsawrs.close
+  set jigsawrs = nothing
+  '---�c�x�峹---
+  jigsql = "select * from cudtgeneric inner join knowledgejigsaw on cudtgeneric.icuitem = knowledgejigsaw.gicuitem " & _
+        "where (knowledgejigsaw.parenticuitem = " & jigid & ") and (knowledgejigsaw.status = 'y') " & _
+       "order by knowledgejigsaw.orderarticle desc"
+  set jigrs = conn.execute(jigsql)  
+  while not jigrs.eof 
+   response.write "<article>"
+   if flag then
+    getlatestfirstarticle jigrs("articleid"), jigrs("ctrootid"), jigrs("path")
+    flag = false
+   else
+    response.write "<stitle><![cdata[" & jigrs("stitle") & "]]></stitle>"
+    response.write "<top>n</top>"
+    response.write "<content></content>"
+    response.write "<path><![cdata[" & jigrs("path") & "]]></path>"
+    response.write "<img><![cdata[" & jigrs("ximgfile") & "]]></img>"
+   end if
+   jigrs.movenext
+   response.write "</article>"
+  wend
+  response.write "</latestissue>"
+  
+  response.write "<sqljoey1>" & jigsawsql & "</sqljoey1>"
+  response.write "<sqljoey2>" & jigsql & "</sqljoey2>"
+ end sub
+ 
+ sub getlatestfirstarticle( aid, rid, path )  
+  if rid = "4" then
+   kmsql = "select subject, description from report where report_id = '" & aid & "'"
+   set kmrs = kmconn.execute(kmsql)
+   if not kmrs.eof then
+    response.write "<stitle><![cdata[" & kmrs("subject") & "]]></stitle>"
+    response.write "<top>y</top>"
+    if len(kmrs("description")) > 170 then
+     response.write "<content><![cdata[" & mid(kmrs("description"), 1, 170) & "...]]></content>"
+    else
+     response.write "<content><![cdata[" & kmrs("description") & "...]]></content>"
+    end if    
+    response.write "<path><![cdata[" & path & "]]></path>"
+    response.write "<img></img>"
+   else
+    response.write "<stitle></stitle>"
+    response.write "<content></content>"
+    response.write "<path></path>"
+    response.write "<img></img>"
+   end if
+   kmrs.close
+   set kmrs = nothing
+  else
+   sql = "select stitle, cast(xbody as nvarchar(500)) as xbody, ximgfile from cudtgeneric where icuitem = " & aid
+   set newrs = conn.execute(sql)
+   
+   'response.write "<joey>" & sql & "</joey>"
+   
+   if not newrs.eof then
+    response.write "<stitle><![cdata[" & newrs("stitle") & "]]></stitle>"
+    response.write "<top>y</top>"
+    if len(newrs("xbody")) > 170 then
+     response.write "<content><![cdata[" & mid(newrs("xbody"), 1, 170) & "...]]></content>"
+    else
+     response.write "<content><![cdata[" & newrs("xbody") & "...]]></content>"
+    end if    
+    response.write "<path><![cdata[" & path & "]]></path>"
+    response.write "<img><![cdata[" & newrs("ximgfile") & "]]></img>"
+   else
+    response.write "<stitle></stitle>"
+    response.write "<content></content>"
+    response.write "<path></path>"
+    response.write "<img></img>"
+   end if
+   newrs.close
+   set newrs = nothing
+  end if
+ end sub
+ 
+ '---���� ĳ�d���p���ѥ峹 xml by order--- 
+ sub genarticlexml( id, unit, subject, tank, home )
+  response.write "<issuearticle>"
+  response.write "<order>"
+   response.write "<unit>" & unit & "</unit>"
+   response.write "<subject>" & subject & "</subject>"
+   response.write "<tank>" & tank & "</tank>"
+   response.write "<home>" & home & "</home>"
+  response.write "</order>"
+  jigid = 0
+  jigsawsql = "select * from cudtgeneric inner join knowledgejigsaw on cudtgeneric.icuitem = knowledgejigsaw.gicuitem " _
+       & "where knowledgejigsaw.parenticuitem = " & id & " and cudtgeneric.topcat = 'b'"
+  set jigsawrs = conn.execute(jigsawsql)
+  if not jigsawrs.eof then 
+   jigid = jigsawrs("icuitem")
+   response.write "<isopen>" & jigsawrs("fctupublic") & "</isopen>"
+  end if
+  jigsawrs.close
+  set jigsawrs = nothing  
+  
+  getarticlexml "unit", jigid, 1
+  getarticlexml "subject", jigid, 2
+  getarticlexml "home", jigid, 3
+  getarticlexml "tank", jigid, 4
+  
+  '//ĳ�d���p�v��
+  jigid = 0
+  jigsawsql = "select * from cudtgeneric inner join knowledgejigsaw on cudtgeneric.icuitem = knowledgejigsaw.gicuitem " _
+       & "where knowledgejigsaw.parenticuitem = " & id & " and cudtgeneric.topcat = 'd'"
+  set jigsawrs = conn.execute(jigsawsql)
+  if not jigsawrs.eof then 
+   jigid = jigsawrs("icuitem")
+   response.write "<isopen>" & jigsawrs("fctupublic") & "</isopen>"
+  end if
+  jigsawrs.close
+  set jigsawrs = nothing
+  getarticlexml "media", jigid, 1
+ 
+  response.write "</issuearticle>"
+ end sub
+ 
+ '�����귽����
+ sub getreflinkxml(id)
+  response.write "<reflink>"
+  jigid = 0
+  flag = true
+  jigsawsql = "select * from cudtgeneric inner join knowledgejigsaw on cudtgeneric.icuitem = knowledgejigsaw.gicuitem " _
+       & "where knowledgejigsaw.parenticuitem = " & id & " and cudtgeneric.topcat = 'e'"
+  set jigsawrs = conn.execute(jigsawsql)
+  
+  if not jigsawrs.eof then 
+   jigid = jigsawrs("icuitem")
+   response.write "<isopen>" & jigsawrs("fctupublic") & "</isopen>"
+  end if
+  
+  
+  jigsawrs.close
+  set jigsawrs = nothing
+  '---�c�x�峹---
+  jigsql = "select cudtgeneric.stitle, knowledgejigsaw.path, convert(varchar, cudtgeneric.xpostdate, 111) as xpostdate from cudtgeneric inner join knowledgejigsaw on cudtgeneric.icuitem = knowledgejigsaw.gicuitem " & _
+        "where (knowledgejigsaw.parenticuitem = " & jigid & ") and (knowledgejigsaw.status = 'y') " & _
+       "order by knowledgejigsaw.orderarticle desc"
+  set jigrs = conn.execute(jigsql)  
+  while not jigrs.eof 
+   response.write "<article>"
+   response.write "<title><![cdata[" & jigrs("stitle") & "]]></title>"
+   response.write "<url><![cdata[" & jigrs("path") & "]]></url>"
+   response.write "<xpostdate>" & jigrs("xpostdate") & "</xpostdate>"   
+   response.write "</article>"
+   jigrs.movenext
+  wend
+  response.write "</reflink>"
+  'by joey 
+  'response.write "<sqljoey1>" & jigsawsql & "</sqljoey1>"
+  'response.write "<sqljoey2>" & jigsql & "</sqljoey2>"
+ end sub 
+ 
+ 
+ sub getarticlexml( atype, jigid, rid )
+   
+  response.write "<" & atype & ">"
+  if atype = "media" then
+   dim count2 : count2 = 0
+   for ii =1 to 4
+    '---�c�x�峹---
+    jigsql = "select * from cudtgeneric inner join knowledgejigsaw on cudtgeneric.icuitem = knowledgejigsaw.gicuitem " & _
+         "where (knowledgejigsaw.parenticuitem = " & jigid & ") and (knowledgejigsaw.status = 'y') and (knowledgejigsaw.ctrootid = " & ii & ") " & _
+         "order by knowledgejigsaw.orderarticle desc"
+    set jigrs = conn.execute(jigsql)
+    'response.write "<sql>" & jigsql & "</sql>"
+    while not jigrs.eof 
+     response.write "<article>"    
+     response.write "<stitle>" & jigrs("stitle") & "</stitle>"    
+     response.write "<path><![cdata[" & jigrs("path") & "]]></path>"
+     getissuearticlepostdate jigrs("articleid"), jigrs("ctrootid")
+     jigrs.movenext
+     response.write "</article>"
+     count2 = count2 + 1
+    wend
+    jigrs.close
+    set jigrs = nothing
+   next
+   response.write "<count>" & count2 & "</count>"
+  else
+   dim count : count = 0
+   '---�c�x�峹---
+   jigsql = "select * from cudtgeneric inner join knowledgejigsaw on cudtgeneric.icuitem = knowledgejigsaw.gicuitem " & _
+        "where (knowledgejigsaw.parenticuitem = " & jigid & ") and (knowledgejigsaw.status = 'y') and (knowledgejigsaw.ctrootid = " & rid & ") " & _
+        "order by knowledgejigsaw.orderarticle desc"
+   set jigrs = conn.execute(jigsql)
+   while not jigrs.eof 
+    response.write "<article>"    
+    response.write "<stitle>" & jigrs("stitle") & "</stitle>"    
+    response.write "<path><![cdata[" & jigrs("path") & "]]></path>"
+    getissuearticlepostdate jigrs("articleid"), jigrs("ctrootid")
+    jigrs.movenext
+    response.write "</article>"
+    count = count + 1
+   wend
+   jigrs.close
+   set jigrs = nothing
+   response.write "<count>" & count & "</count>"
+  end if
+  response.write "</" & atype & ">"
+ end sub
+ 
+ sub getissuearticlepostdate( id, rid )
+  if rid = "4" then
+   sql = "select convert(varchar, online_date, 111) as online_date from report where report_id = '" & id & "'"
+   set kmrs = kmconn.execute(sql)
+   if not kmrs.eof then
+    response.write "<xpostdate>" & kmrs("online_date") & "</xpostdate>"
+   else 
+    response.write "<xpostdate></xpostdate>"
+   end if 
+   kmrs.close
+   set kmrs = nothing
+  else
+   sql = "select convert(varchar, xpostdate, 111) as xpostdate from cudtgeneric where icuitem = " & id
+   set newrs = conn.execute(sql)
+   if not newrs.eof then
+    response.write "<xpostdate>" & newrs("xpostdate") & "</xpostdate>"
+   else
+    response.write "<xpostdate></xpostdate>"
+   end if
+   newrs.close
+   set newrs = nothing
+  end if
+  
+ end sub
+  
+ 

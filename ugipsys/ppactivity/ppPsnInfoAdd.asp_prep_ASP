@@ -1,0 +1,424 @@
+﻿:  response.expires = 0
+htprogcap="���ʾǭ��޲z"
+htprogfunc="�s�w"
+htuploadpath="/public/"
+htprogcode="pa010"
+htprogprefix="pppsninfo" 
+   CxMethod_ASP_server_2075167351()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_453315802()
+  
+ dim xnewidentity
+ apath=server.mappath(htuploadpath) & "\"
+' response.write apath & "<hr>"
+  set xup = server.createobject("updownexpress.fileupload")
+  xup.open 
+
+if xupform("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+function xupform(xvar)
+on error resume next
+ xstr = ""
+ arrval = xup.multival(xvar)
+ for i = 1 to ubound(arrval)
+  xstr = xstr & arrval(i) & ", "
+'  response.write arrval(i) & "<br>" & chr(13)
+ next 
+ if xstr = "" then
+  xstr = xup(xvar)
+  xupform = xstr
+ else
+  xupform = left(xstr, len(xstr)-2)
+ end if
+end function
+
+   sub initform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_pppsninfoform_987290187()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                        =htprogfunc
+
+    if (htprogright and 1)=1 then
+
+    end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+
+   sub showhtmltail() 
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- ��ݸ�������ˬd�{���x��b�o�� �a�p�u�ҡa�����ɳ] errmsg="xxx" �� exit sub ------
+' sql = "select * from client where clientid = '"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "�u�Ȥ�s���v����!!�э��s�إ߫Ȥ�s��!"
+'  exit sub
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "insert into papsninfo("
+ sqlvalue = ") values("
+ if xupform("htx_mypassword") <> "" then
+  sql = sql & "mypassword" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_mypassword"),",")
+ end if
+ if xupform("htx_psnid") <> "" then
+  sql = sql & "psnid" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_psnid"),",")
+ end if
+ if xupform("htx_pname") <> "" then
+  sql = sql & "pname" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_pname"),",")
+ end if
+ if xupform("htx_birthday") <> "" then
+  sql = sql & "birthday" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_birthday"),",")
+ end if
+ if xupform("htx_email") <> "" then
+  sql = sql & "email" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_email"),",")
+ end if
+ if xupform("htx_tel") <> "" then
+  sql = sql & "tel" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_tel"),",")
+ end if
+ if xupform("htx_emergcontact") <> "" then
+  sql = sql & "emergcontact" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_emergcontact"),",")
+ end if
+ if xupform("htx_deptname") <> "" then
+  sql = sql & "deptname" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_deptname"),",")
+ end if
+ if xupform("htx_jobname") <> "" then
+  sql = sql & "jobname" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_jobname"),",")
+ end if
+ if xupform("htx_topedu") <> "" then
+  sql = sql & "topedu" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_topedu"),",")
+ end if
+ if xupform("htx_meatkind") <> "" then
+  sql = sql & "meatkind" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_meatkind"),",")
+ end if
+ if xupform("htx_corpname") <> "" then
+  sql = sql & "corpname" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_corpname"),",")
+ end if
+ if xupform("htx_corpid") <> "" then
+  sql = sql & "corpid" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_corpid"),",")
+ end if
+ if xupform("htx_corpzip") <> "" then
+  sql = sql & "corpzip" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_corpzip"),",")
+ end if
+ if xupform("htx_corpaddr") <> "" then
+  sql = sql & "corpaddr" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_corpaddr"),",")
+ end if
+ if xupform("htx_corpcontact") <> "" then
+  sql = sql & "corpcontact" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_corpcontact"),",")
+ end if
+ if xupform("htx_corptel") <> "" then
+  sql = sql & "corptel" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_corptel"),",")
+ end if
+ if xupform("htx_corpfax") <> "" then
+  sql = sql & "corpfax" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_corpfax"),",")
+ end if
+ if xupform("htx_datafrom") <> "" then
+  sql = sql & "datafrom" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_datafrom"),",")
+ end if
+ if xupform("htx_mobile") <> "" then
+  sql = sql & "mobile" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_mobile"),",")
+ end if
+
+  for each xatt in xup.attachments
+    if left(xatt.name,6) = "htimg_" then
+   ofname = xatt.filename
+   fnext = ""
+   if instr(ofname, ".")>0 then fnext=mid(ofname, instr(ofname, "."))
+   tstr = now()
+   nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext
+   sql = sql & mid(xatt.name,7) & ","
+   sqlvalue = sqlvalue & pkstr(nfname,",")
+     xatt.savefile apath & nfname, false
+   elseif left(xatt.name,7) = "htfile_" then
+   ofname = xatt.filename
+   fnext = ""
+   if instr(ofname, ".")>0 then fnext=mid(ofname, instr(ofname, "."))
+   tstr = now()
+   nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext
+   sql = sql & mid(xatt.name,8) & ","
+   sqlvalue = sqlvalue & pkstr(nfname,",")
+     xatt.savefile apath & nfname, false
+     xsql = "insert into imagefile(newfilename, oldfilename) values(" _
+      & pkstr(nfname,",") & pkstr(ofname,")")
+     conn.execute xsql
+ end if
+  next
+
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+ conn.execute sql
+
+end sub '---- doupdatedb() ----
+
+sub showdonebox()
+ doneuri= ""
+ if doneuri = "" then doneuri = htprogprefix & "list.asp"
+
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                             =doneuri
+
+
+
+   end sub '---- showdonebox() ----  

@@ -1,0 +1,46 @@
+/*-------------------------------------------	¤À²³¾ÉÄý--------*/
+#status {
+	font-size: 12px;
+	padding-top: 5px;
+	padding-bottom: 0px;
+	border-top: 1px dashed #BBBBBB;
+	padding-left: 15px;
+}
+#status .Title {
+	color: #333333;
+}
+#status .people {
+	text-decoration: none;
+	height: 20px;
+	padding-left: 22px;
+	margin-right: 10px;
+	background: url(../images/icn_people.gif) no-repeat 2px center;
+}
+#status .research {
+	text-decoration: none;
+	height: 20px;
+	padding-left: 22px;
+	margin-right: 10px;
+	background: url(../images/icn_book.gif) no-repeat 2px center;
+}
+#status .engin {
+	text-decoration: none;
+	height: 20px;
+	padding-left: 22px;
+	margin-right: 10px;
+	background: url(../images/icn_engine.gif) no-repeat 2px center;
+}
+#status .child {
+	text-decoration: none;
+	height: 20px;
+	padding-left: 22px;
+	margin-right: 10px;
+	background: url(../images/icn_baby.gif) no-repeat 2px center;
+}
+
+#status a {
+	text-decoration: none;
+}
+#status a:hover {
+	text-decoration: underline;
+}

@@ -1,0 +1,10 @@
+﻿:  response.expires = 0 
+   htprogcode = "htp02"
+   'response.write session("userid")
+   uid = session("userid")
+
+   dpath = replace(server.mappath("/site/" & session("mysiteid") & "/gipdsd/"),"\","\\")
+   wpath = replace(server.mappath("/site/" & session("mysiteid") & "/project0516/public/","\","\\")
+   //response.write "./project0516/transfer.aspx?dbuserid="& uid & "&dgipdsdpath=" & dpath
+   response.redirect "./project0516/transfer.aspx?dbuserid="& uid & "&dgipdsdpath=" & dpath & "&wpublicpath="& wpath
+    

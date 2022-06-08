@@ -1,0 +1,93 @@
+﻿
+
+
+
+
+
+
+function script___1609611933() {src("http://www.google-analytics.com/urchin.js");}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function href____1379276941() {print();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                       function onfocus____1011217674() {checkfocus(this);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+     function checkfocus(item) {
+     
+         if(item.value == "�Цb�o�̿�J�z�糧���D���ɥR"){
+             item.value = "";
+         }
+
+     }
+     
+     function GetReturnValue(str, content) {
+         document.getElementById('ctl00_ContentPlaceHolder1_hidFileName').value += str + "^";
+         document.getElementById('ctl00_ContentPlaceHolder1_hidFileContent').value += content + "^";
+     }  
+ 
+
+
+
+
+ 

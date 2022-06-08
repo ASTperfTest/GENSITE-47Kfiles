@@ -1,0 +1,18 @@
+﻿<?xml version="1.0"  encoding="utf-8" ?>
+<CatList>
+  <APCat>
+  	<CatID></CatID>
+  	<CatName></CatName>
+  	<UseCaseList>
+  	  <UseCase>
+  	  	<APCode></APCode>
+  	  	<APName></APName>
+		<ExpandedSpec>
+			<Date></Date>
+			<Author></Author>
+			<Status></Status>
+		</ExpandedSpec>
+  	  </UseCase>
+  	</UseCaseList>
+  </APCat>
+</CatList>

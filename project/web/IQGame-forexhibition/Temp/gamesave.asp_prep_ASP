@@ -1,0 +1,67 @@
+﻿: 
+function pkstr (s, endchar)
+  if s="" then
+ pkstr = "null" & endchar
+  else
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ pkstr="'" & s & "'" & endchar
+  end if
+end function
+
+  set conn = server.createobject("adodb.connection")
+ conn.open session("odbcdsn")
+ ptime = request("ptime")
+ 
+ tone  = "0"
+ if request("tone") = "1" then
+  tone = request("toneselect")
+ else
+  tone  = "0"
+ end if
+ 
+ name = pkstr(request("name"),"")
+ 
+ 
+' response.write pkstr(request("name"),"")
+''  response.end
+  'xsql = "insert into cudtgeneric(ibasedsd,ictunit,stitle,xbody,xpostdate,xkeyword,idept,ieditor,fctupublic,deditdate,xnewwindow,showtype)" _
+  '   & " values(38,651," & name & ",'',getdate(),'',0,'hyweb','y',getdate(),'n',1)"
+  xsql = "insert into cudtgeneric(ibasedsd,ictunit,stitle,xbody,xpostdate,xkeyword,idept,ieditor,fctupublic,deditdate,xnewwindow,showtype)" _
+     & " values(38,651," & name & ",'',getdate(),'',0,'hyweb','y',rtrim(ltrim(str(year(getdate())))) + '/' + rtrim(ltrim(str(month(getdate())))) +  '/' + rtrim(ltrim(str(day(getdate())))),'n',1)"
+     
+  sql = "set nocount on;"&xsql&"; select @@identity as newid"    
+  'debugprint sql
+  'response.write  filename & "<br>"
+    'response.write sql & "<br>"
+    'response.end
+  set rsx = conn.execute(sql)
+  xnewidentity = rsx(0)     
+  money = request("money")
+  rate = money - ptime
+  str="insert into flashgame(gicuitem,name,age,sex,ptimemin,ptimesec,ptime,email,hakkalangtone,money,rate) values(" & xnewidentity & "," & name  & "," & pkstr(request("age"),"") & "," & pkstr(request("sex"),"") & "," & cint((ptime-(ptime mod 60))/60) & "," & cint(ptime mod 60) & "," & ptime & "," & pkstr(request("email"),"") & "," & pkstr(tone,"") & "," & money & "," & rate & ")"
+   
+  conn.execute(str)
+  
+  
+  'sql="select top 20 * from flashgame order by rate desc,gicuitem desc"
+  sql="select top 1 * from flashgame where name = " & name   & " and money > " & money & ""
+  'response.write sql
+  'response.end
+  set gamedata=conn.execute(sql)
+  bfind = "n"
+  while not gamedata.eof
+    'response.write xnewidentity
+    'response.write gamedata("gicuitem")
+    'if cstr(xnewidentity) = cstr(gamedata("gicuitem")) then
+      bfind = "y"
+    'end if
+    gamedata.movenext
+  wend
+  
+  set conn = nothing
+  response.write "&in=" & bfind
+ 

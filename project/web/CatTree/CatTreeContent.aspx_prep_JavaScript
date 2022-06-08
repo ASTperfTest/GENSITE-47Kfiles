@@ -1,0 +1,94 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   function trim(stringToTrim){ return stringToTrim.replace(/^\s+|\s+$/g,"");}
+  function getSelectedText(path) {  
+   var alertStr = "";
+   if (window.getSelection) {         
+    // This technique is the most likely to be standardized.         
+    // getSelection() returns a Selection object, which we do not document.         
+    alertStr = window.getSelection().toString();
+    //textarea的處理
+    if( alertStr == '' ){
+     alertStr = getTextAreaSelection();
+    }      
+   }          
+   else if (document.getSelection) {         
+    // This is an older, simpler technique that returns a string         
+    alertStr = document.getSelection();     
+   }     
+   else if (document.selection) {         
+    // This is the IE-specific technique.         
+    // We do not document the IE selection property or TextRange objects.         
+    alertStr = document.selection.createRange().text;     
+   }
+   if ( alertStr.length > 10 ) {
+    alert("詞彙長度限制10字以內");
+   }
+   //else if ( alertStr == "" ) {
+   // alert("請選擇推薦詞彙");
+   //}
+   else {
+     alertStr = trim(alertStr);
+    window.open(encodeURI("/CommendWord/CommendWordAdd.aspx?type=1&word=" + alertStr + "&" + path ),'建議小百科詞彙','resizable=yes,width=565,height=360');
+   }   
+  } 
+
+  function getTextAreaSelection(){
+   var alertStr = '';
+   var elementObj = document.getElementsByTagName("textarea");
+   var all_length = elementObj.length;      
+   for(var i=0 ; i<all_length ; i++){
+    if (elementObj[i].selectionStart != undefined && elementObj[i].selectionEnd != undefined) {         
+          var start = elementObj[i].selectionStart;         
+          var end = elementObj[i].selectionEnd;         
+          alertStr = elementObj[i].value.substring(start, end) ;
+          elementObj[i].selectionStart = start;
+          elementObj[i].selectionEnd = end;
+          //將focus指向該element
+          elementObj[i].focus();             
+    }     
+    else alertStr = ''; // Not supported on this browser                                      
+   }
+   return alertStr ;
+  }
+  
+
+
+
+
+
+ 

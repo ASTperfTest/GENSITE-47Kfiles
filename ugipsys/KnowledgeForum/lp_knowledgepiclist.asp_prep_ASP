@@ -1,0 +1,330 @@
+﻿
+   
+htprogcode="gc1ap9"
+htprogprefix="newkpi" 
+response.expires = 0
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+htprogprefix = "lp_knowledgepic"
+
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+picid=request("picid")
+parenticuitem=request("parenticuitem")
+
+  '---更新圖片狀態---
+if request("submittask") = "pass" then
+ sql = "update knowledgepicinfo set picstatus = 'y' where parenticuitem = "& "'"  & parenticuitem & "'" & " and picid= "& picid 
+ 
+ conn.execute(sql)
+
+elseif request("submittask") = "nopass" then
+
+sql = "update knowledgepicinfo set picstatus = 'n' where parenticuitem = "& "'"  & parenticuitem & "'" & " and picid= "& picid 
+ 
+ conn.execute(sql)
+elseif request("submittask") = "allpass" then
+ 
+ dim selecteditems : selecteditems = request("selecteditems")
+ dim items : items = split(selecteditems, ";")
+ for each item in items
+  if item <> "" then 
+   sql = "update knowledgepicinfo set picstatus = 'y' where picid=  " & item
+   conn.execute(sql)
+   
+  end if
+ next
+elseif request("submittask") = "allnopass" then
+ 
+ dim selecteditem : selecteditem = request("selecteditems")
+ dim item : items = split(selecteditem, ";")
+ for each item in items
+  if item <> "" then 
+   sql = "update knowledgepicinfo set picstatus = 'n' where picid=  " & item
+   conn.execute(sql)
+   
+  end if
+ next
+end if
+
+
+ 
+csql = "select     count(*) as allcount from  knowledgepicinfo inner join cudtgeneric on knowledgepicinfo.parenticuitem = cudtgeneric.icuitem inner join member on cudtgeneric.ieditor = member.account"
+
+  nowpage = request.querystring("nowpage")  '現在頁數
+  perpagesize = cint(request.querystring("pagesize"))
+  if perpagesize <= 0 then  perpagesize = 15  
+
+  set rsc = conn.execute(csql)
+  totrec = rsc(0)       '總筆數
+  totpage = int(totrec / perpagesize + 0.999)
+
+  if cint(nowpage) < 1 then 
+    nowpage = 1
+  elseif cint(nowpage) > totpage then 
+    nowpage = totpage 
+  end if      
+  '---狀態選擇時--
+  validate=request("validate")
+
+select case validate
+ case "w"
+ fsql= fsql & " * from knowledgepicinfo inner join cudtgeneric on knowledgepicinfo.parenticuitem = cudtgeneric.icuitem inner join member on cudtgeneric.ieditor = member.account order by cudtgeneric.xpostdate desc"
+    fsql= "select top "& nowpage * perpagesize  & fsql & "where picstatus = 'w'"
+ case "y"
+ fsql= fsql & " * from knowledgepicinfo inner join cudtgeneric on knowledgepicinfo.parenticuitem = cudtgeneric.icuitem inner join member on cudtgeneric.ieditor = member.account order by cudtgeneric.xpostdate desc"
+    fsql= "select top "& nowpage * perpagesize  & fsql & "where picstatus = 'y'"
+ case "n"
+ fsql= fsql & " * from knowledgepicinfo inner join cudtgeneric on knowledgepicinfo.parenticuitem = cudtgeneric.icuitem inner join member on cudtgeneric.ieditor = member.account order by cudtgeneric.xpostdate desc"
+    fsql= "select top "& nowpage * perpagesize  & fsql & "where picstatus = 'n'"
+    case else
+    fsql= fsql & " * from knowledgepicinfo inner join cudtgeneric on knowledgepicinfo.parenticuitem = cudtgeneric.icuitem inner join member on cudtgeneric.ieditor = member.account order by cudtgeneric.xpostdate desc"
+    fsql= "select top "& nowpage * perpagesize  & fsql 
+end select 
+
+  set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+' rsreg.cachesize = perpagesize
+
+'----------hyweb gip db connection patch----------
+' rsreg.open fsql,conn, 3, 1
+set rsreg = conn.execute(fsql)
+ rsreg.cachesize = perpagesize
+'----------hyweb gip db connection patch----------
+
+
+ if not rsreg.eof then
+  if totrec > 0 then 
+      rsreg.pagesize = perpagesize       '每頁筆數
+      rsreg.absolutepage = nowpage      
+  end if    
+ end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       if validate="" then:           end if
+                          if validate="all" then:           end if
+                        if validate="w" then:           end if
+                        if validate="y" then:           end if
+                        if validate="n" then:           end if
+
+
+
+
+
+
+
+
+
+
+
+         =totrec:                    =nowpage:     =totpage
+
+
+
+
+                         if perpagesize=15 then:            end if
+                         if perpagesize=30 then:            end if
+                         if perpagesize=50 then:            end if
+
+
+
+
+   if cint(nowpage) <> 1 then 
+
+              =htprogprefix:                           =(nowpage-1):             =perpagesize
+       end if 
+
+     for ipage=1 to totpage 
+                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+       next 
+
+
+    if cint(nowpage)<>totpage then 
+                 =htprogprefix:                           =(nowpage+1):             =perpagesize
+
+       end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   while not rsreg.eof 
+
+
+                                                  =rsreg("picid")
+
+
+                      =trim(rsreg("account"))
+                      =trim(rsreg("realname"))
+                      =trim(rsreg("nickname"))
+                                        =trim(rsreg("pictitle"))
+                                                   =trim(rsreg("picpath")):                               =trim(rsreg("picpath"))
+                                               =trim(rsreg("icuitem")):      =trim(rsreg("parenticuitem"))
+
+                                                                          =rsreg("picid"):      =rsreg("parenticuitem")
+                                                                                =rsreg("picid"):      =rsreg("parenticuitem")
+
+
+
+   if rsreg("picstatus")="w" then
+
+   end if
+
+   if rsreg("picstatus")="y" then
+
+   end if
+   if rsreg("picstatus")="n" then
+
+   end if
+
+
+
+   
+ rsreg.movenext 
+  wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   =htprogprefix:                    =request.querystring("icuitem")
+
+
+
+
+
+
+                                     =htprogprefix:                                                    =perpagesize
+
+
+
+
+                                     =htprogprefix:                           =nowpage
+
+
+
+                                     =htprogprefix:                           =nowpage:             =perpagesize
+
+
+
+
+
+                            =htprogprefix:                           =nowpage:             =perpagesize 

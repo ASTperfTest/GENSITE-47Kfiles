@@ -1,0 +1,39 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "gc1ap1" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbfunc_1723934251()
+
+  
+ctnodeid = request("ctnodeid")
+if ctnodeid="" then
+
+
+
+
+  else
+
+ctnodeidstr=""
+catnamestr=""
+myarray = split(ctnodeid,",")
+for i=0 to ubound(myarray)
+ xpos=instr(myarray(i),"|||")
+ if xpos<>0 then
+  ctnodeidstr=ctnodeidstr+left(myarray(i),xpos-1)+","
+  catnamestr=catnamestr+mid(myarray(i),xpos+3)+","
+ end if
+ response.write myarray(i) & "<br>"
+next
+ ctnodeidstr=left(ctnodeidstr,len(ctnodeidstr)-1)
+ catnamestr=left(catnamestr,len(catnamestr)-1)
+'response.write ctnodeidstr & "<br>"
+'response.write catnamestr & "<br>"
+
+
+                   =ctnodeidstr
+                  =catnamestr
+
+
+
+  end if 

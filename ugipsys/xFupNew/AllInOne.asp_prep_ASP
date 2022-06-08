@@ -1,0 +1,89 @@
+﻿: @ codepage = 65001 
+  @ language=vbscript 
+  
+dim i
+i=1 
+set fso = server.createobject("scripting.filesystemobject")
+
+
+xpath = request("xpath")
+uppath = session("uploadpath") & xpath
+if right(uppath,1)<>"/" then uppath = uppath & "/"
+if right(xpath,1)<>"/" then xpath = xpath & "/"
+if left(xpath,1)="/" then xpath = mid(xpath,2)
+'response.write uppath
+'response.end
+set fldr = fso.getfolder(server.mappath(uppath))
+'set fldr = fso.getfolder("public")
+'response.write "folder name is: " &  fldr.name & "<hr>"
+'for each sf in fldr.subfolders
+' response.write sf.name & "<br>"
+'next
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+            =session("uploadpath"):   =xpath
+       
+     response.write "please choose your upload destination folder!" 
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+              
+              
+               for each sf in fldr.subfolders
+               
+           
+
+
+                                                                =xpath:   =sf.name:    =sf.name
+
+                                  
+                                   i=i+1
+                                   next                                
+                                 
+
+
+
+
+
+
+
+              
+               for each sf in fldr.files
+           
+
+                                                                      =sf.name
+                             =sf.name
+                                            =sf.size
+
+                                  
+                                    next                                
+                                 
+
+
+
+                                                                                    =xpath 

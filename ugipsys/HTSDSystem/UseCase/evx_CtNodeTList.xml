@@ -1,0 +1,89 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<OperationContract>
+	<Code>GE1T21</Code>
+	<APCat>GE1</APCat>
+	<formSpec>CtNodeTList</formSpec><htPattern>genMDList</htPattern>
+	<htSpecPattern>MDList</htSpecPattern>
+	<htCodePath>/GipPlan</htCodePath>
+	<Version>
+		<Date>2003/4/7</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<FromEvent type="Client" id="20"/>
+		<ContractSpec>
+			<Name>evx_CtNodeTList</Name>
+			<Type>Client</Type>
+			<ResponsibilityList>
+				<Responsibility>[樹狀條列] -- 導覽頁分類樹樹狀架構 分類		
+					1.列出欄位: 標題, 節點類型(以圖示區分), 開放狀態(on/off); 
+					2.Anchor在名稱，點選進入編修/刪除此節點設定，以及新增分類與單元 主題單元
+					1.列出欄位: 標題, 節點類型(以圖示區分), 開放狀態(on/off); 
+					2.Anchor在名稱，點選進入編修/刪除此節點設定</Responsibility>
+			</ResponsibilityList>
+			<PreConditionList>
+				<PreCondition></PreCondition>
+			</PreConditionList>
+			<AnchorList>
+				<Anchor>
+					<AnchorLabel>回前頁</AnchorLabel>
+					<AnchorType>Back</AnchorType>
+					<AnchorDesc>回前頁</AnchorDesc>
+					<AnchorURI></AnchorURI>
+					<checkRight></checkRight>
+					<AnchorPos>Top</AnchorPos>
+				</Anchor>
+			</AnchorList>
+			<DescriptionList>
+				<Description></Description>
+			</DescriptionList>
+			<RefObjectList>
+				<RefObject xRef="Y" xUpdate="N">導覽頁主檔</RefObject>
+				<RefObject xRef="Y" xUpdate="N">分類樹節點</RefObject>
+			</RefObjectList>
+			<OutputList>
+				<Output></Output>
+			</OutputList>
+			<PostConditionList>
+				<PostCondition eop="">
+					<!-- instanceCreate/instanceDelete/attributeModify/AssocFormed/AssocBroken -->
+				</PostCondition>
+			</PostConditionList>
+			<htDEntityList>
+				<htDEntity xRef="Y" xUpdate="N">CatTreeRoot</htDEntity>
+				<htDEntity xRef="Y" xUpdate="N">CatTreeNode</htDEntity>
+			</htDEntityList>
+			<CrossReferenceList>
+				<CrossReference></CrossReference>
+			</CrossReferenceList>
+			<NoteList>
+				<Note></Note>
+			</NoteList>
+			<ExceptionList>
+				<Exception></Exception>
+			</ExceptionList>
+			<ActorList>
+				<Actor></Actor>
+			</ActorList>
+		</ContractSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+</OperationContract>

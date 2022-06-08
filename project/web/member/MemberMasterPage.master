@@ -1,0 +1,124 @@
+﻿<%@ Master Language="VB" CodeFile="MemberMasterPage.master.vb" Inherits="Member_MemberMasterPage" %>
+
+
+<%@ Register Src="~/knowledge/MemberInfo.ascx" TagName="MemberInfo" TagPrefix="uc5" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version="1.0"  encoding="utf-8" ?>
+<%
+  Dim xsl As System.Xml.Xsl.XslCompiledTransform = New System.Xml.Xsl.XslCompiledTransform
+  Dim xslpath As String = System.Web.Configuration.WebConfigurationManager.AppSettings("commonxslpath")
+  xsl.Load(xslpath)
+        
+  Dim sb As System.Text.StringBuilder = New System.Text.StringBuilder
+
+  Dim xmlWriter As System.IO.StringWriter = New System.IO.StringWriter(sb)
+  Dim xslstr As String = ""
+    
+  xslstr = System.Web.Configuration.WebConfigurationManager.AppSettings("commonxslstr")
+         
+  xsl.Transform(xslstr & "&memID=" & Session("memID") & "&gstyle=" & Session("gstyle"), New System.Xml.XmlTextWriter(xmlWriter))
+     
+  Dim head As String
+  Dim tail As String
+        
+  Dim index As Integer
+  Dim html As String = sb.ToString()
+  Dim spword As String = "___ContentPage___"
+  index = html.IndexOf(spword)
+        
+  If index < 0 Then
+    head = html
+    tail = ""
+  Else
+    head = html.Substring(0, index)
+    tail = html.Substring(index + spword.Length)
+  End If
+       
+  Response.Write(head)
+%>
+<!--
+<html xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:hyweb="urn:gip-hyweb-com" xmlns="http://www.w3.org/1999/xhtml">
+<head><title></title></head>
+<body>
+<table>
+-->
+<td class="center">	
+
+  <form id= "myform" runat="server">
+    <asp:contentplaceholder id="ContentPlaceHolder1" runat="server" />
+    
+     <td class="right">
+    	    <!--右方menu 搜尋服務-->
+            
+        <div class="search">
+		    <h2>搜尋服務</h2>		    
+		    
+			    <label for="search">search</label>
+			    <input name="Keyword" type="text" accesskey="s" class="txt" />
+			    <label for="站內單元" class="ckb"><input name="FromSiteUnit" value="1" type="checkbox" class="ckb" checked="checked" />站內單元</label>
+			    <label for="知識庫" class="ckb"><input name="FromKnowledgeTank" value="1" type="checkbox" class="ckb" checked="checked" />知識庫</label>
+			    <label for="知識家" class="ckb"><input name="FromKnowledgeHome" value="1" type="checkbox" class="ckb" checked="checked" />知識家</label>
+			    <label for="主題館" class="ckb"><input name="FromTopic" value="1" type="checkbox" class="ckb"  checked="checked" />主題館</label>
+			    <p style="clear:both;margin-left:10px;">
+		 	    <input name="search" type="image" src="/xslgip/style1/images3/searchBtn.gif" alt="search" class="btn" onClick="javascript:checkSearchForm(0)"/>
+		      <input name="search" type="image" src="/xslgip/style1/images3/SearchBtn2.gif" alt="search" class="btn" onClick="javascript:checkSearchForm(1)"/>
+		      </p>
+		    
+		      <script type="text/javascript" language="javascript">
+			    function checkSearchForm(value)
+			    {							    
+			      var flag = true;
+			      if (document.getElementById("ctl00$MemberInfo1$MemberAccountTBox") != null && document.getElementById("ctl00$MemberInfo1$MemberPassWordTBox") != null ) {
+			        
+    		        if ( document.getElementById("ctl00$MemberInfo1$MemberAccountTBox").value != "" || document.getElementById("ctl00$MemberInfo1$MemberPassWordTBox").value != "" ){			          		      
+    		          document.aspnetForm.Keyword.value = "";
+		    	        flag = false;
+			          }
+			          else {
+			            if(document.getElementById("keyword").value == "" ) {
+			              flag = false;
+			            }			            
+			          }			          
+			      }			      				       
+			      if( flag ) {
+				      if( value == 0 ) {
+  					    if( document.aspnetForm.Keyword.value == "" ) {
+						      alert('請輸入查詢值');
+						      event.returnValue = false;
+					      }
+					      else {
+  						    document.aspnetForm.__VIEWSTATE.value = "";
+						      document.aspnetForm.action = "/kp.asp?xdURL=Search/SearchResultList.asp&mp=1";
+						      document.aspnetForm.submit();
+					      }
+				      }
+				      else {
+  					    document.aspnetForm.__VIEWSTATE.value = "";
+					      document.aspnetForm.action = "/kp.asp?xdURL=Search/AdvancedSearch.asp&mp=1";
+					      document.aspnetForm.submit();
+				      }
+				    }
+				    else {
+				      event.returnValue = false;
+				    }
+			    }
+		      </script>
+	      </div>
+            
+        <!--右方menu 會員登入-->
+        <uc5:MemberInfo ID="MemberInfo1" runat="server" />                
+            
+      </td>
+    
+  </form>  
+  
+<!--  
+  
+</table>    
+</body>
+</html>
+-->
+<%
+	Response.Write(tail)
+%>

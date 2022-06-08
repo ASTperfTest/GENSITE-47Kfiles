@@ -1,0 +1,58 @@
+﻿.buttonB a{
+	color: #707070;
+	text-decoration: none;
+	height: 20px;
+	width: 138px;
+	background-image: url(../images3/buttonbg02.jpg);
+	background-repeat: no-repeat;
+	display: block;
+	text-align: left;
+	padding-top: 5px;
+	padding-left: 17px;
+	margin-bottom: 3px;
+	font-size: 93%;
+}
+html>body .buttonB a{
+	color: #707070;
+	text-decoration: none;
+	height: 20px;
+	width: 138px;
+	background-image: url(../images3/buttonbg02.jpg);
+	background-repeat: no-repeat;
+	display: block;
+	text-align: left;
+	padding-top: 5px;
+	padding-left: 17px;
+	font-size: 93%;
+	margin-left: 13px;
+	margin-bottom: 0px;
+}
+.buttonB a:hover{
+	color: #333333;
+	text-decoration: none;
+	background-image: url(../images3/buttonbg02_2.jpg);
+	background-repeat: no-repeat;
+}
+
+/*----------------------------------------------------------------login star*/
+
+.loginfun22  {
+	background-image: url(../images3/bg6_03.jpg);
+	background-repeat: repeat-y;
+	text-align: center;
+	width: 190px;
+}
+.loginfun22 p{
+	margin-top: 30px;
+	margin-left: 20px;
+	
+
+}
+.loginfun22Foot {
+	background-image: url(../images3/bg6_05.jpg);
+	background-repeat: no-repeat;
+	height: 14px;
+	width: 190px;
+	margin: 0px;
+	padding: 0px;
+}

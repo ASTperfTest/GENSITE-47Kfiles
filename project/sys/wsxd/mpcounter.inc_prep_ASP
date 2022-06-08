@@ -1,0 +1,13 @@
+﻿:  
+ sql = "select * from counter where mp='" & request("mp") & "'"
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  count = rs("counts") + 1
+  sql = "update counter set counts = counts + 1  where mp='" & request("mp") & "'"
+ else
+  count = 1
+  sql="insert into counter (mp, counts) values ('" & request("mp") & "','1')"
+ end if
+ response.write "<counter>" & count & "</counter>"
+ set rs = conn.execute(sql)
+ 

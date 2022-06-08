@@ -1,0 +1,389 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   CxMethod_ASP_dbutil_10064021()
+
+
+
+
+
+  
+server.scripttimeout = 1200
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+function nulltext(xnode)
+   on error resume next
+   xstr = ""
+   xstr = xnode.text
+   nulltext = xstr
+   err.number=0
+end function
+function xstdtime2(dt)    
+   if len(dt)=0 or isnull(dt) then
+      xstdtime2=""
+   else
+        xyear = cstr(year(dt))
+        xmonth = right("00"+ cstr(month(dt)),2)
+        xday = right("00"+ cstr(day(dt)),2)
+        xhour = right("00" + cstr(hour(dt)),2)
+        xminute = right("00" + cstr(minute(dt)),2)
+        xsecond = right("00" + cstr(second(dt)),2)
+        xstdtime2 = xyear & "/" & xmonth & "/" & xday & " " & xhour & ":" & xminute & ":" & xsecond
+   end if
+end function
+
+function xstdtime(dt)    
+   if len(dt)=0 or isnull(dt) then
+      xstdtime=""
+   else
+        xyear = cstr(year(dt))
+        xmonth = right("00"+ cstr(month(dt)),2)
+        xday = right("00"+ cstr(day(dt)),2)
+        xstdtime = xyear & "/" & xmonth & "/" & xday
+   end if
+end function
+
+
+ htuploadpath=session("public")+"data/"
+ targetpath=server.mappath(htuploadpath) & "\"  '----��d������p����������u������������������������������|
+ htuploadpath2=session("public")+"attachment/"
+ targetpath2=server.mappath(htuploadpath2) & "\"  '----������������������������������|
+ sourcepath="d:\project\uwebey\upload\"   '----������j����������������������|
+
+    if request("mysiteid") <> session("mysiteid") then
+     response.write "session����������t, ����������s��n��j������x!"
+     response.end
+    end if
+
+'----1.������o������������������������
+ sql = "select u.* from ctunit as u " _
+  & " where u.ctunitid=" & request.querystring("ctunitid") 
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "��l������d��d��������id!"
+  response.end
+ elseif isnull(rs("ibasedsd")) then
+  response.write "������d��d����������|����������w����������d����!"
+  response.end
+ else
+  xctunitid = rs("ctunitid")
+  xctunitname = rs("ctunitname")
+  xibasedsd = rs("ibasedsd")
+ end if
+ '----������o����������������xml
+ set trandom = server.createobject("microsoft.xmldom")
+ trandom.async = false
+ trandom.setproperty("serverhttprequest") = true 
+ loadxml = server.mappath("xml/datatran"&xctunitid&".xml")
+ xv = trandom.load(loadxml)
+ if trandom.parseerror.reason <> "" then 
+  response.write("trandom parseerror on line " &  trandom.parseerror.line)
+  response.write("<br>reason: " &  trandom.parseerror.reason)
+  response.end()
+ end if
+ set ctuinttranlistnode = trandom.selectsinglenode("datatran/ctuinttranlist")
+ set updatefieldlistnode = trandom.selectsinglenode("datatran/updatefieldlist")
+ targetdb = nulltext(trandom.selectsinglenode("datatran/targetdb")) 
+ sourcedb = nulltext(trandom.selectsinglenode("datatran/sourcedb"))
+ sqls = nulltext(trandom.selectsinglenode("datatran/sqlstr")) 
+ set rss = conn.execute(sqls)
+ if rss.eof then
+  response.write "��������table��l��������!"
+  response.end
+ end if
+ '----��}��������
+ outfile = server.mappath("log/datatranlog_"&xctunitid&".txt")
+ set fso = createobject("scripting.filesystemobject")
+ set xfout = fso.createtextfile(outfile, true) 
+ xfout.writeline "��d��d��������"&xctunitid&"����������������("&date()&")"
+ xfout.writeline "----------------------------------------------------------------------------"
+'----2.load dsd xml
+ set htpagedom = server.createobject("microsoft.xmldom")
+ htpagedom.async = false
+ htpagedom.setproperty("serverhttprequest") = true  
+    set fso = server.createobject("scripting.filesystemobject")
+ filepath = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx" & cstr(xctunitid) & ".xml")
+ if fso.fileexists(filepath) then
+  loadxml = filepath
+ else
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/cudtx" & cstr(xibasedsd) & ".xml")
+ end if   
+ xv = htpagedom.load(loadxml)
+   if htpagedom.parseerror.reason <> "" then 
+      response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reason: " &  htpagedom.parseerror.reason)
+      response.end()
+   end if
+ xtablename = htpagedom.selectsinglenode("dataschemadef/dstable/tablename").text
+'----3.������r������e������������������p��d��d����������������(��`��n����������r������d������������������w��z��������)
+ '----��r������d����/����������u����������������
+    if request.querystring("dyn")="" then
+ sqldi = "select c.ximgfile,c.filedownload,c.icuitem " & _
+   "from gipdatatran g " & _
+   "    left join gipdatatrandetail gd on g.tid=gd.tid " & _
+   "    left join cudtgeneric c on gd.icuitem=c.icuitem " & _
+   "where c.icuitem is not null and xmlctunitid=" & xctunitid & " and xmlmysiteid='"&session("mysiteid")&"'"
+ set rsi = conn.execute(sqldi)
+ if not rsi.eof then
+  while not rsi.eof
+   if not isnull(rsi("ximgfile")) then 
+    if fso.fileexists(targetpath+rsi("ximgfile")) then fso.deletefile(targetpath+rsi("ximgfile"))
+   end if
+   if not isnull(rsi("filedownload")) then 
+    if fso.fileexists(targetpath+rsi("filedownload")) then 
+     fso.deletefile(targetpath+rsi("filedownload"))
+     conn.execute("delete i from cudtgeneric c left join imagefile i on c.filedownload=i.newfilename where c.icuitem=" & rsi("icuitem"))
+    end if
+   end if
+   rsi.movenext
+  wend
+ end if
+ '----��r��������������������
+ sqlda = "select c.nfilename,c.xicuitem from gipdatatran g " & _
+   "    left join gipdatatrandetail gd on g.tid=gd.tid " & _
+   "    left join cudtattach c on gd.icuitem=c.xicuitem " & _
+   "where c.xicuitem is not null and xmlctunitid=" & xctunitid & " and xmlmysiteid='"&session("mysiteid")&"'"
+ set rsi = conn.execute(sqlda)
+ if not rsi.eof then
+  while not rsi.eof
+   if not isnull(rsi("nfilename")) then 
+    if fso.fileexists(targetpath2+rsi("nfilename")) then 
+     fso.deletefile(targetpath2+rsi("nfilename"))
+     conn.execute("delete i from cudtattach c left join imagefile i on c.nfilename=i.newfilename where c.xicuitem=" & rsi("xicuitem") & ";delete cudtattach where xicuitem=" & rsi("xicuitem")&";")
+    end if
+   end if
+   rsi.movenext
+  wend
+ end if
+ '----��r����detail����
+ sqldl = "delete c from gipdatatran g " & _
+   "    left join gipdatatrandetail gd on g.tid=gd.tid " & _
+   "    left join "&xtablename&" c on gd.icuitem=c.gicuitem " & _
+   "where c.gicuitem is not null and xmlctunitid=" & xctunitid & " and xmlmysiteid='"&session("mysiteid")&"'"
+ conn.execute(sqldl)
+ '----��r����cudtgeneric����
+ sqldm = "delete c from gipdatatran g " & _
+   "    left join gipdatatrandetail gd on g.tid=gd.tid " & _
+   "    left join cudtgeneric c on gd.icuitem=c.icuitem " & _
+   "where c.icuitem is not null and xmlctunitid=" & xctunitid & " and xmlmysiteid='"&session("mysiteid")&"'"
+ conn.execute(sqldm)  
+ '----��r����gipdatatrandetail����
+ sqldgl = "delete gd from gipdatatran g " & _
+   "    left join gipdatatrandetail gd on g.tid=gd.tid " & _
+   "where xmlctunitid=" & xctunitid & " and xmlmysiteid='"&session("mysiteid")&"'"
+ conn.execute(sqldgl)
+ '----��r����gipdataimport����
+ sqldgm = "delete gipdatatran where xmlctunitid=" & xctunitid & " and xmlmysiteid='"&session("mysiteid")&"'"
+ conn.execute(sqldgm)
+
+ response.write "��m������e����������������������������!<hr>"
+    end if
+' response.end 
+'----4.loop ��������recordsets,��s��w��������
+ '----��g��jgipdatatran����  
+ sqlg = "set nocount on;insert into gipdatatran values(null,'"&session("username")&"','"&date()&"','"&session("mysiteid")&"',"&xctunitid&",null,null) select @@identity as newid;"
+ set rsg = conn.execute(sqlg)
+ xtid = rsg(0)
+ recordcount=0
+ transuccess=0
+ tranfail=0
+ while not rss.eof 
+  recordcount=recordcount+1
+  err.number=0
+  on error resume next
+  '----��d������w����
+  ximgfilevalue = ""
+      if nulltext(ctuinttranlistnode.selectsinglenode("ctuinttran[targetfield='ximgfile']"))<>"" then
+       ximgfile_sourcefield = nulltext(ctuinttranlistnode.selectsinglenode("ctuinttran[targetfield='ximgfile']/sourcefield"))
+   ximgfilevalue = rss(ximgfile_sourcefield)
+      end if
+  '----����������u������������������w����
+  xfiledownloadvalue = ""
+  xfiledownloadvalue_org = ""  
+      if nulltext(ctuinttranlistnode.selectsinglenode("ctuinttran[targetfield='filedownload']"))<>"" then
+       xfiledownload_sourcefield = nulltext(ctuinttranlistnode.selectsinglenode("ctuinttran[targetfield='filedownload']/sourcefield"))
+   xfiledownloadvalue = rss(xfiledownload_sourcefield)
+       xfiledownload_sourcefield_org = nulltext(ctuinttranlistnode.selectsinglenode("ctuinttran[targetfield='filedownload']/sourcefield_org"))
+   xfiledownloadvalue_org = rss(xfiledownload_sourcefield_org)
+      end if
+      set conn2 = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'  conn2.open session("odbcdsn")
+'set conn2 = server.createobject("hywebdb3.dbexecute")
+conn2.connectionstring = session("odbcdsn")
+conn2.connectiontimeout=0
+conn2.cursorlocation = 3
+conn2.open
+'----------hyweb gip db connection patch----------
+
+  conn2.begintrans
+     '----��s��wcudtgeneric��b��z
+  sql = "insert into  "&targetdb&".dbo.cudtgeneric(ibasedsd,ictunit,fctupublic,xnewwindow,idept,showtype,"
+  sqlvalue = ") values("&xibasedsd&","&xctunitid&",'y','n','0','1'," 
+  for each fieldnode in htpagedom.selectnodes("//dataschemadef/dstable[tablename='cudtgeneric']/fieldlist/field") 
+   if nulltext(ctuinttranlistnode.selectsinglenode("ctuinttran[targetfield='"&fieldnode.selectsinglenode("fieldname").text&"']"))<>"" then
+       set ctuinttrannode = ctuinttranlistnode.selectsinglenode("ctuinttran[targetfield='"&fieldnode.selectsinglenode("fieldname").text&"']")       
+    sql = sql & fieldnode.selectsinglenode("fieldname").text & ","
+    if fieldnode.selectsinglenode("fieldname").text="createddate" or fieldnode.selectsinglenode("fieldname").text="deditdate" or fieldnode.selectsinglenode("fieldname").text="avbegin" or fieldnode.selectsinglenode("fieldname").text="avend" then
+        if not isnull(rss(ctuinttrannode.selectsinglenode("sourcefield").text)) then
+      sqlvalue = sqlvalue & pkstr(xstdtime2(rss(ctuinttrannode.selectsinglenode("sourcefield").text)),",")
+        else
+            sqlvalue = sqlvalue & "null,"
+        end if
+    elseif fieldnode.selectsinglenode("fieldname").text="xpostdate" then
+        if not isnull(rss(ctuinttrannode.selectsinglenode("sourcefield").text)) then
+      sqlvalue = sqlvalue & pkstr(xstdtime(rss(ctuinttrannode.selectsinglenode("sourcefield").text)),",")
+        else
+            sqlvalue = sqlvalue & "null,"
+        end if
+    else
+     sqlvalue = sqlvalue & pkstr(trim(rss(ctuinttrannode.selectsinglenode("sourcefield").text)),",")
+    end if       
+      end if
+  next
+      sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+  sql = "set nocount on;"&sql&"; select @@identity as newid;"
+  response.write sql & "<br>"
+  xfout.writeline sql
+      set rsx = conn2.execute(sql)
+      xnewidentity = rsx(0)  
+     '----��s��wslave table��b��z  
+  sql = "insert into  "&targetdb&".dbo." & xtablename & "(gicuitem,"
+  sqlvalue = ") values(" & xnewidentity & ","  
+  for each fieldnode in htpagedom.selectnodes("//dataschemadef/dstable[tablename='"&xtablename&"']/fieldlist/field") 
+   if nulltext(ctuinttranlistnode.selectsinglenode("ctuinttran[targetfield='"&fieldnode.selectsinglenode("fieldname").text&"']"))<>"" then
+    set ctuinttrannode = ctuinttranlistnode.selectsinglenode("ctuinttran[targetfield='"&fieldnode.selectsinglenode("fieldname").text&"']")
+    sql = sql & fieldnode.selectsinglenode("fieldname").text & ","
+    sqlvalue = sqlvalue & trim(pkstr(rss(ctuinttrannode.selectsinglenode("sourcefield").text),","))
+      end if
+  next
+  sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")" 
+  response.write sql & "<br>"
+  xfout.writeline sql  
+  conn2.execute(sql)
+  '----��g��jgipdatatrandetail����  
+  sqlgd = "insert into gipdatatrandetail values("&xtid&","&xnewidentity&")"
+  conn2.execute(sqlgd)
+  tranmessage=""
+  for each fieldnode in updatefieldlistnode.selectnodes("updatefield") 
+   tranmessage= tranmessage & "htx." & fieldnode.text & " = '"&rss(fieldnode.text)&"' and "
+  next
+  tranmessage = left(tranmessage,len(tranmessage)-5)
+     if err.number<>0 then
+      conn2.rollbacktrans
+      response.write "["+tranmessage+"] ����������o������������������~!<br>��o����������]:"+err.description+"<hr>"
+      xfout.writeline "["+tranmessage+"] ����������o������������������~!"
+      xfout.writeline "��o����������]:"+err.description
+      tranfail = tranfail + 1
+      err.number=0
+     else
+      conn2.committrans
+      '----��d��������������b��z 
+      if ximgfilevalue <> "" and fso.fileexists(sourcepath+ximgfilevalue) then _
+       fso.copyfile sourcepath+ximgfilevalue,targetpath+ximgfilevalue
+      '----����������u������������������b��z 
+      if xfiledownloadvalue <> "" and fso.fileexists(sourcepath+xfiledownloadvalue) then 
+       fso.copyfile sourcepath+xfiledownloadvalue,targetpath+xfiledownloadvalue
+       conn.execute("insert into imagefile values('"&xfiledownloadvalue&"','"&xfiledownloadvalue_org&"')")  
+      end if
+      '----������������������b��z
+   '----������������sql
+   set conn3 = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'   conn3.open session("odbcdsn")
+'set conn3 = server.createobject("hywebdb3.dbexecute")
+conn3.connectionstring = session("odbcdsn")
+conn3.connectiontimeout=0
+conn3.cursorlocation = 3
+conn3.open
+'----------hyweb gip db connection patch----------
+
+   attachtable = nulltext(trandom.selectsinglenode("datatran/attachment/attachmenttable")) 
+   if attachtable <> "" then 
+    fknodestr = ""
+    set attachtrannodelist = trandom.selectnodes("datatran/attachment/attachmenttran")
+    for each attachtrannode in attachtrannodelist
+        sqla = ""
+     sqla = "select ghtx."&nulltext(attachtrannode.selectsinglenode("atitlefield"))&" atitle, ghtx." _
+       & nulltext(attachtrannode.selectsinglenode("adescfield"))&" adesc, ghtx." _
+       & nulltext(attachtrannode.selectsinglenode("nfilenamefield"))&" nfilename " & _
+       " from ["&sourcedb&"].dbo."&sourcetable&" as htx " & _
+       " left join ["&sourcedb&"].dbo."&attachtable&" ghtx on "
+     set fknodelist = trandom.selectnodes("datatran/attachment/attachmentkeylist/attachmentkey")
+     for each fknode in fknodelist
+      fknodestr = fknodestr & " and htx."&nulltext(fknode.selectsinglenode("pkfield"))&"=ghtx."&nulltext(fknode.selectsinglenode("fkfield"))&" "
+     next
+     sqla = sqla & mid(fknodestr,6)
+     sqla = sqla & " where " & tranmessage
+     if nulltext(trandom.selectsinglenode("datatran/attachment/orderby"))<> "" then _
+      sqla = sqla & " " & nulltext(trandom.selectsinglenode("datatran/attachment/orderby")) 
+        if sqla <> "" then
+         set rsa = conn3.execute(sqla)
+         if not rsa.eof then
+          listseq = 0
+          while not rsa.eof 
+              sqlainsert = ""
+              listseq = listseq + 1
+              listseqstr = right("00" + cstr(listseq),2)
+              if (not isnull(rsa("atitle")) and trim(rsa("atitle"))<>"") and (not isnull(rsa("nfilename")) and trim(rsa("nfilename"))<>"") then
+         sqlainsert = sqlainsert & "insert into cudtattach (xicuitem,atitle,adesc,ofilename,nfilename,aeditor,aeditdate,blist,listseq) " & _
+           "values(" & xnewidentity & "," & _
+           "'" & trim(rsa("atitle")) & "'," & _
+           "'" & trim(rsa("adesc")) & "',null," & _
+           "'" & trim(rsa("nfilename")) & "'," & _
+           "'" & session("username") & "'," & _
+           "'" & date() & "'," & _
+           "'y'," & _
+           "'" & listseqstr & "');" & _
+           "insert into imagefile(newfilename, oldfilename) values(" & _
+           "'" & trim(rsa("nfilename")) & "'," & _
+           "'" & trim(rsa("atitle")) & "');"   
+'     response.write sqlainsert & "<br>"
+         conn3.execute(sqlainsert)  
+            xnfilename = trim(rsa("nfilename"))
+         if xnfilename <> "" and not isnull(xnfilename) then 
+          if fso.fileexists(sourcepath+xnfilename) then _
+           fso.copyfile sourcepath+xnfilename,targetpath2+xnfilename
+         end if 
+        end if             
+           rsa.movenext
+          wend
+         end if
+     end if       
+    next
+   end if
+'   response.write sqla & "<br>"
+'   response.end      
+'   conn3.close
+   set conn3 = nothing
+      response.write "["+tranmessage+"] ������������������������!<hr>"
+      xfout.writeline "["+tranmessage+"] ������������������������!"
+      transuccess = transuccess + 1
+     end if     
+  xfout.writeline "----------------------------------------------------------------------------"
+     rss.movenext
+  conn2.close
+  set conn2 = nothing
+ wend
+ sqlu = "update gipdatatran set xmlsuccess="&transuccess&",xmlfail="&tranfail&" where tid="&xtid
+ conn.execute(sqlu)
+' conn.close
+ set conn = nothing
+xfout.writeline "==============================================================================="
+response.write "<hr>�������� "&recordcount&" ����, ��@������\ "&transuccess&" ����!"
+xfout.writeline "�������� "&recordcount&" ����, ��@������\ "&transuccess&" ����!"
+response.end
+
+response.write "��������������������������[zzzz<br>" & xtablename 
+ 

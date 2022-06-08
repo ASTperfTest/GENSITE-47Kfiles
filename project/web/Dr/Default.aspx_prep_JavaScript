@@ -1,0 +1,31 @@
+﻿
+
+
+
+
+function script____1109085160() {src("http://kmweb.coa.gov.tw/ViewCounter.aspx");}
+function script____278532380() {src("swfobject.js");}CxConstr_1401423822();
+
+var gaJsHost=(("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+
+
+try {
+      var pageTracker = _gat._getTracker("UA-9195501-1");
+      pageTracker._trackPageview();
+        }
+        catch (err) {alert(err.description ); }   
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

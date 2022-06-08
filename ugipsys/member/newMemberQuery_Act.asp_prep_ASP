@@ -1,0 +1,463 @@
+﻿: @  codepage="65001" 
+   
+response.expires = 0
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htuploadpath=session("public")+"data/"
+htprogprefix = "newmemberquery_act"
+response.expires = 0
+htprogcap="主題館績效統計"
+htprogfunc="查詢清單"
+htprogcode="newmember"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_xdbutil_1468464061()
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  
+
+'---計算筆數-
+
+csql = "select count(*) from member where 1=1 " 
+fsql="* from member where 1=1 "  
+
+  '---更新圖片狀態---
+if request("submittask") = "allpass" then
+ 
+ dim selecteditems : selecteditems = request("selecteditems")
+ dim items : items = split(selecteditems, ";")
+ for each item in items
+  if item <> "" then 
+  checksql="select id_type1,id_type2 from  member where  account = "&"'"& item &"'"
+  set rsreg=conn.execute(checksql)
+  if rsreg("id_type1")="1" and rsreg("id_type2")="1" then
+   sql = "update member set scholarvalidate ='y' where account="&"'"& item &"'"
+   conn.execute(sql)
+  end if
+  end if
+ next
+elseif request("submittask") = "allnopass" then
+ 
+ dim selecteditem : selecteditem = request("selecteditems")
+ dim item : items = split(selecteditem, ";")
+ for each item in items
+  if item <> "" then 
+  checksql="select id_type1,id_type2 from  member where  account = "&"'"& item &"'"
+  set rsreg=conn.execute(checksql)
+  if rsreg("id_type1")="1" and rsreg("id_type2")="1" then
+   sql = "update member set scholarvalidate ='n' where account="&"'"& item &"'"
+   conn.execute(sql)
+  end if
+  end if
+ next
+end if
+
+'若點選"會員整合查詢"才要request
+if request.querystring("request") = "yes" then
+  session("account") = request("account") 
+  session("realname") = request("realname")
+  session("nickname") = request("nickname") 
+  session("keyword") = request("keyword") 
+  session("id_type1") = request("id_type1")
+  session("id_type2") = request("id_type2")
+  session("scholarvalidate") = request("scholarvalidate")
+  session("id_type3") = request("id_type3")
+  session("status") = request("status")
+  session("kmcat") = request("kmcat")
+  session("remark") = request("remark") 
+  session("emailaddress") = request("emailaddress")
+  session("homeaddr") = request("homeaddr")
+  session("idcard") = request("idcard")
+  session("mcode") = request("mcode")
+  session("kmintra") = request("kmintra") 
+end if
+
+'編修存檔後回原查詢結果頁，故改用session存原查詢的條件  grace 
+'---加入搜尋條件-
+ dim account:account=session("account") 
+ dim realname:realname=trim(session("realname")) 
+ dim nickname:nickname=session("nickname") 
+ dim keyword:keyword=session("keyword") 
+ dim id_type1:id_type1=session("id_type1")
+ dim id_type2:id_type2=session("id_type2")
+ dim scholarvalidate:scholarvalidate=session("scholarvalidate")
+ dim id_type3:id_type3=session("id_type3")
+ dim status:status=session("status")
+ dim kmcat:kmcat=session("kmcat")
+ dim remark:remark=session("remark")
+ dim emailaddress:emailaddress=session("emailaddress")
+ dim homeaddr:homeaddr=session("homeaddr")
+ dim idcard:idcard=session("idcard")
+ dim mcode:mcode=session("mcode")
+ dim kmintra:kmintra=session("kmintra") 
+ 
+
+  if mcode <> ""  then     
+        if mcode = "y"  then
+            fsql = fsql & " and mcode = 'y'" 
+            csql = csql & " and mcode = 'y'" 
+        end if
+        if mcode = "sended"  then
+            fsql = fsql & " and ((mcode <> 'y' or mcode is null) and validcount > 0)" 
+            csql = csql & " and ((mcode <> 'y' or mcode is null) and validcount > 0)" 
+        end if
+        if mcode = "apply"  then
+            fsql = fsql & " and ((mcode <> 'y' or mcode is null) and validcount = 0)" 
+            csql = csql & " and ((mcode <> 'y' or mcode is null) and validcount = 0)" 
+        end if        
+  end if
+  
+  if account <> ""  then 
+  fsql = fsql & " and account like '%" & account  & "%'" 
+  csql = csql & " and account like '%" & account  & "%' " 
+  end if
+  
+  'sam 移除unicode查詢 存unicode用英文查會查到不相干的資料
+  if trim(realname) <> "" then '加入unicode查詢
+  fsql = fsql & " and realname like '%" & trim(realname) & "%' " 
+  csql = csql & " and realname like '%" & trim(realname) & "%' " 
+  end if
+  if nickname <> "" then '加入unicode查詢
+  fsql = fsql & " and nickname like '%" & nickname & "%' " 
+  csql = csql & " and nickname like '%" & nickname & "%' " 
+  end if
+  if keyword <> "" then 
+  fsql = fsql & " and keyword like '%" & keyword & "%' " 
+  csql = csql & " and keyword like '%" & keyword & "%' " 
+  end if
+  if id_type1="1" then  
+  fsql = fsql & " and id_type1=1" 
+  csql = csql & " and id_type1=1" 
+  end if
+  if id_type2="1" then  
+  fsql = fsql & " and id_type2=1" 
+  csql = csql & " and id_type2=1" 
+  end if
+  if scholarvalidate="w" then  
+  fsql = fsql & " and scholarvalidate='w'" 
+  csql = csql & " and scholarvalidate='w'" 
+  end if
+  if scholarvalidate="y" then  
+  fsql = fsql & " and scholarvalidate='y'" 
+  csql = csql & " and scholarvalidate='y'" 
+  end if
+  if request("scholarvalidate")="n" then  
+  fsql = fsql & " and scholarvalidate='n'" 
+  csql = csql & " and scholarvalidate='n'" 
+  end if
+  if scholarvalidate="z" then  
+  fsql = fsql & " and scholarvalidate='z'" 
+  csql = csql & " and scholarvalidate='z'" 
+  end if
+  if id_type3="1" then  
+    'grace
+ fsql = fsql & " and id_type3=1 " 
+    csql = csql & " and id_type3=1 " 
+    if kmintra<>"1" then 
+      fsql = fsql & " and member_org <> 'intra'" 
+      csql = csql & " and member_org <> 'intra'" 
+ end if
+  end if
+  if id_type3="0" then  
+  fsql = fsql & " and (id_type3=0 or id_type3 is null) " 
+  csql = csql & " and (id_type3=0 or id_type3 is null) " 
+  end if
+  if status="y" then  
+  fsql = fsql & " and status='y'" 
+  csql = csql & " and status='y'" 
+  end if
+  if status="n" then  
+  fsql = fsql & " and status='n'" 
+  csql = csql & " and status='n'"
+  end if
+  if  kmcat<>"" then  
+  fsql = fsql & " and kmcat like '%" & kmcat & "%' " 
+  csql = csql & " and kmcat like '%" & kmcat & "%' " 
+  end if
+  if  remark<>"" then  
+  fsql = fsql & " and remark like '%" & remark & "%' " 
+  csql = csql & " and remark like '%" & remark & "%' " 
+  end if
+  if emailaddress <> ""  then 
+  fsql = fsql & " and email like '%" & emailaddress  & "%'" 
+  csql = csql & " and email like '%" & emailaddress  & "%' " 
+  end if
+  if homeaddr <> ""  then 
+  fsql = fsql & " and homeaddr like '%" & homeaddr  & "%'" 
+  csql = csql & " and homeaddr like '%" & homeaddr  & "%' " 
+  end if
+  if idcard <> "" then
+  fsql = fsql & " and [id] like '%" & idcard  & "%'" 
+  csql = csql & " and [id] like '%" & idcard  & "%' " 
+  end if
+
+
+  nowpage = request.querystring("nowpage")  '現在頁數
+  
+  if request("newperpage") <> "" then
+    perpagesize = cint(request("newperpage"))
+  else
+  perpagesize = cint(request.querystring("pagesize"))
+  end if
+  
+  
+  if perpagesize <= 0 then  perpagesize = 15  
+
+  set rsc = conn.execute(csql)
+  totrec = rsc(0)       '總筆數
+  totpage = int(totrec / perpagesize + 0.999)
+
+  if cint(nowpage) < 1 then 
+    nowpage = 1
+  elseif cint(nowpage) > totpage then 
+    nowpage = totpage 
+  end if      
+   fsql = "select top " & nowpage * perpagesize & fsql & " order by createtime desc"
+
+
+
+  set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+' rsreg.cachesize = perpagesize
+
+'----------hyweb gip db connection patch----------
+' rsreg.open fsql,conn, 3, 1
+set rsreg = conn.execute(fsql)
+ rsreg.cachesize = perpagesize
+'----------hyweb gip db connection patch----------
+
+
+ if not rsreg.eof then
+  if totrec > 0 then 
+      rsreg.pagesize = perpagesize       '每頁筆數
+      rsreg.absolutepage = nowpage      
+  end if    
+ end if 
+ 
+function chg_uni(str)        'ascii轉unicode
+ dim old,new_w,istr
+ old = str
+ new_w = ""
+ for istr = 1 to len(str)
+  if ascw(mid(old,istr,1)) < 0 then
+   new_w = new_w & "&#" & ascw(mid(old,istr,1))+65536 & ";"
+  elseif        ascw(mid(old,istr,1))>0 and ascw(mid(old,istr,1))<127 then
+   new_w = new_w & mid(old,istr,1)
+  else
+   new_w = new_w & "&#" & ascw(mid(old,istr,1)) & ";"
+  end if
+ next
+ chg_uni=new_w
+end function
+ 
+if  rsreg.eof then
+      response.write "<script>alert('找不到資料');history.back();</script>"
+      response.end
+else
+
+urlparams= "mcode=" & mcode & "&pagesize=" & perpagesize & "&id_type1=" & id_type1 & "&id_type2=" & id_type2 & "&id_type3=" & id_type3 & "&scholarvalidate=" & scholarvalidate & "&status=" & status & "&account=" & account & "&realname=" & server.urlencode(trim(realname)) & "&nickname=" & server.urlencode(trim(nickname)) & "&keyword=" & server.urlencode(trim(keyword))  & "&emailaddress=" & server.urlencode(trim(emailaddress)) & "&homeaddr=" & server.urlencode(trim(homeaddr)) & "&idcard=" & server.urlencode(trim(idcard))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                              =(nowpage):             =perpagesize:             =id_type1:             =id_type2:             =id_type3:                    =scholarvalidate:           =status:            =account:             =server.urlencode(trim(realname)):             =server.urlencode(trim(nickname)):            =server.urlencode(trim(keyword))
+
+
+
+
+                   =totrec:                    =nowpage
+                   =totpage
+
+                                     if perpagesize=15 then:            end if
+                                     if perpagesize=30 then:            end if
+                                     if perpagesize=50 then:            end if
+
+                 if cint(nowpage) <> 1 then 
+
+                          =htprogprefix:                       =(nowpage-1):    =urlparams 
+                             end if 
+
+
+                   for ipage=1 to totpage 
+                                 =ipage:     if ipage=cint(nowpage) then :           end if:    =ipage
+
+                   next 
+
+                 if cint(nowpage)<>totpage then 
+                        =htprogprefix:                       =(nowpage+1):    =urlparams 
+                                                                    end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               while not rsreg.eof 
+
+                                                                                         =trim(rsreg("account"))
+
+
+
+
+                                                     =trim(rsreg("account")):            =nowpage:             =perpagesize
+                      =checkandreplaceid(rsreg("account"))
+
+
+
+                  =checkandreplaceid(rsreg("realname"))
+
+
+
+            if rsreg("mcode") = "y" then 
+                              =replaceemailid(rsreg("email"))
+            else 
+                                                 =replaceemailid(rsreg("email")):          =rsreg("validcount")
+            end if 
+
+
+                  =rsreg("createtime")
+
+
+                   if rsreg("id_type1")="1" then 
+                        end if
+                  if rsreg("id_type2")="1" then 
+                          end if
+
+
+
+                  if  rsreg("scholarvalidate")="w" then
+                                                    end if
+                  if rsreg("scholarvalidate")="n" then
+                       end if
+                  if rsreg("scholarvalidate")="y" then
+                      end if
+                  if rsreg("scholarvalidate")="z" then
+                     end if
+
+
+
+                   if rsreg("id_type3")="1" then 
+                     end if
+
+
+
+                   if rsreg("status")="y" then
+                      end if
+                   if rsreg("status")="n" then
+                      end if
+
+
+                     
+ rsreg.movenext 
+  wend
+
+
+
+
+
+
+
+
+
+
+    end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   =htprogprefix:                    =request.querystring("icuitem")
+
+
+
+
+
+
+                                     =htprogprefix:                                       =urlparams
+
+
+
+
+
+
+
+                                     =htprogprefix:                       =nowpage:         =urlparams
+
+
+
+                                     =htprogprefix:                       =nowpage:             =perpagesize 

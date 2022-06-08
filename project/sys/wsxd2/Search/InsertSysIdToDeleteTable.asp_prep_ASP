@@ -1,0 +1,1518 @@
+﻿: 
+'#####(autogen) 開始：此段程式碼為自動產生，註解部份請勿刪除 #####
+'下列有設定部份如有需要可自行設定
+'此版本為  ver.0.2
+'此段程式碼產生日期為： 2009/6/10 上午 09:59:38
+'(可修改)未來是否自動更新此程式中的 pattern (y/n) : y
+
+'(可修改)此程式是否記錄 log 檔
+activelog4u=true
+
+'(可修改)錯誤發生時要到那個頁面,未填時直接結束，1. 可以是 / :首頁, 2. http://xxx.xxx.xxx.xxx/ooo.htm
+onerrorpath="/"
+
+'目前程式位置在
+progpath="d:\hyweb\gensite\project\sys\wsxd2\search\insertsysidtodeletetable.asp"
+
+'--------- (可修改)要檢查的 request 變數名稱 --------
+genparamsarray=array("keyword", "fromsiteunit", "fromknowledgetank", "fromknowledgehome", "fromtopic", "advancesearch", "subject", "keywords", "author", "description", "journal", "phonetic", "authorize", "actorinfoid", "categoryid", "range", "order", "sort", "depth", "pagesize", "pagenumber", "relatednumber", "maxrelated")
+genparamspattern=array("<", ">", "%3c", "%3e", ";", "%27", "'", "=", "+", "-", "*", "/", "%", "@", "~", "!", "#", "$", "&", "\", "(", ")", "{", "}", "[", "]") '#### 要檢查的 pattern(程式會自動更新):genpat ####
+genparamsmessage=now() & vbtab & "error(1):request變數含特殊字元"
+
+'-------- (可修改)只檢查單引號，如 request 變數未來將要放入資料庫，請一定要設定(防 sql injection) --------
+sqlinjparamsarray=array()
+sqlinjparamspattern=array("'") '#### 要檢查的 pattern(程式會自動更新):db ####
+sqlinjparamsmessage=now() & vbtab & "error(2):request變數含單引號"
+
+'-------- (可修改)只檢查 html標籤符號，如 request 變數未來將要輸出，請設定 (防 cross site scripting)--------
+xssparamsarray=array()
+xssparamspattern=array("<", ">", "%3c", "%3e") '#### 要檢查的 pattern(程式會自動更新):html ####
+xssparamsmessage=now() & vbtab & "error(3):request變數含html標籤符號"
+
+'-------- (可修改)檢查數字格式 --------
+chknumericarray=array()
+chknumericmessage=now() & vbtab & "error(4):request變數不為數字格式"
+
+'-------- (可修改)檢察日期格式 --------
+chkdatearray=array()
+chkdatemessage=now() & vbtab & "error(5):request變數不為日期格式"
+
+'##########################################
+chkpattern genparamsarray, genparamspattern, genparamsmessage
+chkpattern sqlinjparamsarray, sqlinjparamspattern, sqlinjparamsmessage
+chkpattern xssparamsarray, xssparamspattern, xssparamsmessage
+chknumeric chknumericarray, chknumericmessage
+chkdate chkdatearray, chkdatemessage
+'--------- 檢查 request 變數名稱 --------
+sub chkpattern(parray, patern, message)
+ for each str in parray 
+  p=request(str)
+  for each ptn in patern
+   if (instr(p, ptn) >0) then
+    message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+    log4u(message) '寫入到 log
+    onerroraction
+   end if
+  next
+ next
+end sub
+
+'-------- 檢查數字格式 --------
+sub chknumeric(parray, message)
+ for each str in parray
+  p=request(str)
+  if not isnumeric(p) then
+   message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'--------檢察日期格式 --------
+sub chkdate(parray, message)
+ for each str in parray
+  p=request(str)
+  if not isdate(p) then
+   message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'onerror
+sub onerroraction()
+ if (onerrorpath<>"") then response.redirect(onerrorpath)
+ response.end
+end sub
+
+'log 放在網站根目錄下的 /logs，檔名： yyyymmdd_log4u.txt
+function log4u(strlog)
+ if (activelog4u) then
+  fldr=server.mappath("/") & "/logs"
+  filename=year(date()) & right("0"&month(date()), 2) & right("0"&day(date()),2)
+  
+  filename = filename & "_log4u.txt"
+  
+  dim fso, f
+  set fso = createobject("scripting.filesystemobject")
+  
+  '產生新的目錄
+  if (not fso.folderexists(fldr)) then
+   set f = fso.createfolder(fldr)
+  else
+   showabsolutepath = fso.getabsolutepathname(fldr)
+  end if
+  
+  const forreading = 1, forwriting = 2, forappending = 8
+  '開啟檔案
+  set fso = createobject("scripting.filesystemobject")
+  set f = fso.opentextfile( fldr & "\" & filename , forappending, true, -1)
+  f.write strlog  & vbcrlf
+ end if
+end function
+'##### 結束：此段程式碼為自動產生，註解部份請勿刪除 #####
+:   
+ response.expires = 0
+ response.expiresabsolute = now() - 1 
+ response.addheader "pragma","no-cache" 
+ response.addheader "cache-control","private" 
+ response.cachecontrol = "no-cache"
+
+
+
+    
+
+ on error resume next
+ '-----------------------------------------------------------------------     
+ dim querystring, keyword
+ dim startdate, enddate, hstartdate, henddate
+ dim fromsiteunit, fromknowledgetank, fromknowledgehome, fromtopic
+ dim range, order, sort, depth
+ dim pagesize, pagenumber, totalpage
+ dim categoryid
+ dim relatednumber, maxrelated
+ dim knowledgetankdatabaseid
+ dim advancesearch
+ dim subject, keywords, author, description, journal
+ dim phonetic, authorize
+ dim actorinfoid
+ '-------------------------------------------------------------------------------
+ '---keyword setting----------------------------------------------------------------
+ keyword = request("keyword") 
+ keyword = replace(keyword, "'", "''")
+ if isnull(keyword) then keyword = "" 
+ '-------------------------------------------------------------------------------
+ '---date setting----------------------------------------------------------------
+ startdate = request("startdate")
+ if isnull(startdate) or startdate = "" or not isdate(startdate) then
+  startdate = ""
+  hstartdate = ""
+ else
+  ymdarray = split(startdate, "/")  
+  hstartdate = comparedate( ymdarray(0), ymdarray(1), ymdarray(2) )
+  ymdarray = empty
+ end if 
+ enddate = request("enddate")
+ if isnull(enddate) or enddate = "" or not isdate(enddate) then
+  enddate = ""
+  henddate = ""
+ else
+  ymdarray = split(enddate, "/")
+  henddate = comparedate( ymdarray(0), ymdarray(1), ymdarray(2) )  
+  ymdarray = empty
+ end if  
+ '-------------------------------------------------------------------------------
+ '---from setting----------------------------------------------------------------
+ fromsiteunit = request("fromsiteunit")
+ if isnull(fromsiteunit) or fromsiteunit = "" or (fromsiteunit <> "0" and fromsiteunit <> "1") then fromsiteunit = "0"
+ fromknowledgetank = request("fromknowledgetank")
+ if isnull(fromknowledgetank) or fromknowledgetank = "" or (fromknowledgetank <> "0" and fromknowledgetank <> "1") then fromknowledgetank = "0" 
+ fromknowledgehome = request("fromknowledgehome")
+ if isnull(fromknowledgehome) or fromknowledgehome = "" or (fromknowledgehome <> "0" and fromknowledgehome <> "1") then fromknowledgehome = "0" 
+ fromtopic = request("fromtopic")
+ if isnull(fromtopic) or fromtopic = "" or (fromtopic <> "0" and fromtopic <> "1") then fromtopic = "0" 
+ siteunitid = application("siteunitid")              '---站內單元---1
+ knowledgetankid = application("knowledgetankid")         '---知識庫---0
+ knowledgehomeid = application("knowledgehomeid")         '---知識家---3
+ topicid = application("topicid")                 '---主題網---2
+ knowledgetankdatabaseid = application("knowledgetankdatabaseid") '---知識庫可搜尋的dbid--- 
+ '-------------------------------------------------------------------------------
+ '---searchtype setting----------------------------------------------------------
+ advancesearch = request("advancesearch")
+ if advancesearch = "" then advancesearch = "0" 
+ '-------------------------------------------------------------------------------
+ '---parameter setting----------------------------------------------------------
+ subject = request("subject")
+ if subject = "" then subject = "0"   
+ keywords = request("keywords")
+ if keywords = "" then keywords = "0"
+ author = request("author") 
+ if author = "" then author = "0"
+ description = request("description") 
+ if description = "" then description = "0"
+ journal = request("journal")
+ if journal = "" then journal = "0"
+ phonetic = request("phonetic") 
+ if phonetic = "" then phonetic = "0" 
+ authorize = request("authorize")
+ if authorize = "" then authorize = "0" 
+ actorinfoid = request("actorinfoid")
+ if actorinfoid = "" then actorinfoid = "" 
+ '-------------------------------------------------------------------------------
+ '---categoryid setting----------------------------------------------------------
+ categoryid = request("categoryid")
+ if isnull(categoryid) then categoryid = "" 
+ '-------------------------------------------------------------------------------
+ '---range setting---------------------------------------------------------------
+ range = request("range")
+ if isnull(range) or range = "" or (range <> "0" and range <> "1") then range = "0" 
+ '------------------------------------------------------------------------------- 
+ '---order setting--------------------------------------------------------------- 
+ order = request("order")
+ if isnull(order) or order = "" or (order <> "0" and order <> "1" and order <> "2" and order <> "3" and order <> "4") then order = "0" 
+ '-------------------------------------------------------------------------------
+ '---sort setting----------------------------------------------------------------
+ sort = request("sort")
+ if isnull(sort) or sort = "" or order = "0" or (sort <> "0" and sort <> "1") then sort = "0" 
+ '-------------------------------------------------------------------------------
+ '---sort setting----------------------------------------------------------------
+ depth = request("depth")
+ if isnull(depth) or depth = "" or (depth <> "0" and depth <> "1" and depth = "2" and depth = "3" and depth = "4") then depth = "0" 
+ '-------------------------------------------------------------------------------
+ '---page setting----------------------------------------------------------------
+ pagesize = request("pagesize")
+ pagenumber = request("pagenumber")   
+ if isnull(pagesize) or pagesize = "" or (pagesize <> "10" and pagesize <> "30" and pagesize <> "50") then pagesize = 10 
+ if isnull(pagenumber) or pagenumber = "" or cint(pagenumber) <= 0 then pagenumber = 1 
+ totalpage = 0
+ totalrecordcount = 0   
+ '-------------------------------------------------------------------------------
+  '---other parameter-------------------------------------------------------------  
+  relatednumber = request("relatednumber")
+  if isnull(relatednumber) or relatednumber = "" then relatednumber = "0"
+  maxrelated = request("maxrelated") 
+ if isnull(maxrelated) or maxrelated = "" then maxrelated = "1" 
+ '-------------------------------------------------------------------------------
+ '---放置由hyftd回傳的結果-------------------------------------------------------
+ dim resultarray()  
+ redim resultarray(pagesize, 17)  
+ '-------------------------------------------------------------------------------
+  '---initial hyftd parameter-----------------------------------------------------  
+  set hyftdobj = server.createobject("hysdk.hyft.1")
+  call hyftd_initial_parameter ( pagenumber, pagesize, debug, order, sort, phonetic, authorize )        
+  '-------------------------------------------------------------------------------
+ '---set encoding----------------------------------------------------------------
+ call hyftd_set_encoding(hyftdobj, "big5")   
+ '-------------------------------------------------------------------------------
+ '---connect to hyftd server and initial query-----------------------------------
+
+ hyftdconnid = hyftd_connection( hyftdobj, hyftdserver, hyftdport, hyftdgroupname, hyftduserid, hyftduserpassword )  
+
+ call hyftd_initial_query(hyftdobj, hyftdconnid)  
+ '-------------------------------------------------------------------------------
+ '---add query condition--------------------------------------------------------- 
+
+ '-------------------------------------------------------------------------------
+ '---data from-------------------------------------------------------------------  
+ 
+ call hyftd_add_query( hyftdobj, hyftdconnid, "siteid", "1", "", hyftdquerytype, hyftdphonetic, hyftdauthorize )        
+ 
+ call hyftd_add_query( hyftdobj, hyftdconnid, "siteid", "2", "", hyftdquerytype, hyftdphonetic, hyftdauthorize )   
+ 
+ call hyftd_add_or( hyftdobj, hyftdconnid )    
+  
+ call hyftd_add_query( hyftdobj, hyftdconnid, "siteid", "3", "", hyftdquerytype, hyftdphonetic, hyftdauthorize )           
+ 
+ call hyftd_add_or( hyftdobj, hyftdconnid )  
+ 
+ call hyftd_add_query( hyftdobj, hyftdconnid, "siteid", "4", "", hyftdquerytype, hyftdphonetic, hyftdauthorize )              
+ 
+ call hyftd_add_or( hyftdobj, hyftdconnid )  
+ 
+ '-------------------------------------------------------------------------------
+ '---keyword---------------------------------------------------------------------
+ 
+ 
+ '-------------------------------------------------------------------------------
+ '---execute hyftd query and get query id---------------------------------------- 
+ hyftdsortqueryid = hyftd_sort_query( hyftdobj, hyftdconnid, hyftdsortname, hyftdsorttype, hyftdrecordfrom, pagesize )  
+ '-------------------------------------------------------------------------------
+
+
+'response.write getfieldindexstring(hyftdobj,hyftdconnid, hyftdsortqueryid, "actorinfoid")
+
+
+ '---get total record count------------------------------------------------------
+ hyftdtotalrecordcount = hyftd_total_sysid( hyftdobj, hyftdconnid, hyftdsortqueryid ) 
+ '-------------------------------------------------------------------------------
+ '---get current record count----------------------------------------------------
+ hyftdcurrentrecordcount = hyftd_num_sysid( hyftdobj, hyftdconnid, hyftdsortqueryid )  
+ '-------------------------------------------------------------------------------
+ '---get record content----------------------------------------------------------   
+ if hyftdcurrentrecordcount > 0 then  
+  dim index     
+  for index = 0 to hyftdcurrentrecordcount - 1          
+   if ((pagenumber - 1) * pagesize + index) = hyftdtotalrecordcount then    
+    exit for
+   end if
+   '---------------------------------------------------------------------------
+   '---fetch current sysid-----------------------------------------------------
+   hyftddataid = hyftd_fetch_sysid( hyftdobj, hyftdconnid, hyftdsortqueryid, index )    
+   'response.write hyftddataid & "<hr>"
+      '---------------------------------------------------------------------------
+      '---get related number------------------------------------------------------
+      hyftddatarelatednumber = hyftd_get_related_number( hyftdobj )
+      '---------------------------------------------------------------------------
+      '---set value into resultarray----------------------------------------------             
+      resultarray(index, 0) = hyftddataid
+      resultarray(index, 1) = hyftddatarelatednumber
+      temparray = split( hyftddataid, "@")
+      resultarray(index, 2) = temparray(0) '---siteid---
+      resultarray(index, 3) = temparray(1) '---id---
+      resultarray(index, 4) = temparray(2) '---databaseid---
+      resultarray(index, 5) = temparray(3) '---categoryid---      
+      resultarray(index, 6) = ""
+     resultarray(index, 7) = ""
+     resultarray(index, 8) = ""
+     resultarray(index, 9) = ""        
+     resultarray(index, 10) = ""
+     resultarray(index, 11) = ""
+     resultarray(index, 12) = ""
+     resultarray(index, 13) = ""
+     resultarray(index, 14) = ""
+     resultarray(index, 15) = ""
+     resultarray(index, 16) = "" '---actorinfoid---
+       
+      if temparray(0) = "0" then       
+       sql = "select report.report_id, isnull(report.subject, '') as subject, isnull(report.click_count, 0) as click_count, " & _
+         "convert(char(10), report.online_date, 111) as online_date, isnull(category.category_name, '') as category_name " & _
+         "from report inner join cat2rpt on report.report_id = cat2rpt.report_id " & _
+         "inner join data_base on cat2rpt.data_base_id = data_base.data_base_id left outer join category " & _
+         "on cat2rpt.category_id = category.category_id and cat2rpt.data_base_id = category.data_base_id " & _
+         "where (report.report_id = '" + resultarray(index, 3) + "') and (cat2rpt.data_base_id = '" + resultarray(index, 4) + "') " & _
+         "and (cat2rpt.category_id = '" + resultarray(index, 5) + "')"
+      set kmrs = kmconn.execute(sql)             
+      if not kmrs.eof then
+       resultarray(index, 6) = kmrs("category_name")
+        resultarray(index, 7) = kmrs("subject")
+        resultarray(index, 8) = kmrs("click_count")
+        resultarray(index, 9) = kmrs("online_date")        
+      end if
+      
+      kmrs.close
+      set kmrs = nothing
+       
+      elseif temparray(0) = "1" or temparray(0) = "2" or temparray(0) = "3" then
+       
+       sql = "select cudtgeneric.stitle, cudtgeneric.clickcount, convert(char(10), cudtgeneric.xpostdate, 111) as xpostdate, ctunit.ctunitname, cudtgeneric.showtype, " & _
+          "isnull(cudtgeneric.xurl, '') as xurl, isnull(cudtgeneric.filedownload, '') as filedownload, cattreenode.ctnodeid, substring(isnull(cudtgeneric.xbody, ''), 0, 60) as xbody, cattreenode.ctrootid " & _
+          "from cudtgeneric inner join ctunit on cudtgeneric.ictunit = ctunit.ctunitid inner join cattreenode " & _
+          "on ctunit.ctunitid = cattreenode.ctunitid where (cudtgeneric.icuitem = '" & resultarray(index, 3) & "') "         
+       if temparray(0) = "1" then
+        sql = sql & "and (cattreenode.ctrootid = " & application("sitecattreeroot") & ")"
+       end if        
+       set cudtrs = conn.execute(sql)
+       if not cudtrs.eof then
+        resultarray(index, 6) = cudtrs("ctunitname")
+        resultarray(index, 7) = cudtrs("stitle")
+        resultarray(index, 8) = cudtrs("clickcount")
+        resultarray(index, 9) = cudtrs("xpostdate")
+        resultarray(index, 10) = cudtrs("showtype")
+        resultarray(index, 11) = cudtrs("xurl")
+        resultarray(index, 12) = cudtrs("filedownload")
+        resultarray(index, 13) = cudtrs("ctnodeid")
+        resultarray(index, 14) = cudtrs("xbody")
+        resultarray(index, 15) = cudtrs("ctrootid")       
+       end if      
+       cudtrs.close
+       set cudtrs = nothing
+     end if                              
+      if index = 0 and relatednumber = "0" then                       
+        maxrelated = hyftddatarelatednumber
+        relatednumber = "1"
+      end if  
+      k = hyftd_one_assdata_len(hyftdobj, hyftdconnid,"brief",hyftddataid)           
+      f = hyftd_one_assdata(hyftdobj, hyftdconnid,k)  
+   if instr(f, "001") > 0 and instr(f, "002") > 0 then
+    resultarray(index, 16) = "002"
+   elseif instr(f, "001") > 0 then
+    resultarray(index, 16) = "001"
+   elseif instr(f, "002") > 0 then
+    resultarray(index, 16) = "002"
+   end if
+      'resultarray(index, 16) = mid(f, instr(f, "<actorinfoid>") + 13, 3)      
+  next     
+  end if   
+ 
+ '-------------------------------------------------------------------------------
+ '---setting page number---------------------------------------------------------
+ if hyftdtotalrecordcount <> 0 then totalpage = int(hyftdtotalrecordcount / pagesize + 0.99)   
+ '-------------------------------------------------------------------------------
+ '---consume time----------------------------------------------------------------
+ hyftdendtime = gettime()
+ hyftdtimediff = round((hyftdendtime / 1000) - (hyftdstarttime / 1000), 3)    
+ '-------------------------------------------------------------------------------    
+ '---using grouping name---
+ if depth = "0" then
+  hyftdgroupingname1 = "siteid"
+ elseif depth = "1" then
+  if fromtopic = "1" then
+   hyftdgroupingname1 = "categoryname"
+  elseif fromknowledgehome = "1" then
+   hyftdgroupingname1 = "categoryname"
+  elseif fromknowledgetank = "1" then
+   hyftdgroupingname1 = "actorinfoid"
+  else
+   hyftdgroupingname1 = "categoryid"
+  end if
+ elseif depth = "2" then
+  if fromknowledgehome = "1" then
+   hyftdgroupingname1 = "categoryname"
+  else
+   hyftdgroupingname1 = "categoryid"
+  end if
+ elseif depth = "3" then
+  hyftdgroupingname1 = "categoryid"
+ elseif depth = "4" then  
+  hyftdgroupingname1 = "categoryid"
+ end if     
+ '---using grouping len---
+ dim groupinglen
+ groupinglen = "0"       
+ if fromknowledgetank = "1" then  
+  if depth = "0" then
+   groupinglen = "0"
+  elseif depth = "1" then
+   if fromknowledgetank = "1" then
+    groupinglen = "3" '---for actorinfoid---
+    'groupinglen = "9"
+   end if
+  elseif depth = "2" then
+   if fromknowledgetank = "1" then
+    groupinglen = "11"
+   end if
+  elseif depth = "3" then
+   if fromknowledgetank = "1" then
+    groupinglen = "13"
+   end if
+  elseif depth = "4" then
+   if fromknowledgetank = "1" then
+    groupinglen = "13"
+   end if
+  end if  
+ end if 
+
+ '---get grouping---
+ hyftdquerygroupingid = hyftd_query_grouping( hyftdobj, hyftdconnid, hyftdgroupingname1, groupinglen, hyftdgroupingtype1 )
+ '---get how many group---
+ hyftdgroupingcount1 = hyftd_num_grouping( hyftdobj, hyftdconnid, hyftdquerygroupingid )  
+ redim hyftdgrouping1(hyftdgroupingcount1, 3) 
+ '-------------------------------------------------------------------------------
+ 'response.write hyftdgroupingcount1 & "~" & hyftdgroupingname1 & "~" & groupinglen 
+ dim pathgroupname(5)     
+ dim pathgroupdata(5)
+ 'pathgroupname = array("","","","","")
+ 'pathgroupdata = array("","","","","") 
+ '---上方分類路徑-----------------------------------------------------------
+ if cint(depth) >= 0 then
+  pathgroupname(0) = "全部"
+  pathgroupdata(0) = "" 
+ end if
+ if cint(depth) >= 1 then   
+  if fromknowledgetank = "1" then 
+   pathgroupname(1) = "知識庫"
+   pathgroupdata(1) = "0"    
+  end if
+  if fromsiteunit = "1" then
+   pathgroupname(1) = "站內單元"
+   pathgroupdata(1) = "1"    
+  end if
+  if fromtopic = "1" then
+   pathgroupname(1) = "主題網"
+   pathgroupdata(1) = "2"    
+  end if
+  if fromknowledgehome = "1" then
+   pathgroupname(1) = "知識家"
+   pathgroupdata(1) = "3"    
+  end if    
+ end if 
+ if cint(depth) >= 2 then
+  pathgroupdata(2) = categoryid
+  if fromsiteunit = "1" then
+   temp = split(categoryid, "@")
+   sql = "select ctunitname from ctunit where (ctunitid = " & temp(1) & ")"
+   set siters = conn.execute(sql)
+   if not siters.eof then pathgroupname(2) = siters("ctunitname")   
+   siters = nothing
+  end if
+  if fromknowledgetank = "1" then
+   if cint(depth) = 2 then
+    actorinfoid = categoryid 
+   end if
+   pathgroupdata(2) = actorinfoid
+   if actorinfoid = "001" then
+    pathgroupname(2) = "生產者"
+   elseif actorinfoid = "002" then
+    pathgroupname(2) = "消費者"
+   end if
+   'temp = split(categoryid, "@")
+   'sql = "select category_name from category where (data_base_id = '" & temp(0) & "') and (category_id = '" & mid(temp(1), 1, 3) & "')"      
+   'set tankrs = kmconn.execute(sql)
+   'if not tankrs.eof then
+   ' pathgroupname(2) = tankrs("category_name")
+   'end if
+   'tankrs = nothing
+  end if
+  if fromknowledgehome = "1" then
+   temp = split(categoryid, "@")
+   sql = "select mvalue from codemain where (codemetaid = 'knowledgetype') and (mcode = '" & temp(1) & "')"    
+   set homers = conn.execute(sql)
+   if not homers.eof then pathgroupname(2) = homers("mvalue")   
+   homers = nothing
+  end if
+  if fromtopic = "1" then   
+   if depth = "2" then 
+    sql = "select ctrootname from cattreeroot where (ctrootid = " & categoryid & ")"    
+    set topicrs = conn.execute(sql)
+    if not topicrs.eof then pathgroupname(2) = topicrs("ctrootname")    
+    topicrs = nothing    
+   else
+    temp = split(categoryid, "@")
+    sql = "select  cattreeroot.ctrootname, cattreeroot.ctrootid from cattreenode inner join ctunit on cattreenode.ctunitid = ctunit.ctunitid inner join " & _
+       "cattreeroot on cattreenode.ctrootid = cattreeroot.ctrootid where (cattreenode.ctunitid = " & temp(1) & ")"        
+    set topicrs = conn.execute(sql)        
+    if not topicrs.eof then
+     pathgroupname(2) = topicrs("ctrootname")
+     pathgroupdata(2) = topicrs("ctrootid")
+    end if
+    topicrs = nothing         
+   end if  
+  end if  
+ end if 
+ if cint(depth) >= 3 then
+  pathgroupdata(3) = categoryid
+  if fromknowledgetank = "1" then
+   temp = split(categoryid, "@")
+   sql = "select category_name from category where (data_base_id = '" & temp(0) & "') and (category_id = '" & mid(temp(1), 1, 5) & "')"    
+   set tankrs = kmconn.execute(sql)
+   if not tankrs.eof then pathgroupname(3) = tankrs("category_name")   
+   tankrs = nothing
+  end if  
+  if fromtopic = "1" then
+   temp = split(categoryid, "@")
+   sql = "select ctunitname from ctunit where (ctunitid = " & temp(1) & ")"    
+   set topicrs = conn.execute(sql)
+   if not topicrs.eof then pathgroupname(3) = topicrs("ctunitname")   
+   topicrs = nothing
+  end if  
+ end if  
+ if cint(depth) >= 4 then
+  pathgroupdata(4) = categoryid
+  if fromknowledgetank = "1" then
+   temp = split(categoryid, "@")
+   sql = "select category_name from category where (data_base_id = '" & temp(0) & "') and (category_id = '" & temp(1) & "')"    
+   set tankrs = kmconn.execute(sql)
+   if not tankrs.eof then pathgroupname(4) = tankrs("category_name")   
+   tankrs = nothing
+  end if     
+ end if  
+ '---end of 上方分類路徑-----------------------------------------------------------
+ '---for 後分類--------------------------------------------------------------------
+ dim coaitem, kmitem
+ if depth = "0" then
+  if hyftdgroupingcount1 > 0 then
+   for index = 0 to hyftdgroupingcount1 - 1
+    '---get the name and number of grouping---
+    hyftdgrouping1(index, 1) = hyftd_fetch_grouping( hyftdobj, hyftdconnid, hyftdquerygroupingid, index )
+    hyftdgrouping1(index, 0) = hyftd_get_grouping_name( hyftdobj )       
+   next
+  end if 
+ else
+  if hyftdgroupingcount1 > 0 then
+   for index = 0 to hyftdgroupingcount1 - 1
+    hyftdgrouping1(index, 1) = hyftd_fetch_grouping( hyftdobj, hyftdconnid, hyftdquerygroupingid, index )
+    hyftdgrouping1(index, 0) = hyftd_get_grouping_name( hyftdobj )         
+    'response.write hyftdgrouping1(index, 0) & "~" & hyftdgrouping1(index, 1) & "<hr>"
+    'if fromtopic = "1" and depth = "1" then
+    ' coaitem = coaitem & hyftdgrouping1(index, 0) & ","
+    'else
+    if hyftdgrouping1(index, 0) = "001" then
+     hyftdgrouping1(index, 2) = "生產者"
+    elseif hyftdgrouping1(index, 0) = "002" then
+     hyftdgrouping1(index, 2) = "消費者"
+    else
+     'response.write hyftdgrouping1(index, 0) & "<hr>"
+     temparray = split(hyftdgrouping1(index, 0), " ")
+     if fromknowledgetank = "1" then     
+      kmitem = kmitem & "'" & temparray(1) & "',"       
+     elseif fromtopic = "1" and depth = "1" then
+      coaitem = coaitem & temparray(0) & ","
+     elseif fromknowledgehome = "1" and (depth = "1" or depth = "2") then
+      coaitem = coaitem & "'" & temparray(1) & "',"
+     else
+      coaitem = coaitem & temparray(1) & ","
+     end if     
+    end if
+    'end if
+   next   
+   if len(coaitem) > 0 then coaitem = mid(coaitem, 1, len(coaitem) - 1)
+   if len(kmitem) > 0 then kmitem = mid(kmitem, 1, len(kmitem) - 1)
+  end if          
+  '---connect to db to get the category name--------------------------------------
+  dim categoryname()
+  dim countc
+  countc = 0
+  if depth <> "0" then
+   if len(coaitem) > 0 then
+    if fromtopic = "1" and depth = "1" then
+     sql = "select ctrootid as ctunitid, ctrootname as ctunitname from cattreeroot " & _
+        "where ctrootid in (" & coaitem & ")"  
+    elseif fromknowledgehome = "1" and (depth = "1" or depth = "2" ) then
+     sql = "select mcode as ctunitid, mvalue as ctunitname from codemain where codemetaid = 'knowledgetype' " & _
+        "and mcode in (" & coaitem & ")"
+    else
+     sql = "select ctunitname, ctunitid from ctunit where ctunitid in (" & coaitem & ")"
+    end if     
+    set coars = conn.execute(sql)
+    while not coars.eof 
+     countc = countc + 1    
+     coars.movenext
+    wend   
+   end if
+   if len(kmitem) > 0 then
+    sql = "select category_id, category_name from category where data_base_id = '" & knowledgetankdatabaseid & "' and category_id in (" & kmitem & ")"
+    set kmrs = kmconn.execute(sql)
+    while not kmrs.eof 
+     countc = countc + 1        
+     kmrs.movenext
+    wend   
+   end if
+   if len(coaitem) + len(kmitem) > 0 then
+    redim categoryname(countc, 2)
+    countc = 0
+    if len(coaitem) > 0 then
+     coars.movefirst
+     while not coars.eof
+      categoryname(countc, 0) = cstr(coars("ctunitid"))
+      categoryname(countc, 1) = coars("ctunitname")       
+      'response.write categoryname(countc, 0) & "~" & categoryname(countc, 1) & "<hr>"
+      countc = countc + 1
+      coars.movenext     
+     wend
+     coars.close
+     set coars = nothing
+    end if
+    if len(kmitem) > 0 then
+     kmrs.movefirst
+     while not kmrs.eof   
+      categoryname(countc, 0) = kmrs("category_id")
+      categoryname(countc, 1) = kmrs("category_name")       
+      'response.write categoryname(countc, 0) & "~" & categoryname(countc, 1) & "<hr>"
+      countc = countc + 1
+      kmrs.movenext   
+     wend
+     kmrs.close
+     set kmrs = nothing
+    end if
+    if countc > 0 then         
+     for index = 0 to hyftdgroupingcount1 - 1
+      'if fromtopic = "1" and depth = "1" then
+      ' temparray(0) = ""
+      ' temparray(1) = hyftdgrouping1(index, 0 )
+      'else
+      temparray = split(hyftdgrouping1(index, 0 ), " ")
+      'end if              
+      for index1 = 0 to countc - 1   
+     
+       if fromknowledgetank = "1" then     
+        if temparray(1) = categoryname(index1, 0) then
+         'response.write hyftdgrouping1(index, 0 ) & "~" & categoryname(index1, 0) & "<hr>"
+         hyftdgrouping1(index, 2) = categoryname(index1, 1)
+         exit for
+        end if        
+       elseif fromtopic = "1" and depth = "1" then
+        if temparray(0) = categoryname(index1, 0) then
+         'response.write hyftdgrouping1(index, 0 ) & "~" & categoryname(index1, 0) & "<hr>"
+         hyftdgrouping1(index, 2) = categoryname(index1, 1)
+         exit for
+        end if 
+       elseif fromknowledgehome = "1" and depth = "1" then
+        if temparray(1) = categoryname(index1, 0) then
+         'response.write hyftdgrouping1(index, 0 ) & "~" & categoryname(index1, 0) & "<hr>"
+         hyftdgrouping1(index, 2) = categoryname(index1, 1)
+         exit for
+        end if 
+       else
+        if temparray(1) = categoryname(index1, 0) then
+         'response.write hyftdgrouping1(index, 0 ) & "~" & categoryname(index1, 0) & "<hr>"
+         hyftdgrouping1(index, 2) = categoryname(index1, 1)
+         exit for
+        end if 
+       end if     
+       
+       'if temparray(1) = categoryname(index1, 0) then
+        'response.write hyftdgrouping1(index, 0 ) & "~" & categoryname(index1, 0) & "<hr>"
+        ' hyftdgrouping1(index, 2) = categoryname(index1, 1)
+        ' exit for
+       'end if   
+      next  
+     next       
+    end if
+   end if
+  end if 
+ end if  
+ '-------------------------------------------------------------------------------  
+ '---time distribute-------------------------------------------------------------
+ hyftdquerygroupingid = hyftd_query_grouping( hyftdobj, hyftdconnid, hyftdgroupingname, "0", hyftdgroupingtype )
+ hyftdgroupingcount = hyftd_num_grouping( hyftdobj, hyftdconnid, hyftdquerygroupingid )
+ redim hyftdgrouping(hyftdgroupingcount, 2)
+ if hyftdgroupingcount > 0 then
+  for index = 0 to hyftdgroupingcount - 1
+   hyftdgrouping(index, 1) = hyftd_fetch_grouping( hyftdobj, hyftdconnid, hyftdquerygroupingid, index )
+   hyftdgrouping(index, 0) = hyftd_get_grouping_name( hyftdobj )
+  next   
+ end if   
+ '-----------------------------------------------------------------
+ '---word tank------------------------------------------------------
+ '-----------------------------------------------------------------      
+ 'end if  
+ if err.number = 0 then
+  hyftdx = hyftdobj.hyft_close(hyftdconnid)    
+  hyftdobj = empty
+  'response.write err.description & " at: " & err.number
+   'set hyftdobj = nothing  
+  else
+   hyftdx = hyftdobj.hyft_close(hyftdconnid)    
+  hyftdobj = empty
+   'set hyftdobj = nothing  
+   response.write err.description & " at: " & err.number
+ end if    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                =depth
+
+                                     =keyword
+
+
+
+                                      =keyword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    =keyword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                =depth
+                   =cint(depth) + 1
+
+
+
+
+                                    =keyword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    =keyword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    =keyword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    =keyword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    =keyword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    =keyword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    =keyword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    =keyword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    =keyword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                 =categoryid
+                                               =hyftdphonetic
+                                                =hyftdauthorize
+                                                 =auth
+
+
+                                            =depth
+                                              =querystring
+                                                    =relatednumber
+                                                 =maxrelated
+                                                    =advancesearch
+                                              =subject
+                                               =keywords
+                                             =author
+                                                  =description
+                                              =journal
+                                                  =actorinfoid
+
+
+
+
+
+
+
+                                                   =startdate
+
+
+                                                 =enddate
+
+
+
+
+
+
+                                                                   if fromsiteunit = "1" then :             end if :     if range = "0" then :                     end if 
+                                                                        if fromknowledgetank = "1" then :             end if :     if range = "0" then :                     end if 
+                                                                        if fromknowledgehome = "1" then :             end if :     if range = "0" then :                     end if 
+                                                                if fromtopic = "1" then :             end if :     if range = "0" then :                     end if 
+
+
+                         if range = "0" then :                         end if 
+                         if range = "1" then :                         end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+    if cint(depth) >= 0 then
+     response.write "<a href=""javascript:categorypathonclick('0', '" & pathgroupdata(0) & "')"">" & pathgroupname(0) & "</a>"
+    end if
+    if cint(depth) >= 1 then
+     response.write " >> " & "<a href=""javascript:categorypathonclick('1', '" & pathgroupdata(1) & "')"">" & pathgroupname(1) & "</a>" 
+    end if
+    if cint(depth) >= 2 then
+     response.write " >> " & "<a href=""javascript:categorypathonclick('2', '" & pathgroupdata(2) & "')"">" & pathgroupname(2) & "</a>"
+    end if
+    if cint(depth) >= 3 then
+     response.write " >> " & "<a href=""javascript:categorypathonclick('3', '" & pathgroupdata(3) & "')"">" & pathgroupname(3) & "</a>"
+    end if
+    if cint(depth) >= 4 then
+     response.write " >> " & "<a href=""javascript:categorypathonclick('4', '" & pathgroupdata(4) & "')"">" & pathgroupname(4) & "</a>" 
+    end if
+   
+
+
+     
+    dim str0, str1, str2, str3, str4
+    str0 = "<li><img src=""/xslgip/style1/images3/tree_closed.gif"" width=""20"" height=""11"" border=""0"" align=""absmiddle"">"
+    str0 = str0 & "<a href=""javascript:checksubmitforcategory('{2}');"">{0}({1})</a></li>"
+    
+    if depth = "0" then             
+     str1 = replace( replace( replace( str0, "{0}", "知識庫"  ), "{1}", "0" ), "{2}", "0")
+     str2 = replace( replace( replace( str0, "{0}", "站內單元"), "{1}", "0" ), "{2}", "1")      
+     str3 = replace( replace( replace( str0, "{0}", "主題館"  ), "{1}", "0" ), "{2}", "2")      
+     str4 = replace( replace( replace( str0, "{0}", "知識家"  ), "{1}", "0" ), "{2}", "3")       
+     for index = 0 to hyftdgroupingcount1 - 1
+      if hyftdgrouping1(index, 0) = "0" then
+       str1 = replace( replace( replace( str0, "{0}", "知識庫"  ), "{1}", hyftdgrouping1(index, 1) ), "{2}", "0")       
+      elseif hyftdgrouping1(index, 0) = "1" then
+       str2 = replace( replace( replace( str0, "{0}", "站內單元"), "{1}", hyftdgrouping1(index, 1) ), "{2}", "1")       
+      elseif hyftdgrouping1(index, 0) = "2" then
+       str3 = replace( replace( replace( str0, "{0}", "主題館"  ), "{1}", hyftdgrouping1(index, 1) ), "{2}", "2") 
+      elseif hyftdgrouping1(index, 0) = "3" then
+       str4 = replace( replace( replace( str0, "{0}", "知識家"  ), "{1}", hyftdgrouping1(index, 1) ), "{2}", "3") 
+      end if      
+     next
+     response.write str2 & str1 & str4 & str3
+    else
+     stra = "<li><img src=""/xslgip/style1/images3/tree_closed.gif"" width=""20"" height=""11"" border=""0"" align=""absmiddle"">{0}({1})</li>"
+     for index = 0 to hyftdgroupingcount1 - 1       
+      'temparray = split(hyftdgrouping1(index, 0), " ")
+      if depth = "1" then
+       'if fromsiteunit = "1" then
+       ' str1 = str1 & replace( replace( stra, "{0}", hyftdgrouping1(index, 2) ), "{1}", hyftdgrouping1(index, 1) ) 
+       'else
+        str1 = str1 & replace( replace( replace(str0, "{0}", hyftdgrouping1(index, 2) ), "{1}", hyftdgrouping1(index, 1) ), "{2}", replace(hyftdgrouping1(index, 0), " ", "@")) 'temparray(1) ) 
+       'end if
+      elseif depth = "2" then
+       if fromknowledgehome = "1" or fromsiteunit = "1" then
+        str1 = str1 & replace( replace( stra, "{0}", hyftdgrouping1(index, 2) ), "{1}", hyftdgrouping1(index, 1) ) 
+       else
+        str1 = str1 & replace( replace( replace(str0, "{0}", hyftdgrouping1(index, 2) ), "{1}", hyftdgrouping1(index, 1) ), "{2}", replace(hyftdgrouping1(index, 0), " ", "@")) 'temparray(1) )          
+       end if
+      elseif depth = "3" then
+       if fromtopic = "1" then
+        str1 = str1 & replace( replace( stra, "{0}", hyftdgrouping1(index, 2) ), "{1}", hyftdgrouping1(index, 1) ) 
+       else
+        str1 = str1 & replace( replace( replace(str0, "{0}", hyftdgrouping1(index, 2) ), "{1}", hyftdgrouping1(index, 1) ), "{2}", replace(hyftdgrouping1(index, 0), " ", "@")) 'temparray(1) )          
+       end if
+      elseif depth = "4" then
+       if fromknowledgetank = "1" then
+        str1 = str1 & replace( replace( stra, "{0}", hyftdgrouping1(index, 2) ), "{1}", hyftdgrouping1(index, 1) ) 
+       else
+        str1 = str1 & replace( replace( replace(str0, "{0}", hyftdgrouping1(index, 2) ), "{1}", hyftdgrouping1(index, 1) ), "{2}", replace(hyftdgrouping1(index, 0), " ", "@")) 'temparray(1) )          
+       end if
+      else
+       str1 = str1 & replace( replace( replace(str0, "{0}", hyftdgrouping1(index, 2) ), "{1}", hyftdgrouping1(index, 1) ), "{2}", replace(hyftdgrouping1(index, 0), " ", "@")) 'temparray(1) )  
+      end if      
+     next
+     response.write str1
+    end if   
+   
+
+
+
+
+
+
+
+
+
+
+
+     
+   if hyftdgroupingcount > 0 then 
+    
+    for index = 0 to hyftdgroupingcount - 1
+    
+     if not isnull(hyftdgrouping(index, 0)) and hyftdgrouping(index, 0) <> "" then
+      
+      output = "<li><a href=""javascript:checksubmitfortime('" & hyftdgrouping(index, 0) & "');"">"
+      if len(hyftdgrouping(index, 0)) = 6 then
+       output = output & mid(hyftdgrouping(index, 0), 1, 4) & "/" & mid(hyftdgrouping(index, 0), 5, 2)
+       output = output & "(" & hyftdgrouping(index, 1) & ")"
+      end if
+      output = output & "</a></li>"
+      
+      response.write output
+      
+     end if
+    
+    next
+    
+    end if 
+  
+
+
+
+
+
+
+
+
+
+
+             =keyword:              =hyftdtotalrecordcount
+      if order = "0" then 
+
+       elseif order = "1" then 
+
+        elseif order = "2" then  
+
+        elseif order = "3" then  
+
+      end if 
+      if sort = "0" then 
+
+      elseif sort = "1" then 
+
+      end if 
+              =hyftdtimediff
+
+
+
+
+
+
+
+
+
+
+
+
+    
+   if hyftdtotalrecordcount = 0 then
+    response.write "0"
+   else
+    response.write pagenumber
+   end if
+  :    =totalpage:                                  =hyftdtotalrecordcount
+     if cint(pagenumber) > 1 then 
+                                             =pagenumber - 1
+     end if 
+
+
+      
+   for index = 1 to totalpage
+    if cint(pagenumber) = index then
+     response.write "<option value=""" & index & """ selected=""selected"">" & index & "</option>"
+    else
+     response.write "<option value=""" & index & """>" & index & "</option>"
+    end if
+   next
+  
+
+
+     if cint(pagenumber) < totalpage then 
+                                         =pagenumber + 1
+     end if 
+
+
+                         if pagesize = 10 then :                         end if 
+                         if pagesize = 30 then :                         end if 
+                         if pagesize = 50 then :                         end if 
+
+
+
+
+
+
+
+                        if order = "0" then :                         end if 
+                        if order = "1" then :                         end if 
+                        if order = "2" then :                         end if 
+                        if order = "3" then :                         end if 
+
+
+                        if sort = "0" then :                         end if 
+                        if sort = "1" then :                         end if 
+
+
+
+
+
+
+
+
+
+
+
+
+     for index = 0 to pagesize - 1 
+      if resultarray(index, 0) <> "" then 
+
+
+        =(pagesize * (pagenumber - 1)) + index + 1
+        
+      ' if resultarray(index, 16) = "004" then
+      '  response.write "<img src=""/xslgip/style1/images1/icon_limit.gif"" alt=""有閱讀權限"" width=""12"" height=""12"">" 
+      ' else
+      '  response.write "<img src=""/xslgip/style1/images1/icon_ok.gif"" alt=""無閱讀權限"" width=""12"" height=""12"">" 
+      ' end if     
+      
+
+
+        
+       if resultarray(index, 2) = "0" then '---知識庫---
+        
+        tankurl = replace( session("myurl") & "cattree/cattreecontent.aspx?reportid={0}&databaseid={1}&categoryid={2}&actortype={3}", "{0}", resultarray(index, 3) )
+        tankurl = replace( tankurl, "{1}", resultarray(index, 4) )
+        tankurl = replace( tankurl, "{2}", resultarray(index, 5) )
+        'if resultarray(index, 16) <> "001" and resultarray(index, 16) <> "002" then
+        ' tankurl = replace( tankurl, "{3}", "002" )
+        'else
+         tankurl = replace( tankurl, "{3}", resultarray(index, 16) )
+        'end if        
+        response.write "<a href=""" & tankurl & """ target=""_blank"">" & resultarray(index, 7) & "</a>"
+        
+       elseif resultarray(index, 2) = "1" then '---站內單元---
+           
+        if resultarray(index, 10) = "1" then
+         
+         siteurl = replace( session("myurl") & "ct.asp?xitem={0}&ctnode={1}", "{0}", resultarray(index, 3) )
+         siteurl = replace( siteurl, "{1}", resultarray(index, 13) )
+         response.write "<a href=""" & siteurl & """ target=""_blank"">" & resultarray(index, 7) & "</a>"
+         
+        elseif resultarray(index, 10) = "2" then
+         
+         response.write "<a href=""" & resultarray(index, 11) & """ target=""_blank"">" & resultarray(index, 7) & "</a>"
+         
+        elseif resultarray(index, 10) = "3" then
+         
+         response.write "<a href=""" & session("myurl") & "public/attachment/" & resultarray(index, 12) & """ target=""_blank"">" & resultarray(index, 7) & "</a>" 
+         
+        end if
+        
+       elseif resultarray(index, 2) = "2" then '---主題館---
+                
+        if resultarray(index, 10) = "1" then
+         
+         topicurl = replace( session("myurl") & "subject/ct.asp?xitem={0}&ctnode={1}&mp={2}", "{0}", resultarray(index, 3) )
+         topicurl = replace( topicurl, "{1}", resultarray(index, 13) )
+         topicurl = replace( topicurl, "{2}", resultarray(index, 15) )
+         response.write "<a href=""" & topicurl & """ target=""_blank"">" & resultarray(index, 7) & "</a>" 
+         
+        elseif resultarray(index, 10) = "2" then
+         
+         response.write "<a href=""" & resultarray(index, 11) & """ target=""_blank"">" & resultarray(index, 7) & "</a>" 
+         
+        elseif resultarray(index, 10) = "3" then
+         
+         response.write "<a href=""" & session("myurl") & "subject/public/data/" & resultarray(index, 12) & """ target=""_blank"">" & resultarray(index, 7) & "</a>" 
+         
+        end if
+        
+       elseif resultarray(index, 2) = "3" then '---知識家---
+        homeurl = replace( session("myurl") & "knowledge/knowledge_cp.aspx?articleid={0}&articletype=a&categoryid=e", "{0}", resultarray(index, 3) )        
+        response.write "<a href=""" & homeurl & """ target=""_blank"">" & resultarray(index, 7) & "</a>"
+       end if
+      
+
+        
+       if order = "0" then
+        response.write round(resultarray(index, 1) / maxrelated * 100, 2) & "%"
+       else
+        response.write resultarray(index, 1) & "%"
+       end if
+      
+
+
+                
+        if instr(resultarray(index, 14), "<") = 1 then
+        elseif resultarray(index, 14) = "" then
+        else
+         'response.write replace(replace(resultarray(index, 14), "<br>", ""), "<br>", "") & "..."        
+        end if
+       
+
+
+
+       
+      response.write "[" & resultarray(index, 9) & "]"      
+     
+
+
+       
+      if resultarray(index, 2) = "0" then
+       response.write "知識庫"
+      elseif resultarray(index, 2) = "1" then
+       response.write "站內單元"
+      elseif resultarray(index, 2) = "2" then
+       response.write "主題館"
+      elseif resultarray(index, 2) = "3" then
+       response.write "知識家"
+      end if
+     
+
+           =resultarray(index, 8)
+
+      else 
+       exit for 
+      end if 
+     next
+
+
+
+
+
+  
+ conn.close
+ set conn = nothing
+ 

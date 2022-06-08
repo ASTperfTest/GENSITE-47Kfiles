@@ -1,0 +1,51 @@
+﻿: @ codepage = 65001 
+  
+'-----930608多向出版修改
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+set fso = server.createobject("scripting.filesystemobject")
+
+xpath = "/site/"+session("mysiteid")+"/gipdsd/"
+set fldr = fso.getfolder(server.mappath(xpath))
+ 
+if fldr.files.count > 0 then
+    for each sf in fldr.files
+     if (left(sf.name,5)="cudtx" or left(sf.name,7)="ctunitx") and left(sf.name,12)<>"ctunitxorder" then
+'     if sf.name="ctunitx221.xml"  then
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true             
+  loadxml = server.mappath(xpath+sf.name)             
+      xv = htpagedom.load(loadxml)
+    if htpagedom.parseerror.reason <> "" then 
+       response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+       response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+       response.end()
+    end if 
+    for each fieldnode in htpagedom.selectnodes("//fieldlist/field")
+        '----加fieldrefedityn
+        if nulltext(fieldnode.selectsinglenode("fieldrefedityn"))="" then 
+       set nxml = server.createobject("microsoft.xmldom")
+           if fieldnode.selectsinglenode("fieldname").text="avbegin" or fieldnode.selectsinglenode("fieldname").text="avend" then
+         nxml.loadxml("<fieldrefedityn>y</fieldrefedityn>")
+         else
+        nxml.loadxml("<fieldrefedityn>n</fieldrefedityn>")
+             end if  
+       set nxmlnewnode = nxml.documentelement
+       fieldnode.appendchild nxmlnewnode
+        end if
+    next
+'----回存    
+  htpagedom.save(server.mappath(xpath+sf.name))
+  response.write sf.name+"<br>"
+    end if
+    next
+end if
+
+response.write "<br>done3!"
+ 

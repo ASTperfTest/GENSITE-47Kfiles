@@ -1,0 +1,120 @@
+﻿
+
+
+
+
+
+
+        var title = "";
+        function SendMail() {
+
+            var url = window.dialogArguments.document.URL;
+            var verify = document.getElementById('CheckCodeforMail').value;
+            var objurl = document.getElementById('urlRecord');
+            objurl.value = url;
+            var typeThisPage = document.getElementById('type');
+            var articleThisPage = document.getElementById('ARTICLE_ID');
+            var getURL = document.URL;            
+            var arr = getURL.split("?");
+            
+            if (arr.length > 1) {
+                if (arr[1].indexOf("Discuss", 0) >= 0) {
+                    title = "檢舉信";                                        
+                    typeThisPage.value = "2";
+                    var article = window.dialogArguments.document.getElementById('ARTICLE_ID');
+
+                    var DiscussID = Cx_0dummy
+
+                    document.getElementById('account').value = window.dialogArguments.document.getElementById('d_account_' + DiscussID).value;
+                    document.getElementById('nickname').value = window.dialogArguments.document.getElementById('d_nickname_' + DiscussID).value;
+                    
+                    articleThisPage.value = article.value;
+                }
+                else if (arr[1].indexOf("Question", 0) >= 0) {
+                    title = "系統問題反應";
+                    typeThisPage.value = "1";
+                    var articleQuestion = window.dialogArguments.document.getElementById('ctl00_ContentPlaceHolder1_ARTICLE_ID_Question');
+                    articleThisPage.value = articleQuestion.value;
+                }
+                else {
+                    title = "系統問題反應";
+                    
+                    var type = window.dialogArguments.document.getElementById('type');
+                    typeThisPage.value = type.value;
+                    var article = window.dialogArguments.document.getElementById('ARTICLE_ID');
+                    articleThisPage.value = article.value;
+                }
+            }
+            else {
+                title = "系統問題反應";
+                
+                var type = window.dialogArguments.document.getElementById('type');
+                typeThisPage.value = type.value;
+                var article = window.dialogArguments.document.getElementById('ARTICLE_ID');
+                articleThisPage.value = article.value;
+            }           
+            
+            document.getElementById('h2Title').innerHTML = title;
+        }
+    
+
+
+
+
+
+function onload____1843738764() {SendMail()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                           function onClick___917097633() {this.src='VerifyImageforMail.asp?dumy=' + Math.random()}
+                                                          function onclick___1967648909() {document.all.checkcode.src='VerifyImageforMail.asp?dumy=' + Math.random();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                  function onclick____1849896201() {if(!window.confirm('確定要離開嗎？')){return false;} window.close();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

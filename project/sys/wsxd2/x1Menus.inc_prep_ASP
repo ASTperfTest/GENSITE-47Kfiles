@@ -1,0 +1,339 @@
+﻿: 
+'#####(autogen) 開始：此段程式碼為自動產生，註解部份請勿刪除 #####
+'下列有設定部份如有需要可自行設定
+'此版本為  ver.0.2
+'此段程式碼產生日期為： 2009/6/10 上午 09:59:37
+'(可修改)未來是否自動更新此程式中的 pattern (y/n) : y
+
+'(可修改)此程式是否記錄 log 檔
+activelog4u=true
+
+'(可修改)錯誤發生時要到那個頁面,未填時直接結束，1. 可以是 / :首頁, 2. http://xxx.xxx.xxx.xxx/ooo.htm
+onerrorpath="/"
+
+'目前程式位置在
+progpath="d:\hyweb\gensite\project\sys\wsxd2\x1menus.inc"
+
+'--------- (可修改)要檢查的 request 變數名稱 --------
+genparamsarray=array("mp")
+genparamspattern=array("<", ">", "%3c", "%3e", ";", "%27", "'", "=", "+", "-", "*", "/", "%", "@", "~", "!", "#", "$", "&", "\", "(", ")", "{", "}", "[", "]") '#### 要檢查的 pattern(程式會自動更新):genpat ####
+genparamsmessage=now() & vbtab & "error(1):request變數含特殊字元"
+
+'-------- (可修改)只檢查單引號，如 request 變數未來將要放入資料庫，請一定要設定(防 sql injection) --------
+sqlinjparamsarray=array()
+sqlinjparamspattern=array("'") '#### 要檢查的 pattern(程式會自動更新):db ####
+sqlinjparamsmessage=now() & vbtab & "error(2):request變數含單引號"
+
+'-------- (可修改)只檢查 html標籤符號，如 request 變數未來將要輸出，請設定 (防 cross site scripting)--------
+xssparamsarray=array()
+xssparamspattern=array("<", ">", "%3c", "%3e") '#### 要檢查的 pattern(程式會自動更新):html ####
+xssparamsmessage=now() & vbtab & "error(3):request變數含html標籤符號"
+
+'-------- (可修改)檢查數字格式 --------
+chknumericarray=array()
+chknumericmessage=now() & vbtab & "error(4):request變數不為數字格式"
+
+'-------- (可修改)檢察日期格式 --------
+chkdatearray=array()
+chkdatemessage=now() & vbtab & "error(5):request變數不為日期格式"
+
+'##########################################
+chkpattern genparamsarray, genparamspattern, genparamsmessage
+chkpattern sqlinjparamsarray, sqlinjparamspattern, sqlinjparamsmessage
+chkpattern xssparamsarray, xssparamspattern, xssparamsmessage
+chknumeric chknumericarray, chknumericmessage
+chkdate chkdatearray, chkdatemessage
+'--------- 檢查 request 變數名稱 --------
+sub chkpattern(parray, patern, message)
+ for each str in parray 
+  p=request(str)
+  for each ptn in patern
+   if (instr(p, ptn) >0) then
+    message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+    log4u(message) '寫入到 log
+    onerroraction
+   end if
+  next
+ next
+end sub
+
+'-------- 檢查數字格式 --------
+sub chknumeric(parray, message)
+ for each str in parray
+  p=request(str)
+  if not isnumeric(p) then
+   message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'--------檢察日期格式 --------
+sub chkdate(parray, message)
+ for each str in parray
+  p=request(str)
+  if not isdate(p) then
+   message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'onerror
+sub onerroraction()
+ if (onerrorpath<>"") then response.redirect(onerrorpath)
+ response.end
+end sub
+
+'log 放在網站根目錄下的 /logs，檔名： yyyymmdd_log4u.txt
+function log4u(strlog)
+ if (activelog4u) then
+  fldr=server.mappath("/") & "/logs"
+  filename=year(date()) & right("0"&month(date()), 2) & right("0"&day(date()),2)
+  
+  filename = filename & "_log4u.txt"
+  
+  dim fso, f
+  set fso = createobject("scripting.filesystemobject")
+  
+  '產生新的目錄
+  if (not fso.folderexists(fldr)) then
+   set f = fso.createfolder(fldr)
+  else
+   showabsolutepath = fso.getabsolutepathname(fldr)
+  end if
+  
+  const forreading = 1, forwriting = 2, forappending = 8
+  '開啟檔案
+  set fso = createobject("scripting.filesystemobject")
+  set f = fso.opentextfile( fldr & "\" & filename , forappending, true, -1)
+  f.write strlog  & vbcrlf
+ end if
+end function
+'##### 結束：此段程式碼為自動產生，註解部份請勿刪除 #####
+:                         =mytreenode
+  
+ if isnull(xrootid) then _
+ xrootid=nulltext(refmodel.selectsinglenode("menutree"))
+ 
+   sqlcom = "select a.*, c.redirecturl, c.newwindow, c.ibasedsd, c.ctunitkind " _
+  & " from cattreenode as a " _
+  & " left join ctunit as c on c.ctunitid=a.ctunitid" _
+  & " where a.inuse='y' and a.dataparent=" & upparent _
+  & " and a.ctrootid = " & pkstr(xrootid,"") _
+  & " order by a.catshoworder"
+
+ set rs = conn.execute(sqlcom)
+ tabindex = 0
+ divindex = 0
+ styletop = 207
+ while not rs.eof
+                 tabindex = tabindex + 1
+                 divindex = divindex + 1
+                 styletop = styletop + 28
+   if rs("ctunitkind") = "k" then
+       xurl = "kmdoit.asp?"&rs("redirecturl")
+      elseif rs("ctnodekind") = "c" then  '-- folder
+    xurl = "np.asp?ctnode="&rs("ctnodeid") & "&amp;mp=" & request("mp")
+   else
+    if rs("redirecturl")<> "" then
+     xurl = rs("redirecturl")
+    elseif rs("ctunitkind") ="2" then
+     xurl = "lp.asp?ctnode="&rs("ctnodeid") & "&amp;ctunit=" & rs("ctunitid") & "&amp;basedsd=" & rs("ibasedsd") & "&amp;mp=" & request("mp")
+    elseif isnumeric(rs("ibasedsd")) then
+     xurl = "np.asp?ctnode="&rs("ctnodeid") & "&amp;ctunit=" & rs("ctunitid") & "&amp;basedsd=" & rs("ibasedsd") & "&amp;mp=" & request("mp")
+    end if
+             end if
+
+                         =rs("newwindow")
+               =deamp(rs("catname"))
+              =rs("ctnodeid")
+                   =deamp(xurl)
+                =tabindex
+                   =divindex
+                                   =divindex
+                                  =divindex
+                =styletop
+  
+   
+      sqlcom = "select a.*, c.redirecturl, c.newwindow, c.ibasedsd, c.ctunitkind " _
+     & " from cattreenode as a " _
+     & " left join ctunit as c on c.ctunitid=a.ctunitid" _
+     & " where a.inuse='y' and a.dataparent=" & rs("ctnodeid") & " and a.ctrootid = " & pkstr(xrootid,"") _
+     & " order by a.catshoworder"
+   
+    set rsx = conn.execute(sqlcom)
+    while not rsx.eof
+     tabindex = tabindex + 1
+     if rs("ctnodeid") = cint(mytreenode)  then
+      styletop = styletop + 26
+     end if
+      if rsx("ctunitkind") = "k" then
+          xurl = "kmdoit.asp?"&rsx("redirecturl")
+         elseif rsx("ctnodekind") = "c" then  '-- folder
+       xurl = "np.asp?ctnode="&rsx("ctnodeid") & "&amp;mp=" & request("mp")
+      else
+       if rsx("redirecturl")<> "" then
+        xurl = rsx("redirecturl")
+       elseif rsx("ctunitkind") ="2" then
+        xurl = "lp.asp?ctnode="&rsx("ctnodeid") & "&amp;ctunit=" & rsx("ctunitid") & "&amp;basedsd=" & rsx("ibasedsd") & "&amp;mp=" & request("mp")
+       elseif isnumeric(rsx("ibasedsd")) then
+        xurl = "np.asp?ctnode="&rsx("ctnodeid") & "&amp;ctunit=" & rsx("ctunitid") & "&amp;basedsd=" & rsx("ibasedsd") & "&amp;mp=" & request("mp")
+       end if
+           end if
+
+                           =rsx("newwindow")
+                =deamp(rsx("catname"))
+                    =deamp(xurl)
+                 =tabindex
+
+        rsx.movenext
+    wend
+   
+
+
+    
+  rs.movenext
+ wend
+
+
+
+  
+ xrootid=nulltext(refmodel.selectsinglenode("menutree1"))
+ if xrootid<>"" then
+
+   response.write "<menubar1>" 
+   sqlcom = "select a.*, c.redirecturl, c.newwindow, c.ibasedsd, c.ctunitkind " _
+  & " from cattreenode as a " _
+  & " left join ctunit as c on c.ctunitid=a.ctunitid" _
+  & " where a.inuse='y' and a.datalevel=1 and a.ctrootid = " & pkstr(xrootid,"") _
+  & " order by a.catshoworder"
+
+ set rs = conn.execute(sqlcom)
+ while not rs.eof
+   if rs("ctunitkind") = "k" then
+       xurl = "kmdoit.asp?"&rs("redirecturl")
+      elseif rs("ctnodekind") = "c" then  '-- folder
+    xurl = "np.asp?ctnode="&rs("ctnodeid") & "&amp;mp=" & request("mp")
+   else
+    if rs("redirecturl")<> "" then
+     xurl = rs("redirecturl")
+    elseif rs("ctunitkind") ="2" then
+     xurl = "lp.asp?ctnode="&rs("ctnodeid") & "&amp;ctunit=" & rs("ctunitid") & "&amp;basedsd=" & rs("ibasedsd") & "&amp;mp=" & request("mp")
+    elseif isnumeric(rs("ibasedsd")) then
+     xurl = "np.asp?ctnode="&rs("ctnodeid") & "&amp;ctunit=" & rs("ctunitid") & "&amp;basedsd=" & rs("ibasedsd") & "&amp;mp=" & request("mp")
+    end if
+        end if
+
+                         =rs("newwindow")
+               =rs("catname")
+                   =xurl
+  
+   if rs("ctnodeid") = cint(mytreenode)  then
+      sqlcom = "select a.*, c.redirecturl, c.newwindow, c.ibasedsd, c.ctunitkind " _
+     & " from cattreenode as a " _
+     & " left join ctunit as c on c.ctunitid=a.ctunitid" _
+     & " where a.inuse='y' and a.dataparent=" & mytreenode & " and a.ctrootid = " & pkstr(xrootid,"") _
+     & " order by a.catshoworder"
+   
+    set rsx = conn.execute(sqlcom)
+    while not rsx.eof
+      if rsx("ctunitkind") = "k" then
+          xurl = "kmdoit.asp?"&rsx("redirecturl")
+         elseif rsx("ctnodekind") = "c" then  '-- folder
+       xurl = "np.asp?ctnode="&rsx("ctnodeid")  & "&amp;mp=" & request("mp")
+      else
+       if rsx("redirecturl")<> "" then
+        xurl = rsx("redirecturl")
+       elseif rsx("ctunitkind") ="2" then
+        xurl = "lp.asp?ctnode="&rsx("ctnodeid") & "&amp;ctunit=" & rsx("ctunitid") & "&amp;basedsd=" & rsx("ibasedsd") & "&amp;mp=" & request("mp")
+       elseif isnumeric(rsx("ibasedsd")) then
+        xurl = "np.asp?ctnode="&rsx("ctnodeid") & "&amp;ctunit=" & rsx("ctunitid") & "&amp;basedsd=" & rsx("ibasedsd") & "&amp;mp=" & request("mp")
+       end if
+           end if
+
+                           =rsx("newwindow")
+                =deamp(rsx("catname"))
+                    =deamp(xurl)
+
+        rsx.movenext
+    wend
+   end if
+
+
+    
+  rs.movenext
+ wend
+
+
+   end if 
+
+  
+ xrootid=nulltext(refmodel.selectsinglenode("menutree2"))
+ if xrootid<>"" then
+
+   response.write "<menubar2>" 
+   sqlcom = "select a.*, c.redirecturl, c.newwindow, c.ibasedsd, c.ctunitkind " _
+  & " from cattreenode as a " _
+  & " left join ctunit as c on c.ctunitid=a.ctunitid" _
+  & " where a.inuse='y' and a.datalevel=1 and a.ctrootid = " & pkstr(xrootid,"") _
+  & " order by a.catshoworder"
+
+ set rs = conn.execute(sqlcom)
+ while not rs.eof
+   if rs("ctunitkind") = "k" then
+       xurl = "kmdoit.asp?"&rs("redirecturl")
+      elseif rs("ctnodekind") = "c" then  '-- folder
+    xurl = "np.asp?ctnode="&rs("ctnodeid") & "&amp;mp=" & request("mp")
+   else
+    if rs("redirecturl")<> "" then
+     xurl = rs("redirecturl")
+    elseif rs("ctunitkind") ="2" then
+     xurl = "lp.asp?ctnode="&rs("ctnodeid") & "&amp;ctunit=" & rs("ctunitid") & "&amp;basedsd=" & rs("ibasedsd") & "&amp;mp=" & request("mp")
+    elseif isnumeric(rs("ibasedsd")) then
+     xurl = "np.asp?ctnode="&rs("ctnodeid") & "&amp;ctunit=" & rs("ctunitid") & "&amp;basedsd=" & rs("ibasedsd") & "&amp;mp=" & request("mp")
+    end if
+        end if
+
+                         =rs("newwindow")
+               =rs("catname")
+                   =xurl
+  
+      sqlcom = "select a.*, c.redirecturl, c.newwindow, c.ibasedsd, c.ctunitkind " _
+     & " from cattreenode as a " _
+     & " left join ctunit as c on c.ctunitid=a.ctunitid" _
+     & " where a.inuse='y' and a.dataparent=" & rs("ctnodeid") & " and a.ctrootid = " & pkstr(xrootid,"") _
+     & " order by a.catshoworder"
+   
+    set rsx = conn.execute(sqlcom)
+    while not rsx.eof
+      if rsx("ctunitkind") = "k" then
+          xurl = "kmdoit.asp?"&rsx("redirecturl")
+         elseif rsx("ctnodekind") = "c" then  '-- folder
+       xurl = "np.asp?ctnode="&rsx("ctnodeid")  & "&amp;mp=" & request("mp")
+      else
+       if rsx("redirecturl")<> "" then
+        xurl = rsx("redirecturl")
+       elseif rsx("ctunitkind") ="2" then
+        xurl = "lp.asp?ctnode="&rsx("ctnodeid") & "&amp;ctunit=" & rsx("ctunitid") & "&amp;basedsd=" & rsx("ibasedsd") & "&amp;mp=" & request("mp")
+       elseif isnumeric(rsx("ibasedsd")) then
+        xurl = "np.asp?ctnode="&rsx("ctnodeid") & "&amp;ctunit=" & rsx("ctunitid") & "&amp;basedsd=" & rsx("ibasedsd") & "&amp;mp=" & request("mp")
+       end if
+           end if
+
+                           =rsx("newwindow")
+                =deamp(rsx("catname"))
+                    =deamp(xurl)
+
+        rsx.movenext
+    wend
+
+
+    
+  rs.movenext
+ wend
+
+
+   end if  

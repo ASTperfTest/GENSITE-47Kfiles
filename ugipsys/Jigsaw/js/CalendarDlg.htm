@@ -1,0 +1,29 @@
+<HTML>
+	<HEAD>
+		<TITLE>日期選擇</TITLE>
+		<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=big5">
+	</HEAD>
+	<BODY bgColor="#3366cc" onload="fload()">
+		<SCRIPT src="calendar.js">
+		</SCRIPT>
+		<SCRIPT>
+function fload()
+{
+	fPopCalendar(document.all.txt1, document.all.txt1);
+}
+
+function fkeydown()
+{
+	if(event.keyCode==27){
+		event.returnValue = null;
+		//window.returnValue = "在Html內部！！！";
+		//alert(window.returnValue);
+		window.close();
+	}
+}
+
+document.onkeydown=fkeydown;
+		</SCRIPT>
+		<INPUT id="txt1" style="DISPLAY: none">
+	</BODY>
+</HTML>

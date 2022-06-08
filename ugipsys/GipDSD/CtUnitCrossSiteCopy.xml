@@ -1,0 +1,15 @@
+﻿<?xml version="1.0"  encoding="utf-8" ?>
+<CtUnitCrossSiteCopy>
+	<sourceDB>GIPmofDB</sourceDB>
+	<targetDB>GIPwra</targetDB>
+	<CtUintCopyList>
+		<CtUintCopy>
+			<sourceCtUnitID>19</sourceCtUnitID>
+			<targetCtUnitID>289</targetCtUnitID>
+		</CtUintCopy>
+		<CtUintCopy>
+			<sourceCtUnitID>59</sourceCtUnitID>
+			<targetCtUnitID>290</targetCtUnitID>
+		</CtUintCopy>
+	</CtUintCopyList>
+</CtUnitCrossSiteCopy>

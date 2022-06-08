@@ -1,0 +1,91 @@
+﻿: @ codepage = 65001 
+   
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+'------ modify history list (begin) ------
+' 2006/1/6 92004/chirs
+' 1. check ctnodex???.xml before ctunitx???.xml
+'
+'------ modify history list (begin) ------
+htprogcap="資料上稿"
+htprogcode="gc1ap1"
+htprogprefix="dsdxml" 
+
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbfunc_1723934251()
+   
+ session("sortflag")=false
+ session("codeid")=request.querystring("ibasedsd")
+ if 1=2 then  session("sortflag")=true
+ set htpagedom = server.createobject("microsoft.xmldom")
+ htpagedom.async = false
+ htpagedom.setproperty("serverhttprequest") = true  
+     '----找出對應的ctunitx???? xmlspec檔案(若找不到則抓default), 並依fieldseq排序成物件存入session
+    set fso = server.createobject("scripting.filesystemobject")
+loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctnodex" & request("ctnodeid") & ".xml")
+if not fso.fileexists(loadxml) then
+ loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx" & cstr(session("ctunitid")) & ".xml")
+ if not fso.fileexists(loadxml) then
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/cudtx" & session("ibasedsd") & ".xml")
+ end if
+end if
+ 'response.write loadxml & "<hr>"
+ 'response.end
+ xv = htpagedom.load(loadxml)
+
+   if htpagedom.parseerror.reason <> "" then 
+      response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+      response.end()
+   end if
+
+     set root = htpagedom.selectsinglenode("dataschemadef")
+     '----load xsl樣板
+     set oxsl = server.createobject("microsoft.xmldom")
+    oxsl.async = false
+    xv = oxsl.load(server.mappath("/gipdsd/xmlspec/ctunitxorder.xsl"))     
+ 
+     '----複製slave的dstable,並依順序轉換
+'response.write "dataschemadef/dstable[tablename='"&session("sbasetablename")&"']"
+'response.end  
+ set xdsdnode = htpagedom.selectsinglenode("dataschemadef/dstable[tablename='"&session("sbasetablename")&"']")    
+ set xdsdnode = htpagedom.selectsinglenode("dataschemadef/dstable")    
+'response.write loadxml 
+'response.write xdsdnode.xml
+'response.end  
+ set dsdnode = htpagedom.selectsinglenode("dataschemadef/dstable[tablename='" & session("sbasetablename") & "']").clonenode(true)    
+    set dsdnodexml = server.createobject("microsoft.xmldom")
+     dsdnodexml.appendchild dsdnode
+    set nxml = server.createobject("microsoft.xmldom")
+     nxml.loadxml(dsdnodexml.transformnode(oxsl))
+    set nxmlnewnode = nxml.documentelement    
+     dsdnode.replacechild nxmlnewnode,dsdnode.selectsinglenode("fieldlist")
+     root.replacechild dsdnode,root.selectsinglenode("dstable[tablename='"&session("sbasetablename")&"']")
+    '----複製cudtgeneric的dstable,並依順序轉換
+    set genericnode = htpagedom.selectsinglenode("dataschemadef/dstable[tablename='cudtgeneric']").clonenode(true)    
+    set genericnodexml = server.createobject("microsoft.xmldom")
+     genericnodexml.appendchild genericnode
+    set nxml2 = server.createobject("microsoft.xmldom")
+     nxml2.loadxml(genericnodexml.transformnode(oxsl))
+    set nxmlnewnode2 = nxml2.documentelement    
+     genericnode.replacechild nxmlnewnode2,genericnode.selectsinglenode("fieldlist")
+     root.replacechild genericnode,root.selectsinglenode("dstable[tablename='cudtgeneric']")        
+
+   set session("codexmlspec") = htpagedom
+   '----混合field順序
+ set nxml0 = server.createobject("microsoft.xmldom")
+ nxml0.loadxml(htpagedom.transformnode(oxsl))
+ set session("codexmlspec2") = nxml0
+'  response.write "<?xml version=""1.0"" encoding=""utf-8"" ?>"
+'    response.write "<xmp>"+nxml0.xml+"</xmp>" 
+'    response.end     
+
+
+                                             =session("codeid"):             =request.querystring("ctnodeid")
+
+
+
+     response.end
+ 

@@ -1,0 +1,206 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<htPage>
+	<HTProgPrefix>TuitionDeptGrade</HTProgPrefix>
+	<HTProgCode>Pn02M03</HTProgCode>
+	<HTUploadPath>/</HTUploadPath>
+	<HTProgPath>/SysManage</HTProgPath>
+	<HTGenPattern>genEdit</HTGenPattern>
+	<htForm>
+		<formModel id="TuitionDeptGradeEdit">
+			<fieldList>
+				<tableName>TuitionDeptGrade</tableName>
+				<fkLink>
+					<joinType>LEFT</joinType>
+					<asAlias>htj1</asAlias>
+					<refTable></refTable>
+					<fkFieldList>
+						<refField></refField>
+						<myField></myField>
+					</fkFieldList>
+				</fkLink>
+				<field>
+					<fieldName>rdcyName</fieldName>
+					<fieldLabel>系級名稱</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>40</dataLen>
+					<inputLen>40</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>Readonly</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>SchDept</fieldName>
+					<fieldLabel>科系</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>2</dataLen>
+					<inputLen>2</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>SchDept</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>SchGrade</fieldName>
+					<fieldLabel>年級</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>SchGrade</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>School</fieldName>
+					<fieldLabel>學院</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>2</dataLen>
+					<inputLen>2</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>School</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>SchType</fieldName>
+					<fieldLabel>學籍類別</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>SchType</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>fCreditHour</fieldName>
+					<fieldLabel>是否為學分班</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>boolYN</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>useMark</fieldName>
+					<fieldLabel>使用註記</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>boolYN</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+			<anchorList>
+				<anchor>
+					<type></type>
+					<funcLabel></funcLabel>
+					<url></url>
+					<action></action>
+				</anchor>
+			</anchorList>
+		</formModel>
+	</htForm>
+	<pageSpec>
+		<pageHead>系級對照表</pageHead>
+		<pageFunction>編修</pageFunction>
+		<aidLinkList>
+			<Anchor>
+				<AnchorLabel>新增</AnchorLabel>
+				<AnchorType>A</AnchorType>
+				<AnchorDesc>新增</AnchorDesc>
+				<AnchorURI>TuitionDeptGradeAdd.asp</AnchorURI>
+				<checkRight>4</checkRight>
+				<AnchorPos>Top</AnchorPos>
+				<AnchorWPK></AnchorWPK>
+			</Anchor>
+			<Anchor>
+				<AnchorLabel>查詢</AnchorLabel>
+				<AnchorType>A</AnchorType>
+				<AnchorDesc>重設查詢條件</AnchorDesc>
+				<AnchorURI>TuitionDeptGradeQuery.asp</AnchorURI>
+				<checkRight>1</checkRight>
+				<AnchorPos>Top</AnchorPos>
+				<AnchorWPK></AnchorWPK>
+			</Anchor>
+			<Anchor>
+				<AnchorLabel>查詢結果</AnchorLabel>
+				<AnchorType>A</AnchorType>
+				<AnchorDesc>查詢結果</AnchorDesc>
+				<AnchorURI>TuitionDeptGradeList.asp</AnchorURI>
+				<checkRight>4</checkRight>
+				<AnchorPos>Top</AnchorPos>
+				<AnchorWPK></AnchorWPK>
+			</Anchor>
+		</aidLinkList>
+		<formUI ref="TuitionDeptGradeEdit">
+			<pxHTML>
+				<CENTER>
+					<TABLE border="0" class="eTable" cellspacing="1" cellpadding="2" width="60%">
+						<TR><TD class="eTableLable" align="right"><font color="red"></font>系級名稱：</TD>
+							<TD class="eTableContent"><refField>TuitionDeptGrade/rdcyName</refField>xxxxxxxxxx</TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>學院：</TD>
+							<TD class="eTableContent"><refField>TuitionDeptGrade/School</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>科系：</TD>
+							<TD class="eTableContent"><refField>TuitionDeptGrade/SchDept</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>學籍類別：</TD>
+							<TD class="eTableContent"><refField>TuitionDeptGrade/SchType</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>年級：</TD>
+							<TD class="eTableContent"><refField>TuitionDeptGrade/SchGrade</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>是否為學分班：</TD>
+							<TD class="eTableContent"><refField>TuitionDeptGrade/fCreditHour</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>使用註記：</TD>
+							<TD class="eTableContent"><refField>TuitionDeptGrade/useMark</refField></TD>
+						</TR>
+					</TABLE>
+				</CENTER>
+			</pxHTML>
+			<scriptCode><![CDATA[
+<SCRIPT LANGUAGE="vbs">
+
+</SCRIPT>
+		]]></scriptCode>
+		</formUI>
+		<UINotes>欄位顯示原值,可編修。系級名稱由系統自動組合科系/學籍類別/年級之字串寫入。動作完成後,回查詢結果畫面。
+		</UINotes>
+	</pageSpec>
+</htPage>

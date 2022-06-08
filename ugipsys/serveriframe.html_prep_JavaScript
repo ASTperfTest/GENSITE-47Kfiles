@@ -1,0 +1,27 @@
+﻿
+
+
+var xmlDoc
+window.onload = function () {
+ if (window.ActiveXObject) {
+  var xmlHttpReq = new ActiveXObject('Msxml2.XMLHTTP')
+ } else {
+  var xmlHttpReq = new XMLHttpRequest()
+ }
+ xmlHttpReq.open('GET', 'http://hywade.hyweb.com.tw/x1.xml', false)
+ xmlHttpReq.send(null)
+ xmlDoc = xmlHttpReq.responseXML
+ //alert(xmlDoc.documentElement.nodeName)
+ for (var i = xmlDoc.documentElement.firstChild; i != null; i = i.nextSibling) {
+  document.body.insertAdjacentHTML('beforeEnd', i.xml)
+  document.body.insertAdjacentHTML('beforeEnd', '      ')
+ }
+}
+
+
+
+
+
+
+
+ 

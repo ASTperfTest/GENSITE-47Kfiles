@@ -1,0 +1,727 @@
+
+
+<script language=VBS>
+function blen(xs)              '檢測中英文夾雜字串實際長度
+  xl = len(xs)
+  for i=1 to len(xs)
+	if asc(mid(xs,i,1))<0 then xl = xl + 1
+  next
+  blen = xl
+end function
+
+function xStdTime(dt)  '轉成民國年及時間  999/99/99 10:00 給資料型態為DateTime 使用
+   if Len(dt)=0 or isnull(dt) then
+   	xStdTime=""
+   else
+   	xyear = right("000"+ cstr((year(dt)-1911)),3)     '補零
+        xmonth = right("00"+ cstr(month(dt)),2)
+        xday = right("00"+ cstr(day(dt)),2)
+        xhour = right("00" + cstr(hour(dt)),2)
+        xminute = right("00" + cstr(minute(dt)),2)
+        xStdTime = xyear & "/" & xmonth & "/" & xday & " " & xhour & ":" & xminute
+   end if
+end function
+
+function d7date(dt)     '轉成民國年  999/99/99 給資料型態為SmallDateTime 使用
+	if Len(dt)=0 or isnull(dt) then
+		d7date=""
+	else
+           xy=right("000"+ cstr((year(dt)-1911)),3)     '補零
+           xm=right("00"+ cstr(month(dt)),2)
+           xd=right("00"+ cstr(day(dt)),2)
+           d7date=xy & "/" & xm & "/" & xd
+        end if
+end function
+
+ function ChkIDX(SID)      '-----身份證字號檢驗
+
+   SID = UCase(SID)
+   X1 = InStr("ABCDEFGHJKLMNPQRSTUVWXYZIO", Left(SID, 1)) + 9
+
+   ' 初步檢查 ID 的合法性
+   If X1 < 10 Then Chk_ID = False: Exit Function
+   If Not IsNumeric(Mid(SID, 2)) Then Chk_ID = False: Exit Function
+   If Len(SID) <> 10 Then Chk_ID = False: Exit Function
+
+   ' 檢查編號之正確性
+   SID = Cstr(X1) + Mid(SID, 2)
+
+   nCheckSum = Cint(Mid(SID, 1, 1))
+   For I = 2 To Len(SID) - 1
+        nCheckSum = nCheckSum + Cint(Mid(SID, I, 1)) * (11 - I)
+   Next
+   nCheckSum = nCheckSum + Cint(Mid(SID, 11, 1))
+
+   ChkID = (nCheckSum Mod 10 = 0)
+end Function
+
+function ChkID(idno)	'-----身份證字號檢驗(新)
+  if len(trim(idno))=0 then exit function
+
+  alpha=UCase(left(idno,1))
+  d1=mid(idno,2,1)
+  d2=mid(idno,3,1)
+  d3=mid(idno,4,1)
+  d4=mid(idno,5,1)
+  d5=mid(idno,6,1)
+  d6=mid(idno,7,1)
+  d7=mid(idno,8,1)
+  d8=mid(idno,9,1)
+  d9=mid(idno,10,1)
+  select case alpha
+    case "A" : acc=1
+    case "B" : acc=10
+    case "C" : acc=19
+    case "D" : acc=28
+    case "E" : acc=37
+    case "F" : acc=46
+    case "G" : acc=55
+    case "H" : acc=64
+    case "I" : acc=39
+    case "J" : acc=73
+    case "K" : acc=82
+    case "L" : acc=2
+    case "M" : acc=11
+    case "N" : acc=20
+    case "O" : acc=48
+    case "P" : acc=29
+    case "Q" : acc=38
+    case "R" : acc=47
+    case "S" : acc=56
+    case "T" : acc=65
+    case "U" : acc=74
+    case "V" : acc=83
+    case "W" : acc=21
+    case "X" : acc=3
+    case "Y" : acc=12
+    case "Z" : acc=30
+  end select
+  on error resume next
+  checksum = acc+8*d1+7*d2+6*d3+5*d4+4*d5+3*d6+2*d7+1*d8+1*d9
+  check1 = Int(checksum/10)
+  check2 = checksum/10
+  check3 = (check2-check1)*10
+  if len(idno)>10 then
+    ChkID=false
+  elseif err.number<>0 then
+    ChkID=false
+  elseif checksum=check1*10 then
+    ChkID=true
+  elseif d9=(10-check3) then
+    ChkID=true
+  else
+    ChkID=false
+  end if
+end function
+</script>
+
+
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=big5">
+<style type="text/css">
+<!--
+
+.txt       { font-family: "新細明體", "細明體"; font-size: 11pt; color: black; line-height: 160%; letter-spacing: 1pt;}
+.tt       { font-family: "新細明體", "細明體"; font-size: 10pt; color: black; line-height: 140%; letter-spacing: 1pt;}
+.txt2       { font-family: "新細明體", "細明體"; font-size: 10pt; color: #493FD1; line-height: 165%; letter-spacing: 1pt;}
+.t1      { font-family: "新細明體", "新細明體"; font-size: 13pt; color: #660099; line-height: 180%; letter-spacing: 2pt; font-weight:bold;}
+A          { color:black; text-decoration: none; }
+A:hover    { color:blue; text-decoration: none; background-color:#C5EBFE;}
+
+-->
+</style>
+</head>
+
+<body bgcolor="#FFCCDD" text="#000000" topmargin="0" leftmargin="2" marginwidth="2">
+<table width="770" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td valign="top">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr> 
+          <td colspan="2"><img src="../images/bs/icon2.gif" width="770" height="12"></td>
+        </tr>
+        <tr> 
+          <td width="270"><img src="../images/bs/icon.gif" width="270" height="78"></td>
+          <td width="526" bgcolor="#F5F5F5"> 
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr> 
+                <td width="60">&nbsp;</td>
+                <td class="txt2" width="463">▋國立自然科學博物館‧植物公園九十一年暑期研習活動<br>
+                  ▋活動名稱：「水果奶奶這一家」、「一花一世界」、植物與美術<br>
+                  ▋<a href="content.htm#1"><font color="#3333FF">活動說明事項</a>、<a href="http://enroll.nmns.edu.tw/myNMNS/myhome.asp"><font color="#3333FF">查詢</a>、<a href="http://www.nmns.edu.tw/cindex.html"><font color="#3333FF">回首頁</a></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr> 
+          <td colspan="2">
+            <table width="100%" border="0" cellspacing="0" cellpadding="10" background="../images/bs/bg6.gif">
+              <tr>
+                <td width="5">&nbsp;</td>
+                <td width="745"> 
+                  <table width="100%" border="0" cellspacing="0" cellpadding="6" background=#f3f3f3>
+                  
+<!-- first activity--arts and plant -->                                    
+                    
+<!-- second activity -->                                      
+                    <tr> 
+                      <td><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0" width="30" height="32" vspace="6">
+                          <param name=movie value="../images/bs/circle.swf">
+                          <param name=quality value=high>
+                          <param name="wmode" value="transparent">
+                          <embed src="../images/bs/circle.swf" quality=high pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="30" height="32" wmode="transparent" vspace="6">
+                          </embed> 
+                        </object><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0" width="180" height="32" hspace="3" vspace="6">
+                          <param name=movie value="../images/bs/tit1.swf">
+                          <param name=quality value=high>
+                          <param name="wmode" value="transparent">
+                          <embed src="../images/bs/tit1.swf" quality=high pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="180" height="32" hspace="3" wmode="transparent" vspace="6">
+                          </embed> 
+                        </object><br>
+
+        		<table width="100%" border="0" cellspacing="1" cellpadding="5" align="center" bgcolor="#C6C6C6">                
+			
+ 			<TR align="center" bgcolor="#dff780"> 
+  			   <td class="txt"><font color="#CC3300">內　　容</font></td>
+  			   <TD class="tt" align=center bgcolor="#f3f3f3"　width=70% >智慧之果、友誼之果、<BR>科學之果、遊戲之果
+    			</TR>
+                	<TR align="center" bgcolor="#dff780">
+  			   <td class="txt"><font color="#CC3300">對　　象</font></td>
+  			   <TD class="tt" align=center bgcolor="#f3f3f3" >國小3-6年級
+    			</TR>
+    			
+    			<TR bgcolor="#dff780">
+    			<td class="txt" align=center><font color="#CC3300">梯次日期</font></td>
+    			<TD bgcolor=#f3f3f3>
+    			<table border=0 width=100%>
+			<TR bgcolor=#f3f3f3>
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 62" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			7月9日 
+			(二) 
+			<font size=-1 color=red>[90]</font></span>
+			
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 63" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			7月13日 
+			(六) 
+			<font size=-1 color=red>[60]</font></span>
+			
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 64" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			7月16日 
+			(二) 
+			<font size=-1 color=red>[71]</font></span>
+			
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 65" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			7月20日 
+			(六) 
+			<font size=-1 color=red>[48]</font></span>
+			
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 66" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			7月23日 
+			(二) 
+			<font size=-1 color=red>[62]</font></span>
+			<TR bgcolor=#f3f3f3>
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 67" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			7月27日 
+			(六) 
+			<font size=-1 color=red>[44]</font></span>
+			
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 69" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			7月30日 
+			(二) 
+			<font size=-1 color=red>[51]</font></span>
+			
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 70" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			8月3日 
+			(六) 
+			<font size=-1 color=red>[45]</font></span>
+			
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 71" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			8月6日 
+			(二) 
+			<font size=-1 color=red>[60]</font></span>
+			
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 72" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			8月10日 
+			(六) 
+			<font size=-1 color=red>[42]</font></span>
+			<TR bgcolor=#f3f3f3>
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 73" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			8月13日 
+			(二) 
+			<font size=-1 color=red>[50]</font></span>
+			
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 74" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			8月17日 
+			(六) 
+			<font size=-1 color=red>[39]</font></span>
+			
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 75" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			8月20日 
+			(二) 
+			<font size=-1 color=red>[48]</font></span>
+			
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 76" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			8月24日 
+			(六) 
+			<font size=-1 color=red>[37]</font></span>
+			
+                 </table>
+                 </td>
+                 </tr>
+       
+		</TABLE>
+			
+			
+                        <p>&nbsp;</p>
+                      </td>
+                    </tr>
+<!-- activity -->                                      
+<tr>
+                      <td><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0" width="30" height="32" vspace="6">
+                          <param name=movie value="../images/bs/circle2.swf">
+                          <param name=quality value=high>
+                          <param name="wmode" value="transparent">
+                          <embed src="../images/bs/circle2.swf" quality=high pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="30" height="32" wmode="transparent" vspace="6">
+                          </embed> 
+                        </object><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0" width="180" height="32" hspace="3" vspace="6">
+                          <param name=movie value="../images/bs/tit2.swf">
+                          <param name=quality value=high>
+                          <param name="wmode" value="transparent">
+                          <embed src="../images/bs/tit2.swf" quality=high pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="180" height="32" hspace="3" wmode="transparent" vspace="6">
+                          </embed> 
+                        </object><br>
+                        
+                     
+<table width="100%" border="0" cellspacing="1" cellpadding="5" align="center" bgcolor="#C6C6C6">                
+			
+ 			<TR align="center" bgcolor="#dff780"> 
+  			   <td class="txt"><font color="#CC3300">內　　容</font></td>
+  			   <TD class="tt" align=center bgcolor="#f3f3f3"　width=70% >花是什麼?　顯微鏡下的花<BR>參觀『花的前世今生』特展
+    			</TR>
+                	<TR align="center" bgcolor="#dff780">
+  			   <td class="txt"><font color="#CC3300">對　　象</font></td>
+  			   <TD class="tt" align=center bgcolor="#f3f3f3" >國小3-6年級
+    			</TR>
+    			
+    			<TR bgcolor="#dff780">
+    			<td class="txt" align=center><font color="#CC3300">梯次日期</font></td>
+    			<TD bgcolor=#f3f3f3>
+    			<table border=0 width=100%>
+			<TR bgcolor=#f3f3f3>
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 77" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			7月10日 
+			(三) 
+			<font size=-1 color=red>[115]</font></span>
+			
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 78" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			7月17日 
+			(三) 
+			<font size=-1 color=red>[104]</font></span>
+			
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 79" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			7月24日 
+			(三) 
+			<font size=-1 color=red>[99]</font></span>
+			<TR bgcolor=#f3f3f3>
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 80" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			7月31日 
+			(三) 
+			<font size=-1 color=red>[99]</font></span>
+			
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 81" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			8月7日 
+			(三) 
+			<font size=-1 color=red>[106]</font></span>
+			
+		<TD class="txt" >
+			<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 82" style="cursor:hand; font-size: 12px; text-decoration: underline; "> 
+			8月14日 
+			(三) 
+			<font size=-1 color=red>[100]</font></span>
+			
+                 </table>
+                 </td>
+                 </tr>
+       
+		</TABLE>
+			
+			
+                        <p>&nbsp;</p>
+                      </td>
+                    </tr>
+
+<tr>
+                      <td><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0" width="30" height="32" vspace="6">
+                          <param name=movie value="../images/bs/circle3.swf">
+                          <param name=quality value=high>
+                          <param name="wmode" value="transparent">
+                          <embed src="../images/bs/circle3.swf" quality=high pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="30" height="32" wmode="transparent" vspace="6">
+                          </embed> 
+                        </object><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0" width="180" height="32" hspace="3" vspace="6">
+                          <param name=movie value="../images/bs/tit3.swf">
+                          <param name=quality value=high>
+                          <param name="wmode" value="transparent">
+                          <embed src="../images/bs/tit3.swf" quality=high pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="180" height="32" hspace="3" wmode="transparent" vspace="6">
+                          </embed> 
+                        </object><br>
+                        <table width="100%" border="0" cellspacing="1" cellpadding="3" align="center" bgcolor="#C6C6C6">                        
+                          <tr align="center" bgcolor="#DFF780"> 
+                            <td class="txt" colspan=2><font color="#CC3300">日期</font></td>
+                            <td class="txt"><font color="#CC3300">項目名稱</font></td>
+                            <td class="txt"><font color="#CC3300">對象</font></td>
+                            <td class="txt" colspan=2><font color="#CC3300">日期</font></td>
+                            <td class="txt"><font color="#CC3300">項目名稱</font></td>
+                            <td class="txt"><font color="#CC3300">對象</font></td>
+                          </tr>
+
+<TR bgcolor=#f3f3f3>
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 39" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--7月9日 (二)-->
+		7/9(二)下午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[27]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>海邊的粿葉
+		<TD class=tt bgcolor="#F3F3F3" >國小3-4年級
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 40" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--7月11日 (四)-->
+		7/11(四)上午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[34]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>海邊的粿葉
+		<TD class=tt bgcolor="#F3F3F3" >國小3-4年級<TR bgcolor=#f3f3f3>
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 41" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--7月12日 (五)-->
+		7/12(五)上午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[43]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>找找看樹上躲了幾隻動物
+		<TD class=tt bgcolor="#F3F3F3" >國小3-4年級
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 42" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--7月16日 (二)-->
+		7/16(二)下午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[32]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>找找看樹上躲了幾隻動物
+		<TD class=tt bgcolor="#F3F3F3" >國小3-4年級<TR bgcolor=#f3f3f3>
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 43" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--7月18日 (四)-->
+		7/18(四)上午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[37]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>滿天蝴蝶飛
+		<TD class=tt bgcolor="#F3F3F3" >國小3-4年級
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 44" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--7月19日 (五)-->
+		7/19(五)上午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[31]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>滿天蝴蝶飛
+		<TD class=tt bgcolor="#F3F3F3" >國小3-4年級<TR bgcolor=#f3f3f3>
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 45" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--7月23日 (二)-->
+		7/23(二)下午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[44]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>長在樹上的紅珊瑚
+		<TD class=tt bgcolor="#F3F3F3" >國小3-4年級
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 46" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--7月25日 (四)-->
+		7/25(四)上午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[32]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>長在樹上的紅珊瑚
+		<TD class=tt bgcolor="#F3F3F3" >國小3-4年級<TR bgcolor=#f3f3f3>
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 47" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--7月26日 (五)-->
+		7/26(五)上午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[42]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>溪魚終結者
+		<TD class=tt bgcolor="#F3F3F3" >國小5-6年級
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 48" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--7月30日 (二)-->
+		7/30(二)下午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[25]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>溪魚終結者
+		<TD class=tt bgcolor="#F3F3F3" >國小5-6年級<TR bgcolor=#f3f3f3>
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 49" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--8月1日 (四)-->
+		8/1(四)上午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[45]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>可樂的香料
+		<TD class=tt bgcolor="#F3F3F3" >國小3-4年級
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 50" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--8月2日 (五)-->
+		8/2(五)上午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[41]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>可樂的香料
+		<TD class=tt bgcolor="#F3F3F3" >國小3-4年級<TR bgcolor=#f3f3f3>
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 51" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--8月6日 (二)-->
+		8/6(二)下午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[24]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>林貓
+		<TD class=tt bgcolor="#F3F3F3" >國小3-4年級
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 112" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--8月8日 (四)-->
+		8/8(四)上午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[26]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>林貓
+		<TD class=tt bgcolor="#F3F3F3" >國小3-4年級<TR bgcolor=#f3f3f3>
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 53" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--8月9日 (五)-->
+		8/9(五)上午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[26]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>雞母雞婆來吃茶
+		<TD class=tt bgcolor="#F3F3F3" >國小3-4年級
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 54" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--8月13日 (二)-->
+		8/13(二)下午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[32]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>雞母雞婆來吃茶
+		<TD class=tt bgcolor="#F3F3F3" >國小3-4年級<TR bgcolor=#f3f3f3>
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 55" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--8月15日 (四)-->
+		8/15(四)上午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[25]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>種子流浪記       
+		<TD class=tt bgcolor="#F3F3F3" >國小5-6年級
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 56" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--8月16日 (五)-->
+		8/16(五)上午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[26]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>種子流浪記       
+		<TD class=tt bgcolor="#F3F3F3" >國小5-6年級<TR bgcolor=#f3f3f3>
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 59" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--8月20日 (二)-->
+		8/20(二)下午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[24]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>葛布夏服  
+		<TD class=tt bgcolor="#F3F3F3" >國小5-6年級
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 60" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--8月22日 (四)-->
+		8/22(四)上午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[39]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>蘭嶼拼板舟
+		<TD class=tt bgcolor="#F3F3F3" >國小5-6年級<TR bgcolor=#f3f3f3>
+		<TD bgcolor="#F3F3F3">
+		<span onMouseover="VBS: me.style.background = '#e3f3d3'" 
+      			onMouseOut="VBS: me.style.background = '#f3f3f3'"
+			onClick="VBS: xDoEnroll 61" style="cursor:hand; font-size: 12px; text-decoration:underline; "> 
+		<!--8月23日 (五)-->
+		8/23(五)上午
+		</span>
+		<TD class=tt bgcolor="#F3F3F3" align=right>  <font size=-1 color=red>[27]</font>
+		<TD class=tt bgcolor="#F3F3F3" align=left>蘭嶼拼板舟
+		<TD class=tt bgcolor="#F3F3F3" >國小5-6年級
+		</TABLE>
+                      
+               
+                        <p><font color="#FFE5EE">pp</font><font color="#F6F6F6"><a name="1"></a></font></p>
+                      </td>
+</tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+ 
+  <tr>
+    <td>
+      <table width="100%" border="0" cellspacing="0" cellpadding="6" background="../images/bs/bg6.gif">
+        <tr>
+          <td width="5">&nbsp;</td>
+          <td> 
+            <p><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0" width="30" height="32" vspace="6">
+                <param name=movie value="../images/bs/circle.swf">
+                <param name=quality value=high>
+                <param name="wmode" value="transparent">
+                <embed src="../images/bs/circle.swf" quality=high pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="30" height="32" wmode="transparent" vspace="6">
+                </embed> 
+              </object><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0" width="180" height="32" hspace="3" vspace="6">
+                <param name=movie value="../images/bs/tit4.swf">
+                <param name=quality value=high>
+                <param name="wmode" value="transparent">
+                <embed src="../images/bs/tit4.swf" quality=high pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="180" height="32" hspace="3" wmode="transparent" vspace="6">
+                </embed> 
+              </object> </p>
+            <ol>
+              <li class="txt">國小3-4年級：約民國81年9月1日至83年8月31日之間出生者</li>
+              <li class="txt">國小5-6年級：約民國79年9月1日至81年8月31日之間出生者</li>
+              <li class="txt">研習活動內容公佈於本館網站及植物公園。</li>
+              <li class="txt">「水果奶奶這一家」及「一花一世界」活動時間：每梯次半天，上午9:00-12:00。</li>
+              <li class="txt">「植物與美術」活動時間：每梯次半天，上午9:00-12:00或下午1:30-4:30。</li>
+              <li class="txt">每人每次活動費用：「水果奶奶這一家」及「植物與美術」200元；「一花一世界」250元。</li>
+              <li class="txt">參加次數：每位小朋友可報名參加1梯次的「植物與美術」，1梯次的「水果奶奶這一家」，1梯次的「一花一世界」。</li>
+              <li class="txt">活動名額：每梯次24人。</li>
+              <li><span class="txt">報名方式：一律網路報名（若家中無網路設備者，請學校、親友或同學等協助報名；或於6月15日16:00前至植物公園研究教育中心填寫資料，代為上網報名。） 
+                </span> 
+                <ul type="square">
+                  <li class="txt">網址：www.nmns.edu.tw</li>
+                  <li class="txt">報名期間：91年6月10日起至6月17日止。</li>
+                  <li class="txt">錄取名單：91年6月20日以電腦亂數抽出錄取者，每梯次正取24名，備取8名，公佈於本館網站，並將以掛號郵寄錄取通知單予正取學員。（若有多餘名額，將以電話通知備取學員。）</li>
+                  <li class="txt">繳費期限：請於91年6月26日16:00前完成繳費手續，逾時視為自動放棄，名額由備取者遞補。</li>
+                  <li class="txt">繳費地點及時間：植物公園研究教育中心服務台，9:00-16:00，請攜帶錄取通知單。</li>
+                </ul>
+              </li>
+              <li class="txt">洽詢電話：04-23285328。</li>
+            </ol>
+                      </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
+
+
+
+
+<script language=vbs>
+sub xReturn (xValue)
+	msgBox xValue
+	document.location.reload
+end sub
+
+sub xDoEnroll(xValue)
+	window.navigate "enrollAct3.asp?paSID=" & xValue
+end sub
+</script>
+

@@ -1,0 +1,31 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/*cptable 欄位式內容頁*/
+
+.cptable {
+	width:100%;
+	border-collapse:collapse;
+	border-top: 2px solid #bbb;
+	border-bottom: 2px solid #bbb;
+	margin: 10px 0 20px;
+	padding: 0;
+}
+.cptable th {
+	width: 10em;
+	text-align:right;
+	padding: 4px 12px 4px 5px;
+	border-bottom: 1px dotted #aaa;
+	background: url(../images/th_bg.gif) no-repeat right 11px;
+	vertical-align: top;
+	font-weight: normal;
+}
+.cptable td {
+	padding: 4px 5px 4px 5px;
+	border-bottom:1px dotted #aaa;
+	vertical-align: top;
+}
+.cptable td p {
+	margin: 0 0 1em;
+	padding: 0;
+}

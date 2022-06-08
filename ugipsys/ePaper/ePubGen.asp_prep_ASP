@@ -1,0 +1,467 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcode="gw1m51"
+htprogprefix="epub"
+response.codepage = 65001
+response.charset = "utf-8"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+
+   CxMethod_ASP_checkgipconfig_1275316133()
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+function message(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   message=""
+   exit function
+  elseif instr(1,xs,"<p",1)>0 or instr(1,xs,"<br",1)>0 or instr(1,xs,"<td",1)>0 then
+  message=xs
+   exit function
+  end if
+   xs = replace(xs,vbcrlf&vbcrlf,"<p>")
+   xs = replace(xs,vbcrlf,"<br/>")
+   message = replace(xs,chr(10),"<br/>")
+end function
+
+'----ftp參數處理
+ ftperrormsg=""
+ ftpfilepath="public/epaper"
+ sqlp = "select * from uploadsite where uploadsiteid='file'"
+ set rsp = conn.execute(sqlp)
+ if not rsp.eof  then
+     xftpip = rsp("uploadsiteftpip")
+     xftpport = rsp("uploadsiteftpport")
+     xftpid = rsp("uploadsiteftpid")
+     xftppwd = rsp("uploadsiteftppwd")
+ end if
+'----ftp參數處理end
+
+
+ eptreeid = session("eptreeid")  '-- 電子報的 tree
+
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty "serverhttprequest", true
+
+ loadxml = server.mappath( "/site/" & session("mysiteid") & "/public/epaper/epaper" & eptreeid & ".xml" )
+ xv = oxml.load(loadxml)
+  if oxml.parseerror.reason <> "" then
+    response.write("xml parseerror on line " &  oxml.parseerror.line)
+    response.write("<br>reason: " &  oxml.parseerror.reason)
+    response.end()
+  end if
+
+  set dxml = oxml.selectsinglenode("epaper")
+
+ epubid = request.querystring("epubid")
+ formid = "ep" & epubid
+ sqlcom = "select * from eppub where epubid=" & pkstr(epubid,"")
+ set rsmaster = conn.execute(sqlcom)
+ xmaxno = rsmaster("maxno")
+    'set xsl type
+ epubtype = rsmaster("pubtype")
+ 'dxml.selectsinglenode("epubid").text = epubid
+ 'dxml.selectsinglenode("title").text = rsmaster("title")
+ dxml.selectsinglenode("epapertitle").text = rsmaster("title")
+ dxml.selectsinglenode("epubdate").text = rsmaster("pubdate")
+ dxml.selectsinglenode("epaperxmlcssurl").text = dxml.selectsinglenode("epaperxmlcssurl").text & "/epaper/epaper" & epubtype & ".css"
+ if nulltext(dxml.selectsinglenode("epaperxmlimgpath")) <> "" then
+  dxml.selectsinglenode("epaperxmlimgpath").text = dxml.selectsinglenode("epaperxmlimgpath").text & epubtype & "/"
+ end if
+ 
+ sqlcom = "select n.*, u.ibasedsd from cattreenode as n join ctunit as u on n.ctunitid=u.ctunitid "
+ if eptreeid = 21 then
+  sqlcom = sqlcom & " where n.inuse='y' and ctrootid = 177 order by n.catshoworder "
+ else
+  sqlcom = sqlcom & " where n.inuse='y' and ctrootid = " & eptreeid & " order by n.catshoworder "
+ end if
+ set rs = conn.execute(sqlcom)
+
+ cvbcrlf = vbcrlf
+ ctab = ""
+ slstr = ""
+ 
+ while not rs.eof
+ 
+  slstr = slstr & "<epsection>"
+  slstr = slstr & "<secid>" & rs("ctnodeid") & "</secid>"
+  slstr = slstr & "<secname>" & rs("catname")& "</secname>"
+  slstr = slstr & "<securl>" & dxml.selectsinglenode("epaperurl").text & "</securl>"
+  
+  os = ""
+  xsql = "select top " & xmaxno
+  xsql = xsql & " (select count(*) from cudtattach as dhtx where blist='y' and dhtx.xicuitem=ghtx.icuitem) as attachcount ,"
+  xsql = xsql & " ictunit, ibasedsd, icuitem, stitle, xbody, ximgfile, xurl, xpostdate, xabstract, abstract, filedownload, topcat, showtype "
+  
+  '-----------------------------------------------------------------------------
+  '判斷是否有rss欄位, 如果rss='y'則為外部匯入資料直接另開視窗到xurl..apple 10/20
+  ifsql = "sp_columns @table_name = 'cudtgeneric' , @column_name ='rss'"
+  set ifrs = conn.execute(ifsql)
+  if not ifrs.eof then
+   xsql = xsql & ", rss "
+  end if
+  '-----------------------------------------------------------------------------
+  
+  xsql = xsql & " from cudtgeneric as ghtx "
+  
+  'if rs("ctunitid") = 807 then xsql = xsql & " inner join knowledgeforum as htx on ghtx.icuitem = htx.gicuitem "
+  'if rs("ctunitid") = 932 then xsql = xsql & " inner join knowledgeforum as htx on ghtx.icuitem = htx.gicuitem "
+  
+  xsql = xsql & " where ictunit = " & rs("ctunitid") & " and (xpostdate between '" & rsmaster("dbdate") & " 00:00:01' and '" & rsmaster("dedate") & " 23:59:59') " 
+  
+  'if rs("ctunitid") = 807 then xsql = xsql & " and htx.status <> 'd' "
+  'if rs("ctunitid") = 932 then xsql = xsql & " and htx.status <> 'd' "
+  
+  xsql = xsql & " and fctupublic = 'y' "
+  
+  'if rs("ctunitid") = 821 then 
+  if rs("ctunitid") = 1353 then 
+   xsql = xsql & " order by ximportant desc, xpostdate desc"
+  else
+   xsql = xsql & " order by xpostdate desc"
+  end if
+
+  set rsx = conn.execute(xsql)
+
+  dim newimgfile : newimgfile = ""
+  
+  if not rsx.eof then
+   
+   while not rsx.eof
+   
+    os = os & "<xitemlist>"
+    
+    if not isnull(rsx("ximgfile")) then
+     
+    end if
+    newimgfile = rsx("ximgfile")
+    if rsx("ictunit") = "1351" then     
+     if not isnull(rsx("ximgfile")) and rsx("ximgfile") <> "" then
+      newimgfile = rsx("ximgfile")      
+     end if         
+    end if
+    
+    os = os & "<xitemurl>"       & dxml.selectsinglenode("epaperurl").text & "</xitemurl>"
+    os = os & "<xitem>"        & rsx("icuitem")              & "</xitem>"
+    os = os & "<ibasedsd>"       & rsx("ibasedsd")             & "</ibasedsd>"
+    os = os & "<ictunit>"       & rsx("ictunit")              & "</ictunit>"    
+    os = os & "<ctnode>"       & rs("ctnodeid")             & "</ctnode>"
+    os = os & "<stitle><![cdata["   & rsx("stitle")              & "]]></stitle>"
+    os = os & "<xabstract><![cdata["  & rsx("xabstract")             & "]]></xabstract>"
+    os = os & "<abstract><![cdata["  & rsx("abstract")             & "]]></abstract>"    
+    os = os & "<xbody><![cdata["    & rsx("xbody")               & "]]></xbody>"
+    os = os & "<showtype>"       & rsx("showtype")             & "</showtype>"
+    os = os & "<xurl><![cdata["    & rsx("xurl")               & "]]></xurl>"
+    os = os & "<xpostdate>"      & rsx("xpostdate")             & "</xpostdate>"
+    os = os & "<filedownload>"     & rsx("filedownload")           & "</filedownload>"
+    os = os & "<topcat>"        & rsx("topcat")              & "</topcat>"
+    os = os & "<ximgfile>"       & newimgfile               & "</ximgfile>"
+    os = os & "<attachcount>"     & rsx("attachcount")            & "</attachcount>"    
+
+    '-----------------------------------------------------------------------------
+    '判斷是否有rss欄位, 如果rss='y'則為外部匯入資料直接另開視窗到xurl..apple 2004/10/20
+    if not ifrs.eof then
+     if not isnull(rsx("rss")) then
+      os = os & "<newwindow>" & rsx("rss") & "</newwindow>"
+     end if
+    end if
+   
+    '判斷是否有附件, 如果attachcount > 0 則為有附件 列出附件列表..apple 2006/05/08
+        if rsx("attachcount") > 0 then
+         attsql = "select dhtx.* from cudtattach as dhtx where blist='y' and dhtx.xicuitem = " & pkstr(rsx("icuitem"),"") & " order by dhtx.listseq"
+                            
+          set rsattlist = conn.execute(attsql)
+
+          if  not rsattlist.eof then
+           os = os & "<attachmentlist>" & vbcrlf
+            rsattlist.movefirst
+  
+            while not rsattlist.eof
+            os = os & "<attachment>"
+             os = os & "<url><![cdata[public/attachment/" & rsattlist("nfilename")&"]]></url>"
+             os = os & "<caption><![cdata[" & rsattlist("atitle") & "]]></caption>"
+             os = os & "</attachment>"
+             rsattlist.movenext
+            wend
+            os = os & "</attachmentlist>"
+          else
+          end if
+        end if
+    os = os & "</xitemlist>"
+    rsx.movenext
+   wend
+  end if
+
+  slstr = slstr & os & "</epsection>" & cvbcrlf  
+  rs.movenext
+  
+ wend
+ 
+ os = ""
+ '---for 2008 epaper ap---
+ 'if eptreeid = "143" then ' eptreeid = "177" or eptreeid = "21"
+ 
+ if eptreeid = "21" then 
+  
+  set kmconn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'  kmconn.open session("kmodbc")
+'set kmconn = server.createobject("hywebdb3.dbexecute")
+kmconn.connectionstring = session("kmodbc")
+kmconn.connectiontimeout=0
+kmconn.cursorlocation = 3
+kmconn.open
+'----------hyweb gip db connection patch----------
+
+  
+  nstr = "select * from eppubarticle where epubid = " & epubid
+  set nrs = conn.execute(nstr)
+  
+  os = os & "<epsection>"
+  os = os & "<secid>9999</secid>"
+  os = os & "<secname></secname>"
+  os = os & "<securl>" & dxml.selectsinglenode("epaperurl").text & "</securl>"
+  while not nrs.eof      
+   os = os & getxmlcontent( nrs("articleid"), nrs("ctrootid"), nrs("categoryid"), nrs("isformer") )   
+   nrs.movenext  
+  wend
+  os = os & "</epsection>"
+ end if
+ slstr = slstr & os & cvbcrlf
+ 
+ slstr = "<epaperxml><epsectionlist>" & cvbcrlf & slstr & "</epsectionlist></epaperxml>"
+ 
+ set sxml = server.createobject("microsoft.xmldom")
+ sxml.async = false
+ sxml.setproperty "serverhttprequest", true
+ xv = sxml.loadxml(slstr)
+ 
+  if sxml.parseerror.reason <> "" then
+    response.write("xml parseerror on line " &  sxml.parseerror.line)
+    response.write("<br>reasonyy: " &  sxml.parseerror.reason)
+    response.end()
+  end if
+ 'dxml.selectsinglenode("epsectionlist").text = slstr
+ set xfieldnode = sxml.selectsinglenode("epaperxml/epsectionlist").clonenode(true)
+ oxml.selectsinglenode("epaper").appendchild xfieldnode
+ 
+ oxml.save(server.mappath("/site/" & session("mysiteid") & "/public/epaper/" & formid & ".xml"))
+ if oxml.parseerror.reason <> "" then
+   response.write("xml parseerror on line " &  oxml.parseerror.line)
+   response.write("<br>reasonaa: " &  oxml.parseerror.reason)
+   response.end()
+  end if
+ '----ftp機制
+ if xftpip<>"" and xftpid<>"" and xftppwd<>"" then
+  fileaction="movefile"
+  filetarget=formid & ".xml"
+  filesource=server.mappath("/site/" & session("mysiteid") & "/public/epaper/" & formid & ".xml")
+  ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,"",filetarget,filesource
+  end if
+ '-----------------------------顯示----------
+ '----load epaper.xml
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty "serverhttprequest", true
+ loadxml = server.mappath("/site/" & session("mysiteid") & "/public/epaper/" & formid & ".xml")
+ xv = oxml.load(loadxml)
+ 
+  if oxml.parseerror.reason <> "" then
+   response.write("xml parseerror on line " &  oxml.parseerror.line)
+   response.write("<br>reasonaa: " &  oxml.parseerror.reason)
+   response.end()
+  end if
+  '----load epaper.xsl
+ set oxsl = server.createobject("microsoft.xmldom")
+ oxsl.load(server.mappath("/site/" & session("mysiteid") & "/public/epaper/epaper"& epubtype &".xsl"))
+ response.contenttype = "text/html"
+ outstring = replace(oxml.transformnode(oxsl),"<meta http-equiv=""content-type"" content=""text/html; charset=utf-16"">","")
+ outstring = replace(outstring,"&amp;","&")
+ response.write replace(outstring,"&amp;","&")
+ 
+ '-----------------------------gen html file start ----------
+ if checkgipconfig("epapergenhtmlfile") then
+     dim savehtmlfile
+     const adsavecreateoverwrite = 2
+     savehtmlfile = server.mappath("/site/" & session("mysiteid") & "/public/epaper/epaper"&eptreeid &"_"& formid &".htm")
+
+      dim objstream
+      set objstream = server.createobject("adodb.stream")
+      objstream.open()
+      objstream.charset = "utf-8"
+      objstream.writetext(outstring)
+      objstream.savetofile savehtmlfile, adsavecreateoverwrite
+      objstream.close()
+ end if
+
+ response.end
+
+ function getxmlcontent( aid, rid, gid, isformer )
+
+  str = ""
+  str = str & "<xitemlist>"
+  if rid = "1" then '入口網
+   
+   sql = "" 
+   sql = sql & "select distinct cattreenode.ctrootid, cudtgeneric.icuitem, cudtgeneric.stitle, cudtgeneric.showtype, cudtgeneric.xurl, "
+   sql = sql & "cudtgeneric.filedownload, cattreeroot.ctrootname, ctunit.ctunitid, infouser.username, cudtgeneric.xpostdate, dept.deptname, "
+   sql = sql & "cudtgeneric.ibasedsd, cattreenode.ctnodeid "
+   sql = sql & "from cudtgeneric inner join cattreenode on cudtgeneric.ictunit = cattreenode.ctunitid inner join cattreeroot on "
+   sql = sql & "cattreenode.ctrootid = cattreeroot.ctrootid inner join ctunit on "
+   sql = sql & "cattreenode.ctunitid = ctunit.ctunitid inner join infouser on "
+   sql = sql & "cudtgeneric.ieditor = infouser.userid inner join dept on cudtgeneric.idept = dept.deptid "
+   sql = sql & "where (cattreeroot.inuse = 'y') and  (ctunit.inuse = 'y') and (cattreenode.inuse = 'y') "
+   sql = sql & "and (cattreeroot.inuse = 'y') and (dept.inuse = 'y') "
+   sql = sql & "and (cudtgeneric.icuitem = " & aid & ")"
+   
+   set newrs = conn.execute(sql)   
+   if not newrs.eof then    
+    str = str & "<xitemurl>"       & dxml.selectsinglenode("epaperurl").text  & "</xitemurl>"
+    str = str & "<xitem>"        & newrs("icuitem")              & "</xitem>"
+    str = str & "<ibasedsd>"       & newrs("ibasedsd")             & "</ibasedsd>"
+    str = str & "<ictunit>"       & newrs("ctunitid")             & "</ictunit>"  
+    str = str & "<ctnode>"        & newrs("ctnodeid")             & "</ctnode>"   
+    str = str & "<stitle><![cdata["   & newrs("stitle")              & "]]></stitle>"
+    str = str & "<showtype>"       & newrs("showtype")             & "</showtype>"
+    str = str & "<xurl><![cdata["    & newrs("xurl")               & "]]></xurl>"   
+    str = str & "<filedownload>"     & newrs("filedownload")           & "</filedownload>"
+    str = str & "<xpostdate>"      & formatdatetime(newrs("xpostdate"),2)             & "</xpostdate>"      
+      end if
+   newrs.close
+   set newrs = nothing
+      
+    elseif rid = "2" then  '主題館
+      
+      sql = "" 
+   sql = sql & "select distinct cattreenode.ctrootid, cudtgeneric.icuitem, cudtgeneric.stitle,cudtgeneric.showtype,cudtgeneric.xurl, cattreeroot.ctrootname, "
+   sql = sql & "ctunit.ctunitid, infouser.username, cudtgeneric.xpostdate, dept.deptname, cudtgeneric.ibasedsd, cattreenode.ctnodeid, cudtgeneric.filedownload "
+   sql = sql & "from cudtgeneric inner join cattreenode on cudtgeneric.ictunit = cattreenode.ctunitid inner join cattreeroot on "
+   sql = sql & "cattreenode.ctrootid = cattreeroot.ctrootid inner join ctunit on "
+   sql = sql & "cattreenode.ctunitid = ctunit.ctunitid inner join infouser on "
+   sql = sql & "cudtgeneric.ieditor = infouser.userid inner join dept on cudtgeneric.idept = dept.deptid "
+   sql = sql & "where (cattreeroot.inuse = 'y') and  (ctunit.inuse = 'y') and (cattreenode.inuse = 'y') "
+   sql = sql & "and (cattreeroot.inuse = 'y') and (dept.inuse = 'y') "
+   sql = sql & "and (cudtgeneric.icuitem = " & aid & ")"
+   set newrs = conn.execute(sql)
+   if not newrs.eof then
+       if instr(newrs("xurl"),"/knowledge/")>0 then
+        newurl = dxml.selectsinglenode("epaperurl").text&newrs("xurl") 
+       else
+        newurl = newrs("xurl") 
+       end if
+   end if
+   if not newrs.eof then   
+    str = str & "<xitemurl>"       & dxml.selectsinglenode("epaperurl").text  & "</xitemurl>"
+    str = str & "<xitem>"        & newrs("icuitem")              & "</xitem>"
+    str = str & "<ibasedsd>"       & newrs("ibasedsd")             & "</ibasedsd>"
+    str = str & "<ictunit>"       & newrs("ctunitid")             & "</ictunit>"  
+    str = str & "<xdmp>"         & newrs("ctrootid")             & "</xdmp>"
+    str = str & "<ctnode>"        & newrs("ctnodeid")             & "</ctnode>"    
+    str = str & "<stitle><![cdata["   & newrs("stitle")              & "]]></stitle>"
+    str = str & "<showtype>"       & newrs("showtype")             & "</showtype>"
+    str = str & "<xurl><![cdata["    & newurl               & "]]></xurl>"   
+    str = str & "<filedownload>"     & newrs("filedownload")           & "</filedownload>"
+    str = str & "<xpostdate>"      & formatdatetime(newrs("xpostdate"),2)             & "</xpostdate>"    
+   end if
+   newrs.close
+   set newrs = nothing
+   
+    elseif rid = "3" then  '知識家
+      
+      sql = ""
+   sql = sql & " select distinct cattreenode.ctrootid, cudtgeneric.icuitem, cudtgeneric.stitle, cattreeroot.ctrootname, cudtgeneric.xpostdate, "
+   sql = sql & " ctunit.ctunitid, cudtgeneric.deditdate, member.realname, cudtgeneric.ibasedsd from cudtgeneric inner join "
+   sql = sql & " cattreenode on cudtgeneric.ictunit = cattreenode.ctunitid inner join cattreeroot on cattreenode.ctrootid = cattreeroot.ctrootid "
+   sql = sql & " inner join ctunit on cattreenode.ctunitid = ctunit.ctunitid inner join member on cudtgeneric.ieditor = member.account "
+   sql = sql & " where (cudtgeneric.siteid = n'3') and (cattreeroot.inuse = 'y') and (cudtgeneric.fctupublic = 'y') "
+   sql = sql & " and (ctunit.inuse = 'y') and (cattreenode.inuse = 'y') and (cattreeroot.inuse = 'y') and (cattreenode.ctunitid = 932) "
+   sql = sql & " and (cudtgeneric.icuitem = " & aid & ")"
+   
+   set newrs = conn.execute(sql)   
+   if not newrs.eof then
+    str = str & "<xitemurl>"       & dxml.selectsinglenode("epaperurl").text  & "</xitemurl>"
+    str = str & "<xitem>"        & newrs("icuitem")              & "</xitem>"
+    str = str & "<ibasedsd>"       & newrs("ibasedsd")             & "</ibasedsd>"
+    str = str & "<ictunit>"       & newrs("ctunitid")             & "</ictunit>"    
+    str = str & "<stitle><![cdata["   & newrs("stitle")              & "]]></stitle>"
+    str = str & "<xurl></xurl>"
+    str = str & "<xpostdate>"      & formatdatetime(newrs("xpostdate"),2)             & "</xpostdate>"
+      end if
+   newrs.close
+   set newrs = nothing
+      
+    elseif rid = "4" then
+   
+   sql = ""
+   if cbool(isformer) then
+    sql = sql & " select distinct report.report_id, category.category_id, report.subject, report.publisher, report.online_date, "
+    sql = sql & " actor_info.actor_detail_name from report inner join actor_info on report.create_user = actor_info.actor_info_id "
+    sql = sql & " inner join cat2rpt on report.report_id = cat2rpt.report_id inner join category on "
+    sql = sql & " cat2rpt.data_base_id = category.data_base_id and cat2rpt.category_id = category.category_id "
+    sql = sql & " where (report.status = 'pub') and (report.online_date < getdate()) and (category.data_base_id = 'db020') "
+    sql = sql & " and (report.report_id = '" & aid & "')"
+    
+    set kmrs = kmconn.execute(sql)
+    if not kmrs.eof then 
+     str = str & "<xitemurl>"       & dxml.selectsinglenode("epaperurl").text  & "</xitemurl>"
+     str = str & "<xitem>"        & kmrs("report_id")             & "</xitem>"
+     str = str & "<ibasedsd>"      & "db020"                  & "</ibasedsd>"
+     str = str & "<ictunit>"       & kmrs("category_id")            & "</ictunit>"    
+     str = str & "<stitle><![cdata["   & kmrs("subject")              & "]]></stitle>"
+     str = str & "<xurl></xurl>"
+     str = str & "<xpostdate>"      & formatdatetime(kmrs("online_date"),2)            & "</xpostdate>"
+    end if
+    kmrs.close
+    set kmrs = nothing
+   else
+     info = getdetail("document",aid)
+     infos = split(info,"|")
+     str = str & "<xitemurl>"& dxml.selectsinglenode("epaperurl").text  & "</xitemurl>"
+     str = str & "<xitem>"& aid & "</xitem>"
+     str = str & "<ibasedsd>"& "db020"& "</ibasedsd>"
+     str = str & "<ictunit>"& gid & "</ictunit>"    
+     str = str & "<stitle><![cdata["& infos(0) & "]]></stitle>"
+     str = str & "<xurl></xurl>"
+     str = str & "<xpostdate>"& replace(mid(infos(2),1,10),"-","/") & "</xpostdate>"
+     str = str & "<isformer>n</isformer>"
+   end if
+    end if  
+    
+    str = str & "<rid>" & rid & "</rid>"
+   str = str & "</xitemlist>"
+  getxmlcontent = str   
+ end function
+ 
+ function getdetail(typeid, key)
+  '建立物件
+   dim xmlhttp
+   set xmlhttp = server.createobject("microsoft.xmlhttp")
+   '要檢查的網址
+   urls = session("mysitemmourl") & "/epaper/epaper_querydetail.asp?typeid=" & typeid & "&key=" & key
+
+   if typeid = "" or key = "" then
+   response.write "未傳入必要參數"
+   response.write.end()
+   end if
+   'response.write xmlhttp
+   xmlhttp.open "get", urls, false
+   xmlhttp.send
+   
+   if xmlhttp.status=404 then
+     response.write "找不到頁面"
+   elseif xmlhttp.status=200 then
+    getdetail = xmlhttp.responsetext
+   else
+     response.write xmlhttp.status
+   end if
+ end function
+ 

@@ -1,0 +1,102 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ 'htprogcap = "功能管理"
+ 'htprogfunc = "問卷調查"
+ htprogcode = "gw1_vote01"
+ 'htprogprefix = "msession"
+ response.expires = 0
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+
+   
+ 
+ subjectid = request("subjectid")
+ questno = request("questno")
+ if subjectid = "" or questno = "" then
+  response.write "<body onload='javascript:history.go(-1);'>"
+  response.end
+ end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                    = functype 
+
+
+
+
+
+
+
+
+
+
+
+  
+ sql = "select m012_title, m012_type from m012 where m012_subjectid = " & subjectid & _
+  " and m012_questionid <= " & questno & " order by m012_questionid "
+ set rs = conn.execute(sql) 
+
+ for i = 1 to questno  
+  title = ""
+  m012_type = "1"
+  if not rs.eof then
+   title = replace(trim(rs("m012_title")), chr(34), "&quot;")
+   m012_type = rs("m012_type")
+   rs.movenext
+  end if  
+
+
+                               =i 
+
+
+                                             =i :               if m012_type = "1" then :            end if 
+                                             =i :               if m012_type = "2" then :            end if 
+
+
+
+
+                    =i :                                       =i :             =title 
+  
+  answerno = request("answerno" & i)
+
+  sql = "" & _
+   " select m013_title, m013_default from m013 where m013_subjectid = " & subjectid & _
+   " and m013_questionid = " & i & " and m013_answerid <= " & answerno & " order by m013_answerid "
+  set rs2 = conn.execute(sql)
+
+  for j = 1 to answerno   
+   title = ""
+   m013_default = "n"
+   if not rs2.eof then
+    title = replace(trim(rs2("m013_title")), chr(34), "&quot;")
+    m013_default = rs2("m013_default")
+    rs2.movenext
+   end if
+
+                  =j :                                    =i :     =j :             =title 
+                                                          =i :     =j :               if m013_default = "y" then :            end if 
+  
+  next
+
+
+
+  
+ next
+ 

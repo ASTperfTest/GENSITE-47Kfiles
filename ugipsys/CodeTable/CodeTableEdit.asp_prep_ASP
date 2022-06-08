@@ -1,0 +1,282 @@
+﻿: @ codepage = 65001 
+  htprogcap="代碼定義"
+htprogcode="pn50m03"
+htprogprefix="codetable" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_checkgipconfig_1275316133()
+  
+dim rsreg
+dim formfunction
+tasklable="查詢" & htprogcap
+
+if request("submittask") = "update" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  editinbothcase()
+ else
+  doupdatedb()
+  showdonebox("資料更新成功！")
+ end if
+
+elseif request("submittask") = "delete" then
+ sql = "delete from codemetadef where codeid=" & pkstr(request.querystring("codeid"),"")
+'response.write sql & "<br>"
+ conn.execute sql
+ if request("tfx_codetblname")="codemain" then
+  sql = "delete from " & request("tfx_codetblname") & " where codemetaid=n'" & request("pfx_codeid") & "'"
+  conn.execute(sql)
+ end if
+ showdonebox("資料刪除成功！")
+
+else
+ editinbothcase()
+end if
+
+sub editinbothcase
+ showhtmlhead()
+ sqlcom = "select * from codemetadef where codeid=" & pkstr(request.querystring("codeid"),"")
+  set rsreg = conn.execute(sqlcom)
+
+ if errmsg <> "" then showerrbox()
+ formfunction = "edit"
+ showform()
+ initform()
+ showhtmltail()
+
+end sub
+
+function qqrs(fldname)
+ if request("submittask")="" then
+  xvalue = rsreg(fldname)
+ else
+  xvalue = ""
+  if request("pfx_"&fldname) <> "" then
+   xvalue = request("pfx_"&fldname)
+  elseif request("tfx_"&fldname) <> "" then
+   xvalue = request("tfx_"&fldname)
+  elseif request("dfx_"&fldname) <> "" then
+   xvalue = request("dfx_"&fldname)
+  elseif request("sfx_"&fldname) <> "" then
+   xvalue = request("sfx_"&fldname)
+  elseif request("nfx_"&fldname) <> "" then
+   xvalue = request("nfx_"&fldname)
+  elseif request("bfx_"&fldname) <> "" then
+   xvalue = request("bfx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+   sub initform() 
+
+
+
+
+
+
+
+                           =qqrs("codeid")
+                             =qqrs("codename")
+                                =qqrs("codetblname")
+                               =qqrs("codesrcfld")
+                                =qqrs("codesrcitem")
+                                 =qqrs("codevaluefld")
+                                   =qqrs("codedisplayfld")
+                                =qqrs("codesortfld")
+                                     =qqrs("codevaluefldname")
+                                       =qqrs("codedisplayfldname")
+                                    =qqrs("codesortfldname")
+                             =qqrs("codetype")
+                             =qqrs("coderank")
+   if rsreg("showornot")="y" then
+
+   end if
+    if checkgipconfig("codeml") then 
+  if rsreg("isml")="y" then 
+
+    end if
+ end if 
+                                =qqrs("codexmlspec")
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()   '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_codetableform_782203257()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+
+                                                    =title
+
+
+
+
+
+
+
+
+
+                          if (htprogright and 2)=2 then :            =htprogprefix:                     end if 
+         if (htprogright and 4)=4 then :            =htprogprefix:                   end if 
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+   sub showhtmltail() 
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ xshowornot="n"
+ if request("bfx_showornot")<>"" then xshowornot="y"
+ sql = "update codemetadef set showornot=n'"&xshowornot&"', "
+ if checkgipconfig("codeml") then
+  xisml="n"
+  if request("bfx_isml")<>"" then xisml="y"
+  sql = sql & "isml=n'"&xisml&"', "
+ end if
+ sqlwhere = ""
+ for each x in request.form
+   if mid(x,2,3) = "fx_" and left(x,1)<>"b" then
+  xfldname = mid(x,5)
+  select case left(x,1)
+    case "p"
+   if sqlwhere="" then 
+    sqlwhere = " where " & mid(x,5) & "=" & pkstr(request(x),"")
+   else
+    sqlwhere = sqlwhere & " and " & mid(x,5) & "=" & pkstr(request(x),"")
+   end if
+    case "d"
+   sql = sql & " " & mid(x,5) & "=" & pkstr(request(x),",")
+    case "n"
+   sql = sql & " " & mid(x,5) & "=" & drn(x)
+    case else
+   sql = sql & " " & mid(x,5) & "=" & pkstr(request(x),",")
+  end select
+   end if
+ next 
+ sql = left(sql,len(sql)-1) & sqlwhere
+' response.write sql
+' response.end
+ conn.execute(sql)  
+end sub '---- doupdatedb() ----
+
+   sub showdonebox(lmsg) 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+          =lmsg
+                           =htprogprefix:                    =session("querypage_no")
+
+
+
+   end sub '---- showdonebox() ----  

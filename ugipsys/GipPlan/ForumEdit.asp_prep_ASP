@@ -1,0 +1,87 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "pn03m04" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+  
+ forumid = request.querystring("forumid")
+
+   sqlcom = "select * from forum where forumid = "& forumid
+   set rs = conn.execute(sqlcom)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     =itemid
+                                           =rs("catid")
+                                             =rs("forumid")
+
+
+
+
+                                                                                   =rs("forumname")
+
+
+
+                                                                              =rs("forumremark")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            =itemid 

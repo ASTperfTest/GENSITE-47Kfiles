@@ -1,0 +1,191 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+   htprogcode = "pn50m06"  
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+function trancomp(groupcode,value)
+   if (groupcode and value )=value then
+      response.write "checked"
+   end if
+end function
+
+function trancomp1(groupcode,value)
+   if (groupcode and value ) <> value then
+      response.write "none"
+   end if
+end function
+
+if request.form("enter") = "確定存檔" then   
+     set conn2 = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'     conn2.open session("odbcdsn")  
+'set conn2 = server.createobject("hywebdb3.dbexecute")
+conn2.connectionstring = session("odbcdsn")
+conn2.connectiontimeout=0
+conn2.cursorlocation = 3
+conn2.open
+'----------hyweb gip db connection patch----------
+
+     codeid= pkstr(request("codeid"),"")
+     sqldelete=""
+     sqlinsert=""
+     datadate = date()
+     sysuser = session("userid")
+     sqldelete = "delete from ugrpcode where codeid = " & codeid
+     sqlcom = "select ugrpid from ugrp"
+     set rscom = conn.execute(sqlcom)
+      while not rscom.eof
+           sumvalue=0
+           for i=1 to 8
+               ugrpidname=rscom("ugrpid")&i
+               if request.form(ugrpidname)="y" then 
+                    if i=1 then
+                       sumvalue=sumvalue+1
+                    elseif i=2 then
+                       sumvalue=sumvalue+2
+                    elseif i=3 then
+                       sumvalue=sumvalue+4
+                    elseif i=4 then
+                       sumvalue=sumvalue+8
+                    elseif i=5 then
+                       sumvalue=sumvalue+16
+                    elseif i=6 then
+                       sumvalue=sumvalue+32
+                    elseif i=7 then
+                       sumvalue=sumvalue+64
+                    elseif i=8 then
+                       sumvalue=sumvalue+128                      
+                    end if
+               end if
+           next
+           mstart = request.form(rscom("ugrpid") & "start")
+           mend = request.form(rscom("ugrpid") & "end")
+           if trim(mend)="" then
+      mend="2079/6/6"  ' smalldate 最大值
+    end if
+    if sumvalue<>0 then          
+            sqlinsert = sqlinsert & "insert into ugrpcode (ugrpid, codeid, rights,regdate,startdate,enddate) values (n'"& rscom("ugrpid") &"', "& codeid &", "& sumvalue &",n'" & date() & "',n'" & mstart & "',n'" & mend & "');"           
+    end if
+     rscom.movenext
+     wend
+'response.write sqldelete & "<hr>"     
+'response.write sqlinsert & "<hr>"   
+'response.end     
+     conn2.begintrans 
+      conn2.execute(sqldelete)
+      if sqlinsert<>"" then      
+       conn2.execute(sqlinsert)
+      end if
+ if err.number<>0 then
+  conn2.rollback 
+ else
+  conn2.committrans
+ end if        
+     
+
+
+                                                   =request("ugrpid")
+
+         response.end
+end if
+ 
+ codeid = pkstr(request.querystring("codeid"),"")
+ sql="select codetype,codename from codemetadef where codeid=" & codeid
+ set rsu=conn.execute(sql)
+ sqlcom = "select u.ugrpid, u.ugrpname ,ua.rights urights, ua.startdate, ua.enddate from ugrp u " & _
+   "left join ugrpcode ua on u.ugrpid=ua.ugrpid and ua.codeid= " & codeid & _
+   "order by u.ugrpid"  
+ set rs = conn.execute(sqlcom) 
+
+
+
+
+
+
+
+
+
+                                                    =title
+
+
+
+
+
+
+
+
+
+                          if (htprogright and 2)=2 then :                                      end if 
+
+
+
+
+
+                                                                 =rsu("codetype"):     =rsu("codename")
+
+
+
+
+
+
+
+
+
+
+
+                                                =request.querystring("codeid")
+                                                =request.querystring("ugrpid")
+       if not rs.eof then 
+
+                                                                                                    =cno
+
+
+
+
+
+
+
+
+
+
+
+
+
+              do while not rs.eof 
+
+
+                                            =rs("ugrpid"):                                           =rs("ugrpid"):      =trancomp(rs("urights"),1)
+                                                   =rs("ugrpname")
+
+                                            =rs("ugrpid"):                                =trancomp1(rs("urights"),1):           =rs("ugrpid"):      =trancomp(rs("urights"),2)
+
+                                            =rs("ugrpid"):                                =trancomp1(rs("urights"),1):           =rs("ugrpid"):      =trancomp(rs("urights"),4)
+
+                                            =rs("ugrpid"):                                =trancomp1(rs("urights"),1):           =rs("ugrpid"):      =trancomp(rs("urights"),8)
+
+                                            =rs("ugrpid"):                                =trancomp1(rs("urights"),1):           =rs("ugrpid"):      =trancomp(rs("urights"),16)
+
+                                            =rs("ugrpid"):                                =trancomp1(rs("urights"),1):           =rs("ugrpid"):      =trancomp(rs("urights"),32)
+
+                                            =rs("ugrpid"):                                =trancomp1(rs("urights"),1):           =rs("ugrpid"):      =trancomp(rs("urights"),64)
+
+                                            =rs("ugrpid"):                                =trancomp1(rs("urights"),1):           =rs("ugrpid"):      =trancomp(rs("urights"),128)
+                                                                           =rs("ugrpid"):                 =rs("startdate")
+                                                                           =rs("ugrpid"):               =rs("enddate")
+
+              rs.movenext      
+              loop 
+
+
+         end if 
+
+
+       if (htprogright and 8)=8 then :                                                                   end if 
+
+
+
+
+
+         CxMethod_ASP_footer_1134060862() 

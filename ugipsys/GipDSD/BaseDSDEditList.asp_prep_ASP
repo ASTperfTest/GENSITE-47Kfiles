@@ -1,0 +1,553 @@
+﻿: @ codepage = 65001 
+  
+response.expires = 0
+htprogcap="單元資料定義"
+htprogfunc="編修"
+htprogcode="ge1t01"
+htuploadpath="/"
+htprogprefix="basedsd" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+dim pkey
+dim rsreg
+dim formfunction
+dim mpkey, dpkey
+dim rsmaster, rslist
+tasklable="編輯" & htprogcap
+
+ apath=server.mappath(htuploadpath) & "\"
+if request.querystring("phase")<>"edit" then
+set xup = server.createobject("tabs.upload")
+xup.codepage=65001
+xup.start apath
+else
+set xup = server.createobject("tabs.upload")
+end if
+
+function xupform(xvar)
+ xupform = xup.form(xvar)
+end function
+
+if xupform("submittask") = "update" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+'  editinbothcase()
+ else
+  doupdatedb()
+  showdonebox("資料更新成功！")
+  response.end
+ end if
+
+elseif xupform("submittask") = "delete" then
+ sql = "delete from basedsd where ibasedsd=" & pkstr(request.querystring("ibasedsd"),"")
+ conn.execute sql
+ showdonebox("資料刪除成功！")
+ response.end
+end if
+
+ sqlcom = "select htx.*,htx.inuse minuse, dhtx.xfieldname, dhtx.xfieldseq, dhtx.inuse, dhtx.xfieldlabel, dhtx.xfielddesc, dhtx.xdatatype, dhtx.xdatalen, dhtx.xinputtype, dhtx.ibasefield from (basedsd as htx left join basedsdfield as dhtx on dhtx.ibasedsd = htx.ibasedsd) where htx.ibasedsd=" & pkstr(request.querystring("ibasedsd"),"") 
+ set rsmaster = conn.execute(sqlcom) 
+ xtable = "cudtx"+cstr(rsmaster("ibasedsd"))
+ mpkey = ""
+ mpkey = mpkey & "&ibasedsd=" & rsmaster("ibasedsd")
+ if mpkey<>"" then  mpkey = mid(mpkey,2)
+ pkey = mpkey
+ fsql = "select dhtx.*, xref1.mvalue as inuse, xref2.mvalue as xdatatype, xref3.mvalue as xinputtype" _
+  & " from (((basedsdfield as dhtx left join codemain as xref1 on xref1.mcode = dhtx.inuse and xref1.codemetaid='boolyn') left join codemain as xref2 on xref2.mcode = dhtx.xdatatype and xref2.codemetaid='htddatatype') left join codemain as xref3 on xref3.mcode = dhtx.xinputtype and xref3.codemetaid='htdinputtype')" _
+  & " where 1=1" _
+  & " and dhtx.ibasedsd=" & pkstr(rsmaster("ibasedsd"),"") _
+  & " order by xfieldseq"
+ set rslist = conn.execute(fsql)
+ deleteflag=false
+ if rslist.eof then deleteflag=true
+
+
+
+
+                                                      =htprogcap:                       =htprogfunc
+
+    if (htprogright and 8)=8 then
+                             =pkey
+    end if
+    if (htprogright and 1)=1 then
+
+    end if
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                     =request.querystring("ibasedsd") 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid='refdsdcat' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid='boolyn' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+
+
+          if (htprogright and 8) <> 0 then 
+
+           end if 
+
+          if (htprogright and 16) <> 0 and deleteflag then 
+
+         end if 
+
+
+
+
+
+  
+function qqrs(fldname)
+ if xupform("submittask")="" then
+  xvalue = rsmaster(fldname)
+ else
+  xvalue = ""
+  if xupform("htx_"&fldname) <> "" then
+   xvalue = xupform("htx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+
+
+                                       =pkey
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                          =htuploadpath
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                =qqrs("sbasedsdname")
+                                  =qqrs("sbasetablename")
+                            =qqrs("ibasedsd")
+                         =qqrs("tdesc")
+                           =qqrs("rdsdcat")
+                         =qqrs("minuse")
+
+
+
+
+
+
+                                                                              =mpkey
+                                                                                      =mpkey
+
+                                                                                         =xtable:             =rsmaster("ibasedsd")
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ while not rslist.eof
+  dpkey = ""
+  dpkey = dpkey & "&ibasefield=" & rslist("ibasefield")
+  if dpkey<>"" then  dpkey = mid(dpkey,2)
+
+
+  =rslist("xfieldseq")
+
+
+  =rslist("inuse")
+
+
+                              =dpkey
+  =rslist("xfieldlabel")
+
+
+
+  =rslist("xfielddesc")
+
+
+  =rslist("xdatatype")
+
+
+  =rslist("xdatalen")
+
+
+  =rslist("xinputtype")
+
+
+  =rslist("xfieldname")
+
+
+      
+         rslist.movenext
+     wend
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql
+
+
+
+
+
+
+
+
+
+                                              =mpkey
+
+
+  sub showerrbox() 
+
+              =errmsg
+
+
+  
+    end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' if request("tfx_taxid") <> "" then
+'   sql = "select * from client where taxid = '"& request("tfx_taxid") &"'"
+'   set rsreg = conn.execute(sql)
+'   if not rsreg.eof then
+'  if trim(rsreg("clientid")) <> request("pfx_clientid") then
+'   errmsg = "「統一編號」重複!!請重新輸入客戶統一編號!"
+'   exit sub
+'  end if
+'   end if
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "update basedsd set "
+  sql = sql & "sbasedsdname=" & pkstr(xupform("htx_sbasedsdname"),",")
+  sql = sql & "sbasetablename=" & pkstr(xupform("htx_sbasetablename"),",")
+  sql = sql & "tdesc=" & pkstr(xupform("htx_tdesc"),",")
+  sql = sql & "rdsdcat=" & pkstr(xupform("htx_rdsdcat"),",")
+  sql = sql & "inuse=" & pkstr(xupform("htx_inuse"),",")
+ sql = left(sql,len(sql)-1) & " where ibasedsd=" & pkstr(request.querystring("ibasedsd"),"")
+ conn.execute(sql)  
+ 
+end sub '---- doupdatedb() ----
+
+  sub showdonebox(lmsg) 
+ mpkey = ""
+ if mpkey<>"" then  mpkey = mid(mpkey,2)
+ doneuri= ""
+ if doneuri = "" then doneuri = htprogprefix & "list.asp"
+
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+                 =lmsg
+                               =doneuri:    =mpkey
+
+
+
+  end sub '---- showdonebox() ----  

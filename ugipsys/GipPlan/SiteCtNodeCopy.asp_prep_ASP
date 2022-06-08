@@ -1,0 +1,46 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "ge1t21" 
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbfunc_1723934251()
+   
+dim ctroot, orgroot, dtlevel
+ orgroot = 33
+ ctroot = 2
+ targetnode = 0
+ dtlevel = 0 
+
+' response.write request.querystring
+' response.end
+   
+    traversetree 0, targetnode
+    
+    
+    
+sub traversetree (parent, np)
+ sqlcom = "select * from giphy.dbo.cattreenode where ctrootid = "& pkstr(orgroot,"") _
+  & " and dataparent=" & parent & " order by catshoworder"
+ response.write sqlcom & "<hr>"
+ set rs = conn.execute(sqlcom)
+ myparent = cint(np)
+ 
+ while not rs.eof
+  response.write rs("ctnodeid") & rs("catname") & "<br>"
+  sql = "insert into cattreenode(ctrootid, ctnodekind, catname, ctnamelogo, catshoworder, datalevel" _
+   & ", dataparent, ctunitid, inuse, edituserid, editdate) values(" _
+   & dfn(ctroot) & dfs(rs("ctnodekind")) & dfs(rs("catname")) & dfs(rs("ctnamelogo")) _
+   & dfn(rs("catshoworder")) & dfn(rs("datalevel")+dtlevel) & dfn(myparent) & dfn(rs("ctunitid")) _
+   & dfs(rs("inuse")) & dfs(session("userid")) & pkstr(date(),")")
+  response.write sql & "<br>"
+  sql = "set nocount on;"&sql&"; select @@identity as newid"
+  set rsx = conn.execute(sql)
+  xnewidentity = rsx(0)
+'  response.write xnewidentity & "<br>"
+  if rs("ctnodekind") = "c" then   traversetree rs("ctnodeid"), xnewidentity
+  rs.movenext
+ wend
+end sub
+
+
+
+                                        =ctroot:          =targetnode 

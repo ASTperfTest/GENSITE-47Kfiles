@@ -1,0 +1,154 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_server_1606199358()
+  
+ setimgwidth = 100
+ setimgheight = 200
+ 
+ apath=server.mappath("../public/data/")
+ set upl = server.createobject("softartisans.fileup")
+ upl.path = apath
+
+ if datadecide = "y" then
+  sql = "select unitid from dataunit where ('"& date() &"' between begindate and enddate) and datatype = n'"& datatype &"' and language = n'"& language &"' order by showorder"
+  set rs = conn.execute(sql)
+ if not rs.eof then
+   neworderno = 1
+   do while not rs.eof
+     neworderno = neworderno + 1
+     sql2="update dataunit set showorder = "& neworderno &" where unitid = " & rs("unitid")
+     set rs2 = conn.execute(sql2)
+   rs.movenext
+   loop
+ end if
+ else
+  sql = "select unitid from dataunit where datatype = n'"& datatype &"' and language = n'"& language &"' order by showorder"
+  set rs = conn.execute(sql)
+ if not rs.eof then
+   neworderno = 1
+   do while not rs.eof
+     neworderno = neworderno + 1
+     sql2="update dataunit set showorder = "& neworderno &" where unitid = " & rs("unitid")
+     set rs2 = conn.execute(sql2)
+   rs.movenext
+   loop
+ end if
+ end if
+ 
+ showorder = 1
+ sql = ""
+ sqlform = ""
+ sqlvaluesform = ""
+ 
+ for each x in upl.form
+  if upl.form(x) <> "" and left(x,3) = "xfn" then
+   sqlform = sqlform & " ," & mid(x,5)
+   sqlvaluesform = sqlvaluesform & "," & nohtmlcode(upl.form(x))
+  elseif upl.form(x) <> "" and left(x,3) = "xin" then
+   sqlform = sqlform & " ," & mid(x,5)
+   sqlvaluesform = sqlvaluesform & "," & upl.form(x)
+  end if
+ next
+
+ sql = "insert into dataunit (datatype, language, editdate, edituserid, showorder"& sqlform &") values "
+ sql = sql & "(n'"& datatype &"',n'"& language &"',n'"& date() &"',n'"& session("userid") & "'," & showorder & sqlvaluesform & ")" 
+ set rs = conn.execute(sql)
+
+ sql = "select unitid from dataunit where datatype = n'"& datatype &"' and language = n'"& language &"' and editdate = n'"& date() &"' and showorder = 1"
+ set rs = conn.execute(sql)
+  unitid = rs("unitid")
+
+ for each xitem in upl.form
+  if left(xitem,7)="content" then
+   fno=mid(xitem,8)
+   ufile = upl.form("imagefile"& fno).userfilename
+   ofname = fname(ufile)
+   content = upl.form("content"& fno)
+   imageway = upl.form("imageway"& fno)
+   phase = upl.form("no"& fno)
+
+ if ofname<>"" then
+   if instr(ofname, ".")>0 then
+     fnext=mid(ofname, instr(ofname, "."))
+   else
+     fnext=""
+   end if
+   tstr = now()
+   nfname = year(tstr) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & fno & fnext
+   upl.form("imagefile"& fno).saveas nfname
+
+'-----圖片大小調整開始
+    set ilib = server.createobject("overpower.imagelib")
+  picstr = apath &"\"& nfname
+  ilib.picturesize picstr,picw,pich
+
+   if lcase(fnext) = ".jpg" then
+    fnoname = 3
+   elseif lcase(fnext) = ".gif" then
+    fnoname = 2
+   end if 
+   if (picw/setimgwidth) > (pich/setimgheight) and (picw/setimgwidth) > 1 then
+   ilib.width = setimgwidth
+   ilib.height = int(setimgwidth*pich/picw)
+   ilib.insertpicture picstr,0,0,true,setimgwidth,int(setimgwidth*pich/picw)
+   ilib.savepicture picstr,fno,100,""
+    elseif (picw/setimgwidth) < (pich/setimgheight) and (pich/setimgheight) > 1 then
+   ilib.width = int(setimgheight*picw/pich)
+   ilib.height = setimgheight
+   ilib.insertpicture picstr,0,0,true,int(setimgheight*picw/pich),setimgheight
+   ilib.savepicture picstr,fnoname,100,""
+    end if
+'-----圖片大小調整結束
+    else
+     nfname = ""
+     ofname = "" 
+ end if
+
+ sql = "insert into datacontent (unitid, content, imagefile, imageway, position) "&_
+    "values ("& unitid &","& pkstr(content) &",n'"& nfname &"',n'"& imageway &"',"& phase &")"
+    set rs = conn.execute(sql)
+
+ end if
+next
+  
+function nohtmlcode(datacode)
+  newdata = "" 
+  if datacode <> "" then
+   newdate = replace(datacode,"'","''")
+   newdate = replace(newdate,"<","&lt;")
+   newdate = replace(newdate,">","&gt;")
+   nohtmlcode = "'" & newdate & "'"
+  end if
+end function
+
+function fname(fstr)
+  tmpstr=trim(fstr)
+  cpos=instrrev(tmpstr, "\")
+  if cpos=0 then
+    fname=tmpstr
+  else
+    fname=mid(tmpstr,cpos+1)
+  end if    
+end function
+
+function pkstr(s)     
+  if trim(s)="" then     
+    pkstr="null"     
+  else     
+    s=trim(s)     
+    pos = instr(s, "'")     
+    while pos > 0     
+      s = mid(s, 1, pos) & "'" & mid(s, pos + 1)     
+      pos = instr(pos + 2, s, "'")     
+    wend     
+    pkstr="'" & s & "'"     
+  end if     
+end function      
+
+
+
+   if upl.form("emailck") = "y" then 
+                                                          =language:             =datatype:           =unitid
+   else 
+                                                         =language:             =datatype
+   end if  

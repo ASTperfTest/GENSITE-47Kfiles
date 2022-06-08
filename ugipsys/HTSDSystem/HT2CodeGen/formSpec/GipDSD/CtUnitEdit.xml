@@ -1,0 +1,211 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<htPage>
+	<HTProgPrefix>CtUnit</HTProgPrefix>
+	<HTProgCode>GE1T11</HTProgCode>
+	<HTUploadPath>/public/</HTUploadPath>
+	<HTProgPath>/GipDSD</HTProgPath>
+	<HTGenPattern>genEdit</HTGenPattern>
+	<htForm>
+		<formModel id="CtUnitEdit">
+			<fieldList>
+				<tableName>CtUnit</tableName>
+				<masterTable>Y</masterTable><field>
+					<fieldName>CtUnitID</fieldName>
+					<fieldLabel>主題單元ID</fieldLabel>
+					<dataType>int</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>4</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>hidden</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>CtUnitName</fieldName>
+					<fieldLabel>主題單元名稱</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>30</dataLen>
+					<inputLen>30</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc>作為分類節點的預設值</fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>CtUnitLogo</fieldName>
+					<fieldLabel>單元LOGO</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>50</dataLen>
+					<inputLen>50</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>imgfile</inputType>
+					<fieldDesc>作為單元LOGO的預設值</fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>CtUnitKind</fieldName>
+					<fieldLabel>單元類型</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>refCTUKind</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>redirectURL</fieldName>
+					<fieldLabel>重導URL</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>100</dataLen>
+					<inputLen>100</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>newWindow</fieldName>
+					<fieldLabel>開新視窗</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>boolYN</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>iBaseDSD</fieldName>
+					<fieldLabel>單元資料定義</fieldLabel>
+					<dataType>int</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>4</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>refBaseDSD</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>fCtUnitOnly</fieldName>
+					<fieldLabel>只顯示此單元資料</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>boolYN</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+			<anchorList>
+				<anchor>
+					<type></type>
+					<funcLabel></funcLabel>
+					<url></url>
+					<action></action>
+				</anchor>
+			</anchorList>
+		</formModel>
+	</htForm>
+	<pageSpec>
+		<pageHead>主題單元管理</pageHead>
+		<pageFunction>編修</pageFunction>
+		<aidLinkList>
+			<Anchor>
+				<AnchorLabel>查詢</AnchorLabel>
+				<AnchorType>A</AnchorType>
+				<AnchorDesc>重設查詢條件</AnchorDesc>
+				<AnchorURI>CtUnitQuery.asp</AnchorURI>
+				<checkRight>1</checkRight>
+				<AnchorPos>Top</AnchorPos>
+				<AnchorWPK></AnchorWPK>
+			</Anchor>
+			<Anchor>
+				<AnchorLabel>新增</AnchorLabel>
+				<AnchorType>A</AnchorType>
+				<AnchorDesc>新增</AnchorDesc>
+				<AnchorURI>CtUnitAdd.asp</AnchorURI>
+				<checkRight>4</checkRight>
+				<AnchorPos>Top</AnchorPos>
+				<AnchorWPK></AnchorWPK>
+			</Anchor>
+			<Anchor>
+				<AnchorLabel>回前頁</AnchorLabel>
+				<AnchorType>Back</AnchorType>
+				<AnchorDesc>回前頁</AnchorDesc>
+				<AnchorURI></AnchorURI>
+				<checkRight></checkRight>
+				<AnchorPos>Top</AnchorPos>
+			</Anchor>
+		</aidLinkList>
+		<formUI ref="CtUnitEdit">
+			<pxHTML>
+				<CENTER>
+					<TABLE border="0" class="eTable" cellspacing="1" cellpadding="2" width="90%">
+						<TR><TD class="eTableLable" align="right">主題單元名稱：</TD>
+							<TD class="eTableContent"><refField>CtUnit/CtUnitName</refField><refField>CtUnit/CtUnitID</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">單元LOGO：</TD>
+							<TD class="eTableContent"><refField>CtUnit/CtUnitLogo</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>單元類型：</TD>
+							<TD class="eTableContent"><refField>CtUnit/CtUnitKind</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">重導URL：</TD>
+							<TD class="eTableContent"><refField>CtUnit/redirectURL</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">開新視窗：</TD>
+							<TD class="eTableContent"><refField>CtUnit/newWindow</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">單元資料定義：</TD>
+							<TD class="eTableContent"><refField>CtUnit/iBaseDSD</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>只顯示此單元資料：</TD>
+							<TD class="eTableContent"><refField>CtUnit/fCtUnitOnly</refField></TD>
+						</TR>
+					</TABLE>
+				</CENTER>
+			</pxHTML>
+			<scriptCode><![CDATA[
+<SCRIPT LANGUAGE="vbs">
+
+</SCRIPT>
+		]]></scriptCode>
+		</formUI>
+		<UINotes>
+		</UINotes>
+	</pageSpec>
+</htPage>

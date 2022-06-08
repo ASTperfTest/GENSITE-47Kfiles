@@ -1,0 +1,123 @@
+﻿<%@ Master Language="VB" CodeFile="3RSideMasterPage.master.vb" Inherits="_3RSideMasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <script src="/js/jquery.js" type="text/javascript"></script>
+  <script src="/js/pedia.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="style/pedia.css" type="text/css" />
+ <!--<head id="Head1" runat="server">
+   
+</head>-->
+<?xml version="1.0"  encoding="utf-8" ?>
+<%
+  Dim xssTest As String = Request.RawUrl()
+  If WebUtility.checkParam(xssTest) Then
+      Response.Write("<script>alert('網址中包含不正常的參數,頁面將導回首頁!!');window.location.href='/mp.asp';</script>")
+      Response.End()
+  End If
+  Dim xsl As System.Xml.Xsl.XslCompiledTransform = New System.Xml.Xsl.XslCompiledTransform
+  Dim xslpath As String = System.Web.Configuration.WebConfigurationManager.AppSettings("3rsidexslpath")
+  Dim showcursoriconid As Integer = Convert.ToInt32(ConfigurationManager.AppSettings("showcursoriconid"))
+  xsl.Load(xslpath)
+        
+  Dim sb As System.Text.StringBuilder = New System.Text.StringBuilder
+
+  Dim xmlWriter As System.IO.StringWriter = New System.IO.StringWriter(sb)
+  Dim xdsppath As String = ""
+    
+	'下一行是去load xdsp的路徑, 當目前的網址是cp頁時, 例如.Knowledge_cp.aspx, 就把id,存入session.
+	'然後xdsp再去產生CurrentRead的block
+	' if current page contains ("knowledge_cp") then
+	'		add most 5 article id
+	'		session("CurrentRead") &= request.querystring("id")	
+	' end if
+	
+	'xdsppath = System.Web.Configuration.WebConfigurationManager.AppSettings("xdsppath")
+	'xdsppath &= "&CurrentRead=" & session("CurrentRead")
+	'xdsppath &= "&redirectUrl=" & Request.RawUrl().Replace("&", ";")
+	if instr(Request.RawUrl(),"knowledge_cp") > 0 then
+		if instr(Session("CurrentRead"),request.querystring("ArticleId")) < 1 then
+			Session("CurrentRead") = request.querystring("ArticleId") & "," & Session("CurrentRead")
+		end if
+	end if
+  
+	xdsppath = System.Web.Configuration.WebConfigurationManager.AppSettings("xdsppath") & "&redirectUrl=" & Request.RawUrl().Replace("&", ";")
+	xdsppath &= "&memID=" & Session("memID") & "&gstyle=" & Session("gstyle") & "&CurrentRead=" & Session("CurrentRead")
+	
+	'response.write (xdsppath)
+  Try
+		xsl.Transform(xdsppath, New System.Xml.XmlTextWriter(xmlWriter))
+	Catch ex as Exception
+		Response.Write(ex.ToString())
+	End Try
+	
+  Dim head As String
+  Dim tail As String
+        
+  Dim index As Integer
+  Dim html As String = Server.HtmlDecode(sb.ToString())
+  Dim spword As String = "___ContentPage___"
+  index = html.IndexOf(spword)
+        
+  If index < 0 Then
+    head = html
+    tail = ""
+  Else
+    head = html.Substring(0, index)
+    tail = html.Substring(index + spword.Length)
+  End If
+
+    Dim ShowCursorIcon As Integer = 2
+    Dim ConnString As String = System.Web.Configuration.WebConfigurationManager.ConnectionStrings("ODBCDSN").ConnectionString
+    
+    Using myConnection As System.Data.SqlClient.SqlConnection = New System.Data.SqlClient.SqlConnection(ConnString)
+        myConnection.Open()
+        If (Session("memID")) <> "" Then
+            Using myCommand As System.Data.SqlClient.SqlCommand = New System.Data.SqlClient.SqlCommand("select ShowCursorIcon from Member Where account = @subjectid", myConnection)
+                myCommand.Parameters.Add(New System.Data.SqlClient.SqlParameter("@subjectid", Session("memID")))
+                Dim result = myCommand.ExecuteScalar()
+                If Not IsDBNull(result) Then
+                    ShowCursorIcon = Convert.ToInt32(result)
+                End If
+            End Using
+        End If
+        If ShowCursorIcon = 2 Then
+            Using showCursorCommand As System.Data.SqlClient.SqlCommand = New System.Data.SqlClient.SqlCommand(" select stitle from CuDTGeneric where icuitem = @icuitem ", myConnection)
+                showCursorCommand.Parameters.Add(New System.Data.SqlClient.SqlParameter("@icuitem", showcursoriconid))
+                Dim cursorOpen = showCursorCommand.ExecuteScalar()
+                If (Not IsDBNull(cursorOpen)) And cursorOpen.ToString() = "1" Then
+                    ShowCursorIcon = 1
+                Else
+                    ShowCursorIcon = 0
+                End If
+            End Using
+        End If
+        If ShowCursorIcon = 0 Then
+            head = Replace(head, "png.length!=0", "false")
+        End If
+        Response.Write(head)
+    End Using
+    
+%>
+  <form id= "myform" runat="server" class="testtest">
+   
+	<script type="text/javascript" src="http://kmweb.coa.gov.tw/subject/aspSrc.asp" ></script>
+    <asp:contentplaceholder id="ContentPlaceHolder1" runat="server" />	            			
+  </form> 
+<%
+    Response.Write(tail)
+    Dim StrUrl As String = ""
+    If InStr(Request.RawUrl(), "knowledge_cp") > 0 Then
+        
+        If Request.UrlReferrer <> Nothing Then
+            StrUrl = Server.UrlEncode(Request.UrlReferrer.ToString())
+        End If
+        %>
+<script type="text/javascript">    var GB_ROOT_DIR = "/js/greybox/"; var referer_url = "<%=StrUrl %>";</script>
+<script type="text/javascript" src="/js/greybox/greybox.js"></script>
+<script type="text/javascript" src="/js/greybox/AJS.js"></script>
+<script type="text/javascript" src="/js/greybox/gb_scripts.js"></script>
+<script type="text/javascript" src="/TreasureHunt/treasurebox.js"></script>
+
+        <%
+    End If
+%>

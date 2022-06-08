@@ -1,0 +1,103 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0
+htprogcap=""
+htprogfunc=""
+htprogcode="kforumlist"
+htprogprefix=""
+htuploadpath=session("public")+"data/"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_kpifunction_280790202()
+   
+ 
+function xupform(xvar)
+ xupform = trim(request(xvar))
+end function
+
+dim icuitem
+icuitem = request.querystring("icuitem") 
+  
+if request("submittask") = "delete" then
+ 
+ sql = "select status from knowledgeforum where gicuitem = " & icuitem 
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  if rs("status") = "d" then 
+   response.write "<script>alert('article can not be deleted!!');window.location.href='knowledgeforumlist.asp';</script>"
+   response.end
+  end if
+ end if
+ '---kpi---
+ '------檢查是否有討論------
+ sql = "select cudtgeneric.icuitem from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem "
+ sql = sql & "where (knowledgeforum.parenticuitem = " & icuitem & ") and (knowledgeforum.status = 'n') and (cudtgeneric.ictunit = 933)"
+ set rs = conn.execute(sql)
+ while not rs.eof 
+  deletecommend rs("icuitem") '---刪除評價--- 
+  deleteopinion rs("icuitem") '---刪除意見---   
+  deletediscuss rs("icuitem") '---刪除討論---  
+  rs.movenext
+ wend
+ rs.close
+ set rs = nothing
+ '-----------------------------------------------------------------------------------  
+ '---刪除發問---
+ deletequestion icuitem 
+ updatestatus icuitem
+ '-----------------------------------------------------------------------------------
+ '---for 知識家的刪除-刪題目或是討論或是意見---
+ '---do nothing---因為題目本身已看不到--- 
+ '---end of for 知識家的刪除---
+ '-----------------------------------------------------------------------------------
+ '---資料刪除時,要將資料的index刪除...先將這筆資料加到db中---
+ 
+ '----------------------------------------------------------------------------------- 
+ showdonebox "刪除成功", "knowledgeforumlist.asp"
+end if
+
+if request("submittask") = "update" then
+ 
+ stitle=replace(xupform("stitle"),"'","''")
+ xbody=replace(xupform("htx_xbody"),"'","''")
+ xurl=replace(xupform("htx_xurl"),"'","''")
+ xnewwindow=replace(xupform("htx_xnewwindow"),"'","''")
+ fctupublic=replace(xupform("htx_fctupublic"),"'","''")
+ topcat=replace(xupform("htx_topcat"),"'","''")
+ vgroup=replace(xupform("htx_vgroup"),"'","''")
+ xkeyword=replace(xupform("htx_xkeyword"),"'","''")
+ ximportant=replace(xupform("htx_ximportant"),"'","''")
+ idept=replace(xupform("htx_idept"),"'","''")
+
+ sql = "update cudtgeneric set  "
+ sql = sql  & "stitle =" & "' " & stitle &"'"
+ sql = sql  & ",xbody =" & "' " & xbody &"'"
+ sql = sql  & ",xurl = "& "'" & xurl  &"'"
+ sql = sql  & ",xnewwindow = "& "'" & xnewwindow  &"'"
+ sql = sql  & ",fctupublic = "&"'" & fctupublic  &"'"
+ sql = sql  & ",topcat = "&"'" & topcat  &"'"
+ sql = sql  & ",vgroup = "&"'" & vgroup  &"'"
+ sql = sql  &",xkeyword = "& "'" & xkeyword  &"'"
+ sql = sql  &",ximportant = "& "'" & ximportant  &"'"
+ sql = sql  &",idept = "& "'" & idept  &"'"
+ sql = sql  & " where icuitem = "& "'"  & icuitem & "'"
+ conn.execute(sql)
+ showdonebox "更新成功", "knowledgeforumlist.asp" 
+end if
+
+
+   sub showdonebox(lmsg, link) 
+
+
+
+
+
+
+
+
+              =lmsg
+
+
+
+
+   end sub  

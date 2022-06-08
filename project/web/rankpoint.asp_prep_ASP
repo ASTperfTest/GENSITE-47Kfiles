@@ -1,0 +1,58 @@
+﻿: 
+ response.cachecontrol = "no-cache" 
+ response.addheader "pragma", "no-cache" 
+ response.expires = -1
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_client_1900334733()
+
+  
+
+ sql = "select count(*) as total,memberid  from cudtgeneric inner join pedia on cudtgeneric.icuitem = pedia.gicuitem " & _
+  "where ictunit = 2155 and fctupublic = 'y' and xstatus = 'y' and memberid in ( " & _
+  "select distinct memberid from cudtgeneric inner join pedia on cudtgeneric.icuitem = pedia.gicuitem " & _
+  "where fctupublic = 'y' and xstatus = 'y' and ictunit = 2155) group by memberid"
+ set rs = conn.execute(sql)
+
+response.write "<table border=""1"" width=""100%"">"
+response.write "<caption>有推薦詞目且通過的會員id,及其推薦數目</caption>"
+response.write "<tr><td>"
+ while not rs.eof
+  
+  if rs("memberid") <> "hyweb" then
+  response.write "update activitypediamember set commendcount = " & rs("total") & " where memberid = '" & rs("memberid") & "'; <br/>"
+  end if
+  rs.movenext
+ wend
+response.write "</td></tr><table>"
+ rs.close
+ set rs = nothing
+
+
+
+ sql = "select count(*) as total,memberid  from cudtgeneric inner join pedia on cudtgeneric.icuitem = pedia.gicuitem " & _
+  "where ictunit = 2156 and fctupublic = 'y' and xstatus = 'y' and memberid in ( " & _
+  "select distinct memberid from cudtgeneric inner join pedia on cudtgeneric.icuitem = pedia.gicuitem " & _
+  "where fctupublic = 'y' and xstatus = 'y' and ictunit = 2156) group by memberid"
+ set rs = conn.execute(sql)
+
+response.write "<table border=""1"" width=""100%"">"
+response.write "<caption>有補充詞目且通過的會員id,及其補充數目</caption>"
+response.write "<tr><td>"
+ while not rs.eof
+
+  response.write "update activitypediamember set commendadditionalcount = " & rs("total") & " where memberid = '" & rs("memberid") & "'; <br/>"
+
+  rs.movenext
+ wend
+response.write "</td></tr><table>"
+ rs.close
+ set rs = nothing
+ 

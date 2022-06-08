@@ -1,0 +1,53 @@
+問卷調查功能安裝程序：
+
+1. 將Survey目錄複製到後台目錄下，與site目錄同一層
+
+2. 複製xml：複製-問卷調查.xml至site\xxx\GipDSD下。
+
+3. 產生資料範本：產生m011(問卷調查)資料範本，並匯入-問卷調查.xml。
+
+4. 產生DTD：依資料範本產生DTD，並將-問卷調查.xml內容取代所產生的DTD。
+
+5. 建立資料表：執行survey.sql建立資料表。
+
+6. 新增問卷調查主題單元。
+
+7. 新增目錄樹單元，選擇問卷調查主題單元。
+
+8. 將XdAP.asp複製到site\xxx\wsxd下。
+
+9. 新增代碼定義(yesno)--以及以下代碼0(顯示值no), 1(顯示值yes)。
+
+10.問卷調查功能後台建置完成。
+
+11.將sVote目錄複製到後台site\xxx\wsxd下。
+
+12.將ap.asp複製到前台目錄(與mp.asp同層)下。
+
+13.將images資料夾複製到前台目錄(與xslGip同層)下。
+
+14.將QServeyCP.xsl, QServeyLP.xsl複製到前台目錄xslgip下。
+
+15.新增問卷調查前台條列(QSurveyLP)及內容(QSurveyCP)樣板。
+
+16.將問卷調查目錄條列版型及內容版型選擇為問卷調查條列(QSurveyLP)及內容(QSurveyCP)樣板。
+
+17.建立ap.xsl(與mp.xsl同層)，範例如下：
+
+	.
+	.
+	.
+	.
+	<xsl:apply-templates select="pHTML" />
+	.
+	.
+	.
+	.
+	.
+	<xsl:template match="pHTML">
+		<xsl:value-of disable-output-escaping="yes" select="." />
+	</xsl:template>
+
+
+
+ 

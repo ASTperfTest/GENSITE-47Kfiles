@@ -1,0 +1,45 @@
+﻿: @ codepage = 65001 
+  
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+ fsql = "sp_tables"
+ set rstable = conn.execute(fsql)
+ tablearray=rstable.getrows()
+ for i=0 to ubound(tablearray,2)
+     if (left(tablearray(2,i),5)="cudtx" and tablearray(2,i)<>"cudtxmmo") or (left(tablearray(2,i),2)="cm" and len(tablearray(2,i))=4) then
+      sqlupdate=""
+  fsql = "sp_columns '" & tablearray(2,i) & "'"
+  set rslist = conn.execute(fsql)
+  while not rslist.eof
+     if rslist("column_name")<>"gicuitem" and rslist("nullable")=0 then
+      if rslist("type_name")="char" or rslist("type_name")="varchar" then
+    sqlupdate=sqlupdate+"alter table "+tablearray(2,i)+" alter column "+rslist("column_name")+" "+rslist("type_name")+"("+cstr(rslist("length"))+")"+ " null;"     
+'    sqlupdate="alter table "+tablearray(2,i)+" alter column "+rslist("column_name")+" "+rslist("type_name")+"("+cstr(rslist("length"))+")"+ " null;"     
+'    response.write sqlupdate+"<br>"
+      elseif rslist("type_name")="int" or rslist("type_name")="datetime" or rslist("type_name")="smalldatetime" then
+    sqlupdate=sqlupdate+"alter table "+tablearray(2,i)+" alter column "+rslist("column_name")+" "+rslist("type_name")+ " null;"     
+'    sqlupdate="alter table "+tablearray(2,i)+" alter column "+rslist("column_name")+" "+rslist("type_name")+ " null;"     
+'    response.write sqlupdate+"<br>"
+   end if
+      end if
+      rslist.movenext
+  wend
+  if sqlupdate<>"" then conn.execute(sqlupdate)
+'  response.write sqlupdate+"<hr>"
+     end if 
+ next
+
+response.write "done2!"
+response.end
+
+ 

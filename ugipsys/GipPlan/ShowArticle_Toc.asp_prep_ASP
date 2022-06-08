@@ -1,0 +1,91 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "pn03m04" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+   forumid = request.querystring("forumid")
+   articleid = request.querystring("articleid") 
+
+
+
+
+
+
+
+   if articleid <> "" then
+  sql = "select * from forumarticle where articleid = "& articleid
+   set rs = conn.execute(sql)
+  opinion=rs("content")
+  cont=message(opinion) 
+
+
+
+                         =rs("subject")
+
+
+
+
+
+
+              =mailsend(rs("postemail"),rs("postusername"))
+                        =rs("postdate")
+
+
+                                          =cont
+       sqlfile = "select * from fileup where itemid =n'"& itemid &"' and parentid = "& articleid
+       set rsfile = conn.execute(sqlfile)
+        if not rsfile.eof then 
+
+
+
+
+             do while not rsfile.eof
+              response.write fileck(rsfile("nfilename"),rsfile("ofilename"))
+             rsfile.movenext
+       loop 
+
+
+
+        end if 
+
+
+
+
+
+   end if 
+
+  
+ function mailsend(xmail,xname)
+  if xmail <> "" then
+   mailsend = "<a href=mailto:"& xmail &">"& xname &"</a>"
+  else
+   mailsend = xname
+  end if
+ end function
+
+ function fileck(nfname,ofname)
+   if instr(nfname, ".")>0 then
+     fnext=mid(nfname, instr(nfname, "."))
+     if lcase(fnext) = ".gif" or lcase(fnext) = ".jpg" then
+      fileck = "<br><img border=0 src="& session("public") & nfname &"><br>"
+     else
+      fileck = "<a href="& session("public") & nfname &" target=_blank>"& ofname &"</a><br>"
+     end if
+   end if
+ end function
+
+function message(tempstr)
+  outstring = ""
+  while len(tempstr) > 0
+    pos=instr(tempstr, chr(13)&chr(10))
+    if pos = 0 then
+      outstring = outstring & tempstr & "<br>"
+      tempstr = ""
+    else
+      outstring = outstring & left(tempstr, pos-1) & "<br>"
+      tempstr=mid(tempstr, pos+2)
+    end if
+  wend
+  message = outstring
+end function
+ 

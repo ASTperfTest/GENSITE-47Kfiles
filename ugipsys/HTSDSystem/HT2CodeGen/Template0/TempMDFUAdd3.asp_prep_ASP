@@ -1,0 +1,50 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   sub showdonebox() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                             =htprogprefix:            =request.servervariables("query_string")
+
+
+
+   end sub '---- showdonebox() ----  

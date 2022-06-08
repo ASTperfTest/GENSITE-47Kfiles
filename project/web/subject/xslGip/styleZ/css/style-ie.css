@@ -1,0 +1,14 @@
+@charset "utf-8";
+/* CSS Document */
+
+.menu li {
+	font-size: 15px;
+	line-height: 17px;
+	padding: 0 0 10px;
+}
+.menu li a {
+	padding: 12px 15px 0px;
+}
+.menu li li a {
+	padding: 4px 10px 0px 30px;
+}

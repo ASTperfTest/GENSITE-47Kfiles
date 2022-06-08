@@ -1,0 +1,420 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ 'htprogcap = "功能管理"
+ 'htprogfunc = "問卷調查"
+ htprogcode = "gw1_vote01"
+ 'htprogprefix = "msession"
+ response.expires = 0
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+
+   
+ 
+ subjectid = request("subjectid")
+ 
+ if subjectid = "" then
+  response.write "<script language='javascript'>history.go(-1);</script>"
+  response.end
+ end if
+ 
+ 
+ sql = "" & _
+  " select m011_subject, m011_bdate, m011_edate, m011_haveprize from m011 where " & _
+  " m011_subjectid = " & subjectid
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "<script language='javascript'>history.go(-1);</script>"
+  response.end
+ end if
+ 
+ 
+ set ts = conn.execute("select count(*) from m014 where m014_subjectid = " & subjectid)
+ if ts(0) = 0 then
+  response.write "<script language='javascript'>alert('目前尚無任何答題資料！');history.go(-1);</script>"
+  response.end
+ end if
+ 
+ 
+ select2 = trim(request("select2"))
+ select3 = trim(request("select3"))
+ 
+ other_sql = ""
+ if select3 <> "" and select2 <> "" then
+  if select2 = "sex" then
+   other_sql = " and m014_sex = '" & select3 & "' "
+  elseif select2 = "age" then
+   other_sql = " and m014_age = " & select3 & " "
+  elseif select2 = "addrarea" then
+   other_sql = " and m014_addrarea = " & select3 & " "
+  elseif select2 = "familymember" then
+   other_sql = " and m014_familymember = " & select3 & " "
+  elseif select2 = "money" then
+   other_sql = " and m014_money = " & select3 & " "
+  elseif select2 = "job" then
+   other_sql = " and m014_job = '" & select3 & "' "
+  elseif select2 = "edu" then
+   other_sql = " and m014_edu = '" & select3 & "' "
+  end if
+ end if
+ 
+ sql = "" & _
+  " select m014_name, m014_sex, m014_idnumber, m014_email, m014_age, " & _
+  " m014_addrarea, " & _
+  " m014_familymember, isnull(m014_money, 0) m014_money, m014_job, " & _
+  " isnull(m014_edu, '') m014_edu " & _
+  " from m014 " & _
+  " where m014_subjectid = " & replace(subjectid, "'", "''") & other_sql & _
+  " order by m014_id " 
+ set list = conn.execute(sql)
+ 
+ 
+ sql = "select count(*) from m014 where m014_subjectid = " & subjectid & other_sql
+ set ts = conn.execute(sql)
+ totalrecord = ts(0)
+ pagecount = 10
+ if totalrecord > 0 then              'ts代表筆數
+  totalpage = totalrecord \ pagecount
+  if (totalrecord mod pagecount) <> 0 then
+   totalpage = totalpage + 1
+  end if
+ else
+  totalpage = 1
+ end if
+ 
+ if request("page") = empty then
+  page = 1
+ else
+  page = request("page")
+ end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                         = functype :              = subjectid 
+  
+ 'if rs("m011_haveprize") = "1" then
+
+                                                                                                        = functype :              = subjectid 
+                                                                                                           = functype :              = subjectid 
+  
+ 'end if
+
+                                                                                                              = functype :              = subjectid 
+
+
+
+
+
+                                                                                                              = subjectid 
+
+
+
+                             = datevalue(rs("m011_bdate")) :      = datevalue(rs("m011_edate")) 
+                             = trim(rs("m011_subject")) 
+
+
+                                                = functype 
+                                                 = subjectid 
+
+
+
+                              if select2 = "sex" then :             end if 
+                              if select2 = "age" then :             end if 
+                                   if select2 = "addrarea" then :             end if 
+                                       if select2 = "familymember" then :             end if 
+                                if select2 = "money" then :             end if 
+                              if select2 = "job" then :             end if 
+                              if select2 = "edu" then :             end if 
+
+
+  
+ if select2 = "sex" or select2 = "" then
+
+                           if select3 = "" then :             end if 
+                            if select3 = "m" then :             end if 
+                            if select3 = "f" then :             end if 
+  
+ elseif select2 = "age" then
+
+                           if select3 = "" then :             end if 
+                            if select3 = "1" then :             end if 
+                            if select3 = "2" then :             end if 
+                            if select3 = "3" then :             end if 
+                            if select3 = "4" then :             end if 
+                            if select3 = "5" then :             end if 
+                            if select3 = "6" then :             end if 
+                            if select3 = "7" then :             end if 
+                            if select3 = "8" then :             end if 
+   
+ elseif select2 = "addrarea" then
+
+                           if select3 = "" then :             end if 
+                            if select3 = "1" then :             end if 
+                            if select3 = "2" then :             end if 
+                            if select3 = "3" then :             end if 
+                            if select3 = "4" then :             end if 
+                            if select3 = "5" then :             end if 
+                            if select3 = "6" then :             end if 
+                            if select3 = "7" then :             end if 
+                            if select3 = "8" then :             end if 
+                            if select3 = "9" then :             end if 
+                             if select3 = "10" then :             end if 
+                             if select3 = "11" then :             end if 
+                             if select3 = "12" then :             end if 
+                             if select3 = "13" then :             end if 
+                             if select3 = "14" then :             end if 
+                             if select3 = "15" then :             end if 
+                             if select3 = "16" then :             end if 
+                             if select3 = "17" then :             end if 
+                             if select3 = "18" then :             end if 
+                             if select3 = "19" then :             end if 
+                             if select3 = "20" then :             end if 
+                             if select3 = "21" then :             end if 
+                             if select3 = "22" then :             end if 
+                             if select3 = "23" then :             end if 
+                             if select3 = "24" then :             end if 
+                             if select3 = "25" then :             end if 
+   
+ elseif select2 = "familymember" then
+
+                           if select3 = "" then :             end if 
+                            if select3 = "1" then :             end if 
+                            if select3 = "2" then :             end if 
+                            if select3 = "3" then :             end if 
+                            if select3 = "4" then :             end if 
+                            if select3 = "5" then :             end if 
+                            if select3 = "6" then :             end if 
+   
+ elseif select2 = "money" then
+
+                           if select3 = "" then :             end if 
+                            if select3 = "1" then :             end if 
+                            if select3 = "2" then :             end if 
+                            if select3 = "3" then :             end if 
+                            if select3 = "4" then :             end if 
+                            if select3 = "5" then :             end if 
+                            if select3 = "6" then :             end if 
+   
+ elseif select2 = "job" then
+
+                           if select3 = "" then :             end if 
+                            if select3 = "1" then :             end if 
+                            if select3 = "2" then :             end if 
+                            if select3 = "3" then :             end if 
+                            if select3 = "4" then :             end if 
+                            if select3 = "5" then :             end if 
+                            if select3 = "6" then :             end if 
+                            if select3 = "7" then :             end if 
+   
+ elseif select2 = "edu" then
+
+                           if select3 = "" then :             end if 
+                            if select3 = "1" then :             end if 
+                            if select3 = "2" then :             end if 
+                            if select3 = "3" then :             end if 
+                            if select3 = "4" then :             end if 
+                            if select3 = "5" then :             end if 
+                            if select3 = "6" then :             end if 
+                            if select3 = "7" then :             end if 
+  
+ else
+
+                           if select3 = "" then :             end if 
+                            if select3 = "m" then :             end if 
+                            if select3 = "f" then :             end if 
+  
+ end if
+
+
+
+
+
+            =totalpage :            =page 
+
+  
+ n = 1
+ while n <= totalpage 
+  response.write "<option value='" & n & "'"
+  if int(n) = int(page) then 
+   response.write " selected"
+  end if
+  response.write ">" & n & "</option>"
+  n = n + 1
+ wend
+
+
+            = pagecount 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ dim city(25)
+ city(1) = "臺北縣"
+ city(2) = "宜蘭縣"
+ city(3) = "桃園縣"
+ city(4) = "新竹縣"
+ city(5) = "苗栗縣"
+ city(6) = "臺中縣"
+ city(7) = "彰化縣"
+ city(8) = "南投縣"
+ city(9) = "雲林縣"
+ city(10) = "嘉義縣"
+ city(11) = "臺南縣"
+ city(12) = "高雄縣"
+ city(13) = "屏東縣"
+ city(14) = "臺東縣"
+ city(15) = "花蓮縣"
+ city(16) = "澎湖縣"
+ city(17) = "基隆市"
+ city(18) = "新竹市"
+ city(19) = "臺中市"
+ city(20) = "嘉義市"
+ city(21) = "臺南市"
+ city(22) = "臺北市"
+ city(23) = "高雄市"
+ city(24) = "金門縣"
+ city(25) = "連江縣"
+ 
+ dim age(8)
+ age(1) = "0到11歲以下"
+ age(2) = "12到17歲"
+ age(3) = "18到23歲"
+ age(4) = "24到29歲"
+ age(5) = "30到39歲"
+ age(6) = "40到49歲"
+ age(7) = "50到59歲"
+ age(8) = "60歲以上"
+ 
+ dim member(6)
+ member(1) = "1人"
+ member(2) = "2人"
+ member(3) = "3人"
+ member(4) = "4人"
+ member(5) = "5至8人"
+ member(6) = "8人以上"
+ 
+ dim money(6)
+ money(1) = "5000元以下"
+ money(2) = "5000到1萬元"
+ money(3) = "1萬到3萬元"
+ money(4) = "3萬到5萬元"
+ money(5) = "5萬到10萬元"
+ money(6) = "10萬元以上"
+ 
+ dim job(7)
+ job(1) = "軍"
+ job(2) = "公"
+ job(3) = "商"
+ job(4) = "教職"
+ job(5) = "自由業"
+ job(6) = "服務業"
+ job(7) = "其他"
+ 
+ dim edu(7)
+ edu(1) = "國小"
+ edu(2) = "國中"
+ edu(3) = "高中"
+ edu(4) = "大學"
+ edu(5) = "碩士"
+ edu(6) = "博士"
+ edu(7) = "其他"
+          
+          
+ i = 1
+ while not list.eof
+  if i <= (page*pagecount) and i > (page-1)*pagecount then
+  
+   if i mod 2 = 1 then
+    response.write "<tr>"
+   else
+    response.write "<tr bgcolor='#efefef'>"
+   end if
+   
+   response.write "<td>" & list("m014_name") & "&nbsp;</td>"
+   
+   if list("m014_sex") = "m" then
+    response.write "<td>男</td>"
+   else
+    response.write "<td>女</td>"
+   end if
+   
+   response.write "<td><a href='mailto:" & trim(list("m014_email")) & "'>" & trim(list("m014_email")) & "</a>&nbsp;</td>"
+   
+   if int(list("m014_age")) > 0 then
+    response.write "<td>" & age(int(list("m014_age"))) & "</td>"
+   else
+    response.write "<td>　</td>"
+   end if
+   
+   if int(list("m014_addrarea")) > 0 then
+    response.write "<td>" & city(int(list("m014_addrarea"))) & "</td>"
+   else
+    response.write "<td>　</td>"
+   end if
+   
+   if int(list("m014_familymember")) > 0 then
+    response.write "<td>" & member(int(list("m014_familymember"))) & "</td>"
+   else
+    response.write "<td>　</td>"
+   end if
+   
+   if int(list("m014_money")) > 0 then
+    response.write "<td>" & money(int(list("m014_money"))) & "</td>"
+   else
+    response.write "<td>　</td>"
+   end if
+   
+   if trim(list("m014_job")) <> "" then
+    response.write "<td>" & job(int(trim(list("m014_job")))) & "</td>"
+   else
+    response.write "<td>　</td>"
+   end if
+   
+   if trim(list("m014_edu")) <> "" then
+    response.write "<td>" & edu(int(trim(list("m014_edu")))) & "</td>"
+   else
+    response.write "<td>　</td>"
+   end if
+   
+   response.write "</tr>"
+
+  end if
+  list.movenext
+  i = i + 1
+ wend
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                  = functype :              = subjectid  

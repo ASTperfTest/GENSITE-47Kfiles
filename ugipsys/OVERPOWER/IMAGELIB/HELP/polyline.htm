@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#006E8E" text="#FFFFFF" link="#00FF00" vlink="#00FF00" alink="#00FF00"  cellspacing="0" cellpadding="0">
+<div align="center">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%" align="left">
+    <tr>
+      <td width="10">&nbsp;</td>
+      <td valign="top"> 
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><br>
+          <img src="method.gif" width="30" height="30" align="absmiddle"> <b><font size="3">POLYLINE<br>
+          <br>
+          </font></b>Draws a series of lines on the canvas with the current pen, 
+          connecting each of the points passed to it in Points.<br>
+          <br>
+          <b>Procedure </b>Polyline(Points: Array (x,x) of <a href="defs.htm#Stringcolor">Integer</a>)<br>
+          <br>
+          <b>Description<br>
+          </b>Use Polyline to connect a set of points on the canvas. If there 
+          are only two points, Polyline draws a single line. <br>
+          <br>
+          <b>Example<br>
+          </b><i>Set ILIB = server.createobject("Overpower.Imagelib") <br>
+          ILIB.WIDTH = 401 <br>
+          ILIB.HEIGHT = 401 <br>
+          Randomize() <br>
+          Dim pts(53,1) <br>
+          for i=0 to ubound(pts)<br>
+          pts(i,0)=Rnd(1)*401 <br>
+          pts(i,1)=Rnd(1)*401<br>
+          next <br>
+          ILIB.PenWidth = 20<br>
+          ILIB.Polyline pts<br>
+          ILIB.PictureBinaryWrite 2,0, "" </i></font></p>
+        
+      </td>
+    </tr>
+  </table>
+  <p align="left">&nbsp; </p>
+</div>
+</body>
+</html>

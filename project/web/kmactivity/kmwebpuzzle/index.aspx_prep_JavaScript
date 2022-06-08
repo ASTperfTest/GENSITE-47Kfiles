@@ -1,0 +1,79 @@
+﻿
+
+
+
+
+
+
+
+function script____1055598674() {src("/js/jquery.js");}
+function script___905766949() {src("/js/swfobject.js");}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        var flashvars = {};
+        var params = {};
+        var attributes = {};
+
+        params = {
+            autoPlay: "yes"
+        };
+
+
+        if (screen.width > 1024) {
+            swfobject.embedSWF("/kmactivity/puzzle/game.swf?token=Cx_0dummy&url=Cx_0dummy&v=Cx_0dummy", "flashcontent", "600", "540", "9.0.0", "expressInstall.swf", flashvars, params, attributes);
+        }
+        else if (screen.width == 1024) {
+            swfobject.embedSWF("/kmactivity/puzzle/game.swf?token=Cx_0dummy&url=Cx_0dummy&v=Cx_0dummy", "flashcontent", "600", "540", "9.0.0", "expressInstall.swf", flashvars, params, attributes);
+
+        }
+        else {
+            swfobject.embedSWF("/kmactivity/puzzle/game.swf?token=Cx_0dummy&url=Cx_0dummy&v=Cx_0dummy", "flashcontent", "600", "540", "9.0.0", "expressInstall.swf", flashvars, params, attributes);
+        }
+
+        function fadRefresh() {
+            $.post("/aspSrc.asp", "a=1", "");
+            $.post("/subject/aspSrc.asp", "a=1", "");
+            $.post("/Pedia/PediaList.aspx", "a=1", "");
+            setTimeout('fadRefresh()', 120000); //Refresh�ɶ� 
+        }
+        setTimeout('fadRefresh()', 120000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

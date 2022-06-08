@@ -1,0 +1,34 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="電子報管理"
+htprogfunc="查詢電子報"
+htprogcode="gw1m51"
+htprogprefix="epsub" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+
+
+
+
+
+
+
+
+
+                                                  =htprogcap:                       =htprogfunc
+
+                                     =request("eptreeid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                   =request("eptreeid") 

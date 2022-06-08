@@ -1,0 +1,178 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<UseCase>
+	<Name>分類樹管理</Name>
+	<Code>GE1T21</Code>
+	<APCat>GE1</APCat>
+	<Version>
+		<Date>2004/3/8</Date>
+		<Author>hanjone</Author>
+		<Kind>Expanded</Kind>
+		<ExpandedSpec>
+			<Type>primary</Type>
+			<Type>essential</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<Purpose></Purpose>
+			<PreCondition>
+				<UseCase></UseCase>
+			</PreCondition>
+			<DescriptionList>
+				<Description>
+				</Description>
+			</DescriptionList>
+			<TypicalCourseOfEvents>
+				<Event type="Client" id="0">
+				</Event>
+				<Event type="Client" id="10">
+				</Event>
+				<Event type="Client" id="11">
+				</Event>
+			</TypicalCourseOfEvents>
+		</ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+	<Version>
+		<Date>2003/4/6</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<ExpandedSpec>
+			<Type>primary</Type>
+			<Type>essential</Type>
+			<ActorList>
+				<Actor initiator="Y">gEditor</Actor>
+			</ActorList>
+			<Purpose>管理編輯供不同角色(主題/觀點...)使用之分類樹</Purpose>
+			<PreCondition>
+				<UseCase>主題單元已存在</UseCase>
+			</PreCondition>
+			<DescriptionList>
+				<Description>
+				根據要設定的角色(或主題/觀點...)，將既有的主題單元組織成分類樹
+				架構，以控制網站前端導覽頁的呈現架構
+				</Description>
+			</DescriptionList>
+			<TypicalCourseOfEvents>
+				<Event type="Client" id="0" ContractXML="evx_CtRootList.xml">
+					[條列] -- 導覽頁(分類樹根)清單<br/>				
+					1.列出所有自己可檢視的導覽頁: 名稱, 分眾對象, 用途, 負責人, 開放狀態(on/off); <br/>
+					2.依開放狀態, 分眾對象排序; <br/>
+					3.Anchor在名稱，點選進入編修/刪除此導覽頁設定<br/>
+					4.另Anchor標『編修分類樹』，點選進入編修此導覽頁的分類樹<br/>
+					5.有[新增]權限者可按【新增】新增導覽頁<br/>
+				</Event>
+				<Event type="Client" id="11" ContractXML="evx_CtRootEdit.xml">
+					[編修] -- 編修/刪除導覽頁<br/>				
+					1.編修欄位: 名稱, 分眾對象, 用途, 負責人, 開放狀態(on/off); <br/>
+				</Event>
+				<Event type="Client" id="12" ContractXML="evx_CtRootAdd.xml">
+					[新增] -- 新增導覽頁<br/>				
+					1.輸入欄位: 名稱, 分眾對象, 用途, 負責人, 開放狀態(on/off); <br/>
+				</Event>
+				<Event type="Client" id="20" ContractXML="evx_CtNodeTList.xml">
+					[樹狀條列] -- 導覽頁分類樹樹狀架構<br/>
+					<OL><LI>分類<br/>		
+					1.列出欄位: 標題, 節點類型(以圖示區分), 開放狀態(on/off); <br/>
+					2.Anchor在名稱，點選進入編修/刪除此節點設定，以及新增分類與單元<br/>
+						</LI><LI>主題單元
+					1.列出欄位: 標題, 節點類型(以圖示區分), 開放狀態(on/off); <br/>
+					2.Anchor在名稱，點選進入編修/刪除此節點設定<br/>
+						</LI></OL>
+				</Event>
+				<Event type="Client" id="21" ContractXML="evx_CtNodeTEdit.xml">
+					[編修] -- 編修分類樹節點<br/>	
+					1.編修欄位: 標題, 顯示次序，開放狀態(on/off); <br/>
+					2.節點類型為單元(U): 編修時還可選對應的主題單元; <br/>
+					3.節點類型為分類(C): 可於其下新增分類與單元<br/>
+				</Event>
+				<Event type="Client" id="22" ContractXML="evx_CtNodeTAdd.xml">
+					[新增] -- 新增分類樹節點<br/>	
+					1.輸入欄位: 標題, 節點類型，顯示次序，開放狀態(on/off); <br/>
+					2.節點類型為單元(U): 另要再選對應的主題單元; <br/>
+				</Event>
+			</TypicalCourseOfEvents>
+		</ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+	<Version>
+		<Date>2003/4/6</Date>
+		<Author>chen</Author>
+		<Kind>HighLevel</Kind>
+		<HighLevelSpec>
+			<Type>primary</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<DescriptionList>
+				<Description>
+				</Description>
+			</DescriptionList>
+			<VisitRecordList>
+				<VisitRecord>
+					<Who/>
+					<Date/>
+					<Location/>
+					<comment/>
+				</VisitRecord>
+			</VisitRecordList>
+		</HighLevelSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject/>
+				<Description/>
+				<Who/>
+				<DueDate/>
+				<DoneDate/>
+				<Conclusion/>
+			</TBD>
+		</TBDList>
+	</Version>
+</UseCase>

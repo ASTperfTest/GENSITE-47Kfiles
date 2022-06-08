@@ -1,0 +1,204 @@
+﻿:  response.expires = 0
+htprogcap="dsdxmllist"
+htprogfunc="dsdxmllist"
+htuploadpath="/public/"
+htprogcode="ht011"
+htprogprefix="bdinoinfo" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+
+
+
+
+
+
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+sub xpcondition
+ if session("dcondition") <> "" then
+  fsql = fsql & " and " & session("dcondition")
+ end if
+end sub
+ 'session("ctnodeid") = request("ctnodeid")
+ sql = "select n.dcondition, u.*, u.ibasedsd, b.sbasetablename, r.pvxdmp from cattreenode as n left join ctunit as u on u.ctunitid=n.ctunitid" _
+  & " left join basedsd as b on u.ibasedsd=b.ibasedsd" _
+  & " left join cattreeroot as r on r.ctrootid=n.ctrootid" _
+  & " where n.ctnodeid=" & pkstr(session("ctnodeid"),"")
+ 'response.write sql
+ 'response.end
+
+ set rs = conn.execute(sql)
+ session("dcondition") = rs("dcondition") 
+ session("ctunitid") = rs("ctunitid")
+ session("ibasedsd") = rs("ibasedsd")
+ session("fctunitonly") = rs("fctunitonly")
+ session("pvxdmp") = rs("pvxdmp")
+ 
+ if isnull(rs("sbasetablename")) then
+  session("sbasetablename") = "cudtx" & session("ibasedsd")
+ else
+  session("sbasetablename") = rs("sbasetablename")
+ end if
+ session("checkyn") = rs("checkyn") 
+ if rs("ctunitkind")<>"u"  and trim(rs("ibasedsd") & " ")<>"" and not isnull(rs("ctunitid")) and session("ctunitid")<>"" then
+
+  'session("codeid")=request.querystring("ibasedsd")
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true  
+
+     set fso = server.createobject("scripting.filesystemobject")
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctnodex" & session("ctnodeid") & ".xml")
+  if not fso.fileexists(loadxml) then
+   loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx" & cstr(session("ctunitid")) & ".xml")
+   if not fso.fileexists(loadxml) then
+    loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/cudtx" & session("ibasedsd") & ".xml")
+   end if
+  end if
+
+  xv = htpagedom.load(loadxml)
+
+    if htpagedom.parseerror.reason <> "" then 
+       response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+       response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+       response.end()
+    end if
+  set root = htpagedom.selectsinglenode("dataschemadef")  
+  '----load xsl樣板
+  set oxsl = server.createobject("microsoft.xmldom")
+     oxsl.async = false
+     xv = oxsl.load(server.mappath("/gipdsd/xmlspec/ctunitxorder.xsl"))     
+  
+  set xdsdnode = htpagedom.selectsinglenode("dataschemadef/dstable[tablename='"&session("sbasetablename")&"']")    
+  set xdsdnode = htpagedom.selectsinglenode("dataschemadef/dstable")    
+
+  set dsdnode = htpagedom.selectsinglenode("dataschemadef/dstable[tablename='"&session("sbasetablename")&"']").clonenode(true)    
+     set dsdnodexml = server.createobject("microsoft.xmldom")
+      dsdnodexml.appendchild dsdnode
+     set nxml = server.createobject("microsoft.xmldom")
+      nxml.loadxml(dsdnodexml.transformnode(oxsl))
+     set nxmlnewnode = nxml.documentelement    
+      dsdnode.replacechild nxmlnewnode,dsdnode.selectsinglenode("fieldlist")
+      root.replacechild dsdnode,root.selectsinglenode("dstable[tablename='"&session("sbasetablename")&"']")
+     '----複製cudtgeneric的dstable,並依順序轉換
+     set genericnode = htpagedom.selectsinglenode("dataschemadef/dstable[tablename='cudtgeneric']").clonenode(true)    
+     set genericnodexml = server.createobject("microsoft.xmldom")
+      genericnodexml.appendchild genericnode
+     set nxml2 = server.createobject("microsoft.xmldom")
+      nxml2.loadxml(genericnodexml.transformnode(oxsl))
+     set nxmlnewnode2 = nxml2.documentelement    
+      genericnode.replacechild nxmlnewnode2,genericnode.selectsinglenode("fieldlist")
+      root.replacechild genericnode,root.selectsinglenode("dstable[tablename='cudtgeneric']")        
+
+   ' set session("codexmlspec") = htpagedom
+    '----混合field順序
+  set nxml0 = server.createobject("microsoft.xmldom")
+  nxml0.loadxml(htpagedom.transformnode(oxsl))
+ ' set session("codexmlspec2") = nxml0
+
+  'response.write "<xmp>"+htpagedom.xml+"</xmp>" 
+  'response.write "<xmp>"+nxml0.xml+"</xmp>" 
+  
+   ' set htpagedom = session("codexmlspec")
+   ' set allmodel2 = session("codexmlspec2")   
+  set allmodel2 = nxml0      
+    set refmodel = htpagedom.selectsinglenode("//dstable")
+    set allmodel = htpagedom.selectsinglenode("//dataschemadef")
+
+  xselect = " htx.*, ghtx.*"
+  xfrom = nulltext(refmodel.selectsinglenode("tablename")) & " as htx " _
+    & " join cudtgeneric as ghtx on ghtx.icuitem=htx.gicuitem "
+  xrcount = 0
+  for each param in refmodel.selectnodes("fieldlist/field[showlist!='' and reflookup!='' and inputtype!='refcheckbox'and inputtype!='refcheckboxother']")
+   xrcount = xrcount + 1
+   xalias = "xref" & xrcount
+   sql="select * from codemetadef where codeid=n'" & param.selectsinglenode("reflookup").text & "'"
+
+   set rslk=conn.execute(sql)  
+   xafldname = xalias & param.selectsinglenode("fieldname").text
+   xselect = xselect & ", " & xalias & "." & rslk("codedisplayfld") & " as " & xafldname
+   xfrom = "(" & xfrom & " left join " & rslk("codetblname") & " as " & xalias & " on " _
+    & xalias & "." & rslk("codevaluefld") & " = htx." & param.selectsinglenode("fieldname").text
+   if not isnull(rslk("codesrcfld")) then _
+    xfrom = xfrom & " and " & xalias & "." & rslk("codesrcfld") & "=n'" & rslk("codesrcitem") & "'"
+   xfrom = xfrom & ")"
+  next
+  'for each param in allmodel.selectnodes("//dstable[tablename='cudtgeneric']/fieldlist/field[showlist!='' and reflookup!='']")
+   'response.write param.xml & "<hr>" & vbcrlf
+  'next
+
+  for each param in allmodel.selectnodes("//dstable[tablename='cudtgeneric']/fieldlist/field[showlist!='' and reflookup!='' and inputtype!='refcheckbox'and inputtype!='refcheckboxother']")
+   xrcount = xrcount + 1
+   xalias = "xref" & xrcount
+   if nulltext(param.selectsinglenode("fieldname"))="fctupublic" and session("checkyn")="y" then
+    param.selectsinglenode("reflookup").text = "ispublic3"
+    sql="select * from codemetadef where codeid=n'" & param.selectsinglenode("reflookup").text & "'"  
+    param.selectsinglenode("reflookup").text = "ispublic" 
+   else
+    sql="select * from codemetadef where codeid=n'" & param.selectsinglenode("reflookup").text & "'"  
+   end if  
+   set rslk=conn.execute(sql)  
+   xafldname = xalias & param.selectsinglenode("fieldname").text
+   xselect = xselect & ", " & xalias & "." & rslk("codedisplayfld") & " as " & xafldname
+   xfrom = "(" & xfrom & " left join " & rslk("codetblname") & " as " & xalias & " on " _
+    & xalias & "." & rslk("codevaluefld") & " = ghtx." & param.selectsinglenode("fieldname").text
+   if not isnull(rslk("codesrcfld")) then _
+    xfrom = xfrom & " and " & xalias & "." & rslk("codesrcfld") & "=n'" & rslk("codesrcitem") & "'"
+   xfrom = xfrom & ")"
+  next
+
+  fsql = " from " & xfrom 
+  fsql = fsql & " where 2=2 "
+  if (htprogright and 64) = 0 then
+   fsql = fsql & " and ghtx.idept like '" & session("deptid") & "%' "
+  end if
+  if session("fctunitonly")="y" then fsql = fsql & " and ghtx.ictunit=" & session("ctunitid") & " "
+  if nulltext(refmodel.selectsinglenode("wherelist")) <> "" then _
+   fsql = fsql & " and " & refmodel.selectsinglenode("wherelist").text
+  xpcondition
+  session("basesql") = fsql
+  session("xselectsql") = xselect
+
+
+  fsql = session("basesql")
+  xselect = session("xselectsql")
+
+  if nulltext(allmodel.selectsinglenode("//showclientsqlorderby")) <> "" then
+   fsql = fsql & " " & nulltext(allmodel.selectsinglenode("//showclientsqlorderby"))
+  else
+   fsql = fsql & " order by ghtx.xpostdate"
+  end if
+  fsql = "select top 100 " & xselect & fsql
+
+  set rsreg = server.createobject("adodb.recordset")
+  'rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+  
+  'response.write "<p>" & fsql 
+  'response.end
+
+'----------hyweb gip db connection patch----------
+'  rsreg.open fsql,conn,3,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+  
+
+  while not rsreg.eof
+   
+   session("rss_method") = "insert"
+   session("rss_icuitem") = rsreg.fields(0)
+   posturl = "/ws/ws_rsspool.asp"
+   server.execute (posturl) 
+   
+   rsreg.movenext
+  wend
+ 
+ end if 
+ 

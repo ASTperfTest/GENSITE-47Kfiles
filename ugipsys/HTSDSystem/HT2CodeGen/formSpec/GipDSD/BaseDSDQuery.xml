@@ -1,0 +1,160 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<htPage>
+	<HTProgPrefix>BaseDSD</HTProgPrefix>
+	<HTProgCode>GE1T01</HTProgCode>
+	<HTProgPath>/GipDSD</HTProgPath>
+	<HTGenPattern>genQuery</HTGenPattern>
+	<htForm>
+		<formModel id="BaseDSDQuery">
+			<fieldList>
+				<tableName>BaseDSD</tableName>
+				<masterTable>Y</masterTable><field>
+					<fieldName>sBaseTableName</fieldName>
+					<fieldLabel>資料表名稱</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>30</dataLen>
+					<inputLen>30</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>readonly</inputType>
+					<fieldDesc>建立資料表時產生</fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+					<paramKind>value</paramKind>
+					<whereCondition>htx.sBaseTableName LIKE '%{0}%'</whereCondition>
+				</field>
+				<field>
+					<fieldName>sBaseDSDName</fieldName>
+					<fieldLabel>資料單元名稱</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>40</dataLen>
+					<inputLen>40</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+					<paramKind>value</paramKind>
+					<whereCondition>htx.sBaseDSDName LIKE '%{0}%'</whereCondition>
+				</field>
+				<field>
+					<fieldName>tDesc</fieldName>
+					<fieldLabel>說明</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>300</dataLen>
+					<inputLen>300</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows>5</rows>
+					<cols>60</cols>
+					<paramKind>value</paramKind>
+					<whereCondition>htx.tDesc LIKE '%{0}%'</whereCondition>
+				</field>
+				<field>
+					<fieldName>rDSDCat</fieldName>
+					<fieldLabel>資料單元類別</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>refDSDCat</refLookup>
+					<rows></rows>
+					<cols></cols>
+					<paramKind>value</paramKind>
+					<whereCondition>htx.rDSDCat LIKE '%{0}%'</whereCondition>
+				</field>
+				<field>
+					<fieldName>inUse</fieldName>
+					<fieldLabel>是否生效</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>boolYN</refLookup>
+					<rows></rows>
+					<cols></cols>
+					<paramKind>value</paramKind>
+					<whereCondition>htx.inUse LIKE '%{0}%'</whereCondition>
+				</field>
+			</fieldList>
+			<anchorList>
+				<anchor>
+					<type></type>
+					<funcLabel></funcLabel>
+					<url></url>
+					<action></action>
+				</anchor>
+			</anchorList>
+		</formModel>
+	</htForm>
+	<pageSpec>
+		<pageHead>單元資料定義</pageHead>
+		<pageFunction>查詢</pageFunction>
+		<aidLinkList>
+			<Anchor>
+				<AnchorLabel>新增</AnchorLabel>
+				<AnchorType>A</AnchorType>
+				<AnchorDesc>新增</AnchorDesc>
+				<AnchorURI>BaseDSDAdd.asp</AnchorURI>
+				<checkRight>4</checkRight>
+				<AnchorPos>Top</AnchorPos>
+				<AnchorWPK></AnchorWPK>
+			</Anchor>
+			<Anchor>
+				<AnchorLabel>回前頁</AnchorLabel>
+				<AnchorType>Back</AnchorType>
+				<AnchorDesc>回前頁</AnchorDesc>
+				<AnchorURI></AnchorURI>
+				<checkRight></checkRight>
+				<AnchorPos>Top</AnchorPos>
+			</Anchor>
+		</aidLinkList>
+		<formUI ref="BaseDSDQuery">
+			<pxHTML>
+				<CENTER>
+					<TABLE border="0" class="eTable" cellspacing="1" cellpadding="2" width="90%">
+						<TR><TD class="eTableLable" align="right">資料表名稱：</TD>
+							<TD class="eTableContent"><refField>BaseDSD/sBaseTableName</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">資料單元名稱：</TD>
+							<TD class="eTableContent"><refField>BaseDSD/sBaseDSDName</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">說明：</TD>
+							<TD class="eTableContent"><refField>BaseDSD/tDesc</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">資料單元類別：</TD>
+							<TD class="eTableContent"><refField>BaseDSD/rDSDCat</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">是否生效：</TD>
+							<TD class="eTableContent"><refField>BaseDSD/inUse</refField></TD>
+						</TR>
+					</TABLE>
+				</CENTER>
+			</pxHTML>
+			<scriptCode><![CDATA[
+<SCRIPT LANGUAGE="vbs">
+
+</SCRIPT>
+		]]></scriptCode>
+		</formUI>
+		<UINotes>
+		</UINotes>
+	</pageSpec>
+</htPage>

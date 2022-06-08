@@ -1,0 +1,275 @@
+﻿[2009-04-20 12:56:12]: GIP db connection patch start!!
+[2009-04-20 12:56:13]: 程式更新!!
+檔案名稱:D:\hyweb\GENSITE\project\sys\ws\lawVerID.asp
+==========以下為更新前內容==========
+	conn.Open session("ODBCDSN")
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'	conn.Open session("ODBCDSN")
+Set conn = Server.CreateObject("HyWebDB3.dbExecute")
+conn.ConnectionString = session("ODBCDSN")
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+[2009-04-20 12:56:13]: 程式更新!!
+檔案名稱:D:\hyweb\GENSITE\project\sys\wsxd\xdCP.asp
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+[2009-04-20 12:56:13]: 程式更新!!
+檔案名稱:D:\hyweb\GENSITE\project\sys\wsxd\xdFP.asp
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+[2009-04-20 12:56:13]: 程式更新!!
+檔案名稱:D:\hyweb\GENSITE\project\sys\wsxd\xdLP.asp
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+[2009-04-20 12:56:13]: 程式更新!!
+檔案名稱:D:\hyweb\GENSITE\project\sys\wsxd2\Search\SearchResultList.asp
+[2009-04-20 12:56:14]: 程式更新!!
+檔案名稱:D:\hyweb\GENSITE\project\sys\wsxd2\Search\[1]SearchResultList.asp
+[2009-04-20 12:56:14]: 程式更新!!
+檔案名稱:D:\hyweb\GENSITE\project\sys\wsxd2\RSS_newsub_article.asp
+==========以下為更新前內容==========
+	Conn.Open session("ODBCDSN")
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'	Conn.Open session("ODBCDSN")
+Set Conn = Server.CreateObject("HyWebDB3.dbExecute")
+Conn.ConnectionString = session("ODBCDSN")
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+[2009-04-20 12:56:14]: 程式更新!!
+檔案名稱:D:\hyweb\GENSITE\project\sys\wsxd2\xdCP.asp
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+[2009-04-20 12:56:14]: 程式更新!!
+檔案名稱:D:\hyweb\GENSITE\project\sys\wsxd2\xdCP2.asp
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+[2009-04-20 12:56:14]: 程式更新!!
+檔案名稱:D:\hyweb\GENSITE\project\sys\wsxd2\xdLP.asp
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+==========以下為更新前內容==========
+rsw.Open sc,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'rsw.Open sc,Conn,3,1
+Set rsw = Conn.execute(sc)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+[2009-04-20 12:56:14]: 程式更新!!
+檔案名稱:D:\hyweb\GENSITE\project\sys\wsxd2\xdLP2.asp
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+==========以下為更新前內容==========
+rsw.Open sc,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'rsw.Open sc,Conn,3,1
+Set rsw = Conn.execute(sc)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+[2009-04-20 12:56:14]: 程式更新!!
+檔案名稱:D:\hyweb\GENSITE\project\sys\wsxd2\xdLP3_bp.asp
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+==========以下為更新前內容==========
+rsw.Open sc,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'rsw.Open sc,Conn,3,1
+Set rsw = Conn.execute(sc)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+[2009-04-20 12:56:14]: 程式更新!!
+檔案名稱:D:\hyweb\GENSITE\project\sys\wsxd2\xdOPML.asp
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+[2009-04-20 12:56:14]: 程式更新!!
+檔案名稱:D:\hyweb\GENSITE\project\sys\wsxd2\複製20090408 -xdLP.asp
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+==========以下為更新前內容==========
+rsw.Open sc,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'rsw.Open sc,Conn,3,1
+Set rsw = Conn.execute(sc)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+[2009-04-20 12:56:14]: 程式更新!!
+檔案名稱:D:\hyweb\GENSITE\project\sys\wsxd2\複製20090420 -xdCP2.asp
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+[2009-04-20 12:56:14]: 程式更新!!
+檔案名稱:D:\hyweb\GENSITE\project\sys\wsxd2\複製_20090218 xdCP2.asp
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+==========以下為更新前內容==========
+RSreg.Open fSql,Conn,3,1
+==========以下為更新後內容==========
+
+'----------HyWeb GIP DB CONNECTION PATCH----------
+'RSreg.Open fSql,Conn,3,1
+Set RSreg = Conn.execute(fSql)
+	RSreg.CacheSize = PerPageSize
+'----------HyWeb GIP DB CONNECTION PATCH----------
+
+[2009-04-20 12:56:14]: 總共找了145支程式, 修改了16支程式
+[2009-04-20 12:56:14]: GIP db connection patch stop!!

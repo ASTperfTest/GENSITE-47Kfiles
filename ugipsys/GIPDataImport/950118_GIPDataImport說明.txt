@@ -1,0 +1,64 @@
+'----950118行政院兒童網資料轉檔(主題單元對主題單元)接收方
+
+**請先確認匯出與匯入網站二者主題單元的DTD/DSD xml檔與DB schema是相同的
+
+0.資料庫新增二個表(Script在SQL Query Analyzer中執行)
+  --新增GIPDataImport表
+	if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[GIPDataImport]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	drop table [dbo].[GIPDataImport]
+	GO
+	
+	CREATE TABLE [dbo].[GIPDataImport] (
+		[TID] [int] IDENTITY (1, 1) NOT NULL ,
+		[XMLFile] [nvarchar] (100) NULL ,
+		[XMLEditor] [nvarchar] (50) NULL ,
+		[XMLDate] [datetime] NULL ,
+		[XMLCtUnitID] [int] NULL ,
+		[XMLSuccess] [int] NULL ,
+		[XMLFail] [int] NULL 
+	) ON [PRIMARY]
+	GO
+	
+	ALTER TABLE [dbo].[GIPDataImport] WITH NOCHECK ADD 
+		CONSTRAINT [PK_GIPDataImport] PRIMARY KEY  CLUSTERED 
+		(
+			[TID]
+		)  ON [PRIMARY] 
+	GO
+  
+  --新增GIPDataImportDetail表
+	if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[GIPDataImportDetail]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	drop table [dbo].[GIPDataImportDetail]
+	GO
+	
+	CREATE TABLE [dbo].[GIPDataImportDetail] (
+		[TID] [int] NOT NULL ,
+		[iCuItem] [int] NOT NULL 
+	) ON [PRIMARY]
+	GO
+	
+	ALTER TABLE [dbo].[GIPDataImportDetail] WITH NOCHECK ADD 
+		CONSTRAINT [PK_GIPDataImportDetail] PRIMARY KEY  CLUSTERED 
+		(
+			[TID],
+			[iCuItem]
+		)  ON [PRIMARY] 
+	GO
+	
+1.複製程式GIPDataImport資料夾到後台根目錄下
+2.將匯出網站的資料與圖檔附件GIPDataXML資料夾,複製到GIPDataImport資料夾下
+3.site/[siteID]/public下新增GIPDataXML資料夾.其下再新增INXML與Log資料夾(IUser的寫入與修改權限打開)
+  將GIPDataImport/GIPDataXML/OUTXML中的所有xml, 複製到site/[siteID]/public/GIPDataXML/INXML
+4.登入後台取得各session值後,於上方網址列執行
+	http://xxx.xx.gov.tw/GIPDataImport/GIPDataImport.asp
+	
+	.點選[資料範本定義]欄位
+	.點選[主題單元]
+	.填入匯入XML檔名稱
+	.選擇匯入方式
+	 --覆寫(Overwrite,將先刪除原相同檔案匯入此主題單元中的資料/圖檔附件,然後再新增)
+	 --接續新增(Append,原相同檔案匯入此主題單元中的資料/圖檔附件不刪除,直接新增)
+	 --預設為覆寫,即每次匯入時會將此匯入檔案原先匯入的資料/圖檔附件先行刪除
+	 **不論覆寫或接續新增,皆不會刪除這個主題單元手動上稿的部分
+	.按[下一步]按鈕  
+5.確認後匯入

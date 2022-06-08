@@ -1,0 +1,95 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid=n'visitgroup' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid=n'bonoff' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+  
+ sqlcom ="select d.deptid,d.deptname,d.parent,len(d.deptid)-1,d.seq," & _
+  "(select count(*) from dept where parent=d.deptid and nodekind='d') " & _
+  "  from dept as d where d.nodekind='d' " _
+  & " and d.deptid like n'" & session("deptid") & "%'" _
+  & " order by len(d.deptid), d.parent, d.seq" 
+'response.write sqlcom
+ set rss = conn.execute(sqlcom)
+ if not rss.eof then
+  arydept = rss.getrows(300)
+  glastmsglevel = 0
+  genlist 0, 0, 1, 0
+         expandfrom arydept(cid, 0), 0, 0
+ end if
+
+
+
+
+
+
+
+
+
+  if formfunction = "query" then 
+          if (htprogright and 2) <> 0 then 
+
+
+          end if
+  elseif formfunction = "edit" then 
+          if (htprogright and 8) <> 0 then 
+
+           end if 
+
+          if (htprogright and 16) <> 0 then 
+
+         end if 
+
+
+
+   else '-- add ---
+            if (htprogright and 4)<>0 then 
+
+            end if
+
+            if (htprogright and 4)<>0  then 
+
+            end if
+
+   end if  

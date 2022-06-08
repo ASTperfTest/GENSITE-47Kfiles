@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data>
+	<application>
+		<game_speed>1440</game_speed>
+		<time_delta>0</time_delta>
+		<auto_save>1</auto_save>
+		<auto_save_interval>30</auto_save_interval>
+		<data_update_interval>1</data_update_interval>
+		<starting_money>50</starting_money>
+		<salt_string>hello i am eddie</salt_string>
+	</application>
+	<price>
+		<bucket>3</bucket>
+		<nitrosomana>25</nitrosomana>
+		<injector>15</injector>
+		<methyleneblue>12</methyleneblue>
+		<uvlight>13</uvlight>
+		<algae>4</algae>
+		<rotifera>7</rotifera>
+		<shrimp>6</shrimp>
+	</price>
+	<fishes>
+		<anemone>
+			<is_available>0</is_available>
+			<fish_money>250</fish_money>
+		</anemone>
+		<bream>
+			<is_available>1</is_available>
+			<fish_money>250</fish_money>
+		</bream>
+		<clownfish>
+			<is_available>1</is_available>
+			<fish_money>400</fish_money>
+		</clownfish>
+		<hippocampus>
+			<is_available>0</is_available>
+			<fish_money>400</fish_money>
+		</hippocampus>
+	</fishes>
+</data>

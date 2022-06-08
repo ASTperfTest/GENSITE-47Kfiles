@@ -1,0 +1,396 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+response.charset="utf-8"
+htprogcap="多媒體物件選取"
+htprogfunc="查詢"
+htprogcode="gc1ap1"
+htprogprefix="cummo" 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+function mmopathstr(mmofolderid) '----940407 mmo路徑字串
+ sql = "select mm.mmositeid,mmofolderparent,case mmofolderparent when 'zzz' then mmositename else mmofoldernameshow end mmofoldernameshow " & _ 
+  "from mmofolder mm left join mmosite ms on mm.mmositeid=ms.mmositeid where mmofolderid=" & mmofolderid
+ set rsn = conn.execute(sql)
+ xparent = rsn("mmofolderparent")
+ xpathstr = rsn("mmofoldernameshow")
+ xmmositeid = rsn("mmositeid")
+ while xparent <> "zzz"
+  sql = "select mm.mmositeid,mmofolderparent,case mmofolderparent when 'zzz' then mmositename else mmofoldernameshow end mmofoldernameshow " & _ 
+   "from mmofolder mm left join mmosite ms on mm.mmositeid=ms.mmositeid where mm.mmositeid=" & pkstr(xmmositeid,"") & " and mmofoldername=" & pkstr(xparent,"")
+  set rs = conn.execute(sql)
+  xpathstr = rs("mmofoldernameshow") & " / " & xpathstr
+  xparent = rs("mmofolderparent")
+  xmmositeid = rsn("mmositeid")
+ wend
+ mmopathstr = xpathstr
+end function
+
+
+'----預設顯示圖示陣列
+dim iconarray(3,1)
+iconarray(0,0)="xxx":iconarray(0,1)="_audio"
+iconarray(1,0)="wav":iconarray(1,1)="_flash"
+iconarray(2,0)="zzz":iconarray(2,1)="_midi"
+iconarray(3,0)="yyy":iconarray(3,1)="_video"
+
+xmmoitemcount = 0
+imgpos=request("imgpos")
+ 
+if request("submittask")="list" then
+ sqlm="select mmositeid+mmofoldername as mmofolderid from mmofolder where mmofolderid=" & request("htx_mmofolderid")
+ set rsm=conn.execute(sqlm)
+ sqlm2="select sbasetablename " & _
+  "from ctunit c left join basedsd b on c.ibasedsd=b.ibasedsd " & _
+  "where c.ctunitid=" & request("htx_ctunitid")
+ set rsm2=conn.execute(sqlm2)
+ if not rsm.eof then xmmofolderid=rsm("mmofolderid")
+ fsql = "select htx.icuitem,htx.stitle,htx.created_date,c9.*, " & _
+  "htx.ieditor,htx.deditdate,xref1.mvalue,xref1.htmltag,mm.mmofoldername,mm.mmositeid,ms.uploadsitehttp " & _
+  "from "&rsm2("sbasetablename")&" c9 " & _
+  "left join cudtgeneric htx on htx.icuitem=c9.gicuitem " & _
+  "left join mmofiletype as xref1 on xref1.mcode = c9.mmofiletype " & _
+  "left join mmofolder mm on c9.mmofolderid=mm.mmofolderid " & _
+  "left join mmosite ms on mm.mmositeid=ms.mmositeid " & _
+  "left join ctunit c on htx.ictunit=c.ctunitid " & _
+  "where c9.mmofilename is not null and mm.mmofoldername is not null "
+ if request("htx_xkeyword")<>"" then
+  fsql=fsql&" and xkeyword like '%"+request("htx_xkeyword")+"%'"
+  xkeyword=request("htx_xkeyword")
+ end if
+ if request("htx_mmofilename")<>"" then
+  fsql=fsql&" and c9.mmofilename like '%"+request("htx_mmofilename")+"%'"
+  xmmofilename=request("htx_mmofilename")
+ end if
+ if request("htx_ctunitid")<>"" then
+  fsql=fsql&" and ictunit = "+request("htx_ctunitid")
+  xctunitid=request("htx_ctunitid")
+ end if 
+ if request("htx_mmofolderid")<>"" then
+  fsql=fsql&" and case mmofoldername when 'zzz' then mmofoldername else mm.mmositeid + mmofoldername end like '"&xmmofolderid&"%' "
+  xmmofolderid=request("htx_mmofolderid")
+ end if 
+ if request("htx_filetype")<>"" then
+  fsql=fsql&" and mmofiletype like '"+request("htx_filetype")+"%'"
+  xfiletype=request("htx_filetype")
+ end if 
+ if request("htx_idates") <> "" then
+   ranges = request("htx_idates")
+   rangee = request("htx_idatee")
+   if rangee = "" then rangee=ranges
+  fsql = fsql & " and htx.created_date between '"+ranges+"' and '"+rangee+"'"
+ end if
+ fsql=fsql&" order by ictunit,mm.mmofolderid"
+'response.write fsql
+'response.end 
+ set rsreg=conn.execute(fsql)
+end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        =request.querystring("imgpos")
+
+
+
+
+
+
+
+
+    sql="select ctunitid,ctunitname from ctunit ct left join basedsd b on ct.ibasedsd=b.ibasedsd where rdsdcat='mmo'"
+  set rss=conn.execute(sql)
+  while not rss.eof
+
+                   =rss(0):     =rss(1)
+     rss.movenext
+  wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     sql="select mcode,mvalue from mmofiletype order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if request("submittask")="list" then
+
+
+
+   if request("listway")="icon" then
+
+
+
+
+   else
+
+
+
+
+   end if
+
+       
+    if request("listway")="icon" then
+     if not rsreg.eof then
+
+         
+         while not rsreg.eof
+  xmmoitemcount = xmmoitemcount + 1
+  if not isnull(rsreg("uploadsitehttp")) then
+   httpstr=rsreg("uploadsitehttp")
+   if right(httpstr,1)<>"/" then httpstr = httpstr & "/" 
+   httpstr=httpstr+rsreg("mmositeid")+rsreg("mmofoldername")+"/"+rsreg("mmofilename")
+  else
+   httpstr=session("mmopublic")+rsreg("mmositeid")+rsreg("mmofoldername")+"/"+rsreg("mmofilename")
+  end if
+  if not isnull(rsreg("htmltag")) then  
+   xhtmltag=rsreg("htmltag")
+   xhtmltag=replace(xhtmltag,"{mmopathstr}",httpstr)
+   xhtmltag=replace(xhtmltag,"{mmoaltstr}",rsreg("stitle"))
+   if not isnull(rsreg("mmofileheight")) then 
+    xhtmltag=replace(xhtmltag,"{mmoheightstr}","height='"&rsreg("mmofileheight")&"'")
+   else
+    xhtmltag=replace(xhtmltag,"{mmoheightstr}","")  
+   end if
+   if not isnull(rsreg("mmofilewidth")) then 
+    xhtmltag=replace(xhtmltag,"{mmowidthstr}","width='"&rsreg("mmofilewidth")&"'")
+   else
+    xhtmltag=replace(xhtmltag,"{mmowidthstr}","")
+   end if
+   xhtmltag=replace(xhtmltag,"{mmoidstr}",rsreg("icuitem"))  
+  else
+   xhtmltag=""
+  end if   
+      if j>=5 then
+       response.write "</tr><tr>"
+       j=0
+      end if
+        xfiletype=lcase(mid(rsreg("mmofilename"), instrrev(rsreg("mmofilename"), ".")+1))              
+
+
+
+          if not isnull(rsreg("mmofilename")) then
+
+            if not isnull(rsreg("mmofileicon")) then
+                                                                =session("mmopublic"):   =rsreg("mmositeid"):   =rsreg("mmofoldername"):    =rsreg("mmofileicon")
+            else
+           xfileext="":xicon=""
+           xpos=instrrev(rsreg("mmofilename"),".")
+           if xpos<>0 then
+               xfileext=mid(rsreg("mmofilename"),xpos+1)
+               for k=0 to ubound(iconarray)
+                if xfileext=iconarray(k,0) then
+                    xicon=iconarray(k,1)
+                    exit for
+                end if
+               next
+           end if
+          
+                                                                     =xicon
+            end if
+                                       =xhtmltag:                                  =rsreg("mmofilename")
+
+          else
+
+          end if
+
+
+       j=j+1         
+      rsreg.movenext     
+     wend
+
+   end if 
+    else
+
+
+
+
+
+
+
+
+  
+     if not rsreg.eof then
+         while not rsreg.eof
+  xmmoitemcount = xmmoitemcount + 1
+  if not isnull(rsreg("uploadsitehttp")) then
+   httpstr=rsreg("uploadsitehttp")
+   if right(httpstr,1)<>"/" then httpstr = httpstr & "/" 
+   httpstr=httpstr+rsreg("mmositeid")+rsreg("mmofoldername")+"/"+rsreg("mmofilename")
+  else
+   httpstr=session("mmopublic")+rsreg("mmositeid")+rsreg("mmofoldername")+"/"+rsreg("mmofilename")
+  end if
+  if not isnull(rsreg("htmltag")) then    
+   xhtmltag=rsreg("htmltag")
+   xhtmltag=replace(xhtmltag,"{mmopathstr}",httpstr)
+   xhtmltag=replace(xhtmltag,"{mmoaltstr}",rsreg("stitle"))
+   if not isnull(rsreg("mmofileheight")) then 
+    xhtmltag=replace(xhtmltag,"{mmoheightstr}","height='"&rsreg("mmofileheight")&"'")
+   else
+    xhtmltag=replace(xhtmltag,"{mmoheightstr}","")  
+   end if
+   if not isnull(rsreg("mmofilewidth")) then 
+    xhtmltag=replace(xhtmltag,"{mmowidthstr}","width='"&rsreg("mmofilewidth")&"'")
+   else
+    xhtmltag=replace(xhtmltag,"{mmowidthstr}","")
+   end if
+   xhtmltag=replace(xhtmltag,"{mmoidstr}",rsreg("icuitem"))
+  else
+   xhtmltag=""
+  end if 
+
+
+
+                                   =xhtmltag
+
+          =rsreg("stitle")
+          =mmopathstr(rsreg("mmofolderid"))
+                         =rsreg("mmofilename")
+                         =rsreg("mvalue")
+                         =rsreg("deditdate")
+
+         rsreg.movenext
+     wend
+     end if
+    end if
+    
+
+
+
+  end if
+
+
+
+          =imgpos
+
+
+
+
+
+                    =xmmoitemcount
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      if request("submittask")="list" then
+                                   =xctunitid
+                                   =xfiletype
+                                      =xmmofilename
+                                   =xkeyword
+                                 =ranges
+                                       =d7date(ranges)
+                                 =rangee
+                                       =d7date(rangee)
+
+                                      =xmmofolderid
+      end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           =session("mysitemmourl")
+            =session("mysitemmourl") 

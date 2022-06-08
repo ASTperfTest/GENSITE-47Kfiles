@@ -1,0 +1,73 @@
+﻿: @ codepage = 65001 
+  
+'-----930506修改dsd
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+set fso = server.createobject("scripting.filesystemobject")
+
+xpath = "/site/"+session("mysiteid")+"/gipdsd/"
+set fldr = fso.getfolder(server.mappath(xpath))
+ 
+if fldr.files.count > 0 then
+    for each sf in fldr.files
+     if (left(sf.name,5)="cudtx" or left(sf.name,7)="ctunitx") and left(sf.name,12)<>"ctunitxorder" then
+'     if sf.name="cudtx4.xml" then
+'      on error resume next
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true             
+  loadxml = server.mappath(xpath+sf.name)             
+      xv = htpagedom.load(loadxml)
+    if htpagedom.parseerror.reason <> "" then 
+       response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+       response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+       response.end()
+    end if 
+  set root = htpagedom.selectsinglenode("dataschemadef")
+  set formclientcatnode = root.selectnodes("formclientcat")
+  if formclientcatnode.length = 0 then
+       set nxml0 = server.createobject("microsoft.xmldom")
+       nxml0.loadxml("<formclientcat></formclientcat>")
+       set newnode = nxml0.documentelement 
+       root.insertbefore newnode,root.childnodes.item(0)  
+  end if
+  set showclientsqlorderbynode = root.selectnodes("showclientsqlorderby")
+  if showclientsqlorderbynode.length = 0 then
+       set nxml0 = server.createobject("microsoft.xmldom")
+       nxml0.loadxml("<showclientsqlorderby></showclientsqlorderby>")
+       set newnode = nxml0.documentelement 
+       root.insertbefore newnode,root.childnodes.item(0)  
+  end if
+  set formclientstylenode = root.selectnodes("formclientstyle")
+  if formclientstylenode.length = 0 then
+       set nxml0 = server.createobject("microsoft.xmldom")
+       nxml0.loadxml("<formclientstyle>std</formclientstyle>")
+       set newnode = nxml0.documentelement 
+       root.insertbefore newnode,root.childnodes.item(0)  
+  end if
+  set showclientstylenode = root.selectnodes("showclientstyle")
+  if showclientstylenode.length = 0 then
+       set nxml0 = server.createobject("microsoft.xmldom")
+       nxml0.loadxml("<showclientstyle>std</showclientstyle>")
+       set newnode = nxml0.documentelement 
+       root.insertbefore newnode,root.childnodes.item(0)  
+  end if
+'----回存  
+   htpagedom.save(server.mappath(xpath+sf.name))
+   response.write sf.name+"<br>"
+    end if
+    next
+end if
+
+'response.write "<xmp>"+htpagedom.xml+"</xmp>"
+'response.end
+
+
+
+response.write "<br>done!"
+ 

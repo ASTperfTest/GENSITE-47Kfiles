@@ -1,0 +1,406 @@
+﻿: @  codepage="65001" 
+   
+response.expires = 0
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+htprogcode="news"
+htprogprefix="newsapprove" 
+
+kwtitle =request("kwtitle")
+subjectid = request("subjectid")
+validate  = request("validate")
+if validate="" then validate = "p"
+sort  = request("sort")
+if sort="" then sort = "title"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_checkgipconfig_1275316133()
+   CxMethod_ASP_dbutil_10064021()
+  
+set conn = server.createobject("adodb.connection")
+conn.connectionstring = session("odbcdsn")
+conn.cursorlocation = 3
+conn.open
+
+ dim pass : pass = request.querystring("pass")
+ dim notpass : notpass = request.querystring("notpass")
+ dim id : id = request.querystring("id")
+ dim memberid : memberid = session("userid")
+ 
+ if pass = "y" then
+  passarticle
+ elseif notpass = "y" then
+  notpassarticle
+ else 
+  dim subject, subjectarr
+  dim flag : flag = false
+  '---找出此user所管理的主題館---
+  sql = "select cattreeroot.ctrootid, cattreeroot.ctrootname " & _
+     "from nodeinfo inner join cattreeroot on nodeinfo.ctrootid = cattreeroot.ctrootid " & _
+     "where (nodeinfo.owner = " & pkstr(memberid, "") & " or exists(select userid from infouser where userid= " & pkstr(memberid, "") & " and charindex('sysadm',ugrpid) > 0))"
+  set rs = conn.execute(sql)
+  while not rs.eof 
+   flag = true
+   subject = subject & rs("ctrootid") & ","
+   rs.movenext
+  wend
+  if flag then
+   showform
+  else 
+   showdonebox "無權限", "false"
+  end if
+ end if
+
+  
+sub passarticle
+ dim items : items = left(id, len(id) - 1)
+ sql = "update cudtgeneric set fctupublic = 'y', xabstract=" & pkstr(memberid, "") & " where icuitem in (" & items & ")"
+ conn.execute(sql)
+ showdonebox "審核通過", "true"
+end sub
+
+  
+sub notpassarticle
+ dim items : items = left(id, len(id) - 1)
+ sql = "delete from cudtgeneric where icuitem in (" & items & ")"
+ conn.execute(sql)
+ showdonebox "審核不通過", "true"
+end sub
+
+   sub showdonebox(lmsg, btype) 
+
+
+
+
+                                   =htprogprefix
+
+
+
+
+
+            =lmsg
+     if btype = "true" then 
+                                                         =request("nowpage"):             =request("pagesize"):              =subjectid :             =validate :         =sort :            =server.urlencode(kwtitle)
+     else 
+
+     end if 
+
+
+
+
+
+   end sub 
+   
+sub showform 
+
+ csql = "select count(*) from cudtgeneric inner join ctunit on cudtgeneric.ictunit = ctunit.ctunitid " & _
+     "inner join cattreeroot inner join nodeinfo on nodeinfo.ctrootid = cattreeroot.ctrootid " & _
+     "inner join knowledgetosubject on cattreeroot.ctrootid = knowledgetosubject.subjectid " & _
+     "inner join cattreenode on knowledgetosubject.ctnodeid = cattreenode.ctnodeid on ctunit.ctunitid = cattreenode.ctunitid " & _
+     "where (nodeinfo.owner = " & pkstr(memberid, "") & " or exists(select userid from infouser where userid= " & pkstr(memberid, "") & " and charindex('sysadm',ugrpid) > 0)) and (knowledgetosubject.status = 'y') and (cudtgeneric.fctupublic = 'p')"
+'//(nodeinfo.owner = " & pkstr(memberid, "") & ") and
+
+
+ fsql = "select cattreeroot.ctrootname, cattreeroot.pvxdmp, cudtgeneric.icuitem, cudtgeneric.stitle, knowledgetosubject.ctnodeid, " & _
+     "cudtgeneric.xurl, cudtgeneric.showtype, ctunit.ctunitname, convert(varchar,cudtgeneric.xpostdate,111) as xpostdate " & _
+     "from cudtgeneric inner join ctunit on cudtgeneric.ictunit = ctunit.ctunitid " & _
+     "inner join cattreeroot inner join nodeinfo on nodeinfo.ctrootid = cattreeroot.ctrootid " & _
+     "inner join knowledgetosubject on cattreeroot.ctrootid = knowledgetosubject.subjectid " & _
+     "inner join cattreenode on knowledgetosubject.ctnodeid = cattreenode.ctnodeid on ctunit.ctunitid = cattreenode.ctunitid " & _
+     "where (nodeinfo.owner = " & pkstr(memberid, "") & " or exists(select userid from infouser where userid= " & pkstr(memberid, "") & " and charindex('sysadm',ugrpid) > 0)) and (knowledgetosubject.status = 'y') " & _
+     "and (cudtgeneric.fctupublic = 'p') order by cudtgeneric.stitle, cudtgeneric.xpostdate,cattreeroot.ctrootname desc "
+'//(nodeinfo.owner = " & pkstr(memberid, "") & ") and  
+
+
+fsql =""
+fsql = fsql & vbcrlf & "declare @user nvarchar(50)"
+fsql = fsql & vbcrlf & "set @user = " & pkstr(memberid, "")
+fsql = fsql & vbcrlf & "select "
+fsql = fsql & vbcrlf & "  cattreeroot.ctrootname"
+fsql = fsql & vbcrlf & " , cattreeroot.pvxdmp"
+fsql = fsql & vbcrlf & " , cudtgeneric.icuitem"
+fsql = fsql & vbcrlf & " , cudtgeneric.stitle"
+fsql = fsql & vbcrlf & " , knowledgetosubject.ctnodeid"
+fsql = fsql & vbcrlf & " , isnull((select username from infouser where userid=cudtgeneric.xabstract),'') as signer"
+fsql = fsql & vbcrlf & " , cudtgeneric.xurl"
+fsql = fsql & vbcrlf & " , cudtgeneric.showtype"
+fsql = fsql & vbcrlf & " , cudtgeneric.fctupublic"
+fsql = fsql & vbcrlf & " , ctunit.ctunitname"
+fsql = fsql & vbcrlf & " , convert(varchar,cudtgeneric.xpostdate,111) as xpostdate "
+fsql = fsql & vbcrlf & "from cudtgeneric "
+fsql = fsql & vbcrlf & "inner join ctunit on cudtgeneric.ictunit = ctunit.ctunitid "
+fsql = fsql & vbcrlf & "inner join cattreeroot "
+fsql = fsql & vbcrlf & "inner join nodeinfo on nodeinfo.ctrootid = cattreeroot.ctrootid "
+fsql = fsql & vbcrlf & "inner join knowledgetosubject on cattreeroot.ctrootid = knowledgetosubject.subjectid "
+fsql = fsql & vbcrlf & "inner join cattreenode on knowledgetosubject.ctnodeid = cattreenode.ctnodeid on ctunit.ctunitid = cattreenode.ctunitid "
+fsql = fsql & vbcrlf & "where "
+fsql = fsql & vbcrlf & " (nodeinfo.owner = @user or exists(select userid from infouser where userid= @user and charindex('sysadm',ugrpid) > 0)) "
+fsql = fsql & vbcrlf & "and (knowledgetosubject.status = 'y') "
+if kwtitle <>"" then
+    fsql = fsql & vbcrlf & "and (cudtgeneric.stitle like '%' + " & pkstr(kwtitle, "") & " + '%') "
+else
+    if validate <> "" then
+        fsql = fsql & vbcrlf & "and (cudtgeneric.fctupublic = '"& validate &"') "
+    end if
+    if subjectid <> "" then
+        fsql = fsql & vbcrlf & "and (knowledgetosubject.subjectid = '" & subjectid & "') "
+    end if
+end if
+select case sort
+    case "title"
+        fsql = fsql & vbcrlf & "order by cudtgeneric.stitle, cudtgeneric.xpostdate,cattreeroot.ctrootname desc "
+    case "subject"
+        fsql = fsql & vbcrlf & "order by cattreeroot.ctrootname desc ,cudtgeneric.stitle, cudtgeneric.xpostdate"
+    case "date"
+        fsql = fsql & vbcrlf & "order by cudtgeneric.xpostdate, cudtgeneric.stitle, cattreeroot.ctrootname desc "
+end select
+if isnumeric(request("pagesize")) then
+    perpagesize = cint(request("pagesize"))
+    if perpagesize <= 0 then  perpagesize = 15  
+else
+    perpagesize = 15  
+end if 
+ 
+
+nowpage = request("nowpage")  '現在頁數
+if not isnumeric(nowpage) then nowpage=1
+if nowpage<=0 then nowpage=1  
+
+set rsreg = server.createobject("adodb.recordset")
+'----------hyweb gip db connection patch----------
+ 
+    set rsreg = conn.execute(fsql)
+'----------hyweb gip db connection patch----------
+
+
+
+    totpage=0
+    rsreg.pagesize = perpagesize
+    totrec = rsreg.recordcount
+ if not rsreg.eof then
+     if cint(nowpage)>rsreg.pagecount then nowpage=rsreg.pagecount                     
+        rsreg.absolutepage = nowpage
+        totpage = rsreg.pagecount
+ end if   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+fsql = ""
+fsql = fsql & vbcrlf & "declare @user nvarchar(50)"
+fsql = fsql & vbcrlf & "set @user = "& pkstr(memberid, "")
+fsql = fsql & vbcrlf & "select distinct"
+fsql = fsql & vbcrlf & "  cattreeroot.ctrootid"
+fsql = fsql & vbcrlf & " ,cattreeroot.ctrootname"
+fsql = fsql & vbcrlf & "from nodeinfo"
+fsql = fsql & vbcrlf & "inner join cattreeroot on nodeinfo.ctrootid = cattreeroot.ctrootid "
+fsql = fsql & vbcrlf & "inner join knowledgetosubject on cattreeroot.ctrootid = knowledgetosubject.subjectid "
+fsql = fsql & vbcrlf & "where (knowledgetosubject.status = 'y') "
+fsql = fsql & vbcrlf & "and (nodeinfo.owner = @user or exists(select userid from infouser where userid= @user and charindex('sysadm',ugrpid) > 0))"
+
+
+set rs = conn.execute(sql)
+
+
+
+
+
+                  
+                do while not rs.eof
+                    response.write "<option value='" & rs("ctrootid") & "'>" & rs("ctrootname") & "</option>"
+                rs.movenext
+                loop
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                           =subjectid 
+                                          =validate 
+                                      =sort 
+                                         =kwtitle 
+
+
+
+               if cint(nowpage) <> 1 then 
+
+                       =htprogprefix:                    =(nowpage-1):             =perpagesize:              =subjectid :             =validate :         =sort :            =server.urlencode(kwtitle)
+               end if 
+                   =totrec
+
+                                     if perpagesize=15 then:            end if
+                                     if perpagesize=30 then:            end if
+                                     if perpagesize=50 then:            end if
+
+
+
+                  
+                for i = 1  to totpage
+                    if i = cint(nowpage) then
+                        response.write "<option value='"& i &"' selected>"& i &"</option>"
+                    else
+                        response.write "<option value='"& i &"'>"& i &"</option>"
+                    end if                    
+                next
+                
+
+
+               if cint(nowpage)<>totpage then 
+                        =htprogprefix:                    =(nowpage+1):             =perpagesize:              =subjectid :             =validate :         =sort :            =server.urlencode(kwtitle)
+
+               end if 
+
+
+
+
+
+
+
+
+
+
+
+
+              
+ if not rsreg.eof then   
+  for i = 1 to perpagesize
+   pkey = session("mywwwsiteurl") & "/subject/ct.asp?xitem=" & rsreg("icuitem") & "&ctnode=" & rsreg("ctnodeid") & "&mp=" & rsreg("pvxdmp")
+   xurl = rsreg("xurl")
+
+
+
+                  if rsreg("fctupublic") <> "y" then 
+                                                        =rsreg("icuitem"):            =rsreg("icuitem")
+                  end if
+
+
+
+                               =xurl
+
+
+                      
+                        select case rsreg("fctupublic")
+                            case "y"
+                                response.write rsreg("signer")
+                            case else
+                                response.write "<font color='red'>待審核</font>"
+                        end select
+                    
+
+
+                      =rsreg("xpostdate")
+
+
+                      =rsreg("ctunitname")
+
+
+                      =rsreg("ctrootname")
+
+
+                      =rsreg("stitle")
+
+
+              
+      rsreg.movenext
+      if rsreg.eof then exit for 
+  next 
+ end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                         =nowpage:             =perpagesize:              =subjectid :             =validate :         =sort :            =server.urlencode(kwtitle)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                               =nowpage:             =perpagesize:              =subjectid :             =validate :         =sort :            =server.urlencode(kwtitle)
+
+
+
+
+   end sub  

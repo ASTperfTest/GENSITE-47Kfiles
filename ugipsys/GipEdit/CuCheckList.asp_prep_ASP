@@ -1,0 +1,249 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="資料審稿"
+htprogfunc="清單"
+htprogcode="gc1ap2"
+htprogprefix="cucheck" 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_10064021()
+  
+
+set rsreg = server.createobject("adodb.recordset")
+nowpage=request.querystring("nowpage")  '現在頁數
+
+if request("dojob")<>"" then
+    sqlupdate=""
+    for each x in request.form
+ if left(x,5)="ckbox" and request(x)<>"" then
+     xn=mid(x,6)
+     sqlupdate=sqlupdate+"update xdictonary set xengword=n'"&request("htx_xengword"&xn)&"', xchnword=n'"&request("htx_xchnword"&xn)&"',wordkind=n'"&request("htx_wordkind"&xn)&"', " & _
+      "wordstatus='y' where xdiciid=" & request("xdiciid"&xn) & ";"
+        end if
+    next
+    if sqlupdate<>"" then conn.execute(sqlupdate)
+
+
+
+                     =htprogprefix
+
+       response.end
+else
+    if nowpage="" then
+ fsql = "select htx.*, xref1.mvalue as xref1wordkind, xref2.mvalue as xref2wordstatus" _
+  & " from ((xdictonary as htx left join codemain as xref1 on xref1.mcode = htx.wordkind and xref1.codemetaid='wordkind') left join codemain as xref2 on xref2.mcode = htx.wordstatus and xref2.codemetaid='wordstate')" _
+  & " where 1=1 "
+ xpcondition
+ session("cuchecklist")=fsql
+    else
+ fsql=session("cuchecklist")
+    end if
+end if
+
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=10  
+      end if 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+   end if    
+end if   
+
+function qqrs(fldname)
+ if request("submittask")="" then
+  xvalue = rsreg(fldname)
+ else
+  xvalue = ""
+  if request("htx_"&fldname) <> "" then
+   xvalue = request("htx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function  
+
+
+
+
+
+
+
+
+                                       =htprogprefix
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+    if (htprogright and 1)=1 then
+
+    end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if not rsreg.eof then
+
+                                      =nowpage:    =totpage
+                                          =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+          if cint(nowpage) <>1 then 
+                        =htprogprefix:                    =(nowpage-1):             =perpagesize
+         end if
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):             =perpagesize
+          end if
+
+
+                                 if perpagesize=10 then:            end if
+                                 if perpagesize=20 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     
+    for i=1 to perpagesize                  
+
+
+
+  if rsreg("wordstatus")="n" or rsreg("wordstatus")="p" then
+                                   =i
+                                   =i:            =rsreg("xdiciid")
+  else
+
+  end if
+
+  pkey = ""
+pkey = pkey & "&xdiciid=" & rsreg("xdiciid")
+if pkey<>"" then  pkey = mid(pkey,2)
+
+                         =pkey:     =d7date(rsreg("editdate"))
+
+
+                           =i
+
+                        =i:              =qqrs("xengword")
+
+
+
+                           =i
+
+                        =i:              =qqrs("xchnword")
+
+
+
+                            =i
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid='wordkind' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+                        =i:              =qqrs("wordkind")
+
+
+
+  =rsreg("xref2wordstatus")
+
+
+  =rsreg("clkcount")
+
+
+  =rsreg("evscore")
+
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+  else
+
+
+
+
+  end if
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

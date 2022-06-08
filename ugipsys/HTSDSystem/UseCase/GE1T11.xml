@@ -1,0 +1,109 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<UseCase>
+	<Name>主題單元管理</Name>
+	<Code>GE1T11</Code>
+	<APCat>GE1</APCat>
+	<Version>
+		<Date>2003/4/6</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<ExpandedSpec>
+			<Type>primary</Type>
+			<Type>essential</Type>
+			<ActorList>
+				<Actor initiator="Y">系統管理者</Actor>
+			</ActorList>
+			<Purpose>設定主題單元所對應的metadata資料定義</Purpose>
+			<PreCondition>
+				<UseCase></UseCase>
+			</PreCondition>
+			<DescriptionList>
+				<Description>設定主題單元所對應的metadata資料定義
+				</Description>
+			</DescriptionList>
+			<TypicalCourseOfEvents>
+				<Event type="Client" id="0" ContractXML="evx_CtUnitList.xml">
+					[條列] -- 主題單元清單<br/>				
+					1.列出所有主題單元: 類別, 名稱, 說明, ; <br/>
+					2.依單元類別, 名稱 排序; <br/>
+					3.Anchor在名稱，點選進入編修/刪除此主題單元<br/>
+				</Event>
+				<Event type="Client" id="10" ContractXML="evx_CtUnitAdd.xml">
+					[新增] -- 新增主題單元<br/>				
+					1.輸入欄位: 類別, 名稱, 對應資料; <br/>
+				</Event>
+				<Event type="Client" id="11" ContractXML="evx_CtUnitEdit.xml">
+					[編修] -- 編修主題單元<br/>				
+					1.輸入欄位: 類別, 名稱, 對應資料; <br/>
+				</Event>
+				<Event type="Client" id="13" ContractXML="evx_CtUnitQuery.xml">
+					[查詢] -- 查詢主題單元<br/>				
+					1.查詢欄位: 類別, 名稱, 對應資料; <br/>
+				</Event>
+			</TypicalCourseOfEvents>
+		</ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+	<Version>
+		<Date>2003/4/6</Date>
+		<Author>chen</Author>
+		<Kind>HighLevel</Kind>
+		<HighLevelSpec>
+			<Type>primary</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<DescriptionList>
+				<Description>
+				</Description>
+			</DescriptionList>
+			<VisitRecordList>
+				<VisitRecord>
+					<Who/>
+					<Date/>
+					<Location/>
+					<comment/>
+				</VisitRecord>
+			</VisitRecordList>
+		</HighLevelSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject/>
+				<Description/>
+				<Who/>
+				<DueDate/>
+				<DoneDate/>
+				<Conclusion/>
+			</TBD>
+		</TBDList>
+	</Version>
+</UseCase>

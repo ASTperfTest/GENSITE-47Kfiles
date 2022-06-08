@@ -1,0 +1,195 @@
+@charset "utf-8";
+/* 新聞局駐外單位 德國 中文版 */
+/* CSS Document for cp */
+
+
+body {
+	color: #000000;
+	padding: 0px;
+	margin: 0px;
+}
+
+h1 {
+	font-size: 100%;
+	color: #FFFFFF;
+	font-weight: normal;
+	background: #888888;
+	padding: 5px;
+}
+
+/* --------------------------------------------------------- 瀏覽路徑 */
+.Path {
+	font-size: 80%;
+	padding: 3px 0px 2px 22px;
+	margin: 3px 10px 0px 0px;
+	background: url(../images/path_bg.gif) no-repeat 5px 5px;
+}
+
+/* --------------------------------------------------------- 文章, 詳細內容 */
+.Article {
+	margin: 20px 20px 30px 20px;
+	padding: 0px 10px 0px 0px;
+}
+.Article h1 {
+	font-size: 100%;
+	color: #000000;
+	padding: 0px;
+	margin: 0px 0px 3px;
+	background: #FFFFFF;
+	font-weight: bold;
+}
+.Article .Body {
+	font-size: 80%;
+	margin: 0px;
+	padding: 10px 0px 0px 18px;
+	line-height: 150%;
+}
+.Article .Body .Image {
+	margin: 5px 15px 10px 5px;
+	width: 160px;
+	float: left;
+}
+.Article .Body .Image img {
+	border: 1px solid #807650;
+	width: 160px;
+}
+.Article .Body .Image p {
+	margin: 3px 0px 0px;
+	padding: 0px;
+}
+.Article .Body h2 {
+	font-size: 100%;
+	color: #000000;
+	line-height: 140%;
+	letter-spacing: 0.15em;
+	margin-top: 1.5em;
+	margin-bottom: 0.2em;
+	padding: 0px;
+}
+.Article .Body h3 {
+	font-size: 100%;
+	color: #000000;
+	letter-spacing: 0.15em;
+	margin-top: 1.5em;
+	margin-bottom: 0.2em;
+}
+.Article .Body h4 {
+	font-size: 80%;
+	color: #000000;
+	letter-spacing: 0.1em;
+	margin-top: 1.5em;
+	margin-bottom: 0.2em;
+}
+.Article .Body p {
+	margin-top: 0px;
+	margin-bottom: 8px;
+	margin-left: 12px;
+}
+.Article .Body ol ,
+.Article .Body ul {
+	font-size: 80%;
+	line-height: 150%;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	margin-left: 5em;
+}
+/* --------------------------------------------------------- 文章內的資料表格 */
+
+.Article .Body table {
+	font-size: 100%;
+	line-height:145%;
+	border-collapse:collapse;
+	border: 2px solid #BBBBBB;
+	width: 90%;
+	margin-top: 20px;
+	margin-bottom: 15px;
+}
+.Article .Body table caption {
+	font-size: 100%;
+	text-align:left;
+}
+.Article .Body table th {
+	font-weight: normal;
+	white-space: nowrap;
+	padding: 3px 6px;
+	border-right: 1px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+}
+.Article .Body table td {
+	vertical-align: top;
+	padding: 3px 6px;
+	border-right: 1px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+}
+
+/* ------------------------------------------------------- 相關聯結 */
+.Relation {
+	padding: 12px 20px;
+	background: #F3EAB7;
+	margin: 25px -25px -30px -15px;
+	border-top: 3px solid #B99540;
+}
+.Relation h3 {
+	font-size: 100%;
+	color: #6D4C25;
+	font-weight: normal;
+	letter-spacing: 0.15em;
+	margin: 0px 0px 8px 0px;
+	padding: 0px;
+}
+.Relation ol {
+	margin: 0px 0px 0px 40px;
+	padding: 0px;
+}
+.Relation ol li {
+	font-size: 80%;
+	line-height: 145%;
+	color: #86622B;
+	margin: 8px 0px 0px;
+	padding: 0px;
+}
+.Relation ol li .Title a {
+	font-size: 80%;
+}
+.Relation ol li .Title a:hover {
+}
+.Relation ol li .Brief {
+	font-size: 80%;
+	display: block;
+}
+.Relation ol li .Date {
+	margin-left: 0.8em;
+	font: 12px Arial, Helvetica, sans-serif;
+	color: #954017;
+}
+/* --------------------------------------------------------- 日期 */
+.Date {
+	font-size: 80%;
+	text-align: right;
+	color: #666666;
+	letter-spacing: normal;
+}
+.Download {
+	font-size: 80%;
+	line-height: 150%;
+	margin: 10px 15px 15px 25px;
+	padding: 0px;
+}
+.Download h3 {
+	font-size: 100%;
+	color: #9F5B00;
+	font-weight: normal;
+	letter-spacing: 0.15em;
+	margin-top: 1.5em;
+	margin-bottom: 0.2em;
+}
+.Download ul {
+	list-style: none;
+	padding: 0px 0px 0px 20px;
+	margin: 0px;
+}
+.Download ul li {
+	background: url(../images/icon_download.gif) no-repeat 0px 6px;
+	margin: 0px;
+	padding: 5px 10px 3px 25px;
+}

@@ -1,0 +1,109 @@
+﻿
+
+
+
+
+
+
+function script___2136706541() {src("../js/jtip.js");}CxConstr_1135572163();
+
+
+
+
+
+
+
+
+
+    function btnDel(btn) {
+        var key = btn.id.substring(btn.id.indexOf('_') + 1);
+        var btn = document.getElementById("ctl00_ContentPlaceHolder1_btnDelProsText");
+        if (confirm('確定要刪除回覆內容?')) {
+            document.getElementById("ctl00_ContentPlaceHolder1_hidProsText").value = key;
+            btn.click();
+        }
+    }
+    function btnDelPic(btn) {
+        var key = btn.id.substring(btn.id.indexOf('_') + 1);
+        var btn = document.getElementById("ctl00_ContentPlaceHolder1_btnDelPic");
+        if (confirm('確定要刪除圖片?')) {
+            document.getElementById("ctl00_ContentPlaceHolder1_hidProsText").value = key;
+            btn.click();
+        }
+    }
+    
+
+    function Question() {
+        Cx_0dummy
+            alert("請先登入會員");
+        Cx_0dummy
+            var now = new Date();
+            var domainName = document.domain;
+            window.showModalDialog('http://' + domainName + '/mailbox.asp?Question=123&T=' + now.getSeconds(), self);             
+        Cx_0dummy        
+        return false;
+    }
+     
+
+    function Discuss(id) {        
+        Cx_0dummy
+            alert("請先登入會員");
+        Cx_0dummy
+            var now = new Date();
+            var domainName = document.domain;
+            window.showModalDialog('http://' + domainName + '/mailbox.asp?jDiscuss=&DiscussID=' + id + '&T=' + now.getSeconds(), self);                         
+        Cx_0dummy        
+        return false;
+    }        
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            function onclick___174750691() {Question()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

@@ -1,0 +1,193 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function script___978796850() {src("../Scripts/AC_ActiveX.js");}
+function script____1102929678() {src("../Scripts/AC_RunActiveContent.js");}
+
+
+
+
+
+
+
+
+
+
+
+function href____1470241313() {window.history.back();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   function onClick____36032670() {deleteForm(Cx_0dummy)}
+
+
+
+
+
+
+
+
+
+                                   function onClick____1209561475() {addKeyword()}
+                                     function onClick___1043166581() {chooseKeyword()}
+
+
+
+
+
+
+
+
+                                  function onClick___1283611761() {formCancel()}
+                              function onClick___1657291224() {formReset()}
+                              function onClick___1283611761() {formCancel()}
+
+
+
+
+
+
+
+
+ 
+ function deleteForm(id) 
+ {
+  document.getElementById("delItem").value = id;
+  document.getElementById("iForm").submit();
+  }
+ function addKeyword() 
+ {
+  window.location.href = "keywords_new.asp?memberId=Cx_0dummy&nowPage=Cx_0dummy&pagesize=Cx_0dummy";
+  }
+ function chooseKeyword() 
+ {
+  window.location.href = "keywords_anticipation.asp?memberId=Cx_0dummy&nowPage=Cx_0dummy&pagesize=Cx_0dummy";
+  }
+ function formReset() 
+ {
+  window.location.href = "keywords_set.asp?memberId=Cx_0dummy&nowPage=Cx_0dummy&pagesize=Cx_0dummy";
+  }
+ function formCancel() 
+ {
+  window.location.href = "newMemberEdit.asp?account=Cx_0dummy&nowPage=Cx_0dummy&pagesize=Cx_0dummy";
+  }
+
+
+
+
+
+ 

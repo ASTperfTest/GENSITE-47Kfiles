@@ -1,0 +1,122 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="default.master.cs" Inherits="_default" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<script src="/js/jquery.js" type="text/javascript"></script>
+<script src="/js/pedia.js" type="text/javascript"></script>
+<%
+System.Xml.Xsl.XslCompiledTransform xsl = new System.Xml.Xsl.XslCompiledTransform();
+string xslpath = ConfigurationManager.AppSettings["3rsidexslpath"];
+int showcursoriconid = Convert.ToInt32(ConfigurationManager.AppSettings["showcursoriconid"]);
+xsl.Load(xslpath);
+
+System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+System.IO.StringWriter xmlWriter = new System.IO.StringWriter(sb);
+string xdsppath = "";
+
+if (Request.RawUrl.Contains("knowledge_cp")) {
+	if (!Session["CurrentRead"].ToString().Contains(Request.QueryString["ArticleId"])) {
+		Session["CurrentRead"] = Request.QueryString["ArticleId"] + "," + Session["CurrentRead".ToString()];
+	}
+}
+
+xdsppath = ConfigurationManager.AppSettings["xdsppath"] + "&redirectUrl=" + Request.RawUrl.Replace("&", ";");
+
+xdsppath += "&memID=" + (Session["memID"] == null ? "" :Session["memID"].ToString())
+ + "&gstyle=" + (Session["gstyle"] == null ? "" : Session["gstyle"].ToString()) + "&CurrentRead="
+  + (Session["CurrentRead"] == null ? "" : Session["CurrentRead"].ToString());
+
+try {
+	xsl.Transform(xdsppath, new System.Xml.XmlTextWriter(xmlWriter));
+} catch (Exception ex) {
+	Response.Write(ex.ToString());
+}
+
+string head = null;
+string tail = null;
+
+int index = 0;
+string html = Server.HtmlDecode(sb.ToString());
+string spword = "___ContentPage___";
+index = html.IndexOf(spword);
+
+if (index < 0) {
+	head = html;
+	tail = "";
+} else {
+	head = html.Substring(0, index);
+	tail = html.Substring(index + spword.Length);
+}
+  
+  int ShowCursorIcon = 2;
+  string ConnString = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["ODBCDSN"].ConnectionString;
+  using (System.Data.SqlClient.SqlConnection myConnection = new System.Data.SqlClient.SqlConnection(ConnString))
+  {
+      myConnection.Open();
+      if (Session["memID"] != null && Session["memID"] != "")
+      {
+          using (System.Data.SqlClient.SqlCommand myCommand = new System.Data.SqlClient.SqlCommand("select ShowCursorIcon from Member Where account = @subjectid", myConnection))
+          {
+              myCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@subjectid", Session["memID"]));
+              Object result = myCommand.ExecuteScalar();
+              if (!Convert.IsDBNull(result))
+              {
+                  ShowCursorIcon = Convert.ToInt32(result);
+              }
+          }
+      }
+      if (ShowCursorIcon == 2)
+      {
+          using (System.Data.SqlClient.SqlCommand showCursorCommand = new System.Data.SqlClient.SqlCommand(" select stitle from CuDTGeneric where icuitem = @icuitem", myConnection))
+          {
+              showCursorCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@icuitem", showcursoriconid));
+              Object cursorOpen = showCursorCommand.ExecuteScalar();
+              if (!Convert.IsDBNull(cursorOpen) && cursorOpen.ToString() == "1")
+              {
+                  ShowCursorIcon = 1;
+              }
+              else
+              {
+                  ShowCursorIcon = 0;
+              }
+          }
+      }
+      if (ShowCursorIcon == 0)
+          head = head.Replace("png.length!=0", "false");
+      Response.Write(head);
+  }
+%>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+    <%
+	Response.Write(tail);
+    string StrUrl = "";
+    if (Request.RawUrl.Contains("categorycontent"))
+    {
+        if (Request.UrlReferrer != null)
+            StrUrl = Server.UrlEncode(Request.UrlReferrer.ToString());
+        %>
+        <script type="text/javascript">var GB_ROOT_DIR = "/js/greybox/"; var referer_url = "<%=StrUrl %>";</script>
+        <script src="/js/greybox/greybox.js"></script>
+        <script src="/js/greybox/AJS.js"></script>
+        <script src="/js/greybox/gb_scripts.js"></script>
+        <script src="/TreasureHunt/treasurebox.js"></script>
+        <%
+    }
+        
+        
+    %>
+
+</body>
+</html>

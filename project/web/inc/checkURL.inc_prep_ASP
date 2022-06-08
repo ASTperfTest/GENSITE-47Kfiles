@@ -1,0 +1,28 @@
+﻿: 
+function checkurl(url)
+
+url=ucase(url)
+
+myfiltersymbols = "',"",<,>,`,!,$,^,*,\,(,),{,},[,],+,;,script:"
+
+myfiltersymbols=split(myfiltersymbols,",")
+errormes=now() & vbtab & "error(1):request變數含特殊字元:"
+
+for i = 0 to ubound(myfiltersymbols)
+ 
+
+ 
+ if (instr(url,myfiltersymbols(i))>0) then
+   response.redirect "/"
+ 
+ else
+    check=server.urlencode(myfiltersymbols(i))
+    if (instr(url,check)>0) then
+    log4u(errormes & myfiltersymbols(i) & vbtab & "url:" & url & vbtab & request.servervariables("remote_addr"))
+           response.redirect "/"
+    end if  
+ end if
+next
+
+end function
+ 

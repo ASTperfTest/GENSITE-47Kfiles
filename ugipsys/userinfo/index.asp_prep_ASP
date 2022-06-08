@@ -1,0 +1,113 @@
+﻿: @ codepage = 65001 
+  
+  if request("submit")="匯出log檔" then
+   response.redirect "export.asp?select0=" & request("select0") & "&htx_cudtx23f84s=" & request("htx_cudtx23f84s") & "&htx_cudtx23f84e=" & request("htx_cudtx23f84e")
+   response.end
+end if
+
+   response.expires = 0
+htprogcap="使用者登入系統記錄留存備查 "
+htprogfunc="使用者登入訊息"
+htprogcode="bm010"
+htprogprefix="msession" 
+   response.expires = 0 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_453315802()
+
+   CxMethod_ASP_selecttree_1456496808()
+   CxMethod_ASP_htuigen_2110437144()
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap
+
+
+
+
+
+
+
+  
+
+queryuser=request("select0")
+
+if queryuser<>"全部使用者" then
+if request("htx_cudtx23f84s")<>"" and request("htx_cudtx23f84e")<>"" then
+sql2="exec sp_userinfo n'" & queryuser & "',n'" & request("htx_cudtx23f84s") & "',n'" & dateadd("d",1,request("htx_cudtx23f84e")) & "'"
+else
+sql2="exec sp_userinfo n'" & queryuser & "','',''"
+end if
+else
+if request("htx_cudtx23f84s")<>"" and request("htx_cudtx23f84e")<>"" then
+sql2="exec sp_userinfo '','" & request("htx_cudtx23f84s") & "','" & dateadd("d",1,request("htx_cudtx23f84e")) & "'"
+else
+sql2="exec sp_userinfo '','',''"
+end if
+end if
+
+
+set rs=conn.execute(sql2)
+
+
+
+
+
+
+
+   sql="select * from infouser"
+   set rs2=conn.execute(sql)
+   do while not rs2.eof 
+
+           if trim(rs2("userid"))=request("select0") then response.write "selected" end if :     =trim(rs2("userid")) 
+
+   
+  rs2.movenext
+  loop
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+    
+    while not rs.eof
+   
+    
+
+                                             =rs("username") 
+                                             =rs("userid") 
+                                             =rs("loginip") 
+                                             =rs("logintime") 
+                                             =rs("xtarget") :    =rs("act") 
+                                             =rs("ctunit") 
+                                             =rs("objtitle") 
+
+          
+     rs.movenext
+    wend    
+ 

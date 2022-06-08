@@ -1,0 +1,52 @@
+/*	
+	國工局全球網 - All Rights Reserved.
+	
+	Produicted By 凌網科技 HyWeb Tech. Co., Ltd.2004.
+	http://www.hyweb.com.tw　
+	HyWeb CSS Style(writed by m10/Carol13 Chen) 2004/02/26
+*/
+
+/* MainRight---------buildEng 建設重點------- */
+
+#buildEng .buildTop {
+	width:583px;
+	height: 34px;
+	background-image: url(../images/buildTitleEng.jpg);
+	background-repeat: no-repeat;
+}
+
+#buildEng .buildDown {
+	width:583px;
+	height: 8px;
+	background-image: url(../images/buildDown.gif);
+	background-repeat: no-repeat;
+}
+
+#buildEng .buildMain {
+	background-image: url(../images/buildMainBg.gif);
+	background-repeat: repeat-y;
+	padding-left: 15px;
+	padding-right: 10px;
+	padding-bottom: 20px;
+
+}
+#buildEng .left {
+	float: left;
+}
+#buildEng .buildList {
+	width: 198px;
+	text-align: left;
+	font-size: 15px;
+	font-weight: bold;
+	color: #304E81;
+	list-style-image: url(../images/point2.gif);
+	line-height: 22px;
+}
+#buildEng .buildList a {
+	color: #304E81;
+	text-decoration: none;
+
+}
+#buildEng .buildList a:hover {
+	color: #6D80AD;
+}

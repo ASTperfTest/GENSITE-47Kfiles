@@ -1,0 +1,116 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "ge1t21" 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+dim ctroot, orgroot, dtlevel, xmlstr
+leadstr = "000000000000000000000000000"
+
+ xmlstr="<?xml version=""1.0""  encoding=""utf-8"" ?>"
+ xmlstr=""
+ outcode "<toctree>"
+ sqlcom = "select * from cattreeroot where pvxdmp is not null " _
+  & " and (deptid is null or deptid like '" & session("deptid") & "%'" _
+  & " or '" & session("deptid") & "' like deptid+'%')"
+ set rstree = conn.execute(sqlcom)
+
+ while not rstree.eof
+  itemid = rstree("ctrootid")
+  if session("itemid")="" then session("itemid")=itemid
+  outcode "<cattree id=""" & itemid & """ name=""" & rstree("ctrootname") & """ ctnodekind=""c"" leadstr=""4"">"
+  ctroot = itemid
+     traversetree 0
+     outcode "</cattree>"
+     rstree.movenext
+ wend
+ outcode "</toctree>"
+'    response.write xmlstr & "<hr/>"
+
+   set oxmlreg = createobject("microsoft.xmldom")
+   oxmlreg.async = false
+      response.write xmlstr
+      response.end
+   oxmlreg.loadxml xmlstr
+
+ if oxmlreg.parseerror.reason <> "" then
+ response.write   oxmlreg.parseerror.reason
+' response.write  "內文不符合字串比較格式!"
+  response.end
+ end if
+
+ for each x in oxmlreg.selectnodes("//*[cattreenode]")
+  x.lastchild.setattribute "leadstr", "7"
+ next
+ oxmlreg.selectsinglenode("toctree").lastchild.setattribute "leadstr", "7"
+
+
+ for each x in oxmlreg.selectnodes("//cattree")
+    trtree2 x, ""
+   next
+'   response.write oxmlreg.xml
+'   response.end
+
+
+ set oxsl = server.createobject("microsoft.xmldom")
+ oxsl.load(server.mappath("toctree.xsl"))
+  if oxsl.parseerror.reason <> "" then 
+    response.write("oxslhtpagedom parseerror on line " &  oxsl.parseerror.line)
+    response.write("<br>reason: " &  oxsl.parseerror.reason)
+    response.end()
+  end if
+ response.contenttype = "text/html" 
+
+' response.write "<!doctype html public ""-//w3c//dtd html 4.01 transitional//en"" ""http://www.w3.org/tr/html4/loose.dtd"">" & vbcrlf
+ outstring = replace(oxmlreg.transformnode(oxsl),"<meta http-equiv=""content-type"" content=""text/html; charset=utf-16"">","")
+ outstring = replace(outstring,"&amp;","&")
+ response.write replace(outstring,"&amp;","&")
+
+
+sub trtree2(thisnode, xleadstr)
+ myleadstr = xleadstr
+ if myleadstr<>"" then
+    if right(myleadstr,1) = "7" then
+   myleadstr = left(myleadstr, len(myleadstr)-1) & "0"
+  elseif right(myleadstr,1) = "4" then
+   myleadstr = left(myleadstr, len(myleadstr)-1) & "1"
+    end if
+ end if
+ myleadstr = myleadstr & thisnode.attributes.getnameditem("leadstr").value
+ thisnode.setattribute "leadstr", myleadstr
+
+ for each x in thisnode.selectnodes("cattreenode")
+    trtree2 x, myleadstr
+   next
+
+end sub
+
+sub traversetree (parent)
+ sqlcom = "select * from cattreenode where ctrootid = "& pkstr(ctroot,"") _
+  & " and dataparent=" & parent & " order by catshoworder"
+' response.write sqlcom & "<hr>"
+ set rst = conn.execute(sqlcom)
+
+ while not rst.eof
+  outcode "<cattreenode id=""" & rst("ctnodeid") & """ name="""& deamp(rst("catname")) _
+   & """ ctnodekind="""& rst("ctnodekind") _
+   & """ leadstr=""4"">"
+  if rst("ctnodekind") = "c" then   traversetree rst("ctnodeid")
+  outcode "</cattreenode>" & vbcrlf
+  rst.movenext
+ wend
+end sub
+
+function deamp(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   deamp=""
+   exit function
+  end if
+   deamp = replace(xs,"&","&amp;")
+end function
+
+sub outcode(xstr)
+ xmlstr = xmlstr & xstr
+end sub
+ 

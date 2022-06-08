@@ -1,0 +1,55 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "pn02m02" 
+' ============= modified by chris, 2006/08/22, to handle "deptiddouble" ========================
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+   CxMethod_ASP_checkgipconfig_1275316133()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+' ===begin========== modified by chris, 2006/08/22, to handle "deptiddouble" ========================
+ dbldeptidlen=2
+  if checkgipconfig("deptiddouble") then dbldeptidlen=2
+
+ sqlcom = "select * from dept where (deptid = left('" & session("deptid") & "',len(deptid)) or deptid like '" & session("deptid") & "%') order by len(deptid), seq"
+ set rs = conn.execute(sqlcom)
+
+ response.write "treeroot = gfld(""forumtoc"", """ & rs("deptname") & """, ""deptedit.asp?phase=edit&deptid="& rs("deptid") & """)" & vbcrlf
+ rs.movenext
+ nowcount = 0
+
+ while not rs.eof
+  xparent = "treeroot"
+  if len(rs("deptid")) > (dbldeptidlen+1) then xparent = "n" & rs("parent")
+' ===end========== modified by chris, 2006/08/22, to handle "deptiddouble" ========================
+  if rs("nodekind") = "d" then
+   catlink = "deptedit.asp?deptid="& rs("deptid") &"&phase=edit"
+   response.write "n"& rs("deptid") &"= insfld(" & xparent &", gfld(""forumtoc"", """& rs("deptname") &""", """& catlink &"""))" & vbcrlf
+  else
+   catlink = "deptedit.asp?deptid="& rs("deptid") &"&phase=edit"
+   response.write "n"& rs("deptid") &"= insfld(" & xparent &", gfld(""forumtoc"", """& rs("deptname") &""", """& catlink &"""))" & vbcrlf
+'      forumlink = "jobedit.asp?deptid="& rs("deptid")
+'      response.write "insdoc("& xparent &", glnk(""forumtoc"", """& rs("deptname") &""", """& forumlink &"""))" & vbcrlf
+  end if
+  rs.movenext
+ wend
+ 
+ 

@@ -1,0 +1,176 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  dim gpkey
+     sub gopage_onchange      
+           newpage=reg.gopage.value     
+           document.location.href="docattach.asp?keep=y&nowpage=" & newpage & "&pagesize=15"    
+     end sub      
+     
+     sub perpage_onchange                
+           newperpage=reg.perpage.value
+           document.location.href="docattach.asp?keep=y&nowpage=1" & "&pagesize=" & newperpage                    
+     end sub 
+
+     sub setpkey(xv)
+      gpkey = xv
+     end sub
+
+
+dim cantarget
+dim followcantarget
+
+sub popcalendar(datename,followname)        
+  cantarget=datename
+  followcantarget=followname
+ xdate = document.all(cantarget).value
+ if not isdate(xdate) then xdate = date()
+ document.all.calendar1.setdate xdate
+ 
+  if document.all.calendar1.style.visibility="" then           
+     document.all.calendar1.style.visibility="hidden"        
+  else        
+       ex=window.event.clientx
+       ey=document.body.scrolltop+window.event.clienty+10
+       if ex>520 then ex=520
+       document.all.calendar1.style.pixelleft=ex-80
+       document.all.calendar1.style.pixeltop=ey
+       document.all.calendar1.style.visibility=""
+  end if              
+end sub     
+
+sub calendar1_onscriptletevent(n,o) 
+     document.all("calendartarget").value=n         
+     document.all.calendar1.style.visibility="hidden"    
+    if n <> "cancle" then
+        document.all(cantarget).value=document.all.calendartarget.value
+        document.all("pcshow"&cantarget).value=document.all.calendartarget.value
+        if followcantarget<>"" then
+         document.all(followcantarget).value=document.all.calendartarget.value
+         document.all("pcshow"&followcantarget).value=document.all.calendartarget.value
+        end if
+ end if
+end sub   
+
+ 

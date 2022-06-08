@@ -1,0 +1,20 @@
+﻿
+
+
+
+  sub showdonebox(lmsg) 
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+                 =lmsg
+                               =masterref
+
+
+
+  end sub '---- showdonebox() ----  

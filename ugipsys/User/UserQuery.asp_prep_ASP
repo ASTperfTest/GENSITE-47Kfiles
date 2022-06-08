@@ -1,0 +1,94 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+   htprogcode = "ht002"
+   
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+
+
+
+
+
+
+
+
+
+
+
+                                                    =title
+
+
+
+
+
+
+
+
+
+                          if (htprogright and 4)=4 then 
+                                        end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              sql1 = "select * from ugrp where 1=1 "                                                                                                                                
+             if (htprogright and 64)=0 then sql1 = sql1 & " and ispublic='y'"
+    if instr(session("ugrpid")&",", "htsd,") = 0 then  sql1 = sql1 & " and ugrpid<>n'htsd'"
+            set rs1 = conn.execute(sql1)                                                                                                                                
+             if rs1.eof then
+
+              else 
+
+              do while not rs1.eof 
+                            =rs1("ugrpid"):     =rs1("ugrpname")
+                rs1.movenext 
+              loop 
+             end if 
+
+
+
+
+
+
+
+
+
+
+  
+ sqlcom ="select d.deptid,d.deptname,d.parent,len(d.deptid)-1,d.seq," & _
+  "(select count(*) from dept where parent=d.deptid and nodekind='d') " & _
+  "  from dept as d where d.nodekind='d' " _
+  & " and d.deptid like n'" & session("deptid") & "%'" _
+  & " order by len(d.deptid), d.parent, d.seq" 
+'response.write sqlcom
+ set rss = conn.execute(sqlcom)
+ if not rss.eof then
+  arydept = rss.getrows(300)
+  glastmsglevel = 0
+  genlist 0, 0, 1, 0
+         expandfrom arydept(cid, 0), 0, 0
+ end if
+
+
+
+
+
+
+
+
+               if (htprogright and 2)=2 then 
+                                                                end if  

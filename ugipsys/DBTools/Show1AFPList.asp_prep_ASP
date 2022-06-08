@@ -1,0 +1,223 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+   htprogcode = "ht011"  
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+function trancomp(groupcode,value)
+   if (groupcode and value )=value then
+      response.write "checked"
+   end if
+end function
+
+function trancomp1(groupcode,value)
+   if (groupcode and value ) <> value then
+       response.write "none"
+   else
+    if value=64 or value=128 then
+     response.write "block; cursor: hand;"
+    else
+  response.write "''"    
+    end if   
+   end if
+end function
+
+ 
+   dbid = request("dbid")
+   sql="select dbname, dbdesc from htddb where dbid=" & pkstr(dbid,"")
+   set rsu=conn.execute(sql)
+
+ sqlcom = "select htx.*,(case when not exists (select agrpid from agrpfp where" _
+  & " fpcode=htx.tablename) then '1' else '0' end) " _
+  & " from htdentity as htx where dbid=" & pkstr(dbid,"") _
+  & " and entityid=" & pkstr(request("entityid"),"") _
+  & " order by tablename"  
+ set rs = conn.execute(sqlcom)
+
+
+ if not rs.eof then
+  apcat = rs.getrows()
+  datack = "y"
+ else
+  datack = ""
+ end if
+ 
+
+
+
+
+
+
+
+
+
+                                                    =title
+
+
+
+
+
+
+
+
+
+                          if (htprogright and 2)=2 then :                                      end if 
+
+
+
+
+
+                                                               =rsu("dbname"):      =rsu("dbdesc")
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                =ugrpid
+   
+ 
+ if datack = "y" then 
+       cno = 0 
+        for i=0 to ubound(apcat,2)  
+          cno = 1 + cno 
+
+
+
+                                            =cno:                                                                 =cno
+                         =cno:                                       =apcat(2,i) & "　" & apcat(3,i)
+
+
+       
+       sqlcom = "select agrp.*, agrpfp.rights as urights " & _
+         "from agrpfp left join agrp on agrpfp.agrpid= agrp.agrpid " & _
+         "where agrpfp.fpcode = "& pkstr(apcat(2,i),"")  &" order by agrpfp.agrpid"
+       set rs = conn.execute(sqlcom)
+        if not rs.eof then 
+
+
+                                                                                                    =cno
+
+
+
+
+
+
+
+
+
+
+              do while not rs.eof 
+
+                                                                   =rs("urights")
+                                                                                                      =rs("agrpid")
+              =rs("agrpid"):      =rs("agrpname")
+
+               if (rs("urights") and 1) = 1 then 
+                                            =rs("agrpid")
+               end if 
+
+
+                if (rs("urights") and 2) = 2 then 
+                                            =rs("agrpid")
+               end if 
+
+
+               if (rs("urights") and 4) = 4 then 
+                                            =rs("agrpid")
+               end if 
+
+
+               if (rs("urights") and 8) = 8 then 
+                                            =rs("agrpid")
+               end if 
+
+
+               if (rs("urights") and 16) = 16 then 
+                                            =rs("agrpid")
+               end if 
+
+
+               if (rs("urights") and 32) = 32 then 
+                                            =rs("agrpid")
+               end if 
+
+
+              rs.movenext      
+              loop 
+
+
+        else 
+                                                                                                                  =cno
+
+
+
+
+
+        end if
+        next                                  
+       end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              =cno
+
+
+
+
+
+
+
+              =cno 

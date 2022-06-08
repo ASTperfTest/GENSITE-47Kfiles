@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="coa" Class="coaDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=KWPI-COA-DEV;Initial Catalog=coa;Persist Security Info=True;User ID=hygip" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="coaConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.CATEGORY" Member="CATEGORY">
+    <Type Name="CATEGORY">
+      <Column Name="DATA_BASE_ID" Type="System.String" DbType="VarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CATEGORY_ID" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CATEGORY_NAME" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="PARENT_CATEGORY_ID" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="DEGREE" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DISPLAY_ORDER" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CATEGORY_DESC" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATE_TIME" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="KEEPER" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="DEFAULT_REPORT_ID" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="AUTOID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="isCatRightInherited" Type="System.Char" DbType="VarChar(1)" CanBeNull="true" />
+      <Column Name="RPT_APPROVER" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="NewCategoryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.REPORT" Member="REPORT">
+    <Type Name="REPORT">
+      <Column Name="REPORT_ID" Type="System.String" DbType="VarChar(15) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="VERSION_NO" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TO_UPDATE_REPORT_ID" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="SUBJECT" Type="System.String" DbType="VarChar(300) NOT NULL" CanBeNull="false" />
+      <Column Name="KEYWORDS" Type="System.String" DbType="VarChar(800)" CanBeNull="true" />
+      <Column Name="CLICK_COUNT" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AUTHOR" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Column Name="SECRET" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="COPY_OR_NOT" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="PRINT_OR_NOT" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="REPORT_TYPE1_ID" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="REPORT_TYPE2_ID" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="DESCRIPTION" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="CREATE_DATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ONLINE_DATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="STATUS" Type="System.String" DbType="VarChar(3) NOT NULL" CanBeNull="false" />
+      <Column Name="REFERENCE" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="CREATE_USER" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="MODIFY_USER" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="MODIFY_DATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="REFER_SIZE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JOURNAL" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="FOREIGN_SUBJECT" Type="System.String" DbType="VarChar(400)" CanBeNull="true" />
+      <Column Name="INSTITUTION" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="DOMAINS" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="FOREIGN_AUTHOR" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="FOREIGN_DESCRIPTION" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="FOREIGN_KEYWORDS" Type="System.String" DbType="VarChar(800)" CanBeNull="true" />
+      <Column Name="PUBLISHER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="PUBLISHED_YEAR_MONTH" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="CONTACT_AUTHOR" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="CONTACT_AUTHOR_EMAIL" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="EMAILS" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="EDITOR" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="FOREIGN_EDITOR" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="INDEX_OR_NOT" Type="System.Char" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="HYKIX_OR_NOT" Type="System.Char" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="HaveBuildIndex" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="XURL" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Column Name="transfm_DocId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="transfm_ResultMsg" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="transfm_Datetime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="DOCUMENT_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ACTOR_INFO" Member="ACTOR_INFO">
+    <Type Name="ACTOR_INFO">
+      <Column Name="ACTOR_ID" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ACTOR_INFO_ID" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ACTOR_DETAIL_NAME" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CAT2RPT" Member="CAT2RPT">
+    <Type Name="CAT2RPT">
+      <Column Name="DATA_BASE_ID" Type="System.String" DbType="VarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CATEGORY_ID" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="REPORT_ID" Type="System.String" DbType="VarChar(15) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RESOURCE_RIGHT" Member="RESOURCE_RIGHT">
+    <Type Name="RESOURCE_RIGHT">
+      <Column Name="RESOURCE_ID" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ACTOR_ID" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ACTOR_INFO_ID" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ACTION_ID" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>

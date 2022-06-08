@@ -1,0 +1,174 @@
+.newsite {
+	float: right;
+	margin-right: 21px;
+	margin-bottom: 5px;
+}
+.step {
+	font-size: 13px;
+	margin-left: 25px;
+}
+.step span {
+	background-color: #FFFFFF;
+	margin-right: 5px;
+	margin-left: 5px;
+	border: 2px dotted #FF9933;
+	padding-top: 4px;
+	padding-right: 6px;
+	padding-left: 5px;
+}
+.setting {
+	font-size: 12px;
+	width: 85%;
+	margin-bottom: 15px;
+	padding: 0px;
+	margin-top: 15px;
+	border-collapse:collapse;
+	border: 2px solid #C8E1BF;
+}
+.popup {
+	font-size: 12px;
+	border-collapse:collapse;
+	border: 2px solid #C8E1BF;
+	width: 100%;
+}
+.setting caption, .popup caption {
+	font-size: 15px;
+	letter-spacing: .05em;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	line-height: 135%;
+}
+.setting caption span {
+	font-size: 12px;
+	letter-spacing: normal;
+}
+.setting th, .popup th {
+	font-weight: normal;
+	color: #333333;
+	background: #EFFEE2;
+	border: 1px solid #BFE0B6;
+	text-align: left;
+	vertical-align: top;
+	padding: 5px;
+}
+.setting td, .popup td {
+	border: 1px solid #C6E3BD;
+	padding: 5px;
+	line-height: 140%;
+	vertical-align: top;
+}
+.setting img {
+	border: none;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	vertical-align: text-bottom;
+}
+.popup img {
+	border: none;
+	margin: 2px 5px;
+        float: left;
+}
+.setting p, .popup p {
+	margin-top: 5px;
+	margin-bottom: 8px;
+	clear: both;
+	margin-left: 3px;
+}
+.setting em {
+	color: #CC6600;
+	font-style: normal;
+}
+.setting h5 {
+	margin-top: 8px;
+	margin-bottom: 8px;
+	font-weight: normal;
+	font-size: 15px;
+}
+.setting dl {
+	margin: 0px 0px 5px;
+}
+.setting dt {
+	font-size: 12px;
+	line-height: 135%;
+	border-bottom: 2px dotted #CCCCCC;
+	padding-top: 9px;
+	padding-bottom: 6px;
+}
+.setting dd {
+	margin-left: 11px;
+	padding-top: 10px;
+	padding-bottom: 2px;
+}
+.setting hr {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	color: #C8E1BF;
+	background-color: #C8E1BF;
+	border: none;
+	height: 1px;
+	clear: both;
+}
+.setting dt .right, .setting dd .right {
+	float: right;
+	margin-top: -5px;
+	margin-left: 3px;
+}
+.setting .right {
+	float: right;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+.setting .right a {
+	margin-right: 3px;
+}
+.setting .box, .popup .box {
+	background-color: #FFFFFF;
+	border: 1px solid #92C680;
+	color: #333333;
+	font-size: 12px;
+	padding-top: 4px;
+	padding-right: 2px;
+	padding-left: 2px;
+}
+.setting fieldset {
+	border:1px #dddddd solid;
+	width:auto;
+        margin:0 12px;
+	padding:10px 10px 5px 10px;
+}
+.setting legend {
+	font-size: 12px;
+	color: #777777;
+}
+.setting fieldset .center {
+	float:left;
+	text-align:center;
+	margin: 5px 10px 5px 0;
+}
+.setting fieldset .center, .popup .center {
+	float:left;
+	text-align:center;
+	margin: 5px 10px 10px 5px;
+}
+.setting fieldset .rightbutton {
+	float:right;
+	margin-top: 5px;
+	clear: both;
+}
+.setting fieldset .leftbutton {
+    margin-top: 5px;
+}
+.settingbutton {
+	text-align: center;
+	width: 85%;
+	margin-top: 15px;
+	margin-bottom: 10px;
+}
+.settingbutton input, .setting .button {
+	background: url(../images/form_but_bg.gif) repeat-x left top;
+	font-size: 12px;
+	color: #333333;
+	padding: 5px 0px 1px 0px;
+	border: 1px solid #BBBBBB;
+	line-height: 100%;
+}

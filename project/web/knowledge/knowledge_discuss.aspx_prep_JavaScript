@@ -1,0 +1,164 @@
+﻿
+
+
+
+
+
+
+function script___2136706541() {src("../js/jtip.js");}CxConstr_1135572163();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function href____1379276941() {print();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                        function onfocus____1011217674() {checkfocus(this);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+   function checkfocus(item) 
+   {   
+     if(item.value == "請在這裡輸入您對本問題的討論或想法"){
+       item.value = "";
+     }
+   }
+  
+   var sizeLimit = 200000; //sizeLimit單位:byte
+  var globalflag = true;
+  var picid = "";
+  var picvalue = "";
+    
+   function checkFileSize(nid) {
+     picid = "ctl00_ContentPlaceHolder1_picFile_" + nid;
+     if( document.getElementById(picid).value != "" ) {
+       picvalue = document.getElementById(picid).value;
+       var re = /(\.jpg|\.gif)$/i;             
+        if (!re.test(picvalue)) {
+          alert('只允許上傳JPG或GIF影像檔');    
+          document.getElementById(picid).outerHTML += "";          
+        } 
+        else {
+         var img = new Image(); 
+          img.sizeLimit = sizeLimit; 
+          img.src = document.getElementById(picid).value;  
+          img.onload = showImageDimensions;     
+        }
+     }
+   }
+   function showImageDimensions() 
+    {     
+      if (this.fileSize > sizeLimit) {         
+        alert('您所選擇的檔案大小為 ' + (this.fileSize/1000) +' kb，\n超過了上傳上限 ' + (sizeLimit/1000) + ' kb！\n不允許上傳！');         
+        document.getElementById(picid).outerHTML += "";         
+      }                  
+    } 
+   function checkFile(count)
+   {        
+     for( var i = 0; i < count; i++ ) { 
+        var id = "ctl00_ContentPlaceHolder1_picFile_" + i;
+        var FileId = "ctl00_ContentPlaceHolder1_picDesc_" + i;
+        if( document.getElementById(id).value.length != 0 ) {
+          if(document.getElementById(FileId).value == "請輸入圖片說明" || document.getElementById(FileId).value.length == 0 ) {
+            alert('上傳圖片檔案 : ' + (i+1) + ", 請輸入檔案敘述");
+            globalflag = false;
+          }         
+          else if(document.getElementById(id).value.length == 0 && document.getElementById(FileId).value.length != 0 && document.getElementById(FileId).value != "請輸入圖片說明" ) {
+            alert('請上傳圖片檔案 :' + (i+1) );
+            globalflag = false;
+          } 
+          else {
+            globalflag = true;
+          }                                               
+        }
+      }  
+     return globalflag;
+ }
+ 
+ function GetReturnValue(str, content) {
+     document.getElementById('ctl00_ContentPlaceHolder1_hidFileName').value += str + "^";
+     document.getElementById('ctl00_ContentPlaceHolder1_hidFileContent').value += content + "^";
+ }  
+ 
+
+
+
+
+
+ 

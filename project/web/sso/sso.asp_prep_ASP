@@ -1,0 +1,58 @@
+﻿:  CxMethod_ASP_dbfunc_1170075012()
+   CxMethod_ASP_client_1527114747()
+   CxMethod_ASP_web_sqlinjection_1652335853()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+url = request.querystring("sourceurl")
+
+userid = session("memid")
+
+if (userid = "") then 
+ response.write "<script>alert('請先登入會員!');sethref('/login/login.asp');</script>"
+else
+ guid = getguid()
+ sql = "insert into sso (guid , user_id , creation_datetime ) values ( '" & guid & "','" & userid & "',getdate())"
+ set rs = conn.execute(sql)
+ 'rs.close
+ 'set rs = nothing
+ if ( instr(url,"?") = 0 ) then
+ 
+    response.redirect  url + "?guid=" + guid 
+ else
+    response.redirect  url + "&guid=" + guid  
+ end if
+end if
+
+function getguid()
+    set typelib = server.createobject("scriptlet.typelib")
+    tg = typelib.guid
+  getguid = mid(tg, 2 ,len(tg)-4)
+    set typelib = nothing
+end function
+ 

@@ -1,0 +1,152 @@
+﻿: @ codepage = 65001 
+  
+dim menucat(20)
+dim xmenu(199,4)
+dim xmcount(20,1)
+
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+xn = 0
+xmidx = 1
+xitemcount = 0
+xpos=instr(session("ugrpid"),",")
+if xpos>0 then
+ idstr=replace(session("ugrpid"),", ","','")
+ idstr="'"&idstr&"'"
+else
+ idstr="'" & session("ugrpid") & "'"
+end if
+sqlcom = "select distinct ap.apcode, apnamec, aporder, apcatcname, apcat.apseq, appath " _
+  & ", ap.xsnewwindow, ap.xssubmit" _
+  & " from ap join apcat on ap.apcat=apcat.apcatid" _
+  & " join ugrpap on ap.apcode=ugrpap.apcode" _
+  & " where ugrpid in (" & idstr & ") and rights>0 " _
+  & " order by apcat.apseq, ap.aporder, ap.apcode" 
+set rs = conn.execute(sqlcom)
+'response.write sqlcom & vbcrlf
+
+xapcat = ""
+xapcode = ""
+while not rs.eof
+
+ if rs("apcatcname") <> xapcat then
+  
+  xn = xn + 1
+  menucat(xn) = rs("apcatcname")
+  xmcount(xn-1,1) = xitemcount
+  xmcount(xn,0) = xmidx
+
+  xapcat = rs("apcatcname")
+  xitemcount = 0
+  xaporder = ""
+ end if
+
+    if rs("apnamec") <> xapcode then 
+ xapo = left(rs("aporder"),1)
+ if xapo <> xaporder then
+  if xitemcount <> 0 then
+   xmenu(xmidx,2) = "y"
+  end if
+  xaporder = xapo
+ end if
+
+ xmenu(xmidx,0) = rs("apnamec")
+ xmenu(xmidx,1) = rs("appath")
+ xmenu(xmidx,3) = rs("xsnewwindow")
+ xmenu(xmidx,4) = rs("xssubmit")
+
+ xmidx = xmidx + 1
+ xitemcount = xitemcount + 1
+ xapcode=rs("apnamec")
+    end if
+ rs.movenext
+wend
+  xmcount(xn,1) = xitemcount
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ for xi = 1 to xn
+'  response.write xmcount(xi,0) & "," & xmcount(xi,1) & ")"
+
+
+              =menucat(xi):              =menucat(xi)
+
+  
+ for i = xmcount(xi,0) to xmcount(xi,0)+xmcount(xi,1)-1
+'  if xmenu(i,2)="y" then response.write "<div height=1><hr/></div>"
+
+  xtarget = "mainframe"
+  if xmenu(i,3)="y" then xtarget="_blank"
+
+                        =xmenu(i,0)
+                    =xmenu(i,1)
+                      =xtarget:     =xmenu(i,0)
+  
+ next
+
+
+
+
+  
+ next
+ 

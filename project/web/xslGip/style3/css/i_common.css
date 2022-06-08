@@ -1,0 +1,637 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	margin: 0;
+	padding: 0;
+	font-size: .75em;
+	letter-spacing: 1px;
+}
+
+@media print{
+.left,.right{
+	display:none;}
+}
+
+
+/* ------------------------------------------------------header */
+h1 { 
+	margin: 0 0 0 -1000px;
+	padding: 0;
+	font-size: 180%;
+}
+h2 {
+	color: #000;
+	margin: 0;
+	padding: 0;
+	font-size: 150%;
+	font-weight: normal;
+}
+h3 { 
+
+	color: #000;
+	margin: 0;
+	padding: 0;
+	font-size:130%;
+	color: #000;
+	clear :both;
+	font-weight: normal;
+}
+h4 { 
+	color: #000;
+	margin: 1em 0 .5em;
+	padding: 0;
+	font-size:125%;
+	font-weight: normal;
+}
+h5 {
+	color: #000;
+	margin: 1em 0 .5em;
+	padding: 0;
+	font-size:110%;
+	font-weight: normal;
+}
+h6 { 
+	color: #000;
+	margin: 0;
+	padding: 0;
+	font-size:100%;
+	font-weight: normal;
+}
+
+/*------------------------------------------------ 內文字控制 p ol ul*/
+.center p {
+	margin: 0 0 1em;
+}
+/*ol ul */
+.center  ol , .center ul  {
+	margin: 15px 0;
+	padding: 0 0 0 2.5em;
+}
+.center  li {
+	line-height: 135%;
+	margin-bottom: .5em;
+	padding: 0;
+}
+
+/*---------------------------------------------------------------- header AM , PM , NT*/
+.header {
+	position:relative;
+	width:100%;
+	height:141px;
+}
+.header h1 {
+	position:absolute;
+}
+.header h1 a {
+	display:block;
+	width:250px;
+	height:141px;
+	text-indent:-3000px;
+	margin-left:80px;
+}
+	
+@media print{ /*這一段是為了避免列印時無法出現底圖而設定的，請勿刪除*/
+.headerAM h1 a{ text-indent:0;}}
+	
+@media print{ /*這一段是為了避免列印時無法出現底圖而設定的，請勿刪除*/
+.headerPM h1 a{ text-indent:0;}}
+	
+@media print{ /*這一段是為了避免列印時無法出現底圖而設定的，請勿刪除*/
+.headerNT h1 a{ text-indent:0;}}
+
+/*-----------------------------header AM )
+.headerAM {
+	background: url(../images4am/bannerBgAM.gif) repeat-x 0 0px;
+}
+*/
+/*---------------------------------header 下午 PM 
+.headerPM {
+	background: url(../images4pm/bannerBgPM.gif) repeat-x 0 0px;
+}
+*/
+/*-------------------------------header NT 
+.headerNT {
+	background: url(../images4nt/bannerBg4nt.gif) repeat-x 0 0px;
+}*/
+/*----------------------------------------------------------------nav 右上導覽列 */
+.nav {
+	position:absolute;
+	top:0;
+	right:0;
+	list-style:none;
+	background: url(../images/nav_bg.gif) no-repeat left top;
+	padding: 3px 5px 3px 30px;
+	margin: 0;
+	Filter: alpha(opacity=75); /* 這個是設定給IE用的透明度 */
+	opacity: 0.75; /* 這個是設定給FF用的透明度 */
+}
+
+.nav li {
+	display:inline;
+}
+
+.nav li a {
+	background: url(../images/nav_li_bg.gif) no-repeat 0 4px;
+	padding: 2px 10px 2px 10px;
+	color: #000000;
+	text-decoration: none;
+}
+
+.nav li a:hover {
+	padding: 2px 10px 2px 10px;
+	color: #008A06;
+	text-decoration: none;
+}
+
+.nav a.Accesskey {
+	margin-left: -40px;
+	color: #FFFFFF;
+}
+
+/*---------------------------------------------------------------- 子系統選單 subnav */
+.subnav {
+	text-align:right;
+	font-size: 15px;
+	line-height: 16px;
+	margin: 0 0 10px;
+	overflow: hidden;
+	width:100%;
+}
+.subnav ul {
+	margin: 0 15px 0 0;
+	padding: 0;
+	float: right;
+}
+.subnav li {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+
+.subnav a {
+	display: block;
+	float: left;
+	padding: 5px .5em 5px;
+	*padding: 7px .5em 3px .6em;
+	text-align:right;
+	text-decoration: none;
+}
+
+/*---------------------------------------------------------------- path 瀏覽路徑 */
+.path {
+	margin: 3px 0 5px;
+	clear: both;
+}
+
+/*---------------------------------------------------------------- season 節氣與日期 */
+.season {
+	width: 206;
+	height: 191px;
+	position: absolute;
+	left: 8px;
+	top: 150px;
+	padding-top: 10px;
+	letter-spacing: 0;
+}
+.season p {
+	text-align: center;
+	display: block;
+	width: 168px;
+	margin: 0 20px 0 18px;
+	padding: 8px 0 7px;
+	line-height: 110%;
+	white-space: nowrap;
+}
+.season p span {
+	margin-right: 1em;
+}
+.season h2 {
+	font-size: 15px;
+	position: absolute;
+	top: 128px;
+	*top: 130px;
+	left: 37px;
+	font-weight: normal;
+	letter-spacing: 2px;
+}
+.season p.statement {
+	text-align: left;
+	line-height: 1.6em;
+	width: 95px;
+	height: 4.6em;
+	overflow: hidden;
+	padding: 15px 0 0;
+	margin: 0 15px 0 94px;
+	white-space: normal;
+	background: none;
+}
+
+/*-------------------------------------------------------- 主選單 menu , 知識家的選單 menu2 */
+.menu {
+	width: 190px;
+	margin: 0 0 15px 19px;
+	padding: 0 0 15px;
+}
+.menu2 { /*知識家的選單 <ul class="menu2"> */
+	width: 190px;
+	margin: 0 0 15px 19px;
+	padding: 0 0 15px;
+	list-style: none;
+}
+.menu ul {
+	margin: 0;
+	padding: 5px 0 0;
+	list-style: none;
+}
+.menu2 span {
+	display: block;
+	padding: 5px 0 0;
+}
+.menu li , .menu2 li {
+	margin: 0;
+	padding: 0;
+	_padding-bottom: 1px;
+}
+.menu li a , .menu2 li a {
+	display: block;
+	margin: 0 10px;
+	padding: 10px 20px 3px 3px;
+	*padding: 14px 20px 1px 3px;
+	font-size: 15px;
+	line-height: 110%;
+	text-decoration: none;
+}
+.menu2 li a {
+	letter-spacing: 0;
+}
+
+/*---------------------------------------------------------------- rss */
+.left .rss {
+	width: 190px;
+	height: 40px;
+	margin: 15px 0 15px 19px;
+	text-align: center;
+	background: url(../images/rss.png) no-repeat center 0;
+}
+.left .rss a {
+	font-size: 1.25em;
+	line-height: 100%;
+	text-align: left;
+	display: block;
+	text-decoration: none;
+	padding: 12px 0 0 60px;
+	color: #22760b;
+}
+
+.center .rss {
+	font-size: 13px;
+	line-height: 13px;
+	font-family: Arial, Helvetica, sans-serif;
+	float: right;
+	background: url(../images/rss_icon.gif) no-repeat 0 0;
+	padding: 3px 0 2px 20px;
+	letter-spacing: 0;
+	margin: -30px 0 0;
+}
+.center .rss a {
+	text-decoration: none;
+}
+
+/*---------------------------------------------------------------- ad */
+.ad {
+	width: 190px;
+	margin: 15px 0 15px 19px;
+}
+.ad ul {
+	text-align: center;
+	margin: 0 auto;
+	padding: 0;
+	list-style: none;
+}
+.ad li {
+}
+.ad li a {
+}
+.ad li a img {
+	width: 130px;
+}
+
+/*---------------------------------------------------------------- 首頁中欄資訊區塊 */
+.center h3 {
+	border-bottom: 2px solid #aaa;
+	padding: 0 0 2px;
+	margin: 15px 0 8px;
+}
+.center .topic h3 {
+	padding: 16px 0 2px 62px;
+	background: url(../images/topic_h3_bg.png) no-repeat 0 0;
+}
+
+/*ul 條列的樣式設定在 i_list.css */
+
+.topic , .hotQa , .hotessay , .hotessay2 {
+	margin: 25px 0;
+}
+.topic h4 {
+	font: 1em normal;
+	background: url(../images/li_bg.gif) no-repeat 4px 3px;
+	padding: 0 0 5px 20px;
+}
+.topic h4 span {
+	margin-left: 1em;
+}
+.topic p {
+	margin: 0 0 1em 20px;
+	color: #0c8756;
+}
+.topic p a {
+	background: url(../images/more_bg_nt.gif) no-repeat 0 1px;
+	padding: 0 0 2px 15px;
+	margin: 0 0 0 1em;
+}
+
+/*---------------------------------------------------------------- 右欄資訊區塊 */
+/*----- search 搜尋服務，login 會員登入，login2 會員功能 ，epaper 訂閱電子報，rb 共用區塊  */
+.search , .login , .login2 , .epaper , .rbox {
+	margin: 0 0 15px 15px;
+	width: 200px;
+}
+.search  {
+	padding: 65px 0 0;
+}
+.login , .login2 {
+	padding: 57px 0 0;
+}
+.epaper  {
+	padding: 38px 0 0;
+}
+
+.search h2 , .login h2 , .login2 h2 , .epaper h2 {
+	visibility: hidden;
+	position: absolute;
+}
+
+.search form , .login .body , .login2 .body , .epaper .body {
+	padding: 0 18px 15px;
+}
+.search label {
+	visibility: hidden;
+	position: absolute;
+}
+.search input.ckb {
+	margin-right: 2px;
+}
+.search input.txt , .epaper input.txt {
+	width: 160px;
+	margin: -1px 0 3px;
+}
+.login input.txt {
+	width: 125px;
+}
+.login form label {
+	display: block;
+	margin: 0 0 5px;
+}
+
+.search label.ckb {
+	visibility: visible;
+	position: relative;
+	display: block;
+	letter-spacing: 0;
+	width: 6em;
+	margin: 3px .5em 3px 2px;
+	float: left;
+}
+.search input.ckb {
+	margin: 0;
+	padding: 0;
+}
+.search .button {
+	clear: both;
+	margin: 5px auto -3px;
+}
+
+.login ul {
+	list-style: none;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	_width: 100%;
+}
+.login li {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+.login li a {
+	display: block;
+	float: left;
+	padding: 7px 15px 9px;
+	text-decoration: none;
+	background: url(../images/login_a_bg.gif) no-repeat center 0;
+	color: #333;
+}
+/*會員登入後功能*/
+.login2 p {
+	line-height: 135%;
+	margin: 6px 0 10px;
+	padding: 0;
+}
+.login2 ul {
+	list-style: none;
+	margin: 10px 0 0;
+	padding: 0;
+	width: 100%;
+}
+.login2 li {
+	background: url(../images/login2_li_bg.gif) repeat-x left bottom;
+	padding: 0 0 3px;
+	margin: 0 0 8px;
+}
+.login2 li a {
+	display: block;
+	background: url(../images/login2_a_bg.gif) no-repeat 1px 0;
+	padding: 0 0 0 20px;
+	margin: 0;
+	text-decoration: none;
+	color: #444;
+}
+.login2 li a:hover , .login2 li.em a:hover {
+	background: url(../images/login2_hover_bg.gif) no-repeat 1px 0;
+	color: #f65d00;
+}
+.login2 li.em a {
+	color: #007724;
+}
+.login2 li.activity  {
+	background: url(../images/bg.gif);
+	background-repeat: repeat; 
+}
+.login2 li.activity a {
+	color: #007724;
+	
+}
+.login2 li.activity a:hover {
+	background: url(../images/login2_hover_bg.gif) no-repeat 1px 0;
+	color: #f65d00;
+	
+}
+/*電子報*/
+.epaper {
+	text-align: center;
+}
+
+/*右欄共用樣式*/
+.rbox {
+	padding: 0 0 15px;
+}
+.rbox h2 {
+	color: #FFFFFF;
+	font-size: 16px;
+	font-weight: normal;
+	line-height: 100%;
+	margin: 0;
+	padding: 15px 18px 5px;
+	letter-spacing: 2px;
+}
+.rbox div.body {
+	padding: 10px 18px 0;
+}
+.rbox ul {
+	list-style: none;
+	margin: 5px 0 0;
+	padding: 0;
+	width: 100%;
+}
+.rbox li {
+	background: url(../images/login2_li_bg.gif) repeat-x left bottom;
+	padding: 0 0 3px;
+	margin: 0 0 8px;
+}
+.rbox li a {
+	display: block;
+	background: url(../images/login2_a_bg.gif) no-repeat 1px 0;
+	padding: 0 0 0 20px;
+	margin: 0;
+	text-decoration: none;
+	color: #444;
+}
+.rbox li a:hover {
+	background: url(../images/login2_hover_bg.gif) no-repeat 1px 0;
+	color: #f65d00;
+}
+.rbox .float {
+	overflow: hidden;
+	_width: 100%;
+}
+.rbox .float a {
+	display: block;
+	float: right;
+	padding: 7px 15px 9px;
+	padding: 8px 15px 8px;
+	text-decoration: none;
+	background: url(../images/login_a_bg.gif) no-repeat center 0;
+}
+
+/*-------------------------- theme 主題報導專欄 */
+.theme {
+	width: 204px;
+	margin: 0 0 10px 15px;
+	padding: 25px 0 0;
+}
+.theme .body {
+	padding: 0 21px 22px;
+}
+.theme .body p {
+	line-height: 140%;
+	margin: 10px 0 0;
+}
+.theme .body img {
+	width: 160px;
+	border: 1px solid #bbb;
+}
+.theme h2 {
+	font-size: 16px;
+	margin: 0 21px 5px;
+	padding: 0;
+}
+
+/*---------------------------------------------------- a */
+a {
+	text-decoration: underline;
+	color: #0b5891;
+}
+a:hover {
+	text-decoration: none;
+	color: #0083e5;
+}
+img {
+	border: none;
+}
+/*-------------------------------------------------- more */
+.more {
+	line-height: 100%;
+	text-align: right;
+	letter-spacing: 0;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.more a {
+	padding: 0 0 2px 15px;
+	text-decoration: none;
+}
+
+/*---------------------------------------------- Accesskey */
+.Accesskey {
+	position:absolute;
+/*	filter:alpha(opacity=50);
+	opacity:0.5;*/
+	text-decoration:none;
+}
+.left .Accesskey {
+	float: left;
+}
+
+/*---------------------------------------------------------------- form */
+form {
+	margin: 0;
+	padding: 0;
+}
+input.txt {
+	border: 1px solid #aaa;
+	height: 1.5em;
+}
+
+/*---------------------------------------------------------------- gotop */
+.gotop {
+	text-align: center;
+	padding: 30px 0 0;
+	margin: 0;
+}
+.gotop img {
+	border: none;
+	margin-right: -40px;
+}
+
+/*---------------------------------------------------------------- footer */
+.footer {
+	margin: 30px 0 0;
+	padding: 18px 15px;
+}
+.footer img {
+	float: left;
+	margin: 5px 15px 30px 0;
+	width: 200px;
+	height: 50px;
+}
+.footer p {
+	line-height: 150%;
+	margin: 0;
+	padding: 0;
+}
+.footer .copyright {
+	margin: .8em 1.5em 0 0;
+}
+.footer .count {
+	float: right;
+}

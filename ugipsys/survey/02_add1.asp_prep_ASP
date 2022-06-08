@@ -1,0 +1,98 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+
+ subjectid = request("subjectid")
+ if subjectid = "" then
+  response.write "<body onload='javascript:history.go(-1);'>"
+  response.end
+ end if
+ 
+ sql = "update m011 set m011_subjectid=" & pkstr(subjectid,"") _
+  & " where gicuitem=" & pkstr(subjectid,"")
+ conn.execute sql
+ sql = "select m011_questno, m011_jumpquestion from m011 where gicuitem = " & pkstr(subjectid,"")
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "<body onload='javascript:history.go(-1);'>"
+  response.end
+ end if
+ questno = rs(0)
+ jumpquestion = rs(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      =subjectid 
+                                                    =questno 
+                                                         =jumpquestion 
+
+  
+ for i = 1 to questno
+  sql = "select m012_answerno from m012 where m012_subjectid = " & subjectid & _
+   " and m012_questionid = " & i
+  set rs = conn.execute(sql)
+  if rs.eof then
+   answerno = 0
+  else
+   answerno = rs(0)
+  end if
+
+
+                   =i 
+
+                                     =i 
+  
+  for j = 1 to 10
+   if j = answerno then
+    response.write "<option value='" & j & "' selected>" & j & "</option>"
+   else
+    response.write "<option value='" & j & "'>" & j & "</option>"
+   end if
+  next
+
+
+
+
+  
+ next
+
+
+
+                                                                                                                       =subjectid  

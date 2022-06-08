@@ -1,0 +1,19 @@
+﻿<?xml version="1.0"  encoding="utf-8" ?>
+<htPage>
+  <HTProgPrefix></HTProgPrefix>
+  <HTProgCode></HTProgCode>
+  <HTProgPath></HTProgPath>
+  <HTGenPattern></HTGenPattern>
+  <htForm>
+  </htForm>
+
+  <pageSpec>
+	<pageHead></pageHead>
+	<pageFunction></pageFunction>
+	<redirectURL></redirectURL>
+	<aidLinkList>
+	</aidLinkList>
+	<UINotes>
+	</UINotes>
+  </pageSpec>	
+</htPage>

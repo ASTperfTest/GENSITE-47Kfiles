@@ -1,0 +1,22 @@
+﻿
+
+
+
+
+function script____2056086925() {src("toc.js");}CxConstr_359439909();
+
+setDepthPerXML(2)
+setCategoryOpenImgSrc('image/ftv2folderopen.gif')
+setCategoryClosedImgSrc('image/ftv2folderclosed.gif')
+setDocumentImgSrc('image/ftv2doc.gif')
+setServletURL('http://localhost:8080/toc/servlet/com.hyweb.gip.maian.DBToXMLServlet')
+
+
+
+
+
+
+
+
+
+ 

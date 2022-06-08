@@ -1,0 +1,236 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="nx@"
+htprogfunc="s"
+htuploadpath="/"
+htprogcode="pn90m02"
+htprogprefix="codexml" 
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_htuigen_1591615763()
+  
+dim pkey
+dim rsreg
+dim formfunction
+dim sql, sqlvalue
+tasklable="sw" & htprogcap
+ cq=chr(34)
+ ct=chr(9)
+ cl="<" & "%"
+ cr="%" & ">"
+
+function xupform(xvar)
+ xupform = request.form(xvar)
+end function
+
+   set htpagedom = session("codexmlspec")
+   set refmodel = htpagedom.selectsinglenode("//dstable")
+
+if xupform("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+   sub initform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ for each param in refmodel.selectnodes("fieldlist/field[formlist='y']") 
+  processvalid param
+ next
+
+
+
+
+
+
+
+
+   CxMethod_ASP_codexmlform_1977790016()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+                                                     =htprogcap
+                              =session("codeid"):        =nulltext(htpagedom.selectsinglenode("//tabledesc"))
+
+
+
+
+
+
+
+
+          if (htprogright and 2)=2 then
+                   =htprogprefix
+          end if
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+
+   sub showhtmltail() 
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- ݸˬd{xbo apuҡaɳ] errmsg="xxx"  exit sub ------
+' sql = "select * from client where clientid = n'"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "uȤsv!!эsإ߫Ȥs!"
+'  exit sub
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "insert into  " & nulltext(refmodel.selectsinglenode("tablename")) & "("
+ sqlvalue = ") values("
+ for each param in refmodel.selectnodes("fieldlist/field[formlist='y']") 
+  processinsert param
+ next
+
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+
+' response.write sql
+' response.end
+ conn.execute(sql)  
+ '----mmositebz
+ if nulltext(refmodel.selectsinglenode("tablename"))="mmosite" then
+  '----swؿ
+  set fso = server.createobject("scripting.filesystemobject")
+  fldrpath = session("public") & request("htx_mmositeid")
+  if not fso.folderexists(server.mappath(fldrpath)) then
+   set f = fso.createfolder(server.mappath(fldrpath))
+  end if
+  '----sڥؿƦmmofolder
+  sqli = "insert into mmofolder values('/'," & _
+   pkstr(request("htx_mmositename"),"") & ",null," & _
+   pkstr(request("htx_mmositeid"),"") & ",null,'zzz')"
+  conn.execute(sqli)  
+  '----yftp]w,pbswؿ
+  if request("htx_uploadsiteftpip")<>"" and request("htx_uploadsiteftpport")<>"" and request("htx_uploadsiteftpid")<>"" and request("htx_uploadsiteftppwd")<>"" then
+   fileaction="createdir"
+   ftpfilepath="public"
+   ftpdo request("htx_uploadsiteftpip"),request("htx_uploadsiteftpport"),request("htx_uploadsiteftpid"),request("htx_uploadsiteftppwd"),fileaction,ftpfilepath,request("htx_mmositeid"),"",""    
+  end if
+ end if
+end sub '---- doupdatedb() ----
+
+
+
+   sub showdonebox() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                             =htprogprefix
+
+
+
+   end sub '---- showdonebox() ----  

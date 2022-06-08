@@ -1,0 +1,14 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+htprogcode="publish"
+htprogprefix = "publish"
+
+   CxMethod_ASP_server_1606199358() 

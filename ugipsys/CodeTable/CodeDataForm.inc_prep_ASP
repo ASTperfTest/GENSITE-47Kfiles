@@ -1,0 +1,55 @@
+﻿
+
+
+
+  if session("sortflag") then
+
+  end if
+
+
+                                           =rscode("codevaluefldname")
+                                                                     if request.querystring("codeid") <> "" then :                         end if 
+
+
+                                           =rscode("codedisplayfldname")
+
+
+    if session("sortflag") then
+
+                                           =rscode("codesortfldname")
+
+
+    end if
+     '判斷為國家與地區代碼時，新增地區欄位選項 
+    if session("codeid") = "country_edit" then
+
+
+
+
+
+     
+    sqlcom ="select * from codemain where codemetaid='area' order by msortvalue"
+     'response.write sqlcom
+    set rss = conn.execute(sqlcom)
+      while not rss.eof
+                       =rss("mcode"):     =rss("mvalue")
+         rss.movenext
+      wend
+
+
+
+
+    end if
+
+
+
+
+
+   if formfunction = "add" then 
+         if (htprogright and 4)=4 then 
+                                                                                 end if 
+   elseif formfunction = "edit" then 
+         if (htprogright and 8)=8 then 
+                                                                                 end if 
+         if (htprogright and 16)=16 then :                                                                                        end if
+   end if  

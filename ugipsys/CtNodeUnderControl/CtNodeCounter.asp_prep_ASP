@@ -1,0 +1,98 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "nwc" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+
+
+
+  
+
+ ftypename = "計數節點設定"
+
+
+   const cid     = 2 'catid
+   const cname   = 3 'catname
+   const cparent = 7 'dataparent
+   const cchild  = 8 'childcount
+   const clevel  = 6 'datalevel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  'userid = request("userid")
+  userid = "hyweb"
+
+
+                                              =userid 
+
+
+   response.write "treeroot = gfld(""forumtoc"", """ & ftypename & """, ""catlist.asp?itemid="& itemid &"&catid=0"")" & vbcrlf
+ nowcount = 0
+
+  sqlcom = "select * from cattreeroot where pvxdmp is not null " _
+   & " and (deptid is null or deptid like n'" & session("deptid") & "%')" 
+  set rstree = conn.execute(sqlcom)
+  
+  while not rstree.eof
+   itemid = rstree("ctrootid")
+ response.write "t"& itemid &"= insfld(treeroot, gfld(""forumtoc"", """& rstree("ctrootname") &""", ""blank.htm""))" & vbcrlf
+
+ sqlcom = "select * from cattreenode where ctrootid = "& pkstr(itemid,"") &" order by datalevel, catshoworder"
+ set rs = conn.execute(sqlcom)
+ while not rs.eof
+  xparent = "t" &itemid
+  if rs(clevel) > 1 then xparent = "n" & rs(cparent)
+  if rs("ctnodekind") = "c" then
+   catlink = "catlist.asp?itemid="& itemid &"&catid="& rs("ctnodeid")
+   catlink = "#"
+   response.write "n"& rs(cid) &"= insfld(" & xparent &", gfld(""forumtoc"", """& rs(cname) &""", """& catlink &"""))" & vbcrlf
+  else
+      forumlink = "ctxmlin.asp?itemid="& itemid &"&ctnodeid="& rs("ctnodeid")
+      forumlink = "#"
+      
+      sql1 = "select count(*) from ctnodecount where userid=n'" & userid & "' and ctnodeid=" & rs("ctnodeid")
+      set rs1 = conn.execute(sql1)
+      if cint(rs1(0)) = 0 then
+        forumcheck = "<input type=checkbox name='ctnodeid' value='" & rs("ctnodeid") & "'>" & rs("catname")
+      else
+        forumcheck = "<input type=checkbox name='ctnodeid' value='" & rs("ctnodeid") & "' checked>" & rs("catname")
+      end if
+      
+      response.write "insdoc("& xparent &", glnk(""forumtoc"", """& forumcheck &""", """& forumlink &"""))" & vbcrlf
+  end if
+  rs.movenext
+ wend
+ rstree.movenext
+  wend
+
+
+ 

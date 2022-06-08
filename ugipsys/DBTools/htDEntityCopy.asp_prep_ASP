@@ -1,0 +1,32 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcode="ht011"
+htprogprefix="htdfield" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+
+
+   CxMethod_ASP_xdbutil_1468464061()
+  
+
+
+ sqlcom = "select * from htdentity where entityid=" & pkstr(request.querystring("entityid"),"")
+ set rsmaster = conn.execute(sqlcom)
+
+
+
+
+
+
+
+
+
+
+                                                  =request.querystring("entityid")
+
+
+
+                                                                                     =rsmaster("tablename") 

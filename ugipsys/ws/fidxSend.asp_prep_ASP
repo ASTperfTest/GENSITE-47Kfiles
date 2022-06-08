@@ -1,0 +1,109 @@
+﻿: 
+response.cachecontrol = "no-cache" 
+response.addheader "pragma", "no-cache" 
+response.expires = -1
+
+' odbcdsn="provider=sqloledb;data source=192.168.0.21;user id=hygip;password=hyweb;initial catalog=gipdoca"
+ dbconnstr="provider=sqloledb;server=127.0.0.1;user id=hygip;password=hyweb;database=gipmofdb"
+' response.write "<a>" & session("odbcdsn") & "</a></divlist>"
+' response.end
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open dbconnstr
+set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = dbconnstr
+'----------hyweb gip db connection patch----------
+
+
+ fdate = request("date")
+ if fdate="" then
+  sql = "select max(fidxdate) from financeindexdaily"
+  set rs = conn.execute(sql)
+  fdate = rs(0)
+ end if
+
+  cvbcrlf = vbcrlf
+  ctabchar = chr(9)
+'  cvbcrlf = ""
+'  ctabchar = ""
+
+ xmlstr = "<?xml version=""1.0"" encoding=""utf-8"" ?>" & cvbcrlf
+' xmlstr = ""
+ xmlstr = xmlstr & "<fidxlist>" & cvbcrlf
+ xmlstr = xmlstr & nctabchar(1) & "<fidxdate>" & fdate & "</fidxdate>" & cvbcrlf
+
+ sql = "select h.*, c.fidxnamee from financeindexdaily as h join financeindex as c on h.fidxid=c.fidxid" _
+  & " where fidxdate=n'" & fdate & "'"
+ set rs = conn.execute(sql)
+ while not rs.eof
+  xmlstr = xmlstr & nctabchar(2) & "<fidxitem><ecode>" & rs("fidxnamee") & "</ecode><fvalue>" & rs("fidxprice") & "</fvalue></fidxitem>" & vbcrlf
+  rs.movenext
+ wend
+ xmlstr = xmlstr & "</fidxlist>" & cvbcrlf
+' debugprint xmlstr
+
+  set oxmlreg = server.createobject("microsoft.xmldom")
+  oxmlreg.async = false
+'  debugprint xmlstr
+'  response.end
+  oxmlreg.loadxml xmlstr
+
+  posturl = "http://smof.cw/ws/fidxrecv.asp"
+  posturl = "http://wadmin.mof.gov.tw/ws/fidxrecv.asp"
+'  debugprint posturl & "<hr>"
+
+ set xmlhttp = server.createobject("msxml2.serverxmlhttp")
+ set rxmlobj = server.createobject("microsoft.xmldom")
+ rxmlobj.async = false
+ xmlhttp.open "post", posturl, false
+ xmlhttp.send oxmlreg.xml
+ rv = rxmlobj.load(xmlhttp.responsexml)
+ if not rv then
+  debugprint  xmlhttp.responsetext & "<hr>"
+  response.write rv & "<hr>"
+  response.end
+ end if
+' response.write "obj.xml==><br>" & rxmlobj.xml & "<hr>"
+ debugprint "<?xml version=""1.0"" encoding=""utf-8"" ?>" & cvbcrlf
+ debugprint rxmlobj.documentelement.xml
+ 
+ 
+function nctabchar(n)
+ if ctabchar = "" then
+  nctabchar = ""
+ else
+  nctabchar = string(n,ctabchar)
+ end if
+end function
+
+sub debugprint(xstr)
+ response.write xstr
+end sub
+
+sub retrievebyxml
+ set rptxmldoc = server.createobject("microsoft.xmldom")
+ rptxmldoc.async = false
+ rptxmldoc.setproperty("serverhttprequest") = true 
+ 
+ loadxml = server.mappath(".") & "\dsd.xml"
+' debugprint loadxml & "<hr>"
+ xv = rptxmldoc.load(loadxml)
+ 
+  if rptxmldoc.parseerror.reason <> "" then 
+    response.write("xml parseerror on line " &  rptxmldoc.parseerror.line)
+    response.write("<br>reason: " &  rptxmldoc.parseerror.reason)
+    response.end()
+  end if
+
+   set optionlist = rptxmldoc.selectnodes("//dstable[tablename='codemain']/instance/row[codemetaid='"&citycode&"']")
+   for each opitem in optionlist
+'    response.write "<divitem><mcode>" & opitem.selectsinglenode("mcode")
+  response.write opitem.xml
+   next
+' response.contenttype = "text/xml"
+' xmldoc2.save(response) 
+' response.write  rptxmldoc.transformnode(xsldom)
+' response.end
+end sub
+ 

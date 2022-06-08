@@ -1,0 +1,73 @@
+﻿
+  if formfunction<>"edit" then
+
+
+
+
+  end if
+
+
+                                        =xxpath
+                                           =xmmositeid
+
+
+
+                                                                             if formfunction="edit" then:                                  end if
+
+
+
+
+
+
+
+
+
+    if (htprogright and 64) <> 0 and deptcheck then
+
+
+
+
+    
+   sqlcom ="select d.deptid,d.deptname,d.parent,len(d.deptid)-1,d.seq," & _
+    "(select count(*) from dept where parent=d.deptid and nodekind='d') " & _
+    "  from dept as d where d.nodekind='d' " _
+    & " and d.deptid like '" & session("deptid") & "%'" _
+    & " order by len(d.deptid), d.parent, d.seq" 
+  'response.write sqlcom
+   set rss = conn.execute(sqlcom)
+   if not rss.eof then
+    arydept = rss.getrows(200)
+    glastmsglevel = 0
+    genlist 0, 0, 1, 0
+           expandfrom arydept(cid, 0), 0, 0
+   end if
+  
+
+
+    elseif formfunction ="edit" and not deptcheck then
+
+                              =rsreg("deptname")
+
+    else
+
+    end if
+
+
+
+
+
+   if formfunction = "add" then 
+         if (htprogright and 4)=4 then 
+
+
+         end if 
+   end if 
+   if formfunction = "edit" and deptcheck then 
+         if (htprogright and 8)=8 then 
+
+
+         end if 
+          if (htprogright and 16) <> 0 and rsreg("mmofolderchildcount") = 0 and mmodatacount = 0 then 
+
+         end if 
+   end if  

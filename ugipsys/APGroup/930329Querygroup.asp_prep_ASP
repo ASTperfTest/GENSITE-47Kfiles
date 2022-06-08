@@ -1,0 +1,104 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+   htprogcode = "ht001"
+
+' step 1: 使用 createobject 產生 object. dll name: hysdk, class name: hyft  
+set obj = server.createobject("hysdk.hyft.1")
+
+' step 2: 呼叫 hyft_connect 連結 hyftd hyft_connect() 傳回值為連線 id, 存放於 obj.ret_val 中
+x = obj.hyft_connect("localhost", 2816, "gg", "", "")
+id = obj.ret_val
+
+if id = -1 then
+ '若是連線失敗, 則錯誤訊息存放於 obj.errmsg
+       response.write "連線 hyftd 發生錯誤, 錯誤訊息: " & obj.errmsg & "<br><br>"
+       response.end
+end if
+
+query="今天我們要一刀兩斷真的一刀兩斷"
+
+' step 3: 啟用hyft_textkeys斷詞功能,如果成功,會得到一個key_id,
+x=obj.hyft_textkeys(id, query,10)
+key_id = obj.ret_val
+if key_id = -1 then
+ '若是連線失敗, 則錯誤訊息存放於 obj.errmsg
+       response.write "連線 hyftd 發生錯誤, 錯誤訊息: " & obj.errmsg & "<br><br>"
+       response.end
+end if
+
+' step 4: 算出query中斷詞的數目
+x=obj.hyft_num_keys(id,key_id)
+num =obj.ret_val
+response.write "共有" & num & "個斷詞<br><br>"
+
+for i = 0 to num-1
+ x=obj.hyft_keylen(id,key_id,i)
+ key_len=obj.ret_val
+   
+ response.write "key_len:" & key_len & "<br><br>"
+ x=obj.hyft_onekey(id,key_id,i,key_len)
+ 'response.write "錯誤訊息: " & obj.errmsg & "<br><br>"
+ key=obj.key
+ response.write "key:" & key & "<br><br>"
+  
+next 
+ 
+ 
+x=obj.hyft_free_key(id,key_id)
+ 
+set obj=nothing 
+response.write "<br>done5!"   
+   
+
+   CxMethod_ASP_server_2075167351()
+
+
+
+
+
+
+
+
+                                                    =title
+
+
+
+
+
+
+
+
+
+    if (htprogright and 4)=4 then :                                            end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      if (htprogright and 2)=2 then 
+
+      end if  

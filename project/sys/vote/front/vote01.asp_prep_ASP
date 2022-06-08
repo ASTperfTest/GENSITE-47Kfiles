@@ -1,0 +1,336 @@
+﻿: 
+ response.expires = 0
+ htprogcode = "gw1_vote01"
+ response.expires = 0
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ subjectid = replace(trim(request("subjectid")), "'", "''")
+ if subjectid = "" then
+  response.write "<body onload=javascript:alert('�ާ@���~�i');history.go(-1);>"
+  response.end
+ end if
+
+ sql = "select * from m011 where m011_subjectid = " & subjectid
+ set rs = conn.execute(sql)
+
+ sql = "select m015_questionid, m015_answerid from m015 where m015_subjectid = " & subjectid
+ set rs3 = conn.execute(sql)
+ while not rs3.eof
+  open_str = open_str & "*" & rs3(0) & "*" & rs3(1) & "*,"
+  rs3.movenext
+ wend
+
+
+
+                                                      = subjectid 
+
+
+
+
+                                                                                             =trim(rs("m011_subject"))
+
+
+
+
+
+
+
+  
+ notetype = trim(rs("m011_notetype"))
+ 
+ if mid(notetype, 1, 1) = "1" then
+
+
+
+
+
+  
+ else
+  response.write "<input type=""hidden"" name=""name"" value=""none"">"
+ end if
+ 
+ if mid(notetype, 2, 1) = "1" then
+
+
+
+
+
+   
+ else
+  response.write "<input type=""hidden"" name=""email"" value=""@."">"
+ end if 
+ 
+ if mid(notetype, 3, 1) = "1" then
+
+
+
+
+
+
+
+
+   
+ end if 
+ 
+ if mid(notetype, 4, 1) = "1" then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+ end if
+ 
+ if mid(notetype, 5, 1) = "1" then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+ end if
+ 
+ if mid(notetype, 6, 1) = "1" then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ end if 
+ 
+ if mid(notetype, 7, 1) = "1" then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ end if
+ 
+ if mid(notetype, 8, 1) = "1" then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ end if
+
+ if mid(notetype, 9, 1) = "1" then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ end if
+
+
+
+
+  
+ sql = "select * from m012 where m012_subjectid = " & subjectid & " order by m012_questionid"
+ set rs2 = conn.execute(sql)
+ while not rs2.eof
+  answertype = trim(rs2("m012_type"))
+  if answertype = "1" or answertype = "" then
+   sel = ""
+   seltype = "radio"
+  else
+   sel = "�]���d���ƿ��d�^"
+   seltype = "checkbox"
+  end if
+
+
+
+                                                             = rs2("m012_questionid") :     = trim(rs2("m012_title")) :   = sel 
+
+
+
+
+  
+   sql = "" & _
+    " select * from m013 where m013_subjectid = " & subjectid & _
+    " and m013_questionid = " & rs2("m012_questionid") & _
+    " order by m013_answerid "
+   set rs3 = conn.execute(sql)
+   while not rs3.eof
+
+
+                    = seltype :                 = rs2("m012_questionid") :            = rs3("m013_answerid") :     if trim(rs3("m013_default")) <> "" then :            end if 
+       = trim(rs3("m013_title")) 
+
+  
+    if instr(open_str, "*" & rs2("m012_questionid") & "*" & rs3("m013_answerid") & "*") > 0 then
+     response.write "   <input type='text' name='open_content" & rs2("m012_questionid") & "_" & rs3("m013_answerid") & "' size='30' maxlength='512'>"
+    end if
+
+
+  
+    rs3.movenext
+   wend
+
+
+
+  
+  rs2.movenext
+ wend
+ 

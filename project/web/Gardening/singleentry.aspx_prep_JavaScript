@@ -1,0 +1,195 @@
+﻿
+
+
+
+function script____1299959139() {src("js/ui.datepicker.js");}CxConstr_249355643();
+
+function script___250465672() {src("js/ui.datepicker-zh-TW.js");}CxConstr_1506426054();
+
+function script___1277764801() {src("js/jquery.autogrow.js");}
+
+
+
+
+
+
+
+
+
+
+            function href____505530415() {UpdatePic();}
+
+            function href___1421372605() {CheckSave();}
+
+           function href____1206670856() {history.go(-1);}
+
+            function href___1199451557() {Hint();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $(document).ready(function() {
+            //Tab Menu
+            $("#tabInfo").addClass("btnDistrict");
+            $("#tabList").addClass("btnDistrict now");
+            $("#tabVote").addClass("btnDistrict");
+            $("#tabFinal").addClass("btnDistrict");
+
+            //TextArea Autogrow
+            $("#ctl00_cp_Des").autogrow({
+                minHeight: 60,
+                lineHeight: 15
+            });
+
+            //datepicker
+            $("#SelectDate").datepicker({
+                showOn: 'both',
+                firstDay: 7,
+                changeFirstDay: false,
+                speed: 'fast',
+                buttonImage: 'images/calendar.gif',
+                buttonImageOnly: true,
+                dateFormat: 'yy/mm/dd',
+                onSelect: updateBeginDate
+            });
+
+            function updateBeginDate(date) {
+                if (date == "") {
+                    $('.DateText').val("");
+                }
+                else {
+                    var year = date.substr(0, 4);
+                    year = year - 1911;
+                    var exceptYear = date.substr(4, 6);
+                    $('.DateText').val(year + exceptYear);
+                }
+            }
+        });
+
+        function Hint() {
+            $.each($(".descriptiveText2"), function(i, n) {
+                if ($(this).css("display") == "none") {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+
+        function CheckSave() {
+            var errMsg = '';
+            if ($("#PublicCount").val() == "0" &&
+            $(":radio:checked")[0].value == "false") {
+                errMsg += '最少需要一篇公開日誌!\n';
+            }
+            if ($("#ctl00_cp_DateText").val() == '') {
+                errMsg += '請選擇日期!\n';
+            }
+
+            if ($("#ctl00_cp_ImgUpload").val() == '') {
+                errMsg += '請選擇檔案!\n';
+            }
+
+            if ($("#ctl00_cp_Des").val().length <= 0) {
+                errMsg += '請輸入種植心得!\n';
+            }
+
+            if (errMsg.length > 0) {
+                alert(errMsg);
+            }
+            else {
+                $("#Action").val('Save');
+                document.aspnetForm.submit();
+            }
+        }
+
+        function Cancel() {
+            $("#Action").val('Cancel');
+            document.aspnetForm.submit();
+        }
+
+        function UpdatePic() {
+            $("#Action").val('NewImg');
+            document.aspnetForm.submit();
+        }
+
+        function DoCancelNewImg() {
+            $("#Action").val('CancelNewImg');
+        }
+    
+
+
+
+
+ 

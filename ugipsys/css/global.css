@@ -1,0 +1,123 @@
+.fade { width:100%; margin:0px auto; padding:10px; overflow:hidden; height:100% }
+.fade .tabs { PADDING-BOTTOM: 0px; LIST-STYLE-TYPE: none; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; OVERFLOW: hidden; PADDING-TOP: 0px; _width: 100%}
+.fade .tabs li {PADDING-BOTTOM: 0px; MARGIN: 0px 2px 0px 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 10px; WHITE-SPACE: nowrap; BACKGROUND: url(../images/PharseImage/cate2_bg2.gif) no-repeat right top; FLOAT: left; PADDING-TOP: 0px}
+.fade .tabs li a { PADDING-BOTTOM: 4px; PADDING-LEFT: 12px; PADDING-RIGHT: 0px; DISPLAY: block; BACKGROUND: url(../images/PharseImage/cate2_bg1.gif) no-repeat left top; COLOR: #ffffff; TEXT-DECORATION: none; PADDING-TOP: 5px }
+.fade .tabs li:hover { }
+.fade .tabs li a.selected {  color:Yellow; }
+.fade .items { clear:both; padding:6px 0; position:relative; top:0; left:0; ; }
+.fade .items div {   }
+
+.fade .items div table {   
+  border: 1px solid #b2ebef;   
+  border-collapse: collapse;    
+}
+.fade .items div table th, .fade .items div table td{   
+  border: 1px solid #b2ebef;   
+  PADDING-BOTTOM: 4px;
+  PADDING-TOP: 4px;
+  PADDING-RIGHT: 4px;
+  PADDING-LEFT: 4px;  
+/* -------text-align:left;------------------*/
+/* ----------給後台jtip字型--------------------------------------------------*/
+  font-size:9px;
+  text-align:left;
+}  
+.fade .items div table th{   
+  background-color:rgb(253, 233, 217);
+/* -------text-align:left;------------------*/
+/* ----------給後台jtip字型--------------------------------------------------*/
+  font-size:9px;
+  text-align:left;
+} 
+/* ---------->>> jtip <<<---------------------------------------------------------------*/
+
+#JT_arrow_left{
+	background-image: url(../images/PharseImage/arrow_left.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	position: absolute;
+	z-index:101;
+	left:-12px;
+	height:23px;
+	width:10px;
+    top:-3px;
+}
+
+#JT_arrow_right{
+	background-image: url(../images/PharseImage/arrow_right.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	position: absolute;
+	z-index:101;
+	height:23px;
+	width:11px;
+    top:-2px;
+}
+
+.JT {
+	position: absolute;
+	z-index:100;
+	border: 2px solid #CCCCCC;
+	background-color: #fff;
+	font-size:12px;
+}
+
+#JT_copy{
+	padding:10px 10px 10px 10px;
+	color:#333333;
+}
+
+.JT_loader{
+	background-image: url(images/loader.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+	width:100%;
+	height:12px;
+}
+
+#JT_close_left{
+	background-color: #CCCCCC;
+	text-align: left;
+	padding-left: 8px;
+	padding-bottom: 5px;
+	padding-top: 2px;
+	font-weight:bold;
+}
+
+#JT_close_right{
+	background-color: #CCCCCC;
+	text-align: left;
+	padding-left: 8px;
+	padding-bottom: 5px;
+	padding-top: 2px;
+	font-weight:bold;
+}
+
+#JT_copy p{
+margin:3px 0;
+}
+
+#JT_copy img{
+	padding: 1px;
+	border: 1px solid #CCCCCC;
+}
+
+.jTip{
+cursor:help;
+}
+
+/* 只有小百科 */
+.jTip1 span{
+    background: none repeat scroll 0% 0% yellow;
+}
+/* 只有專家補充 */
+.jTip2 span{
+    font-style:italic;
+    font-weight:bold;
+}
+/* 二者都有 */
+.jTip3 span{
+    background: none repeat scroll 0% 0% yellow;
+    font-style:italic;
+    font-weight:bold;
+}

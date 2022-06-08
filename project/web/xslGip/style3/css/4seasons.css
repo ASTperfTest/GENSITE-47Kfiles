@@ -1,0 +1,32 @@
+@charset "utf-8";
+/* CSS Document 四季、三個時段共用樣式 */
+
+@import url("i_common.css");
+@import url("i_layout.css");
+@import url("i_function.css"); /*頁籤效果*/
+@import url("i_list.css"); /*中欄ul條列*/
+@import url("i_preface.css"); /*條列頁的頁頭和頁尾資訊 包括 Preface 和 Afterword*/
+@import url("i_page.css"); /*分頁*/
+@import url("i_lplist.css"); /*有縮圖和摘要的條列頁*/
+@import url("i_category.css"); /*條列頁的雙分類*/
+@import url("i_album.css"); /*縮圖瀏覽列*/
+@import url("i_cp.css"); /*cp 頁版型*/
+@import url("i_function2.css"); /*友善列印、回前一頁、轉寄友人*/
+@import url("i_cptable.css"); /*cptable 欄位式內容頁*/
+@import url("i_interact.css"); /*我要發問，以文找文*/
+@import url("i_lpphoto2.css"); /*cp 頁 底下的照片縮圖*/
+@import url("i_score.css"); /*2008新增版型態度投票*/
+@import url("i_column.css"); /*2008報導專欄版型擴充：內容頁特殊版型4款*/
+
+@import url("i_subjectlist.css"); /*主題館條列頁使用*/
+@import url("i_knowledge.css"); /*知識家使用*/
+
+@import url("i_qplist.css"); /*查詢結果頁*/
+@import url("i_pantology.css"); /*知識小百科 */
+
+/*---------------------------------------------修改舊版型的css*/
+@import url("o_common.css"); /*舊的主題館、知識家使用 */
+@import url("o_cfunction.css"); /*舊的共用功能*/
+/*@import url("o_pantology.css"); 舊的小百科 */
+@import url("o_jigsaw.css"); /*舊的知識拼圖 */
+@import url("Font_resize.css"); /*調整字級*/

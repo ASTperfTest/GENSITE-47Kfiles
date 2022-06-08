@@ -1,0 +1,144 @@
+﻿:  @ codepage = 65001 
+  
+'// purpose: 為了 emily 去 edit moj 裡 any text of files from server.
+'// date: 2006/7/13
+'// input:
+'//     xpath , source folder.
+'//     xfile , source filename.
+'//     newfilename , target filename.
+'//     filemanxpath , redirect 時, 所需要的參數.
+
+response.charset = "utf-8"
+htprogcode = "gc1ap5"
+
+   CxMethod_ASP_server_1606199358()
+  
+    dim fso
+    dim bhaveerror
+    dim errormessage
+    
+    dim xfile
+    dim xfilerealpath
+    dim filemanxpath
+    
+    dim renamemode                     '// { "file" | "dir" }
+    
+    '// initail
+    set fso = server.createobject("scripting.filesystemobject")
+    bhaveerror = 0
+    errormessage = ""
+    
+    '// request
+    xpath = request("xpath")
+  xpath = "/publish/"
+    filemanxpath = request("filemanxpath")      '// 給 filename 用的 path
+    xfile = request("xfile")
+    renamemode = request("renamemode")
+    newfilename = request("newfilename")
+    xfilerealpath = ""
+
+    if xpath = "" or xfile = "" or newfilename = "" then
+        errormessage = "error:" & " xpath is empty!"
+        bhaveerror = 1
+    end if
+    
+    if xfile = "" then
+        errormessage = "error:" & " xfile is empty!"
+        bhaveerror = 1
+    end if
+    
+    if newfilename = "" then
+        errormessage = "error:" & " newfilename is empty!"
+        bhaveerror = 1
+    end if
+    
+    if bhaveerror <> 1 then
+        if not isvalidfilename(xfile,errormessage) then
+            bhaveerror = 1
+        end if
+    end if
+
+    if bhaveerror <> 1 then
+        xfilerealpath = server.mappath(xpath & xfile)
+        if renamemode <> "dir" then
+            isfilefound = fso.fileexists(xfilerealpath)
+        else
+            isfilefound = fso.folderexists(xfilerealpath)
+        end if
+    
+        if not isfilefound then
+            errormessage = "error:" & xfilerealpath & " does not exist!"
+            bhaveerror = 1
+        end if
+    end if
+    
+    outputmessage = ""
+    if bhaveerror <> 1 then
+        if renamemode <> "dir" then
+            fso.movefile xfilerealpath, replace(xfilerealpath , "\" & xfile, "\" & newfilename)
+            msg = "檔案"
+        else
+            fso.movefolder xfilerealpath, replace(xfilerealpath , "\" & xfile, "\" & newfilename)
+            msg = "資料夾"
+        end if
+        msg = msg & " [ " & xpath & xfile & " ] \n已重新命名為[ " & xpath & newfilename & " ]！"
+        outputmessage = msg
+    else
+        outputmessage = errormessage
+    end if
+
+
+
+                                                              =response.charset
+
+
+
+
+
+
+  
+if outputmessage <> "" then
+    response.write "alert('" & outputmessage & "');" & vbcrlf
+end if
+
+if renamemode = "dir" then
+    response.write "window.parent.catalogue.location.reload();" & vbcrlf
+end if
+
+                                              =filemanxpath
+
+
+
+  
+set fso = nothing
+set conn = nothing
+
+'//================================================================================
+'//================================================================================
+
+
+
+'// return true: valid file name.
+function isvalidfilename(byval inputfilename, byref returnerrorsign)
+    dim returnvalue
+    dim strerrorsign
+    dim iposition
+
+    strerrorsign = "\/:*?""<>|"
+    returnvalue = true
+    iposition = 0
+
+    if inputfilename <> "" then
+        for iposition = 1 to len(strerrorsign)
+            if instr(inputfilename,mid(strerrorsign,iposition)) > 0 then
+                returnerrorsign =  "檔案名稱不得有" & mid(strerrorsign,iposition) & "！"
+                returnvalue = false
+                exit for
+            end if
+        next
+    end if
+
+    isvalidfilename = returnvalue
+end function
+
+ 

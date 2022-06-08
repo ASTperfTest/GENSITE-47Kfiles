@@ -1,0 +1,316 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  dim gpkey
+    sub gopage_onchange      
+           newpage=reg.gopage.value     
+           document.location.href="Cx_0dummylist.asp?keep=y&nowpage=" & newpage & "&pagesize=Cx_0dummy"    
+     end sub      
+     
+     sub perpage_onchange                
+           newperpage=reg.perpage.value
+           document.location.href="Cx_0dummylist.asp?keep=y&nowpage=Cx_0dummy" & "&pagesize=" & newperpage                    
+     end sub 
+
+     sub shortlonglist(sorl)
+           document.location.href="Cx_0dummylist.asp?keep=y&nowpage=Cx_0dummy&pagesize=Cx_0dummy" _
+   & "&shortlonglist=" & sorl
+     end sub 
+
+     sub setpkey(xv)
+      gpkey = xv
+     end sub
+
+      dim chkcount
+      chkcount=0            '記錄checkbox 被勾數
+
+    sub document_onclick           'checkbox 被勾計數
+         set sobj=window.event.srcelement
+         if sobj.tagname="input" then 
+            if sobj.type="checkbox"  then 
+                if sobj.checked then 
+                   chkcount=chkcount+1
+                else
+                   chkcount=chkcount-1                
+                end if                                          
+            end if
+         end if
+         '
+         if chkcount=0 then 
+            document.all("runjob").style.visibility="hidden"
+         else
+            document.all("runjob").style.visibility="visible"
+         end if
+    end sub        
+    sub chkall
+       chkcount=0     
+       if document.all("ckall").value="全選" then           '全勾
+          for i=0 to reg.elements.length-1
+               set e=document.reg.elements(i)
+               if left(e.name,5)="ckbox" then 
+                   e.checked=true
+                   chkcount=chkcount+1
+              end if     
+          next                 
+          document.all("runjob").style.visibility="visible"
+          document.all("ckall").value="全不選"
+      elseif document.all("ckall").value="全不選" then        '全不勾
+          for i=0 to reg.elements.length-1
+               set e=document.reg.elements(i)
+               if left(e.name,5)="ckbox" then 
+                   e.checked=false
+               end if     
+          next                 
+          document.all("runjob").style.visibility="hidden"
+          document.all("ckall").value="全選"          
+       end if
+   end sub   
+   sub button1_onclick
+    'if document.all("sfx_fctupublic").value="" then
+    ' alert "請點選是否公開狀態欄位!"
+    ' document.all("sfx_fctupublic").focus
+    ' exit sub
+    'end if
+    'xpos=instr(document.all("sfx_fctupublic").value,"--")
+    'fctupublicvalue=left(document.all("sfx_fctupublic").value,xpos-1)
+    'fctupublicdisplay=mid(document.all("sfx_fctupublic").value,xpos+2)
+        chky=msgbox("注意！"& vbcrlf & vbcrlf &"　您確定要刪除資料嗎？"& vbcrlf , 48+1, "請注意！！")
+        if chky=vbok then
+              'document.all("fctupublic").value=fctupublicvalue
+       reg.submittask.value = "delete"
+       reg.submit
+        end if    
+   end sub
+
+ 

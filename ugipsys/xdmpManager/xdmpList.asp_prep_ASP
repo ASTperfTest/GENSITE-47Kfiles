@@ -1,0 +1,164 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="版面管理"
+htprogfunc="版面清單"
+htprogcode="gw1m90"
+htprogprefix="xdmp" 
+   CxMethod_ASP_xdmplistparam_197646082()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_checkgipconfig_1275316133()
+
+
+
+
+         =title
+
+   CxMethod_ASP_dbutil_10064021()
+  
+
+ set rsreg = server.createobject("adodb.recordset")
+ 'fsql=request.querystring("strsql")
+  if request.querystring = "" then
+    session("strsql") = ""
+  end if
+  fsql = session("strsql")
+
+if fsql="" then
+ fsql = "select htx.*, d.deptname" _
+  & " from xdmplist as htx left join dept as d on d.deptid=htx.deptid " _
+  & " where 1=1"
+ fsql = fsql & " and (htx.deptid is null or htx.deptid like n'" & session("deptid") & "%')" 
+ xpcondition
+end if
+
+nowpage=request.querystring("nowpage")  '現在頁數
+
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=30  
+      end if 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+      'strsql=server.urlencode(fsql)
+   session("strsql") = fsql
+   end if    
+end if   
+
+
+
+
+       =title
+
+   if (htprogright and 4)=4 then :                                           end if 
+   if (htprogright and 2)=3 then :                                      end if 
+
+
+
+
+                     =htprogfunc
+
+                                                  =htprogprefix
+
+
+          if cint(nowpage) <>1 then 
+
+              =htprogprefix:                    =(nowpage-1):           =strsql:             =perpagesize
+         end if
+         =totrec
+
+                                 if perpagesize=15 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+                                  if perpagesize=300 then:            end if
+
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):           =strsql:             =perpagesize
+
+          end if
+
+
+
+
+
+
+
+
+
+
+
+                     
+  if not rsreg.eof then   
+    for i=1 to perpagesize                  
+
+
+  pkey = ""
+pkey = pkey & "&xdmpid=" & rsreg("xdmpid")
+if pkey<>"" then  pkey = mid(pkey,2)
+session("xdmpname") = rsreg("xdmpname")
+
+
+                         =pkey:                =rsreg("xdmpid")
+
+                       =rsreg("deptname")
+                                        =rsreg("xdmpname")
+                           =rsreg("purpose")
+  if checkgipconfig("contentstyle") then
+                                             =pkey
+   else 
+                                            =pkey
+   end if 
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+
+
+
+
+
+  else
+
+
+
+
+  end if
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

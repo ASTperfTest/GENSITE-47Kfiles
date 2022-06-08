@@ -1,0 +1,86 @@
+﻿.eTable {  font-family: "細明體", "新細明體"; font-size: 12px; color: #000000 ; background-color: #333333}
+.eTableLable { font-family: "細明體", "新細明體"; font-size: 12px; color: #000000 ; background-color: #CCCCCC}
+.eTableContent {  font-family: "細明體", "新細明體"; font-size: 12px;background-color: #FFFFFF}
+
+.CTable {  font-family: "Arial","細明體", "新細明體"; font-size: 9pt; color: #000000 ; background-color: #0000CC}
+.TableHeadTD { font-family: "Arial","細明體", "新細明體"; font-size: 9pt; color: #000000 ; background-color: #CCCCCC}
+.TableBodyTD {  font-family: "Arial","細明體", "新細明體"; font-size: 9pt; color: #000000 ;background-color: #FFFFFF}
+.do {   font-weight: normal;font-family: "Webdings"; font-size: 10pt}
+.FormTitleText { font-family: "Arial","細明體", "新細明體"; font-size: 9pt; color: #FFFFFF ;}
+
+.DropBox {Filter:Shadow (color=#CCCCCC, Direction=135);}
+
+.tabon {  font-family: "新細明體", "細明體"; font-size: 9pt; color: #FFFFFF; text-decoration: none}
+.tab { font-family: "新細明體", "細明體"; font-size: 12pt; color: #000066; text-decoration: none }
+a:hover { font-family: "新細明體", "細明體"; font-size: 9pt; color: red; text-decoration: none }
+a { font-family: "新細明體", "細明體"; font-size: 9pt; color: #000066; text-decoration: underline;cursor:hand }
+.bluetable {  font-family: "細明體", "新細明體"; font-size: 9pt; color: #000000 ; background-color: #333333}
+.lightbluetable { font-family: "細明體", "新細明體"; font-size: 9pt; color: #000000 ; background-color: #CCCCCC}
+.dimmedbluetable { font-family: "細明體", "新細明體"; font-size: 9pt; color: #000000 ; background-color: #DDDDDD}
+.whitetablebg {  font-family: "細明體", "新細明體"; font-size: 9pt;background-color: #FFFFFF}
+.SEdit { border-top-style:none; border-left-style:none; border-bottom-style:none; border-right-style:none;}
+.rdonly { background-color: pink;}
+.xcbutton { font-family: "細明體", "新細明體"; font-size: 9pt; color: #FFFFFF; background-color: #35421A; 
+	line-height: 10px; Padding-top: 4px; Padding-left: 2px; 
+	border-width: 1px; border-top-color: 6699FF; border-right-color: 000099; border-left-color: 6699FF; border-bottom-color: 000099 }
+.xcbutton {
+	font-family: "新細明體";
+	font-size: 12px;
+	color: #FFFFFF;
+	background-color: #35421A;
+	background-position: center center;
+	border: 1px solid #000000;
+}
+.cbutton {
+	font-size: 12px;
+	background: url(../images/form_but_bg.gif) repeat-x;
+	padding-top: 3px;
+	color: #2B4723;
+	border-top: 1px solid #BBBBBB;
+	border-right: 1px solid #888888;
+	border-bottom: 1px solid #888888;
+	border-left: 1px solid #BBBBBB;
+}
+.FormName {  font-family: "細明體", "新細明體"; font-size: 12pt; color: #000000}
+.Formtext {  font-family: "細明體", "新細明體"; font-size: 9pt; color: #000000}
+.FormLink { font-family: "細明體", "新細明體"; font-size: 9pt; color: #0000CC; font-weight: normal}
+.MenuName { font-family: "細明體", "新細明體"; font-size: 10pt; font-weight: bold; color: #FFCC00}
+.Formbody { font-family: "細明體", "新細明體"; font-size: 12pt; color: #000000}
+.FormRtext   { font-family: "細明體", "新細明體"; font-size: 9pt; color: #000080 }
+.English   { font-family: "Arial"; font-size: 8pt; color: #808080 }
+.xSunDay     { font-family: 細明體, 新細明體; font-size: 9pt; color: #000080;background-color: #FACE9C }
+.xSatDay     { font-family: 細明體, 新細明體; font-size: 9pt; color: #000080;
+               background-color: #FCD8DD}
+.HeadText    { font-family: 細明體; font-size: 10pt; color: #000080 }
+.tab-title {font-family: "新細明體", "細明體"; font-size: 9pt; color: #000066; background-image: url(../images/tab.gif)}
+.tab-titleon {font-family: "新細明體", "細明體"; font-size: 9pt; color: #FFFFFF; cursor: hand; background-image: url(../images/tabon.gif)}
+.divpop {position: absolute; left: 307; top: 60; visibility:visible; background-color: #B5DAFF; layer-background-color: #B5DAFF; border: 2px none #000000}.
+.CliMod { background-color: pink;}
+.CliOrg { background-color: white;}
+
+.conts	{display:none}
+.tab	{	border-top:solid thin #E0E0E0;
+		background-color:#FAEBB6;
+		border-right:solid thin gray;
+		border-left:solid thin #FAEBB6;
+		text-align:center;
+		color:#185590;
+		cursor:hand}
+
+.btab	{	border-top:solid thin #FAEBB6;
+		background-color:#FAEBB6;
+		border-right:solid thin gray;
+		border-left:solid thin #FAEBB6;
+		border-bottom:solid thin gray;
+		text-align:center;
+		color:#185590;
+		font-weight:normal;
+	    cursor:default}
+
+.selTab	{	border-left:solid thin white;
+		background-color:#CCCFD0;
+		border-top:solid thin white;
+		border-right:solid thin black;
+		text-align:center;
+		color:white;
+		cursor:hand}

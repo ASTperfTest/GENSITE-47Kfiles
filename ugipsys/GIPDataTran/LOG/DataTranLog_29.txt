@@ -1,0 +1,167 @@
+主題單元29資料轉檔(2005/11/18)
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,xBody,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'17',N'行政院院本部處理人民陳情案件作業規定',N'一、行政院院本部（以下簡稱本院）為處理人民陳情案件，特訂定本作業規定。
+
+二、本院各組、室、會處理陳情案件，應切實遵照「行政程序法」及「行政院暨所屬各機關處理人民陳情案件要點」規定辦理；其未規定者，依本作業規定辦理。
+
+三、處理人民陳情案件，應注意下列事項：
+（一）應本合法、合理、迅速、確實辦結原則，審慎處理。
+（二）由各組、室、會直接處理者，應將處理結果函復陳情人。
+（三）由各組、室、會函轉主管機關處理者，應副（通）知陳情人，並得請主管機關將處理情形及結果副知本院。
+（四）陳情案件內容涉及風紀或原機關顯有處置不當者，應交由其他適當機關處理。
+
+四、書面陳情案件處理原則如下：
+（一）處理陳情案件，得視案情需要，以電話或書面洽詢陳情人。
+（二）請求釋示法令、政策或解答問題之案件，得移請主管機關答復。
+（三）請求救濟、求職或求助之案件，得移請主管機關酌處逕復。
+（四）所陳意見具參考價值者，移請主管機關參考。
+（五）依法得提起訴願、訴訟、請求國家賠償或其他法定程序之事項提出陳情時，應告知陳情人，或逕移送主管機關並副知陳情人。
+
+五、親至本院陳情案件處理原則如下：
+（一）個人來院陳情者，由政風室負責接待，必要時相關組、室、會人員應會同處理。
+（二）團體來院陳情者，各組、室、會接獲陳情狀況後，應協調主管機關先期疏處，採取因應措施，或請示接見事宜，並得請主管機關派員來院接見處理。經奉准接見之團體，其推派代表入院陳情以不超過十人為原則。
+（三）本院不派員到院外接受陳情，不接受指定接見人員或要求立即答復。未獲准接見之陳情人，如有意圖強行入院，或有聚眾脅迫、滋擾抗爭、妨害秩序等行為，由政風室通知有關單位依法處理。
+
+六、陳情案件移送有關機關時，應注意下列事項：
+（一）陳情案件經主管機關處理後，陳情人如有不同意見再度陳情時，各組、室、會應視案情內容，依權責逕予處理，或函轉原機關處理。
+（二）涉及二個以上機關權責者，應視案情內容，分別移請處理，或移請會同處理。
+（三）移請+有關機關處理並見復之案件，如未獲回復，得酌情洽催。
+
+七、陳情案件有下列情形之一者，得不予處理： 
+（一）無具體內容，未具姓名或住址。 
+（二）同一事由，經予適當處理，並已明確答復後，而仍一再陳情。 
+（三）經查證所留姓名、住址、聯絡電話或電子郵件位址屬偽冒、匿名虛報或不實。 
+（四）非屬本院主管之事項，陳情人以同一事由已分向各機關陳情。',N'sysop',N'2004/12/13 00:00:00',N'2004/08/19 16:50:59',N'2004/12/13 18:00:51'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4864)
+[lawid=23] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,xBody,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'16',N'如何向行政院陳情？',N'一、您對本院如有任何行政上興革建言、違失舉發或權益維護之事項，均可透過書面郵遞、傳真、電子郵件或親自來院等方式陳情。
+
+二、您所陳情的案件，本院處理原則如下：
+　（一）本於合法、合理、迅速確實原則，審慎處理。
+　（二）陳情意見具參考價值者，移請主管機關參考。
+　（三）請求釋示法令、政策或解答問題之案件，得移請主管機關答復。
+　（四）請求救濟、求職或求助之案件，得移請主管機關酌處逕復。
+　（五）陳情內容係依法得提起訴願、訴訟、請求國家賠償或其他法定程序之事項，請逕向主管機關提出。
+
+三、陳情案件如有下列情形之一者，本院得不予處理：
+　(一)無具體內容，未具姓名或住址。 
+　(二)同一事由，經予適當處理，並已明確答復後，而仍一再陳情。 
+　(三)經查證所留姓名、住址、聯絡電話或電子郵件位址屬偽冒、匿名虛報或不實。 
+　(四)非屬本院主管之事項，陳情人以同一事由已分向各機關陳情。
+
+四、您前來本院陳情，本院政風室將派員接待，相關配合注意事項如下：
+　（一）來院人數如果眾多，請推派代表入院陳情，並以不超過十人為原則。
+　（二）本院不派員到院外接受陳情，不接受指定接見人員或要求立即答復。
+　（三）未獲准接見之陳情人，如意圖強行入院，或有聚眾脅迫、滋擾抗爭、妨害秩序等行為，將通知有關單位依法處理。',N'sysop',N'2003/03/18 00:00:00',N'2004/08/18 17:46:20',N'2004/08/19 09:47:04'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4865)
+[lawid=22] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,xBody,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'15',N'機密檔案管理辦法',N'中華民國九十年十月二十四日行政院台九十秘字第０六一七四一號函發布
+
+第一條 本辦法依檔案法（以下簡稱本法）第十六條規定訂定之。 
+第二條 稱機密檔案者，指依法規定列為機密等級之檔案。 
+第三條 機密檔案之機密等級，區分如下： 一、 絕對機密：指具保密價值之檔案洩漏後足以使國家安全、公共利益或個人權益遭受非常重大損害者。 
+二、 極機密：指具保密價值之檔案洩漏後足以使國家安全、公共利益或個人權益遭受重大損害者。 
+三、 機密：指具保密價值之檔案洩漏後足以使國家安全、公共利益或個人權益遭受損害者。 
+ 
+第四條 機密檔案歸檔時，承辦人員應使用機密檔案專用封套裝封，並於封面上註明單位名稱、裝封年月日、收發文字號、案由或案名、年度、分類號、頁數、件數、附件數、案件辦理起迄時間、保存年限、機密等級及解密條件，封口加蓋印章或職名章後，送檔案管理單位辦理歸檔。但案由或案名，得以代碼或代名表示。
+前項專用封套，各機關得視業務需要，參考檔案中央主管機關設計之範例，自行統一規格訂製使用。
+檔案管理人員點收機密檔案時，僅得依封套上記載事項檢視，不得拆開封套；經確認無誤後，應於歸檔清單及封面上註記點收日期或蓋點收章備查。 
+第五條 機密檔案目錄，不予公布。 
+第六條 機密檔案應與一般檔案分別存放；其微縮片或其他複製品，亦同。
+機密檔案應另備保險箱或其他具安全防護功能之箱櫃，裝置密鎖存放之；必要時，應存放於保險室或密室中，並裝置警報及監視系統。
+前項密鎖、警報及監視系統，至少每月應檢查一次，確保其安全。 
+第七條 機密檔案之存放場所或區域，得禁止或限制人員、物品進出，並為其他必要之管制措施。 
+第八條 機密檔案應由機關首長指定專人或由檔案管理單位主管管理。 
+第九條 機關內部單位借調機密檔案，應填具調案單。借調極機密以上等級者，應經機關幕僚長以上核准；借調機密以下等級者，應經業務承辦單位主管核准。
+機密檔案借出時，應外加封套密封後加蓋密封章，送調案人簽收，或由調案人或調案單位指定人員親至檔案管理單位簽收。但屬極機密以上等級者，應由調案人親自為之。
+前項使用外封套之規定，於調案人親至檔案管理單位簽收或備有機密檔案傳遞專用箱盒（袋）者，不適用之。 
+第十條 前條機密檔案之借調，應於七日內歸還。屆期如需繼續使用，應提出展期申請，經核准後始可延展借調期限。借出之檔案如有必要，得隨時催還。 
+第十一條 機關間借調機密檔案，應以書面提出請求，經該機密核定機關首長或其授權人員核准後，始得提供。
+前項書面，應註明借調期間、承辦單位名稱、承辦人員姓名及有關聯絡資料。
+借出之檔案屆期如需繼續使用，應提出展期申請。
+借調之檔案，如有必要，得隨時催還。
+前四項規定，於移轉檔案中央主管機關管理之機密檔案適用之。 
+第十二條 調用機密檔案時，應備函載明法律依據、調用目的、調用期間、承辦單位名稱、承辦人員姓名及有關聯絡資料。 
+第十三條 依規定借調或調用機密檔案時，為避免原件損壞，得提供複製品，用畢後歸還銷毀。 
+第十四條 各機關依規定提供機密檔案時，應以書面告知該機密檔案之機密等級及保密之義務。借調或調用機關用畢後，應即歸還。 
+第十五條 機密檔案歸還時，調案人應在內、外封套上加蓋密封章或職名章密封，並加註歸還日期。
+檔案管理人員應於機密檔案歸還時當場拆除外封套，檢視內封套是否依規定密封。如未密封，應即通知調案人改善，並於調案紀錄註記之。
+歸還之機密檔案，應由調案人會同業務單位承辦人員或主管當場檢視內封套之內容；如有第二十條所定情事，應即處理。
+第一項、第二項有關外封套之規定，於調案人親自將機密檔案送達檔案管理單位或以機密檔案傳遞專用箱盒（袋）辦理歸還手續者，不適用之。 
+第十六條 機密檔案之複製，應經該機密核定機關首長或其授權人員核准後，始得為之。複製時應註明原件之機密等級、保密期限或解密條件、複製品字樣及其份數；如有多份複製品，並應註記編號。
+前項複製品，應視同原件妥善保管；無需繼續使用時，應依規定銷毀。 
+第十七條 機密檔案以微縮、電子或其他方式儲存時，應由機關首長指定專人辦理。
+前項儲存，應與一般檔案分開辦理。 
+第十八條 機密檔案未經解密，不得銷毀。但有機關檔案保存年限及銷毀辦法第十三條第一項所定情形者，不在此限。 
+第十九條 機密檔案之移轉及銷毀，應由機關首長指定專人辦理，並採取必要之安全措施。 
+第二十條 機密檔案有遺失、污損、抽換、拆散等情事時，檔案管理單位應協調權責單位查明責任，依規定議處；其涉及法律責任者，並應依法處理。 
+第二十一條 機密檔案管理人員調、離職時，應列冊將保管之機密檔案逐項點交機關首長指定之人員或檔案管理單位主管。 
+第二十二條 業務承辦單位應依有關法規之規定，主動辦理機密檔案之機密等級變更或解密事宜。
+檔案管理單位應定期清查機密檔案。清查時，得請業務承辦單位依法辦理機密檔案機密等級之變更或解密事宜。 
+第二十三條 移轉檔案中央主管機關管理之機密檔案，移轉機關應配合檔案中央主管機關辦理其機密等級之變更或解密事宜。 
+第二十四條 機密檔案經解密後，依一般檔案管理之。 
+第二十五條 本辦法自本法施行之日施行。 
+',N'sysop',N'2001/10/24 00:00:00',N'2003/09/23 17:55:39',N'2003/09/23 17:56:14'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4866)
+[lawid=17] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'14',N'廉政專欄',N'sysop',N'2005/07/20 00:00:00',N'2005/07/20 09:19:39',N'2005/07/20 09:19:39'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4867)
+[lawid=37] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'13',N'行政院院本部發文代字表',N'sysop',N'2004/12/01 00:00:00',N'2003/09/23 17:54:19',N'2004/12/03 09:50:03'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4868)
+[lawid=16] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'12',N'行政院及所屬各級機關因公派員出國案件編審要點',N'sysop',N'2002/11/25 00:00:00',N'2003/06/25 13:26:11',N'2004/02/11 14:35:19'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4869)
+[lawid=9] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,xBody,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'11',N'事務管理各手冊規定(new!!)',N'檔案大小甚大，請使用者耐心下載後，再行瀏覽。',N'sysop',N'2005/07/01 00:00:00',N'2003/07/31 14:27:35',N'2005/09/02 08:27:39'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4870)
+[lawid=15] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'10',N'公文書橫式書寫數字使用原則(院臺秘字第0930089122號函)',N'sysop',N'2004/09/17 00:00:00',N'2004/09/20 10:55:21',N'2004/09/21 18:35:42'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4871)
+[lawid=27] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'9',N'文書處理手冊第3版',N'sysop',N'2005/01/01 00:00:00',N'2005/01/10 17:51:28',N'2005/01/10 17:51:28'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4872)
+[lawid=34] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'8',N'法制作業通函事項(94.9.9)',N'may',N'2005/09/09 00:00:00',N'2005/07/08 16:25:59',N'2005/09/13 15:00:03'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4873)
+[lawid=36] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'7',N'行政機關法制作業實務',N'may',N'2005/01/01 00:00:00',N'2005/01/01 18:29:32',N'2005/01/01 19:01:00'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4874)
+[lawid=33] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'6',N'訴願文書郵務送達證書及囑託證書',N'may',N'2004/12/10 00:00:00',N'2004/12/10 16:02:33',N'2004/12/10 16:06:23'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4875)
+[lawid=32] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'5',N'行政院處理中法案清冊',N'sos',N'2005/09/08 00:00:00',N'2003/06/25 13:24:41',N'2005/09/13 19:22:18'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4876)
+[lawid=5] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'4',N'法規及行政規則異動月報表',N'may',N'2004/12/02 00:00:00',N'2004/12/02 17:48:48',N'2004/12/02 17:48:48'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4877)
+[lawid=30] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,xBody,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'3',N'第5屆屆期不續審法案',N'註:91年7月1日以後所送法案草案（廢止案除外）,可點選下載',N'may',N'2005/01/21 00:00:00',N'2003/07/31 11:02:48',N'2005/02/16 16:21:39'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4878)
+[lawid=13] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'2',N'第6屆本院送請立法院審議法案',N'may',N'2005/09/13 00:00:00',N'2005/02/05 12:23:38',N'2005/09/14 09:31:49'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4879)
+[lawid=35] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  .dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,xImportant,sTitle,iEditor,xPostDate,createdDate,dEditDate) VALUES(7,29,'Y','N','0',N'1',N'行政院亟需立法院在第6屆第2會期優先審議通過法案',N'may',N'2005/09/16 00:00:00',N'2005/09/09 18:13:53',N'2005/09/19 15:05:11'); select @@IDENTITY as NewID;
+INSERT INTO  .dbo.CuDtx7(giCuItem) Values(4880)
+[lawid=38] 資料轉檔完成!
+----------------------------------------------------------------------------
+===============================================================================
+轉檔 17 筆, 共成功 17 筆!

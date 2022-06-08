@@ -1,0 +1,24 @@
+﻿
+
+  
+
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+'----------hyweb gip db connection patch----------
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+
+ lawid = request("lawid")
+ sql = "select icuitem,stitle from cudtgeneric where topcat='"&lawid&"' and ictunit=1988"
+ set rs = conn.execute(sql)
+ while not rs.eof
+  response.write "<row><mcode>" & rs("icuitem") & "</mcode><mvalue><![cdata[" & rs("stitle") & "]]></mvalue></row>" & vbcrlf
+  rs.movenext
+ wend
+ 
+ 

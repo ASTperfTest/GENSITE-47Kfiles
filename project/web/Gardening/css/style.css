@@ -1,0 +1,438 @@
+body
+{
+    background-color: #ffffff;
+    margin: 0px;
+    padding: 0px;
+}
+
+
+
+
+.datestyle
+{
+    color: #F00;
+}
+.center
+{
+    text-align: center;
+}
+
+.menu
+{
+    background-color: white;
+    height: 35px;
+    font-weight: normal;
+}
+.menu table
+{
+    float: left;
+    height: 32px;
+    margin-top: 2px;
+    border: solid 0px #000;
+}
+.menu td
+{
+    background-color: #D7FE80;
+    padding-right: 6px;
+    padding-left: 6px;
+    vertical-align: middle;
+    text-align: center;
+    border: solid 0px #000;
+}
+.menu td:hover
+{
+    background-color: #888;
+    color: #fff;
+}
+.menu a
+{
+    cursor: pointer;
+    float: left;
+    color: #18498C;
+    text-decoration: none;
+}
+.menu a:hover
+{
+    color: #fff;
+}
+.menu #current
+{
+    background-color: #888;
+}
+.menu #current a
+{
+    color: #fff;
+}
+
+table.userinfo
+{
+    width: 100%;
+    background: #FFFFFF;
+    border-width: 1px;
+    border-style: solid;
+    border-spacing: 1px;
+    border-color: #D7FE80;
+    color: #F2FF95;
+}
+table.userinfo th
+{
+    width: 1%;
+    white-space: nowrap;
+    text-align: left;
+    vertical-align: middle;
+    padding: 2px;
+    background-color: #84A500;
+}
+table.userinfo td
+{
+    vertical-align: top;
+    text-align: left;
+    padding: 2px;
+    background-color: #84A500;
+}
+.descriptiveText
+{
+    color: White;
+}
+.descriptiveText2
+{
+    color: Red;
+}
+table.grid
+{
+    width: 100%;
+    background: #FFFFFF;
+    border-width: 1px;
+    border-style: solid;
+    border-spacing: 1px;
+    border-color: #D7FE80;
+}
+table.grid th
+{
+    white-space: nowrap;
+    text-align: left;
+    padding: 2px;
+    background-color: #F2FF95;
+}
+table.grid td
+{
+    padding: 2px;
+    background-color: #F2FF95;
+}
+
+.pageTable
+{
+    border: 0px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+
+.pageStyle
+{
+    line-height: 20px;
+    color: #333333;
+    border: 0px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: dotted;
+    border-left-style: none;
+    border-top-color: #C3DEF2;
+    border-right-color: #C3DEF2;
+    border-bottom-color: #C3DEF2;
+    border-left-color: #C3DEF2;
+    background-color: #EEEEEE;
+    padding-left: 5px;
+    font-size: 12px;
+}
+
+.pager
+{
+    font-size: 12px;
+    background-color: #EEEEEE;
+    text-align: center;
+}
+
+.pager a:visited
+{
+    padding: 2px 6px;
+    border: solid 1px #ddd;
+    background: #fff;
+    text-decoration: none;
+}
+.pager .AtStart
+{
+    margin-right: 20px;
+    padding: 2px 6px;
+    background: #fff;
+    color: #aaa;
+}
+.pager .Prev
+{
+    margin-right: 20px;
+    padding: 2px 6px;
+    border: solid 2px #ddd;
+    background: #fff;
+}
+.pager .break
+{
+    padding: 2px 6px;
+    border: none;
+    background: #fff;
+    text-decoration: none;
+}
+.pager .Next
+{
+    margin-left: 20px;
+    padding: 2px 6px;
+    border: solid 2px #ddd;
+    background: #fff;
+}
+.pager .AtEnd
+{
+    margin-left: 20px;
+    padding: 2px 6px;
+    background: #fff;
+    color: #aaa;
+}
+.pager .curPage
+{
+    font-weight: bold;
+    font-size: 13px;
+    vertical-align: middle;
+    color: #FF0084;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 2px;
+    padding-bottom: 0px;
+}
+.pager a:hover
+{
+    color: #fff;
+    background: #0063DC;
+    border-color: #036;
+    text-decoration: none;
+}
+.pages div.Results
+{
+    text-align: center;
+    color: #aaa;
+    margin-top: 2px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 15px;
+    font-size: 11px;
+
+}
+
+.total_page
+{
+    font-size: 12px;
+    line-height: 20px;
+    color: #FF0084;
+    background-color: #E7FFFF;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-top-color: #E7FFFF;
+    border-right-color: #E7FFFF;
+    border-bottom-color: #E7FFFF;
+    border-left-color: #E7FFFF;
+}
+.total_page input
+{
+    background-color: Transparent;
+    border: solid 0px;
+}
+
+.backwhite
+{
+    line-height: 20px;
+    color: #333333;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: dotted;
+    border-left-style: none;
+    border-top-color: #C3DEF2;
+    border-right-color: #C3DEF2;
+    border-bottom-color: #C3DEF2;
+    border-left-color: #C3DEF2;
+    background-color: #FFFFFF;
+    padding-left: 5px;
+    font-size: 12px;
+}
+.text
+{
+    font-size: 13px;
+    line-height: 20px;
+    color: #00829E;
+}
+
+.layout {
+	border-collapse:collapse;
+	font-size: 100%;
+	line-height: 150%;
+	clear: both;
+	width: 950px;
+	min-height:370px;
+}
+.layout td {
+	vertical-align: top;
+	text-align: left;
+}
+
+.layout .more{
+	line-height: 100%;
+	padding:0px;
+}
+
+#tagcloud
+{
+	border: 0;
+	font-family: Arial;
+	
+}
+
+
+
+#tagcloud div a
+{
+	text-decoration: none;
+	margin:3px;
+}
+
+#tagcloud a
+{
+	text-decoration: none;
+	margin:3px;
+	CURSOR: pointer;
+}
+
+#tagcloud .TagLv_1{font-size: 14px;color: #0B5891; font-weight:100;}
+
+#tagcloud .TagLv_2{font-size: 16px;color: #0B5891; font-weight:200;}
+
+#tagcloud .TagLv_3{font-size: 18px;color: #0B5891; font-weight:300;}
+
+#tagcloud .TagLv_4{font-size: 20px;color: #0B5891; font-weight:400;}
+
+#tagcloud .TagLv_5{font-size: 22px;color: #0B5891; font-weight:500;}
+
+#tagcloud .TagLv_6{font-size: 24px;color: #0B5891; font-weight:600;}
+
+#tagcloud .TagLv_7{font-size: 26px; color: #0B5891;font-weight:700;}
+
+
+.hot_Article ul
+{
+	padding: 2px;
+	margin-top: 0px;
+	margin-left: 0px;
+}
+
+.hot_Article ul li
+{
+    list-style: none;
+	background-image:url(../images/diary-icon.png);
+	background-position:0px 8px;
+    background-repeat:no-repeat;
+    padding-left:15px;
+	line-height: 160%;
+}
+
+.hot_Article span
+{
+	width:100px;
+	cursor:pointer;
+
+}
+
+.hot_Article  .articleTitle td
+{
+	width:106px;
+	height:30px;
+	text-align:center;
+	cursor:pointer;
+	background:url(../images/btn_bg_gray.jpg);
+	background-repeat: no-repeat;
+	margin:0px;
+	padding:0px;
+	font-size:14px;
+}
+
+.hot_Article  li a
+{
+	padding-left:3px;
+	font-size:14px;
+	color:#436900;
+	text-decoration: none;
+}
+
+.hot_Article  li  span
+{
+	padding-left:10px;
+	font-size:12px;
+}
+
+
+.hot_article table
+{
+	margin-top:0px;
+
+}
+
+.hide
+{
+	display:none;
+}
+
+.left_menu 
+{
+	width:100%;
+}
+.left_menu  td
+{
+	text-align:center;
+	padding-right:20px;
+}
+
+.searchtable 
+{
+    width:90%;
+}
+
+#search_result_padding_top{
+	padding-top:70px;
+}
+
+.searchtable span
+{
+    padding-left:5px;
+    font-size:12px;
+    color:Gray;
+}
+
+.searchtable .more a
+{
+    cursor:pointer;
+    text-decoration: underline;
+    color:#0000ff;
+}

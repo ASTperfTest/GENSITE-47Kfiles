@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<node name="學者知識樹" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=&amp;ActorType=003">
+<node name="農藝類" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00A&amp;ActorType=003">
+</node>
+<node name="園藝類" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00B&amp;ActorType=003">
+</node>
+<node name="林業類" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00C&amp;ActorType=003">
+</node>
+<node name="漁業類" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00D&amp;ActorType=003">
+</node>
+<node name="畜牧類" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00E&amp;ActorType=003">
+<node name="豬" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00E01&amp;ActorType=003">
+</node>
+<node name="牛" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00E02&amp;ActorType=003">
+</node>
+<node name="羊" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00E03&amp;ActorType=003">
+</node>
+<node name="其他家畜" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00E04&amp;ActorType=003">
+</node>
+<node name="雞" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00E05&amp;ActorType=003">
+</node>
+<node name="鴨鵝" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00E06&amp;ActorType=003">
+<node name="鴨鵝形態與生理" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00E0601&amp;ActorType=003" />
+<node name="鴨鵝遺傳與育種" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00E0602&amp;ActorType=003" />
+<node name="鴨鵝飼養管理" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00E0603&amp;ActorType=003" />
+<node name="鴨鵝-其他" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00E0699&amp;ActorType=003" />
+</node>
+<node name="其他家禽" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00E07&amp;ActorType=003">
+</node>
+<node name="伴侶動物" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00E08&amp;ActorType=003">
+</node>
+<node name="其他動物" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00E09&amp;ActorType=003">
+</node>
+<node name="畜牧飼料與添加物" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00E10&amp;ActorType=003">
+</node>
+<node name="畜牧類-其他" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00E99&amp;ActorType=003">
+</node>
+</node>
+<node name="獸醫類" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00F&amp;ActorType=003">
+</node>
+<node name="植物保護類" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00G&amp;ActorType=003">
+</node>
+<node name="土壤肥料類" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00H&amp;ActorType=003">
+</node>
+<node name="農業經濟與推廣類" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00I&amp;ActorType=003">
+</node>
+<node name="農業工程類" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00J&amp;ActorType=003">
+</node>
+<node name="水土保持類" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00K&amp;ActorType=003">
+</node>
+<node name="食品科學類" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00L&amp;ActorType=003">
+</node>
+<node name="環境生態類" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00M&amp;ActorType=003">
+</node>
+<node name="生命科學類" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00N&amp;ActorType=003">
+</node>
+<node name="其他" url="CatTreeList.aspx?DatabaseId=DB020&amp;CategoryId=00Z&amp;ActorType=003">
+</node>
+</node>

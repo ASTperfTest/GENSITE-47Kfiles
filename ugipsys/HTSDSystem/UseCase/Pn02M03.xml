@@ -1,0 +1,78 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<UseCase>
+	<Name>系級對照表</Name>
+	<Code>Pn02M03</Code>
+	<APCat>HT001</APCat>
+	<Version>
+		<Date>2002/7/13</Date>
+		<Author>Norm</Author>
+		<Kind>Expanded</Kind>
+		<ExpandedSpec>
+			<Type>primary</Type>
+			<Type>essential</Type>
+			<ActorList>
+				<Actor initiator="Y">會計室</Actor>
+			</ActorList>
+			<Purpose></Purpose>
+			<PreCondition>
+				<UseCase></UseCase>
+			</PreCondition>
+			<DescriptionList>
+				<Description>
+				學雜費徵收系級對照表維護, 功能有：<br/><br/>
+				1.查詢<br/>
+				2.條列<br/>
+				3.新增<br/>
+				4.編修<br/>
+				</Description>
+			</DescriptionList>
+			<TypicalCourseOfEvents>
+				<Event type="Client" id="C01" ContractXML="evx_TuitionDeptGradeQuery.xml">
+					[查詢] 系級對照表(單元首頁)<br/>
+					1.輸入查詢條件：<b>學院,科系,學籍類別(點選,可複選),年級,是否學分班,使用註記。</b>
+					  不設查詢條件,則查詢所有資料。<br/>
+					2.畫面動作按鈕：[查詢] [重設]。動作完成後, 進入查詢結果畫面。<br/>
+					3.畫面功能按鈕：[新增] [回前頁]。<br/>
+				</Event>
+				<Event type="Client" id="C02" ContractXML="evx_TuitionDeptGradeList.xml">
+					[條列] <font color="blue">系級對照表查詢結果</font><br/>				
+					1.條列查詢結果：<b>系級名稱,學院,科系,學籍類別,年級,是否學分班,使用註記</b>。<br/>
+					2.點選[系級名稱]後進入編修畫面  <br/>
+					3.畫面功能按鈕： [新增][查詢]。<br/>
+				</Event>
+				<Event type="Client" id="C03" ContractXML="evx_TuitionDeptGradeEdit.xml">
+					[編修/ 刪除] <font color="blue">系級對照表</font><br/>
+					1.編修欄位：<b>學院,科系,學籍類別(點選,可複選),年級,是否學分班,使用註記</b>。系級名稱由系統自動組合科系/學籍類別/年級之字串寫入。<br/>
+					2.畫面功能按鈕：[新增] [查詢] [查詢結果]。<br/>
+					3.畫面動作按鈕：[確認存檔] [刪除] [取消]。動作完成後,回查詢結果畫面。<br/>
+				</Event>
+				<Event type="Client" id="C04" ContractXML="evx_TuitionDeptGradeAdd.xml">
+					[新增] <font color="blue">系級對照表</font><br/>
+					1.新增欄位：<b>學院,科系,學籍類別(點選,可複選),年級,是否學分班,使用註記</b>。系級名稱由系統自動組合科系/學籍類別/年級之字串寫入。<br/>
+					2.畫面功能按鈕：[查詢] [回前頁]。<br/>
+					3.畫面動作按鈕：[確認存檔] [取消]。動作完成後, 進入查詢畫面。<br/>
+				</Event>
+			</TypicalCourseOfEvents>
+		</ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+</UseCase>

@@ -1,0 +1,81 @@
+﻿
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid='ppactcat' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if formfunction = "query" then 
+          if (htprogright and 2) <> 0 then 
+
+
+          end if
+  elseif formfunction = "edit" then 
+          if (htprogright and 8) <> 0 then 
+
+           end if 
+
+          if (htprogright and 16) <> 0 then 
+
+         end if 
+
+
+
+   else '-- add ---
+            if (htprogright and 4)<>0 then 
+
+            end if
+
+            if (htprogright and 4)<>0  then 
+
+            end if
+
+   end if  

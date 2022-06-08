@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#006E8E" text="#FFFFFF" link="#00FF00" vlink="#00FF00" alink="#00FF00"  cellspacing="0" cellpadding="0">
+<div align="center">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%" align="left">
+    <tr>
+      <td width="10">&nbsp;</td>
+      <td valign="top"> 
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><br>
+          <img src="method.gif" width="30" height="30" align="absmiddle"> <b><font size="3">SetFileTime<br>
+          <br>
+          </font></b>The SetFileTime function sets the date and time that a file 
+          was created, last accessed, or last modified. <br>
+          <br>
+          <b>Function </b>SetFileTime(Filename:<a href="http://www.overpower.com.br/imagelib/help/defs.htm#string">String</a><a href="http://www.overpower.com.br/imagelib/help/defs.htm#byte"></a>, 
+          dCreation: <a href="http://www.overpower.com.br/imagelib/help/defs.htm#date">Date</a>, 
+          dModify: <a href="http://www.overpower.com.br/imagelib/help/defs.htm#date">Date</a>, 
+          Access: <a href="http://www.overpower.com.br/imagelib/help/defs.htm#date">Date</a>)<br>
+          <br>
+          <b>Description<br>
+          </b>This function sets any file date time. The function can be used 
+          in the case then creating a picture requires a lot of time.<br>
+          <br>
+          <b>Example<br>
+          </b>Set ILIB = server.createobject("Overpower.Imagelib") <br>
+          cre_date=DateSerial(2001,1,20)+TimeValue("14:15:16") <br>
+          ILIB.SetFileTime "c:\document.txt",cre_date,cre_date, cre_date</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"> 
+          </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><i> 
+          </i></font></p>
+        </td>
+    </tr>
+  </table>
+  <p align="left">&nbsp; </p>
+</div>
+</body>
+</html>

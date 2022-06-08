@@ -1,0 +1,73 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if orderfield <> "" and ordername <> "" then 
+
+
+
+      response.write dosortdisplay 
+
+
+
+   end if 
+
+
+                                      if session("pagecount") = 10 then :            end if 
+                                      if session("pagecount") = 15 then :            end if 
+                                      if session("pagecount") = 20 then :            end if 
+                                      if session("pagecount") = 30 then :            end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                         =session("querysql")
+                                             =pno+1
+
+
+
+
+
+
+
+          =tbi
+             =tbi
+              =rowsno
+
+              =rowsno
+
+
+
+
+
+
+
+
+
+
+
+   if orderbyck = "y" then :                                                             end if  

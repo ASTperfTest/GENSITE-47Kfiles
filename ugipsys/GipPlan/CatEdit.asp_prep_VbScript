@@ -1,0 +1,96 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ sub formsubmit()
+  if trim(addcat.catname.value) = empty then
+     msgbox "分類名稱！", 16, "sorry!"
+     addcat.catname.focus
+     exit sub
+  elseif blen(addcat.catname.value) > 100 then
+     msgbox "分類名稱字數過多！", 16, "sorry!"
+     addcat.catname.focus
+     exit sub
+  end if
+  addcat.submit
+ end sub
+
+ sub delformsubmit()
+  chky=msgbox("刪除此分類!"& vbcrlf & vbcrlf &"　確定嗎？"& vbcrlf , 48+1, "請注意！！")
+   if chky<>vbok then
+    exit sub
+   end if
+  addcat.action="catconfig.asp?itemid=Cx_0dummy&configck=del"
+  addcat.submit
+ end sub
+
+ function blen(xs)
+ xl = len(xs)
+ for i=1 to len(xs)
+  if asc(mid(xs,i,1))<0 then xl = xl + 1
+ next
+ blen = xl
+end function
+
+
+ 

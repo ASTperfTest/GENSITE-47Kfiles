@@ -1,0 +1,1153 @@
+﻿:  response.contenttype="text/xml" 
+
+
+
+
+
+  '即時字詞顯示include 
+
+   
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+'是否有取得到文章資料，文章可能會因為 下架、所屬節點下架、主題館下架而取不到資料
+isgetmaindata = false
+
+
+'---start---加入推薦詞彙---檢查是否開啟---2008/09/10---vincent---
+'response.write "<hr>"
+ response.write "<commendword>" 
+ sql = "select codemetaid, mcode, mvalue, msortvalue from codemain where (codemetaid = 'commendword') and (mcode = 'topic')"
+ set crs = conn.execute(sql)
+ if not crs.eof then
+  if crs("mvalue") = "1" then
+   response.write "<isopen>y</isopen>"
+  else
+   response.write "<isopen>n</isopen>"
+  end if
+ else
+  response.write "<isopen>n</isopen>"
+ end if
+ crs.close
+ set crs = nothing
+ response.write  "<ctnode>" & request.querystring("ctnode") & "</ctnode>"
+ response.write "</commendword>" 
+ 
+ '---end---加入推薦詞彙---檢查是否開啟---2008/09/10---vincent---
+
+
+dim rskey
+
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true 
+ 
+'  loadxml = server.mappath("gipdsd") & "\xdmp" & request("mp") & ".xml"
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\xdmp" & request("mp") & ".xml"  
+'  response.write loadxml & "<hr>"
+  xv = htpagedom.load(loadxml)
+'  response.write xv & "<hr>"
+    if htpagedom.parseerror.reason <> "" then 
+      response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+      response.end()
+    end if
+
+   set refmodel = htpagedom.selectsinglenode("//mpdataset")
+
+ if request.querystring("ctnode") = "" then
+  sql = "select  t.ctnodeid" _
+   & " from cudtgeneric as htx join cattreenode as t " _
+   & " on t.ctunitid=htx.ictunit" _
+   & " where htx.icuitem=" & pkstr(request("cuitem"),"")
+  set rs = conn.execute(sql)
+  ctnode = rs(0)
+  xitem = request("cuitem")
+'  response.write sql
+'  response.write ctnode
+'  response.end
+'  response.redirect "ct.asp?xitem=" & request("cuitem") & "&ctnode=" & rs(0)
+ else
+  ctnode = request("ctnode")
+  xitem = request("xitem")
+ end if
+ '把count移到viewcounter.aspx 
+ 'sql = "update cudtgeneric set clickcount = clickcount + 1 where icuitem = '" & xitem & "' "
+ 'conn.execute(sql)
+ '紀錄每日瀏覽數
+ 'sql = "select * from dailyclick where icuitem = '"& xitem &"' and datediff(day,editdate,'"& datevalue(now())&"') = 0 "
+ 'set rs = conn.execute(sql)
+ 'if rs.eof then
+ ' sql_in = "insert into dailyclick (icuitem,dailyclick,editdate) values "
+ ' sql_in = sql_in & " ('"& xitem &"' ,'1' ,getdate())"
+ ' conn.execute(sql_in)
+ 'elseif not rs.eof then
+ ' sql_up = "update dailyclick set dailyclick = dailyclick+1 where icuitem = '"& xitem &"' and datediff(day,editdate,'"& datevalue(now())&"') = 0 "
+ ' conn.execute(sql_up)
+ 'end if
+ '紀錄每日瀏覽數end
+ mytreenode = ctnode
+ response.write "<menutitle>"&nulltext(refmodel.selectsinglenode("menutitle"))&"</menutitle>"
+ response.write "<mystyle>"&nulltext(refmodel.selectsinglenode("mpstyle"))&"</mystyle>"
+ response.write "<mp>"&request("mp")&"</mp>"
+
+ sql = "select * from cattreenode where ctnodeid=" & pkstr(ctnode,"")
+ set rs = conn.execute(sql)
+ xrootid = rs("ctrootid")
+ xctunitname = rs("catname")
+ xpathstr = "<xpathnode title=""" & deamp(xctunitname) & """ xnode=""" & rs("ctnodeid") & """ />"
+ xparent = rs("dataparent")
+ myxsllist = rs("xsldata")
+ response.write "<xsldata>"&myxsllist&"</xsldata>"
+ 
+    CxMethod_ASP_gensite_2005368621()
+    CxMethod_ASP_content_1941111627()
+   
+ myparent = xparent
+ xlevel = rs("datalevel") - 1
+ if rs("ctnodekind") <> "c" then
+  xlevel = xlevel -1
+  mytreenode = xparent
+ end if
+ upparent = 0
+
+ while xparent<>0
+  sql = "select * from cattreenode where ctnodeid=" & pkstr(xparent,"")
+  set rs = conn.execute(sql)
+  if rs("datalevel") = xlevel then upparent = xparent
+  xpathstr = "<xpathnode title=""" & deamp(rs("catname")) & """ xnode=""" & rs("ctnodeid") & """ />" & xpathstr
+  xparent = rs("dataparent")
+ wend
+ response.write "<xpath><unitname>" & deamp(xctunitname) & "</unitname>" & xpathstr & "</xpath>"
+
+
+                     =mytreenode:               =upparent:               =myparent
+     
+ '2011/05/27 sam 文章長出第三層分類
+ sql1 = "select * from cudtgeneric where icuitem = '"&xitem&"'"
+ set rs1 = conn.execute(sql1)
+ if not rs1.eof and rs1("topcat") <> "" then 
+  sql2="select * from codemain where (codemetaid = n'customwebcat_"&rs1("ictunit")&"') and (mcode = '"&rs1("topcat")&"')"
+  set rs2 = conn.execute(sql2)
+  if  not rs2.eof then 
+   if rs2("mvalue") <> "" then
+   response.write "<catlist>"
+   response.write "<mediapath><mcode>"&rs1("topcat")&"</mcode>"
+   response.write "<mvalue>"&rs2("mvalue")&"</mvalue>"
+   response.write "<murl>lp.asp?ctnode="&request("ctnode")&"&amp;ctunit="&rs1("ictunit")&"&amp;basedsd="&rs1("ibasedsd")&"&amp;xq_xcat="&rs1("topcat")&"</murl>"
+   response.write "</mediapath>"
+   response.write "</catlist>"
+   end if
+  end if
+ end if
+'-------準備前端呈現需要呈現欄位的dsd xmldom
+ sqltable="select bd.sbasetablename,cg.ibasedsd,cg.ictunit " & _
+  "from cudtgeneric cg left join basedsd bd on cg.ibasedsd=bd.ibasedsd " & _
+  "where cg.icuitem=" & pkstr(xitem,"")
+ set rstable=conn.execute(sqltable)  
+
+if not rstable.eof then '沒資料就跳過去 秀建置中
+     '----找出對應的ctunitx???? xmlspec檔案(若找不到則抓default), 並依fieldseq排序成物件存入session
+    set fso = server.createobject("scripting.filesystemobject")
+ filepath = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx" & rstable("ictunit") & ".xml")
+     if fso.fileexists(filepath) then
+      loadxmldsd = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx" & rstable("ictunit") & ".xml")
+     else
+      loadxmldsd = server.mappath("/site/" & session("mysiteid") & "/gipdsd/cudtx" & rstable("ibasedsd") & ".xml")
+     end if  
+ set dsddom = server.createobject("microsoft.xmldom")
+ dsddom.async = false
+ dsddom.setproperty("serverhttprequest") = true 
+ xv = dsddom.load(loadxmldsd)
+' response.write xv & "<hr>"
+
+   if dsddom.parseerror.reason <> "" then 
+      response.write("dsddom parseerror on line " &  dsddom.parseerror.line)
+      response.write("<br>reason: " &  dsddom.parseerror.reason)
+      response.end()
+   end if 
+     set root = dsddom.selectsinglenode("dataschemadef")  
+     '----load xsl樣板
+     set oxsl = server.createobject("microsoft.xmldom")
+    oxsl.async = false
+    xv = oxsl.load(server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitxorder.xsl"))   
+     '----複製slave的dstable,並依順序轉換
+ set dsdnode = dsddom.selectsinglenode("dataschemadef/dstable[tablename='"&rstable(0)&"']").clonenode(true)    
+     set dsdnodexml = server.createobject("microsoft.xmldom")
+    dsdnodexml.appendchild dsdnode
+     set nxml = server.createobject("microsoft.xmldom")
+     nxml.loadxml(dsdnodexml.transformnode(oxsl))
+     set nxmlnewnode = nxml.documentelement  
+ for each param in nxmlnewnode.selectnodes("field[formlistclient='']") 
+  set romovenode=nxmlnewnode.selectsinglenode("field[fieldname='"+param.selectsinglenode("fieldname").text+"']")
+  nxmlnewnode.removechild romovenode
+ next       
+     dsdnode.replacechild nxmlnewnode,dsdnode.selectsinglenode("fieldlist")     
+     root.replacechild dsdnode,root.selectsinglenode("dstable[tablename='"&rstable(0)&"']")
+     '----複製cudtgeneric的dstable,並依順序轉換
+     set genericnode = dsddom.selectsinglenode("dataschemadef/dstable[tablename='cudtgeneric']").clonenode(true)    
+     set genericnodexml = server.createobject("microsoft.xmldom")
+     genericnodexml.appendchild genericnode
+    set nxml2 = server.createobject("microsoft.xmldom")
+     nxml2.loadxml(genericnodexml.transformnode(oxsl))
+     set nxmlnewnode2 = nxml2.documentelement
+ for each param in nxmlnewnode2.selectnodes("field[(formlistclient='' and fieldname!='stitle') or inputtype='hidden']") 
+  set romovenode=nxmlnewnode2.selectsinglenode("field[fieldname='"+param.selectsinglenode("fieldname").text+"']")
+  nxmlnewnode2.removechild romovenode
+ next             
+     genericnode.replacechild nxmlnewnode2,genericnode.selectsinglenode("fieldlist")
+     root.replacechild genericnode,root.selectsinglenode("dstable[tablename='cudtgeneric']")        
+   set dsdrefmodel = dsddom.selectsinglenode("//dstable")
+   set dsdallmodel = dsddom.selectsinglenode("//dataschemadef")
+   '----混合field順序
+ set nxml0 = server.createobject("microsoft.xmldom")
+ nxml0.loadxml(dsddom.transformnode(oxsl))
+
+ ispostdate = "n"
+ ispic = "n"
+ for each param in nxmlnewnode2.selectnodes("field[formlistclient!='' and fieldname='xpostdate']")   
+  ispostdate = "y"
+ next
+ for each param in nxmlnewnode2.selectnodes("field[formlistclient!='' and fieldname='ximgfile']")   
+  ispic = "y"
+ next
+end if  '沒資料就跳過去 秀建置中end 
+
+ if myxsllist<>"" and myxsllist <>"stylea" and myxsllist <>"styleb"  then
+  dofp
+ else
+  docp
+ end if
+if not rstable.eof then '沒資料就跳過去 秀建置中
+ for each xblock in dsdallmodel.selectnodes("refdatablock")
+  dorefdatagroup xblock
+ next
+end if '沒資料就跳過去 秀建置中end
+' for each xblock in dsdallmodel.selectnodes("refdatablock")
+'  dorefdatablock xblock
+' next
+if not rs.eof then '沒資料就跳過去 秀建置中
+  if rs("attachcount") > 0 then
+
+ fsql = "select dhtx.*" _
+  & " from cudtattach as dhtx" _
+  & " where blist='y'" _
+  & " and nfilename not like '%.mpg' and nfilename not like '%.swf' and nfilename not like '%.wmv'" _
+  & " and dhtx.xicuitem=" & pkstr(rs("icuitem"),"") _
+  & " order by dhtx.listseq"
+ set rslist = conn.execute(fsql)
+ 'ivy
+ sessionurl = "http://kmwebsys.coa.gov.tw/site/coa"
+ 
+ response.write "<attachmentlist>" & vbcrlf
+ while not rslist.eof
+  
+  'response.write "<attachment><url><![cdata[public/attachment/" & rslist("nfilename") _
+  '& "]]></url><caption><![cdata[" & rslist("atitle") & "]]></caption><attachkind><![cdata[" & rslist("attachkinda") & "]]></attachkind><attachtype><![cdata[" & rslist("attachtype") & "]]></attachtype></attachment>"
+  response.write "<attachment>"
+  'ivy
+  
+  response.write "<isimagefile>"
+  select case lcase(right( rslist("nfilename"), 4))
+   case ".gif",".png",".jpg",".bmp","jpge"
+    response.write "y"
+   case else
+    response.write "n"
+  end select
+  response.write "</isimagefile>"
+  
+  response.write "<url><![cdata[public/attachment/" & rslist("nfilename") & "]]></url>"  
+  response.write "<showpictureurl><![cdata[" & sessionurl & "/wsxd2/showpicture.aspx?filename=" & rslist("nfilename") & "&cuitem=" & request("xitem") & "&pathtype=a" &"]]></showpictureurl>"
+  response.write "<caption><![cdata[" & rslist("atitle") & "]]></caption>"
+  response.write "<descxx><![cdata[" & rslist("adesc") & "]]></descxx>"
+  filetype = lcase(mid(rslist("nfilename"), instr(rslist("nfilename"), ".") + 1, len(rslist("nfilename")) - instr(rslist("nfilename"), ".") ) )
+  response.write "<filetype>" & filetype & "</filetype>"
+  response.write "</attachment>"
+
+  rslist.movenext
+ wend
+ response.write "</attachmentlist>"
+ 
+ 
+ fsql = "select dhtx.*" _
+  & " from cudtattach as dhtx" _
+  & " where blist='y'" _
+  & " and (nfilename like '%.mpg' or nfilename like '%.swf' or nfilename like '%.wmv')" _
+  & " and dhtx.xicuitem=" & pkstr(rs("icuitem"),"") _
+  & " order by dhtx.listseq"
+ set rslist = conn.execute(fsql)
+ 'ivy
+ sessionurl = "http://kmwebsys.coa.gov.tw/site/coa"
+ 
+ response.write "<videoattachmentlist>" & vbcrlf
+ while not rslist.eof  
+ 
+  response.write "<attachment>"  
+  response.write "<url><![cdata[public/attachment/" & rslist("nfilename") & "]]></url>"  
+  response.write "<showpictureurl><![cdata[" & sessionurl & "/wsxd2/showpicture.aspx?filename=" & rslist("nfilename") & "&cuitem=" & request("xitem") & "&pathtype=a" &"]]></showpictureurl>"
+  response.write "<caption><![cdata[" & rslist("atitle") & "]]></caption>"
+  response.write "<descxx><![cdata[" & rslist("adesc") & "]]></descxx>"
+  filetype = lcase(mid(rslist("nfilename"), instr(rslist("nfilename"), ".") + 1, len(rslist("nfilename")) - instr(rslist("nfilename"), ".") ) )
+  response.write "<filetype>" & filetype & "</filetype>"
+  response.write "</attachment>"
+
+  rslist.movenext
+ wend
+ response.write "</videoattachmentlist>"
+ 
+ 
+ 
+  end if
+
+  if rs("pagecount") > 0 then
+ fsql = "select dhtx.*, n.*" _
+  & " from cudtpage as dhtx" _
+  & " join cudtgeneric as n on dhtx.npageid=n.icuitem" _
+  & " where blist='y'" _
+  & " and dhtx.xicuitem=" & pkstr(rs("icuitem"),"") _
+  & " order by dhtx.listseq"
+ set rslist = conn.execute(fsql)
+ response.write "<referencelist>" & vbcrlf
+ while not rslist.eof
+  response.write "<reference icuitem='" & rslist("npageid") & "'><url>content.asp?cuitem=" & rslist("npageid")& "&amp;mp=" & request("mp") _
+   & "</url><caption><![cdata[" & rslist("atitle") & "]]></caption>" _
+   & "<ximgfile>" & rslist("ximgfile") & "</ximgfile></reference>"
+
+  rslist.movenext
+ wend
+ response.write "</referencelist>"
+  end if
+ 
+  keywordrelation rs("icuitem")
+  if not rskey.eof then
+ response.write "<relatedlist>" & vbcrlf
+ while not rskey.eof
+  response.write "<relatedref><url>content.asp?cuitem=" & rskey("icuitem") & "&amp;mp=" & request("mp") _
+   & "</url><keyweights>" & rskey("keyweights") _
+   & "</keyweights><cpostdate>" & d7date(rskey("xpostdate")) _
+   & "</cpostdate><caption><![cdata[" & rskey("stitle") & "]]></caption></relatedref>"
+
+  rskey.movenext
+ wend
+ response.write "</relatedlist>"
+  end if
+end if '沒資料就跳過去 秀建置中 end
+
+
+
+
+   
+ if request("memid")<>"" then
+  sqlmem = "select realname, isnull(nickname, '') as nickname, isnull(logincount, 0) as logincount,account " & _
+    " from member where account = '" & request("memid") & "'"
+  set mem_rs = conn.execute(sqlmem)
+ 
+    if not mem_rs.eof then
+
+
+
+                                                              =request("xitem")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    end if
+   end if
+   
+ icuitem = request("xitem")
+ if icuitem = "" then icuitem = request("cuitem") end if
+ sqlcom = "select gradecount, gradepersoncount from subjectforum where gicuitem = '"& icuitem &"'"
+ set com_rs = conn.execute(sqlcom)
+ if not com_rs.eof then
+  gradecount=com_rs("gradecount")
+  gradepersoncount=com_rs("gradepersoncount")
+ end if
+ if gradecount ="" then gradecount=0 end if
+ if gradepersoncount ="" then gradepersoncount=0 end if
+ grade = 0
+ if gradepersoncount <> 0 then
+  grade=cint(gradecount)/cint(gradepersoncount)
+ end if
+ if grade = 0 then
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+    elseif grade > 0 and grade < 0.5 then
+      str =str& "<img class=""rating"" src=""images/icn_star_half_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+    elseif grade >= 0.5 and grade <= 1 then
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+    elseif grade > 1 and grade < 1.5 then
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_half_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+    elseif grade >= 1.5 and grade <= 2 then
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+    elseif grade > 2 and grade < 2.5 then
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_half_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+    elseif grade >= 2.5 and grade <= 3 then
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+    elseif grade > 3 and grade < 3.5 then
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_half_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+    elseif grade >= 3.5 and grade <= 4 then
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_empty_19x20.gif"" align=""top""/>"
+    elseif grade > 4 and grade < 4.5 then
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_half_19x20.gif"" align=""top""/>"
+    elseif grade >= 4.5 and grade <= 5.0 then
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+      str =str& "<img class=""rating"" src=""images/icn_star_full_19x20.gif"" align=""top""/>"
+    end if
+ 
+   if isgetmaindata then
+
+
+
+                                =grade
+    =str
+     =gradepersoncount
+    if request("memid") ="" then
+
+    end if
+
+    
+  sql = "select cudtgeneric.xpostdate,cudtgeneric.xbody,member.account,member.nickname from cudtgeneric inner join subjectforum on cudtgeneric.icuitem = subjectforum.gicuitem inner join member on cudtgeneric.ieditor = member.account "
+  sql = sql &" where (subjectforum.parenticuitem = '"& request("xitem") &"') and cudtgeneric.ictunit = '2752' and cudtgeneric.fctupublic ='y' "
+  sql = sql &" order by cudtgeneric.xpostdate desc"
+  set rs=conn.execute(sql)
+  if not rs.eof then
+
+                                                                                      =request("xitem"):               =request("ctnode"):           =request("mp")
+
+    end if
+  while not rs.eof
+   if rs("nickname") <> "" then 
+    name = rs("nickname")
+   else
+    name = rs("account")
+   end if
+   response.write name &"發表於 " &rs("xpostdate") &"<br/>"
+   response.write replace(rs("xbody"),vbcrlf,"<br/>")&"<br/>"
+   response.write "<hr/>"
+   rs.movenext
+  wend
+  
+
+   end if
+
+
+  
+  for each xdataset in refmodel.selectnodes("dataset[contentdata='y']")
+ processxdataset
+  next
+
+function keywordrelation(icuitem)
+    '----參數 cudtgenric.icuitem
+    '----傳回值 true:產生rskey recordsets(10筆);false:不能產生rskey recordsets
+    '----rskey欄位
+    '--------icuitem 相關資料自動編號id值
+    '--------stitle 相關資料標題
+    '--------keycounts 相關資料之關鍵字詞與搜尋關鍵字詞相同之個數
+    '--------keyweights 相關資料之關鍵字詞與搜尋關鍵字詞相同之權重總計
+    xicuitem=icuitem
+    sqlk="select xkeyword, refid from cudtgeneric where icuitem =" & xicuitem
+    set rsk=conn.execute(sqlk)
+    if not isnull(rsk("xkeyword")) and rsk("xkeyword") <> "" then
+    xrefid = rsk("refid")
+    if xrefid="" or isnull(xrefid) then xrefid=xicuitem
+ '----組合where子句所需xkeyword字串
+ xkeywordstr = ""
+ xkeywordarray = split(rsk("xkeyword"),",")
+ for i = 0 to ubound(xkeywordarray)
+  '----去除權重符號
+  xpos = instr(xkeywordarray(i),"*")
+  if xpos <> 0 then
+   xstr = left(trim(xkeywordarray(i)),xpos-1)
+  else
+   xstr = trim(xkeywordarray(i))
+  end if
+  xkeywordstr = xkeywordstr + "'" + xstr + "',"
+ next
+ xkeywordstr = left(xkeywordstr,len(xkeywordstr)-1)
+ '----產生rskey recordsets
+ sqlkey = "select top 10 cdtk.icuitem,cdtg.stitle,max(cdtg.xpostdate) as xpostdate,count( cdtk.icuitem) keycounts,sum(weight) keyweights " & _
+  "from cudtkeyword cdtk join cudtgeneric cdtg on cdtk.icuitem=cdtg.icuitem " & _
+  "where cdtk.icuitem <> " & cstr(xicuitem) & _
+  " and cdtk.icuitem <> " & xrefid & _
+  " and cdtk.xkeyword in (" & xkeywordstr & ") " & _
+  " and (cdtg.refid is null or cdtg.refid <> " & cstr(xicuitem) & ") " & _
+  " group by cdtk.icuitem,cdtg.stitle order by keyweights desc ,keycounts desc, cdtk.icuitem" 
+ set rskey = conn.execute(sqlkey)
+ keywordrelation = true
+    else
+    set rskey = conn.execute("select * from ap where 1=2")
+ keywordrelation = false    
+    end if
+end function
+
+function message(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   message=""
+   exit function
+  elseif instr(1,xs,"<p",0)>0 or instr(1,xs,"<br",0)>0 or instr(1,xs,"<td",0)>0 then
+  message=xs
+   exit function
+  end if
+   xs = replace(xs,vbcrlf&vbcrlf,"<p>")
+   xs = replace(xs,vbcrlf,"<br/>")
+   message = replace(xs,chr(10),"<br/>")
+end function
+
+function deamp(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   deamp=""
+   exit function
+  end if
+   deamp = replace(xs,"&","&amp;")
+ deamp = replace(deamp,"""","&quot;")
+end function
+
+sub docp
+ sql = "select  htx.*, xr1.deptname, u.ctunitname " _
+  & ", (select count(*) from cudtattach as dhtx" _
+  & " where blist='y' and dhtx.xicuitem=htx.icuitem) as attachcount " _
+  & ", (select count(*) from cudtpage as phtx" _
+  & " where blist='y' and phtx.xicuitem=htx.icuitem) as pagecount " _
+  & " from cudtgeneric as htx left join dept as xr1 on xr1.deptid=htx.idept" _
+  & " left join ctunit as u on u.ctunitid=htx.ictunit" _
+  & " where htx.icuitem=" & pkstr(xitem,"") & " and htx.fctupublic ='y' " _
+  & " and exists (select * from cattreenode where inuse='y' and ctnodeid = " & pkstr(ctnode,"") & ")"
+
+sql = ""
+sql = sql & vbcrlf & "select  "
+sql = sql & vbcrlf & "   htx.*"
+sql = sql & vbcrlf & " , xr1.deptname"
+sql = sql & vbcrlf & " , u.ctunitname "
+sql = sql & vbcrlf & " , (select count(*) from cudtattach as dhtx where blist='y' and dhtx.xicuitem=htx.icuitem) as attachcount "
+sql = sql & vbcrlf & " , (select count(*) from cudtpage as phtx where blist='y' and phtx.xicuitem=htx.icuitem) as pagecount "
+sql = sql & vbcrlf & "from cudtgeneric as htx "
+sql = sql & vbcrlf & "left join dept as xr1 on xr1.deptid=htx.idept"
+sql = sql & vbcrlf & "left join ctunit as u on u.ctunitid=htx.ictunit"
+sql = sql & vbcrlf & "where "
+sql = sql & vbcrlf & " htx.icuitem=" & pkstr(xitem,"")
+
+'bob sso id, 主題館中未開放的目錄或文章，必須要有sso id才可以瀏覽
+if request("backendsetup") = "" then
+    sql = sql & vbcrlf & "and htx.fctupublic ='y' "
+end if
+
+ set rs = conn.execute(sql)
+ '無資料 秀"建置中"
+ if rs.eof then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+ end if
+ if not rs.eof then
+
+ isgetmaindata = true
+ cpostdate = d7date(rs("xpostdate"))
+ scpostdate = "中華民國 " & mid(cpostdate,1,2) & " 年 " & mid(cpostdate,4,2) & " 月 " & mid(cpostdate,7,2) & " 日" 
+
+                          =rs("icuitem"):                =rs("xnewwindow"):                  =ispostdate:             =ispic
+                          =rs("stitle")
+                       =replaceandfindkeyword(message(rs("xbody")))
+               =rs("xabstract")
+               =rs("xpostdate")
+                =scpostdate
+                =rs("deptname")
+             =rs("topcat")
+             =rs("vgroup")
+                 =deamp(rs("ctunitname"))
+           =deamp(rs("xurl"))
+               =deamp(rs("xkeyword"))
+    if not isnull(rs("ximgfile")) then 
+                           =rs("ximgfile")
+    end if 
+    if not isnull(rs("filedownload")) then 
+                               =rs("filedownload")
+    end if 
+
+    
+ end if
+
+end sub
+
+sub dofp
+
+ xselect = "d.deptname,htx.*, ghtx.*"
+ xfrom = nulltext(dsdrefmodel.selectsinglenode("tablename")) & " as htx " _
+   & " join cudtgeneric as ghtx on ghtx.icuitem=htx.gicuitem " _
+   & " left join dept as d on d.deptid=ghtx.idept "
+ xrcount = 0
+ for each param in dsdrefmodel.selectnodes("fieldlist/field[reflookup!='' and inputtype!='refcheckbox'and inputtype!='refcheckboxother']")
+  xrcount = xrcount + 1
+  xalias = "xref" & xrcount
+  sql="select * from codemetadef where codeid='" & param.selectsinglenode("reflookup").text & "'"
+  'response.write sql  & "<hr>"
+         set rslk=conn.execute(sql)  
+         xafldname = "xref" & param.selectsinglenode("fieldname").text
+  xselect = xselect & ", " & xalias & "." & rslk("codedisplayfld") & " as " & xafldname
+  xfrom = "(" & xfrom & " left join " & rslk("codetblname") & " as " & xalias & " on " _
+   & xalias & "." & rslk("codevaluefld") & " = htx." & param.selectsinglenode("fieldname").text
+  if not isnull(rslk("codesrcfld")) then _
+       xfrom = xfrom & " and " & xalias & "." & rslk("codesrcfld") & "='" & rslk("codesrcitem") & "'"
+   xfrom = xfrom & ")"
+ next 
+ for each param in dsdallmodel.selectnodes("//dstable[tablename='cudtgeneric']/fieldlist/field[reflookup!='' and inputtype!='refcheckbox'and inputtype!='refcheckboxother']")
+  xrcount = xrcount + 1
+  xalias = "xref" & xrcount
+  sql="select * from codemetadef where codeid='" & param.selectsinglenode("reflookup").text & "'"
+         set rslk=conn.execute(sql)  
+         xafldname = "xref" & param.selectsinglenode("fieldname").text
+  xselect = xselect & ", " & xalias & "." & rslk("codedisplayfld") & " as " & xafldname
+  xfrom = "(" & xfrom & " left join " & rslk("codetblname") & " as " & xalias & " on " _
+   & xalias & "." & rslk("codevaluefld") & " = ghtx." & param.selectsinglenode("fieldname").text
+  if not isnull(rslk("codesrcfld")) then _
+       xfrom = xfrom & " and " & xalias & "." & rslk("codesrcfld") & "='" & rslk("codesrcitem") & "'"
+   xfrom = xfrom & ")"
+ next 
+
+ fsql = "select (select count(*) from cudtattach as dhtx" _
+  & " where blist='y' and dhtx.xicuitem=ghtx.icuitem) as attachcount " _
+  & ", (select count(*) from cudtpage as phtx" _
+  & " where blist='y' and phtx.xicuitem=ghtx.icuitem) as pagecount, " 
+  
+    fsql = ""
+    fsql = fsql & vbcrlf & "select "
+    fsql = fsql & vbcrlf & "  (select count(*) from cudtattach as dhtx where blist='y' and dhtx.xicuitem=ghtx.icuitem) as attachcount "
+    fsql = fsql & vbcrlf & ", (select count(*) from cudtpage as phtx where blist='y' and phtx.xicuitem=ghtx.icuitem) as pagecount,  "  
+ fsql = fsql & vbcrlf & xselect & " from " & xfrom 
+ fsql = fsql & vbcrlf & " where ghtx.icuitem=" & pkstr(xitem,"")  
+ 
+'bob sso id, 主題館中未開放的目錄或文章，必須要有sso id才可以瀏覽
+if request("backendsetup") = "" then
+    fsql = fsql & vbcrlf & " and ghtx.fctupublic ='y'"
+end if 
+ 
+ fsql = fsql & vbcrlf & " order by xpostdate desc"
+
+
+ set rs = conn.execute(fsql)
+
+  xindaterange = "y"
+'  if not isnull(rs("m011_edate")) and rs("m011_edate")<>"" _
+'   and (xstdday(rs("m011_edate")) < xstdday(date())) then xindaterange="n"
+  if not isnull(rs("xpostdateend")) and rs("xpostdateend")<>"" and (xstdday(rs("xpostdateend")) < xstdday(date())) then xindaterange="n"
+
+ 
+ if rs.eof then
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+ else
+ isgetmaindata = true
+ xrcount = 0
+
+                          =rs("icuitem"):                =rs("xnewwindow"):                   =xindaterange:                  =ispostdate:             =ispic
+   for each param in nxml0.selectnodes("//fieldlist/field")
+  kf = param.selectsinglenode("fieldname").text
+  if nulltext(param.selectsinglenode("reflookup")) <> "" _
+   and nulltext(param.selectsinglenode("inputtype"))<>"refcheckbox" _
+   and nulltext(param.selectsinglenode("inputtype"))<>"refcheckboxother" then
+   xrcount = xrcount + 1
+   kf = "xref"  & kf
+  elseif nulltext(param.selectsinglenode("fieldname"))="idept" then
+   kf="deptname"
+  end if  
+  
+
+
+                 =param.selectsinglenode("fieldname").text
+             =param.selectsinglenode("fieldlabel").text
+
+                       if param.selectsinglenode("fieldname").text = "xbody" then  
+          response.write  replaceandfindkeyword(message(rs(kf)))
+         else
+          response.write message(rs(kf))
+         end if 
+
+  
+ next
+
+
+    
+ end if
+end sub
+
+sub dorefdatagroup(rnode)
+
+ response.write "<refdatablock>"
+ response.write rnode.selectsinglenode("datalable").xml
+ response.write rnode.selectsinglenode("dataremark").xml
+
+ xselect = nulltext(rnode.selectsinglenode("sqlselect"))
+ xfrom = nulltext(rnode.selectsinglenode("sqlfrom"))
+ headercount = nulltext(rnode.selectsinglenode("sqltop"))
+ if headercount<>"" then headercount = "top " & headercount & " "
+ xwhere = " where 1=1"
+ for each fkfieldref in rnode.selectnodes("fkfieldref")
+  xwhere = xwhere & " and " & nulltext(fkfieldref.selectsinglenode("reffield")) _
+   & "=" & pkstr(rs(nulltext(fkfieldref.selectsinglenode("myfield"))),"")
+ next
+ 
+ fsql = "select " & headercount & xselect & " from " & xfrom & xwhere
+  
+ 
+ if nulltext(rnode.selectsinglenode("sqlcondition"))<>"" then _
+  fsql = fsql & " and " & nulltext(rnode.selectsinglenode("sqlcondition"))
+ if nulltext(rnode.selectsinglenode("sqlorderby"))<>"" then
+  fsql = fsql & " order by " & nulltext(rnode.selectsinglenode("sqlorderby"))
+ else
+  fsql = fsql & " order by xpostdate desc"
+ end if
+ response.write "<sql><![cdata[" & fsql & "]]></sql>"
+
+
+ set rsreg = conn.execute(fsql)
+
+  for xi = 0 to rsreg.fields.count-1
+   if nulltext(rnode.selectsinglenode("groupfield[text()='"&rsreg.fields(xi).name&"']"))="" then
+    response.write "<nf>" & rsreg.fields(xi).name & "</nf>"
+   end if
+  next
+ orgcpkey = ""
+ while not rsreg.eof
+  cpkey = ""
+  for each xf in rnode.selectnodes("groupkey")
+   cpkey = cpkey & rsreg(nulltext(xf))
+  next
+  if cpkey <> orgcpkey then
+   if orgcpkey <>"" then response.write "</refgroup>"
+   response.write "<refgroup>"
+   for each xf in rnode.selectnodes("groupfield")
+
+
+                 =nulltext(xf)
+                      = message(rsreg(nulltext(xf))) 
+
+      next
+   orgcpkey = cpkey
+  end if
+
+
+  
+  for xi = 0 to rsreg.fields.count-1
+   if nulltext(rnode.selectsinglenode("groupfield[text()='"&rsreg.fields(xi).name&"']"))="" then
+
+
+                 =rsreg.fields(xi).name
+                      = rsreg.fields(xi) 
+
+         end if 
+     next
+
+  
+         rsreg.movenext
+ wend
+
+ if orgcpkey <>"" then response.write "</refgroup>"
+ response.write "</refdatablock>"
+end sub
+
+sub dorefdatablock(rnode)
+
+ response.write "<refdatablock>"
+ response.write rnode.selectsinglenode("datalable").xml
+ response.write rnode.selectsinglenode("dataremark").xml
+
+ xselect = nulltext(rnode.selectsinglenode("sqlselect"))
+ xfrom = nulltext(rnode.selectsinglenode("sqlfrom"))
+ headercount = nulltext(rnode.selectsinglenode("sqltop"))
+ if headercount<>"" then headercount = "top " & headercount & " "
+ xwhere = " where 1=1"
+ for each fkfieldref in rnode.selectnodes("fkfieldref")
+  xwhere = xwhere & " and " & nulltext(fkfieldref.selectsinglenode("reffield")) _
+   & "=" & pkstr(rs(nulltext(fkfieldref.selectsinglenode("myfield"))),"")
+ next
+ 
+ fsql = "select " & headercount & xselect & " from " & xfrom & xwhere
+  
+ 
+ if nulltext(rnode.selectsinglenode("sqlcondition"))<>"" then _
+  fsql = fsql & " and " & nulltext(rnode.selectsinglenode("sqlcondition"))
+ if nulltext(rnode.selectsinglenode("sqlorderby"))<>"" then
+  fsql = fsql & " order by " & nulltext(rnode.selectsinglenode("sqlorderby"))
+ else
+  fsql = fsql & " order by xpostdate desc"
+ end if
+ response.write "<sql><![cdata[" & fsql & "]]></sql>"
+
+perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=60  
+      end if 
+ nowpage=cint(request.querystring("nowpage"))  '現在頁數
+    if nowpage <= 0 then  nowpage = 1
+ totpage=0
+ totrec=0
+
+ set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+ rsreg.cachesize = perpagesize
+rsreg.open fsql,conn,3,1
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+      strsql=server.urlencode(fsql)
+   end if    
+end if   
+
+
+                      =xitem:               =ctnode
+            =nowpage
+            =totpage
+           =totrec
+                =perpagesize
+    
+ 
+' set rsreg = conn.execute(fsql)
+if not rsreg.eof then   
+
+    for i=1 to perpagesize
+
+
+  
+  for xi = 0 to rsreg.fields.count-1
+
+
+                 =rsreg.fields(xi).name
+                      = rsreg.fields(xi) 
+
+        next
+
+  
+         rsreg.movenext
+         if rsreg.eof then exit for
+ next 
+end if
+
+
+ response.write "</refdatablock>"
+end sub
+
+function nullattribute(xnode, xname)
+on error resume next
+ xs = ""
+ xs = xnode.getattributenode(xname).value
+ nullattribute = xs
+end function
+
+sub xdorefdatablock(rnode)
+
+ response.write "<refdatablock>"
+ response.write rnode.selectsinglenode("datalable").xml
+ response.write rnode.selectsinglenode("dataremark").xml
+ xselect = ""
+ xfrom = ""
+ for each xj in rnode.selectnodes("entity")
+  tablename = nulltext(xj.selectsinglenode("table"))
+  xfrom = xfrom & " " & nulltext(xj.selectsinglenode("join")) & " " & tablename
+  myalias = nulltext(xj.selectsinglenode("alias"))
+  if myalias="" then 
+   myalias = tablename
+  else
+   xfrom = xfrom & " as " & myalias
+  end if
+  myalias = myalias & "."
+  if nulltext(xj.selectsinglenode("join"))<>"" then
+  end if
+  
+  for each pkf in xj.selectnodes("pickfield")
+   myfield = nullattribute(pkf, "orgfield") 
+   if myfield="" then
+    xselect = xselect & "," & myalias & nulltext(pkf)
+   else
+    xselect = xselect & "," & myalias & myfield & " as " & nulltext(pkf)
+   end if
+  next
+ next
+
+ headercount = nulltext(rnode.selectsinglenode("sqltop"))
+ if headercount<>"" then headercount = "top " & headercount & " "
+ fsql = "select " & headercount & mid(xselect,2) & " from " & xfrom 
+ response.write "<sql><![cdata[" & fsql & "]]></sql>"
+ response.write "</refdatablock>"
+end sub
+
+sub xxxx
+ for each fkfieldref in rnode.selectnodes("fkfieldref")
+  fsql = fsql & " and " & nulltext(fkfieldref.selectsinglenode("reffield")) _
+   & "=" & pkstr(rs(nulltext(fkfieldref.selectsinglenode("myfield"))),"")
+ next
+
+ if nulltext(rnode.selectsinglenode("sqlcondition"))<>"" then _
+  fsql = fsql & " and " & nulltext(rnode.selectsinglenode("sqlcondition"))
+ if nulltext(rnode.selectsinglenode("sqlorderby"))<>"" then
+  fsql = fsql & " order by " & nulltext(rnode.selectsinglenode("sqlorderby"))
+ else
+  fsql = fsql & " order by xpostdate desc"
+ end if
+ response.write "<sql><![cdata[" & fsql & "]]></sql>"
+ 
+perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=60  
+      end if 
+ nowpage=cint(request.querystring("nowpage"))  '現在頁數
+    if nowpage <= 0 then  nowpage = 1
+ totpage=0
+ totrec=0
+
+ set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+ rsreg.cachesize = perpagesize
+rsreg.open fsql,conn,3,1
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+      strsql=server.urlencode(fsql)
+   end if    
+end if   
+ 
+
+
+
+                      =xitem:               =ctnode
+            =nowpage
+            =totpage
+           =totrec
+                =perpagesize
+    
+ 
+' set rsreg = conn.execute(fsql)
+if not rsreg.eof then   
+
+    for i=1 to perpagesize
+
+     xurl = "ct.jsp?xitem=" & rsreg("icuitem") & "&amp;ctnode=" & nulltext(rnode.selectsinglenode("datanode"))
+      if lcase(xbasetablename) = "adrotate" then xurl = deamp(rsreg("xurl"))
+     if rsreg("ibasedsd") = 2 then xurl = deamp(rsreg("xurl"))
+     if rsreg("showtype") = 2 then xurl = deamp(rsreg("xurl"))
+     if rsreg("showtype") = 3 then xurl = "public/data/" & rsreg("filedownload")
+
+                      =rsreg("icuitem"):                =rsreg("xnewwindow")
+                      =rsreg("xnewwindow"):     =xurl
+  
+  xrcount = 0
+  for each param in rbdsddom.selectnodes("//field[showlistclient!='']") 
+   kf = nulltext(param.selectsinglenode("fieldname"))
+   if nulltext(param.selectsinglenode("reflookup")) <> "" _
+    and nulltext(param.selectsinglenode("inputtype"))<>"refcheckbox" _
+    and nulltext(param.selectsinglenode("inputtype"))<>"refcheckboxother" then
+    xrcount = xrcount + 1
+    kf = "xref" & xrcount & kf
+   end if      
+
+
+                 =kf
+  
+    kfvalue=rsreg(kf) 
+                      = kfvalue 
+
+        next
+
+  
+         rsreg.movenext
+         if rsreg.eof then exit for
+ next 
+end if
+end sub
+qstr = request.querystring
+if instr(qstr, "&memid") > 0 then
+ qstr = mid(qstr, 1, instr(qstr, "&memid") - 1 )
+end if
+response.write "<qstr>?site=2&amp;" & deamp(qstr) & "</qstr>"
+'--------------頁尾維護單位---------------------
+footer_sql = "select footer_dept, footer_dept_url from cattreeroot left join nodeinfo on cattreeroot.ctrootid = nodeinfo.ctrootid where cattreeroot.pvxdmp ='"& request("mp") &"'"
+set footer_rs = conn.execute(footer_sql)
+response.write "<footer_dept>" & footer_rs("footer_dept") & "</footer_dept>"
+response.write "<footer_dept_url>" & footer_rs("footer_dept_url") & "</footer_dept_url>"
+
+'--------------頁尾維護單位-end---------------
+
+   CxMethod_ASP_x1menus_1545114555()
+  
+ sql = " select a.ctrootid , a.viewcount as allview,b.viewcount as thisyearview, "
+ sql = sql & " c.viewcount as thismonthview from( "
+ sql = sql & " select ctrootid, sum(viewcount) as viewcount "
+ sql = sql & "   from counterforsubjectbydate where ctrootid = '" & request("mp") & "' "
+ sql = sql & "   group by  ctrootid) as a "
+    sql = sql & "     left join (   "
+ sql = sql & " select ctrootid, sum(viewcount) as viewcount "
+ sql = sql & "  from counterforsubjectbydate where ctrootid = '" & request("mp") & "' "
+ sql = sql & "  and year(ymd) = year(getdate()) group by  ctrootid ) b on a.ctrootid = b.ctrootid "
+    sql = sql & "   left join ( "
+    sql = sql & "   select ctrootid, sum(viewcount) as viewcount "
+ sql = sql & "  from counterforsubjectbydate where ctrootid = '" & request("mp") & "' "
+ sql = sql & "  and month(ymd) = month(getdate()) group by  ctrootid )c on a.ctrootid = c.ctrootid " 
+    set rs = conn.execute(sql)
+ if not rs.eof then
+  if not isnull(rs("allview"))  then
+   countall = clng(rs("allview"))
+  end if
+  if not isnull(rs("thisyearview")) then
+   countthisyear =clng(rs("thisyearview"))
+  end if
+  if not isnull(rs("thismonthview"))then
+   countthismoth = clng(rs("thismonthview"))
+  else
+   countthismoth = 1
+  end if
+ else
+  countall = 1
+  countthisyear = 1
+  countthismoth = 1
+ end if
+ response.write "<counterall>" & countall & "</counterall>"
+ response.write "<counterthisyear>" & countthisyear & "</counterthisyear>"
+ response.write "<counterthismonth>" & countthismoth & "</counterthismonth>"
+ 

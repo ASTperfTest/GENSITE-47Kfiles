@@ -1,0 +1,83 @@
+﻿: 
+sub processxdataset
+  xtreenode = nulltext(xdataset.selectsinglenode("datanode"))
+  sql = "select t.*, b.sbasetablename " _
+   & " from cattreenode as t left join ctunit as u on u.ctunitid=t.ctunitid " _
+   & " left join basedsd as b on b.ibasedsd=u.ibasedsd " _
+   & " where ctnodeid in (" & xtreenode & ")"
+  set rs = conn.execute(sql)
+  if not rs.eof then
+  xdatanode = rs("ctunitid")
+  xbasetablename = lcase(rs("sbasetablename"))
+  response.write "<" & nulltext(xdataset.selectsinglenode("datalable")) _
+    & " xnode=""" & rs("ctnodeid") & """ xunit=""" & xdatanode & """>"
+   response.write "<caption>" & nulltext(xdataset.selectsinglenode("dataremark")) & "</caption>"
+    
+ headercount = nulltext(xdataset.selectsinglenode("sqltop"))
+ if headercount<>"" then headercount = "top " & headercount
+ 
+ sql = "select " & headercount & " htx.*, ghtx.*, xr1.deptname, u.ctunitname " _
+  & " from cudtgeneric as htx join " & xbasetablename & " as ghtx on htx.icuitem=ghtx.gicuitem" _
+  & " left join dept as xr1 on xr1.deptid=htx.idept" _
+  & " left join ctunit as u on u.ctunitid=htx.ictunit" _
+  & " where htx.fctupublic='y' " _ 
+  & " and (htx.avend is null or htx.avend >=" & pkstr(date(),")") 
+'  & " left join cudtwimg as img on img.gicuitem=htx.icuitem" _
+ if xdatanode<>"" then  sql = sql & " and ictunit=" & xdatanode
+ sqlcondition = nulltext(xdataset.selectsinglenode("sqlcondition"))
+ if sqlcondition<>"" then sql = sql & " and " & sqlcondition
+ sqlorderby = nulltext(xdataset.selectsinglenode("sqlorderby"))
+ if sqlorderby<>"" then sql = sql & " order by " & sqlorderby
+ response.write "<sql>" & sql & "</sql>"
+ set rs = conn.execute(sql)
+ while not rs.eof
+     xurl = "ct.asp?xitem=" & rs("icuitem") & "&amp;ctnode=" & xtreenode
+     if rs("ibasedsd") = 2 then xurl = deamp(rs("xurl"))
+     if xbasetablename = "adrotate" then xurl = deamp(rs("xurl"))
+     if rs("showtype") = 2 then xurl = deamp(rs("xurl"))
+     if rs("showtype") = 3 then xurl = "public/data/" & rs("filedownload")
+
+                      =rs("icuitem"):                =rs("xnewwindow")
+              =rs("stitle")
+                       =left(rs("xbody"),120)
+               =rs("xpostdate")
+                =rs("deptname")
+             =rs("topcat")
+                 =deamp(rs("ctunitname"))
+           =deamp(xurl)
+    if not isnull(rs("ximgfile")) then 
+                           =rs("ximgfile")
+    end if 
+
+    
+  rs.movenext
+ wend
+
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty("serverhttprequest") = true 
+
+ for each xrss in xdataset.selectnodes("rss")
+   xv = oxml.load(nulltext(xrss.selectsinglenode("url")))
+   if xv = true then
+    rsstop = cint(nulltext(xrss.selectsinglenode("rsstop")))
+    xrsscount = 0
+    for each xitem in oxml.selectnodes("rss/channel/item")
+      if xrsscount < rsstop then
+       xrsscount = xrsscount + 1
+
+
+              =nulltext(xitem.selectsinglenode("title"))
+                       =nulltext(xitem.selectsinglenode("description"))
+               =nulltext(xitem.selectsinglenode("pubdate"))
+           =nulltext(xitem.selectsinglenode("link"))
+
+    
+    end if
+    next
+   end if
+ next
+   response.write "</" & nulltext(xdataset.selectsinglenode("datalable")) & ">"
+  end if
+end sub
+ 

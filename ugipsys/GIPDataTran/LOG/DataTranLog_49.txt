@@ -1,0 +1,136 @@
+DD49(2005/11/10)
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'我的ｅ政府‧電子化政府入口網 <br> (The e-Government Entry Point of Taiwan)',N'http://www.gov.tw/',N'2003/06/24',N'1',N'1',N'sysop',N'2003/06/24 11:04:11',N'2003/06/24 11:04:11'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4075)
+[htx.websiteid = '7'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'ｅ等公務園學習網',N'http://elearning.hrd.gov.tw/TrainingASP3/',N'2003/06/24',N'1',N'1',N'sysop',N'2003/06/24 11:04:11',N'2003/06/24 11:04:11'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4076)
+[htx.websiteid = '8'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'蕃薯藤',N'http://www.yam.com/',N'2003/06/24',N'2',N'2',N'sysop',N'2003/06/24 11:04:26',N'2003/06/24 11:04:26'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4077)
+[htx.websiteid = '9'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'Yahoo!奇摩',N'http://tw.yahoo.com/',N'2003/06/24',N'2',N'2',N'sysop',N'2003/06/24 11:04:26',N'2003/06/24 11:04:26'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4078)
+[htx.websiteid = '10'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'GAIS蓋世引擎',N'http://gais.cs.ccu.edu.tw/',N'2003/06/24',N'2',N'2',N'sysop',N'2003/06/24 11:04:26',N'2003/06/24 11:04:26'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4079)
+[htx.websiteid = '11'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'台視新聞',N'http://www.ttv.com.tw/',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4080)
+[htx.websiteid = '13'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'中視新聞',N'http://www.chinatv.com.tw/',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4081)
+[htx.websiteid = '14'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'華視新聞',N'http://www.cts.com.tw/',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4082)
+[htx.websiteid = '15'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'TVBS-N新聞',N'http://www.tvbs.com.tw/code/tvbsnews/index.asp',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4083)
+[htx.websiteid = '16'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'電子公文社群服務網',N'http://community.nat.gov.tw/',N'2003/06/24',N'1',N'1',N'sysop',N'2003/06/24 11:04:11',N'2003/06/24 11:04:11'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4084)
+[htx.websiteid = '18'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'Google',N'http://www.google.com.tw',N'2003/06/24',N'2',N'2',N'sysop',N'2003/06/24 11:04:26',N'2003/06/24 11:04:26'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4085)
+[htx.websiteid = '19'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'PChome',N'http://www.pchome.com.tw',N'2003/06/24',N'2',N'2',N'sysop',N'2003/06/24 11:04:26',N'2003/06/24 11:04:26'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4086)
+[htx.websiteid = '20'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'Open Find',N'http://www.openfind.com.tw/',N'2003/06/24',N'2',N'2',N'sysop',N'2003/06/24 11:04:26',N'2003/06/24 11:04:26'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4087)
+[htx.websiteid = '21'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'中天新聞',N'http://www.ctitv.com.tw/new/news/index.html',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4088)
+[htx.websiteid = '25'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'台灣新生報',N'http://www.tssdnews.com.tw/',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4089)
+[htx.websiteid = '33'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'行政院科技顧問組',N'http://www.stag.gov.tw/group/application/stag/index.php',N'2003/06/24',N'1',N'1',N'sysop',N'2003/06/24 11:04:11',N'2003/06/24 11:04:11'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4090)
+[htx.websiteid = '36'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'內政部自然人憑證網',N'http://moica.nat.gov.tw/html/index.htm',N'2003/06/24',N'1',N'1',N'sysop',N'2003/06/24 11:04:11',N'2003/06/24 11:04:11'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4091)
+[htx.websiteid = '38'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'行政院國家永續發展全球資訊網',N'http://ivy2.epa.gov.tw/NSDN/index.asp',N'2003/06/24',N'1',N'1',N'sysop',N'2003/06/24 11:04:11',N'2003/06/24 11:04:11'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4092)
+[htx.websiteid = '39'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'民視新聞',N'http://www.ftvn.com.tw/',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4093)
+[htx.websiteid = '22'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'公共電視',N'http://www.pts.org.tw/~web/index.php',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4094)
+[htx.websiteid = '23'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'東森新聞報',N'http://www.ettoday.com.tw/',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4095)
+[htx.websiteid = '24'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'三立新聞',N'http://www.settv.net/setn/',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4096)
+[htx.websiteid = '26'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'年代新聞',N'http://news.eracom.com/',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4097)
+[htx.websiteid = '27'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'中廣新聞網',N'http://www.bcc.com.tw/all_net/news/index.htm',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4098)
+[htx.websiteid = '28'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'中時電子報',N'http://news.chinatimes.com/',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4099)
+[htx.websiteid = '29'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'聯合新聞網',N'http://udn.com/',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4100)
+[htx.websiteid = '30'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'自由時報電子新聞網',N'http://www.libertytimes.com.tw/',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4101)
+[htx.websiteid = '31'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'中央通訊社',N'http://www.cna.com.tw/',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4102)
+[htx.websiteid = '32'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'國語日報',N'http://www.mdnkids.com/',N'2003/06/24',N'3',N'3',N'sysop',N'2003/06/24 11:04:52',N'2003/06/24 11:04:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4103)
+[htx.websiteid = '34'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'行政院國家資訊通信發展推動小組',N'http://www.nici.nat.gov.tw/group/application/nici/index.php',N'2003/06/24',N'1',N'1',N'sysop',N'2003/06/24 11:04:11',N'2003/06/24 11:04:11'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4104)
+[htx.websiteid = '37'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'行政院婦女權益促進委員會',N'http://cwrp.moi.gov.tw/',N'2003/06/24',N'1',N'1',N'sysop',N'2003/06/24 11:04:11',N'2003/06/24 11:04:11'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4105)
+[htx.websiteid = '40'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'台灣商會聯合資訊網',N'http://www.taiwanchambers.net/',N'2004/08/11',N'4',N'4',N'sysop',N'2004/08/11 09:11:01',N'2004/08/11 09:11:01'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4106)
+[htx.websiteid = '41'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,49,'Y','N','0','1',N'ITIS產業資訊服務網',N'http://www.itis.org.tw/',N'2004/08/11',N'4',N'4',N'sysop',N'2004/08/11 09:11:01',N'2004/08/11 09:11:01'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4107)
+[htx.websiteid = '42'] !
+----------------------------------------------------------------------------
+===============================================================================
+ 33 , @\ 33 !

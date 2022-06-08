@@ -1,0 +1,25 @@
+﻿:  CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_453315802()
+  
+if request("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+   sub initform()  

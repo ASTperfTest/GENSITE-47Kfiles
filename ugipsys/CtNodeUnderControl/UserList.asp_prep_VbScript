@@ -1,0 +1,307 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+      dim chkcount
+      chkcount=0            '記錄checkbox 被勾數   
+     sub gopage_onchange      
+           newpage=reg.gopage.value     
+           document.location.href="userlist.asp?nowpage=" & newpage & "&strsql=" & strsql & "&pagesize=Cx_0dummy"    
+     end sub      
+     
+     sub perpage_onchange                
+           newperpage=reg.perpage.value
+           document.location.href="userlist.asp?nowpage=Cx_0dummy" & "&strsql=Cx_0dummy&pagesize=" & newperpage                    
+     end sub       
+sub div2close_onclick
+  document.all("div2").style.display="none"  
+end sub   
+
+sub div2sure_onclick
+msg2 = "請點選權限群組，不得為空白！"
+  if reg.sfx_ugrpid.value = empty then
+     msgbox msg2, 64, "sorry!"
+     reg.sfx_ugrpid.focus
+     exit sub
+  end if
+ reg.submittask.value="批次存檔" 
+ reg.submit
+end sub 
+
+sub sfx_ugrpid_onchange
+    if reg.sfx_ugrpid.value="" then
+     alert "請點選權限群組"
+     exit sub
+    end if
+    reg.tfx_ugrpname.value=""    
+    for i=0 to reg.sfx_ugrpid.length-1
+ if reg.sfx_ugrpid.options(i).selected=true then
+  reg.tfx_ugrpname.value=reg.tfx_ugrpname.value&reg.sfx_ugrpid.options(i).text&","
+ end if
+    next 
+    reg.tfx_ugrpname.value=left(reg.tfx_ugrpname.value,len(reg.tfx_ugrpname.value)-1)    
+end sub 
+
+sub button1_onclick
+ document.all("runjob").style.visibility="hidden"
+ document.all("div2").style.display="block"
+end sub     
+     
+    sub document_onclick           'checkbox 被勾計數
+         set sobj=window.event.srcelement
+         if sobj.tagname="input" then 
+            if sobj.type="checkbox"  then 
+                if sobj.checked then 
+                   chkcount=chkcount+1
+                else
+                   chkcount=chkcount-1                
+                end if                                          
+            end if
+             '
+            if chkcount=0 then 
+               document.all("runjob").style.visibility="hidden"
+  document.all("div2").style.display="none"               
+            else
+               document.all("runjob").style.visibility="visible"
+            end if
+         end if        
+    end sub          
+    
+   sub chkall
+       chkcount=0     
+       if document.all("ckall").value="全選" then           '全勾
+          for i=0 to reg.elements.length-1
+               set e=document.reg.elements(i)
+               if left(e.name,5)="ckbox" then 
+                   e.checked=true
+                   chkcount=chkcount+1
+              end if     
+          next                 
+          document.all("runjob").style.visibility="visible"
+          document.all("ckall").value="全不選"
+      elseif document.all("ckall").value="全不選" then        '全不勾
+          for i=0 to reg.elements.length-1
+               set e=document.reg.elements(i)
+               if left(e.name,5)="ckbox" then 
+                   e.checked=false
+               end if     
+          next                 
+          document.all("runjob").style.visibility="hidden"
+          document.all("ckall").value="全選"          
+       end if
+   end sub        
+
+ 

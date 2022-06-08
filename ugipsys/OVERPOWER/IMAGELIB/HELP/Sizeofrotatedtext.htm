@@ -1,0 +1,71 @@
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#006E8E" text="#FFFFFF" link="#00FF00" vlink="#00FF00" alink="#00FF00"  cellspacing="0" cellpadding="0">
+<div align="center">
+  <table width="98%" border="0" cellspacing="0" cellpadding="0" height="100%" align="left">
+    <tr>
+      <td width="10">&nbsp;</td>
+      <td valign="top"> 
+        <p align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><br>
+          <img src="examples.gif" width="30" height="30" align="absmiddle"> <b><font size="3">SIZE 
+          OF ROTATED TEXT<br>
+          <br>
+          </font></b>When you use <a href="gettextwidth.htm">Gettextwidth</a> 
+          and <a href="gettextheight.htm">GetTextHeight</a></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"> 
+          it only returns the size of the text as it wasn't rotated (angle 0). 
+          But it's not hard to get the size of rotated text. For this, use this 
+          formula:<br>
+          <br>
+          <b>Change the Degrees value to the Angle</b><br>
+          <br>
+          </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF">radians 
+          = (2*PI*Degrees)/360) <br>
+          cosine = cos(radians)<br>
+          sine = sin(radians) <br>
+          'Take 3 corners (not origin) and rotate them <br>
+          </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF">x1 
+          = round(-OldHeight * sine) 'note minus sign <br>
+          y1 = round(OldHeight * cosine)<br>
+          x2 = round(OldWidth * cosine - OldHeight * sine)<br>
+          y2 = round(OldHeight * cosine + OldWidth * sine)<br>
+          x3 = round(OldWidth * cosine)<br>
+          y3 = round(OldWidth * sine)<br>
+          <br>
+          'The rotated corners tell us how big <br>
+          'to make the new bitmap. <br>
+          minx = MinIntValue(0,MinIntValue(x1, MinIntValue(x2,x3)))<br>
+          miny = MinIntValue(0,MinIntValue(y1, MinIntValue(y2,y3)))<br>
+          maxx = MaxIntValue(x1, MaxIntValue(x2,x3)) <br>
+          maxy = MaxIntValue(y1, MaxIntValue(y2,y3)) <br>
+          'Compute the new bitmap dimensions <br>
+          NewWidth = maxx - minx<br>
+          NewHeight = maxy - miny;<br>
+          <br>
+          function MinIntValue(value1,value2)<br>
+          if value1 &lt; value2 then <br>
+          MinIntValue = value1<br>
+          else</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"> 
+          <br>
+          MinIntValue = value2<br>
+          end function</font></p>
+        <p align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"> 
+          function MaxIntValue(value1,value2)<br>
+          if value1 &gt; value2 then <br>
+          MaxIntValue = value1<br>
+          else</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"> 
+          <br>
+          MaxIntValue = value2<br>
+          </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"> 
+          end function<br>
+          <br>
+          <br>
+          <b>The newWidth and NewHeight are the width and height of the new image! Good luck </font></p>
+        </td>
+    </tr>
+  </table>
+  <p align="left">&nbsp; </p>
+</div>

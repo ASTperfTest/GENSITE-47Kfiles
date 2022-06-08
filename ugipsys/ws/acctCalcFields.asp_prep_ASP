@@ -1,0 +1,67 @@
+﻿
+
+  
+' session("odbcdsn")="driver={sql server};server=203.95.187.76;uid=hometown;pwd=2986648;database=db921"
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+'----------hyweb gip db connection patch----------
+
+
+ tuitionitemcode = request("tuitionitem")
+ sql = "select htx.* from acctitemcode as htx" _
+  & " where htx.accid=" & pkstr(request("accid"),"")
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  response.write "<row><mcode>" & rs("accid") & "</mcode><mvalue>" _
+   & rs("accidname") & "</mvalue><bgtcreatmode>" _
+   & rs("bgtcreatmode") & "</bgtcreatmode><bgtcalcfield1>" _
+   & rs("bgtcalcfield1") & "</bgtcalcfield1><bgtcalcfield2>" _
+   & rs("bgtcalcfield2") & "</bgtcalcfield2><bgtcalcfield3>" _
+   & rs("bgtcalcfield3") & "</bgtcalcfield3><bgtcalcfield4>" _
+   & rs("bgtcalcfield4") & "</bgtcalcfield4></row>" & vbcrlf
+  rs.movenext
+ end if
+ 
+function pkstr (s, endchar)
+  if s="" then
+ pkstr = "null" & endchar
+  else
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ pkstr="'" & s & "'" & endchar
+  end if
+end function
+
+sub retrievebyxml
+ set rptxmldoc = server.createobject("microsoft.xmldom")
+ rptxmldoc.async = false
+ rptxmldoc.setproperty("serverhttprequest") = true 
+ 
+ loadxml = server.mappath(".") & "\dsd.xml"
+' debugprint loadxml & "<hr>"
+ xv = rptxmldoc.load(loadxml)
+ 
+  if rptxmldoc.parseerror.reason <> "" then 
+    response.write("xml parseerror on line " &  rptxmldoc.parseerror.line)
+    response.write("<br>reason: " &  rptxmldoc.parseerror.reason)
+    response.end()
+  end if
+
+   set optionlist = rptxmldoc.selectnodes("//dstable[tablename='codemain']/instance/row[codemetaid='"&citycode&"']")
+   for each opitem in optionlist
+'    response.write "<divitem><mcode>" & opitem.selectsinglenode("mcode")
+  response.write opitem.xml
+   next
+' response.contenttype = "text/xml"
+' xmldoc2.save(response) 
+' response.write  rptxmldoc.transformnode(xsldom)
+' response.end
+end sub
+ 

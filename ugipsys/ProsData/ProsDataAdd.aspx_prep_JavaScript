@@ -1,0 +1,312 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            function GetCat() {
+                document.domain = "coa.gov.tw";
+                window.open("http://kmintra.coa.gov.tw/coa/ekm/manage_doc/report2cat22.jsp?data_base_id=DB020&id_name=htx_KMcatID&autoid_name=htx_KMautoID&nm_name=htx_KMcat&&subNode=1*RB1&display=1*none&form_name=Form1&focus=&catidsInput=&anchor=",null,"height=400,width=500,status=no,scrollbars=yes,toolbar=no,menubar=no,location=no");
+            }
+          
+
+
+            
+            function send(){
+             var form=document.Form1; 
+             
+             if(form.accounttext.value==""){
+              alert("您忘了填寫帳號了！"); 
+              form.accounttext.focus();
+              event.returnValue = false;
+              return;              
+             } 
+             else{
+              if (form.accounttext.value.length > 30){
+               alert("您所填寫的帳號超過30碼！"); 
+               form.accounttext.focus();
+               event.returnValue = false;
+               return;
+              }
+              if (form.accounttext.value.length < 6){
+               alert("您所填寫的帳號少於6碼！"); 
+               form.accounttext.focus();
+               event.returnValue = false;
+               return;
+              }
+              var i;
+              var ch;
+              for (i=0;i< form.accounttext.value.length;i++){
+               ch = form.accounttext.value.charAt(i);
+               if(ch >= 'a' && ch <= 'z'){
+                //return true;
+               }
+               else if(ch >= 'A' && ch <= 'Z'){
+                //return true;
+               }
+               else if(ch >= '0' && ch <= '9'){
+                //return true;
+               }
+               else if(ch == '-' || ch == '_'){
+                //return true;
+               }
+               else{
+                alert("帳號限用英文與數字，可用『-』或『_』！"); 
+                form.accounttext.focus();
+                event.returnValue = false;
+                return;
+               }
+              }
+             }             
+             if(form.realnametext.value==""){
+              alert("您忘了填寫真實姓名了！"); 
+              form.realnametext.focus(); 
+              event.returnValue = false;
+              return;
+             }
+             if(form.password1text.value==""){
+              alert("您忘了填寫密碼了！"); 
+              form.password1text.focus(); 
+              event.returnValue = false;
+              return;
+             }
+             if(form.password1text.value!=""){
+              
+              if (form.password1text.value.length > 16){
+               alert("您所填寫的密碼超過16碼！"); 
+               form.password1text.focus(); 
+               event.returnValue = false;
+               return;
+              }
+              else if(form.password1text.value.length < 6){
+               alert("您所填寫的密碼少於6碼！"); 
+               form.password1text.focus(); 
+               event.returnValue = false;
+               return;
+              }
+              else if(form.password2text.value==""){
+               alert("您忘了填寫密碼確認了！"); 
+               form.password2text.focus(); 
+               event.returnValue = false;
+               return;
+              }
+              else if(form.password2text.value != form.password1text.value){
+               alert("密碼與密碼確認不符！");
+               form.password2text.focus(); 
+               event.returnValue = false;
+               return;
+              }
+              else{
+               var i;
+               var ch;
+               var digits = "0123456789";
+               var digitflag = false;
+               var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+               var charflag = false;
+               for (i=0;i< form.password1text.value.length;i++){  
+                ch = form.password1text.value.charAt(i);  
+                if(ch == '\"' || ch == ' ' || ch == '\'' || ch== '\&'){
+                 alert("密碼請勿包含『\"』、『'』、『&』或空白"); 
+                 form.password1text.focus();
+                 event.returnValue = false;
+                 return;
+                }
+                if( digits.indexOf(ch) >= 0 ) {
+                 digitflag = true;
+                }     
+                if( chars.indexOf(ch) >= 0 ) {
+                 charflag = true;
+                }
+               }
+               if( !digitflag ) {
+                 alert("密碼請至少包含一數字"); 
+                 form.password1text.focus();
+                 event.returnValue = false;
+                 return;
+               }
+               if( !charflag ) {
+                 alert("密碼請至少包含一英文字"); 
+                 form.password1text.focus();
+                 event.returnValue = false;
+                 return;
+               }
+              }  
+             }      
+             if(form.idntext.value==""){
+              alert("您忘了填寫身份證字號了！"); 
+              form.idntext.focus(); 
+              event.returnValue = false;
+              return;
+             }       
+             if(form.member_orgtext.value==""){
+              alert("您忘了填寫所屬機關名稱了！"); 
+              form.member_orgtext.focus(); 
+              event.returnValue = false;
+              return;
+             }
+             if(form.com_teltext.value==""){
+              alert("您忘了填寫所屬機關電話了！"); 
+              form.com_teltext.focus(); 
+              event.returnValue = false;
+              return;
+             }
+             if(form.ptitletext.value==""){
+              alert("您忘了填寫職稱了！"); 
+              form.ptitletext.focus(); 
+              event.returnValue = false;
+              return;
+             }             
+             if(form.emailtext.value==""){
+              alert("您忘了填寫電子郵件了！"); 
+              form.emailtext.focus(); 
+              event.returnValue = false;
+              return;
+             }
+             if(form.emailtext.value.indexOf("@")<=-1){
+              alert("您所填寫的電子郵件格式有誤！"); 
+              form.emailtext.focus(); 
+              event.returnValue = false;
+              return;
+             }
+            }              
+            
+
+
+
+
+
+
+
+ 

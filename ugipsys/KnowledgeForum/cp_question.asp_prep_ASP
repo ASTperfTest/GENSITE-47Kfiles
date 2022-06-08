@@ -1,0 +1,367 @@
+﻿: 
+response.expires = 0
+htprogcap=""
+htprogfunc=""
+htprogcode="kforumlist"
+htprogprefix=""
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_selecttree_859552413()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                    =request.querystring("icuitem"):            =request.querystring("nowpage"):             =cint(request.querystring("pagesize"))
+
+
+                          =request.querystring("activity")
+
+                                                                                                                     =request.querystring("memberid"):            =request.querystring("nowpage"):             =cint(request.querystring("pagesize"))
+
+
+
+                                                            =request.querystring("icuitem"):            =request.querystring("nowpage"):             =cint(request.querystring("pagesize"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     =request.querystring("icuitem"):            =request.querystring("nowpage"):             =request.querystring("pagesize")
+                                             =request.querystring("icuitem")
+                                                             =request.querystring("icuitem"):            =request.querystring("nowpage"):             =request.querystring("pagesize")
+                                                    =request.querystring("icuitem"):            =request.querystring("nowpage"):             =request.querystring("pagesize")
+                                          =request.querystring("icuitem"):            =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+
+
+
+
+
+
+   sub showcantfindbox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+
+
+
+
+   end sub 
+  
+ dim icuitem
+ icuitem = request.querystring("icuitem")
+ sql = "select * from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem "
+ sql = sql & "where icuitem = " & icuitem 
+  
+ set rsreg = conn.execute(sql)
+ if rsreg.eof then
+  showcantfindbox "無資料"  
+ else
+ 
+
+                                                                                  =trim(rsreg("icuitem"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                              =rsreg("stitle")
+
+
+
+                                                                                           =trim(rsreg("xbody"))
+
+
+
+                                                                                    =trim(rsreg("xurl"))
+
+
+
+
+
+                         if rsreg("xnewwindow")="" then:              end if
+                          if rsreg("xnewwindow")="y" then:              end if
+                          if rsreg("xnewwindow")="n" then:              end if
+
+
+
+
+
+
+
+                         if rsreg("fctupublic")="" then:              end if
+                          if rsreg("fctupublic")="y" then:              end if
+                          if rsreg("fctupublic")="n" then:              end if
+
+
+
+
+
+
+
+       
+      fsql = "select mvalue,mcode from codemain where (codemetaid = 'knowledgetype') order by msortvalue"
+      set rs = conn.execute(fsql)
+      while not rs.eof
+     
+                 if rsreg("topcat")=trim(rs("mcode")) then:             end if:           =trim(rs("mcode")):       response.write trim(rs("mvalue"))
+        
+       rs.movenext
+       wend
+     
+
+
+
+
+
+
+
+                          if trim(rsreg("vgroup"))="a" then:              end if
+                         if trim(rsreg("vgroup"))="" or isnull(rsreg("vgroup")) then:              end if
+                            if trim(rsreg("vgroup"))="off" then:              end if
+
+
+
+
+
+                                                                                        =trim(rsreg("xkeyword"))
+
+
+
+                                                                                         =trim(rsreg("ximportant"))
+
+
+
+      
+     response.write "<td colspan='6' class='etablecontent'>"       
+     response.write "<select name=""htx_idept"" size=1>" & vbcrlf 
+     sqlcom ="select d.deptid,d.deptname,d.parent,len(d.deptid)-1,d.seq," & _
+         "(select count(*) from dept where parent=d.deptid and nodekind='d') " & _
+         "  from dept as d where d.nodekind='d' " _
+         & " and d.deptid like '" & session("deptid") & "%'" _
+         & " order by len(d.deptid), d.parent, d.seq" 
+     set rss = conn.execute(sqlcom)
+     if not rss.eof then
+      arydept = rss.getrows(300)
+      glastmsglevel = 0
+      genlist 0, 0, 1, 0
+      expandfrom arydept(cid, 0), 0, 0
+     end if
+     response.write "</select>"
+     response.write "</td></tr></td></tr>" 
+   
+     sql="select  member.account, member.realname, member.nickname from  cudtgeneric inner join member on cudtgeneric.ieditor = member.account where  cudtgeneric.icuitem ="& "'"  & icuitem & "'"
+     set rs2 = conn.execute(sql)
+     if  not rs2.eof then
+       response.write "<tr>"
+    response.write "<td class=""label"" align=""right"">發表會員</td>"
+    response.write "<td colspan=""6"" class=""etablecontent"">"
+       response.write "<input name=""account"" class=""rdonly"" value=""" & trim(rs2("account"))& """ size=""10"" readonly=""true"">"
+    response.write "<input name=""realname"" class=""rdonly"" value=""" & trim(rs2("realname"))& """ size=""10"" readonly=""true"">"
+    response.write "<input name=""nickname"" class=""rdonly"" value=""" & trim(rs2("nickname"))& """ size=""10"" readonly=""true"">"
+    response.write "</td>"
+       response.write "</tr>"
+   end if
+    sql="select  knowledgeforum.discusscount, knowledgeforum.commandcount, knowledgeforum.browsecount, knowledgeforum.tracecount, knowledgeforum.gradecount, knowledgeforum.gradepersoncount from  knowledgeforum inner join cudtgeneric on knowledgeforum.gicuitem = cudtgeneric.icuitem where cudtgeneric.icuitem = "& "'"  & icuitem & "'"
+    set rs3 = conn.execute(sql)
+   
+
+
+
+                                                                                =trim(rs3("discusscount"))
+
+                                                                                =trim(rs3("commandcount"))
+
+                                                                               =trim(rs3("browsecount"))
+
+
+
+                                                                              =trim(rs3("tracecount"))
+
+                                                                              =trim(rs3("gradecount"))
+
+                                                                                    =trim(rs3("gradepersoncount"))
+
+     
+    sql="select picstatus from  knowledgepicinfo where  parenticuitem = "& "'"  & icuitem & "'"
+    set rs5 = conn.execute(sql)
+    dim counter : counter = 1
+   
+    if not rs5.eof then
+    response.write "<tr>"
+    response.write "<td class=""label"" align=""right"">上傳圖片</td>"
+    response.write "<td colspan=""6"" class=""etablecontent"">"
+    while not rs5.eof 
+     if (counter mod 6)=0 then response.write "<br>" 
+       response.write counter :                                if trim(rs5("picstatus"))="w" then:        end if:   if trim(rs5("picstatus"))="n" then:        end if:   if trim(rs5("picstatus"))="y" then:       end if
+       
+      counter=counter+1
+      rs5.movenext 
+     wend
+    end if 
+    
+
+
+     
+    sql="select  knowledgeforum.status from  knowledgeforum inner join cudtgeneric on knowledgeforum.gicuitem = cudtgeneric.icuitem where cudtgeneric.icuitem = "& "'"  & icuitem & "'"
+    set rs4 = conn.execute(sql)
+   
+
+
+
+                                                                                    =rs4("status")
+                                                  =rs4("status")
+
+                         if rs4("status") = "n" then response.write "selected" end if
+                         if rs4("status") = "d" then response.write "selected" end if
+
+
+
+
+
+
+       
+     subjectsql = "select distinct k2.subjectname from dbo.knowledgetosubject k1 " & _
+       "inner join knowledgetosubject k2 on k1.subjectid = k2.subjectid " & _
+       "where k1.icuitem='" & icuitem & "' " & _
+       "and k1.subjectid = k2.subjectid " & _
+       "and k2.subjectname is not null " 
+     set subjectrs = conn.execute(subjectsql)
+     dim publishsubject,sizenum
+     sizenum = 10
+     while not subjectrs.eof 
+      sizenum = sizenum + 10
+      if publishsubject <> "" then
+       publishsubject = publishsubject & "," & subjectrs("subjectname") 
+      else
+       publishsubject = subjectrs("subjectname")
+      end if
+     subjectrs.movenext
+     wend
+     
+     
+     
+     
+                                         =sizenum:            =publishsubject
+
+
+
+
+      
+    sqldiscuss = "select count(1) as discount from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem "
+    sqldiscuss = sqldiscuss & "where (knowledgeforum.parenticuitem = " & icuitem & ") and (knowledgeforum.status = 'n') and (cudtgeneric.ictunit = 933)"
+    set rsdiscuss = conn.execute(sqldiscuss)
+    if not rsdiscuss.eof then
+     discount = rsdiscuss("discount")
+    end if
+    
+    
+                                                                =discount
+
+
+
+
+
+
+
+
+
+
+
+  
+ end if
+ rsreg.close
+ set rsreg = nothing
+ 

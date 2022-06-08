@@ -1,0 +1,48 @@
+@charset "utf-8";
+/*   CSS Document */
+/*  */
+
+@import url("layout.css");
+@import url("function.css");
+@import url("data.css");
+@import url("search.css");
+@import url("ad.css");
+@import url("footnote.css");
+#urlnavbar { font-size: 13px; color: #333333;}
+#standarticle {
+	font-size: 13px;
+	color: #333333;line-height: 150%;
+}
+#attachmenu {
+	background-color: #FFFFFF;
+	font-size: 15px;
+	padding-left: 15px;
+	color: #1F6B4D;
+	font-weight: bold;
+}
+
+#attachlist {
+	font-size: 12px;
+	padding-right: 10px;
+	line-height: 150%;
+	padding-bottom: 20px;
+}
+
+th {
+	border: 1px solid #BBBBBB;
+	padding-right: 1px;
+	padding-left: 1px;
+	background-color: #BDDAE8;
+	font-size: 13px;
+	padding-top: 5px;
+	padding-bottom: 2px;
+}
+td {
+	background-color: #E7E7E7;
+	border: 1px solid #BBBBBB;
+	font-size: 13px;
+	padding-right: 1px;
+	padding-left: 1px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}

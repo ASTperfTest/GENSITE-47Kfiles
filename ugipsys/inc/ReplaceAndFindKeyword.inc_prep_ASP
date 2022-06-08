@@ -1,0 +1,139 @@
+﻿
+  
+havebody = false
+'小百科字辭及時解釋(取代字串)
+function replaceandfindkeyword(document)
+    xs = document
+ 
+ reviewmode = review
+ 'response.write xs
+ xdd = ""
+ if xs="" or isnull(xs) then
+   replaceandfindkeyword=""
+   exit function
+    end if
+ dim domainurl
+ domainurl = "http://" & request.servervariables("http_host") &  request.servervariables("url")
+ 
+ 'replace 後台部分
+ '判斷來源url
+ if right(domainurl,10) = phrasemodurl then
+ 
+ fsql_new = "set nocount on "
+    fsql_new = fsql_new & "declare  @ctrootid int set @ctrootid=" & request("mp")
+    fsql_new = fsql_new & " declare @titlelist table "
+    fsql_new = fsql_new & "( "
+    fsql_new = fsql_new & "titleid int "
+    fsql_new = fsql_new & ",title nvarchar(200) "
+    fsql_new = fsql_new & ",ttype int default(0)"
+    fsql_new = fsql_new & ",titletheme nvarchar(200) "
+    fsql_new = fsql_new & ",rowid int "
+    fsql_new = fsql_new & ") "
+    fsql_new = fsql_new & "insert into @titlelist (title) "
+    fsql_new = fsql_new & "select cudtgeneric.stitle from cudtgeneric "
+    fsql_new = fsql_new & "inner join pedia on cudtgeneric.icuitem = pedia.gicuitem "
+    fsql_new = fsql_new & "where (cudtgeneric.ictunit = '2155') and (cudtgeneric.fctupublic = 'y') and (pedia.xstatus = 'y') "
+    fsql_new = fsql_new & "union "
+    fsql_new = fsql_new & "select  phrase from subjectphrase where ctrootid = @ctrootid "
+    fsql_new = fsql_new & "update rtitle "
+    fsql_new = fsql_new & "set "
+    fsql_new = fsql_new & "  rtitle.titleid = cudtgeneric.icuitem "
+    fsql_new = fsql_new & " ,rtitle.ttype = rtitle.ttype | 1 "
+    fsql_new = fsql_new & "from cudtgeneric "
+    fsql_new = fsql_new & "inner join pedia on cudtgeneric.icuitem = pedia.gicuitem "
+    fsql_new = fsql_new & "inner join @titlelist rtitle on rtitle.title = cudtgeneric.stitle "
+    fsql_new = fsql_new & "where (cudtgeneric.ictunit = '2155') and (cudtgeneric.fctupublic = 'y') and (pedia.xstatus = 'y') "
+    fsql_new = fsql_new & "update rtitle "
+    fsql_new = fsql_new & "set "
+    fsql_new = fsql_new & "rtitle.titletheme= subjectphrase.phrase "
+    fsql_new = fsql_new & " ,rtitle.rowid = subjectphrase.rowid "
+    fsql_new = fsql_new & " ,rtitle.ttype = rtitle.ttype | 2 "
+    fsql_new = fsql_new & "from subjectphrase "
+    fsql_new = fsql_new & "inner join @titlelist rtitle on rtitle.title = subjectphrase.phrase "
+    fsql_new = fsql_new & "where ctrootid =" & request("mp")
+    fsql_new = fsql_new & " select * from @titlelist "
+ 
+ set pedia = conn.execute(fsql_new)
+ 
+ while not pedia.eof 
+     if trim(xs)=trim(pedia("title")) then   
+   if isnull(pedia("titleid"))  then
+    xs = "<a id='ine_" & pedia("rowid") & "' class='jtip' name='/phrase/showphrase.asp?width=520&icuitem=&themeid=" &  pedia("rowid") & "&mp=" & request("mp") & "&review=1'><span>view</span></a>"    
+   else
+    xs = "<a id='ine_" & pedia("titleid") & "' class='jtip' name='/phrase/showphrase.asp?width=520&icuitem=" &  pedia("titleid") & "&themeid=" &  pedia("rowid") & "&mp=" & request("mp") & "&review=1'><span>view</span></a>"
+   end if
+  end if
+  pedia.movenext 
+ wend
+ replaceandfindkeyword = xs 
+ 
+ 
+ 'replace 前台部分
+ else
+ 
+ 'session("pediactunitid")
+    fsql_new =  "set nocount on "
+                fsql_new = fsql_new & "declare  @ctrootid int set @ctrootid =" & request("mp")
+                fsql_new = fsql_new & " declare @titlelist table "
+                fsql_new = fsql_new & vbcrlf & "( "
+                fsql_new = fsql_new & vbcrlf & "    titleid int "
+                fsql_new = fsql_new & vbcrlf & "    ,title nvarchar(200) "
+                fsql_new = fsql_new & vbcrlf & "    ,ttype int default(0)"
+                fsql_new = fsql_new & vbcrlf & "    ,titletheme nvarchar(200)"
+                fsql_new = fsql_new & vbcrlf & "    ,rowid int"
+    fsql_new = fsql_new & vbcrlf & ") "
+                fsql_new = fsql_new & vbcrlf & "insert into @titlelist (title) "
+                fsql_new = fsql_new & vbcrlf & "select cudtgeneric.stitle from cudtgeneric " 
+                fsql_new = fsql_new & vbcrlf & "inner join pedia on cudtgeneric.icuitem = pedia.gicuitem "
+                fsql_new = fsql_new & vbcrlf & "where (cudtgeneric.ictunit = '2155') and (cudtgeneric.fctupublic = 'y') and (pedia.xstatus = 'y') "
+                fsql_new = fsql_new & vbcrlf & "union "
+                fsql_new = fsql_new & vbcrlf & "select  phrase from subjectphrase where fctupublic = 'y'  and ctrootid = @ctrootid "
+                
+                fsql_new = fsql_new & vbcrlf & "update rtitle "
+                fsql_new = fsql_new & vbcrlf & "set "
+                fsql_new = fsql_new & vbcrlf & "     rtitle.titleid = cudtgeneric.icuitem "
+                fsql_new = fsql_new & vbcrlf & "    ,rtitle.ttype = rtitle.ttype | 1 "
+                fsql_new = fsql_new & vbcrlf & "from cudtgeneric "
+                fsql_new = fsql_new & vbcrlf & "inner join pedia on cudtgeneric.icuitem = pedia.gicuitem "
+                fsql_new = fsql_new & vbcrlf & "inner join @titlelist rtitle on rtitle.title = cudtgeneric.stitle "
+                fsql_new = fsql_new & vbcrlf & "where (cudtgeneric.ictunit = '2155') and (cudtgeneric.fctupublic = 'y') and (pedia.xstatus = 'y') "
+                
+                fsql_new = fsql_new & vbcrlf & "update rtitle"
+                fsql_new = fsql_new & vbcrlf & "set "
+                fsql_new = fsql_new & vbcrlf & "     rtitle.titletheme= subjectphrase.phrase"
+                fsql_new = fsql_new & vbcrlf & "    ,rtitle.rowid = subjectphrase.rowid"
+                fsql_new = fsql_new & vbcrlf & "    ,rtitle.ttype = rtitle.ttype | 2 "
+                fsql_new = fsql_new & vbcrlf & "from subjectphrase "
+                fsql_new = fsql_new & vbcrlf & "inner join @titlelist rtitle on rtitle.title = subjectphrase.phrase "
+                fsql_new = fsql_new & vbcrlf & "where subjectphrase.fctupublic = 'y' and ctrootid = @ctrootid"
+                fsql_new = fsql_new & vbcrlf & "select * from @titlelist"
+ 
+ 
+ set pedia = conn.execute(fsql_new)
+ 
+ while not pedia.eof 
+     if (instr(xs,trim(pedia("title"))) <> 0 ) then   
+   if isnull(pedia("titleid"))  then
+    
+    xs = replace(xs,trim(pedia("title")),"<a id='ine_" & pedia("rowid")   & "' class='jtip jtip" & pedia("ttype") & "' name='/subject/showphrase.asp?width=520&icuitem=&themeid=" &  pedia("rowid") & "&mp=" & request("mp") & "'><span>" & pedia("title")& "</span></a>",1,1) 
+    
+    else
+
+    xs = replace(xs,trim(pedia("title")),"<a id='ine_" & pedia("titleid") & "' class='jtip jtip" & pedia("ttype") & "' name='/subject/showphrase.asp?width=520&icuitem=" &  pedia("titleid") & "&themeid=" &  pedia("rowid") & "&mp=" & request("mp") & "'><span>" & pedia("title")& "</span></a>",1,1)
+    
+   end if
+    
+  end if
+  pedia.movenext
+  
+ wend
+ 
+ 
+ replaceandfindkeyword = xs
+ 
+ end if
+ 
+end function
+
+
+ 

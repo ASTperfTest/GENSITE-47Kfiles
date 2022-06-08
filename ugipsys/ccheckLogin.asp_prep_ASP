@@ -1,0 +1,85 @@
+﻿: @ codepage = 65001 :    response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1 
+   CxMethod_ASP_dbutil_453315802()
+  
+
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+ sqlcom = "select i.*, d.tdatacat " _
+  & " from infouser as i left join dept as d on i.deptid=d.deptid " _
+  & " where userid=" & pkstr(request.form("tfx_username"),"") _
+  & " and password=" & pkstr(request.form("tfx_password"),"")
+' response.write sqlcom
+' response.end ' or 'a'='a
+ set rs = conn.execute(sqlcom)
+ if rs.eof then
+
+
+
+
+
+
+
+  
+    response.end
+ else
+  session("lastvisit") = rs("lastvisit")
+  session("lastip") = rs("lastip")
+  session("visitcount") = rs("visitcount")
+  lastvisit = date()
+  visitcount = rs("visitcount") + 1
+  sql = "update infouser set lastvisit = '"& lastvisit &"', visitcount = "& visitcount _
+   & ", lastip='" & request.servervariables("remote_addr") &"' where userid = '"& rs("userid") &"'"
+  conn.execute(sql)
+  session("pwd") = true
+  session("userid") = rs("userid")
+  session("username") = rs("username")
+  session("ugrpid") = rs("ugrpid")
+  session("deptid") = rs("deptid")
+  session("tdatacat") = rs("tdatacat")
+  xpath = "/public/data/" & trim(rs("uploadpath")) 
+  if right(xpath,1)<>"/" then xpath = xpath & "/"
+  session("uploadpath") = xpath
+  session("email") = rs("email")
+  
+  
+  '判斷是否有記錄密碼更新日期-------------------------------------------------------------------start 
+  xsql="sp_columns @table_name = 'infouser' , @column_name ='modifypassword'"
+  set xrs= conn.execute(xsql)
+ 
+   session("modifypassword") = false
+  if not xrs.eof then  
+   if dateadd("d",90,rs("modifypassword")) < now then
+    session("modifypassword") = true
+   
+
+
+
+    
+   end if
+  end if
+  '判斷是否有記錄密碼更新日期---------------------------------------------------------------------end
+
+
+    if instr(session("ugrpid")&",", "htsd,") > 0 then 
+
+
+   else 
+
+   end if 
+
+
+
+  
+ end if
+ 

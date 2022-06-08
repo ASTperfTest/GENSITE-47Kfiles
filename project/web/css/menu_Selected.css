@@ -1,0 +1,53 @@
+﻿.menu .leftActiveItem_1_AM,
+.menu .leftActiveItem_2_AM,
+.menu .leftActiveItem_6_AM,
+.menu .leftActiveItem_7_AM
+{
+	color:yellow !important;
+	background: url(/xslGip/style3/images/menu_active_bg_am.png) no-repeat right bottom;
+}
+
+.menu .leftActiveItem_3_AM,
+.menu .leftActiveItem_4_AM,
+.menu .leftActiveItem_5_AM
+{
+	color:yellow !important;
+	background: url(/xslGip/style3/images/menu_active_bg_3am.png) no-repeat right bottom;
+}
+
+
+.menu .leftActiveItem_1_PM,
+.menu .leftActiveItem_7_PM
+{
+    color:yellow !important;
+	background: url(/xslGip/style3/images/menu_active_bg_2pm.png) no-repeat right bottom;
+}
+
+/*只端午的下午 的menu選單有綠色漸層*/
+.menu .leftActiveItem_2_PM,
+.menu .leftActiveItem_6_PM
+{
+    color:orange;
+	background: url(/xslGip/style3/images/menu_active_bg_2pm.png) no-repeat right bottom;
+}
+
+.menu .leftActiveItem_3_PM,
+.menu .leftActiveItem_4_PM,
+.menu .leftActiveItem_5_PM
+{
+	color:Navy !important;    
+	background: url(/xslGip/style3/images/menu_active_bg_pm.png) no-repeat right bottom;
+}
+
+
+.menu .leftActiveItem_1_NT,
+.menu .leftActiveItem_2_NT,
+.menu .leftActiveItem_3_NT,
+.menu .leftActiveItem_4_NT,
+.menu .leftActiveItem_5_NT,
+.menu .leftActiveItem_6_NT,
+.menu .leftActiveItem_7_NT
+{
+	color:yellow;
+	background: url(/xslGip/style3/images/menu_active_bg_nt.png) no-repeat right bottom;
+}

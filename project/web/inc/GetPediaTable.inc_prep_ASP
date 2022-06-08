@@ -1,0 +1,132 @@
+﻿: 
+function getpediatable(itemid,mpid,themeid)
+
+'主題館跑以下資訊
+if mpid <> 1 and themeid <> "" then
+
+    '主題館　館主說明
+ if review = 1 then
+ phrase="select * from subjectphrase where rowid=" & themeid & " and ctrootid=" & mpid 
+ else
+ phrase="select * from subjectphrase where rowid=" & themeid & " and ctrootid=" & mpid & " and fctupublic='y'"
+ end if
+ 
+ set themephrase = conn.execute(phrase)
+ 
+ if not themephrase.eof then
+     tablehtm = "<div class=""fade"" width=""480"">"
+     tablehtm = tablehtm & "<ul class=""tabs"">"
+     tablehtm = tablehtm & "<li><a>館主說明</a></li>"      
+     tablehtm = tablehtm & "</ul>"
+     tablehtm = tablehtm & "<div class=""items"">"
+     tablehtm = tablehtm & "<div id=""item2"">"
+     tablehtm = tablehtm & "<table width=""480"">"
+  tablehtm = tablehtm & "<tr><td>" & replace(server.htmlencode(themephrase("content")),vbcrlf,"<br />") & "</td></tr>"
+  tablehtm = tablehtm & "</table>"
+  tablehtm = tablehtm & "</div>"
+  tablehtm = tablehtm & "</div>"
+  tablehtm = tablehtm & "</div>"
+
+ end if
+ 
+end if
+
+if itemid <> "" then
+
+ '百科詞彙
+ sqlpediaup = " select cudtgeneric.stitle, cudtgeneric.xbody, cudtgeneric.xkeyword, cudtgeneric.vgroup, pedia.engtitle, " _
+                & " pedia.formalname, pedia.localname from cudtgeneric inner join pedia on cudtgeneric.icuitem = pedia.gicuitem " _
+                & " where (cudtgeneric.fctupublic = 'y') and (pedia.xstatus = 'y') and (cudtgeneric.icuitem = '"& itemid &"')"
+  
+    set pediatab = conn.execute(sqlpediaup)
+
+ if not pediatab.eof then
+     tablehtm = tablehtm & "<div class=""fade"" width=""480"">"
+     tablehtm = tablehtm & "<ul class=""tabs"">"
+     tablehtm = tablehtm & "<li><a>農業小百科</a></li>"      
+     tablehtm = tablehtm & "</ul>"
+     tablehtm = tablehtm & "<div class=""items"">"
+     tablehtm = tablehtm & "<div id=""item2"">"
+     tablehtm = tablehtm & "<table width=""480"">"
+  tablehtm = tablehtm & "<tr><th width=""80"" style=""text-align: right"">詞目</th><td>" & pediatab("stitle") & "</td></tr>"
+  if pediatab("engtitle") = null or pediatab("engtitle") = ""  then
+  else
+  tablehtm = tablehtm & "<tr><th width=""80"" style=""text-align: right"">英文詞目</th><td>"
+      tablehtm = tablehtm & pediatab("engtitle") &"</td></tr>"
+  end if
+'  
+'  tablehtm = tablehtm & "<tr><th width=""80"" style=""text-align: right"">學名(中/英)</th><td>"
+'  if pediatab("formalname") = null or  pediatab("formalname") = "" then
+'      tablehtm = tablehtm & "&nbsp;" &"</td></tr>"
+'  else
+'      tablehtm = tablehtm & pediatab("formalname") &"</td></tr>"
+'  end if
+'  tablehtm = tablehtm & "<tr><th width=""80"" style=""text-align: right"">俗名(中/英)</th><td>"
+'  if pediatab("localname") = null or  pediatab("localname") = "" then
+'      tablehtm = tablehtm & "&nbsp;" &"</td></tr>"
+'  else
+'      tablehtm = tablehtm & pediatab("localname") &"</td></tr>"
+'  end if
+  if pediatab("xbody") = null or pediatab("xbody") = "" then 
+      supply = true
+  else
+      supply = false
+            tablehtm = tablehtm & "<tr><th width=""80"" style=""text-align: right"">名詞釋義</th><td>"  & replace(pediatab("xbody"),vbcrlf, "<br />") & "</td></tr>"
+      havebody = true
+  end if
+  if pediatab("xkeyword") = null or pediatab("xkeyword") = "" then
+            'tablehtm = tablehtm & "<tr><th width=""80"" style=""text-align: right"">相關詞</th><td>&nbsp;</td></tr>"
+        else
+    dim  items 
+      items = split(pediatab("xkeyword"),";")
+      tablehtm = tablehtm & "<tr><th width=""80"" style=""text-align: right"">相關詞</th><td>"
+         for each item in items
+            if item = null or item = "" then
+     else
+     tablehtm = tablehtm & item & ","
+            end if
+          next
+    tablehtm = tablehtm & "</td></tr>"
+  end if
+  
+  tablehtm = tablehtm & "</table>"
+  
+  if supply then'grace 若沒有名詞釋義 就加入補充說明
+      tablehtm = tablehtm & "<br/><b>補充解釋：</b>"
+      tablehtm = tablehtm & "<table width=""480"">"
+   tablehtm = tablehtm & "<tr><th></th><th style=""text-align: center"">補充說明</th><th width=""80"" style=""text-align: center"">發表者</th></tr>"
+      supplementsql = "select top 3 "_
+                    & "  row_number() over(order by pedia.commendtime desc) as rowid "_
+        & ", cudtgeneric.icuitem "_
+        & ", cudtgeneric.xbody "_
+        & ", member.realname, member.nickname "_
+        & ", pedia.commendtime "_
+        & "from cudtgeneric "_
+        & "inner join pedia on cudtgeneric.icuitem = pedia.gicuitem "_
+        & "inner join member on pedia.memberid = member.account "_
+        & "where (cudtgeneric.fctupublic = 'y') "_
+        & "and (pedia.xstatus = 'y') "_
+        & "and (cudtgeneric.icuitem in (select gicuitem from pedia where parenticuitem ='" & itemid & "' )) "_
+        & "order by pedia.commendtime desc "
+        
+      set supplement = conn.execute(supplementsql)
+   while not supplement.eof
+       tablehtm = tablehtm & "<tr><td width='3%'>" & replace(supplement("rowid"),vbcrlf, "<br />") & "</td>"
+    tablehtm = tablehtm & "<td><a target='_blank' href='/pedia/pediaexplaincontent.aspx?aid=" & supplement("icuitem") & "&paid=" & itemid & "'>" & replace(supplement("xbody"),vbcrlf, "<br />") & "</a></td>"
+    tablehtm = tablehtm & "<td>" & replace(supplement("nickname"),vbcrlf, "<br />") & "</td></tr>"
+    supplement.movenext
+   wend
+   tablehtm = tablehtm & "</table>"
+  end if
+  
+  tablehtm = tablehtm & "<div style=""text-align:right; padding-right:25px;""><a target='_blank' href='/pedia/pediacontent.aspx?aid=" & itemid & "'>more...</div>"
+ end if
+  tablehtm = tablehtm & "</div>"        
+  tablehtm = tablehtm & "</div>"
+end if
+
+  tablehtm = tablehtm & "</div>"
+  
+  getpediatable = tablehtm
+end function
+ 

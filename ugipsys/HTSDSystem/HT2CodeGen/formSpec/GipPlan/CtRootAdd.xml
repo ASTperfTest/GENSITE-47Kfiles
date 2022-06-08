@@ -1,0 +1,155 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<htPage>
+	<HTProgPrefix>CtRoot</HTProgPrefix>
+	<HTProgCode>GE1T21</HTProgCode>
+	<HTUploadPath>/public/</HTUploadPath>
+	<HTProgPath>/GipPlan</HTProgPath>
+	<HTGenPattern>genAdd</HTGenPattern>
+	<htForm>
+		<formModel id="CtRootAdd">
+			<fieldList>
+				<tableName>CatTreeRoot</tableName>
+				<masterTable>Y</masterTable><field>
+					<fieldName>CtRootName</fieldName>
+					<fieldLabel>導覽頁名稱</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>40</dataLen>
+					<inputLen>40</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>vGroup</fieldName>
+					<fieldLabel>分眾對象</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>visitGroup</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>Purpose</fieldName>
+					<fieldLabel>用途</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>80</dataLen>
+					<inputLen>80</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>inUse</fieldName>
+					<fieldLabel>是否開放</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>bOnOff</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>Editor</fieldName>
+					<fieldLabel>編輯人</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>hidden</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>refUser</refLookup>
+					<clientDefault><type>serverFunc</type><set>session("userID")</set></clientDefault>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>CtRootID</fieldName>
+					<fieldLabel>導覽頁ID</fieldLabel>
+					<dataType>int</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>4</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>hidden</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+			<anchorList>
+				<anchor>
+					<type></type>
+					<funcLabel></funcLabel>
+					<url></url>
+					<action></action>
+				</anchor>
+			</anchorList>
+		</formModel>
+	</htForm>
+	<pageSpec>
+		<pageHead>分類樹管理</pageHead>
+		<pageFunction>新增導覽頁</pageFunction>
+		<aidLinkList>
+			<Anchor>
+				<AnchorLabel>回前頁</AnchorLabel>
+				<AnchorType>Back</AnchorType>
+				<AnchorDesc>回前頁</AnchorDesc>
+				<AnchorURI></AnchorURI>
+				<checkRight></checkRight>
+				<AnchorPos>Top</AnchorPos>
+			</Anchor>
+		</aidLinkList>
+		<formUI ref="CtRootAdd">
+			<pxHTML>
+				<CENTER>
+					<TABLE border="0" class="eTable" cellspacing="1" cellpadding="2" width="90%">
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>導覽頁名稱：</TD>
+							<TD class="eTableContent"><refField>CatTreeRoot/CtRootName</refField><refField>CatTreeRoot/Editor</refField><refField>CatTreeRoot/CtRootID</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>分眾對象：</TD>
+							<TD class="eTableContent"><refField>CatTreeRoot/vGroup</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">用途：</TD>
+							<TD class="eTableContent"><refField>CatTreeRoot/Purpose</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>是否開放：</TD>
+							<TD class="eTableContent"><refField>CatTreeRoot/inUse</refField></TD>
+						</TR>
+					</TABLE>
+				</CENTER>
+			</pxHTML>
+			<scriptCode><![CDATA[
+<SCRIPT LANGUAGE="vbs">
+
+</SCRIPT>
+		]]></scriptCode>
+		</formUI>
+		<UINotes>
+		</UINotes>
+	</pageSpec>
+</htPage>

@@ -1,0 +1,562 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath="/"
+htprogcode="gc1ap1"
+htprogprefix="dsdxml" 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbfunc_874801204()
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+function htmlmessage(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   htmlmessage=""
+   exit function
+  elseif instr(1,xs,"<p",1)>0 or instr(1,xs,"<br",1)>0 or instr(1,xs,"<td",1)>0 then
+   htmlmessage=xs
+   exit function
+  end if
+   xs = replace(xs,vbcrlf&vbcrlf,"<p>")
+   xs = replace(xs,vbcrlf,"<br>")
+   htmlmessage = replace(xs,chr(10),"<br>")
+end function
+
+
+ sitestr = "http://" & request.servervariables("server_name") 
+ myurl = "http://" & request.servervariables("server_name") & request.servervariables("url") & "?" & request.servervariables("query_string")
+' response.write  myurl & "<hr>"
+ for each x in request.servervariables
+'  response.write x & "=>" & request(x) & "<br>"
+ next
+ 
+ if request.form("submittask") = "update" then
+  icuitem = request.form("htx_icuitem")
+  xbody = request("htx_xbody")
+'  response.write xbody & "<hr>"
+  xbody = replace(xbody, myurl, "")
+  xbody = replace(xbody, sitestr& "/gipedit/", "")
+  xbody = replace(xbody, sitestr, "")
+  xbody = replace(xbody, "<a href=""http://", "<a target=""_nwmof"" href=""http://")
+  xbody = replace(xbody, "<a href=""/public/", "<a target=""_nwmof"" href=""/public/")
+  xbody = replace(xbody, sitestr, "")
+  
+'  response.write xbody & "<hr>"
+'  response.end
+  if isnumeric(icuitem) then
+   sql = "update cudtgeneric set xbody = " & pkstr(xbody,"") _
+    & " where icuitem=" & icuitem
+   conn.execute sql
+   response.redirect "dsdxmledit.asp?icuitem=" & icuitem
+'   response.write sql & "<hr>"
+'   response.end
+  
+  
+  else
+   response.end
+  end if
+ end if
+
+
+   set htpagedom = session("codexmlspec")
+   set refmodel = htpagedom.selectsinglenode("//dstable")
+   set allmodel = htpagedom.selectsinglenode("//dataschemadef")
+
+ sqlcom = "select ghtx.* from cudtgeneric as ghtx "_
+  & " where ghtx.icuitem=" & pkstr(request.querystring("icuitem"),"")
+ set rsreg = conn.execute(sqlcom)
+ pkey = "icuitem=" & rsreg("icuitem")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                        =request("icuitem")
+
+
+
+
+
+
+                                                        =request("icuitem")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                         =htprogcap
+                              =session("ctunitname"):           =nulltext(htpagedom.selectsinglenode("//tabledesc"))
+
+                                          =rsreg("icuitem")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                            =htmlmessage(rsreg("xbody"))
+
+                                             =rsreg("icuitem") 

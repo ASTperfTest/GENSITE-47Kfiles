@@ -1,0 +1,129 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function chsel(xa, b)
+Cx_0dummy a = xa -1
+ xmyid = reg.articleid(a).value
+ xxselectchild xmyid, reg.articleid(a).checked
+Cx_0dummyend function
+
+sub xxselectchild(myid, torf)
+ for xxi=0 to reg.articleid.length -1
+  if reg.articleid(xxi).parent = myid then
+   reg.articleid(xxi).checked = torf
+   xxselectchild reg.articleid(xxi).value, torf
+  end if
+ next
+end sub
+
+Cx_0dummy sub forumes()
+  reg.action="forumconfig.asp?itemid=Cx_0dummy&forumid=Cx_0dummy&configck=forumes&forumes=Cx_0dummy"
+  reg.submit
+ end sub
+
+ Cx_0dummy sub window_onload()
+  Cx_0dummy
+
+
+
+
+    for xxi=0 to reg.articleid.length -1
+     for xno = 0 to ubound(nowarray)
+      if cint(reg.articleid(xxi).value) = cint(nowarray(xno)) then
+       reg.articleid(xxi).checked = true
+      end if
+     next
+    next
+ end sub
+ Cx_0dummyCx_0dummy sub forumdel()
+  reg.action="forumconfig.asp?itemid=Cx_0dummy&forumid=Cx_0dummy&configck=dela"
+  reg.submit
+ end sub
+Cx_0dummy
+ 

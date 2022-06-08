@@ -1,0 +1,78 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "pn03m04" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+  
+ forumid = request.querystring("forumid")
+
+   sqlcom = "select * from forum where forumid = "& forumid
+   set rs = conn.execute(sqlcom)
+   opinion=rs("forumremark")
+   cont=message(opinion)
+
+
+
+
+
+
+
+
+
+
+
+
+
+                         if forumtype <> "d" then :                                                                          end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              =rs("forumname")
+
+
+
+                              =cont
+
+
+
+
+
+
+                                                 =itemid:            =forumid
+
+
+
+                                                   =itemid:            =forumid
+
+
+
+                                                   =itemid:            =forumid
+
+
+  
+function message(tempstr)
+  outstring = ""
+  while len(tempstr) > 0
+    pos=instr(tempstr, chr(13)&chr(10))
+    if pos = 0 then
+      outstring = outstring & tempstr & "<br>"
+      tempstr = ""
+    else
+      outstring = outstring & left(tempstr, pos-1) & "<br>"
+      tempstr=mid(tempstr, pos+2)
+    end if
+  wend
+  message = outstring
+end function
+ 

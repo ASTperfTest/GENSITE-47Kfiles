@@ -1,0 +1,91 @@
+﻿.InputText {
+	font-size: 12px;
+	color: #333333;
+	border: 1px solid #719F7E;
+}
+.InputButton {
+	font-size: 12px;
+	background: url(../images/form_but_bg.gif) repeat-x;
+	padding-top: 3px;
+	color: #2B4723;
+	border-top: 1px solid #BBBBBB;
+	border-right: 1px solid #888888;
+	border-bottom: 1px solid #888888;
+	border-left: 1px solid #BBBBBB;
+}
+.cbutton {
+	font-size: 12px;
+	background: url(../images/form_but_bg.gif) repeat-x;
+	padding-top: 3px;
+	color: #2B4723;
+	border-top: 1px solid #BBBBBB;
+	border-right: 1px solid #888888;
+	border-bottom: 1px solid #888888;
+	border-left: 1px solid #BBBBBB;
+}
+.sedit { border-top-style:none; border-left-style:none; border-bottom-style:none; border-right-style:none;}
+.rdonly { background-color: pink;}
+.InputSelect{
+	font-size: 12px;
+	color: #333333;
+	border: 1px solid #7DA783;
+}
+#FormName {
+	font-size: 15px;
+	font-weight: normal;
+	margin-top: 15px;
+	text-align: center;
+	letter-spacing: 0.15em;
+	color: #333333;
+}
+#Form1 {
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-top: 2px solid #BDC9B6;
+	border-bottom: 2px solid #BDC9B6;
+	margin-right: 20px;
+	margin-left: 20px;
+	background: #F8FBF2;
+	margin-top: 3px;
+}
+#Form1 table {
+	font-size: 12px;
+	margin-bottom: 10px;
+}
+#Form1 table td {
+	margin: 0px;
+	padding-right: 15px;
+	padding-left: 3px;
+	text-align: left;
+	padding-bottom: 3px;
+	vertical-align: top;
+}
+#Form1 table td span.Select {
+	padding-right: 0.5em;
+	display: inline-block;
+	width: 7em;
+}
+#Form1 td.Label {
+	color: #005555;
+	text-align: right;
+	vertical-align: top;
+	padding-top: 5px;
+	padding-left: 15px;
+	padding-right: 3px;
+	white-space: nowrap;
+}
+#Form1 td.Label {
+	color: #005555;
+	text-align: right;
+	vertical-align: top;
+	padding-top: 5px;
+	padding-left: 15px;
+	padding-right: 3px;
+	white-space: nowrap;
+}
+.Must {
+	font-size: 12px;
+	color: #CC0000;
+	padding-right: 3px;
+}

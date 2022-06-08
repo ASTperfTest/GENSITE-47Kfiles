@@ -1,0 +1,64 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<UseCase>
+	<Name>問卷統計管理</Name>
+	<Code>HTsa2AM03</Code>
+	<APCat>HTsa0A</APCat>
+	<Version>
+		<Date>2002/12/19</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<ExpandedSpec>
+			<Type>primary</Type>
+			<Type>essential</Type>
+			<ActorList>
+				<Actor initiator="Y">問卷處理者</Actor>
+			</ActorList>
+			<Purpose>問卷處理者, 統計/管理該單位問卷</Purpose>
+			<PreCondition>
+				<UseCase></UseCase>
+			</PreCondition>
+			<DescriptionList>
+				<Description>1.提供問卷統計資料(基本簡單的次數/分數計算)
+				</Description>
+				<Description>2.問卷回收資料轉成Excel檔
+				</Description>
+			</DescriptionList>
+			<TypicalCourseOfEvents>
+				<Event type="Client" id="0" ContractXML="evx_QSetViewList.xml">
+					[條列] -- 同問卷清單<br/>				
+					1.列出單位內所有問卷: 主題, 調查對象,調查期間, 狀態(未結案), 已發送份數; 已填完份數<br/>
+					2.依調查期間排序; <br/>
+					3.按【已填完份數】連結到此問卷的結果統計畫面<br/>
+				</Event>
+				<Event type="Client" id="C01" ContractXML="evx_QSetView.xml">
+					[瀏覽]<br/>				
+					1.就問卷逐題依答案方式列出統計結果<br/>
+					2.按轉檔按鈕, 系統將問卷資料轉成Excel報表供使用者應用
+				</Event>
+				<Event type="Server" id="C02">
+					[轉檔] -- 問卷結果Excel檔<br/>
+				</Event>
+			</TypicalCourseOfEvents>
+		</ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+</UseCase>

@@ -1,0 +1,155 @@
+﻿:                     
+   response.expires = 0 
+   CxMethod_ASP_htcodegen_1119211473()
+
+
+
+
+
+
+
+
+
+  
+ formfunction = "add"
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+ formid = request("formid")
+
+ formid = request("formid")
+ progpath = request("progpath")
+ if progpath <> "" then
+  if left(progpath,1) = "/" then progpath = mid(progpath,2)
+  progpath = replace(progpath,"/","\")
+  progpath = progpath & "\"
+ end if
+
+ set htpagedom = server.createobject("microsoft.xmldom")
+ htpagedom.async = false
+ htpagedom.setproperty("serverhttprequest") = true 
+ 
+ loadxml = server.mappath(".") & "\formspec\" & progpath & formid & ".xml"
+ debugprint loadxml & "<hr>"
+ xv = htpagedom.load(loadxml)
+  if htpagedom.parseerror.reason <> "" then 
+    response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+    response.write("<br>reason: " &  htpagedom.parseerror.reason)
+    response.end()
+  end if
+
+pgprefix = nulltext(htpagedom.selectsinglenode("//htpage/htprogprefix"))
+progpath = nulltext(htpagedom.selectsinglenode("//htpage/htprogpath"))
+if progpath = "" then 
+ pgpath = server.mappath("genedcode/")
+else
+ pgpath = server.mappath(progpath)
+end if
+if right(pgpath,1) <> "\" then pgpath = pgpath & "\"
+
+ dim xsearchlistitem(20,2)
+ xitemcount = 0
+
+    set fs = createobject("scripting.filesystemobject")
+'--xxxform.inc--------------------------
+    set xfin = fs.opentextfile(server.mappath("template0/tempfuform1.inc"))
+    set xfout = fs.createtextfile(pgpath&pgprefix&"form.inc", true)
+
+ dumptempfile
+    xfin.close
+
+ set htformdom = htpagedom.selectsinglenode("//pagespec/formui")
+ set refmodel = htpagedom.selectsinglenode("//htform/formmodel[@id='" & htformdom.selectsinglenode("@ref").text & "']")
+' response.write refmodel.selectsinglenode("tablename").text & "<hr>"
+
+ cq=chr(34)
+ ct=chr(9)
+ cl="<" & "%"
+ cr="%" & ">"
+
+    calendarflag=false
+ for each x in htformdom.selectsinglenode("pxhtml").childnodes
+  recursivetag x
+ next
+    if calendarflag then
+     xfout.writeline "<object data=""../inc/calendar.htm"" id=calendar1 type=text/x-scriptlet width=245 height=160 style='position:absolute;top:0;left:230;visibility:hidden'></object>"
+  xfout.writeline "<input type=hidden name=calendartarget>"
+    end if
+
+    set xfin = fs.opentextfile(server.mappath("template0/tempform2.inc"))
+ dumptempfile
+    xfin.close
+
+
+ for each xcode in htformdom.selectnodes("scriptcode")
+  xfout.write replace(xcode.text,chr(10),chr(13)&chr(10))
+ next
+ 
+     if calendarflag then
+      set xfin = fs.opentextfile(server.mappath("template0/tempcalendarsub.asp"))
+   dumptempfile      
+      xfin.close
+     end if
+      
+    xfout.close
+
+'--xxxadd.asp--------------------------
+    set xfout = fs.createtextfile(pgpath&pgprefix&"add.asp")
+
+ xfout.writeline cl & " response.expires = 0"
+ xfout.writeline "htprogcap=""" & nulltext(htpagedom.selectsinglenode("//pagespec/pagehead")) & cq
+ xfout.writeline "htprogfunc=""" & nulltext(htpagedom.selectsinglenode("//pagespec/pagefunction")) & cq
+ xfout.writeline "htuploadpath=""" & nulltext(htpagedom.selectsinglenode("//htpage/htuploadpath")) & cq
+ xfout.writeline "htprogcode=""" & nulltext(htpagedom.selectsinglenode("//htpage/htprogcode")) & cq
+ xfout.writeline "htprogprefix=""" & pgprefix & cq & " " & cr
+
+    set xfin = fs.opentextfile(server.mappath("template0/tempfuadd1.asp"))
+ dumptempfile
+    xfin.close
+    
+ for each x in htformdom.selectnodes("//pxhtml//reffield")
+     processinit x.text
+    next
+    
+    set xfin = fs.opentextfile(server.mappath("template0/tempadd1a.asp"))
+ dumptempfile
+    xfin.close
+
+ for each x in htformdom.selectnodes("//pxhtml//reffield")
+     processvalid x.text
+    next
+    
+    set xfin = fs.opentextfile(server.mappath("template0/tempadd1b.asp"))
+ dumptempfile
+    xfin.close
+    
+
+ xfout.writeline "<" & "!--#include file=""" & pgprefix & "form.inc""--" & ">"
+
+    set xfin = fs.opentextfile(server.mappath("template0/tempmdadd2.asp"))
+ dumptempfile
+    xfin.close
+
+ xfout.writeline ct & "sql = ""insert into " & htformdom.selectsinglenode("@ref").text & "("""
+ xfout.writeline ct & "sqlvalue = "") values("""
+
+ for each x in htformdom.selectnodes("//pxhtml//reffield")
+     processinsert x.text
+    next
+
+
+    set xfin = fs.opentextfile(server.mappath("template0/tempmdfuadd3.asp"))
+ dumptempfile
+    xfin.close
+    xfout.close
+
+ 

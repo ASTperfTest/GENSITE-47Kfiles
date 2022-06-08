@@ -1,0 +1,8 @@
+主題單元20資料轉檔(2005/11/10)
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xbody,xpostDate,avBegin,avEnd,ximportant,ieditor,deditDate,createdDate,xabstract) VALUES(7,20,'Y','N','0','1',N'購置備份設備與軟體',null,N'2004/12/13',N'2004/12/13 00:00:00',N'2004/12/23 00:00:00',N'1',N'brian',N'2004/12/13 09:19:06',N'2004/12/13 09:19:06',N'93A102'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(3961)
+[htx.outsourceid = '34'] 資料轉檔完成!
+----------------------------------------------------------------------------
+===============================================================================
+轉檔 1 筆, 共成功 1 筆!

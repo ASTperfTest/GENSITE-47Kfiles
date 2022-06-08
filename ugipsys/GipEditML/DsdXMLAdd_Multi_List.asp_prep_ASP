@@ -1,0 +1,165 @@
+﻿: @ codepage = 65001 
+  
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="多向出版"
+htprogfunc="參照清單"
+htprogcode="gc1ap1"
+htprogprefix="dsdxmladd_multi" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+dim rsreg
+if request("submittask")<>"" then
+    sqldelete=""
+    for each x in request.form
+ if left(x,5)="ckbox" and request(x)<>"" then
+     xn=mid(x,6)
+     sqldelete=sqldelete+"delete cudtgeneric where icuitem=" & request("xphkeyicuitem"&xn) & ";"
+        end if
+    next 
+    if sqldelete<>"" then conn.execute(sqldelete)
+
+
+
+                                            =request("icuitem")
+
+      
+ response.end
+else
+     fsql=session("dsdxmladd_multi_list")
+ set rsreg=conn.execute(fsql)
+end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       =htprogprefix
+
+                                            =request.querystring("icuitem")
+
+                            =htprogcap
+                     =htprogfunc
+
+                                 =request.querystring
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+if not rsreg.eof then   
+
+    while not rsreg.eof 
+       i = i+1
+
+
+                                                   =i
+                                        =i:            =rsreg("icuitem")
+
+   =rsreg("catname")
+                                        =rsreg("stitle")
+
+
+   =rsreg("deptname")
+
+   =rsreg("deditdate")
+
+                                                                       =rsreg("icuitem")
+
+      
+         rsreg.movenext
+    wend
+   
+  else
+
+
+
+  end if 

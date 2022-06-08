@@ -1,0 +1,100 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+   htprogcode = "ht001"
+
+   CxMethod_ASP_server_1606199358()
+
+   CxMethod_ASP_dbutil_10064021()
+
+  
+function trancomp(groupcode,value)
+   if (groupcode and value )=value then
+      response.write "checked"
+   end if
+end function
+
+if request("submittask") = "新增存檔" then
+ sqlcom = "select * from ugrp where ugrpid = '" & request("fgugrpid") & "'"
+ set rs = conn.execute(sqlcom)
+ if not rs.eof then 
+
+
+
+
+   else
+  sqlcom = "insert into ugrp (ugrpid,ugrpname,remark,ispublic,regdate,signer) values ("
+  sqlcom = sqlcom & pkstr(request("fgugrpid"),",")  
+  sqlcom = sqlcom & pkstr(request("fgugrpname"),",")
+  sqlcom = sqlcom & pkstr(request("fgremark"),",")
+  sqlcom = sqlcom & pkstr(request("ispublic"),",")
+  sqlcom = sqlcom & "'" & request("fgregdate") & "',"
+  sqlcom = sqlcom & "'" & session("userid") & "')"    
+  conn.execute(sqlcom)
+  sql="insert into ugrpap (ugrpid,apcode,rights,regdate) values(n'" & _
+   request("fgugrpid") & "',n'pn00m00',0,n'" & date() & "')"
+  conn.execute(sql)
+  
+
+
+                                                =request("fgugrpname"):           =request("fgugrpid")
+
+         response.end
+ end if
+end if
+
+
+
+
+
+         =title
+
+
+
+
+       =title
+
+    if (htprogright and 2)=2 then :                                   end if 
+
+
+
+
+
+
+                                                 =date()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      sql="select mcode,mvalue from codemain where codemetaid=n'boolyn' order by msortvalue"
+    set rss=conn.execute(sql)
+    while not rss.eof
+
+                     =rss(0):     =rss(1)
+       rss.movenext
+    wend
+
+
+
+                                                                                                   =d7date(date())
+
+
+
+                                                                         =session("userid")
+
+
+               if (htprogright and 4)=4 then 
+
+               end if  

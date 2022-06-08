@@ -1,0 +1,36 @@
+﻿create table [dbo].[dept] (
+ [gicuitem] [int] null ,
+ [deptid] [varchar] (10) not null ,
+ [deptname] [varchar] (30) not null ,
+ [abbrname] [varchar] (16) null ,
+ [edeptname] [varchar] (60) null ,
+ [eabbrname] [varchar] (20) null ,
+ [orgrank] [char] (1) null ,
+ [kind] [char] (1) not null ,
+ [depthead] [varchar] (10) null ,
+ [inuse] [char] (1) not null ,
+ [tdatacat] [varchar] (20) null ,
+ [servphone] [varchar] (20) null ,
+ [servaddr] [varchar] (80) null ,
+ [servhour] [varchar] (80) null ,
+ [eservaddr] [varchar] (80) null ,
+ [eservhour] [varchar] (80) null ,
+ [parent] [varchar] (10) null ,
+ [nodekind] [char] (1) not null ,
+ [plevel] [smallint] null ,
+ [seq] [smallint] null 
+) on [primary]
+go
+
+alter table [dbo].[dept] with nocheck add 
+ constraint [df_dept_kind] default ('1') for [kind],
+ constraint [df_dept_inuser] default ('y') for [inuse],
+ constraint [df_dept_nodekind] default ('d') for [nodekind],
+ constraint [pk_dept] primary key  nonclustered 
+ (
+  [deptid]
+ )  on [primary] 
+go
+
+
+ 

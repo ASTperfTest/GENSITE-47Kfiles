@@ -1,0 +1,573 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="系統參數維護"
+htprogfunc="編修首頁設定"
+htuploadpath="/"
+htprogcode="gw1m90"
+htprogprefix="mystyle" 
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_checkgipconfig_1275316133()
+
+
+
+
+
+         =title
+
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_htuigen_1591615763()
+  
+dim pkey
+dim rsreg
+dim formfunction
+tasklable="編輯" & htprogcap
+ cq=chr(34)
+ ct=chr(9)
+ cl="<" & "%"
+ cr="%" & ">"
+
+function xupform(xvar)
+ xupform = request.form(xvar)
+end function
+
+ xmp = request("xdmpid")
+ 
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true 
+ 
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\xdmp" & xmp & ".xml"
+'  response.write loadxml & "<hr>"
+  xv = htpagedom.load(loadxml)
+'  response.write xv & "<hr>"
+    if htpagedom.parseerror.reason <> "" then 
+      response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+      response.end()
+    end if
+
+
+if xupform("submittask") = "update" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  editinbothcase()
+ else
+  doupdatedb()
+  showdonebox("資料更新成功！")
+ end if
+
+else
+ editinbothcase()
+end if
+
+
+sub editinbothcase
+
+ showhtmlhead()
+ if errmsg <> "" then showerrbox()
+ formfunction = "edit"
+' response.write sqlcom
+ showform()
+ initform()
+ showhtmltail()
+end sub
+
+
+function qqrs(fldname)
+ if request("submittask")="" then
+  xvalue = nulltext(htpagedom.selectsinglenode("systemparameter/" & fldname))
+ else
+  xvalue = ""
+  if request("htx_"&fldname) <> "" then
+   xvalue = request("htx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+  sub initform() 
+
+
+
+
+
+
+
+                              =nulltext(htpagedom.selectsinglenode("mpdataset/menutree"))
+                               =nulltext(htpagedom.selectsinglenode("mpdataset/menutree2"))
+                               =nulltext(htpagedom.selectsinglenode("mpdataset/mpstyle"))
+  
+ if nulltext(htpagedom.selectsinglenode("mpdataset/changehead"))<>"" then
+  for each param in htpagedom.selectnodes("mpdataset/changehead") 
+  '四季+節慶版型
+   'set param=htpagedom.selectsinglenode("mpdataset/changehead")
+   prefix2 = "htx_" & nulltext(param.selectsinglenode("datavalue")) & "_"
+   response.write "reg." & prefix2 & "datavalue.value= """  _
+    & nulltext(param.selectsinglenode("datavalue")) & """" & vbcrlf
+  next
+ end if
+ 'dataset
+ for each param in htpagedom.selectnodes("mpdataset/dataset") 
+  prefix = "htx_" & nulltext(param.selectsinglenode("datalable"))&""&nulltext(param.selectsinglenode("datalableseq")) & "_"
+  response.write "reg." & prefix & "dataremark.value= """  _
+   & nulltext(param.selectsinglenode("dataremark")) & """" & vbcrlf
+  response.write "reg." & prefix & "datanode.value= """  _
+   & nulltext(param.selectsinglenode("datanode")) & """" & vbcrlf
+  response.write "reg." & prefix & "sqltop.value= """  _
+   & nulltext(param.selectsinglenode("sqltop")) & """" & vbcrlf
+  response.write "reg." & prefix & "contentstyle.value= """  _
+   & nulltext(param.selectsinglenode("contentstyle")) & """" & vbcrlf
+  response.write "reg." & prefix & "contentlength.value= """  _
+   & nulltext(param.selectsinglenode("contentlength")) & """" & vbcrlf
+  response.write "reg." & prefix & "contentdata.value= """  _
+   & nulltext(param.selectsinglenode("contentdata")) & """" & vbcrlf
+  response.write "reg." & prefix & "israndom.value= """  _
+   & nulltext(param.selectsinglenode("israndom")) & """" & vbcrlf
+  response.write "reg." & prefix & "datasrc.value= """  _
+   & nulltext(param.selectsinglenode("datasrc")) & """" & vbcrlf
+  response.write "reg." & prefix & "picwidth.value= """  _
+   & nulltext(param.selectsinglenode("picwidth")) & """" & vbcrlf
+  response.write "reg." & prefix & "picheight.value= """  _
+   & nulltext(param.selectsinglenode("picheight")) & """" & vbcrlf
+  response.write "reg." & prefix & "refdatablock.value= """  _
+   & nulltext(param.selectsinglenode("refdatablock")) & """" & vbcrlf
+ next
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+
+  sub showform()   '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+' for each param in refmodel.selectnodes("fieldlist/field[formlist='y']") 
+'  processvalid param
+' next
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ sql = "select * from cattreeroot"
+ set rsx = conn.execute(sql)
+ while not rsx.eof
+  response.write "<option value=""" & rsx("ctrootid") & """>" & rsx("ctrootname") & "</option>" & vbcrlf
+  rsx.movenext
+ wend
+
+
+
+
+
+
+
+
+
+  
+ sql = "select * from cattreeroot"
+ set rsx = conn.execute(sql)
+ while not rsx.eof
+  response.write "<option value=""" & rsx("ctrootid") & """>" & rsx("ctrootname") & "</option>" & vbcrlf
+  rsx.movenext
+ wend
+
+
+
+
+
+
+
+
+  
+  sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid=n'xstyle' order by msortvalue"
+   set rss=conn.execute(sql)
+   i = 0
+   mod_num = 3
+   while not rss.eof
+   i = i + 1
+   if i mod mod_num = 1 then response.write "              <tr>" & vbcrlf
+
+
+                                                  =rss(0):                 =rss(1)
+
+                        =session("mysiteid"):            =rss(0)
+
+
+      
+   if i mod mod_num = 0 then response.write "              </tr>" & vbcrlf
+   rss.movenext
+   wend
+   
+   if i=1 then 
+
+
+
+   end if 
+
+
+
+    if nulltext(htpagedom.selectsinglenode("mpdataset/changehead"))<>"" then
+
+
+
+
+    
+  for each param in htpagedom.selectnodes("mpdataset/changehead")
+   response.write "<tr align=""center"">"
+   response.write "<td class=""label"" align=""right"">&lt;" & nulltext(param.selectsinglenode("datalable")) & "&gt;</td>"
+   prefix2 = "htx_" & nulltext(param.selectsinglenode("datavalue")) & "_"
+   response.write "<td><input name=""" & prefix2 & "datavalue"" size=10></td>" 
+   response.write "<td>" & nulltext(param.selectsinglenode("description")) & "</td>"
+   response.write "</tr>"
+  next
+  
+
+    end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+ for each param in htpagedom.selectnodes("mpdataset/dataset")
+  response.write "</tr>"
+  response.write "<td align=""left"">"
+  response.write "&lt;" & nulltext(param.selectsinglenode("datalable")) & "&gt;</td>"
+  prefix = "htx_" & nulltext(param.selectsinglenode("datalable"))&""&nulltext(param.selectsinglenode("datalableseq")) & "_"
+  response.write "<td class=""etablecontent"">"
+  response.write "<input name=""" & prefix & "dataremark"" size=10>" 
+  response.write  "</td>"
+  response.write "<td class=""etablecontent"">"
+  response.write "<input name=""" & prefix & "datanode"" size=2>" 
+  response.write "</td>"
+  response.write "<td class=""etablecontent"">"
+  response.write "<input name=""" & prefix & "sqltop"" size=1>" 
+  response.write "</td>"
+  response.write "<td class=""etablecontent"">"
+  response.write "<input name=""" & prefix & "contentlength"" size=1>" 
+  response.write "</td>"
+  response.write "<td class=""etablecontent"">"
+  response.write "<select name=""" & prefix & "contentstyle"" >"
+
+   sqlcom = "select * from codemain where codemetaid = 'contentstyle'"
+   set rs = conn.execute(sqlcom)
+   do while not rs.eof
+    response.write "<option value='" & rs("mcode") & "'>" & rs("mvalue") & "</option>"
+    rs.movenext
+   loop
+  response.write "</select>" 
+  response.write "</td>"
+  response.write "<td class=""etablecontent"">"
+  response.write "<select name=""" & prefix & "contentdata"" >"
+
+   sqlcom = "select * from codemain where codemetaid = 'boolyn'"
+   set rs = conn.execute(sqlcom)
+   do while not rs.eof
+    response.write "<option value='" & rs("mcode") & "'>" & rs("mvalue") & "</option>"
+    rs.movenext
+   loop
+  response.write "</select>" 
+  response.write "</td>"
+  response.write "<td class=""etablecontent"">"
+  response.write "<select name=""" & prefix & "israndom"" >"
+
+   sqlcom = "select * from codemain where codemetaid = 'boolyn'"
+   set rs = conn.execute(sqlcom)
+   do while not rs.eof
+    response.write "<option value='" & rs("mcode") & "'>" & rs("mvalue") & "</option>"
+    rs.movenext
+   loop
+  response.write "</select>" 
+  response.write "</td>"
+  response.write "<td class=""etablecontent"">"
+  response.write "<input name=""" & prefix & "datasrc"" size=2>" 
+  response.write "</td>"
+  response.write "<td class=""etablecontent"">"
+  response.write "<input name=""" & prefix & "refdatablock"" size=1>" 
+  response.write "</td>"
+  response.write "<td class=""etablecontent"">"
+  response.write "<input name=""" & prefix & "picwidth"" size=1>" 
+  response.write "</td>"
+  response.write "<td class=""etablecontent"">"
+  response.write "<input name=""" & prefix & "picheight"" size=1>" 
+  response.write "</td>"
+  response.write "</tr>"
+ next
+
+
+
+
+
+
+
+
+
+
+      if (htprogright and 8)=8 then :                                                                                                          end if 
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+       =title
+
+    if (htprogright and 8)=8 then 
+
+    end if 
+
+
+
+
+   
+xdmpid = request("xdmpid") 
+sqlx = "select xdmpname from xdmplist where xdmpid= "& xdmpid
+set rsx = conn.execute(sqlx)
+
+                     =rsx("xdmpname"):    =htprogfunc
+
+  end sub '--- showhtmlhead() ------
+
+
+  sub showhtmltail() 
+
+
+  end sub '--- showhtmltail() ------
+
+
+  sub showerrbox() 
+
+              =errmsg
+
+
+  
+    end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' if request("tfx_taxid") <> "" then
+'   sql = "select * from client where taxid = n'"& request("tfx_taxid") &"'"
+'   set rsreg = conn.execute(sql)
+'   if not rsreg.eof then
+'  if trim(rsreg("clientid")) <> request("pfx_clientid") then
+'   errmsg = "「統一編號」重複!!請重新輸入客戶統一編號!"
+'   exit sub
+'  end if
+'   end if
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ htpagedom.selectsinglenode("mpdataset/menutree").text = request("menutree")
+ htpagedom.selectsinglenode("mpdataset/menutree1").text = request("menutree")
+ htpagedom.selectsinglenode("mpdataset/menutree2").text = xupform("menutree2")
+ htpagedom.selectsinglenode("mpdataset/mpstyle").text = request("mpstyle")
+ '四季版型
+   if nulltext(htpagedom.selectsinglenode("mpdataset/changehead"))<>"" then
+  for each param in htpagedom.selectnodes("mpdataset/changehead")
+   prefix2 = "htx_" & nulltext(param.selectsinglenode("datavalue")) & "_"
+   param.selectsinglenode("datavalue").text = request(prefix2 & "datavalue")
+  next
+ end if
+ 'xdataset
+ for each param in htpagedom.selectnodes("mpdataset/dataset")
+  prefix = "htx_" & nulltext(param.selectsinglenode("datalable"))&""&nulltext(param.selectsinglenode("datalableseq")) & "_"
+  param.selectsinglenode("dataremark").text = request(prefix & "dataremark")
+  param.selectsinglenode("datanode").text = request(prefix & "datanode")
+  param.selectsinglenode("sqltop").text = request(prefix & "sqltop")
+  param.selectsinglenode("contentlength").text = request(prefix & "contentlength")
+  param.selectsinglenode("contentstyle").text = request(prefix & "contentstyle")
+  param.selectsinglenode("contentdata").text = request(prefix & "contentdata")
+  param.selectsinglenode("israndom").text = request(prefix & "israndom")
+  param.selectsinglenode("datasrc").text = request(prefix & "datasrc")
+  param.selectsinglenode("picwidth").text = request(prefix & "picwidth")
+  param.selectsinglenode("picheight").text = request(prefix & "picheight")
+  param.selectsinglenode("refdatablock").text = request(prefix & "refdatablock")
+  if request(prefix & "israndom") = "y" then
+   param.selectsinglenode("sqlorderby").text = "ra"
+  else
+   param.selectsinglenode("sqlorderby").text = "ximportant, xpostdate desc"
+  end if
+ next
+ 
+ htpagedom.save(loadxml)
+ 
+ if xmp = "1" and request("mpstyle")="webey1" then
+  doupdatedb2()
+  doupdatedb3()
+ end if
+
+end sub '---- doupdatedb()
+
+sub doupdatedb2()
+ htpagedom.selectsinglenode("mpdataset/menutree").text = request("menutree")
+ htpagedom.selectsinglenode("mpdataset/menutree1").text = request("menutree")
+ htpagedom.selectsinglenode("mpdataset/menutree2").text = xupform("menutree2")
+ htpagedom.selectsinglenode("mpdataset/mpstyle").text = "webey2"
+ '四季版型
+   if nulltext(htpagedom.selectsinglenode("mpdataset/changehead"))<>"" then
+  for each param in htpagedom.selectnodes("mpdataset/changehead")
+   prefix2 = "htx_" & nulltext(param.selectsinglenode("datavalue")) & "_"
+   param.selectsinglenode("datavalue").text = request(prefix2 & "datavalue")
+  next
+ end if
+ 'xdataset
+ for each param in htpagedom.selectnodes("mpdataset/dataset")
+  prefix = "htx_" & nulltext(param.selectsinglenode("datalable"))&""&nulltext(param.selectsinglenode("datalableseq")) & "_"
+  param.selectsinglenode("dataremark").text = request(prefix & "dataremark")
+  param.selectsinglenode("datanode").text = request(prefix & "datanode")
+  param.selectsinglenode("sqltop").text = request(prefix & "sqltop")
+  param.selectsinglenode("contentlength").text = request(prefix & "contentlength")
+  param.selectsinglenode("contentstyle").text = request(prefix & "contentstyle")
+  param.selectsinglenode("contentdata").text = request(prefix & "contentdata")
+  param.selectsinglenode("israndom").text = request(prefix & "israndom")
+  param.selectsinglenode("datasrc").text = request(prefix & "datasrc")
+  param.selectsinglenode("picwidth").text = request(prefix & "picwidth")
+  param.selectsinglenode("picheight").text = request(prefix & "picheight")
+  param.selectsinglenode("refdatablock").text = request(prefix & "refdatablock")
+  if request(prefix & "israndom") = "y" then
+   param.selectsinglenode("sqlorderby").text = "ra"
+  else
+   param.selectsinglenode("sqlorderby").text = "ximportant, xpostdate desc"
+  end if
+ next
+ 
+ htpagedom.save(server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\xdmp2.xml")
+ 
+
+end sub '---- doupdatedb()
+
+sub doupdatedb3()
+ htpagedom.selectsinglenode("mpdataset/menutree").text = request("menutree")
+ htpagedom.selectsinglenode("mpdataset/menutree1").text = request("menutree")
+ htpagedom.selectsinglenode("mpdataset/menutree2").text = xupform("menutree2")
+ htpagedom.selectsinglenode("mpdataset/mpstyle").text = "webey3"
+ '四季版型
+   if nulltext(htpagedom.selectsinglenode("mpdataset/changehead"))<>"" then
+  for each param in htpagedom.selectnodes("mpdataset/changehead")
+   prefix2 = "htx_" & nulltext(param.selectsinglenode("datavalue")) & "_"
+   param.selectsinglenode("datavalue").text = request(prefix2 & "datavalue")
+  next
+ end if
+ 'xdataset
+ for each param in htpagedom.selectnodes("mpdataset/dataset")
+  prefix = "htx_" & nulltext(param.selectsinglenode("datalable"))&""&nulltext(param.selectsinglenode("datalableseq")) & "_"
+  param.selectsinglenode("dataremark").text = request(prefix & "dataremark")
+  param.selectsinglenode("datanode").text = request(prefix & "datanode")
+  param.selectsinglenode("sqltop").text = request(prefix & "sqltop")
+  param.selectsinglenode("contentlength").text = request(prefix & "contentlength")
+  param.selectsinglenode("contentstyle").text = request(prefix & "contentstyle")
+  param.selectsinglenode("contentdata").text = request(prefix & "contentdata")
+  param.selectsinglenode("israndom").text = request(prefix & "israndom")
+  param.selectsinglenode("datasrc").text = request(prefix & "datasrc")
+  param.selectsinglenode("picwidth").text = request(prefix & "picwidth")
+  param.selectsinglenode("picheight").text = request(prefix & "picheight")
+  param.selectsinglenode("refdatablock").text = request(prefix & "refdatablock")
+  if request(prefix & "israndom") = "y" then
+   param.selectsinglenode("sqlorderby").text = "ra"
+  else
+   param.selectsinglenode("sqlorderby").text = "ximportant, xpostdate desc"
+  end if
+ next
+ 
+ htpagedom.save(server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\xdmp3.xml")
+ 
+
+end sub '---- doupdatedb() ----
+
+  sub showdonebox(lmsg) 
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+                 =lmsg
+
+
+
+
+  end sub '---- showdonebox() ----  

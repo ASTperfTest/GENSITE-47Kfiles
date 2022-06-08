@@ -1,0 +1,279 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         
+sub chkall(xstr)
+ if document.all("ckall"&xstr).value="全選" then           '全勾
+           for i=0 to reg.elements.length-1
+                 set e=document.reg.elements(i)
+                 if right (e.name,1)="0" and left(e.name,len(xstr))=xstr then
+                     e.checked=true
+                     for k=0 to ubound(apcomarray,2)                    
+                      if left(e.name,len(e.name)-1)=apcomarray(1,k) then
+                       chkbox apcomarray(1,k),apcomarray(2,k),apcomarray(3,k),apcomarray(4,k)
+      for y=1 to 8
+       document.all(left(e.name,len(e.name)-1)&y).checked = true   
+      next                           
+                       exit for
+                      end if
+                     next
+                end if
+           next
+           document.all("ckall"&xstr).value="全不選"
+       elseif document.all("ckall"&xstr).value="全不選" then        '全不勾
+           for i=0 to reg.elements.length-1
+                 set e=document.reg.elements(i)
+'                 if right (e.name,1)="0" then msgbox e.name & "==>" & xstr
+                 if right (e.name,1)="0" and left(e.name,len(xstr))=xstr then
+                     e.checked=false
+                     for k=0 to ubound(apcomarray,2)                    
+                      if left(e.name,len(e.name)-1)=apcomarray(1,k) then
+                       chkbox apcomarray(1,k),apcomarray(2,k),apcomarray(3,k),apcomarray(4,k)
+      for y=1 to 8
+       document.all(left(e.name,len(e.name)-1)&y).checked = false
+      next    
+                       exit for
+                      end if
+                     next
+                end if
+           next
+           document.all("ckall"&xstr).value="全選"
+        end if
+end sub   
+sub chdisplayall()   
+if document.all("openall").value="全部展開" then   
+ for i=1 to Cx_0dummy          
+  if document.all("m" & i).style.display="none" then         
+    document.all("m" & i).style.display=""         
+    document.all("i" & i).src="images/2.gif"         
+  end if         
+ next    
+    document.all("openall").value="全部關閉"    
+elseif document.all("openall").value="全部關閉" then   
+ for i=1 to Cx_0dummy          
+  if document.all("m" & i).style.display="" then         
+    document.all("m" & i).style.display="none"         
+    document.all("i" & i).src="images/1.gif"         
+  end if         
+ next    
+    document.all("openall").value="全部展開"    
+end if            
+end sub         
+         
+sub chdisplay(k)         
+  if document.all("m" & k).style.display="" then         
+    document.all("m" & k).style.display="none"     
+    document.all("i" & k).src="images/1.gif"         
+  else         
+    document.all("m" & k).style.display=""         
+    document.all("i" & k).src="images/2.gif"         
+  end if         
+end sub         
+     
+sub chkbox(x,apmask,spare64,spare128)    
+    if reg(x & "0").checked then    
+   for i=1 to 8
+       if (apmask and 2^(i-1))=2^(i-1) then    
+  document.all("x" & x & i).style.display=""            
+      if i=7 then  
+   document.all("x" & x & i).style.cursor="hand"       
+   document.all("x" & x & i).title=spare64
+      elseif i=8 then  
+       document.all("x" & x & i).style.cursor="hand"
+   document.all("x" & x & i).title=spare128    
+      end if   
+         end if  
+   next    
+    else    
+   for i=1 to 8    
+      document.all("x" & x & i).style.display="none"        
+      reg(x & i).checked=false    
+   next    
+    end if    
+end sub    
+     
+sub rightstable_ondblclick     
+ set xobj = window.event.srcelement    
+ if xobj.tagname="input" then 
+ if xobj.type = "checkbox" then     
+  xname=xobj.name     
+  xnpos = cint(right(xname,1))     
+  xname = left(xname, len(xname)-1)     
+  xboolean = xobj.checked     
+  for i=1 to xnpos     
+   document.all(xname&i).checked = xboolean     
+  next     
+ end if     
+ end if
+end sub     
+
+ 

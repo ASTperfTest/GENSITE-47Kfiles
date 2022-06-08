@@ -1,0 +1,525 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+htprogcode="pedia01"
+htprogprefix="pedia" 
+
+dim ictunitid : ictunitid = session("pediaunitid")
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_selecttree_859552413()
+   CxMethod_ASP_dbfunc_874801204()
+  
+ function mypkstr (s, cname, endchar)
+  if s = "" then
+   if cname = "xpostdate" then
+    mypkstr = "getdate()"
+   else
+    mypkstr = "''" & endchar
+   end if
+  else
+   pos = instr(s, "'")
+   while pos > 0
+    s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+    pos = instr(pos + 2, s, "'")
+   wend
+   if cname = "xpostdate" then
+    mypkstr = "'" & s & "'" & endchar
+   else
+    mypkstr = "n'" & s & "'" & endchar
+   end if
+  end if
+ end function
+ 
+
+   sub showerrbox() 
+
+            =errmsg
+
+
+   end sub 
+   sub showdonebox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+       if request.querystring("btype") = "0" then 
+                               =htprogprefix:                           =request.querystring("nowpage"):             =request.querystring("pagesize")
+       else 
+                               =htprogprefix:                           =request.querystring("icuitem")
+       end if 
+
+
+
+   end sub 
+  
+ sub doupdatedb()
+ 
+  dim oldpublic : oldpublic = ""
+  dim newpublic : newpublic = ""
+  dim memberid : memberid = ""
+  sql = "select fctupublic, memberid from cudtgeneric inner join pedia on cudtgeneric.icuitem = pedia.gicuitem "
+  sql = sql & "where icuitem = " & request.querystring("icuitem")
+  set frs = conn.execute(sql)
+  if not frs.eof then
+   oldpublic = frs("fctupublic")
+   memberid = frs("memberid")
+  end if
+  frs.close
+  set frs = nothing 
+  newpublic = xupform("fctupublic") 
+  '-----
+  sql1 = ""    
+  sql2 = ""
+  for each form in xup.form  
+   if form.name <> "ximgfile" and form.name <> "calendartarget" and form.name <> "submittask" and form.name <> "xstatus" _
+     and form.name <> "memberid" and form.name <> "realname" and form.name <> "nickname" then
+    if form.name = "engtitle" or form.name = "formalname" or form.name = "localname" then
+     sql2 = sql2 & form.name & " = '" & form & "',"
+    else 
+     if form.name = "ximportant" then
+      sql1 = sql1 & form.name & " = " & form & ","
+     elseif form = "null" then
+      sql1 = sql1 & form.name & " = ''," 
+     else
+      sql1 = sql1 & form.name & " = " & mypkstr(form, form.name, "") & ","
+     end if
+    end if
+   end if
+   if form.isfile then
+    ofname = form.filename
+    fnext = ""
+    if instrrev(ofname, ".") > 0 then fnext = mid(ofname, instrrev(ofname, "."))
+    tstr = now()
+    nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext      
+    'nfname = replace(nfname, "/site/coa", "")     
+    xup.form(form.name).saveas apath & nfname, true        
+    sql1 = sql1 & form.name & " = '" & htuploadpath & nfname & "',"
+   end if 
+  next
+  sql1 = "update cudtgeneric set " & left(sql1, len(sql1) - 1) & " where icuitem = " & request.querystring("icuitem")
+  sql2 = "update pedia set " & left(sql2, len(sql2) - 1) & " where gicuitem = " & request.querystring("icuitem")
+  conn.execute(sql1 & ";" & sql2)
+  
+  '---活動期間才加分---
+  dim actflag : actflag = false
+  sql = "select * from activity where (activityid = 'pedia') and (getdate() between activitystarttime and activityendtime)"
+  set rs = conn.execute(sql)
+  if not rs.eof then
+   actflag = true  
+  end if
+  rs.close
+  set rs = nothing
+  
+  '---審核不通過變通過---
+  if oldpublic = "n" and newpublic = "y" then
+          
+   if actflag then       
+    sql = "update activitypediamember set commendcount = commendcount + 1 where memberid = '" & memberid & "'"
+    conn.execute(sql)
+   end if
+   
+   sql = "select * from pedia where parenticuitem = " & request.querystring("icuitem") & " and xstatus = 'n'"
+   set rs = conn.execute(sql)
+   while not rs.eof
+    sql = "update pedia set xstatus = 'y' where gicuitem = " & rs("gicuitem") 
+    conn.execute(sql)
+    if actflag then
+     sql = "update activitypediamember set commendadditionalcount = commendadditionalcount + 1 where memberid = '" & rs("memberid") & "'"
+     conn.execute(sql)
+    end if
+    rs.movenext
+   wend
+   rs.close
+   set rs = nothing
+   
+  end if
+  '---審核通過變成不通過---
+  if oldpublic = "y" and newpublic = "n" then
+  
+   if actflag then
+    sql = "update activitypediamember set commendcount = commendcount - 1 where memberid = '" & memberid & "' and commendcount > 0"
+    conn.execute(sql)
+   end if
+   
+   sql = "select * from pedia where parenticuitem = " & request.querystring("icuitem") & " and xstatus = 'y'"
+   set rs = conn.execute(sql)
+   while not rs.eof
+    sql = "update pedia set xstatus = 'n' where gicuitem = " & rs("gicuitem") 
+    conn.execute(sql)
+    if actflag then
+     sql = "update activitypediamember set commendadditionalcount = commendadditionalcount - 1 where memberid = '" & rs("memberid") & "' and commendadditionalcount > 0"
+     conn.execute(sql)
+    end if
+    rs.movenext
+   wend
+   rs.close
+   set rs = nothing
+   
+  end if
+  
+ end sub 
+
+  
+ apath = server.mappath(htuploadpath) & "\"
+
+ if request.querystring("phase")="edit" or session("batchdphase") = "edit" then
+  set xup = server.createobject("tabs.upload")
+ else
+  set xup = server.createobject("tabs.upload")
+  xup.codepage=65001
+  xup.start apath
+ end if
+
+ function xupform(xvar)
+  xupform = xup.form(xvar)
+ end function
+     
+ if xupform("submittask") = "update" then
+  
+  errmsg = ""  
+  if errmsg <> "" then
+   editinbothcase()
+  else
+   doupdatedb()
+   showdonebox("資料更新成功！")
+  end if
+   
+ elseif xupform("submittask") = "delete" then
+   
+  icuitem = request.querystring("icuitem")
+  '---將排行榜的點數扣除---
+  dim oldstatus : oldstatus = ""  
+  dim memberid : memberid = ""
+  sql = "select fctupublic, xstatus, memberid from cudtgeneric inner join pedia on cudtgeneric.icuitem = pedia.gicuitem where gicuitem = " & request.querystring("icuitem")
+  set frs = conn.execute(sql)
+  if not frs.eof then
+   oldstatus = frs("fctupublic")
+   memberid = frs("memberid")
+  end if
+  frs.close
+  set frs = nothing 
+  
+  '---活動期間才加分---
+  dim actflag : actflag = false
+  sql = "select * from activity where (activityid = 'pedia') and (getdate() between activitystarttime and activityendtime)"
+  set rs = conn.execute(sql)
+  if not rs.eof then
+   actflag = true  
+  end if
+  rs.close
+  set rs = nothing
+  
+  '----刪除主表---將狀態由y改成d---
+  sql = "update pedia set xstatus = 'd' where gicuitem = " & pkstr(icuitem, "")  
+  conn.execute(sql)
+  
+  if oldstatus = "y" then
+    
+   if actflag then 
+    sql = "update activitypediamember set commendcount = commendcount - 1 where memberid = '" & memberid & "' and commendcount > 0"
+    conn.execute(sql)
+   end if
+   
+   sql = "select gicuitem, memberid from pedia where xstatus = 'y' and parenticuitem = " & icuitem
+   set rs = conn.execute(sql)
+   while not rs.eof
+    '---刪除補充解釋文章---
+    sql1 = "update pedia set xstatus = 'd' where gicuitem = " & rs("gicuitem")
+    conn.execute(sql1)  
+    if actflag then
+     sql2 = "update activitypediamember set commendadditionalcount = commendadditionalcount - 1 where memberid = '" & rs("memberid") & "' and commendadditionalcount > 0"
+     conn.execute(sql2)
+    end if
+    rs.movenext
+   wend
+  end if     
+  '------------------------
+  showdonebox("資料刪除成功！") 
+ else  
+  if errmsg <> "" then showerrbox()  
+  showform()  
+ end if
+
+   
+sub showform() 
+
+ sql = "select *, convert(varchar, xpostdate, 111) as xdate from cudtgeneric inner join pedia on cudtgeneric.icuitem = pedia.gicuitem "
+ sql = sql & "left join member on pedia.memberid = member.account "
+ sql = sql & "where cudtgeneric.icuitem = " & request.querystring("icuitem")
+
+ set rs = conn.execute(sql)
+ if rs.eof then
+  showdonebox("無此資料!")
+ else
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     =request.querystring("icuitem")
+
+
+
+
+
+
+
+
+
+
+                                            =session("userid")
+
+
+
+                                                                    =rs("stitle")
+    
+   if rs("path") <> "" then
+    xurl = session("mywwwsiteurl") & rs("path") 
+  
+              =xurl
+     end if 
+
+
+                                                                                              =rs("xbody")
+
+
+
+                                                                               =rs("engtitle")
+
+
+
+                                                                                 =rs("formalname")
+
+
+
+                                                                                =rs("localname")
+
+
+
+
+
+                        if rs("vgroup") = "" then :              end if 
+                         if rs("vgroup") = "y" then :              end if 
+                         if rs("vgroup") = "n" then :              end if 
+
+
+
+
+
+
+
+                       if rs("topcat") = "" then :              end if 
+     
+    sql = "select * from codemain where codemetaid = 'pediacata' order by msortvalue "
+    set cmrs = conn.execute(sql)
+    while not cmrs.eof 
+     if cmrs("mcode") = rs("topcat") then
+      response.write "<option value=""" & cmrs("mcode") & """ selected>" & cmrs("mvalue") & "</option>" & vbcrlf     
+     else
+      response.write "<option value=""" & cmrs("mcode") & """>" & cmrs("mvalue") & "</option>" & vbcrlf
+     end if
+     cmrs.movenext
+    wend
+    set cmrs = nothing
+   
+
+
+
+
+
+
+                                            =rs("xkeyword")
+
+
+
+
+                                                                                                                         =rs("xdate")
+
+
+
+
+
+                        if rs("fctupublic") = "" then :              end if 
+                         if rs("fctupublic") = "y" then :              end if 
+                         if rs("fctupublic") = "n" then :              end if 
+
+
+
+
+
+                                                                                               =rs("ximportant")
+
+
+
+                                                                             =rs("xstatus")
+
+
+
+
+
+     
+    sqlcom = " select d.deptid,d.deptname,d.parent,len(d.deptid)-1,d.seq," & _
+         " (select count(*) from dept where parent=d.deptid and nodekind='d') " & _
+         " from dept as d where d.nodekind='d' " & _
+         " and d.deptid like '" & session("deptid") & "%'" & _
+         " order by len(d.deptid), d.parent, d.seq"    
+    set rss = conn.execute(sqlcom)
+    if not rss.eof then
+     arydept = rss.getrows(300)
+     glastmsglevel = 0
+     genlist 0, 0, 1, 0
+       expandfrom arydept(cid, 0), 0, 0
+   end if
+   
+
+
+
+
+
+
+                                                  =rs("memberid")
+                                                    =rs("realname")
+                                                    =rs("nickname")
+
+
+
+
+
+     if not isnull(rs("ximgfile")) and rs("ximgfile") <> "" then 
+               =rs("ximgfile")
+     end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        =request.querystring("icuitem"):                                =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+
+
+
+
+
+
+
+                                         =request.querystring("icuitem"):                    =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+
+
+
+                                                         =request.querystring("icuitem")
+
+
+     
+ end if 
+ set rs = nothing
+
+   end sub  

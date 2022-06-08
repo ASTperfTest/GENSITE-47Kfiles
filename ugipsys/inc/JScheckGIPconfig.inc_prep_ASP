@@ -1,0 +1,19 @@
+﻿: 
+function checkgipconfig(funcname){
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true 
+ 
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\syspara.xml"
+  xv = htpagedom.load(loadxml)
+    if htpagedom.parseerror.reason <> "" then 
+      response.write("syspara.xml parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+      response.end()
+    end if
+   checkgipconfig = false
+   if ucase(nulltext(htpagedom.selectsinglenode("systemparameter/gipconfig/" &funcname)))="y" then _
+  checkgipconfig = true
+}
+
+ 

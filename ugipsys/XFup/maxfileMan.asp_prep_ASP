@@ -1,0 +1,137 @@
+﻿: @ codepage = 65001 
+  
+set fso = server.createobject("scripting.filesystemobject")
+
+xpath = request("xpath")
+uppath = session("uploadpath") & xpath
+if right(uppath,1)<>"/" then uppath = uppath & "/"
+if right(xpath,1)<>"/" then xpath = xpath & "/"
+if left(xpath,1)="/" then xpath = mid(xpath,2)
+
+set fldr = fso.getfolder(server.mappath(uppath))
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+              =session("uploadpath"):   =xpath
+                                                 =xpath
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     =session("uploadpath")
+                                                 =xpath
+
+
+  
+ if fldr.files.count > 0 or fldr.subfolders.count > 0 then
+
+
+
+
+
+
+              
+               for each sf in fldr.files
+           
+
+                                                                      =sf.name
+                                                                             =session("uploadpath"):   =xpath:   =sf.name
+                         =sf.name
+                                            =sf.size
+
+                                  
+                                    next                                
+                                 
+   else 
+
+
+
+   end if  

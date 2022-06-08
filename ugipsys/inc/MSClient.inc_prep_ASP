@@ -1,0 +1,14 @@
+﻿: 
+
+set kmconn = server.createobject("adodb.connection")
+kmconn.connectionstring = session("kmdbconnstr")
+kmconn.connectiontimeout=0
+kmconn.open
+
+set conn = server.createobject("adodb.connection")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+
+ 

@@ -1,0 +1,44 @@
+﻿:                     
+   response.expires = 0 
+  
+ formid = request("formid")
+ progpath = request("progpath")
+ htspecpattern = request("specpattern")
+ if progpath <> "" then
+  if left(progpath,1) = "/" then progpath = mid(progpath,2)
+  progpath = replace(progpath,"/","\")
+  progpath = progpath & "\"
+ end if
+
+ set htpagedom = server.createobject("microsoft.xmldom")
+ htpagedom.async = false
+ htpagedom.setproperty("serverhttprequest") = true 
+ 
+ loadxml = server.mappath(".") & "\formspec\" & progpath & formid & ".xml"
+ xv = htpagedom.load(loadxml)
+  if htpagedom.parseerror.reason <> "" then 
+    response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+    response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+    response.end()
+  end if
+
+pgprefix = nulltext(htpagedom.selectsinglenode("//htpage/htprogprefix"))
+progpath = nulltext(htpagedom.selectsinglenode("//htpage/htprogpath"))
+if progpath = "" then 
+ pgpath = server.mappath("genedcode/")
+else
+ pgpath = server.mappath(progpath)
+end if
+if right(pgpath,1) <> "\" then pgpath = pgpath & "\"
+
+ uiviewprog = "spec" & htspecpattern
+ response.redirect uiviewprog & ".asp?formid=" & formid & "&progpath=" & progpath
+
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+ 

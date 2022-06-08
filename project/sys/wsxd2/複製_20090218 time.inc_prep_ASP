@@ -1,0 +1,69 @@
+﻿: 
+'---
+dim nowtime
+nowtime = now
+nowtime = cint(hour(nowtime))
+if nowtime >= 6 and nowtime < 12 then
+ response.write "<nowtime>am</nowtime>"
+elseif nowtime >= 12 and nowtime < 18 then
+ response.write "<nowtime>pm</nowtime>"
+else
+ response.write "<nowtime>nt</nowtime>"
+end if
+
+'---current url---
+redirceturl = left(request.querystring, instr(request.querystring, "memid") - 2)
+redirceturl = replace(redirceturl, "&", ";")
+if instr(request.servervariables("url"), "xdcp2.asp") > 0 then
+ response.write "<redirecturl><![cdata[/ct.asp?" & redirceturl & "]]></redirecturl>"
+elseif instr(request.servervariables("url"), "xdlp.asp") > 0 then
+ response.write "<redirecturl><![cdata[/lp.asp?" & redirceturl & "]]></redirecturl>"
+elseif instr(request.servervariables("url"), "xdmp.asp") > 0 then
+ response.write "<redirecturl><![cdata[/mp.asp?" & redirceturl & "]]></redirecturl>"
+end if
+'---
+
+'---activity---
+response.write "<activity>"
+'---is activity in the time range---
+sql = "select * from activity where (getdate() between activitystarttime and activityendtime) and activityid = '" & session("activityid") & "'"
+set actrs = conn.execute(sql)
+if not actrs.eof then
+ response.write "<active>true</active>"
+else
+ response.write "<active>false</active>"
+end if
+actrs.close
+set actrs = nothing
+
+'---get the user activity grade---
+if request("memid") <> "" then 
+ sql = "select (discusscheckgrade + questioncheckgrade) as grade from activitymembernew where memberid = '" & request("memid") & "'"
+ set actmemrs = conn.execute(sql)
+ if not actmemrs.eof then
+  response.write "<activitygrade>" & actmemrs("grade") & "</activitygrade>"
+ else
+  response.write "<activitygrade>0</activitygrade>"
+ end if
+ actmemrs.close
+ set actmemrs = nothing
+end if
+response.write "</activity>"
+
+ response.write "<webactivity>"
+
+ sql = "select * from m011 where getdate() between m011_bdate and m011_edate and m011_online = '1'"
+ set rs = conn.execute(sql)
+ if rs.eof then 
+  response.write "<active>false</active>"
+  response.write "<id></id>"
+ else
+  response.write "<active>true</active>"
+  response.write "<id>" & rs ("m011_subjectid") & "</id>"
+ end if
+ rs.close
+ set rs = nothing
+
+ response.write "</webactivity>"
+ 
+ 

@@ -1,0 +1,243 @@
+﻿: 
+'#####(autogen) 開始：此段程式碼為自動產生，註解部份請勿刪除 #####
+'下列有設定部份如有需要可自行設定
+'此版本為  ver.0.2
+'此段程式碼產生日期為： 2009/6/9 上午 10:55:22
+'(可修改)未來是否自動更新此程式中的 pattern (y/n) : y
+
+'(可修改)此程式是否記錄 log 檔
+activelog4u=true
+
+'(可修改)錯誤發生時要到那個頁面,未填時直接結束，1. 可以是 / :首頁, 2. http://xxx.xxx.xxx.xxx/ooo.htm
+onerrorpath="/"
+
+'目前程式位置在
+progpath="d:\hyweb\gensite\project\web\subject\loginact.asp"
+
+'--------- (可修改)要檢查的 request 變數名稱 --------
+genparamsarray=array("account", "type2")
+genparamspattern=array("<", ">", "%3c", "%3e", ";", "%27", "'", "=", "+", "*", "/", "%", "@", "~", "!", "#", "$", "&", "\", "(", ")", "{", "}", "[", "]") '#### 要檢查的 pattern(程式會自動更新):genpat ####
+genparamsmessage=now() & vbtab & "error(1):request變數含特殊字元"
+
+'-------- (可修改)只檢查單引號，如 request 變數未來將要放入資料庫，請一定要設定(防 sql injection) --------
+sqlinjparamsarray=array()
+sqlinjparamspattern=array("'") '#### 要檢查的 pattern(程式會自動更新):db ####
+sqlinjparamsmessage=now() & vbtab & "error(2):request變數含單引號"
+
+'-------- (可修改)只檢查 html標籤符號，如 request 變數未來將要輸出，請設定 (防 cross site scripting)--------
+xssparamsarray=array("o_url")
+xssparamspattern=array("<", ">", "%3c", "%3e",";","%3b","""","%22") '#### 要檢查的 pattern(程式會自動更新):html ####
+xssparamsmessage=now() & vbtab & "error(3):request變數含html標籤符號"
+
+'-------- (可修改)檢查數字格式 --------
+chknumericarray=array()
+chknumericmessage=now() & vbtab & "error(4):request變數不為數字格式"
+
+'-------- (可修改)檢察日期格式 --------
+chkdatearray=array()
+chkdatemessage=now() & vbtab & "error(5):request變數不為日期格式"
+
+'##########################################
+chkpattern genparamsarray, genparamspattern, genparamsmessage
+chkpattern sqlinjparamsarray, sqlinjparamspattern, sqlinjparamsmessage
+chkpattern xssparamsarray, xssparamspattern, xssparamsmessage
+chknumeric chknumericarray, chknumericmessage
+chkdate chkdatearray, chkdatemessage
+'--------- 檢查 request 變數名稱 --------
+sub chkpattern(parray, patern, message)
+ for each str in parray 
+  p=request(str)
+  for each ptn in patern
+   if (instr(p, ptn) >0) then
+    message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+    log4u(message) '寫入到 log
+    onerroraction
+   end if
+  next
+ next
+end sub
+
+'-------- 檢查數字格式 --------
+sub chknumeric(parray, message)
+ for each str in parray
+  p=request(str)
+  if not isnumeric(p) then
+   message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'--------檢察日期格式 --------
+sub chkdate(parray, message)
+ for each str in parray
+  p=request(str)
+  if not isdate(p) then
+   message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'onerror
+sub onerroraction()
+ if (onerrorpath<>"") then response.redirect(onerrorpath)
+ response.end
+end sub
+
+'log 放在網站根目錄下的 /logs，檔名： yyyymmdd_log4u.txt
+function log4u(strlog)
+ if (activelog4u) then
+  fldr=server.mappath("/") & "/logs"
+  filename=year(date()) & right("0"&month(date()), 2) & right("0"&day(date()),2)
+  
+  filename = filename & "_log4u.txt"
+  
+  dim fso, f
+  set fso = createobject("scripting.filesystemobject")
+  
+  '產生新的目錄
+  if (not fso.folderexists(fldr)) then
+   set f = fso.createfolder(fldr)
+  else
+   showabsolutepath = fso.getabsolutepathname(fldr)
+  end if
+  
+  const forreading = 1, forwriting = 2, forappending = 8
+  '開啟檔案
+  set fso = createobject("scripting.filesystemobject")
+  set f = fso.opentextfile( fldr & "\" & filename , forappending, true, -1)
+  f.write strlog  & vbcrlf
+ end if
+end function
+'##### 結束：此段程式碼為自動產生，註解部份請勿刪除 #####
+:   
+ response.cachecontrol = "no-cache" 
+ response.addheader "pragma", "no-cache" 
+ response.expires = -1
+
+
+
+
+
+
+
+
+   CxMethod_ASP_dbfunc_1170075012()
+   CxMethod_ASP_client_1527114747()
+   CxMethod_ASP_web_sqlinjection_1652335853()
+
+  
+ function nulltext(xnode)
+    on error resume next
+    xstr = ""
+    xstr = xnode.text
+    nulltext = xstr
+ end function
+
+ mp = getmpvalue() 
+ 
+ account2 = striphtml( request("account") )
+ passwd2 = striphtml( request("passwd") )
+ o_url = striphtml( request("o_url") )
+ 'type2 = striphtml( request("type2") )
+  
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty("serverhttprequest") = true 
+ set oxsl = server.createobject("microsoft.xmldom")
+ 
+ xv = oxml.load( session("myxdurl") & "/wsxd2/xdlogin.aspx?mp=" & mp & "&account2=" & account2 & "&passwd2=" & passwd2 )
+
+  if oxml.parseerror.reason <> "" then 
+    response.write("htpagedom parseerror on line " &  oxml.parseerror.line)
+    response.write("<br>reason: " &  oxml.parseerror.reason)
+    response.end()
+  end if
+    
+  login = nulltext(oxml.selectsinglenode("//login/status"))
+ 'response.write login
+ 'response.end
+  if login = "true" then
+ '2010-6-17::判斷會員 email 是否通過認證
+ mcode = nulltext(oxml.selectsinglenode("//login/mcode"))
+ if mcode <> "y" then 
+  updatememid = striphtml( nulltext(oxml.selectsinglenode("//login/memid")) )
+
+
+
+                                                                                                =updatememid
+
+  
+  response.end()
+ end if
+  
+    session("memid")      = striphtml( nulltext(oxml.selectsinglenode("//login/memid")) )
+    session("gstyle")     = striphtml( nulltext(oxml.selectsinglenode("//login/gstyle")) )
+    session("memname")     = striphtml( nulltext(oxml.selectsinglenode("//login/memname")) )
+    session("memnickname")   = striphtml( nulltext(oxml.selectsinglenode("//login/memnickname")) )
+    session("memlogincount")  = striphtml( nulltext(oxml.selectsinglenode("//login/memlogincount") ) )            
+    'response.write "login"  
+  
+  '---login 成功---
+  
+  sql = "select lastlogintime from activitymembernew where memberid = '" & session("memid") & "'"  
+  set loginrs = conn.execute(sql)
+  
+  if not loginrs.eof then
+   if isnull(loginrs("lastlogintime")) then
+    sql = "update activitymembernew set logingrade = logingrade + 2, lastlogintime = getdate() where memberid = '" & session("memid") & "'"
+   else      
+    if datediff("d", loginrs("lastlogintime"), date) = 0 then
+     sql = "update activitymembernew set lastlogintime = getdate() where memberid = '" & session("memid") & "'"
+    else
+     sql = "update activitymembernew set logingrade = logingrade + 2, lastlogintime = getdate() where memberid = '" & session("memid") & "'"
+    end if   
+   end if
+  else
+   '---no record, insert a new record---
+   sql = "insert into activitymembernew (memberid, logingrade, lastlogintime) values ('" & session("memid") & "', 2, getdate()) "  
+  end if  
+  'response.write sql
+  conn.execute(sql)  
+  
+  '---20080915---vincent---加入目前頁面的url, 登入後導到目前頁面---
+
+
+
+                      =o_url
+
+
+
+
+  
+  else
+    session("memid") = ""
+    session("gstyle") = "" 
+    session("memname") = "" 
+    session("memnickname") = ""
+    session("memlogincount") = ""
+    
+    logintype = nulltext(oxml.selectsinglenode("//login/type"))
+    if logintype = "1" then
+
+
+
+
+
+
+  
+  elseif logintype = "2" then
+
+
+
+
+
+
+     
+  end if
+  end if
+  'response.redirect "mp.asp?mp=" & mp 
+ 

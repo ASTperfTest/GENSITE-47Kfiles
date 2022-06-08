@@ -1,0 +1,116 @@
+DD31(2005/11/18)
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'戶政法規',N'http://www.ris.gov.tw/docs/f1a-1.html',N'2003/06/25',N'1',N'101',N'christie',N'2003/07/16 17:47:46',N'2003/06/25 12:12:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4836)
+[htx.law_linkid = '2'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'役政法規',N'http://www.ris.gov.tw/docs/f1a-2.html',N'2003/06/25',N'1',N'102',N'sysop',N'2003/06/25 12:13:10',N'2003/06/25 12:13:10'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4837)
+[htx.law_linkid = '3'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'警察法規',N'http://www.npa.gov.tw/police/laws.nsf',N'2003/06/25',N'1',N'103',N'sysop',N'2003/06/25 12:13:27',N'2003/06/25 12:13:27'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4838)
+[htx.law_linkid = '4'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'營建法令',N'http://www.cpami.gov.tw/law/law/law.htm',N'2003/06/25',N'1',N'104',N'sysop',N'2003/06/25 12:13:48',N'2003/06/25 12:13:48'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4839)
+[htx.law_linkid = '5'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'消防法規',N'http://www.nfa.gov.tw/law/law.aspx',N'2003/06/25',N'1',N'105',N'sysop',N'2003/07/31 16:02:12',N'2003/06/25 12:14:45'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4840)
+[htx.law_linkid = '6'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'地政法規',N'http://www.moiland.gov.tw/law/chhtml/index.asp',N'2003/06/25',N'1',N'106',N'sysop',N'2003/07/31 16:01:26',N'2003/06/25 12:15:06'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4841)
+[htx.law_linkid = '7'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'兒童法規',N'http://www.cbi.gov.tw/all-law.php',N'2003/06/25',N'1',N'107',N'sysop',N'2003/06/25 12:15:27',N'2003/06/25 12:15:27'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4842)
+[htx.law_linkid = '8'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'土地測量法令',N'http://www.lsb.gov.tw/package/sub.asp?subitem=newlaw',N'2003/06/25',N'1',N'108',N'sysop',N'2003/06/25 12:16:00',N'2003/06/25 12:16:00'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4843)
+[htx.law_linkid = '9'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'性侵害防治法令',N'http://www.moi.gov.tw/div5/law.asp',N'2003/07/04',N'1',N'109',N'sysop',N'2003/07/04 11:04:43',N'2003/07/04 11:04:43'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4844)
+[htx.law_linkid = '14'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'家庭暴力防治法令',N'http://www.moi.gov.tw/div6/law.asp',N'2003/07/04',N'1',N'110',N'sysop',N'2003/07/04 11:05:08',N'2003/07/04 11:05:08'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4845)
+[htx.law_linkid = '15'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'領事事務法規',N'http://www.boca.gov.tw/law/index.htm',N'2003/06/25',N'2',N'201',N'sysop',N'2003/07/04 11:08:16',N'2003/06/25 12:16:28'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4846)
+[htx.law_linkid = '10'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'國防法規查詢',N'http://law.mnd.gov.tw/fn/Onews.asp?flag=a',N'2003/06/25',N'3',N'301',N'sysop',N'2003/07/04 11:08:40',N'2003/06/25 12:17:38'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4847)
+[htx.law_linkid = '11'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'法令查詢',N'http://www.mof.gov.tw/info/law.asp',N'2003/06/25',N'4',N'401',N'sysop',N'2003/07/04 11:11:17',N'2003/06/25 12:18:01'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4848)
+[htx.law_linkid = '12'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'法令規章',N'http://www.edu.tw/laws/laws00.htm',N'2003/06/25',N'5',N'501',N'sysop',N'2003/07/04 11:11:51',N'2003/06/25 12:18:18'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4849)
+[htx.law_linkid = '13'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'法規查詢',N'http://mojlaw.moj.gov.tw/',N'2003/07/31',N'6',N'601',N'sysop',N'2004/09/13 17:34:08',N'2003/07/31 16:03:36'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4850)
+[htx.law_linkid = '16'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'經貿法規',N'http://www.moea.gov.tw/law/index.html',N'2003/07/31',N'7',N'701',N'sysop',N'2003/07/31 16:04:10',N'2003/07/31 16:04:10'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4851)
+[htx.law_linkid = '17'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'智慧財產法規',N'http://www.tipo.gov.tw/index.asp',N'2003/07/31',N'7',N'702',N'sysop',N'2003/07/31 16:08:52',N'2003/07/31 16:08:52'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4852)
+[htx.law_linkid = '18'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'投資相關法規',N'http://www.idic.gov.tw/html/claw.html',N'2003/07/31',N'7',N'703',N'sysop',N'2003/07/31 16:09:09',N'2003/07/31 16:09:09'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4853)
+[htx.law_linkid = '19'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'交通法規',N'http://www.motc.gov.tw/hypage.cgi?HYPAGE=law.htm',N'2003/07/31',N'8',N'801',N'sysop',N'2003/07/31 16:10:56',N'2003/07/31 16:10:56'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4854)
+[htx.law_linkid = '20'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'主計法規',N'http://www.dgbas.gov.tw/dgbas/other/law-n.htm',N'2003/07/31',N'9',N'901',N'sysop',N'2003/07/31 16:12:03',N'2003/07/31 16:12:03'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4855)
+[htx.law_linkid = '21'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'人事法規',N'http://www.cpa.gov.tw/html2001/2.shtml',N'2003/07/31',N'A',N'1001',N'sysop',N'2003/07/31 16:12:42',N'2003/07/31 16:12:42'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4856)
+[htx.law_linkid = '22'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'衛生法規',N'http://www.doh.gov.tw/law/',N'2003/07/31',N'B',N'1101',N'sysop',N'2003/07/31 16:13:18',N'2003/07/31 16:13:18'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4857)
+[htx.law_linkid = '23'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'環保法規',N'http://w3.epa.gov.tw/epalaw/index.htm',N'2003/07/31',N'C',N'1201',N'sysop',N'2003/07/31 16:14:00',N'2003/07/31 16:14:00'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4858)
+[htx.law_linkid = '24'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'公平交易法規',N'http://www.ftc.gov.tw/SHOWMENUC.ASP?TEMP=TEMPLATETB&TEMPNAME=法規單行選單&MENU=HIERMENUTB&DISPLAYKEY=會本部法規類',N'2003/07/31',N'D',N'1301',N'sysop',N'2003/07/31 16:14:31',N'2003/07/31 16:14:31'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4859)
+[htx.law_linkid = '25'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'法令規章',N'http://www.pcc.gov.tw/index/main.asp?butt=7&mai=c7_a',N'2003/08/11',N'E',N'1401',N'sysop',N'2003/08/11 18:00:59',N'2003/08/11 18:00:59'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4860)
+[htx.law_linkid = '31'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'原子能法規',N'http://www.aec.gov.tw/webpages_ok/f4ey3ec85515e0aa3/',N'2003/07/31',N'F',N'1501',N'sysop',N'2003/07/31 16:16:50',N'2003/07/31 16:16:50'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4861)
+[htx.law_linkid = '28'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'農業法規',N'http://www.coa.gov.tw/law/lawsystem/index.htm',N'2003/07/31',N'G',N'1601',N'sysop',N'2003/07/31 16:17:21',N'2003/07/31 16:17:21'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4862)
+[htx.law_linkid = '29'] !
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,topCat,ximportant,ieditor,deditDate,createdDate) VALUES(7,31,'Y','N','0','1',N'消費者保護相關法令',N'http://www.cpc.gov.tw/01main_resource.htm',N'2003/07/31',N'H',N'1701',N'sysop',N'2003/07/31 16:18:23',N'2003/07/31 16:18:23'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(4863)
+[htx.law_linkid = '30'] !
+----------------------------------------------------------------------------
+===============================================================================
+ 28 , @\ 28 !

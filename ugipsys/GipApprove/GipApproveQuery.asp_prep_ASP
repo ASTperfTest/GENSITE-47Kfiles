@@ -1,0 +1,234 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="資料審稿"
+htprogfunc="查詢"
+htprogcode="gc1ap2"
+htprogprefix="gipapprove" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+                                   =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+  
+tasklable="查詢" & htprogcap
+
+ showhtmlhead()
+ formfunction = "query"
+ showform()
+ initform()
+ showhtmltail()
+
+
+   sub initform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+  sub showform() 
+
+
+                       =htprogprefix
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ sql = "" & _
+  " select ctrootid, ctrootname from cattreeroot where inuse = n'y' and pvxdmp is not null " & _
+  " and (deptid is null or deptid like '" & session("deptid") & "%') order by deptid "
+  set rss=conn.execute(sql)
+  while not rss.eof
+
+                   =rss(0):     =rss(1)
+     rss.movenext
+  wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      sql="select mcode,mvalue from codemain where codemetaid=n'ispublic3' order by msortvalue desc"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+  
+ sqlcom ="select d.deptid,d.deptname,d.parent,len(d.deptid)-1,d.seq," & _
+  "(select count(*) from dept where parent=d.deptid and nodekind='d') " & _
+  "  from dept as d where d.nodekind='d' " _
+  & " and d.deptid like n'" & session("deptid") & "%'" _
+  & " order by len(d.deptid), d.parent, d.seq" 
+'response.write sqlcom
+ set rss = conn.execute(sqlcom)
+ if not rss.eof then
+  arydept = rss.getrows(300)
+  glastmsglevel = 0
+  genlist 0, 0, 1, 0
+         expandfrom arydept(cid, 0), 0, 0
+ end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if formfunction = "query" then 
+          if (htprogright and 2) <> 0 then 
+
+
+          end if
+  elseif formfunction = "edit" then 
+          if (htprogright and 8) <> 0 then 
+
+           end if 
+
+          if (htprogright and 16) <> 0 then 
+
+         end if 
+
+
+
+   else '-- add ---
+            if (htprogright and 4)<>0 then 
+
+            end if
+
+            if (htprogright and 4)<>0  then 
+
+            end if
+
+   end if 
+
+
+
+
+
+
+
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showhtmlhead() ------
+
+  sub showhtmltail() 
+
+
+
+
+
+  end sub '--- showhtmltail() ------ 

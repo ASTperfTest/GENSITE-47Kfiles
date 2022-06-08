@@ -1,0 +1,154 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               
+          
+function filebody(){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               
+          
+function filebody(){
+<%
+   If FileFind Then
+     Set txtf = FSO.OpenTextFile(DownFile,1)
+     AtFirst=True
+     Do Until txtf.AtEndOfStream
+       txtLine = txtf.ReadLine
+       txtLine = Replace(txtLine,"\","\\")
+       txtLine = Replace(txtLine,"""","\""")
+       txtLine = Replace(txtLine,"<","<""+""")
+       If AtFirst Then
+         if asc(left(txtline,1)) = 0 then
+            txtline = right(txtline,len(txtline)-1)
+            if left(txtline,2) = "?%" then
+                txtline = "<""+""" & right(txtline,len(txtline)-1)
+            end if
+         end if
+         response.write " // the first char is:" & left(txtline,1)
+         response.write " // the first char is:" & asc(left(txtline,1))
+         response.write " // the first 2 char is:" & left(txtline,2)
+     Response.Write """;" & VbCrlf
+        
+         Response.Write "  document.frm.file.value=""" & txtLine
+         AtFirst = False
+       Else
+         Response.Write "  document.frm.file.value+=""" & txtLine
+       End If
+       If txtf.AtEndOfStream Then
+  Response.Write """;" & VbCrlf
+       Else
+  Response.Write "\n"";" & VbCrlf
+       End If
+       'If Not txtf.AtEndOfStream Then Response.Write VbCrLf
+     Loop
+     Set txtf = Nothing
+   End If
+%>
+}
+   
+
+
+function onload____417287544() {filebody();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

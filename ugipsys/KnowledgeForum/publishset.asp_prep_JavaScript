@@ -1,0 +1,288 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    function onClick____30647765() {formSubmit()}
+                               function onClick___1657291224() {formReset()}
+                               function onClick___1283611761() {formCancel()}
+
+
+
+
+
+
+
+
+
+ 
+ function formSubmit()
+ {  
+  var pass = "";
+  for( var i = 0; i < document.forms[0].elements.length - 1; i++ ) {
+   if( document.forms[0].elements[i].name.substring(0, 5) == "ckbox") {
+    if( document.forms[0].elements[i].checked) {
+     pass += document.forms[0].elements[i].value + ",";
+    }
+   }
+  }
+  if( pass == "") {
+   alert("請至少選擇一項");
+  }
+  else {
+   window.location.href = "publishset.asp?add=Y&id=" + pass + "&questionId=Cx_0dummy&nowPage=Cx_0dummy&pagesize=Cx_0dummy";   
+  }    
+ }
+ function publishNode(id)
+ {  
+  window.location.href = "publishset.asp?add=Y&id=" + id + "&questionId=Cx_0dummy&nowPage=Cx_0dummy&pagesize=Cx_0dummy";
+ }
+ function formReset()
+ {  
+  window.location.href = "publishset.asp?questionId=Cx_0dummy&nowPage=Cx_0dummy&pagesize=Cx_0dummy";
+ }
+ function formCancel()
+ {  
+  window.location.href = "cp_question.asp?iCUItem=Cx_0dummy&nowPage=Cx_0dummy&pagesize=Cx_0dummy";
+ }
+
+
+
+
+
+
+
+
+ 

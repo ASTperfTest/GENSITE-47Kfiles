@@ -1,0 +1,135 @@
+﻿body {
+	margin: 15px 15px 20px;
+	color: #333333;
+	background-color: #FFFFFF;
+	background-image: url(../images/main_bg.gif);
+	background-repeat: repeat-x;
+	background-position: left top;
+	background-attachment: fixed;
+}
+a:link {
+	color: #0D7D1E;
+	text-decoration: none;
+}
+a:visited {
+	color: #0D7D1E;
+	text-decoration: none;
+}
+a:hover {
+	color: #CC3300;
+	text-decoration: underline;
+}
+/*------------------------------------------------------*/
+#Main {
+	margin: 0px 20px 15px;
+}
+/*------------------------------------------------------*/
+#FuncName {
+	border-bottom: 2px dotted #C9C9C9;
+	padding-bottom: 3px;
+	color: #333333;
+	margin-bottom: 15px;
+}
+#FuncName h1 {
+	font-size: 16px;
+	letter-spacing: 0.15em;
+	background: url(../images/bullet1.gif) no-repeat 2px 0px;
+	padding-left: 25px;
+	margin: 0px;
+	float: left;
+	font-weight: normal;
+}
+/*------------------------------------------------------*/
+#Nav {
+	text-align: right;
+	margin-right: 20px;
+}
+#Nav a {
+	font-size: 12px;
+	padding-left: 20px;
+	margin-right: 7px;
+	color: #0D7D1E;
+	text-decoration: none;
+	background: url(../images/icon_nav.gif) no-repeat 0px 0px;
+	padding-bottom: 4px;
+}
+#Nav a:hover {
+	color: #CC3300;
+	text-decoration: underline;
+}
+/*------------------------------------------------------*/
+#Page {
+	font-size: 13px;
+	color: #333333;
+	text-decoration: none;
+	margin-bottom: 7px;
+	text-align: left;
+	margin-top: 10px;
+	padding: 0px;
+}
+#Page em {
+	color: #F06000;
+	text-decoration: none;
+	padding-right: 3px;
+	padding-left: 3px;
+	font-style: normal;
+}
+#Page select {
+	font-size: 13px;
+	text-decoration: none;
+	color: #333333;
+}
+#Page option {
+	color: #333333;
+}
+#Page img {
+	border: none;
+	vertical-align: -12%;
+}
+#Page a {
+	color: #0D7D1E;
+	text-decoration: none;
+	vertical-align: text-top;
+	padding-left: 2px;
+}
+#Page a:hover {
+	color: #CC3300;
+	text-decoration: underline;
+}
+/*------------------------------------------------------*/
+#Explain {
+	border-right: 4px solid #DDDDDD;
+	border-left: 4px solid #DDDDDD;
+	padding: 10px;
+	margin: 20px;
+}
+#Explain ul {
+	font-size: 12px;
+	line-height: 170%;
+	margin-top: 5px;
+	list-style: square;
+}
+#Explain h1 {
+	font-size: 16px;
+	margin-top: 5px;
+	margin-bottom: 0px;
+	font-weight: normal;
+	letter-spacing: 0.2em;
+	background: url(../images/bullet_pencil.gif) no-repeat 0px 0px;
+	padding-left: 30px;
+	height: 25px;
+	color: #006666;
+}
+#ClearFloat {
+	clear: both;
+	margin: 0px;
+	padding: 0px;
+}
+#FormName {
+	font-size: 15px;
+	font-weight: normal;
+	margin-top: 15px;
+	text-align: center;
+	letter-spacing: 0.15em;
+	color: #333333;
+}

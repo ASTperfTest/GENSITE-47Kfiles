@@ -1,0 +1,11 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ htprogcap = "單元資料維護"
+ htprogfunc = "查詢"
+ htuploadpath = session("public") + "data/"
+ htprogcode="kpi01"
+ htprogprefix="" 
+ response.charset = "utf-8"
+
+   CxMethod_ASP_server_1606199358() 

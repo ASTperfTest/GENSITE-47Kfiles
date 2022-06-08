@@ -1,0 +1,394 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<htPage>
+	<HTProgPrefix>ppPsnInfo</HTProgPrefix>
+	<HTProgCode>PA010</HTProgCode>
+	<HTUploadPath>/public/</HTUploadPath>
+	<HTProgPath>/ppActivity</HTProgPath>
+	<HTGenPattern>genEdit</HTGenPattern>
+	<htForm>
+		<formModel id="ppPsnInfoEdit">
+			<fieldList>
+				<tableName>paPsnInfo</tableName>
+				<masterTable>Y</masterTable><field>
+					<fieldName>myPassword</fieldName>
+					<fieldLabel>登入密碼</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>12</dataLen>
+					<inputLen>12</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>password</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>psnID</fieldName>
+					<fieldLabel>身份證號</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>pName</fieldName>
+					<fieldLabel>姓名</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>birthDay</fieldName>
+					<fieldLabel>出生日</fieldLabel>
+					<dataType>smalldatetime</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>popDate</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>eMail</fieldName>
+					<fieldLabel>eMail</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>50</dataLen>
+					<inputLen>50</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>tel</fieldName>
+					<fieldLabel>連絡電話</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>emergContact</fieldName>
+					<fieldLabel>緊急聯絡人姓名及電話</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>60</dataLen>
+					<inputLen>60</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>deptName</fieldName>
+					<fieldLabel>工作部門</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>jobName</fieldName>
+					<fieldLabel>職稱</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>topEdu</fieldName>
+					<fieldLabel>最高學歷</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>eduCode</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>meatKind</fieldName>
+					<fieldLabel>葷/素</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>meatKind</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>corpName</fieldName>
+					<fieldLabel>公司全銜</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>60</dataLen>
+					<inputLen>60</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>corpID</fieldName>
+					<fieldLabel>統一編號</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>8</dataLen>
+					<inputLen>8</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>corpZip</fieldName>
+					<fieldLabel>郵遞區號</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>3</dataLen>
+					<inputLen>3</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>corpAddr</fieldName>
+					<fieldLabel>聯絡地址</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>60</dataLen>
+					<inputLen>60</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>corpContact</fieldName>
+					<fieldLabel>聯絡人</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>corpTel</fieldName>
+					<fieldLabel>電話</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>corpFax</fieldName>
+					<fieldLabel>傳真</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+			<anchorList>
+				<anchor>
+					<type></type>
+					<funcLabel></funcLabel>
+					<url></url>
+					<action></action>
+				</anchor>
+			</anchorList>
+		</formModel>
+	</htForm>
+	<pageSpec>
+		<pageHead>活動學員管理</pageHead>
+		<pageFunction>編修</pageFunction>
+		<aidLinkList>
+			<Anchor>
+				<AnchorLabel>查詢</AnchorLabel>
+				<AnchorType>A</AnchorType>
+				<AnchorDesc>重設查詢條件</AnchorDesc>
+				<AnchorURI>ppPsnInfoQuery.asp</AnchorURI>
+				<checkRight>1</checkRight>
+				<AnchorPos>Top</AnchorPos>
+				<AnchorWPK></AnchorWPK>
+			</Anchor>
+			<Anchor>
+				<AnchorLabel>新增</AnchorLabel>
+				<AnchorType>A</AnchorType>
+				<AnchorDesc>新增</AnchorDesc>
+				<AnchorURI>ppPsnInfoAdd.asp</AnchorURI>
+				<checkRight>4</checkRight>
+				<AnchorPos>Top</AnchorPos>
+				<AnchorWPK></AnchorWPK>
+			</Anchor>
+			<Anchor>
+				<AnchorLabel>回前頁</AnchorLabel>
+				<AnchorType>Back</AnchorType>
+				<AnchorDesc>回前頁</AnchorDesc>
+				<AnchorURI></AnchorURI>
+				<checkRight></checkRight>
+				<AnchorPos>Top</AnchorPos>
+			</Anchor>
+		</aidLinkList>
+		<formUI ref="ppPsnInfoEdit">
+			<pxHTML>
+				<CENTER>
+					<TABLE border="0" class="eTable" cellspacing="1" cellpadding="2" width="90%">
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>登入密碼：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/myPassword</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>身份證號：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/psnID</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>姓名：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/pName</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>出生日：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/birthDay</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">eMail：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/eMail</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>連絡電話：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/tel</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>緊急聯絡人姓名及電話：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/emergContact</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">工作部門：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/deptName</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">職稱：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/jobName</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">最高學歷：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/topEdu</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">葷/素：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/meatKind</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">公司全銜：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/corpName</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">統一編號：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/corpID</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">郵遞區號：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/corpZip</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">聯絡地址：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/corpAddr</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">聯絡人：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/corpContact</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">電話：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/corpTel</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">傳真：</TD>
+							<TD class="eTableContent"><refField>paPsnInfo/corpFax</refField></TD>
+						</TR>
+					</TABLE>
+				</CENTER>
+			</pxHTML>
+			<scriptCode><![CDATA[
+<SCRIPT LANGUAGE="vbs">
+
+</SCRIPT>
+		]]></scriptCode>
+		</formUI>
+		<UINotes>
+		</UINotes>
+	</pageSpec>
+</htPage>

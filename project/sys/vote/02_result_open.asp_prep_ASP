@@ -1,0 +1,112 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ 'htprogcap = "功能管理"
+ 'htprogfunc = "問卷調查"
+ htprogcode = "gw1_vote01"
+ 'htprogprefix = "msession"
+ response.expires = 0
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+
+   
+ 
+ subjectid = request("subjectid")
+ questionid = request("questionid")
+ answerid = request("answerid")
+ 
+ if subjectid = "" or questionid = "" or answerid = "" then
+  response.write "<script language='javascript'>alert('empty');history.go(-1);</script>"
+  response.end
+ end if
+ 
+ 
+ sql = "" & _
+  " select m011_subject, m011_bdate, m011_edate, m011_haveprize " & _
+  " from m011 where m011_subjectid = " & replace(subjectid, "'", "''")
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "<script language='javascript'>alert('error');history.go(-1);</script>"
+  response.end
+ end if
+ 
+ 
+ set ts = conn.execute("select count(*) from m014 where m014_subjectid = " & replace(subjectid, "'", "''"))
+ if ts(0) = 0 then
+  response.write "<script language='javascript'>alert('目前尚無任何答題資料！');history.go(-1);</script>"
+  response.end
+ end if
+ 
+ 
+ sql = "select m012_title from m012 where m012_subjectid = " & subjectid & " and m012_questionid = " & questionid
+ set rs2 = conn.execute(sql)
+ if rs2.eof then
+  response.write "<script language='javascript'>alert('error2');history.go(-1);</script>"
+  response.end
+ end if
+ 
+ 
+ sql = "select m013_title from m013 where m013_subjectid = " & subjectid & " and m013_questionid = " & questionid & " and m013_answerid = " & answerid
+ set rs3 = conn.execute(sql)
+ if rs3.eof then
+  response.write "<script language='javascript'>alert('error3');history.go(-1);</script>"
+  response.end
+ end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                         = functype :              = subjectid 
+  
+ 'if rs("m011_haveprize") = "1" then
+
+                                                                                                        = functype :              = subjectid 
+                                                                                                           = functype :              = subjectid 
+  
+ 'end if
+
+                                                                                                              = functype :              = subjectid 
+
+
+
+
+
+
+                                                                                                            = subjectid 
+
+
+
+
+
+                             = datevalue(rs("m011_bdate")) :      = datevalue(rs("m011_edate")) 
+                             = trim(rs("m011_subject")) 
+                           = trim(rs2("m012_title")) 
+                           = trim(rs3("m013_title")) 
+
+  
+ sql = "select m016_content from m016 where m016_subjectid = " & subjectid & " and m016_questionid = " & questionid & " and m016_answerid = " & answerid
+ set rs = conn.execute(sql)
+ i = 0
+ while not rs.eof
+  i = i + 1
+
+
+                                           = i 
+          = trim(rs("m016_content")) 
+
+  
+  rs.movenext
+ wend
+ 

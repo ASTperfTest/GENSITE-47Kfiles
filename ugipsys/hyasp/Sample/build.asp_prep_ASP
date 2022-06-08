@@ -1,0 +1,86 @@
+﻿
+
+
+
+
+
+  
+   ' step 1: �ϥ� createobject ���� object. dll name: hysdk, class name: hyft
+   set obj = server.createobject("hysdk.hyft.1")
+
+   ' step 2: �i�s hyft_connect �s�� hyftd
+   x = obj.hyft_connect("localhost", 2816, "writer", "", "")
+
+   ' hyft_connect() �ǧ^�Ȭ��s�u id, �s��� obj.ret_val ��
+   id = obj.ret_val
+   if id = -1 then
+      '�y�o�s�u����, �h���~�t���s��� obj.errmsg
+      response.write "�s�u hyftd �o�Ϳ��~, ���~�t��: " & obj.errmsg & "<br><br>"
+      response.end
+   else
+      response.write "�s�u hyftd ���\! id = " & id & "<br><br>"
+   end if
+
+   ' step 3: ��l�ư��ޫإ����
+   x = obj.hyft_initbuild(id)
+   ' �ǧ^�Ȭ� obj.ret_val
+   ret = obj.ret_val
+   if ret = -1 then
+      '�y�o��l�ƥ���, �h���~�t���s��� obj.errmsg
+      response.write "initbuild �o�Ϳ��~, ���~�t��: " & obj.errmsg
+      response.end
+   end if
+
+   response.write "�د��ޤ�......<br><br>"
+
+   ' step 4: �}�l�i�s hyft_addbuild, �n�n�د��ޤ�����ƶ�j
+   response.write "au = �k���j�l<br>"
+   x = obj.hyft_addbuild(id, "au", "�k���j�l")
+   ret = obj.ret_val
+   if ret = -1 then
+      response.write "��j au ���ɵo�Ϳ��~, ���~�t��: " & obj.errmsg
+      response.end
+   end if
+
+   response.write "sex = �k<br>"
+   x = obj.hyft_addbuild(id, "sex", "�k")
+   ret = obj.ret_val
+   if ret = -1 then
+      response.write "��j sex ���ɵo�Ϳ��~, ���~�t��: " & obj.errmsg
+      response.end
+   end if
+
+   response.write "birth = 19750413<br>"
+   x = obj.hyft_addbuild(id, "birth", "19750413")
+   ret = obj.ret_val
+   if ret = -1 then
+      response.write "��j birth ���ɵo�Ϳ��~, ���~�t��: " & obj.errmsg
+      response.end
+   end if
+   
+   response.write "text = �����<br>"
+   x = obj.hyft_addbuild(id, "text", "�����")
+   ret = obj.ret_val
+   if ret = -1 then
+      response.write "��j text ���ɵo�Ϳ��~, ���~�t��: " & obj.errmsg
+      response.end
+   end if
+
+   ' step 5: �i�s hyft_build �oǥj sysid �i��د��ްʧ@
+   x = obj.hyft_build(id, "000000000001")
+   ret = obj.ret_val
+   if ret = -1 then
+      response.write "�د��ޮɵo�Ϳ��~, ���~�t��: " & obj.errmsg
+      response.end
+   end if
+
+   ' step 6: �����p hyftd ���s�u
+   x = obj.hyft_close(id)
+   ret = obj.ret_val
+   if ret = -1 then
+      response.write "����s�u�ɵo�Ϳ��~, ���~�t��: " & obj.errmsg
+      response.end
+   end if
+   response.write "<br>�إ߯��ާ���!<br>"
+   set obj=nothing 
+ 

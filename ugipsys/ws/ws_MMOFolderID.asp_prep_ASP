@@ -1,0 +1,82 @@
+﻿
+
+  
+sub expandfrom(lngid, msglevel, prow)
+ childcount = 0
+' response.write lngid & "," & msglevel & "," & prow & "<hr>"
+    for lngrow = 0 to ubound(arydept, 2)
+'     response.write lngrow & ")-" & arydept(0, lngrow) & "," & arydept(1, lngrow) & "," & arydept(2, lngrow) & "<br>"
+      if (arydept(cparent, lngrow) = lngid) then
+  childcount = childcount + 1
+     genlist lngrow, msglevel+1, childcount, prow
+         expandfrom arydept(cid,lngrow), msglevel+1, lngrow
+      end if
+    next
+end sub
+
+sub genlist(introw, intnewmsglevel, cnt, prow)
+ if intnewmsglevel > 0 then
+   if cnt = arydept(cjchild, prow) then
+  leadstr = left(leadstr, intnewmsglevel-1) & "└" & mid(leadstr, intnewmsglevel+1)
+   else
+  leadstr = left(leadstr, intnewmsglevel-1) & "├" & mid(leadstr, intnewmsglevel+1)
+   end if
+   if intnewmsglevel > 1 then
+    if mid(leadstr,intnewmsglevel-1,1) = "└" then
+   leadstr = left(leadstr, intnewmsglevel-2) & "　" & mid(leadstr, intnewmsglevel)
+  elseif mid(leadstr,intnewmsglevel-1,1) = "├" then
+   leadstr = left(leadstr, intnewmsglevel-2) & "│" & mid(leadstr, intnewmsglevel)
+    end if
+   end if
+ end if
+ response.write "<row><mcode>" & arydept(cid,introw) & "</mcode><mvalue>" & left(leadstr, intnewmsglevel) & arydept(cname, introw) & "</mvalue></row>" & vbcrlf
+ glastmsglevel = intnewmsglevel
+end sub
+
+const cid = 0
+const cname = 1
+const cparent = 2
+const cplevel = 3
+const cseq = 4
+const cjchild=5
+leadstr = "　　　　　　　　　　　　　"
+dim arydept
+
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+'----------hyweb gip db connection patch----------
+
+ ctunitid = request("ctunitid")
+ sqlm="select mmositeid+mmofoldername as mmofolderpath from ctunit c left join mmofolder m on c.mmofolderid=m.mmofolderid " & _
+  "where c.ctunitid=" & ctunitid
+ set rsm=conn.execute(sqlm)
+ if not rsm.eof then xmmofolderid=rsm("mmofolderpath")
+   sqlcom="select case mmofoldername when 'zzz' then 0 else mmofolderid end mmofolderid, " & _
+    "case mm.mmofolderparent when 'zzz' then ms.mmositename else mm.mmofoldernameshow end mmofoldernameshow, " & _
+    "case mmofolderparent when 'zzz' then 0 else (select mmofolderid from mmofolder where mmositeid=mm.mmositeid and mmofoldername=mm.mmofolderparent) end mmofolderparent " & _
+    ",1 " & _
+  ",1 " & _
+  ",case mmofoldername when 'zzz' then " & _
+  " (select count(*) from mmofolder mm2 left join mmosite ms2 on mm2.mmositeid=ms2.mmositeid where (ms2.deptid is null or ms2.deptid like '" & session("deptid") & "%' or ms2.deptid = left('" & session("deptid") & "',len(ms2.deptid))) and (mm2.deptid is null or mm2.deptid = left('" & session("deptid") & "',len(mm2.deptid)) or mm2.deptid like '"&session("deptid")&"%') and mm2.mmofolderparent='zzz') " & _
+  " else " & _
+  " (select count(*) from mmofolder mm2 left join mmosite ms2 on mm2.mmositeid=ms2.mmositeid where (ms2.deptid is null or ms2.deptid like '" & session("deptid") & "%' or ms2.deptid = left('" & session("deptid") & "',len(ms2.deptid))) and (mm2.deptid is null or mm2.deptid = left('" & session("deptid") & "',len(mm2.deptid)) or mm2.deptid like '"&session("deptid")&"%') and mm2.mmofolderparent=mm.mmofoldername and mm2.mmositeid=mm.mmositeid) " & _
+  " end childcount " & _
+  "from mmofolder mm left join mmosite ms on mm.mmositeid=ms.mmositeid " & _
+  "where (ms.deptid is null or ms.deptid like '" & session("deptid") & "%' or ms.deptid = left('" & session("deptid") & "',len(ms.deptid))) and (mm.deptid is null or  mm.deptid = left('" & session("deptid") & "', len(mm.deptid)) or mm.deptid like '"&session("deptid")&"%') "  
+ if xmmofolderid<>"" then 
+  sqlcom=sqlcom & " and case mmofoldername when 'zzz' then mmofoldername else mm.mmositeid + mmofoldername end like '"&xmmofolderid&"%' "
+ end if
+ sqlcom=sqlcom & " order by case mmofolderparent when 'zzz' then '' else mmofolderparent end, mmofolderid"
+ set rss = conn.execute(sqlcom)
+
+ if not rss.eof then
+  arydept = rss.getrows(200)
+  glastmsglevel = 0
+  genlist 0, 0, 1, 0
+         expandfrom arydept(cid, 0), 0, 0
+ end if
+ 

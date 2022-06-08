@@ -1,0 +1,60 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function onclick___1920356536() {TableOK();}
+
+
+
+var oMyObject = window.dialogArguments;
+if (oMyObject!=undefined) {
+//alert(oMyObject.url);
+if (oMyObject.href!=undefined) f1.url.value = oMyObject.href;
+if (oMyObject.title!=undefined) f1.title.value = oMyObject.title;
+}
+
+function TableOK(){
+ var nw = "N";
+ if (f1.newWindow.item(0).checked) nw = "Y";
+window.returnValue = "<A><URL>         " + f1.url.value + "   </URL><TITLE>         " 
+ + f1.title.value + "   </TITLE><newWindow>"
+  + nw + "</newWindow></A>";
+window.close();
+}
+
+
+
+
+
+
+
+ 

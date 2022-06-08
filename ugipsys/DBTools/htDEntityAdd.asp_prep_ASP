@@ -1,0 +1,235 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="資料物件管理"
+htprogfunc="新增資料物件"
+htprogcode="ht011"
+htprogprefix="htdentity" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+if request("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+   sub initform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_htdentityform_404329943()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+          if (htprogright and 2)=2 then
+                   =htprogprefix
+          end if
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+
+   sub showhtmltail() 
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- ݸˬd{xbo apuҡaɳ] errmsg="xxx"  exit sub ------
+' sql = "select * from client where clientid = n'"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "uȤsv!!эsإ߫Ȥs!"
+'  exit sub
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "insert into htdentity("
+ sqlvalue = ") values("
+ if request("htx_dbid") <> "" then
+  sql = sql & "dbid" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_dbid"),",")
+ end if
+ if request("htx_apcatid") <> "" then
+  sql = sql & "apcatid" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_apcatid"),",")
+ end if
+ if request("htx_entityid") <> "" then
+  sql = sql & "entityid" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_entityid"),",")
+ end if
+ if request("htx_tablename") <> "" then
+  sql = sql & "tablename" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_tablename"),",")
+ end if
+ if request("htx_entitydesc") <> "" then
+  sql = sql & "entitydesc" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_entitydesc"),",")
+ end if
+ if request("htx_entityuri") <> "" then
+  sql = sql & "entityuri" & ","
+  sqlvalue = sqlvalue & pkstr(request("htx_entityuri"),",")
+ end if
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+
+ conn.execute(sql)  
+end sub '---- doupdatedb() ----
+
+
+
+   sub showdonebox() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                             =htprogprefix
+
+
+
+   end sub '---- showdonebox() ----  

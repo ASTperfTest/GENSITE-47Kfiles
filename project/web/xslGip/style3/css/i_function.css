@@ -1,0 +1,106 @@
+/* CSS Document */
+
+/*所有頁籤效果*/
+
+div.function {/*全球網首頁*/
+	overflow: hidden;
+	margin: 10px 0 5px;
+	background: url(../images/tab_ul_bg.gif) repeat-x left bottom;
+}
+.function ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: 13px;
+	line-height: 14px;
+	letter-spacing: 1px;
+	overflow: hidden;
+	_width: 100%;
+}
+
+ul.function { /*內頁的頁籤*/
+	clear: both;
+	margin: -39px 0 0;
+	list-style: none;
+	padding: 0;
+	letter-spacing: 1px;
+	background: url(../images/tab_ul_bg.gif) repeat-x left bottom;
+	float: right;
+}
+ul.group { /*知識家分眾<ul class="group">*/
+	clear: both;
+	margin: 10px 0 10px;
+	padding: 0;
+	list-style: none;
+	letter-spacing: 1px;
+	background: url(../images/tab_ul_bg.gif) repeat-x left bottom;
+	overflow: hidden;
+	_width: 100%;
+}
+#MagTabs { /*知識家內頁第二層頁籤*/
+	clear: both;
+	margin: 10px 0 10px;
+	padding: 0;
+	letter-spacing: 1px;
+	background: url(../images/tab_ul_bg2.gif) repeat-x left bottom;
+	overflow: hidden;
+	_width: 100%;
+}
+#MagTabs ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+.function li , .group li , #MagTabs li {
+	background: url(../images/cate_bg2.gif) no-repeat right top;
+	float: left;
+	margin: 0 1px 2px;
+	padding: 0 10px 0 0;
+	white-space: nowrap;
+	font-size: 13px;
+	line-height: 14px;
+}
+.function li a , .group li a , #MagTabs li a {
+	background: url(../images/cate_bg1.gif) no-repeat left top;
+	display: block;
+	padding: 11px 0 4px 12px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+#MagTabs li a {
+	padding: 12px 0 4px 12px;
+}
+.function li a:hover , .group li a:hover , #MagTabs li a:hover {
+	color: #FFFF00;
+	text-decoration: none;
+}
+
+.function li.now , .group li.activity , #MagTabs li.current {
+	background: url(../images/cate_now_bg2.gif) no-repeat right top;
+	padding: 0 10px 0 0;
+}
+.function li.now a , .group  li.activity a ,  #MagTabs li.current a {
+	background: url(../images/cate_now_bg1.gif) no-repeat left top;
+	display: block;
+	padding: 11px 0 6px 12px;
+	color: #444444;
+}
+
+/*2010 知識家活動頁籤*/
+.group li.knowledgeActivity {
+	background: url(../images/KnowledgeActivity_02.gif) no-repeat right top;
+	float: left;
+	margin: 0 1px 2px;
+	padding: 0 10px 0 0;
+	white-space: nowrap;
+	font-size: 13px;
+	line-height: 14px;
+}
+.group li.knowledgeActivity a {
+	background: url(../images/KnowledgeActivity_01.gif) no-repeat left top;
+	display: block;
+	padding: 11px 0 4px 12px;
+	color: #FFFFFF;
+	text-decoration: none;
+}

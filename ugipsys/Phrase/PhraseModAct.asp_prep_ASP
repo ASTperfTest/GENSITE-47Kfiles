@@ -1,0 +1,110 @@
+﻿: @  codepage="65001" 
+
+    
+  '過濾字串,數字,strtype s 為字串,i 為數字
+  function checkinput(str,strtype)
+  dim strtmp
+   strtmp = ""
+  if strtype = "s" then
+   strtmp = replace(trim(str),"'","''")
+   strtmp = replace(trim(str),"'","''")
+   'strtmp = replace(trim(strtmp),";","")
+   'strtmp = replace(trim(strtmp),"'","")
+   'strtmp = replace(trim(strtmp),"--","")
+   'strtmp = replace(trim(strtmp),"/*","")
+   'strtmp = replace(trim(strtmp),"*/","")
+   'strtmp = replace(trim(strtmp),"*","")
+   'strtmp = replace(trim(strtmp),"/","")
+   'strtmp = replace(trim(strtmp),"<","")
+   'strtmp = replace(trim(strtmp),">","")
+  elseif strtype="i" then
+  if isnumeric(str)=false then str="0"
+   strtmp = str
+  else
+   strtmp = str
+  end if
+   checkinput = strtmp
+  end function
+  
+      '過濾script
+  function deljs(str)
+   dim  objregexp
+   set  objregexp=new  regexp   
+   objregexp.ignorecase=true   
+   objregexp.global=true   
+   objregexp.pattern="\<script.+?\<\/script\>"   
+   deljs=objregexp.replace(str,"") 
+  set  objregexp=nothing
+  end function
+  
+  function alertandgolast(str)
+      
+
+
+
+
+
+
+
+
+                       =str 
+
+
+
+
+          
+      response.end
+  end function
+  
+  
+  ctrootid = checkinput(request("ctrootid"),"i")
+  rowid = checkinput(request("rowid"),"i")
+  htx_stitle = checkinput(request("htx_stitle"),"s")
+  htx_stitle = deljs(htx_stitle)
+  htx_xbody = checkinput(request("htx_xbody"),"s")
+  htx_xbody = deljs(htx_xbody)
+  htx_fctupublic = checkinput(request("htx_fctupublic"),"s")
+  creationdt = date
+  editor = session("userid")
+  
+  set conn = server.createobject("adodb.connection")
+  conn.open session("odbcdsn")
+  
+  
+  select case request("mode")
+      case "modify"
+       
+          checkphrase = "select * from subjectphrase where phrase='" & htx_stitle & "' and ctrootid='" & ctrootid & "' and rowid != '" & rowid & "'"
+          set rs = conn.execute(checkphrase)
+             if rs.eof then
+              '修改詞彙
+           xsql = "update subjectphrase set ctrootid=" & ctrootid & ",phrase='" & htx_stitle & "',content='" & htx_xbody & "',creationdt='" & creationdt & "',fctupublic='" & htx_fctupublic & "',editor='" & editor & "' where rowid='" & rowid & "'"
+           conn.execute xsql
+           response.redirect "../phrase/phrase.asp?mp=" & request("ctrootid")          
+          else
+           alertandgolast("[" & htx_stitle & "] 已經存在")
+          end if       
+       
+      case "create"
+      
+          checkphrase = "select * from subjectphrase where phrase='" & htx_stitle & "' and ctrootid='" & ctrootid & "'"
+          set rs = conn.execute(checkphrase)
+             if rs.eof then
+              '新增詞彙
+              xsql = "insert into subjectphrase([ctrootid],[phrase],[content],[creationdt],[fctupublic],[editor]) "
+              xsql = xsql  & vbcrlf & "values ('" & ctrootid & "','" & htx_stitle & "','"
+              xsql = xsql  & vbcrlf & htx_xbody & "','" & creationdt & "','" & htx_fctupublic & "','" &  editor & "')"
+              conn.execute xsql
+              response.redirect "../phrase/phrase.asp?mp=" & request("ctrootid")
+          else
+           alertandgolast("[" & htx_stitle & "] 已經存在")
+          end if
+      
+      case "del"
+       xsql = "delete subjectphrase where rowid='" & rowid & "'"
+       conn.execute xsql
+       response.redirect "../phrase/phrase.asp?mp=" & request("ctrootid")      
+  end select
+  
+
+ 

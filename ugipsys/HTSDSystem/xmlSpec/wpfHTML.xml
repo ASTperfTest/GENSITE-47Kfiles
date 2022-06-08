@@ -1,0 +1,39 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<DataSchemaDef>
+	<dsTable>
+		<tableName>wpfHTML</tableName>
+		<tableDesc>∫Ù≠∂HTML fragment</tableDesc>
+		<fieldList>
+			<field>
+				<fieldName>wpfID</fieldName>
+				<fieldLabel>∫Ù≠∂∂ÙID</fieldLabel>
+				<dataType>int</dataType>
+				<dataLen>4</dataLen>
+				<inputLen>4</inputLen>
+				<canNull>N</canNull>
+				<isPrimaryKey>Y</isPrimaryKey>
+				<identity>Y</identity>
+				<inputType>hidden</inputType>
+				<fieldDesc></fieldDesc>
+				<refLookup></refLookup>
+				<rows></rows>
+				<cols></cols>
+			</field>
+			<field>
+				<fieldName>fHTML</fieldName>
+				<fieldLabel>∫Ù≠∂∂ÙHTML</fieldLabel>
+				<dataType>varchar</dataType>
+				<dataLen>4000</dataLen>
+				<inputLen>4000</inputLen>
+				<canNull>Y</canNull>
+				<isPrimaryKey>N</isPrimaryKey>
+				<identity>N</identity>
+				<inputType>textarea</inputType>
+				<fieldDesc></fieldDesc>
+				<refLookup></refLookup>
+				<rows>10</rows>
+				<cols>70</cols>
+			</field>
+		</fieldList>
+	</dsTable>
+</DataSchemaDef>

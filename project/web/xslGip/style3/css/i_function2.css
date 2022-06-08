@@ -1,0 +1,50 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/*---------------------------------------------------------------友善列印、回前一頁、轉寄友人 */
+
+.Function2 ul {
+	font-size: 12px;
+	line-height: 20px;
+	text-align: right;
+	margin: 0 0 15px;
+	padding: 0;
+	list-style: none;
+}
+ul.Function2 { /*農業小百科的 html <ul class="Function2"> */
+	text-align: right;
+}
+.Function2 li {
+	margin-left: 1px;
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+.Function2 a {
+	padding: 3px 4px 3px 24px;
+	text-decoration: none;
+	color: #555;
+}
+.Function2 a:hover {
+	color: #000;
+}
+.Function2 a.Track {
+	background:  url("../images/func_bg_track.gif") no-repeat 0px 0px;
+}
+.Function2 a.Print {
+	background:  url("../images/func_bg_print.gif") no-repeat 0px 0px;
+}
+.Function2 a.Back {
+	background:  url("../images/func_bg_back.gif") no-repeat 0px 0px;
+}
+.Function2 a.Forward {
+	background:  url("../images/func_bg_mail.gif") no-repeat 0px 0px;
+}
+/*	Added  By  Leo  2011-07-12  網頁瀏覽友善化    Start    */
+.Function2 a.Next{
+	background:  url("../images/func_bg_more.gif") no-repeat 0px 0px;
+}
+.Function2 a.List{
+	background:  url("../images/func_bg_word.gif") no-repeat 0px 0px;
+}
+/*	Added  By  Leo  2011-07-12  網頁瀏覽友善化     End     */

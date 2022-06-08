@@ -1,0 +1,77 @@
+﻿: @ codepage = 65001 
+   
+ response.expires = 0
+ response.charset="utf-8"
+ htprogcode = "dataedm"
+
+ dim basedsdid : basedsdid = "7"
+ dim ctunitid : ctunitid = "2162"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+   
+ 
+ sql = "select top 1 * from cudtgeneric where ictunit = " & ctunitid & " order by xpostdate desc"
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "<script>alert('找不到設定值');history.back();</script>"
+ else
+  dim stitle : stitle = ""
+  dim xbody : xbody = ""
+  if not rs.eof then
+   stitle = rs("stitle")
+   xbody = rs("xbody")
+  end if
+  set rs = nothing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               =stitle
+
+
+
+
+      =xbody
+
+
+
+
+
+
+
+
+
+
+  
+ end if  
+ 

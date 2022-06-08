@@ -1,0 +1,42 @@
+﻿
+  
+ sql = "" & _
+  " select top 5 icuitem, ictnode from giphitpage " & _
+  " group by icuitem, ictnode order by count(*) desc "
+ set rs = conn.execute(sql)
+ while not rs.eof
+  sql2 = "select stitle from cudtgeneric where icuitem = " & rs("icuitem")
+  set rs2 = conn.execute(sql2)
+  if not rs2.eof then 
+
+                      = rs("icuitem") :              = rs("ictnode") 
+              = rs2("stitle") 
+
+  
+  end if
+  
+  rs.movenext
+ wend
+
+
+
+
+  
+ sql = "" & _
+  " select top 20 icuitem, ictnode from giphitpage " & _
+  " group by icuitem, ictnode order by count(*) desc "
+ set rs = conn.execute(sql)
+ while not rs.eof
+  sql2 = "select stitle from cudtgeneric where icuitem = " & rs("icuitem")
+  set rs2 = conn.execute(sql2)
+  if not rs2.eof then 
+
+                      = rs("icuitem") :              = rs("ictnode") 
+              = rs2("stitle") 
+
+  
+  end if
+  
+  rs.movenext
+ wend
+ 

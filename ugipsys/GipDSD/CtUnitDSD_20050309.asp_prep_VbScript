@@ -1,0 +1,270 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+reg.showclientstyle.value="Cx_0dummy"
+reg.formclientstyle.value="Cx_0dummy"
+reg.showclientsqlorderby.value="Cx_0dummy"
+reg.showclientsqlorderbytype.value="Cx_0dummy"
+reg.formclientcat.value="Cx_0dummy"
+reg.formclientcatreflookup.value="Cx_0dummy"
+redim refarray(1,0)
+Cx_0dummy
+
+ redim preserve refarray(1,Cx_0dummy)
+ refarray(0,Cx_0dummy)="Cx_0dummy"
+ refarray(1,Cx_0dummy)="Cx_0dummy"
+Cx_0dummy 
+
+sub formclientcat_onchange()
+ if reg.formclientcat.value="" then 
+  reg.formclientcatreflookup.value = ""
+  exit sub
+ end if
+ for k=0 to ubound(refarray,2)
+  if refarray(0,k)=reg.formclientcat.value then
+   reg.formclientcatreflookup.value=refarray(1,k)
+  end if
+ next
+end sub
+
+sub button1_onclick
+  set xitem=document.all.item("reg")
+    for i=0 to xitem.length-1         
+           if xitem.item(i).tagname = "input" then
+                 if left(xitem.item(i).name,12)="htx_fieldseq" then
+                xn=mid(xitem.item(i).name,13)              
+                 if reg("htx_fieldseq"&xn).value ="" then 
+                                   alert "顯示順序欄位不能空白且須為數字(小於999)"
+                                   reg("htx_fieldseq"&xn).focus
+                                   exit sub
+                              end if
+                 if not isnumeric(reg("htx_fieldseq"&xn).value) then 
+                                   alert "顯示順序欄位不能空白且須為數字"
+                                   reg("htx_fieldseq"&xn).focus
+                                   exit sub
+                              end if                              
+                        end if
+           end if 
+   next 
+   if reg.formclientcat.value<>"" and reg.formclientcatreflookup.value="" then
+    alert "選擇分類欄位後, 必須輸入參照代碼!"
+    exit sub
+   end if
+    reg.submit   
+end sub
+
+ 

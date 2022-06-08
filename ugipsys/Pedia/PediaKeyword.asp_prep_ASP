@@ -1,0 +1,175 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+htprogcode="pedia01"
+htprogprefix="pedia" 
+
+dim ibasedsdid : ibasedsdid = "40"
+dim ictunitid : ictunitid = "1507"
+const keywordcount = 10
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_selecttree_859552413()
+   CxMethod_ASP_dbfunc_874801204()
+  
+ sub doupdatedb()  
+  keyword = ""
+  for each form in xup.form 
+   if form.name <> "submittask" and form.name <> "stitle" then    
+    if form <> "" then
+     keyword = keyword & form & ";"
+    end if    
+   end if
+  next
+  sql = "update cudtgeneric set xkeyword = '" & keyword & "' where icuitem = " & request.querystring("icuitem")    
+  conn.execute(sql)
+ end sub 
+
+   sub showdonebox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+                              =htprogprefix
+
+
+
+   end sub 
+  
+ apath = server.mappath(htuploadpath) & "\"
+
+ if request.querystring("phase")="edit" then
+  set xup = server.createobject("tabs.upload")
+ else
+  set xup = server.createobject("tabs.upload")
+  xup.codepage=65001
+  xup.start apath
+ end if
+
+ function xupform(xvar)
+  xupform = xup.form(xvar)
+ end function
+     
+ if xupform("submittask") = "update" then
+  
+  errmsg = ""  
+  if errmsg <> "" then
+   editinbothcase()
+  else
+   doupdatedb()
+   showdonebox("資料更新成功！")
+  end if   
+ else  
+  if errmsg <> "" then showerrbox()  
+  showform()  
+ end if
+
+   
+sub showform() 
+  
+ sql = "select stitle, xkeyword from cudtgeneric where icuitem = " & request.querystring("icuitem")
+ set rs = conn.execute(sql)
+ if rs.eof then
+  showdonebox("無此資料!")
+ else 
+  dim keyworditem()
+  stitle = rs("stitle")
+  keywords = rs("xkeyword")  
+  if keywords = "" then
+   for i = 0 to keywordcount - 1
+    redim preserve keyworditem(i)
+    keyworditem(i) = ""
+   next
+  else
+   items = split(keywords, ";")
+   for i = 0 to keywordcount - 1
+    redim preserve keyworditem(i)
+    if i <= ubound(items) then     
+     if items(i) <> "" then     
+      keyworditem(i) = items(i)
+     else
+      keyworditem(i) = ""
+     end if
+    else
+     keyworditem(i) = ""
+    end if
+   next   
+  end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                           =request.querystring("icuitem")
+
+
+
+
+                                                          =stitle
+
+    for i = 0 to keywordcount - 1 
+
+     if i = 0 then 
+
+     else 
+
+     end if 
+
+                          =i:                =i:            =keyworditem(i)
+                         =i:               =i:                                                                           =i
+                         =i:               =i:                                                                          =i
+
+
+    next
+
+
+
+
+
+
+   
+ end if
+ set rs = nothing
+end sub 
+
+
+
+
+
+
+
+
+
+
+                                                        =request.querystring("icuitem")
+
+
+
+                                                         =request.querystring("icuitem") 

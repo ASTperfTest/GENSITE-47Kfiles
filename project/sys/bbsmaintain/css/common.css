@@ -1,0 +1,141 @@
+/*	
+	國工局全球網 - All Rights Reserved.
+	
+	Produicted By 凌網科技 HyWeb Tech. Co., Ltd.2004.
+	http://www.hyweb.com.tw　
+	HyWeb CSS Style(writed by m10/Carol13 Chen) 2004/02/26
+*/
+
+
+/* 共用設定  ---------------- */
+#Body {
+	width: 769px;
+}
+
+.More {
+	font-size: 12px;
+	float: right;
+	margin-right: 30px;
+	text-decoration: none;
+	background: url(../images/arrow1.gif) no-repeat 0px 1px;
+	padding-left: 15px;
+}
+.More:hover {
+	text-decoration: underline;
+}
+ul {
+	margin-top: 0px;
+	margin-bottom: 6px;
+	margin-left: 15px;
+
+}
+.home {
+	font-size: 13px;
+	color: #000000;
+	text-decoration: none;
+	background-image: url(../images/icn_home.gif);
+	background-repeat: no-repeat;
+	height: 20px;
+	position: relative;
+	top: 58px;
+	right: 10px;
+	padding-top: 2px;
+	padding-left: 20px;
+
+}
+.home:hover {
+	color: #0066CC;
+}
+
+/* Smenu 右上功能選項------- */
+.Smenu {
+	margin-top: 3px;
+	font-size: 12px;
+	color: #F0F0F0;
+	text-decoration: none;
+	background-image: url(../images/bullet_Smenu.gif);
+	background-repeat: no-repeat;
+	padding-left: 8px;
+	padding-right: 5px;
+}
+.Smenu:hover {
+	color: #FFFF66;
+	text-decoration: underline;
+}
+
+
+/* Cmenu 內頁主選單------- */
+.Cmenu {
+	font-size: 13px;
+	text-decoration: none;
+	background-image: url(../images/bullet_Cmenu.gif);
+	background-repeat: no-repeat;
+	padding-left: 12px;
+	padding-right: 8px;
+	background-position: 2px 3px;
+	white-space: nowrap;
+}
+.Cmenu:hover {
+	background-image: url(../images/bullet_Cmenum.gif);
+	text-decoration: underline;
+}
+a {
+	color: #1D4B9F;
+}
+a:hover {
+	color: #BB0000;
+}
+/* IndexDown---------頁底版權資訊 ------- */
+#IndexDown {
+	font-size: 12px;
+	color: #F0F0F0;
+	height: 80px;
+	clear:both;
+	border-top: 5px solid #C1C1C1;
+	background: #30956F url(../images/pdown_bg.gif) no-repeat left bottom;
+	padding: 12px 8px 8px;
+	margin-top: 30px;
+}
+#IndexDown .mail {
+	background: url(../images/down_icon_mail.gif) no-repeat;
+	color: #FFFF99;
+	text-decoration: none;
+	padding-left: 20px;
+}
+#IndexDown .left {
+	font-size: 12px;
+	float: left;
+	width: 210px;
+	margin-left: 3px;
+
+}
+#IndexDown .left a {
+	color: #FFFF99;
+	text-decoration: none;
+}
+#IndexDown .left a:hover {
+	color: #FFFFFF;
+	text-decoration: underline;
+}
+#IndexDown .right {
+	float: right;
+	text-align: left;
+	width: 520px;
+}
+#IndexDown .ie {
+	color: #C4F09B;
+}
+#IndexDown .add {
+	font-size: 12px;
+	margin-top: 5px;
+}
+
+#IndexDown .time {
+	margin-top: 5px;
+}
+#IndexDown .time a {
+	text-decoration: none;
+}
+#IndexDown .time a:hover {
+	text-decoration: underline;
+}

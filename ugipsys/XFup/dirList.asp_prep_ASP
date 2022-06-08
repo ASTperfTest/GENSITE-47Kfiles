@@ -1,0 +1,59 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "gc1ap5" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_xdbutil_1468464061()
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+dim nowcount
+set fso = server.createobject("scripting.filesystemobject")
+
+
+xpath = request("xpath")
+if xpath = "" then xpath = "/"
+if right(xpath,1)<>"/" then xpath = xpath & "/"
+
+
+response.write "treeroot = gfld(""forumtoc"", """ & session("uploadpath") & """, ""fileman.asp?xpath="")" & vbcrlf
+ nowcount = 0
+
+ traversefolder server.mappath(xpath), "treeroot", ""
+
+sub traversefolder(zpath,zparent,vpath)
+ set fldr = fso.getfolder(zpath)
+
+   np = vpath
+  if right(np,1)<>"/" then np = np & "/"
+  if left(np,1)="/" then np = mid(np,2)
+ for each sf in fldr.subfolders
+   catlink = "filelist.aspx?path="& server.urlencode(sf.path)
+   catlink = "fileman.asp?xpath="& np & server.urlencode(sf.name)
+'   catlink = "filelist.asp?path="& server.urlencode(sf.path)
+   set grandson = sf.subfolders
+   if grandson.count > 0 then
+  nowcount = nowcount + 1
+  response.write "n"& nowcount &"= insfld(" & zparent &", gfld(""forumtoc"", """& sf.name & """, """& catlink &"""))" & vbcrlf
+   traversefolder sf.path , "n"& nowcount, np & sf.name
+   else
+  response.write "insdoc("& zparent &", glnk(""forumtoc"", """& sf.name  &""", """& catlink &"""))" & vbcrlf
+   end if
+ next 
+end sub
+ 

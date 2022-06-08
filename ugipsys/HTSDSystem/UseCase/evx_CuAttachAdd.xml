@@ -1,0 +1,83 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<OperationContract>
+	<Code>GC1AP1</Code>
+	<APCat>GC1</APCat>
+	<formSpec>CuAttachAdd</formSpec><htPattern>genMDAdd</htPattern>
+	<htSpecPattern>AEdit</htSpecPattern>
+	<htCodePath>/GipEdit</htCodePath>
+	<Version>
+		<Date>2003/5/31</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<FromEvent type="Client" id="10"/>
+		<ContractSpec>
+			<Name>evx_CuAttachAdd</Name>
+			<Type>Client</Type>
+			<ResponsibilityList>
+				<Responsibility>[MDADD]新增</Responsibility>
+			</ResponsibilityList>
+			<PreConditionList>
+				<PreCondition></PreCondition>
+			</PreConditionList>
+			<AnchorList>
+				<Anchor>
+					<AnchorLabel>回前頁</AnchorLabel>
+					<AnchorType>Back</AnchorType>
+					<AnchorDesc>回前頁</AnchorDesc>
+					<AnchorURI></AnchorURI>
+					<checkRight></checkRight>
+					<AnchorPos>Top</AnchorPos>
+				</Anchor>
+			</AnchorList>
+			<DescriptionList>
+				<Description></Description>
+			</DescriptionList>
+			<RefObjectList>
+				<RefObject xRef="" xUpdate=""></RefObject>
+			</RefObjectList>
+			<OutputList>
+				<Output></Output>
+			</OutputList>
+			<PostConditionList>
+				<PostCondition eop="">
+					<!-- instanceCreate/instanceDelete/attributeModify/AssocFormed/AssocBroken -->
+				</PostCondition>
+			</PostConditionList>
+			<htDEntityList>
+				<htDEntity xRef="Y" xUpdate="Y">CuDTAttach</htDEntity>
+			</htDEntityList>
+			<CrossReferenceList>
+				<CrossReference></CrossReference>
+			</CrossReferenceList>
+			<NoteList>
+				<Note></Note>
+			</NoteList>
+			<ExceptionList>
+				<Exception></Exception>
+			</ExceptionList>
+			<ActorList>
+				<Actor></Actor>
+			</ActorList>
+		</ContractSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+</OperationContract>

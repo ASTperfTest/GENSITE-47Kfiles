@@ -1,0 +1,132 @@
+﻿
+
+
+
+
+function script___2125350358() {src("/js/jquery.autocomplete.js");}
+
+         $(function() {
+            $("#ctl00_ContentPlaceHolder1_txtSubject").autocomplete('AutoComplete.aspx', { delay: 10 });
+         });
+            function IsDate(obj) {
+                var Vdate = obj.value;
+                if (Vdate == "") return true;
+                var MinYear = 1900;
+                var Year;
+                var Month;
+                var Day;
+                var reg = /^(\d{4})([-\/])(\d{1,2})\2(\d{1,2})$/;
+                if (!reg.test(Vdate)) {
+                    alert("日期格式不正確。");
+                    obj.focus();
+                    return false;
+                }
+                else {
+                    Year = RegExp.$1;
+                    Month = RegExp.$3;
+                    Day = RegExp.$4;
+                    if (Year < MinYear) {
+                        alert("日期中年份太小。");
+                        obj.focus();
+                        return false;
+                    }
+                    if (!(Month < 13 && Month > 0)) {
+                        alert("日期中月份不正確。");
+                        obj.focus();
+                        return false;
+                    }
+                    if (!(Day > 0 && Day < 32)) {
+                        alert("日期不正確。");
+                        obj.focus();
+                        return false;
+                    }
+                    if (Month == 2) {
+                        if (0 == Year % 4 && ((Year % 100 != 0) || (Year % 400 == 0))) {
+                            if (Day > 29) {
+                                alert("2月份不能大於29天。");
+                                obj.focus();
+                                return false;
+                            }
+                        }
+                        else {
+                            if (Day > 28) {
+                                alert("2月份不能大於28天。");
+                                obj.focus();
+                                return false;
+                            }
+                        }
+                    }
+                    else {
+                        if (Month == 1 || Month == 3 || Month == 5 || Month == 7 || Month == 8 || Month == 10 || Month == 12) {
+                            if (Day > 31) {
+                                alert("日期不能超過31天。");
+                                obj.focus();
+                                return false;
+                            }
+                        }
+                        else {
+                            if (Day > 30) {
+                                alert("日期不能超過30天。");
+                                obj.focus();
+                                return false;
+                            }
+                        }
+                    }
+
+                }
+                return true;
+            }             
+    
+
+function script____188700534() {src("/js/datepicker.js");}
+
+        $(document).ready(function(e) {
+            $("#ctl00_ContentPlaceHolder1_txtFrom").datepicker();
+            $("#ctl00_ContentPlaceHolder1_txtTo").datepicker();
+        })
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

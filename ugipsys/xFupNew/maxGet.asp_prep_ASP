@@ -1,0 +1,87 @@
+﻿: @ codepage = 65001 :   
+'// purpose: ���f download any type of files from server.
+'// date: 2006/7/13
+
+response.buffer = true
+response.charset="utf-8"
+response.clear
+
+htprogcode = "gc1ap5"
+
+   CxMethod_ASP_server_1606199358()
+  
+    dim xfile
+    dim sourcefile
+    dim mystream
+    dim fso
+    dim myfile
+
+    dim strmessage              '// message
+    dim bhaveerror              '// is error flag.
+
+
+    '// request
+    xfile = request("xfile")
+
+    '// initial
+    bhaveerror = fasle
+    strmessage = ""
+    sourcefile = server.mappath(xfile)
+
+    set mystream = server.createobject("adodb.stream")
+    mystream.open
+    mystream.type = 1
+
+    set fso = server.createobject("scripting.filesystemobject")
+
+
+    '// processing
+
+    '// step 1: check file exist.
+    if isfileexist(sourcefile) = 0 then
+        strmessage = "<h1>error:</h1>" & sourcefile & " does not exist<p>"
+        bhaveerror = true
+    end if
+
+
+    if not bhaveerror then
+        '// step 2: get file info.
+        set myfile = fso.getfile(sourcefile)
+        intfilelength = myfile.size
+        mystream.loadfromfile(sourcefile)
+
+        response.addheader "content-disposition", "attachment; filename=" & myfile.name
+        response.addheader "content-length", intfilelength
+        response.charset = response.charset
+        response.contenttype = "application/octet-stream"
+        response.binarywrite mystream.read
+        response.flush
+    else
+        response.write strmessage
+    end if
+
+set mystream = nothing
+set myfile = nothing
+set fso = nothing
+
+'//================================================================================
+'//================================================================================
+
+
+'// purpose: check a file is exist.
+'// return: 0: not exist.
+'// return: 1: exist.
+'// ex: ret = isfileexist(inputfilepath)
+function isfileexist(byval inputfilepath)
+    dim returnvalue
+    dim fsocheck
+
+    returnvalue = 0
+    set fsocheck = server.createobject("scripting.filesystemobject")
+    if fsocheck.fileexists(inputfilepath) then
+        returnvalue = 1
+    end if
+
+    isfileexist = returnvalue
+end function
+ 

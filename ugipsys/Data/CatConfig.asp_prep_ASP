@@ -1,0 +1,86 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_server_1606199358()
+  
+ catid = request.form("catid") 
+ xtype = request.querystring("xtype")
+ catname = request.form("catname")
+ 
+ if xtype = "add" then
+       sql = "select * from datacat where language = n'"& language &"' and datatype = n'"& datatype &"' and catname = "& nohtmlcode(catname) 
+       set rs = conn.execute(sql) 
+        if not rs.eof then 
+
+
+                                                   =language:             =datatype
+
+        else
+     sql1 = "select * from datacat where language = n'"& language &"' and datatype = n'"& datatype &"' order by catshoworder"
+     set rs1 = conn.execute(sql1)
+  if not rs1.eof then
+       itemorder = 1
+    do while not rs1.eof
+      itemorder = itemorder + 1
+      sql2 = "update datacat set catshoworder =" & itemorder & " where catid =" & rs1("catid")
+      set rs2 = conn.execute(sql2)
+    rs1.movenext
+    loop
+  end if
+      sql = "insert into datacat (language, datatype, catname, edituserid, editdate,catshoworder) values (n'"& language &"',n'"& datatype &"',"& nohtmlcode(catname) &",n'"& session("userid") &"',n'"& date() &"',1)"
+      conn.execute(sql)
+      msg = "新增完成！" 
+        end if
+ elseif xtype = "edit" then
+       sql = "select * from datacat where language = n'"& language &"' and datatype = n'"& datatype &"' and catname = "& nohtmlcode(catname) &" and catid <> "& catid
+       set rs = conn.execute(sql) 
+        if not rs.eof then 
+
+
+                                                   =language:             =datatype
+
+        else
+   sql = "update datacat set catname = "& nohtmlcode(catname) &" where catid ="& catid
+   set rs = conn.execute(sql)
+   msg = "編修完成！"
+        end if
+ elseif xtype = "del" then
+  sql = "delete from datacat where catid ="& catid
+  set rs = conn.execute(sql)
+
+     sql1 = "select * from datacat where language = n'"& language &"' and datatype = n'"& datatype &"' order by catshoworder"
+     set rs1 = conn.execute(sql1)
+  if not rs1.eof then
+       itemorder = 0
+    do while not rs1.eof
+      itemorder = itemorder + 1
+      sql2 = "update datacat set catshoworder =" & itemorder & " where catid =" & rs1("catid")
+      set rs2 = conn.execute(sql2)
+    rs1.movenext
+    loop
+  end if
+  msg = "刪除完成！"
+ elseif xtype = "orderby" then
+  catidarrar = split(catid,",")
+  nowshoworder = 0
+   for xno = 0 to ubound(catidarrar)
+    nowshoworder = nowshoworder + 1
+  sql2 = "update datacat set catshoworder =" & nowshoworder & " where catid ="& catidarrar(xno)
+  set rs2 = conn.execute(sql2)
+   next
+   msg = "排序完成！"
+ end if
+
+function nohtmlcode(datacode)
+  newdata = "" 
+  if datacode <> "" then
+   newdate = replace(datacode,"'","''")
+   newdate = replace(newdate,"<","&lt;")
+   newdate = replace(newdate,">","&gt;")
+   nohtmlcode = "'" & newdate & "'"
+  end if
+end function
+
+
+
+           =msg
+                                                 =language:             =datatype 

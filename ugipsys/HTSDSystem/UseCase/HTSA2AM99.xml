@@ -1,0 +1,148 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<UseCase>
+	<Name>欄位測試</Name>
+	<Code>HTSA2AM99</Code>
+	<APCat>HTsa0A</APCat>
+	<Version>
+		<Date>2002/4/22</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<ExpandedSpec>
+			<Type>primary</Type>
+			<Type>essential</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<Purpose></Purpose>
+			<PreCondition>
+				<UseCase></UseCase>
+			</PreCondition>
+			<DescriptionList>
+				<Description>
+				</Description>
+			</DescriptionList>
+			<TypicalCourseOfEvents>
+				<Event type="Client" id="0" ContractXML="evx_CodeTableList.xml">
+				代碼定義List
+				</Event>
+				<Event type="Client" id="10" ContractXML="evx_CodeTableQuery.xml">
+				代碼定義查詢
+				</Event>
+				<Event type="Client" id="11" ContractXML="evx_ABList.xml">
+				BList測試
+				</Event>
+				<Event type="Client" id="12" ContractXML="evx_AB2List.xml">
+				B2List測試
+				</Event>
+				<Event type="Client" id="13" ContractXML="evx_ABAList.xml">
+				BAList測試
+				</Event>
+				<Event type="Client" id="21" ContractXML="evx_AAQSList.xml">
+				問卷條列
+				</Event>
+				<Event type="Client" id="22" ContractXML="evx_AAQSAdd.xml">
+				問卷新增
+				</Event>
+				<Event type="Client" id="23" ContractXML="evx_AAQSEdit.xml">
+				問卷編輯
+				</Event>
+				<Event type="Client" id="25" ContractXML="evx_AAQSAList.xml">
+				問卷題目條列
+				</Event>
+				<Event type="Client" id="26" ContractXML="evx_AAQSAPsetList.xml">
+				問卷題目新增選取
+				</Event>
+				<Event type="Client" id="27" ContractXML="evx_AAQSAPsetQuery.xml">
+				問卷題目新增查詢
+				</Event>
+				<Event type="Client" id="31" ContractXML="evx_AAQQList.xml">
+				題目條列
+				</Event>
+				<Event type="Client" id="32" ContractXML="evx_AAQQAdd.xml">
+				題目新增
+				</Event>
+				<Event type="Client" id="33" ContractXML="evx_AAQQEdit.xml">
+				題目編輯
+				</Event>
+				<Event type="Client" id="34" ContractXML="evx_AAQQQuery.xml">
+				題目查詢
+				</Event>
+				<Event type="Client" id="41" ContractXML="evx_AAimgList.xml">
+				附圖條列
+				</Event>
+				<Event type="Client" id="42" ContractXML="evx_AAimgAdd.xml">
+				附圖新增
+				</Event>
+				<Event type="Client" id="43" ContractXML="evx_AAimgEdit.xml">
+				附圖編輯
+				</Event>
+				<Event type="Client" id="44">
+				附圖查詢
+				</Event>
+			</TypicalCourseOfEvents>
+		</ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+	<Version>
+		<Date>2002/4/22</Date>
+		<Author>chen</Author>
+		<Kind>HighLevel</Kind>
+		<HighLevelSpec>
+			<Type>primary</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<DescriptionList>
+				<Description>
+				</Description>
+			</DescriptionList>
+			<VisitRecordList>
+				<VisitRecord>
+					<Who/>
+					<Date/>
+					<Location/>
+					<comment/>
+				</VisitRecord>
+			</VisitRecordList>
+		</HighLevelSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject/>
+				<Description/>
+				<Who/>
+				<DueDate/>
+				<DoneDate/>
+				<Conclusion/>
+			</TBD>
+		</TBDList>
+	</Version>
+</UseCase>

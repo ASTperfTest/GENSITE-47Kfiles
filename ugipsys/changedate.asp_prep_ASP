@@ -1,0 +1,66 @@
+﻿: @ codepage = 65001 
+  
+ response.charset="utf-8"
+
+   CxMethod_ASP_client_1900334733()
+  
+ '新優質農家 產銷專欄
+ sql1 = "select * from cudtgeneric where ictunit = '126' and topcat ='01' order by icuitem"
+ set rs1 = conn.execute(sql1)
+
+ while not rs1.eof
+  sql_up = "update cudtgeneric set newtopcat ='02' where icuitem = '"& rs1("icuitem") &"'"
+  conn.execute(sql_up)
+  rs1.movenext
+ wend
+ 
+ sql2 = "select * from cudtgeneric where ictunit = '126' and topcat ='02' order by icuitem"
+ set rs2 = conn.execute(sql2)
+ while not rs2.eof
+  sql_up2 = "update cudtgeneric set ictunit = '2766' , newtopcat ='01' where icuitem = '"& rs2("icuitem") &"'"
+  conn.execute(sql_up2)
+  rs2.movenext
+ wend
+ 
+ sql3 = "select * from cudtgeneric where ictunit = '126' and topcat ='03' order by icuitem"
+ set rs3 = conn.execute(sql3)
+ while not rs3.eof
+  sql_up3 = "update cudtgeneric set newtopcat ='01' where icuitem = '"& rs3("icuitem") &"'"
+  conn.execute(sql_up3)
+  rs3.movenext
+ wend
+ 
+ sql4 = "select * from cudtgeneric where ictunit = '126' and topcat ='04' order by icuitem"
+ set rs4 = conn.execute(sql4)
+ while not rs4.eof
+  sql_up4 = "update cudtgeneric set ictunit = '2766' , newtopcat ='02' where icuitem = '"& rs4("icuitem") &"'"
+  conn.execute(sql_up4)
+  rs4.movenext
+ wend
+ 
+ sql5 = "select * from cudtgeneric where ictunit = '126' and topcat ='05' order by icuitem"
+ set rs5 = conn.execute(sql5)
+ while not rs5.eof
+  sql_up5 = "update cudtgeneric set ictunit = '2766' , newtopcat ='03' where icuitem = '"& rs5("icuitem") &"'"
+  conn.execute(sql_up5)
+  rs5.movenext
+ wend
+ 
+ '農業與生活
+ sql6 = "select * from cudtgeneric where ictunit = '135' order by icuitem"
+ set rs6 = conn.execute(sql6)
+ while not rs6.eof
+  sql_up6 = "update cudtgeneric set topcat ='02' where icuitem = '"& rs6("icuitem") &"'"
+  conn.execute(sql_up6)
+  rs6.movenext
+ wend
+ '主題報導專欄
+ sql7 = "select * from cudtgeneric where ictunit = '299' order by icuitem"
+ set rs7 = conn.execute(sql7)
+ while not rs7.eof
+  sql_up7 = "update cudtgeneric set ictunit = '2766' , newtopcat ='04' where icuitem = '"& rs7("icuitem") &"'"
+  conn.execute(sql_up7)
+  rs7.movenext
+ wend
+ response.write "轉資料完成"
+ 

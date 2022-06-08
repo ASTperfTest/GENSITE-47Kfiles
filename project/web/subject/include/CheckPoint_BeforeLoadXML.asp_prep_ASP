@@ -1,0 +1,102 @@
+﻿:  CxMethod_ASP_client_1527114747()
+  
+function alertandgosubjectlist(msg, mp)    
+
+
+
+
+
+
+
+                 =msg 
+          if isnumeric(mp) and mp<>"" then 
+                                                         =mp 
+          else
+
+          end if
+
+
+
+  
+response.status = "403 forbidden"
+response.end
+end function
+
+function checkpoint_beforeloadxml(mp, ctnode, xitem)
+
+    if session("backendsetup") <> "" then
+        '從後台瀏覽，不檢查目錄、文章是否開放
+        exit function        
+    end if
+
+    
+    if ctnode = "" then    
+        if not isnumeric(mp) or mp="" then
+            alertandgosubjectlist "主題館不存在或未開放!!", mp
+        end if    
+            
+        sqlstr ="select * from cattreeroot where ctrootid = " & mp    
+        sqlstr = sqlstr & vbcrlf & " and inuse ='y'"
+            
+        set rs = conn.execute(sqlstr)
+        if rs.eof then 
+            alertandgosubjectlist "主題館不存在或未開放!!", ""
+            conn.close()
+            set conn = nothing
+        end if
+    else
+        if not isnumeric(ctnode) then
+            alertandgosubjectlist "目錄不存在或未開放!!", mp
+        end if  
+                
+        sqlstr=""
+        sqlstr = sqlstr & vbcrlf & " declare @ctnodeid int "
+        sqlstr = sqlstr & vbcrlf & " set @ctnodeid = " & ctnode
+        sqlstr = sqlstr & vbcrlf & " with node_tree(ctrootid, dataparent, ctnodeid, inuse) as"
+        sqlstr = sqlstr & vbcrlf & " ("
+        sqlstr = sqlstr & vbcrlf & "  select "
+        sqlstr = sqlstr & vbcrlf & "    ctrootid"
+        sqlstr = sqlstr & vbcrlf & "   ,dataparent"
+        sqlstr = sqlstr & vbcrlf & "   ,ctnodeid"
+        sqlstr = sqlstr & vbcrlf & "   ,inuse"
+        sqlstr = sqlstr & vbcrlf & "  from cattreenode where ctnodeid = @ctnodeid "
+        sqlstr = sqlstr & vbcrlf & "  union all"
+        sqlstr = sqlstr & vbcrlf & "  select "
+        sqlstr = sqlstr & vbcrlf & "    cattreenode.ctrootid"
+        sqlstr = sqlstr & vbcrlf & "   ,cattreenode.dataparent"
+        sqlstr = sqlstr & vbcrlf & "   ,cattreenode.ctnodeid"
+        sqlstr = sqlstr & vbcrlf & "   ,cattreenode.inuse"
+        sqlstr = sqlstr & vbcrlf & "  from node_tree"
+        sqlstr = sqlstr & vbcrlf & "  inner join cattreenode on node_tree.dataparent = cattreenode.ctnodeid"
+        sqlstr = sqlstr & vbcrlf & " )"
+        sqlstr = sqlstr & vbcrlf & " select * from node_tree where inuse != 'y'"
+        sqlstr = sqlstr & vbcrlf & " union"
+        sqlstr = sqlstr & vbcrlf & " select" 
+        sqlstr = sqlstr & vbcrlf & "   ctrootid"
+        sqlstr = sqlstr & vbcrlf & "  ,0 as dataparent"
+        sqlstr = sqlstr & vbcrlf & "  ,0 as ctnodeid"
+        sqlstr = sqlstr & vbcrlf & "  ,inuse "
+        sqlstr = sqlstr & vbcrlf & " from cattreeroot "
+        sqlstr = sqlstr & vbcrlf & " where inuse != 'y' and ctrootid in (select ctrootid from cattreenode where ctnodeid = @ctnodeid);"
+
+        set rs = conn.execute(sqlstr)
+        if not rs.eof then 
+            alertandgosubjectlist "目錄不存在或未開放!!", mp
+            conn.close()
+            set conn = nothing
+        end if
+    end if
+    
+    if isnumeric(xitem) and xitem<>"" then
+        sqlstr ="select icuitem from cudtgeneric where fctupublic = 'y' and icuitem = " & xitem
+        set rs = conn.execute(sqlstr)
+        if rs.eof then 
+            alertandgosubjectlist "文件不存在或未開放!!", mp
+            conn.close()
+            set conn = nothing
+        end if        
+        
+    end if
+    
+end function
+ 

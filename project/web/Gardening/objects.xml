@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net" xmlns:db="http://www.springframework.net/database">
+  <object id="adoTemplate" type="Spring.Data.Core.AdoTemplate, Spring.Data">
+    <property name="DbProvider" ref="DbProvider"/>
+    <property name="DataReaderWrapperType" value="Spring.Data.Support.NullMappingDataReader, Spring.Data"/>
+  </object>
+
+  <object id="AdoEntryDao" type="Gardening.Core.Persistence.ADO.EntryDao,Gardening.Core">
+    <property name="AdoTemplate" ref="adoTemplate"/>
+  </object>
+
+  <object id="AdoImgFileDao" type="Gardening.Core.Persistence.ADO.ImgFileDao,Gardening.Core">
+    <property name="AdoTemplate" ref="adoTemplate"/>
+  </object>
+
+  <object id="AdoOwnerDao" type="Gardening.Core.Persistence.ADO.OwnerDao,Gardening.Core">
+    <property name="AdoTemplate" ref="adoTemplate"/>
+  </object>
+
+  <object id="GardeningService" type="Gardening.Core.Service.GardeningService,Gardening.Core">
+    <property name="EntryDao" ref="AdoEntryDao"/>
+    <property name="ImgFileDao" ref="AdoImgFileDao"/>
+    <property name="OwnerDao" ref="AdoOwnerDao"/>
+  </object>
+
+  <object type="Spring.Objects.Factory.Config.PropertyPlaceholderConfigurer, Spring.Core">
+    <property name="ConfigSections" value="databaseSettings"/>
+  </object>
+  <db:provider id="DbProvider" provider="SqlServer-2.0"
+       connectionString="Server=${db.datasource};initial catalog=${db.database};User ID=${db.user};Password=${db.password};"/>
+</objects>

@@ -1,0 +1,60 @@
+@charset "utf-8";
+/*   CSS Document */
+
+/*----------------------------------------------------Search-------------*/
+.Search {
+	width: 170px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+.Search .Head {
+	font-size: 15px;
+	color: #000000;
+	background: url(../images/right_func/func_bg02.gif) no-repeat;
+	padding-left: 8px;
+	padding-top: 4px;
+	letter-spacing: 0.15em;
+	text-align: center;
+	height: 24px;
+}
+.Search form {
+	margin: 0px 0px 7px;
+	padding-bottom: 5px;
+	padding-left: 8px;
+	background: #EEEEEE;
+	padding-top: 10px;
+	border-bottom-width: 3px;
+	border-bottom-style: solid;
+	border-bottom-color: #9F9F9F;
+}
+.Search form .Text {
+	display: block;
+	font-size: 12px;
+	border: 1px solid #888888;
+	margin-bottom: 1px;
+}
+.Search form .Button {
+	font-size: 12px;
+	color: #0E0C2C;
+	text-decoration: none;
+	background: url(../images/SubmitBg.gif) repeat-x;
+	padding-top: 3px;
+	border-top: 1px solid #cccccc;
+	border-right: 1px solid #888888;
+	border-bottom: 1px solid #888888;
+	border-left: 1px solid #cccccc;
+	padding-bottom: 0px;
+	padding-left: 1px;
+}
+.Search form a {
+	font-size: 12px;
+	text-decoration: none;
+	color: #9E0059;
+	background: url(../images/IconSearch.gif) no-repeat 2px 1px;
+	padding-left: 15px;
+	margin-left: 15px;
+}
+.Search form a:hover {
+	color: #FF0033;
+	text-decoration: underline;
+}

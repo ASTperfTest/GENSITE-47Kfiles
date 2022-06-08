@@ -1,0 +1,11 @@
+﻿
+
+
+
+          if (htprogright and 8) <> 0 then 
+
+           end if 
+
+          if (htprogright and 16) <> 0 and deleteflag then 
+
+         end if  

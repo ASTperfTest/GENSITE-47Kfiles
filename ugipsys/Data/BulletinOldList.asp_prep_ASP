@@ -1,0 +1,115 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_server_1606199358()
+  
+'===> 設定共有幾個欄位【請從 0 開始計算】
+ rowsno = 1
+  
+'===> 設定說明內容
+ readmetext = "※ 檢視請點選「"& subject &"」"
+
+'===> 設定 sql
+ deforderlist = ""
+
+    if request.form("selectkey") <> "" or (request.form("xfn_begindate") <> "" and request.form("xfn_enddate") <> "") then
+    setsql = "select distinct dataunit.unitid, dataunit.subject, dataunit.begindate, dataunit.enddate "&_
+    "from dataunit right outer join "&_
+         "datacontent on dataunit.unitid = datacontent.unitid where dataunit.datatype = n'"& datatype &"' and dataunit.language = n'"& language &"'"
+ end if
+ 
+     if request.form("xfn_begindate") <> "" and request.form("xfn_enddate") <> "" then
+      setsql = setsql & " and (('"& request.form("xfn_enddate") &"' between dataunit.begindate and dataunit.enddate) or ('"& request.form("xfn_begindate") &"' between dataunit.begindate and dataunit.enddate) or (dataunit.begindate between n'"& request.form("xfn_begindate") &"' and n'"& request.form("xfn_enddate") &"'))"
+     end if        
+  
+  if request.form("selectkey") <> "" then
+   setsql = setsql & " and (datacontent.content like n'%"& request.form("selectkey") &"%' or dataunit.subject like n'%"& request.form("selectkey") &"%')"
+  end if
+  
+'===> 欄位排序設定
+ orderfield = "" 
+ ordername = ""
+
+     
+
+   CxMethod_ASP_pagelist_head_2047408230()
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     =title
+
+
+
+
+
+
+
+
+             if (htprogright and 2)=2 then :                                      =language:             =datatype:            end if 
+
+
+
+
+
+
+
+
+
+
+                                                           =language:             =datatype
+
+
+
+
+
+
+
+
+
+
+
+
+
+   if sql <> "" then 
+
+   CxMethod_ASP_pagelist_body_2057145396()
+
+
+
+
+
+                                               =subject
+
+
+                for gxo=1 to setpagecon                                                               
+        if not rs.eof then 
+                                                 =gxo
+                        =rs("begindate"):      =rs("enddate")
+                                                           =language:                 =datatype:               =rs("unitid"):     =rs("subject")
+
+        rs.movenext                                                             
+        end if                                                             
+       next 
+
+
+
+   end if 
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_pagelist_end_1945342327() 

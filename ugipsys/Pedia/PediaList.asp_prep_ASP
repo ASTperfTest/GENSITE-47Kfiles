@@ -1,0 +1,247 @@
+﻿: @ codepage = 65001 
+  
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="資料清單"
+htprogcode="pedia01"
+htprogprefix="pedia" 
+
+dim ictunitid : ictunitid = session("pediaunitid")
+
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_checkgipconfig_1275316133()
+   CxMethod_ASP_dbutil_10064021()
+
+
+
+
+
+
+
+
+  
+ 
+ if request("submittask")="delete" then
+
+ elseif request("submittask")= "query" then
+ 
+  csql = "select count(*) from pedia inner join cudtgeneric on cudtgeneric.icuitem = pedia.gicuitem "
+  csql = csql & "left join member on pedia.memberid = member.account "
+  csql = csql & "where cudtgeneric.ictunit = " & ictunitid 
+  if request("stitle") <> "" then csql = csql & " and stitle like '%" & request("stitle") & "%' "
+  if request("xpostdates") <> "" then csql = csql & " and commendtime >= '" & request("xpostdates") & " 00:00:00' "
+  if request("xpostdatee") <> "" then csql = csql & " and commendtime <= '" & request("xpostdatee") & " 23:59:59' "
+  if request("fctupublic") <> "" then csql = csql & " and fctupublic = '" & request("fctupublic") & "' "
+  if request("xstatus") <> "" then csql = csql & " and xstatus = '" & request("xstatus") & "' "
+  if request("memberid") <> "" then 
+   csql = csql & " and ( memberid like '%" & request("memberid") & "%' or realname like '" & request("memberid") & "' "
+   csql = csql & " or nickname like '%" & request("memberid") & "%') "
+  end if  
+  
+  fsql = "cudtgeneric.*, pedia.*, codemain_1.mvalue as ispublicvalue, codemain.mvalue as isopenvalue, codemain_2.mvalue as catavalue, "
+  fsql = fsql & "member.realname, member.nickname "
+  fsql = fsql & "from cudtgeneric left outer join codemain on cudtgeneric.vgroup = codemain.mcode "
+  fsql = fsql & "and codemain.codemetaid = 'boolyn' left outer join codemain as codemain_2 on cudtgeneric.topcat = codemain_2.mcode "
+  fsql = fsql & "and codemain_2.codemetaid = 'pediacata' left outer join codemain as codemain_1 "
+  fsql = fsql & "on cudtgeneric.fctupublic = codemain_1.mcode and codemain_1.codemetaid = 'ispublic' "
+  fsql = fsql & "inner join pedia on cudtgeneric.icuitem = pedia.gicuitem "
+  fsql = fsql & "left outer join member on pedia.memberid = member.account "
+  fsql = fsql & "where cudtgeneric.ictunit = " & ictunitid
+  if request("stitle") <> "" then fsql = fsql & " and stitle like '%" & request("stitle") & "%' "
+  if request("xpostdates") <> "" then fsql = fsql & " and commendtime >= '" & request("xpostdates") & " 00:00:00' "
+  if request("xpostdatee") <> "" then fsql = fsql & " and commendtime <= '" & request("xpostdatee") & " 23:59:59' "
+  if request("fctupublic") <> "" then fsql = fsql & " and fctupublic = '" & request("fctupublic") & "' "
+  if request("xstatus") <> "" then fsql = fsql & " and xstatus = '" & request("xstatus") & "' "
+  if request("memberid") <> "" then 
+   fsql = fsql & " and ( memberid like '%" & request("memberid") & "%' or realname like '" & request("memberid") & "' "
+   fsql = fsql & " or nickname like '%" & request("memberid") & "%') "
+  end if
+  fsql = fsql & " order by cudtgeneric.xpostdate desc "
+  
+  session("basesql") = fsql
+  session("csql") = csql
+  
+  
+  elseif request("keep")="" then
+    
+  csql = "select count(*) from pedia inner join cudtgeneric on cudtgeneric.icuitem = pedia.gicuitem "
+  csql = csql & "inner join member on pedia.memberid = member.account "
+  csql = csql & "where cudtgeneric.ictunit = " & ictunitid 
+  
+  fsql = "cudtgeneric.*, pedia.*, codemain_1.mvalue as ispublicvalue, codemain.mvalue as isopenvalue, codemain_2.mvalue as catavalue, "
+  fsql = fsql & "member.realname, member.nickname "
+  fsql = fsql & "from cudtgeneric left outer join codemain on cudtgeneric.vgroup = codemain.mcode "
+  fsql = fsql & "and codemain.codemetaid = 'boolyn' left outer join codemain as codemain_2 on cudtgeneric.topcat = codemain_2.mcode "
+  fsql = fsql & "and codemain_2.codemetaid = 'pediacata' left outer join codemain as codemain_1 "
+  fsql = fsql & "on cudtgeneric.fctupublic = codemain_1.mcode and codemain_1.codemetaid = 'ispublic' "
+  fsql = fsql & "inner join pedia on cudtgeneric.icuitem = pedia.gicuitem "
+  fsql = fsql & "left join member on pedia.memberid = member.account "
+  fsql = fsql & "where cudtgeneric.ictunit = " & ictunitid
+  fsql = fsql & " order by cudtgeneric.xpostdate desc "
+  
+  session("basesql") = fsql
+  session("csql") = csql
+ 
+ end if
+
+ fsql = session("basesql") 
+ csql = session("csql")
+ 
+ nowpage = request.querystring("nowpage")  '現在頁數
+  perpagesize = cint(request.querystring("pagesize"))
+  if perpagesize <= 0 then  perpagesize = 50  
+
+  set rsc = conn.execute(csql)
+  totrec = rsc(0)       '總筆數
+  totpage = int(totrec / perpagesize + 0.999)
+
+  if cint(nowpage) < 1 then 
+    nowpage = 1
+  elseif cint(nowpage) > totpage then 
+    nowpage = totpage 
+  end if             
+
+ fsql = "select top " & nowpage * perpagesize & fsql
+
+ set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+' rsreg.cachesize = perpagesize
+
+'----------hyweb gip db connection patch----------
+' rsreg.open fsql, conn, 3, 1
+set rsreg =  conn.execute(fsql)
+ rsreg.cachesize = perpagesize
+'----------hyweb gip db connection patch----------
+
+
+ if not rsreg.eof then
+  if totrec > 0 then 
+      rsreg.pagesize = perpagesize       '每頁筆數
+      rsreg.absolutepage = nowpage      
+  end if    
+ end if   
+
+
+
+
+
+
+                                    =ictunitid
+
+
+
+
+
+
+
+                                                 =htprogprefix
+
+
+
+       if cint(nowpage) <> 1 then 
+
+              =htprogprefix:                           =(nowpage-1):             =perpagesize
+       end if 
+         =totrec
+
+                       if perpagesize=15 then:            end if
+                          if perpagesize=30 then:            end if
+                          if perpagesize=50 then:            end if
+                           if perpagesize=300 then:            end if
+
+
+
+     for ipage=1 to totpage 
+                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+       next 
+
+
+       if cint(nowpage)<>totpage then 
+                 =htprogprefix:                           =(nowpage+1):             =perpagesize
+
+       end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ if not rsreg.eof then   
+  for i = 1 to perpagesize
+   if rsreg("path") <> "" then
+    xurl = session("mywwwsiteurl") & rsreg("path")
+   else
+    xurl = ""
+   end if
+   'xurl = "http://www.boaf.gov.tw/boafwww/content.asp?mp=" & session("pvxdmp") & "&cuitem="  & rsreg("icuitem")
+   pkey = "icuitem=" & rsreg("icuitem")
+
+
+
+        if xurl <> "" then 
+                 =xurl
+        else 
+
+        end if 
+                                                            =pkey:                       =nowpage:             =perpagesize:     =rsreg("stitle")
+                              =rsreg("catavalue")
+                              =rsreg("isopenvalue")
+                              =rsreg("xpostdate")
+
+      
+      response.write rsreg("memberid") & "&nbsp; | &nbsp;" & rsreg("realname") & "&nbsp; | &nbsp;" & rsreg("nickname")
+    
+
+
+      
+      if rsreg("ispublicvalue") = "公開" then
+       response.write "通過"
+      else
+       response.write "不通過"
+      end if
+    
+
+                              =rsreg("xstatus")
+
+  
+      rsreg.movenext
+      if rsreg.eof then exit for 
+  next 
+
+
+
+
+
+   else 
+
+
+
+
+   end if 
+
+
+
+
+
+                                     =htprogprefix:                                                    =perpagesize
+
+
+
+
+                                     =htprogprefix:                           =nowpage
+
+
+
+                                     =htprogprefix:                           =nowpage:             =perpagesize 

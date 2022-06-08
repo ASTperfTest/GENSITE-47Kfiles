@@ -1,0 +1,12 @@
+﻿: @ codepage = 65001 
+   
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap = "單元資料維護"
+htprogfunc = "資料清單"
+htprogcode = "avote"
+htprogprefix = "attitudevote" 
+
+   CxMethod_ASP_server_1606199358() 

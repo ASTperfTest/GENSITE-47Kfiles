@@ -1,0 +1,49 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="主題單元管理"
+htprogfunc="項目節點清單"
+htprogcode="ge1t11"
+htprogprefix="ctunit" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+         =title
+
+   CxMethod_ASP_dbutil_10064021()
+  
+
+ set rsreg = server.createobject("adodb.recordset")
+ fsql = "select htx.*, r.ctrootname from cattreenode as htx join cattreeroot as r on r.ctrootid=htx.ctrootid" _
+  & " where ctunitid=" & pkstr(request("ctunitid"),"")
+ set rsreg = conn.execute(fsql)
+
+
+
+       =title
+
+
+
+
+
+                     =htprogfunc
+
+
+
+
+
+                     
+    while not rsreg.eof                  
+
+
+  =rsreg("ctrootname")
+
+
+  =rsreg("catname")
+
+
+      
+         rsreg.movenext
+    wend 
+    

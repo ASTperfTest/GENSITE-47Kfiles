@@ -1,0 +1,290 @@
+﻿: @ codepage = 65001 
+  
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap = "單元資料維護"
+htprogfunc = "資料清單"
+htprogcode = "avote"
+htprogprefix = "attitudevote" 
+
+dim ictunitid : ictunitid = "2180"
+
+
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+
+
+
+
+   sub showdonebox(lmsg, atype) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+       if atype = "1" then 
+
+       else 
+                               =htprogprefix:                    =request.querystring("nowpage"):             =request.querystring("pagesize")
+       end if 
+
+
+
+   end sub 
+  
+ if request("submittask") = "recover" then
+ 
+  if request("ckbox") = "" then
+   showdonebox "請選擇要恢復的意見", "1"
+   response.end
+  end if
+  dim ckbox1 : ckbox1 = request("ckbox") & ","
+  dim items1 : items1 = split(ckbox1, ",")
+  dim count1 : count1 = 0
+  for each item1 in items1
+   if item1 <> "" then
+    sql = "update cudtgeneric set fctupublic = 'y' where icuitem = " & item1
+    conn.execute(sql)
+    count1 = count1 + 1
+   end if
+  next
+  
+  showdonebox "恢復成功, 共恢復了 " & count1 & " 筆", "2"
+  response.end
+  
+ elseif request("submittask") = "delete" then
+ 
+  if request("ckbox") = "" then
+   showdonebox "請選擇要刪除的意見", "1"
+   response.end
+  end if
+  dim ckbox : ckbox = request("ckbox") & ","
+  dim items : items = split(ckbox, ",")
+  dim count : count = 0
+  for each item in items
+   if item <> "" then
+    sql = "update cudtgeneric set fctupublic = 'n' where icuitem = " & item
+    conn.execute(sql)
+    count = count + 1
+   end if
+  next
+  
+  showdonebox "刪除成功, 共刪除了 " & count & " 筆", "2"
+  response.end
+  
+ elseif request("submittask")= "query" then
+ 
+  dim stitle : stitle = request("stitle")
+  dim xbody : xbody = request("xbody")
+  dim ieditor : ieditor = request("ieditor")
+ 
+  csql = "select count(*) from cudtgeneric inner join member on cudtgeneric.ieditor = member.account "
+  csql = csql & "where cudtgeneric.ictunit = " & ictunitid & " and (cast(xbody as nvarchar) <> '') "
+  if stitle <> "" then csql = csql & " and stitle like '%" & stitle & "%' "
+  if xbody <> "" then csql = csql & " and cast(xbody as nvarchar) like '%" & xbody & "%' "
+  if ieditor <> "" then csql = csql & " and ieditor like '%" & ieditor & "%' "
+   
+  fsql = "cudtgeneric.*, member.account, member.realname, member.nickname "
+  fsql = fsql & "from cudtgeneric inner join member on cudtgeneric.ieditor = member.account "
+  fsql = fsql & "where cudtgeneric.ictunit = " & ictunitid & " and (cast(xbody as nvarchar) <> '') "
+  if stitle <> "" then fsql = fsql & " and stitle like '%" & stitle & "%' "
+  if xbody <> "" then fsql = fsql & " and cast(xbody as nvarchar) like '%" & xbody & "%' "
+  if ieditor <> "" then fsql = fsql & " and ieditor like '%" & ieditor & "%' "
+  
+  fsql = fsql & " order by cudtgeneric.xpostdate desc "
+  
+  session("basesql") = fsql
+  session("csql") = csql
+    
+  elseif request("keep") = "" then
+    
+  csql = "select count(*) from cudtgeneric inner join member on cudtgeneric.ieditor = member.account "
+  csql = csql & "where cudtgeneric.ictunit = " & ictunitid & " and (cast(xbody as nvarchar) <> '')"
+  
+  fsql = "cudtgeneric.*, member.account, member.realname, member.nickname "
+  fsql = fsql & "from cudtgeneric inner join member on cudtgeneric.ieditor = member.account "
+  fsql = fsql & "where cudtgeneric.ictunit = " & ictunitid & " and (cast(xbody as nvarchar) <> '') "
+  fsql = fsql & "order by cudtgeneric.created_date desc "
+  
+  session("basesql") = fsql
+  session("csql") = csql
+ 
+ end if
+
+ fsql = session("basesql") 
+ csql = session("csql")
+ 
+ nowpage = request.querystring("nowpage")  '現在頁數
+  perpagesize = request.querystring("pagesize")
+ if not isnumeric(perpagesize) then
+  perpagesize = 10
+ else
+  perpagesize = cint(request.querystring("pagesize"))
+ end if
+  if perpagesize <= 0 then  perpagesize = 10  
+
+  set rsc = conn.execute(csql)
+  totrec = rsc(0)       '總筆數
+  totpage = int(totrec / perpagesize + 0.999)
+
+ if not isnumeric(nowpage) then
+  nowpage = 1
+ else
+  nowpage = cint(request.querystring("nowpage"))
+ end if
+ 
+  if cint(nowpage) < 1 then 
+    nowpage = 1
+  elseif cint(nowpage) > totpage then 
+    nowpage = totpage 
+  end if             
+
+ fsql = "select top " & nowpage * perpagesize & fsql
+
+ set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+' rsreg.cachesize = perpagesize
+
+'----------hyweb gip db connection patch----------
+' rsreg.open fsql, conn, 3, 1
+set rsreg =  conn.execute(fsql)
+ rsreg.cachesize = perpagesize
+'----------hyweb gip db connection patch----------
+
+
+ if not rsreg.eof then
+  if totrec > 0 then 
+      rsreg.pagesize = perpagesize       '每頁筆數
+      rsreg.absolutepage = nowpage      
+  end if    
+ end if   
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                  =htprogprefix:                    =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+       if cint(nowpage) <> 1 then 
+
+              =htprogprefix:                           =(nowpage-1):             =perpagesize
+       end if 
+         =totrec
+
+                       if perpagesize=15 then:            end if
+                          if perpagesize=30 then:            end if
+                          if perpagesize=50 then:            end if
+                           if perpagesize=300 then:            end if
+
+
+
+     for ipage=1 to totpage 
+                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+       next 
+
+
+       if cint(nowpage)<>totpage then 
+                 =htprogprefix:                           =(nowpage+1):             =perpagesize
+
+       end if 
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ if not rsreg.eof then   
+  for i = 1 to perpagesize      
+   pkey = "icuitem=" & rsreg("icuitem")
+
+
+                                                                         =rsreg("icuitem")
+                              =rsreg("stitle")
+                              =rsreg("xbody")
+                              =rsreg("xpostdate")
+
+      
+      response.write rsreg("account") & "&nbsp; | &nbsp;" & rsreg("realname") & "&nbsp; | &nbsp;" & rsreg("nickname")
+    
+
+                              =rsreg("refid")
+
+      
+      if rsreg("fctupublic") = "y" then
+       response.write "開放"
+      else
+       response.write "刪除"
+      end if
+    
+
+
+  
+      rsreg.movenext
+      if rsreg.eof then exit for 
+  next 
+
+
+
+
+
+                                                                                                                               =request.querystring("icuitem")
+
+
+
+
+
+
+
+
+                  =htprogprefix:                    =request.querystring("icuitem")
+
+
+
+
+
+                  =htprogprefix:                    =request.querystring("icuitem")
+
+
+
+
+
+                              =htprogprefix:                                                    =perpagesize
+
+
+
+
+                              =htprogprefix:                           =nowpage
+
+
+   else 
+
+
+
+
+   end if  

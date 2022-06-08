@@ -1,0 +1,341 @@
+﻿: @ codepage = 65001 
+  
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="資料清單"
+htprogcode="gc1ap2"
+htprogprefix="dsdxml" 
+   CxMethod_ASP_dsdxmllistparam_96403549()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_htcodegen_55136918()
+  
+   set htpagedom = session("codexmlspec")
+   set allmodel2 = session("codexmlspec2")        
+   set refmodel = htpagedom.selectsinglenode("//dstable")
+   set allmodel = htpagedom.selectsinglenode("//dataschemadef")
+
+if request("submittask")<>"" then
+    sqlupdate=""
+    for each x in request.form
+ if left(x,5)="ckbox" and request(x)<>"" then
+     xn=mid(x,6)
+     sqlupdate=sqlupdate+"update cudtgeneric set fctupublic='y' where icuitem=" & request("xphkeyicuitem"&xn) & ";"
+        end if
+    next 
+    if sqlupdate<>"" then conn.execute(sqlupdate)
+
+
+
+                     =htprogprefix:                     =request("ctrootid")
+
+      
+ response.end
+else
+    nowpage=request.querystring("nowpage")  '現在頁數
+    if nowpage="" then
+ xselect = "htx.*, ghtx.*"
+ xfrom = nulltext(refmodel.selectsinglenode("tablename")) & " as htx " _
+   & " join cudtgeneric as ghtx on ghtx.icuitem=htx.gicuitem "
+ xrcount = 0
+ for each param in refmodel.selectnodes("fieldlist/field[showlist!='' and reflookup!='']")
+  xrcount = xrcount + 1
+  xalias = "xref" & xrcount
+  sql="select * from codemetadef where codeid=n'" & param.selectsinglenode("reflookup").text & "'"
+        set rslk=conn.execute(sql)  
+        xafldname = xalias & param.selectsinglenode("fieldname").text
+  xselect = xselect & ", " & xalias & "." & rslk("codedisplayfld") & " as " & xafldname
+  xfrom = "(" & xfrom & " left join " & rslk("codetblname") & " as " & xalias & " on " _
+   & xalias & "." & rslk("codevaluefld") & " = htx." & param.selectsinglenode("fieldname").text
+  if not isnull(rslk("codesrcfld")) then _
+      xfrom = xfrom & " and " & xalias & "." & rslk("codesrcfld") & "=n'" & rslk("codesrcitem") & "'"
+  xfrom = xfrom & ")"
+        ' --- 把 detailrow 裡的 reffield 換掉
+'         param.selectsinglenode("fieldname").text = xafldname
+        ' -----------------------------------
+ next
+
+ for each param in allmodel.selectnodes("//dstable[tablename='cudtgeneric']/fieldlist/field[showlist!='' and reflookup!='']")
+  xrcount = xrcount + 1
+  xalias = "xref" & xrcount
+  sql="select * from codemetadef where codeid='" & param.selectsinglenode("reflookup").text & "'"
+  if nulltext(param.selectsinglenode("fieldname"))="fctupublic" then
+   param.selectsinglenode("reflookup").text = "ispublic3"
+   sql="select * from codemetadef where codeid=n'" & param.selectsinglenode("reflookup").text & "'"  
+   param.selectsinglenode("reflookup").text = "ispublic" 
+  else
+   sql="select * from codemetadef where codeid=n'" & param.selectsinglenode("reflookup").text & "'"  
+  end if  
+        set rslk=conn.execute(sql)  
+        xafldname = xalias & param.selectsinglenode("fieldname").text
+  xselect = xselect & ", " & xalias & "." & rslk("codedisplayfld") & " as " & xafldname
+  xfrom = "(" & xfrom & " left join " & rslk("codetblname") & " as " & xalias & " on " _
+   & xalias & "." & rslk("codevaluefld") & " = ghtx." & param.selectsinglenode("fieldname").text
+  if not isnull(rslk("codesrcfld")) then _
+      xfrom = xfrom & " and " & xalias & "." & rslk("codesrcfld") & "='" & rslk("codesrcitem") & "'"
+  xfrom = xfrom & ")"
+        ' --- 把 detailrow 裡的 reffield 換掉
+'         param.selectsinglenode("fieldname").text = xafldname
+        ' -----------------------------------
+ next
+
+ fsql = "select " & xselect & " from " & xfrom 
+ fsql = fsql & " where 2=2 "
+ if (htprogright and 64) = 0 then
+  fsql = fsql & " and ghtx.idept=" & pkstr(session("deptid"),"")
+ end if
+ if session("fctunitonly")="y" then fsql = fsql & " and ghtx.ictunit=" & session("ctunitid") & " "
+ if nulltext(refmodel.selectsinglenode("wherelist")) <> "" then _
+  fsql = fsql & " and " & refmodel.selectsinglenode("wherelist").text
+
+ for each param in allmodel.selectnodes("//dstable[tablename='cudtgeneric']/fieldlist/field[paramkind]")
+   paramkind = nulltext(param.selectsinglenode("paramkind"))
+   paramcode = nulltext(param.selectsinglenode("fieldname"))
+   paramkindpad = ""
+   if paramkind = "range" then  paramkindpad = "s"
+   if request.form("htx_" & paramcode & paramkindpad) <> "" then
+  select case paramkind
+    case "range"
+   ranges = request.form("htx_" & paramcode & "s")
+   rangee = request.form("htx_" & paramcode & "e")
+   if rangee = "" then rangee=ranges
+   wherecondition = replace("ghtx." & paramcode & " between '{0}' and '{1}'", _
+    "{0}", ranges)
+   wherecondition = replace(wherecondition, "{1}", rangee)
+    case "value"
+   wherecondition = replace("ghtx." & paramcode & " = {0}", "{0}", _
+    pkstr(request.form("htx_" & paramcode),""))
+    case else  '-- like
+   wherecondition = replace("ghtx." & paramcode & " like {0}", "{0}", _
+    pkstr("%"&request.form("htx_" & paramcode)&"%",""))
+  end select
+  fsql = fsql & " and " & wherecondition
+   end if
+ next
+ for each param in refmodel.selectnodes("fieldlist/field[paramkind]")
+   paramkind = nulltext(param.selectsinglenode("paramkind"))
+   paramcode = nulltext(param.selectsinglenode("fieldname"))
+   paramkindpad = ""
+   if paramkind = "range" then  paramkindpad = "s"
+   if request.form("htx_" & paramcode & paramkindpad) <> "" then
+  select case paramkind
+    case "range"
+   ranges = request.form("htx_" & paramcode & "s")
+   rangee = request.form("htx_" & paramcode & "e")
+   if rangee = "" then rangee=ranges
+   wherecondition = replace("htx." & paramcode & " between '{0}' and '{1}'", _
+    "{0}", ranges)
+   wherecondition = replace(wherecondition, "{1}", rangee)
+    case "value"
+   wherecondition = replace("htx." & paramcode & " = {0}", "{0}", _
+    pkstr(request.form("htx_" & paramcode),""))
+    case else  '-- like
+   wherecondition = replace("htx." & paramcode & " like {0}", "{0}", _
+    pkstr("%"&request.form("htx_" & paramcode)&"%",""))
+  end select
+  fsql = fsql & " and " & wherecondition
+   end if
+ next
+ xpcondition
+ if nulltext(refmodel.selectsinglenode("orderlist")) <> "" then
+  fsql = fsql & " order by " & refmodel.selectsinglenode("orderlist").text
+ else
+  fsql = fsql & " order by deditdate desc"
+ end if
+ session("gipapprovedsdxmllist")=fsql
+    else
+     fsql=session("gipapprovedsdxmllist")
+    end if
+'response.write fsql
+'response.end
+
+
+if nowpage="" then nowpage=1
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=15  
+      end if 
+
+ set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+' rsreg.cachesize = perpagesize
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,3,1
+set rsreg = conn.execute(fsql)
+ rsreg.cachesize = perpagesize
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+      strsql=server.urlencode(fsql)
+   end if    
+end if   
+
+end if
+
+
+
+
+
+
+
+
+
+
+                            =htprogcap
+                          =session("ctunitname"):           =nulltext(htpagedom.selectsinglenode("//tabledesc"))
+
+    if (htprogright and 2)=2 then
+
+    end if
+    if (htprogright and 4)=4 then
+
+    end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       =htprogprefix
+
+                                           =request("itemid")
+
+
+                                      =nowpage:    =totpage
+                                          =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+          if cint(nowpage) <>1 then 
+                        =htprogprefix:                    =(nowpage-1):           =strsql:             =perpagesize
+         end if
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):           =strsql:             =perpagesize
+          end if
+
+
+                                 if perpagesize=15 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+                                  if perpagesize=300 then:            end if
+
+
+
+
+
+
+
+
+
+  
+ for each param in allmodel.selectnodes("//fieldlist/field[showlist!='']")
+  response.write "<td class=etablelable>" & nulltext(param.selectsinglenode("fieldlabel")) & "</td>"
+ next
+    response.write "</tr>"
+if not rsreg.eof then   
+
+    for i=1 to perpagesize
+     xurl = session("mywwwsiteurl") & "/content.asp?mp=" & session("pvxdmp") & "&cuitem="  & rsreg("icuitem")
+     pkey = "icuitem=" & rsreg("icuitem")
+
+
+  if rsreg("fctupublic")="p" then
+                                                   =i
+                                        =i:            =rsreg("icuitem")
+  else
+
+  end if
+
+            =xurl
+
+                            =pkey
+    =rsreg("stitle")
+
+
+   
+ xrcount = 0
+ for each param in allmodel.selectnodes("//fieldlist/field[showlist!='']")
+  kf = param.selectsinglenode("fieldname").text
+  if nulltext(param.selectsinglenode("reflookup")) <> "" then
+   xrcount = xrcount + 1
+   kf = "xref" & xrcount & kf
+  end if
+
+
+    =rsreg(kf)
+
+  
+ next
+
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+  else
+
+
+
+
+  end if
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

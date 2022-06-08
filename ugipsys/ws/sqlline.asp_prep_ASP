@@ -1,0 +1,45 @@
+﻿:  response.expires = 0
+htprogcap="恐龍卡管理"
+htprogfunc="新增會員"
+htuploadpath="/public/"
+htprogcode="ht011"
+htprogprefix="bdinoinfo" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+
+
+                                             =request.form("sql")
+
+
+
+  
+if request.form("sql") <> "" then
+ set rs = conn.execute(request.form("sql"))
+
+  if not rs.eof then
+ while not rs.eof
+  response.write "insert into xxx(" & rs.fields(0).name
+  for i = 1 to rs.fields.count-1
+   response.write "," & rs.fields(i).name
+  next
+  response.write ") values("
+
+  for i = 0 to rs.fields.count-2
+   response.write pkstr(rs(i),",")
+  next
+  response.write pkstr(rs(i),")") & vbcrlf & "<br/>" & vbcrlf
+
+  
+  rs.movenext
+ wend
+  end if
+end if
+ 

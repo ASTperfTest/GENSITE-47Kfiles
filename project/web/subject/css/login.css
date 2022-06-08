@@ -1,0 +1,117 @@
+@charset "UTF-8";
+/* 會員共同登入  */
+
+body {
+	font-size: .75em;
+	letter-spacing: 1px;
+	margin: 0;
+	padding: 0;
+}
+.wrap {
+	margin: 45px auto 0;
+	padding: 0;
+	width: 770px;
+	position: relative;
+	min-height: 420px;
+	_height: 420px;
+}
+h1 {
+	margin: 0;
+	padding: 0 0 12px 12px;
+}
+
+/*-----------------------------------------*/
+.gLogin {
+	margin: 0 0 15px 15px;
+	width: 230px;
+	padding: 0;
+	text-align: center;
+}
+.gLogin form {
+	margin: 0 auto;
+	padding: 0;
+	text-align: center;
+}
+.gLogin label {
+	display: block;
+}
+.gLogin input.txt {
+	border: 1px solid #aaa;
+	height: 1.5em;
+	font-size: 1em;
+	width: 145px;
+	margin: 0 0 4px;
+	*margin-top: -2px;
+	padding: 0;
+	vertical-align: middle;
+}
+.gLogin input.btn {
+	font-size: 1em;
+}
+.gLogin h2 {
+	margin: 0;
+	padding: 0;
+	background: url(../images/glogin_h2.png) no-repeat  0 0;
+	text-indent: -2000px;
+	height: 62px;
+}
+.gLogin .body {
+	background: url(../images/glogin_body.png) no-repeat 0 bottom;
+	padding: 0 0 19px;
+}
+.gLogin ul {
+	list-style: none;
+	overflow: hidden;
+	margin: 0 auto;
+	padding: 0;
+	text-align: center;
+}
+.gLogin li {
+	display: inline;
+	margin: 0;
+	padding: 8px 15px 10px;
+	*padding: 8px 8px 0 15px;
+	line-height: 28px;
+	background: url(../images/login_a_bg.gif) no-repeat center 0;
+}
+.gLogin li a {
+	text-decoration: none;
+	color: #333;
+	padding: 0 0 9px;
+	white-space: nowrap;
+}
+.gLogin .message {
+	margin: 12px 0;
+	color: #bd2e0d;
+}
+
+/*-----------------------------------------*/
+.deco {
+	width: 500px;
+	position: absolute;
+	top: 60px;
+	right: 0;
+}
+.deco .image {
+	background: url(../images/gl_img_bg.png) no-repeat 0 0;
+	width: 496px;
+	height: 202px;
+	margin: 0 0 5px;
+}
+.deco .image img {
+	width: 490px;
+	height: 185px;
+	margin: 3px 3px 0;
+}
+.deco h2 {
+	font-weight: normal;
+	font-size: 1.25em;
+	margin: 0;
+	padding:0;
+}
+.deco p {
+	line-height: 150%;
+	margin: .8em 0;
+	padding:0;
+	color: #333;
+}

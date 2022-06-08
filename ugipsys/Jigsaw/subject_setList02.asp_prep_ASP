@@ -1,0 +1,301 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="主題館績效統計"
+htprogfunc="查詢清單"
+htprogcode="jigsaw"
+htprogprefix="newkpi" 
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_client_5214970()
+  
+
+'ieditor=session("userid") 
+'idept=session("deptid") 
+
+regicuitem= request("gicuitem")
+
+orderarticle = "1"
+ieditor = "hyweb"
+idept = "0"
+showtype = "1"
+siteid = "1"
+ibasedsd = "44"
+ictunit = "2201"
+
+set kmconn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'kmconn.open session("kmodbc")
+set kmconn = server.createobject("hywebdb3.dbexecute")
+kmconn.connectionstring = session("kmodbc")
+'----------hyweb gip db connection patch----------
+
+
+check   = request("check")
+uncheck  = request("uncheck")
+jigcheck = session("jigcheck")
+len1   = len(session("jigsql"))
+aa    = session("jigsql")
+
+a     = session("jigcheck")
+b     = check
+c     = uncheck
+
+parenticuitem = request("gicuitem")
+
+
+
+'response.write len(c)
+checkarr = split(b, ";")
+uncheckarr = split(c, ";")
+for i = 0 to ubound(checkarr)
+   if (instr(a,checkarr(i))>0) then
+
+   else
+    add=checkarr(i)+";"
+    a=a+add
+ end if
+next
+
+
+for i = 0 to ubound(uncheckarr)-1
+    if (instr(a,uncheckarr(i))>0) then
+    cut=uncheckarr(i)+";"
+       a=replace(a,cut,"")
+    end if
+next
+
+
+
+
+session("jigcheck")=a
+insert=split(session("jigcheck"), ";")
+'for i = 0 to ubound(insert)
+' response.write insert(i) & "~"
+'next
+
+
+if request("ctrootid") = 4 then
+ for i = 0 to ubound(insert) - 1
+  sql = mid( aa, 1, len1 - 35 )
+  str = insert(i)
+  '-----modify by vincent on 2008-11-09-----
+  '-----reason : 傳過來的值是用"-"分隔, 所以要用split來取出值, -----
+  '-----最好不要用字串長度去取, 因為字串長度可能不是固定的 -----  
+  set items = nothing
+  items = split(str, "-")
+  insert1 = items(0)
+  '-----------------------------------------------------
+  '-----原本的寫法-----
+  'len2=len(str)
+  'bb=instr(str,"-")
+  'insert1=mid(str,1,bb-1)  
+  '-----------------------------------------------------  
+  if not checkexist(insert1) then   
+     sql = sql & " and (report.report_id = '" & insert1 & "')"
+      set rs = kmconn.execute(sql)
+   ' deditdate=right(year(rs("online_date")),4)   &"/"&   right("0"&month(rs("online_date")),2)&   "/"   &   right("0"&day(rs("online_date")),2)   &   "   "   &   right("0"&hour(rs("online_date")),2)&   ":"   &   right("0"&minute(rs("online_date")),2)&   ":"   &   right("0"&second(rs("online_date")),2) 
+   sql2 = "insert into [mgipcoanew].[dbo].[cudtgeneric]([ibasedsd],[ictunit],[stitle],[ieditor],[deditdate],[idept],[showtype],[siteid]) "
+   sql2 = sql2 & "values(" & ibasedsd & ", " & ictunit & ", '" & rs("subject") & "', '" & ieditor & "', getdate(), '" & idept & "', "
+   sql2 = sql2 & "'" & showtype & "', '" & siteid & "') "
+   sql2 = "set nocount on;" & sql2 & "; select @@identity as newid" 
+   set rs2 = conn.execute(sql2)
+   gicuitem = rs2(0)
+   sql6 = "insert into cudtx7 ([gicuitem]) values(" & gicuitem & ") "        
+   conn.execute(sql6)
+   
+   ctunitid= rs("category_id")
+   
+   path = "/cattree/cattreecontent.aspx?reportid={0}&databaseid=db020&categoryid={1}&actortype=002"
+   path = replace(path, "{0}", insert1)
+   path = replace(path, "{1}", ctunitid)
+   
+   sql2i = "insert into [mgipcoanew].[dbo].[knowledgejigsaw]([gicuitem],[ctrootid],[ctunitid],[parenticuitem],[articleid],[status],[orderarticle],[path]) "
+   sql2i = sql2i & "values(" & gicuitem & ", " & request("ctrootid") & ", '" & ctunitid & "', " & regicuitem & ", " & insert1 & ", 'y', " & orderarticle & ", '" & path & "')"      
+   conn.execute(sql2i)
+   end if 
+  next
+ showdonebox "編修成功！"
+else
+
+
+
+ for i = 0 to ubound(insert)-1
+
+  sql = mid( aa, 1, len1 - 36 )  
+  str = insert(i) '-----取得id值----以"-"分隔-----   
+  '-----modify by vincent on 2008-11-09-----
+  '-----reason : 傳過來的值是用"-"分隔, 所以要用split來取出值, -----
+  '-----最好不要用字串長度去取, 因為字串長度可能不是固定的 -----  
+  items = split(str, "-")
+  insert1 = items(0)
+  '-----------------------------------------------------
+  '-----原本的寫法-----
+  'len2 = len(str)
+  'insert1 = mid(str,1,len2-4)
+  '-----------------------------------------------------
+  
+  
+  if not checkexist(insert1) then
+           
+    sql = sql & " and (cudtgeneric.icuitem = " & insert1 & ") "   
+
+    set rs = conn.execute(sql)
+   'deditdate=right(year(rs("deditdate")),4)   &"/"&   right("0"&month(rs("deditdate")),2)&   "/"   &   right("0"&day(rs("deditdate")),2)   &   "   "   &   right("0"&hour(rs("deditdate")),2)&   ":"   &   right("0"&minute(rs("deditdate")),2)&   ":"   &   right("0"&second(rs("deditdate")),2) 
+    sql1 = "insert into [mgipcoanew].[dbo].[cudtgeneric]([ibasedsd],[ictunit],[stitle],[ieditor],[deditdate],[idept],[showtype],[siteid]) "
+    sql1 = sql1 & "values(" & ibasedsd & ", " & ictunit & ", '" & rs("stitle") & "', '" & ieditor & "', getdate(), '" & idept & "', "
+   sql1 = sql1 & "'" & showtype & "', '" & siteid & "') "
+    sql1 = "set nocount on;" & sql1 & "; select @@identity as newid" 
+    set rs1 = conn.execute(sql1)
+    gicuitem = rs1(0)
+    
+    sql6 = "insert into cudtx7 ([gicuitem]) values(" & gicuitem & ") "
+    conn.execute(sql6)
+   path = ""   
+   newsiteid = getsiteid( insert1 )
+   newpath = getpath( newsiteid, insert1 ,rs("ctrootid") ,rs("ctnodeid"))
+   
+   
+    'response.write gicuitem
+    sql1i = "insert into [mgipcoanew].[dbo].[knowledgejigsaw]([gicuitem],[ctrootid],[ctunitid],[parenticuitem],[articleid],[status],[orderarticle],[path]) "
+    sql1i = sql1i & "values(" & gicuitem & ", " & request("ctrootid") & ", '" & request("ctrootid") & "', " & regicuitem & ", "
+   sql1i = sql1i & insert1 & ", 'y', " & orderarticle & ", '" & path & "') "
+    conn.execute(sql1i)
+  end if 
+  next
+ showdonebox "編修成功！"
+end if
+
+function getsiteid(id)
+  asql = "select siteid from cudtgeneric where icuitem = " & id
+  set ars = conn.execute(asql)
+  if not ars.eof then
+   newsiteid = ars("siteid")
+  end if
+  ars.close
+  set ars = nothing
+  getsiteid = newsiteid
+end function
+
+function getpath( sid, id ,ctrootid, ctnodeid)
+ path = ""
+ showtype = ""
+ xurl = ""
+ filedownload = ""
+ 
+ if sid = "3" then     
+  topcat = ""
+  path = "/knowledge/knowledge_cp.aspx?articleid={0}&articletype={1}&categoryid={2}"
+  sql = "select topcat from cudtgeneric where icuitem = " & id
+  set prs = conn.execute(sql)
+  if not prs.eof then
+   topcat = prs("topcat")
+  end if
+  prs.close
+  set prs = nothing
+  path = replace(path, "{0}", id)
+  path = replace(path, "{1}", "a")
+  path = replace(path, "{2}", topcat)
+ elseif sid = "2" then
+  '---利用id來找目前showtype---  
+  sql = "select showtype, xurl, filedownload from cudtgeneric where icuitem = " & id
+  set prs = conn.execute(sql)
+  if not prs.eof then
+   showtype = prs("showtype")
+   xurl = prs("xurl")
+   filedownload = prs("filedownload")
+  end if
+  prs.close
+  set prs = nothing
+  
+  if showtype = "1" then
+   nodeid = ""
+   mp = ""
+   path = "/subject/ct.asp?xitem={0}&ctnode={1}&mp={2}"
+   sql = "select cattreenode.ctnodeid, cattreenode.ctrootid from cattreenode "
+   sql = sql & "inner join ctunit on cattreenode.ctunitid = ctunit.ctunitid "
+   sql = sql & "inner join cudtgeneric on ctunit.ctunitid = cudtgeneric.ictunit where cudtgeneric.icuitem = " & id
+                 
+   
+   set prs = conn.execute(sql)
+   if not prs.eof then
+    nodeid = prs("ctnodeid")
+    mp = prs("ctrootid")
+   end if
+   prs.close
+   set prs = nothing
+   path = replace(path, "{0}", id)
+   path = replace(path, "{1}", nodeid)
+   path = replace(path, "{2}", mp)
+  elseif showtype = "2" then
+   path = xurl
+  elseif showtype = "3" then
+   path = "/public/data/" & filedownload
+  end if
+ elseif sid = "1" then
+  sql = "select showtype, xurl, filedownload from cudtgeneric where icuitem = " & id
+  set prs = conn.execute(sql)
+  if not prs.eof then
+   showtype = prs("showtype")
+   xurl = prs("xurl")
+   filedownload = prs("filedownload")
+  end if
+  prs.close
+  set prs = nothing  
+  if showtype = "1" then 
+   nodeid = ""
+   path = "/ct.asp?xitem={0}&ctnode={1}&mp=1"
+   sql = "select cattreenode.ctnodeid from cattreenode inner join ctunit on cattreenode.ctunitid = ctunit.ctunitid "
+   sql = sql & "inner join cudtgeneric on ctunit.ctunitid = cudtgeneric.ictunit  "
+   sql = sql & " where cattreenode.ctrootid= '" & ctrootid & "'"
+   sql = sql & " and  cattreenode.ctnodeid= '" & ctnodeid & "' " 
+   sql = sql & " and cudtgeneric.icuitem = " & id
+   
+   
+   set prs = conn.execute(sql)
+   if not prs.eof then
+    nodeid = prs("ctnodeid")   
+   end if
+   prs.close
+   set prs = nothing
+   path = replace(path, "{0}", id)
+   path = replace(path, "{1}", nodeid)  
+  elseif showtype = "2" then
+   path = xurl
+  elseif showtype = "3" then
+   path = "/public/data/" & filedownload
+  end if
+ end if
+ getpath = path
+end function
+
+function checkexist(articleid) 
+ sql3 = "select * from [mgipcoanew].[dbo].[knowledgejigsaw] where status='y' and [articleid]= " & articleid & " and parenticuitem = " & parenticuitem
+ set rsc = conn.execute(sql3)
+ if not rsc.eof then
+  checkexist = true
+ else
+  checkexist = false
+ end if
+ rsc = empty  
+end function
+
+'response.redirect "subjectpublist.asp?icuitem=" & request("icuitem")
+
+   sub showdonebox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+                                                                =request("icuitem"):             =request.querystring("gicuitem")
+
+
+
+   end sub  

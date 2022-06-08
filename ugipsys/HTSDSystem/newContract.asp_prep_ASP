@@ -1,0 +1,72 @@
+﻿: 
+ response.expires = 0
+ apcode = session("apcode")
+ verdate = session("verdate")
+ xid = request.querystring("id")
+ xmlfile = "evx_" & request.querystring("xmlfile")
+ 
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty("serverhttprequest") = true
+ loadxml = server.mappath("/htsdsystem/usecase/" & apcode & ".xml")
+ xv = oxml.load(loadxml)
+  if oxml.parseerror.reason <> "" then
+    response.write loadxml & "<br>"
+    response.write("xml parseerror on line " &  oxml.parseerror.line)
+    response.write("<br>reason: " &  oxml.parseerror.reason)
+    response.end()
+  end if
+
+ set vo = oxml.selectsinglenode("usecase/version[date='" & verdate & "']")
+  if nulltext(vo) = "" then
+   response.write "version not exist"
+ response.end
+  end if
+
+ set nxml = server.createobject("microsoft.xmldom")
+ nxml.async = false
+ nxml.setproperty "serverhttprequest", true
+ loadxml = server.mappath("/htsdsystem/contract0.xml")
+ xv = nxml.load(loadxml)
+  if nxml.parseerror.reason <> "" then
+    response.write("xml parseerror on line " &  nxml.parseerror.line)
+    response.write("<br>reason: " &  nxml.parseerror.reason)
+    response.end()
+  end if
+
+   set eo = vo.selectsinglenode("//typicalcourseofevents/event[@id='" & xid & "']")
+   eo.setattribute "contractxml", xmlfile&".xml"
+
+
+'  response.write oxml.selectsinglenode("//frame[@name='topframe']/@src").text
+
+ nxml.selectsinglenode("operationcontract/code").text = apcode
+ nxml.selectsinglenode("operationcontract/apcat").text = nulltext(oxml.selectsinglenode("usecase/apcat"))
+ nxml.selectsinglenode("operationcontract/version/date").text = date()
+ nxml.selectsinglenode("operationcontract/version/author").text = session("userid")
+ nxml.selectsinglenode("operationcontract/version/fromevent").setattribute "type" _
+  , nulltext(eo.selectsinglenode("@type"))
+ nxml.selectsinglenode("operationcontract/version/fromevent").setattribute "id", xid
+
+ nxml.selectsinglenode("operationcontract/version/contractspec/name").text = xmlfile
+ nxml.selectsinglenode("operationcontract/version/contractspec/type").text = nulltext(eo.selectsinglenode("@type"))
+ nxml.selectsinglenode("operationcontract/version/contractspec/responsibilitylist/responsibility").text _
+  = nulltext(eo)
+
+
+'  response.write oxml.documentelement.xml
+ nxml.save(server.mappath("/htsdsystem/usecase/" & xmlfile & ".xml"))
+
+  
+ oxml.save server.mappath("/htsdsystem/usecase/" & apcode & ".xml")
+   
+ response.redirect "ucexpanded.asp?apcode=" & apcode & "&verdate=" & verdate
+
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+ 

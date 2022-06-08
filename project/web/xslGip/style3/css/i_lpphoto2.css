@@ -1,0 +1,36 @@
+@charset "UTF-8";
+/* CSS Document */
+/*cp 頁相關照片*/
+
+.lpphoto2 {
+	margin: 30px 0;
+	border-top: 1px solid #bbb;
+}
+.lpphoto2 h5 {
+	font-size: 1.25em;
+}
+.lpphoto2 ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	width: 100%;
+}
+.lpphoto2 li {
+	float: left;
+	margin: 0 15px 10px 0;
+}
+.lpphoto2 li img {
+	width: 140px;
+	height: 105px;
+	border: 1px solid #bbb;
+	margin: 0 0 4px;
+}
+.lpphoto2 li p {
+	width: 148px;
+	line-height: 150%;
+	height: 4.5em;
+	overflow: hidden;
+}
+.lpphoto2 li a {
+}

@@ -1,0 +1,32 @@
+﻿
+
+
+
+
+  function onload___2002134689() {fload()}
+function script___1312504941() {src("calendar.js");}CxConstr_720679592();
+  
+
+function fload()
+{
+ fPopCalendar(document.all.txt1, document.all.txt1);
+}
+
+function fkeydown()
+{
+ if(event.keyCode==27){
+  event.returnValue = null;
+  //window.returnValue = "�bHtml�����I�I�I";
+  //alert(window.returnValue);
+  window.close();
+ }
+}
+
+document.onkeydown=fkeydown;
+  
+
+
+
+
+
+ 

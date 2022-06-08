@@ -1,0 +1,357 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    alert("新增完成！")
+    window.navigate "ctuserset.asp?userid=Cx_0dummy"
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sub formadd
+    if reg.pfx_userid.value="" then
+     alert "請輸入使用者帳號"
+     reg.pfx_userid.focus
+     exit sub
+    end if
+    if len(reg.pfx_userid.value)>10 then
+     alert "使用者帳號不得超過10個字元"
+     reg.pfx_userid.focus
+     exit sub
+    end if    
+    if reg.tfx_xpassword.value="" then
+     alert "請輸入密碼"
+     reg.tfx_xpassword.focus
+     exit sub
+    end if
+    'if len(reg.tfx_xpassword.value)<7 then
+    ' alert "密碼請超過7個字元"
+    ' exit sub
+    'end if 
+    if reg.xpassword2.value="" then
+     alert "請輸入密碼確認"
+     reg.xpassword2.focus
+     exit sub
+    end if
+    if reg.tfx_xpassword.value<>reg.xpassword2.value then
+     alert "密碼與密碼確認不同, 請重新輸入"
+     reg.tfx_xpassword.focus
+     exit sub
+    end if       
+    if reg.sfx_ugrpid.value="" then
+     alert "請點選權限群組"
+     exit sub
+    end if 
+    if reg.sfx_deptid.value="" then
+     alert "請選單位"
+     exit sub
+    end if 
+    if reg.tfx_username.value="" then
+     alert "請輸入使用者姓名"
+     reg.tfx_username.focus     
+     exit sub
+    end if     
+    reg.task.value = "新增存檔"    
+    reg.submit    
+end sub
+   alert("此使用者帳號已建立，無法再次建立,請另取帳號！")
+   window.history.back
+ <script language=vbscript></script> 
+Cx_0dummy
+
+
+<html></html> 
+<script language="vbscript"></script> 
+    alert("單位帳號已達上限，無法繼續新增！")
+   window.history.back
+ <script language=vbscript>
+ 

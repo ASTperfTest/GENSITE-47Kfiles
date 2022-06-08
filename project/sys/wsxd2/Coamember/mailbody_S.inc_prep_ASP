@@ -1,0 +1,260 @@
+﻿: 
+'#####(autogen) 開始：此段程式碼為自動產生，註解部份請勿刪除 #####
+'下列有設定部份如有需要可自行設定
+'此版本為  ver.0.2
+'此段程式碼產生日期為： 2009/6/10 上午 09:59:37
+'(可修改)未來是否自動更新此程式中的 pattern (y/n) : y
+
+'(可修改)此程式是否記錄 log 檔
+activelog4u=true
+
+'(可修改)錯誤發生時要到那個頁面,未填時直接結束，1. 可以是 / :首頁, 2. http://xxx.xxx.xxx.xxx/ooo.htm
+onerrorpath="/"
+
+'目前程式位置在
+progpath="d:\hyweb\gensite\project\sys\wsxd2\coamember\mailbody_s.inc"
+
+'--------- (可修改)要檢查的 request 變數名稱 --------
+genparamsarray=array("account")
+genparamspattern=array("<", ">", "%3c", "%3e", ";", "%27", "'", "=", "+", "*", "/", "%", "@", "~", "!", "#", "$", "&", "\", "(", ")", "{", "}", "[", "]") '#### 要檢查的 pattern(程式會自動更新):genpat ####
+genparamsmessage=now() & vbtab & "error(1):request變數含特殊字元"
+
+'-------- (可修改)只檢查單引號，如 request 變數未來將要放入資料庫，請一定要設定(防 sql injection) --------
+sqlinjparamsarray=array()
+sqlinjparamspattern=array("'") '#### 要檢查的 pattern(程式會自動更新):db ####
+sqlinjparamsmessage=now() & vbtab & "error(2):request變數含單引號"
+
+'-------- (可修改)只檢查 html標籤符號，如 request 變數未來將要輸出，請設定 (防 cross site scripting)--------
+xssparamsarray=array()
+xssparamspattern=array("<", ">", "%3c", "%3e") '#### 要檢查的 pattern(程式會自動更新):html ####
+xssparamsmessage=now() & vbtab & "error(3):request變數含html標籤符號"
+
+'-------- (可修改)檢查數字格式 --------
+chknumericarray=array()
+chknumericmessage=now() & vbtab & "error(4):request變數不為數字格式"
+
+'-------- (可修改)檢察日期格式 --------
+chkdatearray=array()
+chkdatemessage=now() & vbtab & "error(5):request變數不為日期格式"
+
+'##########################################
+chkpattern genparamsarray, genparamspattern, genparamsmessage
+chkpattern sqlinjparamsarray, sqlinjparamspattern, sqlinjparamsmessage
+chkpattern xssparamsarray, xssparamspattern, xssparamsmessage
+chknumeric chknumericarray, chknumericmessage
+chkdate chkdatearray, chkdatemessage
+'--------- 檢查 request 變數名稱 --------
+sub chkpattern(parray, patern, message)
+ for each str in parray 
+  p=request(str)
+  for each ptn in patern
+   if (instr(p, ptn) >0) then
+    message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+    log4u(message) '寫入到 log
+    onerroraction
+   end if
+  next
+ next
+end sub
+
+'-------- 檢查數字格式 --------
+sub chknumeric(parray, message)
+ for each str in parray
+  p=request(str)
+  if not isnumeric(p) then
+   message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'--------檢察日期格式 --------
+sub chkdate(parray, message)
+ for each str in parray
+  p=request(str)
+  if not isdate(p) then
+   message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'onerror
+sub onerroraction()
+ if (onerrorpath<>"") then response.redirect(onerrorpath)
+ response.end
+end sub
+
+'log 放在網站根目錄下的 /logs，檔名： yyyymmdd_log4u.txt
+function log4u(strlog)
+ if (activelog4u) then
+  fldr=server.mappath("/") & "/logs"
+  filename=year(date()) & right("0"&month(date()), 2) & right("0"&day(date()),2)
+  
+  filename = filename & "_log4u.txt"
+  
+  dim fso, f
+  set fso = createobject("scripting.filesystemobject")
+  
+  '產生新的目錄
+  if (not fso.folderexists(fldr)) then
+   set f = fso.createfolder(fldr)
+  else
+   showabsolutepath = fso.getabsolutepathname(fldr)
+  end if
+  
+  const forreading = 1, forwriting = 2, forappending = 8
+  '開啟檔案
+  set fso = createobject("scripting.filesystemobject")
+  set f = fso.opentextfile( fldr & "\" & filename , forappending, true, -1)
+  f.write strlog  & vbcrlf
+ end if
+end function
+'##### 結束：此段程式碼為自動產生，註解部份請勿刪除 #####
+
+  
+
+
+dim smtpserver
+dim smtpserverport
+dim smtpssendusing
+
+dim smtpusername
+dim smtppassword
+dim smtpauthenticate
+
+'smtpserver = "mail.coa.gov.tw"
+'smtpserverport = 25
+'smtpssendusing = 1
+'smtpssendusing = 2
+
+smtpserver = getgipapconfigtext("emailserverip")
+smtpserverport = getgipapconfigtext("emailserverport")
+smtpssendusing = getgipapconfigtext("emailserversendusing")
+
+function send_email_authenticate(s_email,r_email,re_sbj,re_body, smtpusername, smtppassword, smtpauthenticate)
+    set objemail = createobject("cdo.message")
+    objemail.bodypart.charset = "utf-8"'response.charset
+    objemail.from       = s_email
+    objemail.to         = r_email
+    objemail.subject    = re_sbj
+    objemail.htmlbody   = re_body
+    objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/sendusing") = smtpssendusing
+    objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/smtpserver") = smtpserver
+    objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/smtpserverport") = smtpserverport
+
+    if smtpusername <> "" then
+        objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/sendusername") = smtpusername
+        objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/sendpassword") = smtppassword
+        objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/smtpauthenticate") = smtpauthenticate
+    end if
+
+    objemail.configuration.fields.update
+    objemail.send
+    set objemail=nothing
+end function
+
+function send_email(s_email,r_email,re_sbj,re_body)
+    dim smtpusername
+    dim smtppassword
+    dim smtpauthenticate
+
+    'smtpusername = "taft_km"
+    'smtppassword = "p@ssw0rd"
+    'smtpauthenticate = "1"
+ 
+ smtpusername = getgipapconfigtext("emailsendusername")
+ smtppassword = getgipapconfigtext("emailsendpassword")
+ smtpauthenticate = getgipapconfigtext("emailsmtpauthenticate")
+
+    call send_email_authenticate(s_email,r_email,re_sbj,re_body, smtpusername, smtppassword, smtpauthenticate)
+end function
+
+
+epapertitle = "農業知識入口網會員申請通知"
+
+key = session("webdeskey") 
+set descrypt = new cls_des
+token = descrypt.des(request("email"),key,0) '加密
+set descrypt = nothing
+
+body = "親愛的 " & request("realname") & "您好:<br /><br />" & vbcrlf & vbcrlf
+body = body & "「農業知識入口網」已收到您的申請資料。您的會員帳號密碼如下:<br />" & vbcrlf
+body = body & "您的帳號: " & request("account") & "<br />" & vbcrlf
+body = body & "您的密碼: " & request("passwd") & "<br /><br />" & vbcrlf & vbcrlf
+body = body & "請您點選信中的網址以確認您的 e-mail ：<br /><br />" 
+body = body & "<a href='" & session("weburl") & "confirmemail.asp?email=" & request("email") & "&token=" & token & "&id=" & request("account") & "'>確認email</a><br /><br />" 
+body = body & "請確實保管本信件，並記妥個人申請帳號密碼，在學者會員審核通過前，您仍可使用一般會員權益。<br />" & vbcrlf
+body = body & "並感謝您申請「農業知識入口網」的學者會員。<br />" & vbcrlf
+body = body & "為了維護會員的權益，我們將對於您提出的申請，做資料上的核對與確認。<br />" & vbcrlf
+body = body & "通過審核後，我們將立刻通知您。<br />" & vbcrlf
+body = body & "    謝謝!<br />" & vbcrlf
+body = body & "                                      敬祝平安<br />" & vbcrlf
+body = body & "                                                系統管理員 敬上<br />" & vbcrlf
+
+'s_email = "km@mail.coa.gov.tw"
+s_email = """"&getgipapconfigtext("emailfromname")&""" <"&getgipapconfigtext("emailfrom")&">"
+r_email = request("email")
+  
+call send_email(s_email,r_email,epapertitle,body)
+
+epapertitle = "農業知識入口網會員申請通知"
+
+body = ""
+body = "親愛的 管理者您好:" & vbcrlf & vbcrlf
+body = body & "「農業知識入口網」有新的學者會員申請資料。會員帳號如下:" & vbcrlf
+body = body & "帳號: " & request("account") & vbcrlf
+body = body & "    謝謝!" & vbcrlf & vbcrlf
+body = body & "                                      敬祝平安" & vbcrlf
+body = body & "                                                系統管理員 敬上" & vbcrlf
+
+'s_email = "km@mail.coa.gov.tw"
+s_email = """"&getgipapconfigtext("emailfromname")&""" <"&getgipapconfigtext("emailfrom")&">"
+r_email = request("email")
+  
+call send_email(s_email,s_email,epapertitle,body)
+
+
+
+
+'dim body               
+'set mail = server.createobject("cdonts.newmail")
+'mail.to = request("email")
+'mail.from = "km@mail.coa.gov.tw"
+'mail.subject = "農業知識入口網會員申請通知"
+'body = "親愛的 " & request("realname") & "您好:" & vbcrlf & vbcrlf
+'body = body & "「農業知識入口網」已通過您的申請資料。您的會員帳號密碼如下:" & vbcrlf
+'body = body & "您的帳號: " & request("account") & vbcrlf
+'body = body & "您的密碼: " & request("passwd") & vbcrlf & vbcrlf
+'body = body & "請確實保管本信件，並記妥個人申請帳號密碼" & vbcrlf
+'body = body & "有了您的參與將使得這個農業知識平台更理想更茁壯。歡迎您正式成為我們的會員，會員服務中心的網址是熱切期盼您提供寶貴的意見與建議。" & vbcrlf
+'body = body & "    謝謝!" & vbcrlf & vbcrlf
+'body = body & "     感謝您申請「農業知識入口網」的學者會員。" & vbcrlf
+'body = body & "為了維護會員的權益，我們將對於您提出的申請，做資料上的核對與確認。" & vbcrlf
+'body = body & "通過審核後，我們將立刻通知您。" & vbcrlf
+'body = body & "    謝謝!" & vbcrlf
+'body = body & "                                      敬祝平安" & vbcrlf
+'body = body & "                                                系統管理員 敬上" & vbcrlf
+'mail.body = body
+'mail.send
+'set mail = nothing
+
+'set mail = server.createobject("cdonts.newmail")
+'mail.to = "km@mail.coa.gov.tw"
+'mail.to = "candan@mail.hyweb.com.tw"
+'mail.from = request("email")
+'mail.subject = "農業知識入口網會員申請通知"
+'body = "親愛的 管理者您好:" & vbcrlf & vbcrlf
+
+'body = body & "「農業知識入口網」有新的申請資料。會員帳號如下:" & vbcrlf
+'body = body & "帳號: " & request("account") & vbcrlf
+'body = body & "    謝謝!" & vbcrlf & vbcrlf
+
+'body = body & "                                      敬祝平安" & vbcrlf
+'body = body & "                                                系統管理員 敬上" & vbcrlf
+'mail.body = body
+'mail.send
+'set mail = nothing
+ 

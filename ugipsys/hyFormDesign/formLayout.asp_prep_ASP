@@ -1,0 +1,72 @@
+﻿: @ codepage = 65001 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+topcount = 0
+
+function ckstr (s, endchar)
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ ckstr="'" & s & "'" & endchar
+end function
+
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+ 
+ 
+ xhdivpos = 100
+
+ sql = "select * from ap " _
+  & " where 1=2"
+ set rs = conn.execute(sql)
+ 
+ while not rs.eof
+
+              =rs("part_id"):           =rs("posheight"):                                                                                                      =rs("bgcolor")
+                         =rs("postop"):          =rs("posleft"):                                      =rs("posheight")
+  =rs("part_name")
+                =rs("part_id"):                                                      =rs("postop")+rs("posheight")-10
+        =rs("posleft")
+     
+  rs.movenext
+ wend
+
+                                                                                 =xhdivpos
+
+
+
+
+
+
+             =xhdivpos 

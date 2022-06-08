@@ -1,0 +1,69 @@
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#006E8E" text="#FFFFFF" link="#00FF00" vlink="#00FF00" alink="#00FF00"  cellspacing="0" cellpadding="0">
+<div align="center">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%" align="left">
+    <tr>
+      <td width="10">&nbsp;</td>
+      <td valign="top"> 
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><br>
+          <img src="method.gif" width="30" height="30" align="absmiddle"> <b><font size="3">INSERTPICTURE<br>
+          <br>
+          </font></b>Inserts a picture from the current server computer into the 
+          image. . Now imagelib also support metafiles (.WMF and .EMF).<br>
+          <br>
+          <b>Procedure </b>InsertPicture(Filename: <a href="defs.htm#String">String</a>, 
+          x: <a href="defs.htm#integer">Integer</a>, y: <a href="defs.htm#integer">Integer</a>, 
+          Scale: <a href="defs.htm#boolean">Boolean</a>, width: <a href="defs.htm#integer">integer</a>, 
+          height:<a href="defs.htm#integer">integer</a>)<br>
+          <br>
+          <b>Description<br>
+          </b>Use insertpicture to insert a picture (GIF, BMP or JPG) from the 
+          current computer server into the image at position x and y. If Scale 
+          is set to true, it will stretch or shrink the image to the new width 
+          and height.<br>
+          <br>
+          </font></p>
+        <table border="0" cellspacing="0" cellpadding="0">
+          <tr> 
+            <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>Note: 
+              &nbsp;&nbsp; </b></font></td>
+            <td valign="top" align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Imagelib 
+              autodetects the format by extracting the Filename extension. If 
+              the extension is not .GIF, .BMP or .JPG it will read the file header 
+              to find out the format.</font></td>
+          </tr>
+        </table>
+        <br>
+        <table border="0" cellspacing="0" cellpadding="0">
+          <tr> 
+            <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>Note: 
+              &nbsp;&nbsp; </b></font></td>
+            <td valign="top" align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Imagelib 
+              now supports windows metafile. But it don't use antialised stretch 
+              because metafile is vetorial.</font></td>
+          </tr>
+        </table>
+        <br>
+        <table border="0" cellspacing="0" cellpadding="0">
+          <tr> 
+            <td nowrap valign="top"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>Note: 
+              &nbsp;&nbsp; </b></font></td>
+            <td valign="top" align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Imagelib 
+              by default use antialiasing to create a better effect when scale is set to 
+              true. You can set which antialiasing method it will use by change the <A HREF="stretchquality.htm">StretchQuality</A> property (You can disable for faster drawing too).</font></td>
+          </tr>
+        </table>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"> 
+          </font></p>
+        </td>
+    </tr>
+  </table>
+  <p align="left">&nbsp; </p>
+</div>
+</body>
+</html>

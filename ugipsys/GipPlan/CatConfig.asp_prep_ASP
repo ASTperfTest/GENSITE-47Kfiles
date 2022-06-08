@@ -1,0 +1,103 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "ge1t21" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+ dataparent = request.form("dataparent")
+ datalevel = request.form("datalevel")
+ catid = request.form("catid")
+
+ if request.querystring("configck") = "add" then
+  sql = "select * from cattreenode where catname = "& nohtmlcode(request.form("catname")) _
+   & " and ctrootid=" & pkstr(itemid,"") _
+   &" and dataparent="& pkstr(dataparent,"")
+  set rs = conn.execute(sql)
+   if rs.eof then
+   showorder = 1
+   if isnumeric(request.form("catshoworder")) then showorder = request.form("catshoworder")
+
+   sql = "insert into cattreenode "&_
+           "(ctrootid, catname, catshoworder, editdate, edituserid, datalevel, "&_
+           "dataparent) values (n'"& itemid &"',"& nohtmlcode(request.form("catname")) &","& showorder &_
+           ",n'"& date() &"',n'"& session("userid") &"',"& datalevel &","& dataparent &")"
+   set rs = conn.execute(sql)
+
+   sql = "update cattreenode set childcount = childcount + 1 where ctnodeid = "& dataparent
+   set rs = conn.execute(sql)
+   alertmsg = "新增成功！" 
+
+           =alertmsg
+                                               =itemid:          =dataparent
+
+
+     else 
+
+
+
+
+     end if
+ elseif request.querystring("configck") = "edit" then
+  sql = "select * from cattreenode where catname = "& nohtmlcode(request.form("catname")) &" and ctrootid = n'"& itemid &"' and ctnodeid <> "& catid
+  set rs = conn.execute(sql)
+   if rs.eof then
+   showorder = 1
+   if isnumeric(request.form("catshoworder")) then showorder = request.form("catshoworder")
+
+   sql = "update cattreenode set catname = "& nohtmlcode(request.form("catname")) &", editdate = "& pkstr(date(),",") _
+    & " edituserid=" & pkstr(session("userid"),",") _
+    & " catshoworder=" & showorder _
+    & " where ctnodeid = "& catid
+   set rs = conn.execute(sql)
+   alertmsg = "編修成功！" 
+
+           =alertmsg
+                                               =itemid:          =catid
+
+
+     else 
+
+
+
+
+     end if
+ elseif request.querystring("configck") = "del" then
+  sql = "delete from cattreenode where ctnodeid = "& catid
+  set rs = conn.execute(sql)
+   sql = "update cattreenode set childcount = childcount - 1 where ctnodeid = "& dataparent
+   set rs = conn.execute(sql)
+   alertmsg = "刪除成功！" 
+
+           =alertmsg
+                                               =itemid:          =dataparent
+
+
+   elseif request.querystring("configck") = "order" then
+  unitidarrar = split(catid ,",")
+  nowshoworder = 0
+   for xno = 0 to ubound(unitidarrar)
+    nowshoworder = nowshoworder + 1
+  sql2 = "update cattreenode set catshoworder =" & nowshoworder & " where ctnodeid ="& unitidarrar(xno)
+  set rs2 = conn.execute(sql2)
+   next
+   alertmsg = "排序完成！" 
+
+           =alertmsg
+                                               =itemid:          =dataparent
+
+
+   end if
+
+ function nohtmlcode(datacode)
+   newdata = ""
+     newdate = replace(datacode,"'","''")
+   if datacode <> "" then
+    if htmldecide = "n" then
+     newdate = replace(newdate,"<","<")
+     newdate = replace(newdate,">",">")
+    end if
+   end if
+   nohtmlcode = "'" & newdate & "'"
+ end function
+ 

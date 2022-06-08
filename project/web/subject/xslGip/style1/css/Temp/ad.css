@@ -1,0 +1,16 @@
+@charset "utf-8";
+/*   CSS Document */
+
+/*-----------------------------------------------------------------*/
+.AD {
+	width: 180px;
+	text-align: center;
+	margin-bottom: 10px;
+	padding-top: 40px;
+	padding-left: 20px;
+}
+.AD a img {
+	display: block;
+	border: 1px solid #888888;
+	margin-bottom: 8px;
+}

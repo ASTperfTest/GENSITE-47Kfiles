@@ -1,0 +1,67 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+     function FormSubmit( atype, value, postTime, name )
+     {         
+         document.aspnetForm.Atype.value = atype;
+         document.aspnetForm.DArticleId.value = value;
+         document.aspnetForm.PostTime.value = postTime;
+         document.aspnetForm.ArticleContent.value = document.getElementById(name).value;
+         document.aspnetForm.method = "post";         
+         document.aspnetForm.submit();
+     }
+ 
+
+
+
+
+ 

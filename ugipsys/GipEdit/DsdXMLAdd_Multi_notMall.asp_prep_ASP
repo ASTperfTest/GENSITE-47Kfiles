@@ -1,0 +1,179 @@
+﻿: @ codepage = 65001 
+  
+response.expires = 0
+htprogcap="單元資料維護"
+htprogfunc="新增"
+htprogcode="gc1ap1"
+htprogprefix="dsdxml"
+
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+ xshowtype=request.querystring("showtype")
+ if xshowtype="4" then
+  xshowtypestr="複製"
+ else
+  xshowtypestr="參照" 
+ end if
+
+
+
+
+
+
+       =title:               =xshowtypestr
+
+                                                                      =request.querystring("icuitem")
+
+
+
+  
+sub checkallchild (xnodeid)
+ xsql = "select t.* " _
+  & ", (select count(*) from cattreenode as c where c.dataparent=t.ctnodeid " _
+  & " and c.ctnodekind='c') as haschildfolder " _
+  & ", (select count(*) from cattreenode as c join ctuserset as cu on cu.ctnodeid=c.ctnodeid " _
+  & " and cu.userid=" & pkstr(userid,"") _
+  & " where c.dataparent=t.ctnodeid and cu.rights is not null) as haschild " _
+  & " from cattreenode as t where t.dataparent = "& xnodeid
+ set xrs = conn.execute(xsql)
+ while not xrs.eof
+  if xrs("haschild") > 0 then 
+   childcount = childcount + xrs("haschild") 
+  elseif xrs("haschildfolder") > 0 then
+   checkallchild xrs("ctnodeid")
+  end if
+  
+  xrs.movenext
+ wend
+end sub
+
+ itemid = session("exrootid")  '-- 要處理哪個 tree
+ sqlcom = "select * from cattreeroot where ctrootid = "& itemid 
+ set rs = conn.execute(sqlcom)
+ 
+ if request.querystring("itype")="" then
+  opencloseanchor="dsdxmladd_multi.asp?itype=2&showtype="&request.querystring("showtype")&"&icuitem="&request.querystring("icuitem")
+  openclosestr="展開"
+  openclosestate="close"
+ else
+  opencloseanchor="dsdxmladd_multi.asp?showtype="&request.querystring("showtype")&"&icuitem="&request.querystring("icuitem")
+  openclosestr="收合"
+  openclosestate="open"  
+ end if
+ if xshowtype="4" then
+  ftypename = rs("ctrootname")+"<a href='#'></a>　　　　　<a href='"+opencloseanchor+"'>"+openclosestr+"</a>　<a href='javascript: formsubmit();'>確定新增</a>"
+ else
+  ftypename = rs("ctrootname")+"<a href='#'></a>　　　　　<a href='"+opencloseanchor+"'>"+openclosestr+"</a>　<a href='javascript: formsubmit();'>確定新增</a>　<a href='javascript: reflist();'>參照清單</a>"
+ end if
+ userid = session("userid")
+ session("itemid")=itemid
+
+   const cid     = 2 'catid
+   const cname   = 3 'catname
+   const cparent = 7 'dataparent
+   const cchild  = 8 'childcount
+   const clevel  = 6 'datalevel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                           =request.querystring("icuitem")
+                                            =xshowtype
+
+  
+    userid = session("userid")
+    session("dsdxmladd_multi_list")=""
+    '----給參照清單用的sql字串
+    if xshowtype="5" then
+     sqlref5list = "select t.catname,cdt.stitle,cdt.deditdate,d.deptname,cdt.icuitem " _
+  & " from cattreenode as t " _
+  & " left join ctuserset as u on u.ctnodeid=t.ctnodeid " _
+  & " left join cudtgeneric cdt on t.ctunitid=cdt.ictunit and cdt.showtype=n'"&xshowtype&"' and cdt.refid="&request.querystring("icuitem") _
+  & " left join ctunit cu on cdt.ictunit=cu.ctunitid " _
+  & " left join dept d on cdt.idept=d.deptid " _
+  & " where ctrootid = "& pkstr(itemid,"") & " and u.userid=" & pkstr(userid,"") & " and cdt.icuitem is not null" _
+  & " order by cdt.deditdate desc"
+     session("dsdxmladd_multi_list")=sqlref5list
+    end if
+
+                                              =userid 
+
+
+                        =openclosestate
+   response.write "treeroot = gfld(""forumtoc"", """ & ftypename & """, ""#"")" & vbcrlf
+ nowcount = 0
+
+ sqlcom = "select t.*, u.rights,cu.ctunitkind,cu.ctunitid,b.sbasedsdxml " _
+  & ", (select count(*) from cattreenode as c where c.dataparent=t.ctnodeid " _
+  & " and c.ctnodekind='c') as haschildfolder " _
+  & ", (select count(*) from cattreenode as c join ctuserset as cu on cu.ctnodeid=c.ctnodeid " _
+  & " and cu.userid=" & pkstr(userid,"") _
+  & " where c.dataparent=t.ctnodeid and cu.rights is not null) as haschild " _
+  & ", (select count(icuitem) from cattreenode as c left join cudtgeneric cdt on c.ctunitid=cdt.ictunit " _
+  & " where cdt.showtype=n'"&xshowtype&"' and c.ctnodeid=t.ctnodeid and cdt.refid="&request.querystring("icuitem")&") as refid " _
+  & " from cattreenode as t left join ctuserset as u on u.ctnodeid=t.ctnodeid " _
+  & " and u.userid=" & pkstr(userid,"") _
+  & " left join ctunit cu on t.ctunitid=cu.ctunitid " _
+  & " left join basedsd b on b.ibasedsd=cu.ibasedsd " _
+  & " where ctrootid = "& pkstr(itemid,"") _
+  &" order by datalevel, catshoworder"
+'response.write sqlcom
+'response.end  
+ set rs = conn.execute(sqlcom)
+ while not rs.eof
+  xparent = "treeroot"
+  if rs(clevel) > 1 then xparent = "n" & rs(cparent)
+  if rs("ctnodekind") = "c" then
+   catlink = "#"
+   if rs("haschild")<> 0 then 
+    response.write "n"& rs(cid) &"= insfld(" & xparent &", gfld(""forumtoc"", """& rs(cname) &""", """& catlink &"""))" & vbcrlf
+   elseif rs("haschildfolder") <> 0 then
+    childcount = 0
+    checkallchild rs("ctnodeid")
+    if childcount > 0 then _
+     response.write "n"& rs(cid) &"= insfld(" & xparent &", gfld(""forumtoc"", """& rs(cname) &""", """& catlink &"""))" & vbcrlf
+   end if
+  else
+      forumlink = "ctxmlin.asp?itemid="& itemid &"&ctnodeid="& rs("ctnodeid")
+      forumlink = "#"
+      if not isnull(rs("rights")) then
+         if rs("ctunitkind")="u" or isnull(rs("ctunitid")) or not isnull(rs("sbasedsdxml")) then
+          forumcheck = rs("catname")      
+       elseif rs("refid")>=1 then
+          forumcheck = "<input type=checkbox name='ctnodeid' value='" & cstr(rs("ctnodeid")) & "' checked disabled>" & rs("catname")      
+       else
+          forumcheck = "<input type=checkbox name='ctnodeid' value='" & cstr(rs("ctnodeid")) & "'>" & rs("catname")      
+         end if
+       response.write "insdoc("& xparent &", glnk(""forumtoc"", """& forumcheck &""", """& forumlink &"""))" & vbcrlf
+    end if
+  end if
+  rs.movenext
+ wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                             =request.querystring 

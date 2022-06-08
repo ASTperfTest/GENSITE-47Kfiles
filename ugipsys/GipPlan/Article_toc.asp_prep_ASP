@@ -1,0 +1,147 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "pn03m04" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+  
+ forumid = request.querystring("forumid")
+ forumes = request.querystring("forumes")
+
+
+ sqlcom = "select forumname from forum where forumid = "& forumid
+  set rs = conn.execute(sqlcom)
+
+ ftypename = "<b>"& rs("forumname") &" 文章目錄</b>"
+
+   const cid     = 1 'articleid
+   const cname   = 2 'subject
+   const cparent = 10 'articleparent
+   const cchild  = 11 'articlechildcount
+   const ctime   = 7 'postdate
+   const clevel  = 8 'articlelevel
+   const poser   = 5 'postusername
+   const cmail   = 6 'postemail
+
+ sqlcom = "select * from forumarticle where forumid = "& forumid &" order by articlelevel, postdate desc"
+ set rs = conn.execute(sqlcom)
+
+ xsqlcom = "select articleid from forumessencearticle where forumid = "& forumid &" order by articleid"
+ set xrs = conn.execute(xsqlcom)
+ if not xrs.eof then xforumes = xrs.getrows()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    if forumes = "" then :        else :       end if 
+                         if not rs.eof and forumes = "" then :                                                                         end if 
+
+
+
+
+
+
+
+
+
+                                                              =itemid:            =forumid
+  
+ if not rs.eof then
+  nowcount = 0 
+
+    response.write "treeroot = gfld(""title"", """ & ftypename & """, """",0,0)" & vbcrlf
+  do while not rs.eof
+  nowcount = nowcount + 1
+  linkname = "<a href=showarticle_toc.asp?forumid="& forumid &"&itemid="& itemid &"&articleid="& rs(cid) &" target=showarticle>"& rs(cname) &"</a>"
+   if rs(clevel) = 1 and rs(cchild) > 0 then
+    response.write "n"& rs(cid) &"= insfld(treeroot, gfld(""showarticle"", """& linkname &" ("& mailsend(rs(cmail),rs(poser)) &" "& rs(ctime) &")"&""", """","& rs(cid) &","& rs(cchild) &","& rs(cparent) &"))" & vbcrlf
+   elseif rs(clevel) = 1 and rs(cchild) = 0 then
+    response.write "insdoc(treeroot, glnk(""showarticle"", """& linkname &" ("& mailsend(rs(cmail),rs(poser)) &" "& rs(ctime) &")"&""", """","& rs(cid) &","& rs(cchild) &","& rs(cparent) &"))" & vbcrlf
+   elseif rs(clevel) > 1 and rs(cchild) > 0 then
+    response.write "n"& rs(cid) &"= insfld(n"& rs(cparent) &", gfld(""showarticle"", """& linkname &" ("& mailsend(rs(cmail),rs(poser)) &" "& rs(ctime) &" reply)"&""", """","& rs(cid) &","& rs(cchild) &","& rs(cparent)&"))" & vbcrlf
+   else
+    response.write "insdoc(n"& rs(cparent) &", glnk(""showarticle"", """& linkname &" ("& mailsend(rs(cmail),rs(poser)) &" "& rs(ctime) &" reply)"&""", """","& rs(cid) &","& rs(cchild) &","& rs(cparent) &"))" & vbcrlf
+   end if
+  rs.movenext
+     loop 
+
+
+                    if forumes = "y" then :                                                                        end if 
+   else 
+
+
+
+    end if 
+
+
+
+
+   if nowcount > 1 and forumes = "" then 
+
+
+
+   end if 
+
+
+
+
+
+
+
+
+
+
+
+   if forumes = "y" then 
+
+                                       =itemid:            =forumid:                             =forumes
+
+
+
+    if isarray(xforumes) = true then 
+
+     nowarray = "array("
+      for xno = 0 to ubound(xforumes,2)
+       nowarray = nowarray & xforumes(0,xno) & ","
+      next
+     nowarray = left(nowarray,instrrev(nowarray,",")-1) & ")"
+     response.write "nowarray = " & nowarray 
+
+
+
+
+
+
+
+
+    end if 
+
+   else 
+
+                                       =itemid:            =forumid
+
+
+   end if 
+
+  
+ function mailsend(xmail,xname)
+  if xmail <> "" then
+   mailsend = "<a href=mailto:"& xmail &">"& xname &"</a>"
+  else
+   mailsend = xname
+  end if
+ end function
+
+ 

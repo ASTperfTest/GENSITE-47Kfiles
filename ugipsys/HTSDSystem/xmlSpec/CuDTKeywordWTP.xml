@@ -1,0 +1,39 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<DataSchemaDef>
+	<dsTable>
+		<tableName>CuDTKeywordWTP</tableName>
+		<tableDesc>詞庫待審表</tableDesc>
+		<fieldList>
+			<field>
+				<fieldName>iKeyword</fieldName>
+				<fieldLabel>關鍵字詞</fieldLabel>
+				<dataType>varchar</dataType>
+				<dataLen>20</dataLen>
+				<inputLen>20</inputLen>
+				<canNull>N</canNull>
+				<isPrimaryKey>Y</isPrimaryKey>
+				<identity>N</identity>
+				<inputType>readonly</inputType>
+				<fieldDesc></fieldDesc>
+				<refLookup></refLookup>
+				<rows></rows>
+				<cols></cols>
+			</field>
+			<field>
+				<fieldName>iCount</fieldName>
+				<fieldLabel>次數</fieldLabel>
+				<dataType>int</dataType>
+				<dataLen>4</dataLen>
+				<inputLen>4</inputLen>
+				<canNull>Y</canNull>
+				<isPrimaryKey>N</isPrimaryKey>
+				<identity>N</identity>
+				<inputType>textbox</inputType>
+				<fieldDesc></fieldDesc>
+				<refLookup></refLookup>
+				<rows></rows>
+				<cols></cols>
+			</field>
+		</fieldList>
+	</dsTable>
+</DataSchemaDef>

@@ -1,0 +1,157 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ htprogcap = "單元資料維護"
+ htprogfunc = "查詢"
+ htuploadpath = session("public") + "data/"
+ htprogcode="kpi01"
+ htprogprefix="" 
+ response.charset = "utf-8"
+
+   CxMethod_ASP_server_1606199358()
+  
+ dim memberid : memberid = request.querystring("memberid")
+ dim memberstr : memberstr = ""
+ dim thisyear : thisyear = request.querystring("thisyear")
+ sql = "select account, realname, nickname from member where account = '" & memberid & "'"
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  memberstr = trim(rs("account")) & "｜" & trim(rs("realname")) & "｜" & trim(rs("nickname"))
+ end if 
+ rs.close
+ set rs = nothing 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if thisyear <> "" then
+
+    else
+
+    end if
+
+     if thisyear <> "" then
+
+     else
+
+     end if
+
+
+
+
+
+
+
+
+                             =memberstr
+
+
+
+
+
+
+
+
+
+   
+ dim calculatetotal, browsetotal, logintotal, sharetotal, contenttotal, additionaltotal
+ if thisyear = "" then
+ sql = "select * from membergradesummary where memberid = '" & memberid & "'"
+ elseif thisyear <> "" then
+ sql = "select isnull(gradebrowse_thisyear.gradebrowse,0) as gradebrowse, isnull(gradelogin_thisyear.gradelogin,0) as gradelogin, "
+ sql = sql & " isnull(gradeshare_thisyear.gradeshare,0) as gradeshare, member.account , (isnull(vcb.thisyearbrowsegrade,0)+isnull(vcc.thisyearcommendgrade,0)+isnull(vcd.thisyeardiscussgrade,0)+isnull(mgcby.contentiqpoint,0)+isnull(mgcby.contentraisepoint,0)+isnull(mgcby.contentlogopoint,0)+ isnull(mgcby.contentplantlogpoint,0)+isnull(mgcby.contentfishbowlpoint,0)+ isnull(mgcby.contentdrpoint,0)+ isnull(mgcby.contentknowledgeqapoint,0)+ isnull(mgcby.contentdr2010point,0)+isnull(mgcby.contenttreasurehuntpoint,0)) as contenttotal, isnull(viewaddthis.thisyearaddpoint, 0) as additionaltotal ,"
+ sql = sql & " (isnull(gradebrowse_thisyear.gradebrowse,0) * 0.15 + isnull(gradelogin_thisyear.gradelogin,0) * 0.2) + isnull(gradeshare_thisyear.gradeshare,0) * 0.3 + (isnull(vcb.thisyearbrowsegrade,0)+isnull(vcc.thisyearcommendgrade,0)+isnull(vcd.thisyeardiscussgrade,0)+isnull(mgcby.contentiqpoint,0)+isnull(mgcby.contentraisepoint,0)+isnull(mgcby.contentlogopoint,0)+ isnull(mgcby.contentplantlogpoint,0)+isnull(mgcby.contentfishbowlpoint,0)+ isnull(mgcby.contentdrpoint,0)+ isnull(mgcby.contentknowledgeqapoint,0)+ isnull(mgcby.contentdr2010point,0)+isnull(mgcby.contenttreasurehuntpoint,0)) * 0.2 + isnull(viewaddthis.thisyearaddpoint, 0) * 0.15 as total "
+ sql = sql & " from member "
+ sql = sql & " left join gradebrowse_thisyear on member.account = gradebrowse_thisyear.memberid "
+ sql = sql & " left join gradelogin_thisyear on member.account = gradelogin_thisyear.memberid "
+ sql = sql & " left join gradeshare_thisyear on member.account = gradeshare_thisyear.memberid "
+ sql = sql & " left join membergradesummary b on member.account = b.memberid  "
+ sql = sql & " left join gradecontentbrowse_thisyear vcb on member.account = vcb.ieditor  "
+ sql = sql & " left join gradecontentcommend_thisyear vcc on member.account = vcc.ieditor  "
+ sql = sql & " left join gradecontentdiscuss_thisyear vcd on member.account = vcd.ieditor "
+ sql = sql & " left join view_membergradeadditional_thisyear viewaddthis on member.account = viewaddthis.memberid "
+ sql = sql & " left join dbo.membergradecontentbyyear mgcby on member.account = mgcby.memberid and (convert(int, convert(varchar(4), getdate(), 120 ) ) - isnull(years,0) = 0) "
+ sql = sql & " where member.account ='"& memberid &"'"
+ end if
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  if thisyear <> "" then
+   calculatetotal = cint(rs("total"))
+   browsetotal = rs("gradebrowse")
+   logintotal = rs("gradelogin")
+   sharetotal = rs("gradeshare")
+   contenttotal = rs("contenttotal")
+   additionaltotal = rs("additionaltotal")
+  else
+   calculatetotal = rs("calculatetotal")
+   browsetotal = rs("browsetotal")
+   logintotal = rs("logintotal")
+   sharetotal = rs("sharetotal")
+   contenttotal = rs("contenttotal")
+   additionaltotal = rs("additionaltotal")
+  end if
+ end if 
+ rs.close
+ set rs = nothing
+ 
+
+        =calculatetotal
+                                               =memberid:             =thisyear:     =browsetotal
+                                              =memberid:             =thisyear:     =logintotal
+                                              =memberid:             =thisyear:     =sharetotal
+          =contenttotal
+          =additionaltotal
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+ if thisyear = "" then
+ sql = "select convert(varchar, logindate, 111) as logindate, loginintercount, loginintergrade, logininterdate, " & _
+    "loginiqcount, loginiqgrade, loginiqdate, loginraisecount, loginraisegrade, loginraisedate, loginbirthdaygrade, loginadditional, logininvite, loginisinvited " & _
+    "from membergradelogin where (memberid = '" & memberid & "') and convert(varchar, logindate, 111) < convert(varchar, getdate(), 111) " & _
+    "order by logindate desc"
+ elseif thisyear <> "" then
+ sql = "select convert(varchar, logindate, 111) as logindate, loginintercount, loginintergrade, logininterdate, " & _
+    "loginiqcount, loginiqgrade, loginiqdate, loginraisecount, loginraisegrade, loginraisedate, loginbirthdaygrade, loginadditional, logininvite, loginisinvited " & _
+    "from membergradelogin where (memberid = '" & memberid & "') and (datediff(year, logindate, getdate()) = 0) " & _
+    "order by logindate desc"
+ end if
+ set rs = conn.execute(sql)
+ while not rs.eof 
+ 
+
+          =rs("logindate")
+          =rs("loginintercount"):            =rs("loginintergrade")
+          =rs("loginiqcount"):            =rs("loginiqgrade")
+          =rs("loginraisecount"):            =rs("loginraisegrade")
+                      =rs("loginbirthdaygrade")
+                      =rs("logininvite")
+                      =rs("loginisinvited")
+          =rs("loginadditional")
+
+   
+  rs.movenext
+ wend
+ rs.close
+ set rs = nothing
+  

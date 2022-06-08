@@ -1,0 +1,15 @@
+﻿:  CxMethod_ASP_exam_config_2044058075()
+   CxMethod_ASP_exam_util_inc_1220515710() : CxMethod_ASP_exam_class_789638872()
+  
+set connhakka = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'connhakka.open session("odbcdsn")
+'set connhakka = server.createobject("hywebdb3.dbexecute")
+connhakka.connectionstring = session("odbcdsn")
+connhakka.connectiontimeout=0
+connhakka.cursorlocation = 3
+connhakka.open
+'----------hyweb gip db connection patch----------
+
+ 

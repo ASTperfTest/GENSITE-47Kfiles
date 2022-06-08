@@ -1,0 +1,78 @@
+﻿
+
+
+
+
+   CxMethod_ASP_time_1402850635()
+
+   
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+
+function deamp(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   deamp=""
+   exit function
+  end if
+   deamp = replace(xs,"&","&amp;")
+end function
+
+' response.write "**" & request("xdurl") & "**"
+' response.end
+'if request("gstyle") <> "" then
+' session("gstyle")=request("gstyle")
+'end if
+
+ if request("memid") <> "" then
+  session("memid") = request("memid")
+ end if
+ '從年網帶回寫好的html與script
+ testxml = session("harvest_myxdurl") & "/xdhqp.asp?mp=4&ctnode=1487&ctunit=261&basedsd=35"
+ response.write "<phtml><![cdata["
+ 
+  set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty("serverhttprequest") = true
+  xv = oxml.load(testxml)
+  response.write oxml.selectsinglenode("phtml").text 
+
+ response.write "]]></phtml>"
+
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true 
+ 
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\xdmp" & request("mp") & ".xml"
+'  response.write loadxml & "<hr>"
+  xv = htpagedom.load(loadxml)
+'  response.write xv & "<hr>"
+    if htpagedom.parseerror.reason <> "" then 
+      response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+      response.end()
+    end if
+
+   set refmodel = htpagedom.selectsinglenode("//mpdataset")
+ xrootid=nulltext(refmodel.selectsinglenode("menutree"))
+ response.write "<menutitle>"&nulltext(refmodel.selectsinglenode("menutitle"))&"</menutitle>"
+ response.write "<mystyle>"&nulltext(refmodel.selectsinglenode("mpstyle"))&"</mystyle>"
+ response.write "<mp>"&request("mp")&"</mp>"
+ 
+ '-----會員登入區塊-----gssutility
+ call getlogininfo(request("memid"), request("gstyle")) 
+ 
+' response.write refmodel.xml
+  mytreenode = 0
+  upparent = 0
+   for each xdataset in refmodel.selectnodes("dataset[contentdata='y']")
+ processxdataset
+  next
+
+
+   CxMethod_ASP_x1menus_1545114555() 

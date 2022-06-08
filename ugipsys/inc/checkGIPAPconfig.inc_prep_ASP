@@ -1,0 +1,117 @@
+﻿: 
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+
+function checkgipapconfig(funcname)
+    dim htpagedomcheck
+    dim loadxmlcheck
+    
+ set htpagedomcheck = server.createobject("microsoft.xmldom")
+ htpagedomcheck.async = false
+ htpagedomcheck.setproperty("serverhttprequest") = true
+
+    loadxmlcheck = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\sysappara.xml"
+ xv = htpagedomcheck.load(loadxmlcheck)
+ if htpagedomcheck.parseerror.reason <> "" then
+  response.write("sysappara.xml parseerror on line " &  htpagedomcheck.parseerror.line)
+  'response.write("<br>loadxml: " &  loadxml)
+  response.write("<br>reasonxx: " &  htpagedomcheck.parseerror.reason)
+  response.end()
+ end if
+
+   checkgipapconfig = false
+   if ucase(nulltext(htpagedomcheck.selectsinglenode("systemparameter/gipconfig/" &funcname)))="y" then
+  checkgipapconfig = true
+    end if
+end function
+
+
+
+'// get setting item text to sysappara.xml
+'// modify date: 2006/09/20
+function getgipapconfigtext(byval funcname)
+    dim htpagedomcheck
+    dim loadxmlcheck
+    
+ set htpagedomcheck = server.createobject("microsoft.xmldom")
+ htpagedomcheck.async = false
+ htpagedomcheck.setproperty("serverhttprequest") = true
+ if savetext <> "1" or savetext <> "y" then
+     savetext = "n"
+ end if
+
+    loadxmlcheck = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\sysappara.xml"
+ xv = htpagedomcheck.load(loadxmlcheck)
+ if htpagedomcheck.parseerror.reason <> "" then
+  response.write("sysappara.xml parseerror on line " &  htpagedomcheck.parseerror.line)
+  'response.write("<br>loadxml: " &  loadxml)
+  response.write("<br>reasonxx: " &  htpagedomcheck.parseerror.reason)
+  response.end()
+ end if
+
+   rtnval = nulltext(htpagedomcheck.selectsinglenode("systemparameter/gipconfig/" &funcname))
+   getgipapconfigtext = rtnval
+end function
+
+
+'// save setting item text from sysappara.xml
+'// modify date: 2006/09/20
+function savegipapconfig(funcname, byval savetext)
+    dim rtnval          '// return value
+    dim htpagedomcheck
+    dim loadxmlcheck
+    dim xvcheck
+ rtnval = ""
+ 
+ set htpagedomcheck = server.createobject("microsoft.xmldom")
+ htpagedomcheck.async = false
+ htpagedomcheck.setproperty("serverhttprequest") = true
+
+ loadxmlcheck = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\sysappara.xml"
+ xvcheck = htpagedomcheck.load(loadxmlcheck)
+ if htpagedomcheck.parseerror.reason <> "" then
+  response.write("sysappara.xml parseerror on line " &  htpagedomcheck.parseerror.line)
+  'response.write("<br>loadxml: " &  loadxml)
+  response.write("<br>reasonxx: " &  htpagedomcheck.parseerror.reason)
+  response.end()
+ end if
+
+   htpagedomcheck.selectsinglenode("systemparameter/gipconfig/" &funcname).text = savetext
+   rtnval = htpagedomcheck.save(loadxmlcheck)
+   savegipapconfig = rtnval
+end function
+
+
+'// get setting item text from sysappara.xml
+'// modify date: 2006/01/06
+function savegipapconfigtext(funcname, savetext)
+    dim rtnval          '// return value
+    dim htpagedomcheck
+    dim loadxmlcheck
+    dim xvcheck
+ rtnval = ""
+ 
+ set htpagedomcheck = server.createobject("microsoft.xmldom")
+ htpagedomcheck.async = false
+ htpagedomcheck.setproperty("serverhttprequest") = true
+
+ loadxmlcheck = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\sysappara.xml"
+ xvcheck = htpagedomcheck.load(loadxmlcheck)
+ if htpagedomcheck.parseerror.reason <> "" then
+  response.write("sysappara.xml parseerror on line " &  htpagedomcheck.parseerror.line)
+  'response.write("<br>loadxml: " &  loadxml)
+  response.write("<br>reasonxx: " &  htpagedomcheck.parseerror.reason)
+  response.end()
+ end if
+
+   htpagedomcheck.selectsinglenode("systemparameter/gipconfig/" &funcname).text = savetext
+   
+   rtnval = htpagedomcheck.save(loadxmlcheck)
+   savegipapconfigtext = rtnval
+end function
+ 

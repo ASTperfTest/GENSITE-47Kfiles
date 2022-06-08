@@ -1,0 +1,84 @@
+﻿
+
+
+
+                               
+          
+    function CheckSelect() {
+        //if  (forma.checkboxC.checked !=true &&  forma.checkboxP.checked !=true &&  forma.checkboxS.checked !=true )
+        if (forma.checkboxC.checked != true && forma.checkboxS.checked != true) {
+            alert("您尚未選擇會員類型!");
+            return false;
+        }
+        return true;
+    }
+    function goToHome() {
+        window.location = "default.asp";
+        //window.location= "index.htm";
+    }  
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                          function onclick____141838907() {return CheckSelect()}
+                                              function onclick___900913625() {goToHome()}
+
+
+
+
+
+
+
+ 

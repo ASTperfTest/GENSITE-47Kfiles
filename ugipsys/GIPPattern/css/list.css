@@ -1,0 +1,111 @@
+#ListTable {
+	font-size: 12px;
+	width: 100%;
+	border-top: 3px solid #BDC9B6;
+	border-bottom: 2px solid #BDC9B6;
+	margin-bottom: 15px;
+	padding: 0px;
+	margin-top: 3px;
+}
+#ListTable img {
+	border: none;
+}
+#ListTable th, #ListTable th.First {
+	font-weight: normal;
+	border-bottom: 1px solid #BDC9B6;
+	color: #005448;
+	padding-top: 5px;
+	padding-bottom: 3px;
+	white-space: nowrap;
+}
+#ListTable th {
+	background: #F8FBF2 url(../images/thsep.gif) no-repeat left center;
+}
+#ListTable th.First {
+	background: #F8FBF2 url(none);
+}
+#ListTable td {
+	border-bottom: 1px solid #D8E1D2;
+	text-align: left;
+	padding: 5px 3px 2px;
+}
+#ListTable td.Center {
+	text-align: center;
+}
+#ListTable td.Right {
+	text-align: right;
+}
+/*-----------------------------------------------*/
+#DataTable {
+	font-size: 12px;
+	width: 100%;
+	margin-bottom: 15px;
+	margin-top: 3px;
+	border-top: 3px solid #BDC9B6;
+	border-bottom: 2px solid #BDC9B6;
+	border-left: 1px solid #BDC9B6;
+}
+#DataTable td {
+	border-right: 1px solid #BDC9B6;
+	border-bottom: 1px solid #BDC9B6;
+	vertical-align: top;
+	padding: 5px 3px 3px;
+}
+#DataTable th {
+	color: #005555;
+	font-weight: normal;
+	background: #F8FBF2;
+	border-right: 1px solid #BDC9B6;
+	border-bottom: 1px solid #BDC9B6;
+	vertical-align: top;
+	padding: 5px 3px 3px;
+	text-align: right;
+	white-space: nowrap;
+}
+#DataTable ul {
+	line-height: 170%;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 20px;
+}
+/*-----------------------------------------------*/
+#Form2 {
+	padding: 0px;
+	margin: 0px 20px;
+}
+#Form2 label{
+	font-size: 12px;
+	color: #005555;
+	text-align: right;
+	padding-top: 5px;
+	padding-left: 5px;
+}
+/*-----------------------------------------------*/
+.InputButton {
+	font-size: 12px;
+	background: url(../images/form_but_bg.gif) repeat-x;
+	padding-top: 3px;
+	color: #202624;
+	border-top: 1px solid #BBBBBB;
+	border-right: 1px solid #888888;
+	border-bottom: 1px solid #888888;
+	border-left: 1px solid #BBBBBB;
+}
+.cbutton {
+	font-size: 12px;
+	background: url(../images/form_but_bg.gif) repeat-x;
+	padding-top: 3px;
+	color: #2B4723;
+	border-top: 1px solid #BBBBBB;
+	border-right: 1px solid #888888;
+	border-bottom: 1px solid #888888;
+	border-left: 1px solid #BBBBBB;
+}
+#FormName {
+	font-size: 15px;
+	font-weight: normal;
+	margin-top: 15px;
+	text-align: center;
+	letter-spacing: 0.15em;
+	color: #333333;
+}

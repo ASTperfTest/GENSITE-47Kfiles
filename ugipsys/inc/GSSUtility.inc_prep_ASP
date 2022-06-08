@@ -1,0 +1,27 @@
+﻿: 
+function getlogininfo(memid, gstyle)
+ response.write "<login>"
+ dim memname, memnickname, memlogincount
+ if memid <> "" then  
+  sql = "select realname, isnull(nickname, '') as nickname, isnull(logincount, 0) as logincount " & _
+     "from member where account = '" & memid & "'"
+  set memrs = conn.execute(sql)
+  if not memrs.eof then
+   response.write "<status>true</status>" 
+   memname = trim(memrs("realname"))
+   memnickname = trim(memrs("nickname"))        
+   memlogincount = memrs("logincount")
+  else 
+    response.write "<status>false</status>" 
+  end if
+ else
+  response.write "<status>false</status>"
+ end if
+ response.write "<memid>" & memid & "</memid>"
+ response.write "<memname><![cdata[" & memname & "]]></memname>"
+ response.write "<memnickname><![cdata[" & memnickname & "]]></memnickname>"
+ response.write "<memlogincount>" & memlogincount & "</memlogincount>"  
+ response.write "<gstyle>" & gstyle & "</gstyle>"    
+ response.write "</login>"
+end function
+ 

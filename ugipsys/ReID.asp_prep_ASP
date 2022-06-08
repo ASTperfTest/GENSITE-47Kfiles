@@ -1,0 +1,99 @@
+﻿: @ codepage = 65001 
+  response.expires = 0
+
+
+
+
+
+
+
+   CxMethod_ASP_dbutil_453315802()
+  
+ '要檢查的 request 變數名稱
+ parray = array("email")
+ for each str in parray
+  p = request(str)
+  '要檢查的 pattern
+  patern = array("<", ">", "%3c", "%3e", ";", "%27", "'")
+ 
+  for each ptn in patern
+   if (instr(p, ptn) > 0) then
+    response.end
+   end if
+  next
+ next
+
+
+  
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+ function nulltext(xnode)
+   on error resume next
+   xstr = ""
+   xstr = xnode.text
+   nulltext = xstr
+ end function
+
+ function send_email (s_email,r_email,re_sbj,re_body)
+   set objnewmail = createobject("cdonts.newmail") 
+   objnewmail.mailformat = 0
+   objnewmail.bodyformat = 0 
+   call objnewmail.send(s_email,r_email,re_sbj,re_body)
+   set objnewmail = nothing
+ end function
+
+ if request("task")="查詢" then
+    sql = "select * from infouser where email=" & pkstrwithsripthtml(request("email"), "")
+    set rs = conn.execute(sql)
+  if rs.eof then
+
+
+
+
+  
+ else
+  
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true 
+ 
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\syspara.xml"  
+  xv = htpagedom.load(loadxml)
+  if htpagedom.parseerror.reason <> "" then 
+     response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+     response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+     response.end()
+   end if
+
+  formccmail = nulltext(htpagedom.selectsinglenode("//dsdxmlemail"))
+
+  s_email="""gip 後台管理系統"" <gipservice@hyweb.com.tw>"
+  if formccmail <> "" then _
+   s_email="""gip 後台管理系統"" <" & formccmail & ">"
+      r_email=rs("email")
+      email_body="【 " & striphtml(rs("username")) & " 】您好:" & "<br>" & _
+      "下列為您的帳號/密碼" & _
+   "<pre>      帳號: 【 " & striphtml(rs("userid")) & " 】" & "</pre>" & _
+   "<pre>      密碼: 【 " & striphtml(rs("password")) & " 】" & "</pre>" & _
+   "請查收." & "<br>"
+      call send_email(s_email,r_email,"gip 帳號密碼通知",email_body)
+   '------------
+
+
+
+
+
+  
+  end if
+ end if
+ 

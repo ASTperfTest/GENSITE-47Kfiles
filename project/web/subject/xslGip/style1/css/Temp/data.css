@@ -1,0 +1,334 @@
+@charset "utf-8";
+
+/*   CSS Document */
+
+/* () */
+
+
+
+/*----------------------------------------  ------------*/
+
+.News {
+	padding-top: 15px;
+	background-color: #FFFFFF;
+
+}
+
+.News .Head {
+	background: url(../images/main/icon_01.gif) no-repeat;
+	height: 24px;
+	padding-left: 32px;
+	border-bottom: 1px dashed #999999;
+	margin-bottom: 30px;
+	margin-top: 10px;
+	margin-right: 15px;
+	margin-left: 15px;
+	font-size: 18px;
+	font-weight: bold;
+	color: #333333;
+}
+
+.News .Body {
+	padding-left: 15px;
+	padding-right: 15px;
+	font-size: 13px;
+	color: #000000;
+
+}
+
+.News .Body h1 {
+
+	font-size: 15px;
+
+	color: #003366;
+
+	font-weight: bold;
+
+	margin-top: 5px;
+
+	margin-bottom: 8px;
+
+}
+
+.News .Body img {
+
+	float: left;
+
+	border: 1px solid #999999;
+
+	margin: 0px 8px 8px 5px;
+
+}
+
+.News .Body p {
+
+	font-size: 13px;
+
+	line-height: 170%;
+
+	color: #333333;
+
+	margin-top: 0px;
+
+}
+
+.News .Body ul {
+	font-size: 12px;
+	color: #333333;
+	margin-top: 0px;
+	margin-bottom: 5px;
+	margin-left: 5px;
+	padding-left: 0px;
+	list-style-type: circle;
+
+}
+
+.News .Body li {
+	list-style: none;
+	line-height: 160%;
+	background: url(../images/right_func/bullet03.gif) no-repeat 1px 7px;
+	padding-left: 15px;
+	padding-bottom: 5px;
+	font-size: 13px;
+	font-weight: normal;
+	color: #2C547C;
+}
+
+.News .Body li .Date {
+
+	font-size: 11px;
+
+	font-family: Arial, Helvetica, sans-serif;
+
+	font-weight: normal;
+
+	color: #7B9EBB;
+
+	margin-left: 8px;
+
+}
+
+.News .Foot {
+	font-size: 12px;
+	text-align: right;
+	float: none;
+	border-bottom: 15px solid #FFFFFF;
+	padding-right: 15px;
+	padding-left: 15px;
+	padding-bottom: 5px;
+
+}
+
+.News .Top {
+	background: url(../images/main/banner_ad.gif) no-repeat;
+	border-bottom-width: 10px;
+	border-bottom-style: solid;
+	border-bottom-color: #C7D9BB;
+}
+
+
+/*---------------------------------------------------------*/
+
+.Dic {
+	background-color: #FFFFFF;
+	margin-bottom: 15px;
+	padding-bottom: 3px;
+	border-bottom-width: 3px;
+	border-bottom-style: solid;
+	border-bottom-color: #9F9F9F;
+
+}
+
+.Dic .Head {
+	background: url(../images/right_func/func_bg02.gif) no-repeat;
+	font-size: 15px;
+	color: #000000;
+	padding-left: 3px;
+	padding-top: 4px;
+	padding-bottom: 0px;
+	letter-spacing: 0.15em;
+	text-align: center;
+	height: 24px;
+	width: 170px;
+	margin-top: 10px;
+}
+
+.Dic .Body {
+	background: url(../images/DicBodyBg.gif) repeat-y;
+	font-size: 12px;
+	padding-top: 5px;
+	font-weight: normal;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+.Dic .Body h1 {
+
+	font-size: 13px;
+
+	color: #003366;
+
+	font-weight: bold;
+
+	margin-top: 0px;
+
+	margin-bottom: 5px;
+
+	padding-top: 5px;
+
+}
+
+.Dic .Body p {
+
+	font-size: 12px;
+
+	line-height: 170%;
+
+	color: #333333;
+
+	margin-top: 0px;
+
+	margin-bottom: 10px;
+
+}
+
+.Dic .Foot {
+	background: url(../images/DicFootBg.gif) no-repeat;
+	text-align: right;
+	padding-top: 15px;
+
+}
+
+.Dic .Body li {
+	color: #333333;
+	font-size: 12px;
+	list-style-position: inside;
+}
+
+.Dic .Body li .Date {
+
+	font-size: 10px;
+
+	font-family: Arial, Helvetica, sans-serif;
+
+	font-weight: normal;
+
+	color: #7B9EBB;
+
+}
+
+
+/*---------------------------------------------------------*/
+
+.RelArtical {
+
+	width: 150px;
+
+	margin-bottom: 10px;
+
+	font-size: 12px;
+
+}
+
+.RelArtical .Head {
+
+	background: url(../images/RAHeadBg.gif) no-repeat;
+
+	font-size: 15px;
+
+	line-height: 15px;
+
+	color: #FFFFFF;
+
+	padding-left: 8px;
+
+	padding-top: 10px;
+
+	padding-bottom: 2px;
+
+}
+
+.RelArtical .Body {
+
+	background: url(../images/RABodyBg.gif) repeat-y;
+
+	padding: 10px;
+
+}
+
+.RelArtical .Body ul {
+
+	font-size: 12px;
+
+	color: #333333;
+
+	margin-top: 0px;
+
+	margin-bottom: 5px;
+
+	margin-left: 0px;
+
+	padding-left: 0px;
+
+}
+
+.RelArtical .Body li {
+
+	list-style: none;
+
+	line-height: 160%;
+
+	background: url(../images/Bullet2.gif) no-repeat 1px 3px;
+
+	padding-left: 15px;
+
+	padding-bottom: 8px;
+
+}
+
+.RelArtical .Body li .Date {
+
+	font-size: 12px;
+
+	font-family: Arial, Helvetica, sans-serif;
+
+	font-weight: bold;
+
+	color: #007733;
+
+	margin-left: 8px;
+
+}
+
+.RelArtical .Foot {
+
+	background: url(../images/RAFootBg.gif) no-repeat;
+
+	height: 28px;
+
+	text-align: right;
+
+}
+
+
+
+/*---------------------------------------------------------*/
+
+.Page {
+	font-size: 12px;
+	color: #3A943D;
+	text-decoration: none;
+	margin-bottom: 20px;
+	margin-left: 20px;
+	margin-top: 15px;
+}
+
+.Page select {
+
+	font: bold 12px Arial, Helvetica, sans-serif;
+
+	color: #006633;
+
+	text-decoration: none;
+
+}

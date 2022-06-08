@@ -1,0 +1,342 @@
+﻿: 
+ formid = request("formid")
+
+ set htpagedom = server.createobject("microsoft.xmldom")
+ htpagedom.async = false
+ htpagedom.setproperty("serverhttprequest") = true 
+ 
+ loadxml = server.mappath(".") & "\formspec\" & formid & ".xml"
+ debugprint loadxml & "<hr>"
+ xv = htpagedom.load(loadxml)
+  if htpagedom.parseerror.reason <> "" then 
+    response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+    response.write("<br>reason: " &  htpagedom.parseerror.reason)
+    response.end()
+  end if
+
+' set rptxmldoc = server.createobject("microsoft.xmldom")
+' rptxmldoc.async = false
+' rptxmldoc.setproperty("serverhttprequest") = true 
+ 
+' loadxml = server.mappath(".") & "\formspec\lbbdsd.xml"
+' debugprint loadxml & "<hr>"
+' xv = rptxmldoc.load(loadxml)
+ 
+'  if rptxmldoc.parseerror.reason <> "" then 
+'    response.write("xml parseerror on line " &  rptxmldoc.parseerror.line)
+'    response.write("<br>reason: " &  rptxmldoc.parseerror.reason)
+'    response.end()
+'  end if
+
+' debugprint xv & "<hr>"
+' debugprint rptxmldoc.xml
+' response.end
+
+' set formdom = rptxmldoc.selectsinglenode("dataschemadef/dstable[tablename='" & formid & "']")
+ 
+' debugprint formdom.xml
+' response.end
+
+' rptname = rptxmldoc.selectsinglenode("rpttoc/rptdef[rptid='" & rptid & "']/rptname").text
+
+' set paramxmldoc = server.createobject("microsoft.xmldom")
+' paramxmldoc.async = false
+' paramxmldoc.setproperty("serverhttprequest") = true
+' loadxml = server.mappath(".") & "\rqparam\" & rptname & ".xml"
+' debugprint loadxml & "<hr>"
+' xv = paramxmldoc.load(loadxml)
+' debugprint xv & "<hr>"
+' debugprint paramxmldoc.xml
+' response.end
+
+
+
+
+
+         =nulltext(htpagedom.selectsinglenode("//pagespec/pagehead"))
+
+
+
+
+
+
+  =nulltext(htpagedom.selectsinglenode("//pagespec/pagehead"))
+
+   for each linkanchor in htpagedom.selectnodes("//pagespec/aidlinklist/link") 
+                                   =nulltext(linkanchor.selectsinglenode("uri")):     =nulltext(linkanchor.selectsinglenode("anchor"))
+   next 
+
+
+
+
+
+
+
+                               =nulltext(htpagedom.selectsinglenode("//pagespec/pagefunction"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ set htformdom = htpagedom.selectsinglenode("//pagespec/formui")
+ set refmodel = htpagedom.selectsinglenode("//htform/formmodel[@id='" & htformdom.selectsinglenode("@ref").text & "']")
+' response.write refmodel.selectsinglenode("tablename").text & "<hr>"
+
+dim basetable
+
+ set pxhtml = htformdom.selectsinglenode("pxhtml")
+ for each x in pxhtml.childnodes
+  recursivetag x
+ next
+
+ for each xcode in htformdom.selectnodes("scriptcode")
+  response.write xcode.text
+ next
+
+
+
+
+  
+sub recursivetag(xdom)
+dim x
+ if xdom.nodename = "reffield" then
+  processparam(xdom.text)
+  exit sub
+ end if
+ if xdom.nodename = "#comment" then exit sub
+ if xdom.nodename = "#text" then
+  response.write xdom.text
+  exit sub
+ end if
+ response.write "<" & xdom.nodename
+ for xi = 0 to xdom.attributes.length-1
+  response.write " " & xdom.attributes.item(xi).nodename & "=""" _
+   & xdom.attributes.item(xi).text & """"
+ next
+ response.write ">"
+ for each x in xdom.childnodes
+'  response.write x.nodename & "<br>"
+  recursivetag x
+ next
+ response.write "</" & xdom.nodename & ">" & vbcrlf
+end sub
+
+
+sub processfieldlist(xflobj)
+ xb = nulltext(xflobj.selectsinglenode("tablename"))
+ if xb <> "" then basetable = xb
+ for each xf in xflobj.selectnodes("field")
+  processfield xf
+ next
+end sub
+
+sub processfield(xfobj)
+ response.write "<tr><td class=""lightbluetable"" align=""right"">" & nulltext(xfobj.selectsinglenode("fieldlabel")) & "�g</td>" & vbcrlf
+ response.write "<td class=""whitetablebg""><reffield>" & basetable & "/" & xfobj.selectsinglenode("fieldname").text & "</reffield>" & "</td>" & vbcrlf
+ response.write "</tr>" & vbcrlf
+end sub
+
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+' if not isnull(xnode) then
+'   if isobject(xnode) then
+'  nulltext = 
+'   end if
+' else
+'  nulltext = "aaa"
+' end if
+end function
+
+function nctabchar(n)
+ if ctabchar = "" then
+  nctabchar = ""
+ else
+  nctabchar = string(n,ctabchar)
+ end if
+end function
+
+sub debugprint(xstr)
+ response.write xstr
+end sub
+
+sub processparam(xstr)
+' response.write xstr
+ inpos = instr(xstr,"/")
+ reftable = left(xstr,inpos-1)
+ reffield = mid(xstr,inpos+1)
+' response.write xreftable & "==>" & xreffield & "<br>"
+' response.write "fieldlist[tablename='" & xreftable & "']/field[fieldname='" & reffield & "']"
+' exit sub
+ set param = refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/field[fieldname='" & reffield & "']")
+  paramcode = param.selectsinglenode("fieldname").text
+  paramtype = param.selectsinglenode("datatype").text
+  paramsize= nulltext(param.selectsinglenode("datalen"))
+  if paramsize = "" then paramsize = 10
+  if paramsize > 50 then paramsize = 50
+  select case nulltext(param.selectsinglenode("inputtype"))
+    case ""
+
+                          =paramcode:           =paramsize
+  
+    case "calc"
+
+                          =paramcode:           =paramsize
+  
+    case "readonly"
+
+                          =paramcode:           =paramsize
+  
+    case "range"
+
+                          =paramcode:            =paramsize:                          =paramcode:            =paramsize
+  
+    case "varchar"
+
+                          =paramcode:           =paramsize
+  
+    case "textarea"
+
+                             =paramcode:           =nulltext(param.selectsinglenode("rowsize")):           =nulltext(param.selectsinglenode("colsize"))
+
+  
+    case "file"
+
+                                      =paramcode
+  
+    case "smalldatetime"
+
+                          =paramcode:           =paramsize
+  
+    case "multicheckbox"
+     refcode = param.selectsinglenode("reflookup").text
+     dynamiccode = ""
+      for each dc in param.selectnodes("dynamicbehavior")
+       dynamiccode = " " & dc.selectsinglenode("event").text & "=""" _
+        & dc.selectsinglenode("pcall").text & """"
+      next
+'     response.write refcode
+     set optionlist = rptxmldoc.selectnodes("//dstable[tablename='codemain']/instance/row[codemetaid='"&refcode&"']")
+   pdxc = ""
+     for each optitem in optionlist 
+      if dynamiccode <> "" then _
+       pdxc = replace(dynamiccode, "'mcode'", "'" & optitem.selectsinglenode("mcode").text & "'")
+
+                                        =paramcode:            =optitem.selectsinglenode("mcode").text:     =pdxc
+       response.write optitem.selectsinglenode("mvalue").text & "�@"
+     next
+    case "radio"
+     refcode = param.selectsinglenode("reflookup").text
+     dynamiccode = ""
+      for each dc in param.selectnodes("dynamicbehavior")
+       dynamiccode = " " & dc.selectsinglenode("event").text & "=""" _
+        & dc.selectsinglenode("pcall").text & """"
+      next
+'     response.write refcode
+     set optionlist = rptxmldoc.selectnodes("//dstable[tablename='codemain']/instance/row[codemetaid='"&refcode&"']")
+   pdxc = ""
+     for each optitem in optionlist 
+      if dynamiccode <> "" then _
+       pdxc = replace(dynamiccode, "'mcode'", "'" & optitem.selectsinglenode("mcode").text & "'")
+
+                                     =paramcode:            =optitem.selectsinglenode("mcode").text:     =pdxc
+       response.write optitem.selectsinglenode("mvalue").text & "&nbsp;&nbsp;"
+     next
+    case "selection"
+     refcode = param.selectsinglenode("reflookup").text
+'     response.write refcode
+     set optionlist = rptxmldoc.selectnodes("//dstable[tablename='codemain']/instance/row[codemetaid='"&refcode&"']")
+
+                          =paramcode
+
+       for each optitem in optionlist 
+                      =optitem.selectsinglenode("mcode").text
+       =optitem.selectsinglenode("mvalue").text
+       next
+   response.write "</select>" & vbcrlf
+
+  
+    case "refselect"
+
+                          =paramcode
+
+      sql= param.selectsinglenode("paramrefsql").text  
+   set rss=conn.execute(sql)                       
+      while not rss.eof 
+                          =rss(0):    =rss(1)
+         rss.movenext
+      wend 
+
+  
+  end select
+end sub
+
+
+sub xprocessparam
+  paramcode = param.selectsinglenode("fieldname").text
+  paramtype = param.selectsinglenode("datatype").text
+  paramsize=10
+  if paramtype="varchar" then paramsize = param.selectsinglenode("datalen").text
+  if paramtype="char" then paramsize = param.selectsinglenode("datalen").text
+  select case param.selectsinglenode("datatype").text
+    case "range"
+
+                          =paramcode:            =paramsize:                          =paramcode:            =paramsize
+  
+    case "varchar"
+
+                          =paramcode:           =paramsize
+  
+    case "smalldatetime"
+
+                          =paramcode:           =paramsize
+  
+    case "reflookup"
+     refcode = param.selectsinglenode("reflookup").text
+'     response.write refcode
+     set optionlist = rptxmldoc.selectnodes("//dstable[tablename='codemain']/instance/row[codemetaid='"&refcode&"']")
+
+                          =paramcode
+
+       for each optitem in optionlist 
+                      =optitem.selectsinglenode("mcode").text
+       =optitem.selectsinglenode("mvalue").text
+       next
+   response.write "</select>" & vbcrlf
+
+  
+    case "refselect"
+
+                          =paramcode
+
+      sql= param.selectsinglenode("paramrefsql").text  
+   set rss=conn.execute(sql)                       
+      while not rss.eof 
+                          =rss(0):    =rss(1)
+         rss.movenext
+      wend 
+
+  
+    case "radio"
+     set oplist = param.selectnodes("availoption")
+     for each opitem in oplist
+      checkedtrue = ""
+      if nulltext(opitem.selectsinglenode("default")) <> "" then checkedtrue = " checked"
+
+                                      =paramcode:            =opitem.selectsinglenode("value").text:    =checkedtrue:    =opitem.selectsinglenode("lable").text
+     next
+  end select
+end sub
+ 

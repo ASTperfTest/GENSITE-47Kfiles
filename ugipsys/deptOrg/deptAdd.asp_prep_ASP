@@ -1,0 +1,407 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogfunc="新增從屬部門"
+htuploadpath="/public/"
+htprogcode="pn02m02"
+htprogprefix="dept" 
+' ============= modified by chris, 2006/08/24, to handle 單位組織作為cudtspecific ========================'
+'  document: 950822_智庫gip擴充.doc
+'  modified list:
+' 存檔時檢查gipconfig<deptctunitid>，有值時另插入一筆 cudtgeneric
+' ============= modified by chris, 2006/08/22, to handle "deptiddouble" ========================
+'  document: 950822_智庫gip擴充.doc
+'  modified list:
+' function chrtodec(inchr)
+' function dectochr(indec)
+' 存檔時產生新代碼
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_checkgipconfig_1275316133()
+
+
+
+
+         =title
+
+   CxMethod_ASP_dbutil_10064021()
+  
+' ===begin========== modified by chris, 2006/08/22, to handle "deptiddouble" ========================
+function chrtodec(inchr)
+dim xv
+ if len(inchr) = 1 then
+   temp=asc(inchr)
+   if temp > 64 then
+      chrtodec=temp-55
+   else
+      chrtodec=temp-48
+   end if
+ else
+ xv = 0
+ for xi=1 to len(inchr)
+  xv = xv*36 + chrtodec(mid(inchr,xi,1))
+ next
+ chrtodec = xv
+ end if
+end function
+
+function dectochr(indec)
+   if indec < 10 then
+      dectochr=cstr(indec)
+   elseif indec < 36 then
+      dectochr=chr(indec+55)
+   else
+  xs = ""
+  xv = indec
+  while xv > 0 
+   xrv = xv mod 36
+   xv = xv \ 36
+   xs = dectochr(xrv) & xs
+  wend
+  dectochr = xs
+   end if
+end function
+' ===end========== modified by chris, 2006/08/22, to handle "deptiddouble" ========================
+
+ dim xnewidentity
+ apath=server.mappath(htuploadpath) & "\"
+  if request.querystring("phase")<>"add" then
+set xup = server.createobject("tabs.upload")
+xup.codepage=65001
+xup.start apath
+
+else
+set xup = server.createobject("tabs.upload")
+end if
+
+function xupform(xvar)
+ xupform = xup.form(xvar)
+end function
+
+if xupform("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+ sql = "select datalevel from cattreenode where ctnodeid=" & pkstr(request("catid"),"")
+ set rs = conn.execute(sql)
+ xdatalevel = 1
+ if not rs.eof then
+  xdatalevel = rs("datalevel") + 1
+ end if
+
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+   sub initform() 
+
+
+
+
+
+
+
+                          =request("deptid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_deptform_1917110329()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+       =title
+
+
+
+
+
+                     =htprogfunc
+
+   end sub '--- showhtmlhead() ------
+
+
+   sub showhtmltail() 
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' sql = "select * from client where clientid = n'"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "「客戶編號」重複!!請重新建立客戶編號!"
+'  exit sub
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+
+' ===begin========== modified by chris, 2006/08/22, to handle "deptiddouble" ========================
+ dbldeptidpad = ""
+ dbldeptidlen = 1
+  if checkgipconfig("deptiddouble") then
+  dbldeptidpad = "0"
+  dbldeptidlen = 2
+ end if 
+
+ parentid = xupform("htx_parent")
+ 
+ '--------將這筆的id抓出來改
+  sqlcom = "select deptid, seq from dept where parent = " & pkstr(parentid,"") & " order by deptid desc"
+  set rs1 = conn.execute(sqlcom)
+  if rs1.eof then 
+  myseq = "1"
+    newhidid = parentid & dbldeptidpad & "1"
+  else  
+  myseq = rs1("seq") + 1
+  '-------找空的deptid
+    arychkdptid = rs1.getrows(999)
+    i = 1
+    for xi = ubound(arychkdptid, 2) to 0 step - 1
+ temp = chrtodec( right( arychkdptid(0, xi), dbldeptidlen) )
+ temp1 = right( arychkdptid(0, xi), dbldeptidlen)
+      if temp <> i and isnumeric(temp1) then
+ newhidid=left(arychkdptid(0,xi),len(arychkdptid(0,xi))-dbldeptidlen) & right("00"&dectochr(temp-1),dbldeptidlen)
+        exit for
+      else
+ i = i + 1
+      end if   
+      tempdepid = arychkdptid( 0, xi)
+    next
+  '-------------找不到空的deptid ,新增deptid
+    if newhidid = "" then  
+      plen = len(tempdepid)
+      if plen > 1 then
+        tranpar = chrtodec(right(tempdepid,dbldeptidlen))
+      end if
+      tranpar = tranpar + 1        
+      if plen > 2 then
+        newhidid = left(tempdepid, plen - dbldeptidlen) & right( "00" & dectochr(tranpar), dbldeptidlen )
+      else
+        newhidid = left(tempdepid, 1) & right( "00" & dectochr(tranpar), dbldeptidlen )
+      end if
+    end if
+  end if
+'response.write newhidid
+'response.end
+ if xupform("htx_seq") <> "" then myseq = xupform("htx_seq")
+' ===end========== modified by chris, 2006/08/22, to handle "deptiddouble" ========================
+
+ sql = "insert into dept(deptid, parent,seq,"
+ sqlvalue = ") values(" & pkstr(newhidid,",") & pkstr(parentid,",") & pkstr(myseq,",")
+' ===begin========== modified by chris, 2006/08/24, to handle 單位組織作為cudtspecific ========================'
+ ctunitid = getgipconfigtext("deptctunitid")
+ if ctunitid<>"" then
+'  response.write ctunitid
+  xsql = "insert into cudtgeneric(ibasedsd,ictunit,stitle, ieditor,idept,deditdate,showtype) values(" _
+   & "8," & pkstr(ctunitid,",") _
+   & pkstr(xupform("htx_deptname"),",") _
+   & pkstr(session("userid"),",") _
+   & pkstr(newhidid,",") _
+   & "getdate(),'1')"
+  xsql = "set nocount on;"&xsql&"; select @@identity as newid"
+  set rsx = conn.execute(xsql)
+  xnewidentity = rsx(0)
+  sql = sql & "gicuitem" & ","
+  sqlvalue = sqlvalue & pkstr(xnewidentity,",")
+ end if
+' response.end
+' ===end========== modified by chris, 2006/08/24, to handle 單位組織作為cudtspecific ========================'
+
+ if xupform("htx_deptname") <> "" then
+  sql = sql & "deptname" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_deptname"),",")
+ end if
+ if xupform("htx_abbrname") <> "" then
+  sql = sql & "abbrname" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_abbrname"),",")
+ end if
+ if xupform("htx_edeptname") <> "" then
+  sql = sql & "edeptname" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_edeptname"),",")
+ end if
+ if xupform("htx_eabbrname") <> "" then
+  sql = sql & "eabbrname" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_eabbrname"),",")
+ end if
+   if checkgipconfig("dpetorgcode") then
+ if xupform("htx_deptcode") <> "" then
+  sql = sql & "deptcode" & "," & "codename" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_deptcode"),",")
+  sqlvalue = sqlvalue & pkstr(xupform("htx_deptname") & " (" & xupform("htx_deptcode") & ")",",")
+ end if
+ end if
+ if xupform("htx_orgrank") <> "" then
+  sql = sql & "orgrank" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_orgrank"),",")
+ end if
+ if xupform("htx_kind") <> "" then
+  sql = sql & "kind" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_kind"),",")
+ end if
+ if xupform("htx_inuse") <> "" then
+  sql = sql & "inuse" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_inuse"),",")
+ end if
+ if xupform("htx_tdatacat") <> "" then
+  sql = sql & "tdatacat" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_tdatacat"),",")
+ end if
+ 
+ if xupform("htx_add") <> "" then
+  sql = sql & "servaddr" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_add"),",")
+ end if
+ if xupform("htx_website") <> "" then
+  sql = sql & "website" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_website"),",")
+ end if
+ if xupform("htx_tel") <> "" then
+  sql = sql & "servphone" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_tel"),",")
+ end if
+
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+' response.write sql
+' response.end
+ conn.execute(sql)  
+end sub '---- doupdatedb() ----
+
+sub showdonebox()
+ doneuri= ""
+ if doneuri = "" then doneuri = htprogprefix & "list.asp"
+
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                              =doneuri
+
+
+
+
+   end sub '---- showdonebox() ----  

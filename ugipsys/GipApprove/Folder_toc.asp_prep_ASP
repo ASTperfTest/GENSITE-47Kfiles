@@ -1,0 +1,134 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "gc1ap2" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+
+
+
+
+
+  
+ if request.querystring("itype")="" then
+  opencloseanchor="folder_toc.asp?itype=2"
+  openclosestr="展開"
+  openclosestate="close"
+ else
+  opencloseanchor="folder_toc.asp"
+  openclosestr="收合"
+  openclosestate="open"  
+ end if
+ ftypename = "資料審稿"+"　　　<a href='"+opencloseanchor+"'>"+openclosestr+"</a>　<a href='gipapprovelist.asp' target='forumtoc'>待審清單</a>"
+ userid = session("userid")
+
+   const cid     = 2 'catid
+   const cname   = 3 'catname
+   const cparent = 7 'dataparent
+   const cchild  = 8 'childcount
+   const clevel  = 6 'datalevel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        =openclosestate
+   response.write "treeroot = gfld(""forumtoc"", """ & ftypename & """, """")" & vbcrlf
+ nowcount = 0
+ 
+ sqlcom = "select ctr.* " & _
+  "from cattreeroot ctr " & _
+  "where ctr.pvxdmp is not null " _
+  & " and (deptid is null or deptid like n'" & session("deptid") & "%'" _
+  & " or '" & session("deptid") & "' like deptid+'%')"
+ set rstree = conn.execute(sqlcom)
+ 
+ while not rstree.eof
+  itemid = rstree("ctrootid")
+  session("itemid")=itemid
+ 
+ 
+ sqlcom = "select t.*, u.rights " _
+  & ", (select count(*) from cattreenode as c where c.dataparent=t.ctnodeid " _
+  & " and c.ctnodekind='c') as haschildfolder " _
+  & ", (select count(*) from cattreenode as c join ctuserset2 as cu on cu.ctnodeid=c.ctnodeid " _
+  & " and cu.userid=" & pkstr(userid,"") _
+  & " where c.dataparent=t.ctnodeid and cu.rights is not null) as haschild " _
+  & " from cattreenode as t left join ctuserset2 as u on u.ctnodeid=t.ctnodeid " _
+  & " and u.userid=" & pkstr(userid,"") _
+  & " where ctrootid = "& pkstr(itemid,"") _
+  &" order by datalevel, catshoworder"
+' response.write "//" & sqlcom
+' response.end
+ set rs = conn.execute(sqlcom)
+ if not rs.eof then
+  xparent = "treeroot"
+  catlink = "blank.htm" 'catlist.asp?itemid="& itemid &"&catid="& rs("ctnodeid")
+'  if rs("haschild")<> 0 or rs("haschildfolder") <> 0 then 
+   response.write "t"& itemid &"= insfld(" & xparent &", gfld(""forumtoc"", """& rstree("ctrootname") &""", """& catlink &"""))" & vbcrlf
+'  end if
+ end if 
+ while not rs.eof
+  xparent = "t" &itemid
+  if rs(clevel) > 1 then xparent = "n" & rs(cparent)
+  if rs("ctnodekind") = "c" then
+   catlink = "blank.htm" 
+   if rs("haschild")<> 0 then 
+    response.write "n"& rs(cid) &"= insfld(" & xparent &", gfld(""forumtoc"", """& rs(cname) &""", """& catlink &"""))" & vbcrlf
+   elseif rs("haschildfolder") <> 0 then
+    childcount = 0
+    checkallchild rs("ctnodeid")
+    if childcount > 0 then _
+     response.write "n"& rs(cid) &"= insfld(" & xparent &", gfld(""forumtoc"", """& rs(cname) &""", """& catlink &"""))" & vbcrlf
+   end if
+  else
+      forumlink = "gipapprovelist.asp?ctrootid="& itemid &"&ctnodeid="& rs("ctnodeid")
+      if not isnull(rs("rights")) then
+       response.write "insdoc("& xparent &", glnk(""forumtoc"", """& rs("catname") &""", """& forumlink &"""))" & vbcrlf
+    end if
+  end if
+  rs.movenext
+ wend
+
+ rstree.movenext
+wend  
+ 
+
+
+
+
+
+
+
+  
+sub checkallchild (xnodeid)
+ xsql = "select t.* " _
+  & ", (select count(*) from cattreenode as c where c.dataparent=t.ctnodeid " _
+  & " and c.ctnodekind='c') as haschildfolder " _
+  & ", (select count(*) from cattreenode as c join ctuserset2 as cu on cu.ctnodeid=c.ctnodeid " _
+  & " and cu.userid=" & pkstr(userid,"") _
+  & " where c.dataparent=t.ctnodeid and cu.rights is not null) as haschild " _
+  & " from cattreenode as t where t.dataparent = "& xnodeid
+ set xrs = conn.execute(xsql)
+ while not xrs.eof
+  if xrs("haschild") > 0 then 
+   childcount = childcount + xrs("haschild") 
+  elseif xrs("haschildfolder") > 0 then
+   checkallchild xrs("ctnodeid")
+  end if
+  
+  xrs.movenext
+ wend
+end sub
+ 

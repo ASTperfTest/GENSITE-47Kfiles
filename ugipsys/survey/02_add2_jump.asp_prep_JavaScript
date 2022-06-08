@@ -1,0 +1,281 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      
+          
+function CheckValue() {
+ 
+ var i, j, frm = document.form1, checked_flag;
+ 
+ for ( i = 0; i < frm.elements.length; i++ )
+  if ( frm.elements[i].type == 'text' && frm.elements[i].open == '' && frm.elements[i].value == '') {
+   alert('請輸入所有題目及答案！');
+   return false;
+  }
+ 
+ /*
+ for ( j = 1; j <= Cx_0dummy; j++ ) {
+  checked_flag = false;
+  for ( i = 0; i < frm.elements.length; i++ )
+   if ( frm.elements[i].type == 'checkbox' && frm.elements[i].name.substring(0, 9) == 'default' + j + '-' && frm.elements[i].checked )
+    checked_flag = true;
+    
+  if ( !checked_flag ) {
+   alert('請設定《題目' + j + '》的答案預設值！');
+   return false;
+  }
+ }
+ */
+
+ return true;  
+}
+
+function checkSelect(quest_type, questno, answerno) {
+
+ var i, fm = document.form1;
+ 
+Cx_0dummy
+
+ if ( quest_type.value == '1' )
+ 
+Cx_0dummy
+
+ if ( quest_type[0].checked )
+ 
+Cx_0dummy
+  for ( i = 0; i < fm.elements.length; i++ )
+   if ( fm.elements[i].type == 'checkbox' && fm.elements[i].name.substring(0, 9) == 'default' + questno + '-' && fm.elements[i].name != 'default' + questno + '-' + answerno )
+    fm.elements[i].checked = false;
+}
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                              function onSubmit___1715157505() {return CheckValue();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   function onClick___1412747265() {return confirm('請確認所有欄位均已輸入完成？');}
+
+
+
+                                  function onClick___1439047329() {return confirm('確定重新調查此份問卷，並將之前調查資料全部清除？');}
+                              function onClick___1412747265() {return confirm('請確認所有欄位均已輸入完成？');}
+
+
+
+                                   function onClick____62666118() {return history.go(-1);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

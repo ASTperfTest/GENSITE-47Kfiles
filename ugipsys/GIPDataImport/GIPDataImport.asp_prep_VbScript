@@ -1,0 +1,82 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    sub formaddsubmit()
+      if reg.htx_ibasedsd.value = '' then
+       alert '請選擇資料範本定義!'
+       reg.htx_ibasedsd.focus
+       exit sub
+      end if
+      if reg.htx_ctunitid.value = '' then
+       alert '請選擇主題單元!'
+       reg.htx_ctunitid.focus
+       exit sub
+      end if
+      if reg.htx_xmlfile.value = '' then
+       alert '請輸入匯入xml檔案路徑!'
+       reg.htx_xmlfile.focus
+       exit sub
+      end if
+      if reg.htx_importway.item(0).checked = false and reg.htx_importway.item(1).checked = false then
+       alert '請選擇匯入方式!'
+       exit sub      
+      end if
+         reg.action='Cx_0dummy_2.asp'
+         reg.submit
+    end sub
+   <script language=vbs></script> 
+ 
+ 

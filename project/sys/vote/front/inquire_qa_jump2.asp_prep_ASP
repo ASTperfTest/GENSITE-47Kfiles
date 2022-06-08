@@ -1,0 +1,240 @@
+﻿: 
+ response.expires = 0
+ htprogcode = "gw1_vote01"
+ response.expires = 0
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+
+  
+ subjectid = request("subjectid")
+ questionid = request("questionid")
+ answerid = request("answer" & questionid)
+
+ if subjectid = "" or questionid = "" or answerid = "" then
+  response.write "<script language='javascript'>history.go(-1);</script>"
+  response.end
+ end if
+
+
+ m014_name = trim(request("m014_name"))
+ e_mail = trim(request("e_mail"))
+ sex = trim(request("sex"))
+ age = trim(request("age"))
+ addrarea = trim(request("addrarea"))
+ member = trim(request("member"))
+ money = trim(request("money"))
+ job = trim(request("job"))
+
+
+ set rs = conn.execute("select m011_onlyonce, m011_subject from m011 where m011_subjectid = " & subjectid)
+ if rs.eof then
+  response.write "<script language='javascript'>alert('�ާ@���~�i');history.go(-1);</script>"
+  response.end
+ end if
+ subject = trim(rs("m011_subject"))
+ m011_onlyonce = rs("m011_onlyonce")
+ if e_mail <> "" and m011_onlyonce = "1" then
+  set ts = conn.execute("select count(*) from m014 where m014_subjectid = " & subjectid & " and m014_email = '" & e_mail & "'")
+  if ts(0) > 0 then
+   response.write "<script language='javascript'>alert('�a�w���l���լd!');history.go(-1);</script>"
+   response.end
+  end if
+ end if
+
+
+ sql = "select m015_questionid, m015_answerid from m015 where m015_subjectid = " & subjectid
+ set rs3 = conn.execute(sql)
+ while not rs3.eof
+  open_str = open_str & "*" & rs3(0) & "*" & rs3(1) & "*,"
+  if trim(request("open_content" & rs3(0) & "_" & rs3(1))) <> "" then
+   open_content = open_content & "<input type='hidden' name='open_content" & rs3(0) & "_" & rs3(1) & "' value=""" & trim(request("open_content" & rs3(0) & "_" & rs3(1))) & """>"
+  end if
+  rs3.movenext
+ wend
+
+
+ if answerid = "" then
+  response.write "<script language='javascript'>alert('�п�ܵ��סi');history.go(-1);</script>"
+  response.end
+ end if
+ sql = "select m013_nextord from m013 where m013_subjectid = " & subjectid & " and m013_questionid = " & questionid & " and m013_answerid = " & answerid
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "<script language='javascript'>alert('�ާ@���~(2)�i');history.go(-1);</script>"
+  response.end
+ end if
+ next_questionid = rs(0)
+
+
+ ' ���o�c�����d����
+ if request("ans_no_id") = "" then
+  ans_no_id = questionid & "_" & answerid
+ else
+  ans_no_id = request("ans_no_id") & "," & questionid & "_" & answerid
+ end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ if next_questionid = "0" then
+
+
+                                                     = subjectid 
+                                                     = ans_no_id 
+                                                     = m014_name 
+                                                  = e_mail 
+                                               = sex 
+                                               = age 
+                                                    = addrarea 
+                                                  = member 
+                                                 = money 
+                                               = job 
+        = open_content 
+
+
+
+
+
+
+
+
+
+  
+ else
+
+
+                                                     = subjectid 
+                                                      = next_questionid 
+                                                     = ans_no_id 
+                                                     = m014_name 
+                                                  = e_mail 
+                                               = sex 
+                                               = age 
+                                                    = addrarea 
+                                                  = member 
+                                                 = money 
+                                               = job 
+        = open_content 
+
+                                                                                            = subject 
+
+  
+  sql = "select m012_type, m012_title from m012 where m012_subjectid = " & subjectid & " and m012_questionid = " & next_questionid
+  set rs2 = conn.execute(sql)
+  if rs2.eof then
+   response.write "<script language='javascript'>alert('�ާ@���~(3)�i');history.go(-1);</script>"
+   response.end
+  end if
+
+  answertype = trim(rs2("m012_type"))
+  if answertype = "1" or answertype = "" then
+   sel = ""
+   seltype = "radio"
+  else
+   sel = "�]���d���ƿ��d�^"
+   seltype = "checkbox"
+  end if
+
+
+
+                                                             = next_questionid :     = trim(rs2("m012_title")) :   = sel 
+
+
+
+
+  
+  sql = "" & _
+   " select * from m013 where m013_subjectid = " & subjectid & _
+   " and m013_questionid = " & next_questionid & _
+   " order by m013_answerid "
+  set rs3 = conn.execute(sql)
+  while not rs3.eof
+
+
+                    = seltype :                 = next_questionid :            = rs3("m013_answerid") :     if trim(rs3("m013_default")) <> "" then :            end if 
+       = trim(rs3("m013_title")) 
+
+  
+   if instr(open_str, "*" & next_questionid & "*" & rs3("m013_answerid") & "*") > 0 then
+    response.write "   <input type='text' name='open_content" & next_questionid & "_" & rs3("m013_answerid") & "' size='30' maxlength='512'>"
+   end if
+
+
+  
+   rs3.movenext
+  wend
+
+
+
+
+
+
+
+
+
+  
+ end if
+ 

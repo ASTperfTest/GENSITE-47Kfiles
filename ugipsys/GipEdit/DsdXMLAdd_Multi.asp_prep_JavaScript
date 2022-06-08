@@ -1,0 +1,350 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var OpenCloseState = "Cx_0dummy"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var OpenCloseState = "<%=OpenCloseState%>"
+<% Response.write "treeRoot = gFld(""ForumToc"", """ & FtypeName & """, ""#"")" & vbcrlf
+ NowCount = 0
+
+SQLCom = "select * from CatTreeRoot Where pvXdmp is not null " _
+ & " AND (deptId IS NULL OR deptId LIKE '" & session("deptId") & "%')" 
+set RStree = conn.execute(SqlCom)
+ 
+while not RStree.eof
+  ItemID = RStree("ctRootId")
+  session("ItemID")=ItemID
+
+ SqlCom = "SELECT t.*, u.rights,CU.ctUnitKind,CU.ctUnitId,b.sbaseDsdxml " _
+  & ", (SELECT count(*) FROM CatTreeNode AS c WHERE c.dataParent=t.ctNodeId " _
+  & " AND c.ctNodeKind='C') AS hasChildFolder " _
+  & ", (SELECT count(*) FROM CatTreeNode AS c JOIN CtUserSet AS cu ON cu.ctNodeId=c.ctNodeId " _
+  & " AND cu.userId=" & pkStr(userId,"") _
+  & " WHERE c.dataParent=t.ctNodeId AND cu.rights IS NOT NULL) AS hasChild " _
+  & ", (SELECT count(icuitem) FROM CatTreeNode AS c Left Join CuDtGeneric CDT ON c.ctUnitId=CDT.ictunit " _
+  & " WHERE CDT.showType=N'"&xshowType&"' AND c.ctNodeId=t.ctNodeId AND CDT.refId="&request.querystring("icuitem")&") AS refId " _
+  & " FROM CatTreeNode AS t LEFT JOIN CtUserSet AS u ON u.ctNodeId=t.ctNodeId " _
+  & " AND u.userId=" & pkStr(userId,"") _
+  & " Left Join CtUnit CU ON t.ctUnitId=CU.ctUnitId " _
+  & " Left Join BaseDsd b ON b.ibaseDsd=CU.ibaseDsd " _
+  & " WHERE ctRootId = "& PkStr(ItemID,"") 
+ if xrdsdcat <> "MMO" then SqlCom = SqlCom & " and b.rdsdcat <> 'MMO' " 
+ SqlCom = SqlCom & " Order by dataLevel, catShowOrder"
+'response.write sqlcom
+'response.end  
+ set RS = conn.execute(SqlCom)
+ if not RS.eof then
+  xParent = "treeRoot"
+  CatLink = "" 'CatList.asp?ItemID="& ItemID &"&CatID="& rs("ctNodeId")
+'  if RS("hasChild")<> 0 OR RS("hasChildFolder") <> 0 then 
+   Response.Write "T"& itemID &"= insFld(" & xParent &", gFld(""ForumToc"", """& RStree("CtRootName") &""", """& CatLink &"""))" & vbcrlf
+'  end if
+ end if
+ while not RS.eof
+  xParent = "T" &itemID
+  if rs(clevel) > 1 then xParent = "N" & RS(cparent)
+  if RS("ctNodeKind") = "C" then
+   CatLink = "#"
+   if RS("hasChild")<> 0 then 
+    Response.Write "N"& rs(cid) &"= insFld(" & xParent &", gFld(""ForumToc"", """& rs(cname) &""", """& CatLink &"""))" & vbcrlf
+   elseif RS("hasChildFolder") <> 0 then
+    childCount = 0
+    checkAllChild RS("ctNodeId")
+    if childCount > 0 then _
+     Response.Write "N"& rs(cid) &"= insFld(" & xParent &", gFld(""ForumToc"", """& rs(cname) &""", """& CatLink &"""))" & vbcrlf
+   end if
+  else
+      ForumLink = "ctXMLin.asp?ItemID="& ItemID &"&ctNodeId="& rs("ctNodeId")
+      ForumLink = "#"
+      if not isNull(RS("rights")) then
+         if RS("ctUnitKind")="U" or isNull(RS("ctUnitId")) or not isNull(RS("sbaseDsdxml")) then
+          ForumCheck = rs("catName")      
+       elseif RS("refId")>=1 then
+          ForumCheck = "<input type=checkbox name='ctNodeId' value='" & cStr(rs("ctNodeId")) & "' checked disabled>" & rs("catName")      
+       else
+          ForumCheck = "<input type=checkbox name='ctNodeId' value='" & cStr(rs("ctNodeId")) & "'>" & rs("catName")      
+         end if
+       Response.Write "insDoc("& xParent &", gLnk(""ForumToc"", """& ForumCheck &""", """& ForumLink &"""))" & vbcrlf
+    end if
+  end if
+  RS.moveNext
+ wend
+
+ RStree.moveNext
+wend 
+%>
+if (OpenCloseState == "Close")
+     initializeDocument();
+else
+     initializeDocumentClose();
+<script language=VBS>
+sub formSubmit()
+ form1.submit
+end sub
+sub formSubmitSim()
+ chky=msgbox("注意！"& vbcrlf & vbcrlf & "確定轉為簡體嗎?" & vbcrlf , 48+1, "請注意！！")
+        if chky=vbok then 
+  form1.action = "DsdXMLAdd_Multi_act.asp?sim=Y&icuitem=<%=request.querystring("icuitem")%>"
+  form1.submit
+ end if
+end sub
+sub refList()
+ window.navigate "DsdXMLAdd_Multi_List.asp?<%=request.querystring%>"
+end sub
+</script>
+ 
+
+
+
+
+ 

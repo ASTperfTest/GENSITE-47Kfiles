@@ -1,0 +1,104 @@
+.pediaword
+{
+    cursor:pointer;
+}
+
+.aas 
+{
+    width:570px;
+    position: absolute;
+	display:none;
+	z-index:7;
+	BACKGROUND-COLOR: #FFFFFF;
+	border: solid 2px #96b8d2;
+}
+
+.aasclose
+{   
+    float:right;
+    width:17px;
+	text-align:center;
+	cursor:pointer;
+	height:17px;
+	border:0;
+	padding:0;
+	line-height: 15px;
+}
+
+.aas tbody tr td .explained 
+{
+    width:560px;
+    position: relative;
+	z-index:7;
+	font-size:12px;
+	border:0;
+	margin:0px 0px 0px 0px;
+	line-height: 14px;
+}
+
+.aas  .explained tbody tr th
+{
+    width:20%;
+	color:#000000;
+    text-align:left;
+	BACKGROUND-COLOR: #FFFFFF;
+	border-right:0;
+	font-weight:bold;
+	border-bottom:1px solid #CCCCCC;
+}
+
+.aas  .explained tbody tr td
+{
+    width:80%;
+	color:#000000;
+    text-align:left;
+	BACKGROUND-COLOR: #FFFFFF;
+	border-right:0;
+	font-weight:normal;
+	border-bottom:1px solid #CCCCCC;
+}
+
+.aas tbody tr td .pediaadded
+{
+    width:100%;
+    position: relative;
+	z-index:7;
+	font-size:12px;
+	border:0;
+	margin:0px 0px 0px 0px;
+	BACKGROUND-COLOR: #e9f1fb;
+	font-weight:normal;
+	line-height: 14px;
+}
+.aas tbody tr td .pediaadded th
+{
+    border:0;
+    color:#000000;
+	text-align:center;
+    position: relative;
+	z-index:7;
+	font-size:12px;
+	margin:0px 0px 0px 0px;
+	BACKGROUND-COLOR: #e9f1fb;
+	font-weight:bold;
+}
+.aas tbody tr td .pediaadded td
+{
+    border:0;
+	font-weight:normal;
+	text-align:left;
+}
+.aas tbody tr td .pediaadded td a
+{
+	color:#0083E5;
+}
+
+.member
+{
+	
+    position: absolute;
+	display:none;
+	z-index:7;
+	BACKGROUND-COLOR: #FFFFFF;
+	border: solid 2px #96b8d2;
+}

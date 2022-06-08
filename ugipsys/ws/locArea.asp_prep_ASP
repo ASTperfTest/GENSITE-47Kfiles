@@ -1,0 +1,24 @@
+﻿
+
+  
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+'----------hyweb gip db connection patch----------
+
+
+ catcode = left(request("loccode"),1)    ' -- 防 sql injection 用
+ sql = "select mcode, mvalue from codemain where codemetaid=n'locarea" & catcode & "'"
+ 'cudtx39f155 表銀行所在區域
+ 'sql = "select mcode, mvalue from codemain where codemetaid=n'cudtx39f155" & catcode & "'"
+ set rs = conn.execute(sql)
+ while not rs.eof
+  response.write "<row><mcode>" & rs("mcode") & "</mcode><mvalue>" &
+rs("mvalue") & "</mvalue></row>" & vbcrlf
+  rs.movenext
+ wend
+
+ 

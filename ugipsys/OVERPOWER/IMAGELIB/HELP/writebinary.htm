@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#006E8E" text="#FFFFFF" link="#00FF00" vlink="#00FF00" alink="#00FF00"  cellspacing="0" cellpadding="0">
+<div align="center">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%" align="left">
+    <tr>
+      <td width="10">&nbsp;</td>
+      <td valign="top"> 
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><br>
+          <img src="method.gif" width="30" height="30" align="absmiddle"> <b><font size="3">WriteBinary 
+          <br>
+          <br>
+          </font></b>The WriteBinary writes a array of type SAFEARRAY or part 
+          of it to the disk file or to string variable. <br>
+          <br>
+          <b>Function </b>WriteBinary(safearrey:array of <a href="http://www.overpower.com.br/imagelib/help/defs.htm#byte">byte</a>, 
+          StartIndex: <a href="http://www.overpower.com.br/imagelib/help/defs.htm#integer">Integer</a>, 
+          HowMany: <a href="http://www.overpower.com.br/imagelib/help/defs.htm#integer">Integer</a>, 
+          FileName:<a href="http://www.overpower.com.br/imagelib/help/defs.htm#string">String</a>): 
+          <a href="http://www.overpower.com.br/imagelib/help/defs.htm#string">String</a> 
+          <br>
+          <br>
+          <b>Description<br>
+          </b>Use WriteBinary for write from the array to a filename on the disk 
+          or if filename value is &quot;&quot;, it will return an string variable 
+          containing all the data. Startindex is the first index of the safearray 
+          array to use and HowMany is how many arrays it will use. If you set 
+          HowMany and Startindex to 0, Imagelib will auto change HowMany to the 
+          number of items on the array.</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><i> 
+          <br>
+          <br>
+          </i></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><b>Example<br>
+          </b><br>
+          Set ILIB = server.createobject(&quot;Overpower.Imagelib&quot;) <br>
+          DIM data<br>
+          data = ILIB.ReadBinaryFile &quot;C:\BALL.GIF&quot;<br>
+          ILIB.WriteBinary data, 0, 0, &quot;C:\COPYOFTHEBALL.GIF&quot;</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"> 
+          </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><i> 
+          </i></font></p>
+        </td>
+    </tr>
+  </table>
+  <p align="left">&nbsp; </p>
+</div>
+</body>
+</html>

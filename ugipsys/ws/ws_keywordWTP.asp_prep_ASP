@@ -1,0 +1,36 @@
+﻿
+
+  
+function pkstr (s, endchar)
+  if s="" then
+ pkstr = "null" & endchar
+  else
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ pkstr="'" & s & "'" & endchar
+  end if
+end function
+ xdate=cstr(date())
+ xkeyword=pkstr(request.querystring("xkeyword"),"")
+ set conn=server.createobject("adodb.connection")
+        set rs=server.createobject("adodb.recordset")
+
+'----------hyweb gip db connection patch----------
+'        conn.open session("odbcdsn")
+set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+'----------hyweb gip db connection patch----------
+
+        sqlcheck="select ikeyword from cudtkeywordwtp where ikeyword="+xkeyword
+        set rscheck=conn.execute(sqlcheck)
+        if not rscheck.eof then
+         sqlact="update cudtkeywordwtp set icount=icount+1 where ikeyword="+xkeyword
+        else
+         sqlact="insert into cudtkeywordwtp values("+xkeyword+",1,null,'p','"+session("userid")+"','"+xdate+"')"
+        end if
+        conn.execute(sqlact)
+ response.write "<xkeywordstr>done</xkeywordstr>"        
+ 

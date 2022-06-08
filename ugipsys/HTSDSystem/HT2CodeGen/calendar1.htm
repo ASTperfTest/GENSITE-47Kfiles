@@ -1,0 +1,257 @@
+<html>
+
+<head>
+<title></title>
+<link rel="stylesheet" type="text/css" href="../setstyle.css">
+</head>
+
+<body topmargin=0 leftmargin=0 bgcolor=#3974AE >
+ <center>   
+  <table border="1" width="245" cellspacing="0" cellpadding="0" bordercolor="#ABC7E2" bordercolordark="#FFFFFF" bordercolorlight="#808080" height="160">   
+    <tr>   
+      <th width="100%" align="center">
+<table border="0" cellspacing="0">
+  <tr>
+    <th valign="middle"><img border="0" src="images/left.gif" align="absmiddle" onclick="VBScript: showm -1" style="cursor:hand;" alt="Previous" width="23" height="25">&nbsp;</th>
+    <th valign="middle"><font color="#FFFFFF" size="2">民國</font></th>
+    <th>
+<select id=sely onchange="VBScript: changey" style="font-family:細明體;font-size:9pt;">                            
+  <option value="1971">60 年</option>  
+  <option value="1972">61 年</option>  
+  <option value="1973">62 年</option>  
+  <option value="1974">63 年</option>  
+  <option value="1975">64 年</option>  
+  <option value="1976">65 年</option>  
+  <option value="1977">66 年</option>  
+  <option value="1978">67 年</option>  
+  <option value="1979">68 年</option>  
+  <option value="1980">69 年</option>  
+  <option value="1981">70 年</option>  
+  <option value="1982">71 年</option>  
+  <option value="1983">72 年</option>  
+  <option value="1984">73 年</option>  
+  <option value="1985">74 年</option>  
+  <option value="1986">75 年</option>  
+  <option value="1987">76 年</option>  
+  <option value="1988">77 年</option>  
+  <option value="1989">78 年</option>  
+  <option value="1990">79 年</option>  
+  <option value="1991">80 年</option>  
+  <option value="1992">81 年</option>  
+  <option value="1993">82 年</option>  
+  <option value="1994">83 年</option>  
+  <option value="1995">84 年</option>  
+  <option value="1996">85 年</option>  
+  <option value="1997">86 年</option>  
+  <option value="1998">87 年</option>  
+  <option value="1999">88 年</option>  
+  <option value="2000">89 年</option>  
+  <option value="2001">90 年</option>  
+  <option value="2002">91 年</option>  
+  <option value="2003">92 年</option>  
+  <option value="2004">93 年</option>  
+  <option value="2005">94 年</option>  
+  <option value="2006">95 年</option>  
+  <option value="2007">96 年</option>  
+  <option value="2008">97 年</option>  
+  <option value="2009">98 年</option>  
+  <option value="2010">99 年</option>  
+  <option value="2011">100 年</option>  
+  <option value="2012">101 年</option>  
+  <option value="2013">102 年</option>  
+  <option value="2014">103 年</option>  
+  <option value="2015">104 年</option>  
+  <option value="2016">105 年</option>  
+  <option value="2017">106 年</option>  
+  <option value="2018">107 年</option>  
+  <option value="2019">108 年</option>  
+  <option value="2020">109 年</option>  
+  <option value="2021">110 年</option>  
+  <option value="2022">111 年</option>  
+  <option value="2023">112 年</option>  
+  <option value="2024">113 年</option>  
+  <option value="2025">114 年</option>  
+  <option value="2026">115 年</option>  
+  <option value="2027">116 年</option>  
+  <option value="2028">117 年</option>  
+  <option value="2029">118 年</option>  
+  <option value="2030">119 年</option>  
+</select>
+ <select id=selm onchange="VBScript: changem" style="font-family:細明體;font-size:9pt;">                                      
+  <option value="1">一月</option>                                
+  <option value="2">二月</option>                                
+  <option value="3">三月</option>                                
+  <option value="4">四月</option>                                
+  <option value="5">五月</option>                                
+  <option value="6">六月</option>                                
+  <option value="7">七月</option>                                
+  <option value="8">八月</option>                                
+  <option value="9">九月</option>                                
+  <option value="10">十月</option>                                
+  <option value="11">十一月</option>                                
+  <option value="12">十二月</option>                                
+</select></th>            
+    <th valign="middle">            
+		&nbsp;<img border="0" src="images/right.gif" style="cursor:hand;" onclick="VBScript: showm +1" align="absmiddle" alt="Next" width="24" height="25">            
+    </th>            
+  </tr>            
+</table>            
+                   
+<table border=0 cellspacing=1 bgcolor=#336699 style="color:#FFFFEE;font-size:8pt" cellpadding="0" width="200">                                   
+<tr style="color:#FFFFEE;font-family:Arial;font-size:8pt"><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr>                                   
+<tr bgcolor=white><td id=d00 align=center bgcolor="#FFCCCC"></td><td id=d01 align=center></td><td id=d02 align=center></td><td id=d03 align=center></td><td id=d04 align=center></td><td id=d05 align=center></td><td id=d06 align=center></td></tr>                                   
+<tr bgcolor=white><td id=d10 align=center bgcolor="#FFCCCC"></td><td id=d11 align=center></td><td id=d12 align=center></td><td id=d13 align=center></td><td id=d14 align=center></td><td id=d15 align=center></td><td id=d16 align=center></td></tr>                                   
+<tr bgcolor=white><td id=d20 align=center bgcolor="#FFCCCC"></td><td id=d21 align=center></td><td id=d22 align=center></td><td id=d23 align=center></td><td id=d24 align=center></td><td id=d25 align=center></td><td id=d26 align=center></td></tr>                                   
+<tr bgcolor=white><td id=d30 align=center bgcolor="#FFCCCC"></td><td id=d31 align=center></td><td id=d32 align=center></td><td id=d33 align=center></td><td id=d34 align=center></td><td id=d35 align=center></td><td id=d36 align=center></td></tr>                                   
+<tr bgcolor=white><td id=d40 align=center bgcolor="#FFCCCC"></td><td id=d41 align=center></td><td id=d42 align=center></td><td id=d43 align=center></td><td id=d44 align=center></td><td id=d45 align=center></td><td id=d46 align=center></td></tr>                                   
+<tr bgcolor=white><td id=d50 align=center bgcolor="#FFCCCC"></td><td id=d51 align=center></td><td id=d52 align=center></td><td id=d53 align=center></td><td id=d54 align=center></td><td id=d55 align=center></td><td id=d56 align=center></td></tr>                                   
+</table>                                   
+<input type=hidden id=hshowmonth value=""><input type=hidden id=hselday value=""><img border="0" src="images/today.gif" style="cursor:hand;" onclick="VBScript: seltoday" align="absmiddle" alt="今天" width="59" height="21">                                   
+                                   
+      </th>                              
+    </tr>                              
+  </table>                              
+</body>                                   
+</html>                                   
+<script language=VBScript>                                   
+sub window_onload()         
+  seldate=date()                                   
+  thismonth=cdate(year(date()) & "/" & month(date()) & "/1")                                   
+  showcal thismonth, seldate                                   
+end sub         
+                                   
+sub seltoday()                     
+  showcal cdate(year(date()) & "/" & month(date()) & "/1"), date()                     
+  window.external.raiseEvent date(),window.document                     
+end sub                     
+                     
+sub showm(sm)                                   
+  showcal dateadd("m",sm,document.all.hshowmonth.value),document.all.hselday.value                                   
+end sub                                   
+                                   
+sub changey()                                   
+  selymd=document.all.sely.options(document.all.sely.selectedIndex).value & "/" & month(document.all.hshowmonth.value) & "/1"                                   
+  showcal selymd,document.all.hselday.value                                   
+end sub                                   
+                                   
+sub changem()                                   
+  selymd=year(document.all.hshowmonth.value) & "/" & document.all.selm.options(document.all.selm.selectedIndex).value & "/1"                                   
+  showcal selymd,document.all.hselday.value                                   
+end sub                                   
+                                   
+sub document_onclick()            
+  if window.event.srcElement.tagName="TD" or window.event.srcElement.tagName="FONT" then             
+     if window.event.srcElement.tagName="TD" then         
+        clickd1=cint(window.event.srcElement.children(0).innerText)            
+        clickd2=cint(mid(window.event.srcElement.id,2,1))                                
+     elseif window.event.srcElement.tagName="FONT" then         
+        clickd1=cint(window.event.srcElement.innerText)            
+        clickd2=cint(mid(window.event.srcElement.parentElement.id,2,1))                                
+     end if         
+    if clickd1>20 and clickd2=0 then                                   
+      csm=dateadd("m", -1, cdate(document.all.hshowmonth.value))                                   
+    elseif clickd1<15 and clickd2>3 then                                   
+      csm=dateadd("m", +1, cdate(document.all.hshowmonth.value))                                   
+    else                                   
+      csm=document.all.hshowmonth.value                                   
+    end if                                   
+    csd=year(csm) & "/" & month(csm) & "/" & clickd1                                 
+    showcal csm, csd                                   
+    window.external.raiseEvent csd,window.document                                   
+  end if                                   
+end sub                                   
+                                   
+sub showcal(tm, sd)                                   
+  document.all.hshowmonth.value=tm                                   
+  document.all.hselday.value=sd                                   
+  y=year(tm)                                   
+  m=month(tm)                                   
+  document.all.sely.selectedIndex=y-1971                                   
+  document.all.selm.selectedIndex=m-1                                   
+  k=1-weekday(tm)                                   
+  chkd=""                                   
+  for i=0 to 5                                   
+    for j=0 to 6                                   
+      k=k+1                                   
+      if k<1 then                                   
+        if year(dateadd("m",-1,tm))=year(sd) and month(dateadd("m",-1,tm))=month(sd) and day(dateadd("d",k-1,tm))=day(sd) then                                   
+          document.all("d" & i & j).innerHTML="<font color=BLUE style='font-weight:Bold'>" & day(dateadd("d",k-1,tm)) & "</font>"                                   
+        else                                   
+          document.all("d" & i & j).innerHTML="<font color=#B2B2B2 face=Arial>" & day(dateadd("d",k-1,tm)) & "</font>"                                   
+        end if                                   
+      elseif k>day(dateadd("d",-1,dateadd("m",1,tm))) then                                   
+        k=1                                   
+        chkd="Y"                                   
+        document.all("d" & i & j).innerHTML="<font color=#B2B2B2 face=Arial>" & k & "</font>"                                   
+      else                                   
+        if chkd="Y" then                                   
+          if year(dateadd("m",+1,tm))=year(sd) and month(dateadd("m",+1,tm))=month(sd) and k=day(sd) then                                   
+            document.all("d" & i & j).innerHTML="<font color=BLUE face=Arial style='font-weight:Bold'>" & k & "</font>"                                   
+          else                                   
+            document.all("d" & i & j).innerHTML="<font color=#B2B2B2 face=Arial>" & k & "</font>"                                   
+          end if                                   
+        else                                   
+          if year(tm)=year(sd) and month(tm)=month(sd) and k=day(sd) then                                   
+            document.all("d" & i & j).innerHTML="<font color=BLUE face=Arial style='font-weight:Bold'>" & k & "</font>"                                   
+          else                                   
+            document.all("d" & i & j).innerHTML="<font color=BLACK face=Arial>" & k & "</font>"                                   
+          end if                                   
+        end if                                   
+      end if                                   
+    next                                   
+  next                                   
+end sub                                   
+                                   
+function num2ch(n)                                   
+  s=cstr(n)                                   
+  num2ch=""                                   
+  p=0                                   
+  do while len(s)>0                                   
+    p=p+1                                   
+    x=cdigital(right(s, 1))                                   
+    if (x="零" and num2ch="") or (x="零" and left(num2ch,1)="零") then                                   
+      x=""                                   
+    elseif x="零" and num2ch<>"" then                                   
+      x="零"                                   
+    else                                   
+      x=x & pstr(p)                                   
+    end if                                   
+    num2ch=x & num2ch                                   
+    s=left(s, len(s)-1)                                   
+  loop                                   
+  if left(num2ch,2)="一十" then num2ch=mid(num2ch,2)                                   
+end function                                   
+                                   
+function cdigital(digstr)                                   
+  select case digstr                                   
+    case "1" : cdigital="一"                                   
+    case "2" : cdigital="二"                                   
+    case "3" : cdigital="三"                                   
+    case "4" : cdigital="四"                                   
+    case "5" : cdigital="五"                                   
+    case "6" : cdigital="六"                                   
+    case "7" : cdigital="七"                                   
+    case "8" : cdigital="八"                                   
+    case "9" : cdigital="九"                                   
+    case "0" : cdigital="零"                                   
+  end select                                   
+end function                                   
+                                   
+function pstr(pos)                                   
+  select case pos                                   
+    case 1 : pstr=""                                   
+    case 2 : pstr="十"                                   
+    case 3 : pstr="百"                                   
+    case 4 : pstr="千"                                   
+    case 5 : pstr="萬"                                   
+    case 6 : pstr="十萬"                                   
+    case 7 : pstr="百萬"                                   
+    case 8 : pstr="千萬"                                   
+    case 9 : pstr="億"                                   
+    case 10 : pstr="十億"                                   
+    case 11 : pstr="百億"                                   
+    case 12 : pstr="千億"                                   
+    case 13 : pstr="兆"                                   
+  end select                                   
+end function                                   
+</script>                                   

@@ -1,0 +1,63 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<UseCase>
+	<Name>問卷統計瀏覽</Name>
+	<Code>HTsa9AM02</Code>
+	<APCat>HTsa0A</APCat>
+	<Version>
+		<Date>2002/12/19</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<ExpandedSpec>
+			<Type>primary</Type>
+			<Type>essential</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<Purpose>瀏覽問卷調查結果</Purpose>
+			<PreCondition>
+				<UseCase></UseCase>
+			</PreCondition>
+			<DescriptionList>
+				<Description>瀏覽問卷統計結果
+				</Description>
+			</DescriptionList>
+			<TypicalCourseOfEvents>
+				<Event type="Client" id="C01" ContractXML="evx_pQSetViewList.xml">
+					[清單]<br/>				
+					1.列出系統日期在調查期間內之公開或登入者參與調查問卷清單: 問卷主題, 調查對象, 調查期間, 發送人數, 回收人數; 依調查期間+調查期間排序; 連結在回收人數<br/>
+					2.按回收人數連結, 進入統計結果瀏覽畫面<br/>
+					3.按查詢連結, 進入查詢畫面
+				</Event>
+				<Event type="Client" id="C02" ContractXML="evx_QSetView.xml">
+					[瀏覽]<br/>				
+					就問卷逐題依答案方式列出統計結果
+				</Event>
+				<Event type="Client" id="C03" ContractXML="evx_pQSetViewQuery.xml">
+					[查詢]<br/>				
+					1.查詢條件: 問卷主題, 調查對象, 調查起日區間<br/>
+					2.送出後回清單畫面
+				</Event>
+			</TypicalCourseOfEvents>
+		</ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+</UseCase>

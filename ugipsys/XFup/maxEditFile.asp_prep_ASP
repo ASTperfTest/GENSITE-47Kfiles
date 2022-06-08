@@ -1,0 +1,95 @@
+﻿:  @ codepage = 65001 
+  
+'// purpose: ���f emily �h download moj �� any type of files from server.
+'// date: 2006/7/13
+
+response.buffer = true
+response.clear
+
+htprogcode = "gc1ap5"
+catalogueframe = "220,*"
+
+   CxMethod_ASP_server_1606199358()
+  
+dim xfile
+dim downfile
+dim fso
+
+xfile = request("xfile")
+downfile = server.mappath(xfile)
+
+set fso = server.createobject("scripting.filesystemobject")
+
+filefind = fso.fileexists(downfile)
+
+if not filefind then
+    response.write("<h1>error:</h1>" & downfile & " does not exist<p>")
+    response.end
+end if
+
+if request("act") = "save" then
+        set txtf = fso.opentextfile(downfile,2,true)
+        txtf.write request("file")
+        set txtf = nothing
+        response.write  "�ɮ�" & downfile & "�s��ηs�w�����i"
+        response.end
+end if
+
+
+
+
+             =downfile
+
+
+
+
+  
+   if filefind then
+     set txtf = fso.opentextfile(downfile,1)
+     atfirst=true
+     do until txtf.atendofstream
+       txtline = txtf.readline
+       txtline = replace(txtline,"\","\\")
+       txtline = replace(txtline,"""","\""")
+       txtline = replace(txtline,"<","<""+""")
+       if atfirst then
+         if asc(left(txtline,1)) = 0 then
+            txtline = right(txtline,len(txtline)-1)
+            if left(txtline,2) = "?%" then
+                txtline = "<""+""" & right(txtline,len(txtline)-1)
+            end if
+         end if
+         response.write " // the first char is:" & left(txtline,1)
+         response.write " // the first char is:" & asc(left(txtline,1))
+         response.write " // the first 2 char is:" & left(txtline,2)
+     response.write """;" & vbcrlf
+        
+         response.write "  document.frm.file.value=""" & txtline
+         atfirst = false
+       else
+         response.write "  document.frm.file.value+=""" & txtline
+       end if
+       if txtf.atendofstream then
+  response.write """;" & vbcrlf
+       else
+  response.write "\n"";" & vbcrlf
+       end if
+       'if not txtf.atendofstream then response.write vbcrlf
+     loop
+     set txtf = nothing
+   end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+                         if filefind then:        else:       end if
+                                               =xfile 

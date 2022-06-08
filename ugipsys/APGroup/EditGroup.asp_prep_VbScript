@@ -1,0 +1,162 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   alert("已成功刪除！所有成員也成功轉【基本群組】！")
+   document.location.href="listgroup.asp"
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+msg1 = "「群組名稱」不得空白！"
+
+reg.ispublic.value = "Cx_0dummy"
+
+sub datacheck()    
+  if reg.ugrpname.value = empty then
+     msgbox msg1, 64, "sorry!"
+     reg.ugrpname.focus
+     exit sub
+  end if 
+  reg.ck.value="edit"
+  reg.submit
+end sub
+
+sub del()
+ chky=msgbox("注意！"& vbcrlf & vbcrlf &"你確定刪除此群組資料嗎？"& vbcrlf & vbcrlf &"若是,此群組所有成員將轉為【基本群組】！"& vbcrlf & vbcrlf & "你確定嗎？", 48+1, "請注意！！")
+ if chky=vbok then
+   reg.ck.value="del"
+   reg.submit
+ end if
+end sub
+
+      alert("已成功存檔！")
+      document.location.href="listgroup.asp"
+    <script language=vbscript></script>Cx_0dummy
+
+<html></html>        
+<script language="vbscript"></script> 
+ 

@@ -1,0 +1,43 @@
+﻿: end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+
+
+                                   =htprogprefix
+
+
+
+
+
+
+                                                     =htprogcap:                        =htprogfunc
+
+
+
+
+
+
+
+
+          if (htprogright and 4)=4 then
+                       =htprogprefix
+          end if
+
+
+
+
+
+
+
+
+  end sub '--- showhtmlhead() ------
+
+  sub showhtmltail() 
+
+
+
+
+
+  end sub '--- showhtmltail() ------ 

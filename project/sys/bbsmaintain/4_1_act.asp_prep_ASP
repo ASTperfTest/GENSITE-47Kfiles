@@ -1,0 +1,18 @@
+﻿:  
+ response.expires = 0
+ htprogcap = "�q�ױm��"
+ htprogfunc = "�q�ױm�Ϻ��@"
+ htprogcode = "bbs010"
+ htprogprefix = "msession" 
+ response.expires = 0 
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+ 
+ sql = "update talk03 set content = '" & replace(trim(request("content")), "'", "''") & "', updatetime = getdate()"
+ conn.execute(sql)
+ 
+ response.redirect "4_1.asp"
+ 

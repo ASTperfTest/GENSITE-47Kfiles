@@ -1,0 +1,44 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    alert("新增群組基本資料完成，請設定群組之權限！")
+    window.navigate "addreggroup.asp?ugrpname=Cx_0dummy&ugrpid=Cx_0dummy"
+  <script language=vbs></script>     
+    alert("此群組id已建立，無法再次建立！請另取id！！")
+   window.history.back
+ <script language=vbscript>
+ 

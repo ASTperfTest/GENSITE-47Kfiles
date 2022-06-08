@@ -1,0 +1,20 @@
+@charset "utf-8";
+/* CSS Document */
+
+.skeyword {
+  padding: 5px;
+  margin: 20px 0 20px 0;
+	border-bottom: 2px dotted #86B088;
+	clear: both;
+	font-size: 110%;
+}
+.skeyword ul {
+  display: inline;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+.skeyword ul li {
+  display: inline;
+  margin-right: 10px;
+  line-height: 150%;
+}

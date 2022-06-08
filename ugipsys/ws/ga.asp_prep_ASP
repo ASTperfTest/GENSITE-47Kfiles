@@ -1,0 +1,51 @@
+﻿: 
+ set fso = createobject("scripting.filesystemobject")
+ set f1 = fso.opentextfile(server.mappath("\ws") & "\testfile.txt", 8, true)
+ 
+' response.addheader "content-type", "text/html; charset=utf-8"
+' response.contenttype = "text/html"
+' response.charset= "utf-8" 
+
+' f1.readall
+ f1.writeline("form" & date() & ":" & time())
+ f1.writeline("--form--------------"&vbcrlf)
+' f1.writeline(request.form.count & "=======" & vbcrlf)
+' for each y in request.form
+'  f1.writeline(y & ":" & request(y))
+' next
+ f1.writeline("--querystring--------------"&vbcrlf)
+ for each y in request.querystring
+  f1.writeline(y & ":" & request(y)&vbcrlf)
+
+  if left(request(y),12)= "xmlcontents=" then
+   set oxmldoc = server.createobject("microsoft.xmldom")
+   oxmldoc.async = false
+   oxmldoc.setproperty("serverhttprequest") = true 
+   f1.writeline("xml :=" & mid(request(y),13)&vbcrlf)
+   v = oxmldoc.loadxml(mid(request(y),13))
+   f1.writeline("load result :=" & v &vbcrlf)
+  end if 
+ next
+
+
+' f1.writeline("--servervariables--------------"&vbcrlf)
+' for each y in request.servervariables
+'  f1.writeline(y & ":" & request(y))
+' next
+' f1.writeline("--item--------------"&vbcrlf)
+' response.write "haha!!" & "<hr>"
+
+'  lngcount = request.totalbytes
+'  f1.writeline("totalbytes="&lngcount&vbcrlf)
+'  vntposteddata = request.binaryread(lngcount)
+'  f1.writeline("ubound="&ubound(vntposteddata)&vbcrlf)
+'  for xi=0 to ubound(vntposteddata)
+' f1.writeline(xi & ")-->" & cint(vntposteddata(xi)) & vbcrlf)
+'  next
+  f1.writeline("---end-------------"&vbcrlf)
+ f1.close
+
+
+  
+ response.write oxmldoc.documentelement.xml
+ 

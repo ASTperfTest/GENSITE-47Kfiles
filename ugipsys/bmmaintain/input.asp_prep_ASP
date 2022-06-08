@@ -1,0 +1,94 @@
+﻿: @ codepage = 65001 
+  
+response.expires = 0
+htprogcap="意見信箱"
+htprogfunc="意見信箱維護"
+htprogcode="bm010"
+htprogprefix="msession"
+response.expires = 0
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+set rsreg = server.createobject("adodb.recordset")
+
+ id = request("id")
+ sql = "" & _
+  " select replydate, email, date, context, reply " & _
+  " from prosecute where id = " & replace(id, "'", "''")
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "<script language='javascript'>alert('操作錯誤！');history.go(-1);</script>"
+  response.end
+ end if
+
+ if rs("replydate") <> "" then
+  yy = year(rs("replydate"))
+  mm = month(rs("replydate"))
+  dd = day(rs("replydate"))
+ end if
+
+
+
+         =session("mysitename")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          =session("mysitename")
+
+
+
+
+
+
+
+                                          = id 
+                                             = trim(rs("email")) 
+
+
+                                    = datevalue(rs("date")) 
+
+
+
+
+
+
+
+                                     if trim(rs("context")) <> "" then response.write replace(trim(rs("context")), vbcrlf, "<br>") 
+
+
+
+
+                                                                  = trim(rs("reply")) 
+
+
+
+
+
+
+                                                                 = yy 
+                                                                 = mm 
+                                                                 = dd  

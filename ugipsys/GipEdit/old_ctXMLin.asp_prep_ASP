@@ -1,0 +1,58 @@
+﻿: @ codepage = 65001 
+   
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogcode="gc1ap1"
+htprogprefix="dsdxml" 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_checkgipconfig_1275316133()
+   
+
+ sql = "select u.*, u.ibasedsd, b.sbasetablename, r.pvxdmp, catname from cattreenode as n left join ctunit as u on u.ctunitid=n.ctunitid" _
+  & " left join basedsd as b on u.ibasedsd=b.ibasedsd" _
+  & " left join cattreeroot as r on r.ctrootid=n.ctrootid" _
+  & " where n.ctnodeid=" & pkstr(request.querystring("ctnodeid"),"")
+' response.write sql
+' response.end
+ session("ctnodeid") = request("ctnodeid") 
+ session("onlythisnode") = ""
+ if checkgipconfig("onlythisnode") then
+  set rs = conn.execute("select onlythisnode from cattreenode where ctnodeid=" & pkstr(request.querystring("ctnodeid"),""))
+  session("onlythisnode") = rs("onlythisnode")
+ end if
+ set rs = conn.execute(sql)
+ session("itemid") = request("itemid")
+ session("ctunitid") = rs("ctunitid")
+ session("ctunitname") = rs("ctunitname")
+ session("catname") = rs("catname")
+ session("ibasedsd") = rs("ibasedsd")
+ session("fctunitonly") = rs("fctunitonly")
+ session("pvxdmp") = rs("pvxdmp")
+ if isnull(rs("sbasetablename")) then
+  session("sbasetablename") = "cudtx" & session("ibasedsd")
+ else
+  session("sbasetablename") = rs("sbasetablename")
+ end if
+ session("checkyn") = rs("checkyn") 
+ session("shortlonglist") = ""
+ if rs("ctunitkind")="u"  and trim(rs("ibasedsd") & " ") = "" then
+
+
+                                             =rs("ctunitid")
+
+     response.end
+ elseif isnull(rs("ctunitid")) or session("ctunitid")="" then
+'  response.write "folder node without data" 
+    response.end
+ else
+
+
+                                              =rs("ibasedsd"):             =request.querystring("ctnodeid")
+
+     response.end
+ end if 
+ 

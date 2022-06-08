@@ -1,0 +1,108 @@
+﻿
+
+
+
+
+
+
+function script___264525865() {src("../js/multiselect/js/jquery-1.6.1.min.js");}
+function script___530675707() {src("../js/multiselect/js/jquery-ui-1.8.14.custom.min.js");}
+function script___1074563369() {src("../js/multiselect/js/ui.multiselect.js");}CxConstr_1912158931();
+
+        $(function () {
+            $(".multiselect").multiselect();
+        });
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                function onclick____394426529() {btnConfirm_Click}
+
+
+
+
+
+
+
+
+
+        var errString = 'Cx_0dummy'
+        var saveOK = 'Cx_0dummy'
+        if (errString != '') {
+            alert(errString);
+        }
+        if (saveOK == "Y") {
+            alert('謝謝您的推薦，審核須要一些時間，審核通過後即會顯示於[好文推薦]功能中。');
+            window.location.href = '/recommand/recommand_Mylist.aspx?T=Cx_0dummy'
+        }
+    
+
+
+
+ 

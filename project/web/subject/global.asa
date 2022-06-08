@@ -1,0 +1,50 @@
+﻿<script language=VBScript runat=server>
+sub session_onstart()
+	session("ODBCDSN")="Provider=SQLOLEDB;Data Source=127.0.0.1;User ID=hygip;Password=hyweb;Initial Catalog=mGIPcoanew"
+	session("KMDBConnStr")="Provider=SQLOLEDB;Data Source=127.0.0.1;User ID=hygip;Password=hyweb;Initial Catalog=coa"	
+	session("myXDURL") = "http://kwpi-coa-ma-kmwebsys.gss.com.tw/site/coa"
+    	session("Public") = "/site/coa/public/"
+	session("PageCount") = 10
+     	Session.Timeout = 20
+	session("mykmweb") = "http://kwpi-coa-ma-kmweb.gss.com.tw/"
+     '---
+	'Set Conn = Server.CreateObject("ADODB.Connection")
+	'Conn.Open session("ODBCDSN")
+	'set RS = conn.execute("select convert(varchar(10), max(dEditDate), 120) from CuDtGeneric")
+	'session("upDate") = left(RS(0),10)
+
+	session("mpTree") = 93
+	session("myStyle") = "styleB"
+
+	session("myWWWSite")= "http://kmbeta.coa.gov.tw/subject/"	
+	'smtp server
+	session("SMTP_SERVER_NAME") = "127.0.0.1"
+	'smtp port type=int
+	session("SMTP_SERVER_PORT") = 25
+
+
+end sub
+
+
+sub Application_OnStart
+
+	Application("HyftdServer") = "127.0.0.1"
+	Application("HyftdPort") = 2816
+	Application("HyftdGroupName") = "Intra"
+	Application("HyftdAssociateDataName") = "brief"
+	
+	Application("SiteUnitId") = "1"
+	Application("KnowledgeTankId") = "0"
+	Application("KnowledgeHomeId") = "3"
+	Application("TopicId") = "2"
+	
+	Application("SiteCatTreeRoot") = "34"
+	
+	Application("KnowledgeTankDatabaseId") = "DB020"
+	
+end sub
+
+Sub Application_OnEnd()
+
+End Sub
+</script>

@@ -1,0 +1,63 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="使用者登入系統記錄留存備查 "
+htprogfunc="使用者登入訊息"
+htprogcode="bm010"
+htprogprefix="msession" 
+   response.expires = 0 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_453315802()
+
+   CxMethod_ASP_selecttree_1456496808()
+   CxMethod_ASP_htuigen_2110437144()
+
+  
+queryuser=request("select0")
+
+if queryuser<>"全部使用者" then
+if request("htx_cudtx23f84s")<>"" and request("htx_cudtx23f84e")<>"" then
+sql2="exec sp_userinfo n'" & queryuser & "',n'" & request("htx_cudtx23f84s") & "',n'" & dateadd("d",1,request("htx_cudtx23f84e")) & "'"
+else
+sql2="exec sp_userinfo n'" & queryuser & "','',''"
+end if
+else
+if request("htx_cudtx23f84s")<>"" and request("htx_cudtx23f84e")<>"" then
+sql2="exec sp_userinfo '',n'" & request("htx_cudtx23f84s") & "',n'" & dateadd("d",1,request("htx_cudtx23f84e")) & "'"
+else
+sql2="exec sp_userinfo '','',''"
+end if
+end if
+        
+               set rsdata = conn.execute(sql2)
+               if not rsdata.eof then
+                  set fs= server.createobject("scripting.filesystemobject")
+                  filename = uploadtemppath & replace(request("htx_cudtx23f84s"),"/","_") & "~" & replace(request("htx_cudtx23f84e"),"/","_") & ".csv"
+                  exportfile = server.mappath(filename)
+                  set txtf = fs.createtextfile(exportfile)
+   
+                  datatemp = "姓名,帳號,登入ip,時間,狀態,主題單元,異動資料 "
+                  txtf.writeline datatemp
+             
+                  while not rsdata.eof
+                     datatemp = trim(rsdata("username")) & "," & trim(rsdata("userid")) &"," & trim(rsdata("loginip")) & "," & trim(rsdata("logintime")) & "," & trim(rsdata("xtarget")) & "," & trim(rsdata("ctunit")) & "," & trim(rsdata("objtitle")) 
+
+                     txtf.writeline datatemp
+             
+                     rsdata.movenext
+                  wend
+                  response.redirect filename
+               else
+                  response.write "<font color='#993300'>本段日期無資料可供匯出，請重新輸入！</font><br>"
+                  flag = false
+               end if
+         
+         if flag = false then
+
+
+
+
+
+  
+         end if
+     
+ 

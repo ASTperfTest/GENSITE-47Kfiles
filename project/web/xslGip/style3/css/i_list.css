@@ -1,0 +1,40 @@
+/* CSS Document */
+
+.list {
+	clear: both;
+}
+ul.list { /*首頁中欄訊息條列的class設定是 <ul class="list"> */
+	list-style: none;
+	margin: 8px 0 3px;
+	padding: 0;
+}
+.list ul { /*lp頁的class設定是 <div class="list"><ul>...*/
+	list-style: none;
+	margin: 8px 0 3px;
+	padding: 0;
+}
+.list li {
+	line-height: 150%;
+	background: url(../images/li_bg.gif) no-repeat 4px 3px;
+	padding: 0 0 5px 20px;
+	margin: 0 0 5px;
+	border-bottom: 1px dotted #aaa;
+}
+.list li a {
+}
+
+/*知識家的 li span 沒有class name */
+.list li span {
+	margin: 0 1em;
+	color: #0c8756;
+}
+
+.list li span.from {
+	margin-right: 0;
+	color: #0c8756;
+}
+.list li span.date {
+	margin-left: 1em;
+	letter-spacing: 0;
+	color: #444;
+}

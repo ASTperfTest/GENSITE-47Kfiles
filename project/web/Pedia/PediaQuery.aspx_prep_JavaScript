@@ -1,0 +1,64 @@
+﻿
+
+
+
+
+
+
+
+
+function href____768237500() {history.back()}
+
+
+
+
+
+
+
+
+
+
+
+                                                           function onclick___1344559975() {clearText(this)}
+
+
+
+                                                              function onclick___1344559975() {clearText(this)}
+
+
+
+                                                          function onclick___1344559975() {clearText(this)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    function clearText(item) {
+      if( item.value == "請輸入關鍵字" )
+      {
+        item.value = "";
+      }
+    }
+  
+
+
+
+
+
+ 

@@ -1,0 +1,268 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<htPage>
+	<HTProgPrefix>dnaMatch</HTProgPrefix>
+	<HTProgCode>GW1M61</HTProgCode>
+	<HTUploadPath>/public/</HTUploadPath>
+	<HTProgPath>/dnaMatch</HTProgPath>
+	<HTGenPattern>genEdit</HTGenPattern>
+	<htForm>
+		<formModel id="dnaMatchEdit">
+			<fieldList>
+				<tableName>DNAmatch</tableName>
+				<masterTable>Y</masterTable><field>
+					<fieldName>dnaID</fieldName>
+					<fieldLabel>投稿網址</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>6</dataLen>
+					<inputLen>6</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>uName</fieldName>
+					<fieldLabel>姓名</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>sex</fieldName>
+					<fieldLabel>性別</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refRadio</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>sex</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>birthday</fieldName>
+					<fieldLabel>出生日期</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>uID</fieldName>
+					<fieldLabel>身份證號碼</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>uTel</fieldName>
+					<fieldLabel>連絡電話</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>uAddr</fieldName>
+					<fieldLabel>地址</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>40</dataLen>
+					<inputLen>40</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>uEmail</fieldName>
+					<fieldLabel>Email</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>40</dataLen>
+					<inputLen>40</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>nDesc</fieldName>
+					<fieldLabel>網址命名說明</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>400</dataLen>
+					<inputLen>400</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textarea</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows>10</rows>
+					<cols>40</cols>
+				</field>
+				<field>
+					<fieldName>postDate</fieldName>
+					<fieldLabel>投稿日期</fieldLabel>
+					<dataType>smalldatetime</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>readonly</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xPick</fieldName>
+					<fieldLabel>入選</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>boolYN</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+			<anchorList>
+				<anchor>
+					<type></type>
+					<funcLabel></funcLabel>
+					<url></url>
+					<action></action>
+				</anchor>
+			</anchorList>
+		</formModel>
+	</htForm>
+	<pageSpec>
+		<pageHead>網址提名</pageHead>
+		<pageFunction>編修</pageFunction>
+		<aidLinkList>
+			<Anchor>
+				<AnchorLabel>查詢</AnchorLabel>
+				<AnchorType>A</AnchorType>
+				<AnchorDesc>重設查詢條件</AnchorDesc>
+				<AnchorURI>dnaMatchQuery.asp</AnchorURI>
+				<checkRight>1</checkRight>
+				<AnchorPos>Top</AnchorPos>
+				<AnchorWPK></AnchorWPK>
+			</Anchor>
+			<Anchor>
+				<AnchorLabel>新增</AnchorLabel>
+				<AnchorType>A</AnchorType>
+				<AnchorDesc>新增</AnchorDesc>
+				<AnchorURI>dnaMatchAdd.asp</AnchorURI>
+				<checkRight>4</checkRight>
+				<AnchorPos>Top</AnchorPos>
+				<AnchorWPK></AnchorWPK>
+			</Anchor>
+			<Anchor>
+				<AnchorLabel>回前頁</AnchorLabel>
+				<AnchorType>Back</AnchorType>
+				<AnchorDesc>回前頁</AnchorDesc>
+				<AnchorURI></AnchorURI>
+				<checkRight></checkRight>
+				<AnchorPos>Top</AnchorPos>
+			</Anchor>
+		</aidLinkList>
+		<formUI ref="dnaMatchEdit">
+			<pxHTML>
+				<CENTER>
+					<TABLE border="0" class="eTable" cellspacing="1" cellpadding="2" width="90%">
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>投稿網址：</TD>
+							<TD class="eTableContent"><refField>DNAmatch/dnaID</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>姓名：</TD>
+							<TD class="eTableContent"><refField>DNAmatch/uName</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>性別：</TD>
+							<TD class="eTableContent"><refField>DNAmatch/sex</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>出生日期：</TD>
+							<TD class="eTableContent"><refField>DNAmatch/birthday</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>身份證號碼：</TD>
+							<TD class="eTableContent"><refField>DNAmatch/uID</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>連絡電話：</TD>
+							<TD class="eTableContent"><refField>DNAmatch/uTel</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>地址：</TD>
+							<TD class="eTableContent"><refField>DNAmatch/uAddr</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>Email：</TD>
+							<TD class="eTableContent"><refField>DNAmatch/uEmail</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>網址命名說明：</TD>
+							<TD class="eTableContent"><refField>DNAmatch/nDesc</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>投稿日期：</TD>
+							<TD class="eTableContent"><refField>DNAmatch/postDate</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">入選：</TD>
+							<TD class="eTableContent"><refField>DNAmatch/xPick</refField></TD>
+						</TR>
+					</TABLE>
+				</CENTER>
+			</pxHTML>
+			<scriptCode><![CDATA[
+<SCRIPT LANGUAGE="vbs">
+
+</SCRIPT>
+		]]></scriptCode>
+		</formUI>
+		<UINotes>
+		</UINotes>
+	</pageSpec>
+</htPage>

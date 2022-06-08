@@ -1,0 +1,52 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0
+htprogcap="資料附件"
+htprogfunc="條列"
+htprogcode="gc1ap1"
+htprogprefix="cuattach" 
+
+dim ibasedsdid : ibasedsdid = "40"
+dim ictunitid : ictunitid = "1507"
+
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+
+
+   CxMethod_ASP_dbfunc_1723934251()
+  
+dim mpkey, dpkey
+dim rsmaster, rslist
+xicuitem = request.querystring("icuitem")
+
+
+
+
+
+
+
+
+  
+ fsql = " select icuitem, stitle from cudtgeneric where ictunit=" & ictunitid _
+    & " and icuitem <> " & xicuitem _
+    & " order by icuitem desc"
+ set rslist = conn.execute(fsql)
+
+
+
+  
+ while not rslist.eof
+
+
+
+                                  =rslist("stitle"):                             =rslist("stitle")
+
+
+
+    
+    rslist.movenext
+  wend
+   

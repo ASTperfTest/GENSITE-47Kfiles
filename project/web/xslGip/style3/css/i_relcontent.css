@@ -1,0 +1,57 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/*----------------------------------------------------------------rbox Q End*/
+
+/*0309新增*/
+.relcontent {
+	padding: 5px 10px;
+	line-height: 200%;
+	margin: 0px 0px 2px 0px;
+	color: #464646;
+}
+.relcontent a {
+	color: #464646;
+	text-decoration:none;
+	margin-right: 5px;
+	margin-left: 5px;
+}
+.relcontent a:hover {
+	color:#8D0202;
+	text-decoration:underline;
+}
+
+.floatrss {
+	float: right;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+	margin-top: -25px;
+}
+.floatrss a {
+	background: url(../images1/rssIcon.gif) no-repeat 2px 3px;
+	padding-left: 20px;
+	color: #009999;
+	text-decoration: underline;
+}
+.floatrss a:hover {
+	text-decoration: none;
+	color: #CC6600;
+}
+.lpadddate {
+	padding: 5px 10px;
+	line-height: 200%;
+	margin: 0px 10px 2px 10px;
+	border: 1px dashed #99CC66;
+	color: #464646;
+}
+.lpadddate a {
+	color: #464646;
+	text-decoration:none;
+	margin-right: 3px;
+	margin-left: 3px;
+}
+.lpadddate a:hover {
+	color:#8D0202;
+	text-decoration:underline;
+}

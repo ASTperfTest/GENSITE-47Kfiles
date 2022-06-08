@@ -1,0 +1,4 @@
+﻿: 
+    session("odbcdsn")="driver={sql server};server=61.13.76.20;uid=htemb;pwd=xxemb;database=dbemb"
+ response.write session("odbcdsn") & "<hr>"
+ 

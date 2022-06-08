@@ -1,0 +1,202 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              function onclick____1279852275() {formUpdateSubmit();}
+                              function onClick____1123612663() {formDelSubmit();}
+                               function onClick___1799627099() {returnToEdit();}
+                              function onClick____1754833033() {formBack();}
+
+
+
+
+
+
+
+
+
+ function formUpdateSubmit() {
+  document.getElementById("submitTask").value = "edit";
+  document.getElementById("reg").submit();
+ }
+ function formDelSubmit() {
+  document.getElementById("submitTask").value = "delete";
+  document.getElementById("reg").submit();
+ }
+ function returnToEdit() {
+  document.getElementById("submitTask").value = "reset";
+  document.getElementById("reg").submit();
+ }
+ function formBack() {
+  window.location.href = "/KnowledgeForum/KnowledgeExpertAdditionalList.asp?questionId=Cx_0dummy";
+ }
+
+
+ 

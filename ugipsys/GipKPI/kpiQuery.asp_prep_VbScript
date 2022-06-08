@@ -1,0 +1,43 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    sub formsearchsubmit()
+         reg.action='Cx_0dummylist.asp'
+         reg.submit
+    end sub
+   <script language=vbs></script> 
+ 

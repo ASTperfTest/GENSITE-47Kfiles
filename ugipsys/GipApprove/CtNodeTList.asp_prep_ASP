@@ -1,0 +1,33 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "gc1ap2" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+   
+ if forumtype = "d" then
+  catalogueframe = "0,*"
+   else
+  catalogueframe = "220,*"
+   end if
+
+   if articletype = "a" then
+  forumtocframe = "35,40%,*"
+   else
+  forumtocframe = "0,*,0"
+   end if
+   
+   itemid = request("ctrootid")
+   
+
+
+
+
+
+
+
+
+
+
+
+                  =catalogueframe
+                                                                                                   =itemid 

@@ -1,0 +1,143 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<UseCase>
+	<Name>請購</Name>
+	<Code>AB1p001</Code>
+	<APCat>AB1</APCat>
+	<Version>
+  		<Date>2001/8/5</Date>
+  		<Author>Chris</Author>
+  		<Kind>Expanded</Kind>
+  	  <ExpandedSpec>
+  		<Type>primary</Type>
+  		<Type>essential</Type>
+		<ActorList>
+			<Actor initiator="Y">AU</Actor>
+		</ActorList>
+		<Purpose>發出請購申請，核准後進入採購流程</Purpose>
+		<PreCondition>
+			<UseCase>要先有預算?</UseCase>
+		</PreCondition>
+		<DescriptionList>
+				<Description>
+				為確保keep track預算，所有請購都要指定要運用哪項預算。沒有預算的，
+				要先跑請增預算流程。
+				</Description>
+				<Description>
+				各申購單位依實際需要擬申購時，於「固定資產管理系統」之「請購單建立作業」輸入「請購單」(一式三聯)相關資料如：請購編號(系統自動給予)、預算編號、補助單位、需求品名、規格、數量、用途等詳實填寫後，轉至單位主管簽核。如申購物品係指定廠牌或廠商採購者，應填具指定廠商或廠牌規格之理由。
+				</Description>
+		</DescriptionList>
+		<TypicalCourseOfEvents>
+			<Event type="Client" id="0">
+				列出目前尚未結案的請購案，檢視請購案目前進行的狀況
+			</Event>
+			<Event type="Client" id="1">
+				[請增]--
+			</Event>
+			<Event type="Server" id="1">
+				傳回目前預算使用狀況
+			</Event>
+			<Event type="Client" id="1">
+				選擇要運用的預算
+			</Event>
+			<Event type="Client" id="1">
+				填寫請購明細<BR/>
+				項目、規格...
+			</Event>
+			<Event type="Server" id="1">
+				新增請購案
+			</Event>
+			<Event type="Client" id="2">
+				[編修/刪除]--進行到什麼條件允許修刪?
+			</Event>
+		</TypicalCourseOfEvents>
+  	  </ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName>請購(修)單</DocName>
+				<Description>
+				</Description>
+				<URL>/public/refs/固資表單.doc</URL>
+			</ReferenceDocument>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject>編修/刪除允許狀況?</Subject>
+				<Description/>
+				<Who/>
+				<DueDate/>
+				<DoneDate/>
+				<Conclusion/>
+			</TBD>
+		</TBDList>
+	</Version>
+	<Version>
+		<Date>2001/8/6</Date>
+		<Author>chen</Author>
+		<Kind>HighLevel</Kind>
+		<HighLevelSpec>
+			<Type>primary</Type>
+			<ActorList>
+				<Actor initiator="Y">AU</Actor>
+			</ActorList>
+			<PreCondition>
+				<UseCase>要先有預算?</UseCase>
+			</PreCondition>
+			<DescriptionList>
+				<Description>
+				為確保keep track預算，所有請購都要指定要運用哪項預算。沒有預算的，
+				要先跑請增預算流程。
+				</Description>
+				<Description>
+				各申購單位依實際需要擬申購時，於「固定資產管理系統」之「請購單建立作業」輸入「請購單」(一式三聯)相關資料如：請購編號(系統自動給予)、預算編號、補助單位、需求品名、規格、數量、用途等詳實填寫後，轉至單位主管簽核。如申購物品係指定廠牌或廠商採購者，應填具指定廠商或廠牌規格之理由。				</Description>
+				<Description>
+				</Description>
+			</DescriptionList>
+			<VisitRecordList>
+				<VisitRecord>
+					<Who/>
+					<Date/>
+					<Location/>
+					<comment/>
+				</VisitRecord>
+			</VisitRecordList>
+		</HighLevelSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName>請購(修)單</DocName>
+				<Description>
+				</Description>
+				<URL>/public/refs/固資表單.doc</URL>
+			</ReferenceDocument>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject/>
+				<Description/>
+				<Who/>
+				<DueDate/>
+				<DoneDate/>
+				<Conclusion/>
+			</TBD>
+		</TBDList>
+	</Version>
+</UseCase>

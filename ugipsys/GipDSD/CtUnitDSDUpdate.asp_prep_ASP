@@ -1,0 +1,97 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="主題單元管理"
+htprogfunc="欄位選取更新"
+htprogcode="ge1t11"
+htprogprefix="ctunitdsd" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_xdbutil_1468464061()
+   CxMethod_ASP_htuigen_1591615763()
+  
+sub nodecheck(xnode,xfield,fieldvalue,seqvalue,funstr)
+ set testnode=xnode.selectsinglenode(xfield)
+ if typename(testnode) = "nothing" then
+  if fieldvalue<>"" or (funstr="form" and xnode.selectsinglenode("cannull").text="n") then
+   '----新增element且放入值
+   set objnewnode=oxml.createelement(xfield)
+   set objtextnode=oxml.createtextnode(seqvalue)
+   objnewnode.appendchild(objtextnode)
+   xnode.appendchild(objnewnode)
+  else
+   '----不做任何事
+  end if
+ else
+  if fieldvalue<>"" or (funstr="form" and xnode.selectsinglenode("cannull").text="n") then
+   '----更新值
+   testnode.text = seqvalue
+  else
+   '----更新為空值
+   testnode.text = ""
+  end if 
+ end if
+end sub
+
+set oxml = server.createobject("microsoft.xmldom")
+oxml.async = false
+oxml.setproperty "serverhttprequest", true
+'----xmlspec檔案檢查
+set fso = server.createobject("scripting.filesystemobject")
+loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx"+request("ctunit")+".xml")
+if not fso.fileexists(loadxml) then
+ loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/cudtx" & request("basedsd") & ".xml")
+end if
+xv = oxml.load(loadxml)
+if oxml.parseerror.reason <> "" then
+ response.write("xml parseerror on line " &  oxml.parseerror.line)
+ response.write("<br>reason: " &  oxml.parseerror.reason)
+ response.end()
+end if 
+set root = oxml.selectsinglenode("dataschemadef")
+
+root.selectsinglenode("showclientstyle").text = request("showclientstyle")
+root.selectsinglenode("formclientstyle").text = request("formclientstyle")
+orderbystr=""
+if request("showclientsqlorderby")<>"" then
+ orderbystr=orderbystr+"order by "+request("showclientsqlorderby")
+ if request("showclientsqlorderbytype")<>"" then
+  orderbystr=orderbystr+" "+request("showclientsqlorderbytype")
+ end if
+end if
+
+root.selectsinglenode("showclientsqlorderby").text = orderbystr
+root.selectsinglenode("formclientcat").text = request("formclientcat")
+if request("formclientcat")<>"" then
+ oxml.selectsinglenode("//dataschemadef/dstable/fieldlist/field[fieldname='"+root.selectsinglenode("formclientcat").text+"']/reflookup").text=request("formclientcatreflookup")
+end if
+for each x in request.form
+    if left(x,12)="htx_fieldseq" then    
+        xn=mid(x,13) 
+ set fieldnode = oxml.selectsinglenode("//dataschemadef/dstable/fieldlist/field[fieldname='"+request("htx_fieldname"&xn)+"']")              
+ nodecheck fieldnode,"fieldseq",request("htx_fieldseq"&xn),request("htx_fieldseq"&xn),""
+ fieldnode.selectsinglenode("fieldlabel").text = request("htx_fieldlabel"&xn)
+ fieldnode.selectsinglenode("fielddesc").text = request("htx_fielddesc"&xn)
+ nodecheck fieldnode,"showlistclient",request("ckboxshowlistclient"&xn),request("htx_fieldseq"&xn),""
+ nodecheck fieldnode,"formlistclient",request("ckboxformlistclient"&xn),request("htx_fieldseq"&xn),"formclient"
+ nodecheck fieldnode,"querylistclient",request("ckboxquerylistclient"&xn),request("htx_fieldseq"&xn),""
+ nodecheck fieldnode,"showlist",request("ckboxshowlist"&xn),request("htx_fieldseq"&xn),""
+ nodecheck fieldnode,"formlist",request("ckboxformlist"&xn),request("htx_fieldseq"&xn),"form"
+ nodecheck fieldnode,"querylist",request("ckboxquerylist"&xn),request("htx_fieldseq"&xn),""
+    end if
+next
+'response.write "<xmp>"+oxml.xml+"</xml>"
+'response.end
+oxml.save(server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx"+request("ctunit")+".xml"))
+'response.write "完成"
+'response.end
+
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+
+                                            =request("ctunit") 

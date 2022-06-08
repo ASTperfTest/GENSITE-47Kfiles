@@ -1,0 +1,38 @@
+@charset "utf-8";
+/* 新聞局駐外單位 德國 中文版 */
+/* CSS Document for cp_f */
+
+@import url("cp_common.css");
+@import url("common.css");
+
+.DataTable {
+	font-size: 80%;
+	line-height:150%;
+	border-collapse:collapse;
+	border: 2px solid #CCCCCC;
+	width: 90%;
+	margin-top: 20px;
+	margin-bottom: 15px;
+	margin-left: 20px;
+}
+.DataTable caption {
+	font-size: 120%;
+	padding-bottom: 5px;
+}
+.DataTable th {
+	font-weight: normal;
+	padding: 3px 6px;
+	border-right: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+	background-color: #CC9900;
+	text-align: left;
+	vertical-align: top;
+	width: 20%;
+	color: #FFFFFF;
+}
+.DataTable td {
+	vertical-align: top;
+	padding: 3px 6px;
+	border-right: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+}

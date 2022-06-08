@@ -1,0 +1,374 @@
+@charset "utf-8";
+@import url("common.css");
+/* 農委會鳳梨主題館 */
+/* CSS Document for mp */
+
+/* ---------------------------------------------------------中欄新聞區1--焦點推薦 */
+#News0 {
+	text-align: left;
+	font-size: 80%;
+	border: none;
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+#News0 .layout01 {
+	text-align: left;
+	font-size: 100%;
+	vertical-align: top;
+	margin: 0px;
+	padding: 0px;
+}
+#News0 .left {
+	background-image: url(../images/news0_left.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	width: auto;
+	height: 200px;
+	padding-top: 35px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 30px;
+	margin: 0px;
+}
+#News0 .left img {
+	margin: 0px 6px 2px 0px;
+	padding: 0px;
+	float: left;
+	border: 1px solid #666666;
+	width: 125px;
+}
+#News0 .left h1 {
+	font-size: 125%;
+	line-height: 150%;
+	font-weight: bold;
+	color: #F96C10;
+	margin: 0px 0px 10px 0px;
+	padding: 3px 0px 6px 30px;
+	background-image: url(../images/icon_title.gif);
+	background-repeat: no-repeat;
+	background-position: 1px 2px;
+}
+#News0 .left h4 {
+	margin: 0px 0px 6px 0px;
+	padding: 0px;
+	color: #C0A021;
+	font-weight: normal;
+}
+#News0 .left p {
+	margin: 0px;
+	padding: 0px ;
+	font-weight: normal;
+	color: #624F02;
+}
+#News0 .left .img {
+	margin: 0px 6px 2px 0px;
+	padding: 0px;
+	float: left;
+	border: 1px solid #666666;
+}
+#News0 .right {
+	background-image: url(../images/news0_right.gif);
+	background-repeat: no-repeat;
+	background-position: 0px 2px;
+	height: 220px;
+	float: right;
+	width: 85px;
+}
+
+/* ---------------------------------------------------------中欄新聞區1--駐館公告 */
+.News1 {
+	margin-bottom: 5px;
+	margin-top: 10px;
+	margin-right: 10px;
+	margin-left: 10px;
+	clear: both;
+}
+.News1 h3 {
+	line-height: 135%;
+	color: #F7941D;
+	background: url(../images/icon_title01.gif) no-repeat 15px 2px;
+	margin: 0px;
+	padding: 3px 0px 6px 45px;
+	letter-spacing: .05em;
+	height: 29px;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #D4D4D4;
+	font-size: 100%;
+}
+.News1 .Body {
+	padding: 0px 15px;
+	margin-top: 10px;
+}
+.News1 .Body h4 {
+	font-size: 95%;
+	font-weight: normal;
+	margin: 0px 0px 5px;
+	padding: 0px;
+	line-height: 135%;
+	letter-spacing: .05em;
+	color: #F7941D;
+}
+.News1 .Body img {
+	float: left;
+	border: 1px solid #807650;
+	margin: 0px 9px 2px 0px;
+	width: 60px;
+}
+.News1 .Body p {
+	font-size: 80%;
+	line-height: 150%;
+	margin: 0px 0px 12px;
+	padding: 0px;
+}
+.News1 .Body ul {
+	clear: both;
+	margin: 10px 0px 0px;
+	padding: 0px;
+}
+.News1 .Body ul li {
+	font-size: 80%;
+	line-height: 145%;
+	background: url(../images/bullet11.gif) no-repeat 2px 4px;
+	list-style: none;
+	padding: 0px 5px 5px 18px;
+	margin: 0px;
+}
+.News1 .Body ul li a {
+	color: #656725;
+}
+.News1 .Body ul li a:hover {
+	color: #990000;
+	text-decoration: underline;
+}
+.News1 .Foot {
+	background-image: url(../images/bullet12.gif);
+	background-repeat: repeat-x;
+	background-position: left top;
+	margin-top: 5px;
+	height: 7px;
+	margin-bottom: 10px;
+}
+/* --------------------------------------------------------- 中欄新聞區2--台灣新聞 */
+.News2 {
+	clear: both;
+	margin: 10px;
+	padding: 0px;
+}
+.News2 .layout2 {
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #dddddd;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #dddddd;
+	margin: 0px;
+	padding: 0px;
+}
+.News2 .layout2 .left {
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #dddddd;
+	text-align: left;
+	vertical-align: top;
+	width: 50%;
+	margin: 0px;
+}
+.News2 .left h3 {
+	background: url(../images/icon_title02.gif) no-repeat 10px 8px;
+	font-size: 100%;
+	line-height: 135%;
+	color: #8FB73E;
+	margin: 0px;
+	padding: 10px 5px 4px 40px;
+	letter-spacing: .05em;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #d4d4d4;
+}
+.News2 .left .floatb {
+	float: left;
+	width: auto;
+	margin: 0px 10px 0px 0px;
+	padding: 0px;
+}
+.News2 .layout2 .left .img {
+	width: 150px;
+	border: 1px solid #666666;
+	margin: 2px 0px 2px 10px;
+}
+.News2 .layout2 .right {
+	text-align: left;
+	vertical-align: top;
+	width: 50%;
+	margin: 0px;
+}
+.News2 .right h3 {
+	background: url(../images/icon_title03.gif) no-repeat 10px 8px;
+	font-size: 100%;
+	line-height: 135%;
+	color: #8FB73E;
+	margin: 0px;
+	padding: 10px 5px 4px 40px;
+	letter-spacing: .05em;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #d4d4d4;
+}
+.News2 h4 {
+	font-size: 95%;
+	font-weight: normal;
+	margin: 5px 0px 5px 10px;
+	padding: 0px;
+	line-height: 130%;
+	letter-spacing: .05em;
+	color: #F7941D;
+}
+.News2 p {
+	font-size: 80%;
+	line-height: 150%;
+	margin: 0px 10px;
+	padding: 0px;
+}
+
+
+/* --------------------------------------------------------- 中欄新聞區3--簽證及護照事務 */
+.News3 {
+	margin: 15px 10px 10px;
+}
+.News3 h3 {
+	font-size: 100%;
+	line-height: 135%;
+	color: #59A33D;
+	background: url(../images/icon_title04.gif) no-repeat 15px 2px;
+	margin: 0px;
+	padding: 3px 0px 0px 45px;
+	letter-spacing: .05em;
+	height: 29px;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #d4d4d4;
+}
+.News3 .Body {
+	font-size: 100%;
+	padding: 0px;
+	margin-top: 5px;
+}
+.News3 .Body ul {
+	clear: both;
+	margin: 0px;
+	padding: 0px;
+}
+.News3 .Body ul li {
+	font-size: 80%;
+	list-style: none;
+	line-height: 225%;
+	margin: 0px;
+	padding: 0px;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #dddddd;
+	color: #006600;
+}
+.News3 .Body ul li a {
+	background: #FCFEE9 url(../images/icon01.gif) no-repeat 25px 5px;
+	color: #006600;
+	line-height: 145%;
+	margin: 0px;
+	padding-top: 2px;
+	padding-right: 5px;
+	padding-bottom: 2px;
+	padding-left: 45px;
+/*	display: block;*/
+}
+.News3 .Body ul li a:hover {
+	color: #FF9900;
+	background-color: #FFFCDF;
+	text-decoration: none;
+}
+
+/* --------------------------------------------------------- 訂閱電子報 */
+.Epaper {
+	padding: 2px 0px;
+	margin: 0px 0px 8px 10px;
+	width: 180px;
+	background-image: url(../images/epaper_bg.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+}
+.Epaper h3 {
+	font-size: 100%;
+	color: #0A759D;
+	margin: 0px;
+	padding: 15px 5px 8px 35px;
+}
+.Epaper .Body {
+	padding: 5px 6px 20px 8px;
+	text-align: center;
+}
+.Epaper .Body form {
+	margin: 0px;
+}
+.Epaper .Body form input.Text {
+	margin-bottom: 5px;
+	border: 1px solid #CCCCCC;
+	text-align: left;
+}
+.Epaper .Body form .Button {
+	background-color: #999999;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-right-color: #333333;
+	border-bottom-color: #000000;
+}
+/* --------------------------------------------------------- 相簿 */
+.Album {
+	padding: 2px 0px;
+	margin: 0px 0px 20px 10px;
+	width: 180px;
+}
+.Album h3 {
+	background: #FAD6C8 url(../images/album_bg.gif) no-repeat left top;
+	font-size: 100%;
+	color: #AC4100;
+	margin: 0px;
+	padding: 16px 5px 8px 35px;
+}
+.Album .Body {
+	background: #FAD6C8 url(../images/album_body.gif) no-repeat left bottom;
+	padding: 8px 8px 15px;
+	text-align: center;
+}
+.Album .Body img {
+	border: 1px solid #666666;
+	width: 150px;
+	margin-bottom: 3px;
+}
+.Album .Body p {
+	font-size: 80%;
+	line-height: 135%;
+	padding: 0px 0px 0px 5px;
+	text-align: left;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 12px;
+	color: #333333;
+}
+.Album .Body p a {
+	color: #333333;
+}
+
+/*-------------------------------------------------------- 廣告區 */
+.AD {
+	text-align: center;
+	margin: 10px auto;
+}
+.AD img{
+	text-align: center;
+	display: block;
+	margin-bottom: 5px;
+	border: none;
+}

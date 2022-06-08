@@ -1,0 +1,169 @@
+﻿:  htprogcap="ap"
+htprogcode="ht090"
+htprogprefix="ap" 
+   response.expires = 0 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_xdbutil_1468464061()
+  
+dim xxapcode
+
+ set nxml = server.createobject("microsoft.xmldom")
+ nxml.async = false
+ nxml.setproperty "serverhttprequest", true
+ loadxml = server.mappath("/htsdsystem/apdblist0.xml")
+ xv = nxml.load(loadxml)
+  if nxml.parseerror.reason <> "" then
+    response.write("xml parseerror on line " &  nxml.parseerror.line)
+    response.write("<br>reason: " &  nxml.parseerror.reason)
+    response.end()
+  end if
+   set ocatlist = nxml.selectsinglenode("catlist")
+   set ousecase = nxml.selectsinglenode("//usecase")
+
+
+ fsql = "select ap.*,apcat.apcatcname from ap inner join apcat on ap.apcat=apcat.apcatid" _
+  & " where ap.appath like n'/htsdsystem/%'" _
+  & " order by apcat.apseq, ap.aporder"
+
+ set rs = conn.execute(fsql)
+ 
+ response.write "<table border><tr>"
+ for i = 0 to rs.fields.count-1
+  response.write "<th>" & rs.fields(i).name
+ next
+
+ xcatid = ""
+ while not rs.eof
+  if rs("apcat") <> xcatid then
+   if xcatid <> "" then _
+    ousecaselist.removechild ousecaselist.selectsinglenode("usecase")
+   xcatid = rs("apcat")
+   set napcat = ocatlist.selectsinglenode("apcat").clonenode(true)
+   napcat.selectsinglenode("catid").text = xcatid
+   napcat.selectsinglenode("catname").text = rs("apcatcname")
+   ocatlist.appendchild napcat
+   
+   set ousecaselist = ocatlist.lastchild.selectsinglenode("usecaselist")
+  end if
+  response.write "<tr>"
+  for i = 0 to rs.fields.count-1
+   response.write "<td>" & rs.fields(i)
+  next
+  if left(rs("apnamec"),2)<>"總目" then _
+   fillusecase
+ 
+  rs.movenext
+ wend
+ response.write "</table>"
+
+ if xcatid <> "" then _
+  ousecaselist.removechild ousecaselist.selectsinglenode("usecase")
+
+ ocatlist.removechild ocatlist.selectsinglenode("apcat")
+ nxml.save(server.mappath("/htsdsystem/usecase/00apdblist.xml"))
+
+
+sub fillusecase
+
+ set nusecase = ousecase.clonenode(true)
+ nusecase.selectsinglenode("apcode").text = rs("apcode")
+ xxapcode = rs("apcode")
+ nusecase.selectsinglenode("apname").text = rs("apnamec")
+ ousecaselist.appendchild nusecase
+
+ xsql = "delete agrp where apcode=" & pkstr(xxapcode,"")
+ conn.execute xsql
+
+
+ set fxml = server.createobject("microsoft.xmldom")
+ fxml.async = false
+ fxml.setproperty "serverhttprequest", true
+ loadxml = server.mappath("/htsdsystem/usecase/" & rs("apcode") & ".xml")
+ xv = fxml.load(loadxml)
+ if fxml.parseerror.reason <> "" then
+  response.write(rs("apcode") & ".xml parseerror on line " &  fxml.parseerror.line)
+  response.write("<br>reason: " &  fxml.parseerror.reason & "<hr>")
+     exit sub
+ end if
+ 
+ if nulltext(fxml.selectsinglenode("usecase/version[expandedspec]/date")) <> "" then
+   set xv = fxml.selectsinglenode("usecase/version[expandedspec]")
+  set nversion = nusecase.selectsinglenode("//expandedspec").clonenode(true)
+  nversion.selectsinglenode("date").text = nulltext(xv.selectsinglenode("date"))
+  nversion.selectsinglenode("author").text = nulltext(xv.selectsinglenode("author"))
+  if nulltext(xv.selectsinglenode("//typicalcourseofevents")) <> "" then _
+   nversion.selectsinglenode("status").text = "y"
+
+  for each tcoe in xv.selectnodes("expandedspec/typicalcourseofevents/event")
+'   response.write tcoe.getattribute("contractxml") & "z<br> "
+'   response.write tcoe.text & "z<br> "
+   fillevent nversion, tcoe.getattribute("contractxml")
+  next
+
+  nversion.appendchild xv.selectsinglenode("expandedspec/typicalcourseofevents")
+'  nusecase.insertbefore nversion, nusecase.selectsinglenode("//expandedspec")
+  nusecase.appendchild nversion
+ end if
+ 
+ nusecase.removechild nusecase.selectsinglenode("expandedspec")
+
+end sub
+
+sub fillevent (xver, xfile)
+on error resume next
+ if xfile="" then exit sub
+ set efxml = server.createobject("microsoft.xmldom")
+ efxml.async = false
+ efxml.setproperty "serverhttprequest", true
+ loadxml = server.mappath("/htsdsystem/usecase/" & xfile)
+ exv = efxml.load(loadxml)
+ if efxml.parseerror.reason <> "" then
+  response.write(rs("apcode") & ".xml parseerror on line " &  efxml.parseerror.line)
+  response.write("<br>reason: " &  efxml.parseerror.reason & "<hr>")
+     exit sub
+ end if
+ agrpid= mid(efxml.selectsinglenode("//contractspec/name").text,5)
+ if agrpid="" then exit sub
+ efxml.selectsinglenode("//contractspec/name").text = agrpid
+ agrpname = nulltext(efxml.selectsinglenode("//contractspec/responsibilitylist/responsibility"))
+'on error goto  0
+
+ xsql = "delete agrpfp where agrpid=" & pkstr(agrpid,"")
+ conn.execute xsql
+
+ xsql = "insert into agrp(agrpid,agrpname,apcode) values(" _
+  & pkstr(agrpid,",") & pkstr(agrpname,",") & pkstr(xxapcode,")")
+ conn.execute xsql
+ 
+ for each xfaccess in efxml.selectnodes("//contractspec/htdentitylist/htdentity")
+  xright = 0
+  fpcode = xfaccess.text
+  if ucase(xfaccess.getattribute("xref")) = "y" then xright = xright + 1
+  if ucase(xfaccess.getattribute("xupdate")) = "y" then xright = xright + 2
+'  response.write fpcode & "==>" & xright & "==>"
+  for each pceop in efxml.selectnodes("//contractspec/postconditionlist/postcondition[.='" & fpcode & "']")
+'   response.write pceof.text & pceop.getattribute("eop")
+   if pceop.getattribute("eop") = "instancecreate" then  xright = xright or 4
+   if pceop.getattribute("eop") = "instancedelete" then  xright = xright or 8
+  next
+'  response.write "=(" & xright & ")<br>"
+
+  xsql = "insert into agrpfp(agrpid, fpcode, rights) values(" _
+   & pkstr(agrpid,",") & pkstr(fpcode,",") & xright & ")"
+  conn.execute xsql
+
+ next
+ 
+ xver.appendchild efxml.selectsinglenode("//contractspec")
+
+
+end sub
+
+
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+ 

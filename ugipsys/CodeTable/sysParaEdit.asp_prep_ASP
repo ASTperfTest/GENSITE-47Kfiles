@@ -1,0 +1,253 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="系統參數維護"
+htprogfunc="編修系統參數"
+htuploadpath="/"
+htprogcode="gw1m91"
+htprogprefix="syspara" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+
+         =title
+
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_htuigen_1591615763()
+  
+dim pkey
+dim rsreg
+dim formfunction
+tasklable="編輯" & htprogcap
+ cq=chr(34)
+ ct=chr(9)
+ cl="<" & "%"
+ cr="%" & ">"
+
+function xupform(xvar)
+ xupform = request.form(xvar)
+end function
+
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true 
+ 
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\syspara.xml"
+'  response.write loadxml & "<hr>"
+  xv = htpagedom.load(loadxml)
+'  response.write xv & "<hr>"
+    if htpagedom.parseerror.reason <> "" then 
+      response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+      response.end()
+    end if
+
+
+if xupform("submittask") = "update" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  editinbothcase()
+ else
+  doupdatedb()
+  showdonebox("資料更新成功！")
+ end if
+
+else
+ editinbothcase()
+end if
+
+
+sub editinbothcase
+
+ showhtmlhead()
+ if errmsg <> "" then showerrbox()
+ formfunction = "edit"
+' response.write sqlcom
+ showform()
+ initform()
+ showhtmltail()
+end sub
+
+
+function qqrs(fldname)
+ if request("submittask")="" then
+  xvalue = nulltext(htpagedom.selectsinglenode("systemparameter/" & fldname))
+ else
+  xvalue = ""
+  if request("htx_"&fldname) <> "" then
+   xvalue = request("htx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+  sub initform() 
+
+
+
+
+
+
+
+  
+ for each param in htpagedom.selectnodes("systemparameter/*[@xname]") 
+  response.write "reg.htx_" & param.nodename & ".value= """  & qqrs(param.nodename) & """" & vbcrlf
+ next
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+
+  sub showform()   '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+' for each param in refmodel.selectnodes("fieldlist/field[formlist='y']") 
+'  processvalid param
+' next
+
+
+
+
+
+
+
+
+
+
+
+
+   
+ for each param in htpagedom.selectnodes("systemparameter/*[@xname]")
+  response.write "<tr><td class=""label"" align=""right"">"
+  if nulltext(param.selectsinglenode("@must"))="y" then _
+   response.write "<span class=""must"">*</span>"
+  response.write nulltext(param.selectsinglenode("@xname")) & "：</td>"
+  response.write "<td class=""etablecontent"">　"
+  response.write "<input name=""htx_" & param.nodename & """ size=20>　　" _
+   & nulltext(param.selectsinglenode("@xdesc")) 
+'   processparamfield param
+  response.write "</td></tr>"
+ next
+
+
+
+
+
+      if (htprogright and 8)=8 then :                                                                                             end if 
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+       =title
+
+    if (htprogright and 8)=8 then 
+
+    end if 
+
+
+
+
+                     =htprogfunc
+
+  end sub '--- showhtmlhead() ------
+
+
+  sub showhtmltail() 
+
+
+  end sub '--- showhtmltail() ------
+
+
+  sub showerrbox() 
+
+              =errmsg
+
+
+  
+    end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' if request("tfx_taxid") <> "" then
+'   sql = "select * from client where taxid = n'"& request("tfx_taxid") &"'"
+'   set rsreg = conn.execute(sql)
+'   if not rsreg.eof then
+'  if trim(rsreg("clientid")) <> request("pfx_clientid") then
+'   errmsg = "「統一編號」重複!!請重新輸入客戶統一編號!"
+'   exit sub
+'  end if
+'   end if
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ for each param in htpagedom.selectnodes("systemparameter/*[@xname]")
+  param.text = request("htx_" & param.nodename)
+ next
+ 
+ htpagedom.save(loadxml)
+
+end sub '---- doupdatedb() ----
+
+  sub showdonebox(lmsg) 
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+                 =lmsg
+                                =htprogprefix:            =session("querypage_no")
+
+
+
+  end sub '---- showdonebox() ----  

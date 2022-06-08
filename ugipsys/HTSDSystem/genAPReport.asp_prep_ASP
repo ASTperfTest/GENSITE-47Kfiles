@@ -1,0 +1,115 @@
+﻿:  htprogcap="ap"
+htprogcode="ht090"
+htprogprefix="ap" 
+   response.expires = 0 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_xdbutil_1468464061()
+  
+
+ set nxml = server.createobject("microsoft.xmldom")
+ nxml.async = false
+ nxml.setproperty "serverhttprequest", true
+ loadxml = server.mappath("/htsdsystem/aplist0.xml")
+
+ xv = nxml.load(loadxml)
+ 
+  if nxml.parseerror.reason <> "" then
+    response.write("xml parseerror on line " &  nxml.parseerror.line)
+    response.write("<br>reason: " &  nxml.parseerror.reason)
+    response.end()
+  end if
+   set ocatlist = nxml.selectsinglenode("catlist")
+   set ousecase = nxml.selectsinglenode("//usecase")
+
+
+ fsql = "select ap.*,apcat.apcatcname from ap inner join apcat on ap.apcat=apcat.apcatid" _
+  & " where ap.appath like n'/htsdsystem/%'" _
+  & " order by apcat.apseq, ap.aporder"
+
+ set rs = conn.execute(fsql)
+ 
+ response.write "<table border><tr>"
+ for i = 0 to rs.fields.count-1
+  response.write "<th>" & rs.fields(i).name
+ next
+
+ xcatid = ""
+ while not rs.eof
+  if rs("apcat") <> xcatid then
+   if xcatid <> "" then _
+    ousecaselist.removechild ousecaselist.selectsinglenode("usecase")
+   xcatid = rs("apcat")
+   set napcat = ocatlist.selectsinglenode("apcat").clonenode(true)
+   napcat.selectsinglenode("catid").text = xcatid
+   napcat.selectsinglenode("catname").text = rs("apcatcname")
+   ocatlist.appendchild napcat
+   
+   set ousecaselist = ocatlist.lastchild.selectsinglenode("usecaselist")
+  end if
+  response.write "<tr>"
+  for i = 0 to rs.fields.count-1
+   response.write "<td>" & rs.fields(i)
+  next
+  fillusecase
+ 
+  rs.movenext
+ wend
+ response.write "</table>"
+
+ if xcatid <> "" then _
+  ousecaselist.removechild ousecaselist.selectsinglenode("usecase")
+
+ ocatlist.removechild ocatlist.selectsinglenode("apcat")
+ nxml.save(server.mappath("/htsdsystem/usecase/00aplist.xml"))
+
+
+sub fillusecase
+
+ set nusecase = ousecase.clonenode(true)
+ nusecase.selectsinglenode("apcode").text = rs("apcode")
+ nusecase.selectsinglenode("apname").text = rs("apnamec")
+ ousecaselist.appendchild nusecase
+
+ set fxml = server.createobject("microsoft.xmldom")
+ fxml.async = false
+ fxml.setproperty "serverhttprequest", true
+ loadxml = server.mappath("/htsdsystem/usecase/" & rs("apcode") & ".xml")
+ xv = fxml.load(loadxml)
+ if fxml.parseerror.reason <> "" then
+  response.write(rs("apcode") & ".xml parseerror on line " &  fxml.parseerror.line)
+  response.write("<br>reason: " &  fxml.parseerror.reason & "<hr>")
+     exit sub
+ end if
+ 
+ for each xv in fxml.selectnodes("usecase/version[highlevelspec]")
+  set nversion = nusecase.selectsinglenode("//highlevelspec").clonenode(true)
+  nversion.selectsinglenode("date").text = nulltext(xv.selectsinglenode("date"))
+  nversion.selectsinglenode("author").text = nulltext(xv.selectsinglenode("author"))
+  if nulltext(xv.selectsinglenode("//description")) <> "" then _
+   nversion.selectsinglenode("status").text = "y"
+  nusecase.appendchild nversion
+ next
+
+ for each xv in fxml.selectnodes("usecase/version[expandedspec]")
+  set nversion = nusecase.selectsinglenode("//expandedspec").clonenode(true)
+  nversion.selectsinglenode("date").text = nulltext(xv.selectsinglenode("date"))
+  nversion.selectsinglenode("author").text = nulltext(xv.selectsinglenode("author"))
+  if nulltext(xv.selectsinglenode("//typicalcourseofevents")) <> "" then _
+   nversion.selectsinglenode("status").text = "y"
+  nversion.appendchild xv.selectsinglenode("expandedspec/typicalcourseofevents")
+'  nusecase.insertbefore nversion, nusecase.selectsinglenode("//expandedspec")
+  nusecase.appendchild nversion
+ next
+
+ nusecase.removechild nusecase.selectsinglenode("highlevelspec")
+ nusecase.removechild nusecase.selectsinglenode("expandedspec")
+
+end sub
+
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+ 

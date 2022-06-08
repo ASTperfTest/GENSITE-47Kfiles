@@ -1,0 +1,135 @@
+@charset "big5";
+/* UI¼È¥Î */
+.adlayouttable {
+	border-collapse:collapse;
+	width: 85%;
+	margin: 25px 10px 35px 10px;
+	padding: 10px;
+}
+.adlayouttable th {
+	color: #526717;
+	font-weight: bold;
+	padding: 5px;
+	background-color: #F1FFB4;
+	border: 1px solid #dddddd;
+	white-space: nowrap;
+}
+.adlayouttable td {
+	padding: 5px;
+	border: 1px solid #dddddd;
+}
+.aligncenter {
+	text-align: center;
+}
+.layouttable {
+	border-collapse:collapse;
+	border: none;
+	width: 100%;
+	background-color: #FFFFFF;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	text-align: left;
+}
+.layouttable th {
+	background-color: #C5DB68;
+	padding: 12px 5px 8px 5px;
+	font-size: 107%;
+	font-weight: bold;
+	text-align: left;
+	color: #407335;
+	white-space: nowrap;
+}
+.layouttable td {
+	padding: 5px 5px 15px 5px;
+}
+.layouttable ul {
+	list-style-type: none;
+	padding: 2px;
+	margin: 0px;
+}
+.layouttable ul img {
+	margin: 0px;
+	padding: 0px;
+}
+.layouttable ul li {
+	color: #283073;
+	line-height: 150%;
+	padding:0px;
+}
+.layouttable hr {
+	height: 1px;
+}
+.layouttable ol {
+	padding: 2px;
+	margin: 0px;
+}
+.layouttable ol li {
+	color: #283073;
+	line-height: 150%;
+	padding:0px;
+}
+.layouttable .searchbtn {
+	margin-top: 3px;
+}
+.layouttable p {
+	padding: 5px;
+}
+.relatedword {
+	padding: 8px 5px 8px 5px;
+	background-color: #E0E0E0;
+}
+.relatedword li {
+	display: inline;
+	margin-left: 10px;
+}
+.listorder {
+	padding: 8px 5px;
+	background-color: #E0E0E0;
+	margin: 0px 8px;
+}
+.searchlist {
+	border-collapse:collapse;
+/*	width: 100%;*/
+	font-size: 100%;
+	margin: 1px 0px 30px 0px;
+	padding: 0px 8px 0px 8px;
+}
+.searchlist th {
+	padding: 5px 5px 5px 10px;
+	vertical-align: top;
+	font-weight: normal;
+	background-color: #F2F1EE;
+	border-top: 1px solid #B9B7A6;
+	border-bottom: 1px solid #B9B7A6;
+	white-space: nowrap;
+	color: #353535;
+}
+.searchlist td {
+	padding: 6px 5px 6px 10px;
+	vertical-align: top;
+	line-height: 145%;
+	border-bottom: 1px dashed #CCCCCC;
+	color: #353535;
+}
+.searchlist td a {
+	line-height: 145%;
+	color: #006699;
+}
+.searchlist .bg {
+	background-color: #F8F8F5;
+	border-bottom: 1px solid #E8E7E1;
+}
+.searchlist .content {
+	margin-top: 5px;
+	color: #999999;
+}
+.relper {
+	color: #996600;
+	padding-left: 15px;
+}
+.catapath {
+	list-style-type: none;
+	padding: 2px;
+	margin: 3px 1px 1px 1px;
+	line-height: 150%;
+}

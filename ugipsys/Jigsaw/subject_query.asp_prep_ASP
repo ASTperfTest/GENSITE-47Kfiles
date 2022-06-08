@@ -1,0 +1,94 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="主題館績效統計"
+htprogfunc="查詢清單"
+htprogcode="jigsaw"
+htprogprefix="newkpi" 
+
+   CxMethod_ASP_server_1606199358()
+
+   CxMethod_ASP_client_5214970()
+  
+if  request("icuitem")<>"" then 
+
+sql="select stitle from [mgipcoanew].[dbo].[cudtgeneric] where icuitem='"&request("icuitem")&"'"
+
+set rs = conn.execute(sql)
+sql1="select  cudtgeneric.stitle as stitle, cudtgeneric.fctupublic as fctupublic, knowledgejigsaw.ordersiteunit as ordersiteunit, knowledgejigsaw.ordersubject as ordersubject, knowledgejigsaw.orderknowledgetank as orderknowledgetank, knowledgejigsaw.orderknowledgehome as orderknowledgehome, knowledgejigsaw.parenticuitem as parenticuitem , knowledgejigsaw.gicuitem as gicuitem from  knowledgejigsaw inner join cudtgeneric on knowledgejigsaw.gicuitem = cudtgeneric.icuitem where knowledgejigsaw.parenticuitem='"&request("icuitem")&"'"
+set rs1 = conn.execute(sql1)
+
+session("jigsql") = ""
+session("jigcheck")=""
+end if 
+sql2="select stitle from [mgipcoanew].[dbo].[cudtgeneric] where icuitem='"&request("gicuitem")&"'"
+set rs2 = conn.execute(sql2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                        =request("icuitem"):             =request("gicuitem")
+
+
+
+
+
+                           =rs(0):        =rs2(0)
+
+
+                                                 =request.querystring("icuitem")
+
+
+
+
+
+
+
+
+
+
+
+
+
+      if request("latest") = "1" then  
+
+
+
+            
+      sql = "select * from codemain where codemetaid = 'jigsaw' order by msortvalue"
+      set rs = conn.execute(sql)
+      while not rs.eof 
+       response.write "<option value=""" & rs("mcode") & """>" & rs("mvalue") & "</option>"
+       rs.movenext
+      wend
+      rs.close
+      set rs = nothing
+    
+
+
+      else 
+
+
+
+
+
+
+
+
+
+      end if  

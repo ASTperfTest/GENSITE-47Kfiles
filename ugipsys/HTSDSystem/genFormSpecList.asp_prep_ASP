@@ -1,0 +1,163 @@
+﻿:  response.expires = 0
+htprogcode="ht011"
+htprogprefix="htdfield" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_xdbutil_1468464061()
+  
+ xmlfile = request.form("xmlfile")
+ formspecfile = request.form("formspecfile")
+
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty("serverhttprequest") = true
+ loadxml = server.mappath("/htsdsystem/usecase/" & xmlfile & ".xml")
+ xv = oxml.load(loadxml)
+  if oxml.parseerror.reason <> "" then
+    response.write("xml parseerror on line " &  oxml.parseerror.line)
+    response.write("<br>reason: " &  oxml.parseerror.reason)
+    response.end()
+  end if 
+ set nxml = server.createobject("microsoft.xmldom")
+ nxml.async = false
+ nxml.setproperty "serverhttprequest", true
+ loadxml = server.mappath("/htsdsystem/formspeclist0.xml")
+ xv = nxml.load(loadxml)
+  if nxml.parseerror.reason <> "" then
+    response.write("xml parseerror on line " &  nxml.parseerror.line)
+    response.write("<br>reason: " &  nxml.parseerror.reason)
+    response.end()
+  end if
+
+ progprefix = mid(xmlfile,5)
+ progprefix = left(progprefix,len(progprefix)-4)
+ nxml.selectsinglenode("htpage/htprogprefix").text = progprefix
+ nxml.selectsinglenode("htpage/htprogcode").text = nulltext(oxml.selectsinglenode("operationcontract/code"))
+ progpath = nulltext(oxml.selectsinglenode("operationcontract/htcodepath"))
+ nxml.selectsinglenode("htpage/htprogpath").text = nulltext(oxml.selectsinglenode("operationcontract/htcodepath"))
+ nxml.selectsinglenode("htpage/htgenpattern").text = nulltext(oxml.selectsinglenode("operationcontract/htpattern"))
+ 
+ 
+ joincount = 0
+ xselectlist = ""
+ for each ex in request.form
+'  response.write ex & "==>" & request.form(ex) & "<br>"
+  if right(ex,12) = "_pickedfield" then
+   xtable = left(ex, len(ex)-12)
+   response.write xtable & "<hr>"
+   set xtablenode = nxml.selectsinglenode("//resultset/fieldlist").clonenode(true)
+   set xdetailnode = nxml.selectsinglenode("//detailrow")
+   xtablenode.selectsinglenode("tablename").text = xtable   
+   if request("mastertable") = xtable then
+    set nformspec = nxml.createelement("mastertable")
+    nformspec.text = "y"
+    xtablenode.insertbefore nformspec, xtablenode.selectsinglenode("field")
+    tbprefix = "htx."
+    nxml.selectsinglenode("//resultset/sql/fromlist").text = xtable & " as htx"
+   else
+    joincount = joincount + 1
+    tbprefix = "htj" & joincount & "."
+    set nformspec = nxml.selectsinglenode("//resultset/fieldlistlink/fklink").clonenode(true)
+    nformspec.selectsinglenode("asalias").text = "htj" & joincount
+    xtablenode.insertbefore nformspec, xtablenode.selectsinglenode("field")
+   end if
+   set fxml = server.createobject("microsoft.xmldom")
+   fxml.async = false
+   fxml.setproperty "serverhttprequest", true
+   loadxml = server.mappath("/htsdsystem/xmlspec/" & xtable & ".xml")
+   xv = fxml.load(loadxml)
+     if fxml.parseerror.reason <> "" then
+       response.write(xtable & ".xml parseerror on line " &  fxml.parseerror.line)
+       response.write("<br>reason: " &  fxml.parseerror.reason)
+       response.end()
+     end if
+
+   xfldarray = split(request(ex),", ")
+   for xfi = 0 to ubound(xfldarray)
+    response.write "--" & xfldarray(xfi) & "<br>"
+'    set xfieldnode = nxml.selectsinglenode("//resultset/fieldlist/field").clonenode(true)
+'    xfieldnode.selectsinglenode("fieldname").text = xfldarray(xfi)
+    set xfieldnode = fxml.selectsinglenode( _
+     "//dstable[tablename='" & xtable & "']/fieldlist/field[fieldname='" & xfldarray(xfi) & "']")
+    xtablenode.appendchild xfieldnode
+    xselectlist = xselectlist & ", " & tbprefix & xfldarray(xfi)
+    set xcolnode = nxml.selectsinglenode("//detailrow/colspec").clonenode(true)
+    xcolnode.selectsinglenode("collabel").text = xfieldnode.selectsinglenode("fieldlabel").text
+    xcolnode.selectsinglenode("content/reffield").text = xfldarray(xfi)
+    xdetailnode.appendchild xcolnode
+   next
+
+   xtablenode.removechild xtablenode.selectsinglenode("field")
+
+   for each xpk in fxml.selectnodes("//dstable[tablename='" & xtable & "']/fieldlist/field[isprimarykey='y']")
+    if nulltext(xtablenode.selectsinglenode("field[fieldname='" _
+     & xpk.selectsinglenode("fieldname").text & "']")) = "" then
+     xtablenode.appendchild xpk
+    end if
+   next
+
+   nxml.selectsinglenode("//resultset").insertbefore _
+    xtablenode, nxml.selectsinglenode("//resultset/fieldlistlink")
+  end if
+ next
+ nxml.selectsinglenode("//resultset").removechild nxml.selectsinglenode("//resultset/fieldlist")
+ nxml.selectsinglenode("//resultset").removechild nxml.selectsinglenode("//resultset/fieldlistlink")
+ nxml.selectsinglenode("//detailrow").removechild nxml.selectsinglenode("//detailrow/colspec")
+
+ nxml.selectsinglenode("//resultset/sql/selectlist").text = mid(xselectlist,3)
+ 
+' nxml.selectsinglenode("//htform/formmodel").setattribute "id", mid(xmlfile,5)
+' nxml.selectsinglenode("//pagespec/formui").setattribute "ref", mid(xmlfile,5)
+ nxml.selectsinglenode("//pagespec/pagehead").text = request("pagehead")
+ nxml.selectsinglenode("//pagespec/pagefunction").text = request("pagefunction")
+ 
+ set xov1anchorlist = oxml.selectsinglenode("//anchorlist")
+ set nxanchorlist = nxml.selectsinglenode("//aidlinklist")
+   response.write "hello4<hr>" 
+ for each xanchor in xov1anchorlist.selectnodes("anchor")
+   response.write nulltext(xanchor.selectsinglenode("anchortype")) & "hello5<hr>"
+  if left(xanchor.selectsinglenode("anchortype").text,4) <> "link" then  
+   response.write "hello6<hr>"   
+   nxanchorlist.appendchild xanchor.clonenode(true)
+  end if
+ next
+ 
+' set pxml = nxml.selectsinglenode("//pxhtml/center/table")
+' set xtr = pxml.selectsinglenode("tr")
+' set xfont = xtr.selectsinglenode("td[@class='lightbluetable']/font")
+' for each xflist in nxml.selectnodes("//formmodel/fieldlist")
+'  xb = nulltext(xflist.selectsinglenode("tablename"))
+'  for each xf in xflist.selectnodes("field")
+'   processfield xf
+'  next
+' next
+' pxml.removechild xtr
+
+ nxml.save(server.mappath("/htsdsystem/ht2codegen/formspec" & progpath & "/" & formspecfile & ".xml"))
+
+ set nformspec = oxml.createelement("formspec")
+ nformspec.text = formspecfile
+ oxml.selectsinglenode("operationcontract").insertbefore nformspec, oxml.selectsinglenode("operationcontract/htpattern")
+ oxml.save server.mappath("/htsdsystem/usecase/" & xmlfile & ".xml")
+
+ response.redirect "viewcontract.asp?xmlfile=" & xmlfile & ".xml"
+
+
+sub processfield(xfobj)
+ set xntr = xtr.clonenode(true)
+ set xntd = xntr.selectsinglenode("td[@class='lightbluetable']")
+ 
+ xntd.text = nulltext(xfobj.selectsinglenode("fieldlabel")) & "："
+ if nulltext(xfobj.selectsinglenode("cannull")) = "n" then _
+  xntd.insertbefore xfont.clonenode(true), xntd.childnodes.item(0)
+ xntr.selectsinglenode("//reffield").text = xb& "/" & xfobj.selectsinglenode("fieldname").text
+ pxml.appendchild xntr
+end sub
+
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+ 

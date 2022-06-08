@@ -1,0 +1,73 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+response.charset = "utf-8"
+htprogcode = "webgeb1"
+   
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+  
+id = request("id")
+sql ="select nodeinfo.owner,nodeinfo.subject_user,cattreeroot.ctrootname,infouser.username,dept.deptname from "
+sql = sql & " dept inner join infouser on dept.deptid = infouser.deptid "
+sql = sql & " right outer join nodeinfo on infouser.userid = nodeinfo.owner "
+sql = sql & " left outer join cattreeroot on nodeinfo.ctrootid = cattreeroot.ctrootid "
+sql = sql & " where nodeinfo.ctrootid ='"& id &"'"
+set rs = conn.execute(sql)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                   =rs("ctrootname")
+                                                                                                                           =id
+                                =rs("username"):      =rs("deptname")
+
+
+                                                                                                                          =id
+
+      
+    if rs("subject_user") <> "" then
+     users=split(rs("subject_user"),",")
+     for i=0 to ubound(users)
+      sql_ch = "select infouser.username,dept.deptname,infouser.deptid from "
+      sql_ch = sql_ch &" infouser inner join dept on infouser.deptid = dept.deptid "
+      sql_ch = sql_ch &" where infouser.userid = '"& trim(users(i))&"'"
+      'response.write sql_ch
+      set rs_ch = conn.execute(sql_ch)
+      if not rs_ch.eof then
+       response.write rs_ch("username") &" / " & rs_ch("deptname") & "&nbsp;"
+       response.write "<a href = 'userlistsave.asp?id="&id&"&ckbox="& trim(users(i))&"&type=3&deptid="& rs_ch("deptid") &"'>刪除</a><br>"
+      end if
+     next
+    end if
+     

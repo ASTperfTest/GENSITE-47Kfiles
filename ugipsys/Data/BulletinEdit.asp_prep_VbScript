@@ -1,0 +1,466 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ stagecount = Cx_0dummy nowtype = ""
+ contentid = ""
+ imgtype = ""
+ nowps = ""
+ xname = "openwindow"
+
+ iw= 0
+ ih= 0
+ px= 0
+ py= 0
+ imgw= 0
+ imgh= 22
+ lsafety= 20
+ tsafety= 6
+
+ set wmark = document.all.toolstable
+
+ sub wmarkposition()
+   ih= document.body.clientheight
+   py= document.body.scrolltop
+   wmark.style.top = (ih+py-(imgh+tsafety))
+   wmark.style.left = 0
+ end sub
+
+ sub wmarking()
+   oldiw= iw
+   oldih= ih
+   oldpx= px
+   oldpy= py
+   wmarkposition()
+ end sub
+
+ sub window_onload()
+   setinterval "wmarking()",20
+ end sub
+
+ sub windowplace()
+  divtop = document.body.scrolltop + window.event.y + 30
+  document.all.setview.style.top = divtop
+     document.all.setview.style.visibility = ""
+   document.all.setview.style.left = "300px"
+   document.all.setview.style.width = "255px"
+ end sub
+
+ sub toolswindowplace()
+  divtop = document.body.scrolltop + window.event.y - 300
+  document.all.setview.style.top = divtop
+     document.all.setview.style.visibility = ""
+ end sub
+
+ sub closetools_onclick()
+        document.all.setview.style.visibility = "hidden"
+   document.all.toolstable.style.display = "none"
+   for divno = 1 to stagecount
+    document.all("con"& divno).style.backgroundcolor="#ffffff"
+   next
+  xtype = ""
+  divplayck
+ end sub
+
+ sub divplayck()
+  listtableform.reset
+  document.all.catedittable.style.display = "none"
+  document.all.dataedittable.style.display = "none"
+  document.all.subjectedittable.style.display = "none"
+  document.all.addimgedittable.style.display = "none"
+  document.all.chgimgedittable.style.display = "none"
+  document.all.addupstageedittable.style.display = "none"
+  document.all.addendstageedittable.style.display = "none"
+  document.all.editstageedittable.style.display = "none"
+  document.all.extend_1edittable.style.display = "none"
+ end sub
+
+ sub editcontent(conid,obno,imgck)
+  divplayck
+        document.all.setview.style.visibility = "hidden"
+Cx_0dummy     document.all.calendar.style.visibility="hidden"
+Cx_0dummy  if stagecount < 2 then
+   document.all.delstage.style.display = "none"
+  else
+   for divno = 1 to stagecount
+    document.all("con"& divno).style.backgroundcolor="#ffffff"
+   next
+  end if
+  nowps = obno
+  contentid = conid
+  document.all("con"& obno).style.backgroundcolor="#ffff99"
+   document.all.toolstable.style.display = ""
+
+  if imgck = "y" then
+   imgtype = "y"
+   document.all.addimg.style.display = "none"
+   document.all.chgimg.style.display = ""
+   document.all.delimg.style.display = ""
+   if document.all("conimg"& obno).align = "right" then
+    document.all.imgleft.style.display = ""
+    document.all.imgright.style.display = "none"
+   elseif document.all("conimg"& obno).align = "left" then
+    document.all.imgleft.style.display = "none"
+    document.all.imgright.style.display = ""
+   end if
+  else
+   imgtype = "n"
+   document.all.addimg.style.display = ""
+   document.all.chgimg.style.display = "none"
+   document.all.imgleft.style.display = "none"
+   document.all.imgright.style.display = "none"
+   document.all.delimg.style.display = "none"
+  end if
+ end sub
+
+ sub imgleft_onclick()
+   xtype = "imgleft"
+   document.location.href="bulletineditconfig.asp?contentid="& contentid &"&language=Cx_0dummy&datatype=Cx_0dummy&unitid=Cx_0dummy&edittype="& xtype
+ end sub
+
+ sub imgright_onclick()
+   xtype = "imgright"
+   document.location.href="bulletineditconfig.asp?contentid="& contentid &"&language=Cx_0dummy&datatype=Cx_0dummy&unitid=Cx_0dummy&edittype="& xtype
+ end sub
+
+ sub delimg_onclick()
+     chky=msgbox("刪除此段附圖!"& vbcrlf & vbcrlf &"　確定嗎？"& vbcrlf , 48+1, "請注意！！")
+     if chky=vbok then
+      xtype = "delimg"
+      document.location.href="bulletineditconfig.asp?contentid="& contentid &"&language=Cx_0dummy&datatype=Cx_0dummy&unitid=Cx_0dummy&edittype="& xtype
+     else
+      exit sub
+     end if
+ end sub
+
+ sub addupstage_onclick()
+  divplayck
+      toolswindowplace
+      document.all.setview.style.left = "50px"
+      document.all.setview.style.width = "500px"
+  document.all.addupstageedittable.style.display = ""
+  document.all.edittitle.innertext = "於第 "& nowps &" 段上方新增段落"
+  document.all.addusnowps.value = nowps
+  nowtype = "addupstage"
+ end sub
+
+ sub addendstage_onclick()
+  divplayck
+      toolswindowplace
+      document.all.setview.style.left = "50px"
+      document.all.setview.style.width = "500px"
+  document.all.addendstageedittable.style.display = ""
+  document.all.edittitle.innertext = "於第 "& nowps &" 段下方新增段落"
+  document.all.addesnowps.value = nowps
+  nowtype = "addendstage"
+ end sub
+
+ sub editstage_onclick()
+  divplayck
+      toolswindowplace
+      document.all.setview.style.left = "50px"
+      document.all.setview.style.width = "500px"
+  document.all.editstageedittable.style.display = ""
+  document.all.edittitle.innertext = "編輯第 "& nowps &" 段Cx_0dummy"
+  document.all.escontent.value = document.all("content"& nowps).value
+  nowtype = "editstage"
+ end sub
+
+ sub chgimg_onclick()
+  divplayck
+      toolswindowplace
+      document.all.setview.style.left = "50px"
+      document.all.setview.style.width = "500px"
+  document.all.edittitle.innertext = "變更附圖"
+  document.all.chgimgedittable.style.display = ""
+  nowimgsrc = document.all("conimg"& nowps).src
+  document.all.chgimgsrc.src = nowimgsrc
+  nowtype = "chgimg"
+ end sub
+
+ sub addimg_onclick()
+  divplayck
+      toolswindowplace
+  document.all.edittitle.innertext = "新增附圖"
+  document.all.addimgedittable.style.display = ""
+   document.all.setview.style.left = "300px"
+   document.all.setview.style.width = "255px"
+  nowtype = "addimg"
+ end sub
+
+ sub catedit_onclick()
+  divplayck
+        windowplace
+  document.all.edittitle.innertext = "編修類別"
+  document.all.catedittable.style.display = ""
+  nowtype = "editcat"
+ end sub
+
+ sub dateedit_onclick()
+  divplayck
+        windowplace
+  document.all.edittitle.innertext = "編修公佈時間"
+  document.all.dataedittable.style.display = ""
+  nowtype = "editdata"
+ end sub
+
+ sub subjectedit_onclick()
+  divplayck
+        windowplace
+  document.all.edittitle.innertext = "編修Cx_0dummy"
+  document.all.subjectedittable.style.display = ""
+  nowtype = "editsubject"
+ end sub
+
+ sub extend_1edit_onclick()
+  divplayck
+        windowplace
+  document.all.edittitle.innertext = "編修Cx_0dummy"
+  document.all.extend_1edittable.style.display = ""
+  nowtype = "editextend_1"
+ end sub
+
+ sub delstage_onclick()
+     if imgtype = "n" then
+      chky=msgbox("刪除此段落!"& vbcrlf & vbcrlf &"　確定嗎？"& vbcrlf , 48+1, "請注意！！")
+     elseif imgtype = "y" then
+      chky=msgbox("刪除此段落與附圖!"& vbcrlf & vbcrlf &"　確定嗎？"& vbcrlf , 48+1, "請注意！！")
+     end if
+     if chky=vbok then
+      xtype = "delstage"
+      document.location.href="bulletineditconfig.asp?contentid="& contentid &"&language=Cx_0dummy&datatype=Cx_0dummy&unitid=Cx_0dummy&edittype="& xtype
+     else
+      exit sub
+     end if
+ end sub
+
+ sub editsubmit(xtype)
+  if xtype = "editcat" then
+    msg2 = "請選擇「類別」！"
+    if document.all.xin_catid.value = "" then
+       msgbox msg2, 16, "sorry!"
+       document.all.xin_catid.focus
+       exit sub
+    end if
+  elseif xtype = "editsubject" then
+    msg1 = "「Cx_0dummy」欄位不得為空白！"
+    if document.all.subject.value = empty then
+       msgbox msg1, 16, "sorry!"
+       document.all.subject.focus
+        exit sub
+    end if
+  elseif xtype = "editdata" then
+    msg3 = "「公佈起始時間」欄位不得為空白！"
+     msg4 = "「公佈結束時間」欄位不得為空白！"
+    msg5 = "「公佈結束時間」早於「公佈起始時間」，請重新輸入 !"
+    if document.all.begindate.value = empty then
+       msgbox msg3, 16, "sorry!"
+       document.all.begindate.focus
+       exit sub
+    elseif document.all.enddate.value = empty then
+       msgbox msg4, 16, "sorry!"
+       document.all.enddate.focus
+       exit sub
+    elseif cdate(document.all.begindate.value) > cdate(document.all.enddate.value) then
+       msgbox msg5, 16, "sorry!"
+     document.all.enddate.focus
+       exit sub
+    end if
+  elseif xtype = "addimg" then
+   if document.all.imagefile.value <> empty then
+      filename = lcase(mid(document.all.imagefile.value, instr(document.all.imagefile.value,".")))
+      if filename <> ".gif" and filename <> ".jpg" then
+         msgbox "附圖格式本系統不接受，本系統附圖僅支援 gif、jpg 格式！", 16, "sorry!"
+         document.all.imagefile.focus
+      exit sub
+      end if
+   else
+      msgbox "請選擇附圖！", 16, "sorry!"
+      document.all.imagefile.focus
+      exit sub
+   end if
+  elseif xtype = "chgimg" then
+   if document.all.chgimagefile.value <> empty then
+      filename = lcase(mid(document.all.chgimagefile.value, instr(document.all.chgimagefile.value,".")))
+      if filename <> ".gif" and filename <> ".jpg" then
+         msgbox "附圖格式本系統不接受，本系統附圖僅支援 gif、jpg 格式！", 16, "sorry!"
+         document.all.chgimagefile.focus
+      exit sub
+      end if
+   else
+      msgbox "請選擇附圖！", 16, "sorry!"
+      document.all.chgimagefile.focus
+      exit sub
+   end if
+  elseif xtype = "addupstage" then
+    msg10 = "「Cx_0dummy」欄位不得為空白！"
+    if document.all.adduscontent.value = empty then
+       msgbox msg10, 16, "sorry!"
+       document.all.adduscontent.focus
+        exit sub
+    end if
+    if document.all.addusimagefile.value <> empty then
+      filename = lcase(mid(document.all.addusimagefile.value, instr(document.all.addusimagefile.value,".")))
+      if filename <> ".gif" and filename <> ".jpg" then
+         msgbox "附圖格式本系統不接受，本系統附圖僅支援 gif、jpg 格式！", 16, "sorry!"
+         document.all.addusimagefile.focus
+      exit sub
+      end if
+    end if
+  elseif xtype = "addendstage" then
+    msg11 = "「Cx_0dummy」欄位不得為空白！"
+    if document.all.addescontent.value = empty then
+       msgbox msg11, 16, "sorry!"
+       document.all.addescontent.focus
+        exit sub
+    end if
+    if document.all.addesimagefile.value <> empty then
+      filename = lcase(mid(document.all.addesimagefile.value, instr(document.all.addesimagefile.value,".")))
+      if filename <> ".gif" and filename <> ".jpg" then
+         msgbox "附圖格式本系統不接受，本系統附圖僅支援 gif、jpg 格式！", 16, "sorry!"
+         document.all.addesimagefile.focus
+      exit sub
+      end if
+    end if
+  elseif xtype = "editstage" then
+  elseif xtype = "" then
+    exit sub
+  end if
+
+  listtableform.action = "bulletineditconfig.asp?contentid="& contentid &"&language=Cx_0dummy&datatype=Cx_0dummy&unitid=Cx_0dummy&edittype="& xtype
+  listtableform.submit
+ end sub
+
+ sub delunit() '--- 刪除
+  xchoo = msgbox("確定刪除?", vbyesno+32, "刪除確認")
+  if xchoo=6 then document.location.href="bulletineditconfig.asp?language=Cx_0dummy&datatype=Cx_0dummy&unitid=Cx_0dummy&edittype=del"
+ end sub
+
+dim cantarget
+sub btdate(n)
+ if document.all.calendar.style.visibility="" then
+   document.all.calendar.style.visibility="hidden"
+ else
+   document.all.calendar.style.visibility=""
+   divtop = document.body.scrolltop + window.event.y + 30
+   document.all.calendar.style.top = divtop
+ end if
+ cantarget=n
+end sub
+
+sub calendar_onscriptletevent(n,o)
+  document.all.calendar.style.visibility="hidden"
+  select case cantarget
+     case 1
+          document.all.begindate.value=n
+          document.all.enddate.value=cdate(n) + 15
+     case 2
+          document.all.enddate.value=n
+  end select
+end sub
+
+
+ 

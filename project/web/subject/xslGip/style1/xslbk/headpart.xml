@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt"
+	xmlns:user="urn:user-namespace-here" version="1.0">
+	<xsl:template match="hpMain" mode="headinfo">
+		<div style="position:absolute; top: 2px; height: 17px;">
+			<div class="Nav">
+				<span>
+					<a href="#"><img src="xslGIP/style1/images/topicon_01.gif" alt="常見問題" width="14" height="13" border="0" />常見問題</a>
+				</span>
+				<span>
+					<a href="sitemap.asp"><img src="xslGIP/style1/images/topicon_02.gif" alt="網站導覽" width="15" height="12" border="0" />網站導覽</a>
+				</span>
+				<span>
+					<a href="#"><img src="xslGIP/style1/images/topicon_03.gif" alt="聯絡我們" width="14" height="14" border="0" />聯絡我們</a>
+				</span>
+				<span>
+					<a href="dp.asp?mp=1"><img src="xslGIP/style1/images/topicon_04.gif" alt="回首頁" width="11" height="11" border="0" />回首頁</a>
+				</span>
+			</div>
+		</div>
+	</xsl:template>
+</xsl:stylesheet>

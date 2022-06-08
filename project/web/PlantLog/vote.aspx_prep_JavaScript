@@ -1,0 +1,172 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           function href____1009497316() {Export();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                          function OnClick___1764120399() {Sort_Click}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $(document).ready(function() {
+            //Tab Menu
+            $("#tabInfo").addClass("btnDistrict");
+            $("#tabList").addClass("btnDistrict");
+            $("#tabVote").addClass("btnDistrict now");
+            $("#tabFinal").addClass("btnDistrict");
+        });
+
+        function vote(id) {
+            $("#Action").val('Vote|' + id);
+        }
+
+        function Export() {
+            $("#Action").val('Export');
+            document.forms[0].submit();
+        }
+
+        function CheckVoteRecord(id) {
+            $("#Action").val('CheckRecord|' + id);
+        }
+    
+
+
+
+
+ 

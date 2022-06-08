@@ -1,0 +1,442 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_server_1606199358()
+   unitid = request.querystring("unitid") 
+
+
+
+
+
+
+
+
+
+
+                                                     =title
+
+
+
+
+
+
+
+
+             if (htprogright and 8)=8 and emaildecide = "y" then :                                       =language:             =datatype:           =unitid:               end if 
+             if (htprogright and 16)=16 then :                                            end if 
+             if (htprogright and 2)=2 then :                                       =language:             =datatype:            end if 
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_table_587337344()
+
+
+
+    sqlcom = "select * from datacontent where unitid = "& unitid &" order by position"
+ set rscom = conn.execute(sqlcom)
+  if not rscom.eof then
+   divcount = 0
+   do while not rscom.eof
+    divcount = divcount + 1
+    imagehtelsrc = ""
+    clientck = "n"
+    comm = rscom("content")
+    ncomm = message(comm)
+    if not (rscom("imagefile") = "" or isnull(rscom("imagefile"))) then
+     clientck = "y"
+     imagehtelsrc = "<div id=con"& rscom("position") &" onclick=""vbs: editcontent "& rscom("contentid") &","& rscom("position") &",'"& clientck &"'"" title=""第 "& rscom("position") &" 段"& content &""" style=cursor:hand>"
+     imagehtelsrc = imagehtelsrc & "<img src=../public/data/" & rscom("imagefile") &" border=0 align="& rscom("imageway") &" id=conimg"& rscom("position") &" alt=""第 "& rscom("position") &" 段圖片"">"
+    else
+     imagehtelsrc = "<div id=con"& rscom("position") &" onclick=""vbs: editcontent "& rscom("contentid") &","& rscom("position") &",'"& clientck &"'"" title=""第 "& rscom("position") &" 段"& content &""" style=cursor:hand>"
+    end if
+    response.write imagehtelsrc & ncomm & "<textarea rows=6 name=content"& rscom("position") &" cols=40 style=display:none>"& rscom("content") &"</textarea><p></div>" & vbcrlf
+   rscom.movenext
+      loop
+     end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                              =content
+
+
+
+
+
+
+
+
+  
+function message(tempstr)
+  outstring = ""
+  while len(tempstr) > 0
+    pos=instr(tempstr, chr(13)&chr(10))
+    if pos = 0 then
+      outstring = outstring & tempstr & "<br>"
+      tempstr = ""
+    else
+      outstring = outstring & left(tempstr, pos-1) & "<br>"
+      tempstr=mid(tempstr, pos+2)
+    end if
+  wend
+  message = outstring
+end function
+
+if catdecide = "y" then :    CxMethod_ASP_addselect_23618569():    end if 
+
+                =divcount
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   if datedecide = "y" then 
+
+   end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                       =language:             =datatype:           =unitid
+
+
+
+
+                                                                                       =language:             =datatype:           =unitid
+
+
+
+
+
+
+                                                                                          =language:             =datatype:           =unitid
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                         =content
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                          =subject
+
+
+
+
+
+
+
+                                          =extend_1
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                          =language:             =datatype:           =unitid
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               =subject
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                =content
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                =content
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                      =language:             =datatype:           =unitid
+
+
+
+
+
+                                                                            =language:             =datatype:           =unitid 

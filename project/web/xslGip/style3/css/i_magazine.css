@@ -1,0 +1,139 @@
+/* CSS Document */
+
+/* --------------------------------------------------------- 最新發問TAB LIST */
+#Magazine {
+	margin:0;
+	padding-right: 20px;
+	padding-bottom: 5px;
+	padding-left: 20px;
+	clear: both;
+	width:auto;
+}
+
+#Magazine h4 {
+	background: url(../images1/h4_bg.gif) no-repeat left top;
+	padding-left: 45px;
+	color: #083D65;
+	clear: both;
+	font-size: 16px;
+	height: 38px;
+	line-height: 190%;
+}
+#Magazine .Event {
+	clear: left;
+	padding: 12px 0px 5px 0px;
+	border-bottom: 1px solid #CCCCCC;
+	width: 100%;
+}
+
+#Magazine .Event h5 {
+	color: #083D65;
+	margin: 0px 0px 10px;
+	padding: 0px;
+	font-size: 125%;
+	font-weight: bold;
+}
+#Magazine .Event h5 img {
+	vertical-align: middle;
+	margin-left: 5px;
+}
+
+#Magazine .Event p {
+	line-height: 160%;
+	margin: 0px 0px 1em;
+	padding: 0px;
+}
+#Magazine .Event .Phoimg {
+	padding: 0px;
+	float: left;
+	margin: 0px 10px 5px 5px;
+	border: 1px solid #666666;
+	height: 120px;
+	width: 90px;
+}
+
+#Magazine .Event .More {
+	text-align: right;
+	padding: 0px;
+	margin: 0px;
+	font-size: 13px;
+}
+#Magazine .Event .More a {
+	font-weight: bold;
+	color: #FF7E00;
+	background: url(../images1/icom03.gif) no-repeat 2px 1px;
+	padding-left: 18px;
+}
+#Magazine .Event .More a:hover {
+	color: #800D0D;
+	text-decoration: underline;
+}
+
+
+/*- MagTabs--------------------------- */
+
+#MagTabs {
+	clear:both;
+	width:100%;
+	font-size:100%;
+	line-height:normal;
+	border-bottom:1px solid #083D65;
+	font-weight: bold;
+	font-family: "新細明體", "細明體";
+	background-color: #FFF;
+ }
+html>body #MagTabs {
+	min-height:26px;}
+		  
+#MagTabs ul {
+	margin:0;
+	padding:0px;
+	list-style:none;
+	font-size: 15px;
+}
+#MagTabs li {
+  display:inline;
+  margin:0;
+  padding:0;
+}
+#MagTabs a {
+	float:left;
+	background:url("../images1/tableft3.gif") no-repeat left top;
+	margin:0;
+	padding:0 0 0 4px;
+	text-decoration:none;
+}
+#MagTabs a span {
+	float:left;
+	display:block;
+	background:url("../images1/tabright3.gif") no-repeat right top;
+	padding:5px 15px 6px 6px;
+	color: #3E3A39;
+	vertical-align: middle;
+}
+*+html>body #MagTabs a span {
+	padding:3px 15px 8px 6px;
+}
+	  
+/* Commented Backslash Hack hides rule from IE5-Mac \*/
+#MagTabs a span {float:none;}
+/* End IE5-Mac hack */
+#MagTabs a:hover span {
+  color:#FFFFFF;
+}
+#MagTabs a:hover {
+  background-position:0% -42px;
+  color:#FFFFFF;
+}
+#MagTabs a:hover span {
+  background-position:100% -42px;
+}
+	  
+#MagTabs .current a {
+  background-position:0% -42px;
+}
+#MagTabs .current a span {
+  background-position:100% -42px;
+ 	color:#FFFFFF;
+}
+ 

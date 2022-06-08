@@ -1,0 +1,219 @@
+﻿: @ codepage = 65001 
+
+
+
+
+
+
+   
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+dim rskey
+
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true 
+ 
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\xdmp" & request("mp") & ".xml"
+'  response.write loadxml & "<hr>"
+  xv = htpagedom.load(loadxml)
+'  response.write xv & "<hr>"
+    if htpagedom.parseerror.reason <> "" then 
+      response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+      response.end()
+    end if
+
+   set refmodel = htpagedom.selectsinglenode("//mpdataset")
+ mytreenode = request("ctnode")
+ response.write "<menutitle>"&nulltext(refmodel.selectsinglenode("menutitle"))&"</menutitle>"
+ response.write "<mystyle>"&nulltext(refmodel.selectsinglenode("mpstyle"))&"</mystyle>"
+ response.write "<mp>"&request("mp")&"</mp>"
+
+ sql = "select * from cattreenode where ctnodeid=" & pkstr(request("ctnode"),"")
+ set rs = conn.execute(sql)
+ xrootid = rs("ctrootid")
+ xctunitname = rs("catname")
+ xpathstr = "<xpathnode title=""" & deamp(xctunitname) & """ xnode=""" & rs("ctnodeid") & """ />"
+ xparent = rs("dataparent")
+ myxsllist = rs("xsldata")
+ response.write "<xsldata>"&myxsllist&"</xsldata>"
+ myparent = xparent
+ xlevel = rs("datalevel") - 1
+ if rs("ctnodekind") <> "c" then
+  xlevel = xlevel -1
+  mytreenode = xparent
+ end if
+ upparent = 0
+ 
+ while xparent<>0
+  sql = "select * from cattreenode where ctnodeid=" & pkstr(xparent,"")
+  set rs = conn.execute(sql)
+  if rs("datalevel") = xlevel then upparent = xparent
+  xpathstr = "<xpathnode title=""" & deamp(rs("catname")) & """ xnode=""" & rs("ctnodeid") & """ />" & xpathstr
+  xparent = rs("dataparent")
+ wend
+ response.write "<xpath><unitname>" & deamp(xctunitname) & "</unitname>" & xpathstr & "</xpath>"
+
+ qurl = "ctnode="&request.querystring("ctnode")&"&amp;ctunit="&request.querystring("ctunit") _
+  & "&amp;basedsd=" & request.querystring("basedsd") & "&amp;mp=" & request.querystring("mp")
+
+   CxMethod_ASP_gensite_2005368621()
+   CxMethod_ASP_content_1941111627()
+                     =mytreenode:               =upparent:               =myparent
+
+     
+  dofp
+ 
+  for each xdataset in refmodel.selectnodes("dataset[contentdata='y']")
+ processxdataset
+  next
+
+
+
+function deamp(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   deamp=""
+   exit function
+  end if
+   deamp = replace(xs,"&","&amp;")
+end function
+'--------------頁尾維護單位---------------------
+footer_sql = "select footer_dept, footer_dept_url from cattreeroot left join nodeinfo on cattreeroot.ctrootid = nodeinfo.ctrootid where cattreeroot.pvxdmp ='"& request("mp") &"'"
+set footer_rs = conn.execute(footer_sql)
+response.write "<footer_dept>" & footer_rs("footer_dept") & "</footer_dept>"
+response.write "<footer_dept_url>" & footer_rs("footer_dept_url") & "</footer_dept_url>"
+
+'--------------頁尾維護單位-end---------------
+sub dofp
+'-------準備前端呈現需要呈現欄位的dsd xmldom
+ sqltable="select sbasetablename from basedsd where ibasedsd=" & pkstr(request.querystring("basedsd"),"")
+ set rstable=conn.execute(sqltable)  
+     '----找出對應的ctunitx???? xmlspec檔案(若找不到則抓default), 並依fieldseq排序成物件存入session
+    set fso = server.createobject("scripting.filesystemobject")
+ filepath = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx" & request.querystring("ctunit") & ".xml")
+     if fso.fileexists(filepath) then
+      loadxmldsd = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx" & request.querystring("ctunit") & ".xml")
+     else
+      loadxmldsd = server.mappath("/site/" & session("mysiteid") & "/gipdsd/cudtx" & request.querystring("basedsd") & ".xml")
+     end if 
+ set dsddom = server.createobject("microsoft.xmldom")
+ xv = dsddom.load(loadxmldsd)
+' response.write xv & "<hr>"
+   if dsddom.parseerror.reason <> "" then 
+      response.write("dsddom parseerror on line " &  dsddom.parseerror.line)
+      response.write("<br>reason: " &  dsddom.parseerror.reason)
+      response.end()
+   end if 
+     set root = dsddom.selectsinglenode("dataschemadef")  
+     '----load xsl樣板
+     set oxsl = server.createobject("microsoft.xmldom")
+    oxsl.async = false
+    xv = oxsl.load(server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitxorder.xsl"))   
+     '----複製slave的dstable,並依順序轉換
+ set dsdnode = dsddom.selectsinglenode("dataschemadef/dstable[tablename='"&rstable(0)&"']").clonenode(true)    
+     set dsdnodexml = server.createobject("microsoft.xmldom")
+    dsdnodexml.appendchild dsdnode
+     set nxml = server.createobject("microsoft.xmldom")
+     nxml.loadxml(dsdnodexml.transformnode(oxsl))
+     set nxmlnewnode = nxml.documentelement  
+ for each param in nxmlnewnode.selectnodes("field[querylistclient='']") 
+  set romovenode=nxmlnewnode.selectsinglenode("field[fieldname='"+param.selectsinglenode("fieldname").text+"']")
+  nxmlnewnode.removechild romovenode
+ next       
+     dsdnode.replacechild nxmlnewnode,dsdnode.selectsinglenode("fieldlist")     
+     root.replacechild dsdnode,root.selectsinglenode("dstable[tablename='"&rstable(0)&"']")
+     '----複製cudtgeneric的dstable,並依順序轉換
+     set genericnode = dsddom.selectsinglenode("dataschemadef/dstable[tablename='cudtgeneric']").clonenode(true)    
+     set genericnodexml = server.createobject("microsoft.xmldom")
+     genericnodexml.appendchild genericnode
+    set nxml2 = server.createobject("microsoft.xmldom")
+     nxml2.loadxml(genericnodexml.transformnode(oxsl))
+     set nxmlnewnode2 = nxml2.documentelement
+ for each param in nxmlnewnode2.selectnodes("field[querylistclient='']") 
+  set romovenode=nxmlnewnode2.selectsinglenode("field[fieldname='"+param.selectsinglenode("fieldname").text+"']")
+  nxmlnewnode2.removechild romovenode
+ next             
+     genericnode.replacechild nxmlnewnode2,genericnode.selectsinglenode("fieldlist")
+     root.replacechild genericnode,root.selectsinglenode("dstable[tablename='cudtgeneric']")        
+   set dsdrefmodel = dsddom.selectsinglenode("//dstable")
+   set dsdallmodel = dsddom.selectsinglenode("//dataschemadef")
+ response.write dsdallmodel.xml
+
+
+
+
+
+           =deamp(xctunitname)
+                                                =qurl
+
+
+
+
+   for each param in dsdallmodel.selectnodes("//fieldlist/field[querylistclient!='']")
+  response.write "<tr><th scope=""row""><label for=""search"">"
+  response.write nulltext(param.selectsinglenode("fieldlabel")) & "</label></th>" & vbcrlf
+  response.write "<td>"
+   processqparamfield param
+  response.write "</td></tr>" & vbcrlf
+ next
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+end sub
+
+   CxMethod_ASP_x1menus_1545114555() 

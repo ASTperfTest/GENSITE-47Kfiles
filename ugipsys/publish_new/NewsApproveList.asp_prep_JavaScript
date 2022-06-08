@@ -1,0 +1,409 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            function onchange____1471761792() {iForm.submit()}
+
+
+
+
+
+
+
+
+
+                          function onchange____1471761792() {iForm.submit()}
+
+
+
+
+
+                  function onchange____1471761792() {iForm.submit()}
+
+
+
+
+
+
+
+
+                iForm.subjectId.value = "Cx_0dummy"
+                iForm.validate.value = "Cx_0dummy"
+                iForm.sort.value = "Cx_0dummy"
+                iForm.kwTitle.value = "Cx_0dummy"
+            
+
+
+
+
+
+
+
+                                                           function onchange___778971560() {document.getElementById('iForm').submit()}
+
+
+
+
+
+                            function onchange___778971560() {document.getElementById('iForm').submit()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                function onclick___2137451966() {CheckAll()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                         function onclick___1769726054() {formPass()}
+                                        function onclick____1790736897() {formNotPass()}
+
+
+
+
+
+
+    function checkAll() {
+        if (document.getElementById("checkAllBtn").value == "全選") {
+            for (var i = 0; i < document.forms[0].elements.length - 1; i++) {
+                if (document.forms[0].elements[i].name.substring(0, 5) == "ckbox") {
+                    document.forms[0].elements[i].checked = true;
+                }
+            }
+            document.getElementById("checkAllBtn").value = "全不選";
+        }
+        else {
+            for (var i = 0; i < document.forms[0].elements.length - 1; i++) {
+                if (document.forms[0].elements[i].name.substring(0, 5) == "ckbox") {
+                    document.forms[0].elements[i].checked = false;
+                }
+            }
+            document.getElementById("checkAllBtn").value = "全選";
+        }
+    }
+    function formPass() {
+        var pass = "";
+        for (var i = 0; i < document.forms[0].elements.length - 1; i++) {
+            if (document.forms[0].elements[i].name.substring(0, 5) == "ckbox") {
+                if (document.forms[0].elements[i].checked) {
+                    pass += document.forms[0].elements[i].value + ",";
+                }
+            }
+        }
+        if (pass == "") {
+            alert("請至少選擇一項");
+        }
+        else {
+            window.location.href = "NewsApproveList.asp?pass=Y&id=" + pass + "&nowpage=Cx_0dummy&pagesize=Cx_0dummy&subjectId=Cx_0dummy&validate=Cx_0dummy&sort=Cx_0dummy&kwTitle=Cx_0dummy";
+        }
+    }
+    function formNotPass() {
+        var notpass = "";
+        for (var i = 0; i < document.forms[0].elements.length - 1; i++) {
+            if (document.forms[0].elements[i].name.substring(0, 5) == "ckbox") {
+                if (document.forms[0].elements[i].checked) {
+                    notpass += document.forms[0].elements[i].value + ",";
+                }
+            }
+        }
+        if (notpass == "") {
+            alert("請至少選擇一項");
+        }
+        else {
+            window.location.href = "NewsApproveList.asp?notpass=Y&id=" + notpass + "&nowpage=Cx_0dummy&pagesize=Cx_0dummy&subjectId=Cx_0dummy&validate=Cx_0dummy&sort=Cx_0dummy&kwTitle=Cx_0dummy";
+        }
+    }
+
+
+
+
+
+ 

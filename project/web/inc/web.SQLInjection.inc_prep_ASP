@@ -1,0 +1,774 @@
+﻿: 
+'#####(autogen) 開始：此段程式碼為自動產生，註解部份請勿刪除 #####
+'下列有設定部份如有需要可自行設定
+'此版本為  ver.0.2
+'此段程式碼產生日期為： 2009/6/9 上午 10:55:22
+'(可修改)未來是否自動更新此程式中的 pattern (y/n) : y
+
+'(可修改)此程式是否記錄 log 檔
+activelog4u=true
+
+'(可修改)錯誤發生時要到那個頁面,未填時直接結束，1. 可以是 / :首頁, 2. http://xxx.xxx.xxx.xxx/ooo.htm
+onerrorpath="/"
+
+'目前程式位置在
+progpath="d:\hyweb\gensite\project\web\inc\web.sqlinjection.inc"
+
+'--------- (可修改)要檢查的 request 變數名稱 --------
+genparamsarray=array("cuitem", "yfieldnam", "ariablenam", "ctnode", "ctunit", "basedsd", "icuitem", "xnode", "xitem", "mp", "htx_idept", "htx_topcat", "xq_xcat", "xq_xcat2", "nowpage", "pagesize")
+genparamspattern=array("<", ">", "%3c", "%3e", ";", "%27", "'", "=", "+", "*", "/", "%", "@", "~", "!", "#", "$", "&", "\", "(", ")", "{", "}", "[", "]") '#### 要檢查的 pattern(程式會自動更新):genpat ####
+genparamsmessage=now() & vbtab & "error(1):request變數含特殊字元"
+
+'-------- (可修改)只檢查單引號，如 request 變數未來將要放入資料庫，請一定要設定(防 sql injection) --------
+sqlinjparamsarray=array()
+sqlinjparamspattern=array("'") '#### 要檢查的 pattern(程式會自動更新):db ####
+sqlinjparamsmessage=now() & vbtab & "error(2):request變數含單引號"
+
+'-------- (可修改)只檢查 html標籤符號，如 request 變數未來將要輸出，請設定 (防 cross site scripting)--------
+xssparamsarray=array()
+xssparamspattern=array("<", ">", "%3c", "%3e") '#### 要檢查的 pattern(程式會自動更新):html ####
+xssparamsmessage=now() & vbtab & "error(3):request變數含html標籤符號"
+
+'-------- (可修改)檢查數字格式 --------
+chknumericarray=array()
+chknumericmessage=now() & vbtab & "error(4):request變數不為數字格式"
+
+'-------- (可修改)檢察日期格式 --------
+chkdatearray=array()
+chkdatemessage=now() & vbtab & "error(5):request變數不為日期格式"
+
+'##########################################
+chkpattern genparamsarray, genparamspattern, genparamsmessage
+chkpattern sqlinjparamsarray, sqlinjparamspattern, sqlinjparamsmessage
+chkpattern xssparamsarray, xssparamspattern, xssparamsmessage
+chknumeric chknumericarray, chknumericmessage
+chkdate chkdatearray, chkdatemessage
+'--------- 檢查 request 變數名稱 --------
+sub chkpattern(parray, patern, message)
+ for each str in parray 
+  p=request(str)
+  for each ptn in patern
+   if (instr(p, ptn) >0) then
+    message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+    log4u(message) '寫入到 log
+    onerroraction
+   end if
+  next
+ next
+end sub
+
+'-------- 檢查數字格式 --------
+sub chknumeric(parray, message)
+ for each str in parray
+  p=request(str)
+  if not isnumeric(p) then
+   message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'--------檢察日期格式 --------
+sub chkdate(parray, message)
+ for each str in parray
+  p=request(str)
+  if not isdate(p) then
+   message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'onerror
+sub onerroraction()
+ if (onerrorpath<>"") then response.redirect(onerrorpath)
+ response.end
+end sub
+
+'log 放在網站根目錄下的 /logs，檔名： yyyymmdd_log4u.txt
+function log4u(strlog)
+ if (activelog4u) then
+  fldr=server.mappath("/") & "/logs"
+  filename=year(date()) & right("0"&month(date()), 2) & right("0"&day(date()),2)
+  
+  filename = filename & "_log4u.txt"
+  
+  dim fso, f
+  set fso = createobject("scripting.filesystemobject")
+  
+  '產生新的目錄
+  if (not fso.folderexists(fldr)) then
+   set f = fso.createfolder(fldr)
+  else
+   showabsolutepath = fso.getabsolutepathname(fldr)
+  end if
+  
+  const forreading = 1, forwriting = 2, forappending = 8
+  '開啟檔案
+  set fso = createobject("scripting.filesystemobject")
+  set f = fso.opentextfile( fldr & "\" & filename , forappending, true, -1)
+  f.write strlog  & vbcrlf
+ end if
+end function
+'##### 結束：此段程式碼為自動產生，註解部份請勿刪除 #####
+
+  
+
+'// mp 專用的 url check 副程式.
+sub mpsqlinjectioncheck()
+    dim bhaveerrorwhencheck
+    dim xf
+    dim myqstr
+    dim myqstrfield
+
+    bhaveerrorwhencheck = 0     '// no error
+    myqstr = request.querystring
+
+    for each xf in request.querystring
+        if request(xf) <> "" then
+            myqstrfield = request(xf)
+            if instr(myqstrfield,"'") > 0 or instr(myqstrfield,"""") > 0 or instr(myqstrfield,"@") > 0 or instr(myqstrfield,"<") > 0 or instr(myqstrfield,">") > 0 or instr(myqstrfield,"+") > 0  or instr(myqstrfield,"*") > 0 or instr(myqstrfield," ") > 0 or instr(myqstrfield,";") > 0 then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 1
+            end if
+        end if
+    next
+
+    for each xf in request.form
+        if request(xf) <> "" then
+            myqstrfield = request(xf)
+            if instr(myqstrfield,"'") > 0 or instr(myqstrfield,"""") > 0 or instr(myqstrfield,"@") > 0 or instr(myqstrfield,"<") > 0 or instr(myqstrfield,">") > 0 or instr(myqstrfield,"+") > 0  or instr(myqstrfield,"*") > 0 or instr(myqstrfield," ") > 0 or instr(myqstrfield,";") > 0  then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 2
+            end if
+        end if
+    next
+
+    if bhaveerrorwhencheck = 1 then
+        call endofmyasp(mp)
+    end if
+end sub
+
+
+'// rss 專用的 url check 副程式.
+sub rsssqlinjectioncheck()
+    dim bhaveerrorwhencheck
+    dim xf
+    dim myqstr
+    dim myfieldname
+    dim myfiltersymbols
+
+    bhaveerrorwhencheck = 0     '// no error
+    myqstr = request.querystring
+
+    if bhaveerrorwhencheck <> 1 then
+        '// rss 用參數
+        myfieldname = "xnode"
+        myfiltersymbols = "'""@<>%andor~!#$^&*()-=+"
+        if checksymbolinfield(myfieldname,myfiltersymbols) then
+            bhaveerrorwhencheck = 1
+            strerrornumber = 7
+        end if
+
+        myfieldname = "cuitem"
+        myfiltersymbols = "'""@<>%andor~!#$^&*()-=+"
+        if checksymbolinfield(myfieldname,myfiltersymbols) then
+            bhaveerrorwhencheck = 1
+            strerrornumber = 7
+        end if
+
+        if len(request("cuitem")) > 9 then
+            bhaveerrorwhencheck = 1
+            strerrornumber = 128
+        end if
+
+    end if
+
+    for each xf in request.form
+        if request(xf) <> "" then
+            myqstr = request(xf)
+            if instr(myqstr,"'") > 0 or instr(myqstr,"""") > 0 or instr(myqstr,"@") > 0 or instr(myqstr,"<") > 0 or instr(myqstr,">") > 0 then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 22
+            end if
+        end if
+    next
+
+    if bhaveerrorwhencheck = 1 then
+        call endofmyasp(mp)
+    end if
+end sub
+
+
+'// lp 專用的 url check 副程式.
+sub lpsqlinjectioncheck()
+    dim bhaveerrorwhencheck
+    bhaveerrorwhencheck = 0     '// no error
+
+    if bhaveerrorwhencheck <> 1 then
+        bhaveerrorwhencheck = cpcommoncheck(strerrornumber)
+    end if
+
+    if bhaveerrorwhencheck <> 1 then
+        bhaveerrorwhencheck = lpcommoncheck(strerrornumber)
+    end if
+
+    if bhaveerrorwhencheck = 1 then
+        call endofmyasp(mp)
+    end if
+end sub
+
+'// cp 專用的 url check 副程式.
+sub cpsqlinjectioncheck()
+    dim bhaveerrorwhencheck
+    bhaveerrorwhencheck = 0     '// no error
+
+    if bhaveerrorwhencheck <> 1 then
+        bhaveerrorwhencheck = cpcommoncheck(strerrornumber)
+    end if
+
+    if bhaveerrorwhencheck = 1 then
+        call endofmyasp(mp)
+    end if
+end sub
+
+'// sp 專用的 url check 副程式.
+sub spsqlinjectioncheck()
+    dim bhaveerrorwhencheck
+
+    dim myfieldname
+    dim myfiltersymbols
+    dim ipos
+
+    bhaveerrorwhencheck = 0     '// no error
+    strerrornumber = 0
+    myfieldname = ""
+    myfiltersymbols = ""
+
+
+    '// check xdurl 必需要有值.
+    if request("xdurl") = "" then
+        bhaveerrorwhencheck = 1
+        strerrornumber = 0
+    else
+        if instr(request("xdurl"),".asp") > 0 then
+            '// ok.
+        else
+            '// error.
+            bhaveerrorwhencheck = 1
+            strerrornumber = 1
+        end if
+    end if
+
+    '// check gip 常用參數
+    if bhaveerrorwhencheck <> 1 then
+        bhaveerrorwhencheck = cpcommoncheck(strerrornumber)
+    end if
+
+    '// lp 常用檢測項目.
+    if bhaveerrorwhencheck <> 1 then
+        bhaveerrorwhencheck = lpcommoncheck(strerrornumber)
+    end if
+
+    '// sp 常用檢測項目.
+    if bhaveerrorwhencheck <> 1 then
+        bhaveerrorwhencheck = spcommoncheck(strerrornumber)
+    end if
+
+    if bhaveerrorwhencheck <> 1 then
+        '// 單獨對 ap 做判斷.
+        if instr(ucase(request("xdurl")),"mail/mail") > 0 then
+            myfieldname = "content"
+            if request(myfieldname) <> "" then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 102
+            end if
+
+            myfieldname = "event_title"
+            if request(myfieldname) <> "" then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 102
+            end if
+
+            myfieldname = "library"
+            if request(myfieldname) <> "" then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 103
+            end if
+
+            myfieldname = "m011_type"
+            if request(myfieldname) <> "" then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 104
+            end if
+
+            myfieldname = "realname"
+            if request(myfieldname) <> "" then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 105
+            end if
+
+            myfieldname = "subject"
+            if request(myfieldname) <> "" then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 106
+            end if
+
+            myfieldname = "subjectid"
+            if request(myfieldname) <> "" then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 107
+            end if
+
+            myfieldname = "xpostdate_year"
+            if request(myfieldname) <> "" then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 107
+            end if
+        end if
+
+        if request("xdurl") = "mail/mail_act.asp"  then
+            myfieldname = "event_title"
+            if request(myfieldname) <> "" then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 202
+            end if
+        end if
+
+        '// 單獨對 ap 做判斷.
+        if instr(ucase(request("xdurl")),"lib_pub/lib") > 0 then
+            myfieldname = "id"
+            if request(myfieldname) <> "" then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 301
+            end if
+
+            myfieldname = "event_title"
+            if request(myfieldname) <> "" then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 302
+            end if
+
+            myfieldname = "pkind"
+            if request(myfieldname) <> "" then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 303
+            end if
+
+            myfieldname = "pub_id"
+            myfiltersymbols = "'""@<>%&()-=+"
+            if checksymbolinfield(myfieldname,myfiltersymbols) then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 304
+            end if
+        end if
+
+
+        '// 單獨對 ap 做判斷.
+        if instr(ucase(request("xdurl")),"attend/pe") > 0 then
+            myfieldname = "id"
+            myfiltersymbols = "'""@<>%&()=+*/"
+            if checksymbolinfield(myfieldname,myfiltersymbols) then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 304
+            end if
+
+            myfieldname = "id"
+            if not isnumeric(request(myfieldname)) then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 301
+            end if
+
+            myfieldname = "parentsortpage"
+            myfiltersymbols = "'""@<>%&()=+/"
+            if checksymbolinfield(myfieldname,myfiltersymbols) then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 304
+            end if
+
+            myfieldname = "yymm"
+            myfiltersymbols = "'""@<>%&()=+*andor"
+            if checksymbolinfield(myfieldname,myfiltersymbols) then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 304
+            end if
+
+            '// 哎... 這個變本, 根本不會出現在程式碼裡, 但還是要判斷一下, 不然會被測出來.
+            myfieldname = "journal_info"
+            myfiltersymbols = "'""@<>%&()-=+*/"
+            if checksymbolinfield(myfieldname,myfiltersymbols) then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 304
+            end if
+
+            '//身分證字號
+            myfieldname = "ident"
+            myfiltersymbols = "'""@<>%&()-=+*/"
+            if checksymbolinfield(myfieldname,myfiltersymbols) then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 304
+            end if
+
+            '//姓名
+            myfieldname = "name"
+            myfiltersymbols = "'""@<>%&()=+*/"
+            if checksymbolinfield(myfieldname,myfiltersymbols) then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 304
+            end if
+
+            '//出生年月日
+            myfieldname = "birthdt"
+            myfiltersymbols = "'""@<>%&()=+*"
+            if checksymbolinfield(myfieldname,myfiltersymbols) then
+                bhaveerrorwhencheck = 1
+                strerrornumber = 304
+            end if
+
+
+
+
+        end if
+    end if
+
+    if bhaveerrorwhencheck = 1 then
+        call endofmyasp(mp)
+    end if
+
+end sub
+
+
+'// symbol in variable return true.
+function checksymbolinfield(byval variablename, byval symbols)
+    dim returnvalue
+    dim singlesymbols
+    dim isymbol
+
+    returnvalue = false
+    singlesymbols = ""
+    isymbol = 0
+
+    if symbols <> "" then
+        if len(symbols)=1 then
+            if instr(request(variablename),symbols) >0 then
+                returnvalue = true
+            end if
+        else
+            for isymbol = 1 to len(symbols)
+                if instr(request(variablename),mid(symbols,isymbol,1)) >0 then
+                    returnvalue = true
+                end if
+            next
+        end if
+    end if
+
+    checksymbolinfield = returnvalue
+end function
+
+
+'// purpose: return bhaveerrorwhencheck
+function cpcommoncheck(byref strerrornumber)
+    dim returnvalue
+    dim myfieldname
+    dim myfiltersymbols
+
+    returnvalue = 0
+    strerrornumber = 0
+    myfieldname = ""
+    myfiltersymbols = ""
+
+    myfieldname = "mp"
+    myfiltersymbols = "'""@<>%andor~`!#$^&*/\.(){}[]-=+;"
+    if checksymbolinfield(myfieldname,myfiltersymbols) then
+        returnvalue = 1
+        strerrornumber = 10
+    end if
+
+    myfieldname = "ctnode"
+    myfiltersymbols = "'""@<>%andor~`!#$^&*/\.(){}[]-=+;"
+    if checksymbolinfield(myfieldname,myfiltersymbols) then
+        returnvalue = 1
+        strerrornumber = 4
+    end if
+
+    myfieldname = "ctunit"
+    myfiltersymbols = "'""@<>%andor~`!#$^&*/\.(){}[]-=+;"
+    if checksymbolinfield(myfieldname,myfiltersymbols) then
+        returnvalue = 1
+        strerrornumber = 5
+    end if
+
+    myfieldname = "basedsd"
+    myfiltersymbols = "'""@<>%andor~`!#$^&*/\.(){}[]-=+;"
+    if checksymbolinfield(myfieldname,myfiltersymbols) then
+        returnvalue = 1
+        strerrornumber = 6
+    end if
+
+    myfieldname = "icuitem"
+    myfiltersymbols = "'""@<>%andor~`!#$^&*/\.(){}[]-=+;"
+    if checksymbolinfield(myfieldname,myfiltersymbols) then
+        returnvalue = 1
+        strerrornumber = 7
+    end if
+
+    myfieldname = "xitem"
+    myfiltersymbols = "'""@<>%andor~`!#$^&*/\.(){}[]-=+;"
+    if checksymbolinfield(myfieldname,myfiltersymbols) then
+        returnvalue = 1
+        strerrornumber = 7
+    end if
+
+    '// check isnumeric
+    if request("ctnode") <> "" then
+        if not isnumeric(request("ctnode")) then
+            returnvalue = 1
+            strerrornumber = 50
+        end if
+    end if
+
+    if request("ctunit") <> "" then
+        if not isnumeric(request("ctunit")) then
+            returnvalue = 1
+            strerrornumber = 50
+        end if
+    end if
+
+    if request("basedsd") <> "" then
+        if not isnumeric(request("basedsd")) then
+            returnvalue = 1
+            strerrornumber = 50
+        end if
+    end if
+
+    if request("icuitem") <> "" then
+        if not isnumeric(request("icuitem")) then
+            returnvalue = 1
+            strerrornumber = 50
+        end if
+    end if
+
+    if request("xnode") <> "" then
+        if not isnumeric(request("xnode")) then
+            returnvalue = 1
+            strerrornumber = 50
+        end if
+    end if
+
+    if request("xitem") <> "" then
+        if not isnumeric(request("xitem")) then
+            returnvalue = 1
+            strerrornumber = 50
+        end if
+    end if
+
+
+    '// check length
+    if len(request("ctnode")) > 6 then
+        returnvalue = 1
+        strerrornumber = 125
+    end if
+    if len(request("ctunit")) > 5 then
+        returnvalue = 1
+        strerrornumber = 126
+    end if
+    if len(request("basedsd")) > 4 then
+        returnvalue = 1
+        strerrornumber = 127
+    end if
+    if len(request("mp")) > 6 then
+        returnvalue = 1
+        strerrornumber = 128
+    end if
+
+    if len(request("icuitem")) > 9 then
+        returnvalue = 1
+        strerrornumber = 128
+    end if
+
+    cpcommoncheck = returnvalue
+end function
+
+
+'// purpose: return bhaveerrorwhencheck
+function lpcommoncheck(byref strerrornumber)
+    dim returnvalue
+    dim myfieldname
+    dim myfiltersymbols
+
+    returnvalue = 0
+    strerrornumber = 0
+    myfieldname = ""
+    myfiltersymbols = ""
+
+    myfieldname = "htx_idept"
+    myfiltersymbols = "'""@<>%~!#$^&*()-=+"
+    if checksymbolinfield(myfieldname,myfiltersymbols) then
+        returnvalue = 1
+        strerrornumber = 8
+    end if
+
+    myfieldname = "htx_topcat"
+    myfiltersymbols = "'""@<>%~!#$^&*()-=+"
+    if checksymbolinfield(myfieldname,myfiltersymbols) then
+        returnvalue = 1
+        strerrornumber = 9
+    end if
+
+    myfieldname = "xq_xcat"
+    myfiltersymbols = "'""@<>%~!#$^&*()-=+"
+    if checksymbolinfield(myfieldname,myfiltersymbols) then
+        returnvalue = 1
+        strerrornumber = 9
+    end if
+
+    myfieldname = "xq_xcat2"
+    myfiltersymbols = "'""@<>%~!#$^&*()-=+"
+    if checksymbolinfield(myfieldname,myfiltersymbols) then
+        returnvalue = 1
+        strerrornumber = 10
+    end if
+
+    myfieldname = "htx_xpostdate"
+    myfiltersymbols = "'""@<>%~!#$^&*()-=+andor"
+    if checksymbolinfield(myfieldname,myfiltersymbols) then
+        returnvalue = 1
+        strerrornumber = 10
+    end if
+
+    myfieldname = "htx_xpostdates"
+    myfiltersymbols = "'""@<>%~!#$^&*()-=+andor"
+    if checksymbolinfield(myfieldname,myfiltersymbols) then
+        returnvalue = 1
+        strerrornumber = 10
+    end if
+
+    myfieldname = "htx_xpostdatee"
+    myfiltersymbols = "'""@<>%~!#$^&*()-=+andor"
+    if checksymbolinfield(myfieldname,myfiltersymbols) then
+        returnvalue = 1
+        strerrornumber = 10
+    end if
+
+    myfieldname = "nowpage"
+    myfiltersymbols = "'""@<>%~!#$^&*()-=+"
+    if checksymbolinfield(myfieldname,myfiltersymbols) then
+        returnvalue = 1
+        strerrornumber = 10
+    end if
+
+    myfieldname = "pagesize"
+    myfiltersymbols = "'""@<>%~!#$^&*()-=+"
+    if checksymbolinfield(myfieldname,myfiltersymbols) then
+        returnvalue = 1
+        strerrornumber = 10
+    end if
+
+    '// length check
+    if len(request("htx_idept")) > 10 then
+        returnvalue = 1
+        strerrornumber = 128
+    end if
+
+    if len(request("htx_topcat")) > 10 then
+        returnvalue = 1
+        strerrornumber = 128
+    end if
+
+    if len(request("xq_xcat")) > 10 then
+        returnvalue = 1
+        strerrornumber = 128
+    end if
+
+    if len(request("xq_xcat2")) > 10 then
+        returnvalue = 1
+        strerrornumber = 128
+    end if
+
+    if len(request("htx_xpostdate")) > 20 then
+        returnvalue = 1
+        strerrornumber = 128
+    end if
+
+    if len(request("htx_xpostdates")) > 20 then
+        returnvalue = 1
+        strerrornumber = 128
+    end if
+
+    if len(request("htx_xpostdatee")) > 20 then
+        returnvalue = 1
+        strerrornumber = 128
+    end if
+
+    if len(request("nowpage")) > 4 then
+        returnvalue = 1
+        strerrornumber = 128
+    end if
+
+    if len(request("pagesize")) > 4 then
+        returnvalue = 1
+        strerrornumber = 128
+    end if
+
+    lpcommoncheck = returnvalue
+end function
+
+
+'// purpose: return bhaveerrorwhencheck
+function spcommoncheck(byref strerrornumber)
+parray=array("stamp", "card","rname","remail2","fname","femail","subject","fmsg","s_id","mp","ctnode","realname","email","content","strcaptcha","checkstr")
+
+for each str in parray
+
+p=request(str)
+
+        '要檢查的 pattern
+
+        patern=array("<", ">")
+
+
+
+        for each ptn in patern
+                if (instr(p, ptn) >0) then
+                   returnvalue = 1
+                   strerrornumber = 10
+                end if
+        next
+next
+
+    spcommoncheck = returnvalue
+end function
+sub endofmyasp(byval mp)
+    response.write "<html>"
+    response.write "<head><meta http-equiv='content-type' content='text/html; charset="& response.charset &"'>"
+    response.write "<title>" & request.servervariables("server_name") & "</title>"
+    response.write "</head>" & vbcrlf
+    response.write "<body>" & vbcrlf
+    response.write "<script language='javascript'>location.replace('mp.asp?mp=" & mp & "');</script>" & vbcrlf
+    response.write "<noscript>this javascrip is used to redirect to <a href='http://" & request.servervariables("server_name") & "/mp.asp?mp=" & mp &"'>home</a> page.</noscript>" & vbcrlf
+    response.write "" & vbcrlf
+    response.write "</body>" & vbcrlf
+    response.write "</html>"
+    response.end()
+end sub
+function getmpvalue()
+    dim mymp
+
+    mymp = request("mp")
+    if mymp = "" then
+        mymp = session("mptree")
+    else
+        if isnumeric(mymp) then
+            mymp = int(mymp)
+        else
+            mymp = session("mptree")
+            call endofmyasp(mymp)
+        end if
+    end if
+
+
+ getmpvalue = mymp
+end function
+ 

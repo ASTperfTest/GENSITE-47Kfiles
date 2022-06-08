@@ -1,0 +1,437 @@
+﻿:  @codepage=65001 
+   response.expires = 0
+htprogcap="目錄樹管理"
+htprogfunc="新增節點"
+htuploadpath="/public/"
+htprogcode="ge1t21"
+htprogprefix="ctnodet" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_checkgipconfig_1275316133()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+goflag = checkgipconfig("rsssource")
+
+sub oldfrank
+goflag = false
+fsql = "sp_columns 'cudtgeneric'"
+set rslist = conn.execute(fsql)
+if not rslist.eof then
+    while not rslist.eof
+ if rslist("column_name") = "kmautoid" then
+  goflag = true
+ end if
+       rslist.movenext
+    wend
+end if
+end sub
+
+xctnodekind=request.querystring("ctnodekind")
+sqlc="select mvalue from codemain where codemetaid=n'refctnodekind' and mcode=n'"&xctnodekind&"'"
+set rsc = conn.execute(sqlc)
+'response.write sqlc
+'response.end
+ dim xnewidentity
+ apath=server.mappath(htuploadpath) & "\"
+' response.write apath & "<hr>"
+ if request.querystring("phase")<>"add" then
+set xup = server.createobject("tabs.upload")
+xup.codepage=65001
+xup.start apath
+
+else
+set xup = server.createobject("tabs.upload")
+end if
+
+function xupform(xvar)
+ xupform = xup.form(xvar)
+end function
+
+if xupform("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+ sql = "select datalevel from cattreenode where ctnodeid=" & pkstr(request("catid"),"")
+ set rs = conn.execute(sql)
+ xdatalevel = 1
+ if not rs.eof then
+  xdatalevel = rs("datalevel") + 1
+ end if
+
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+   sub initform() 
+
+
+
+
+
+
+
+                              =xctnodekind
+                            =request("itemid")
+                              =request("catid")
+                             =xdatalevel
+                              =session("userid")
+                            =date()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_ctunitnodeform_954217161()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+
+   sub showhtmltail() 
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' sql = "select * from client where clientid = '"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "「客戶編號」重複!!請重新建立客戶編號!"
+'  exit sub
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "insert into cattreenode("
+ sqlvalue = ") values("
+ if xupform("htx_ctnodekind") <> "" then
+  sql = sql & "ctnodekind" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_ctnodekind"),",")
+ end if
+ if xupform("htx_ctrootid") <> "" then
+  sql = sql & "ctrootid" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_ctrootid"),",")
+ end if
+ if xupform("htx_datalevel") <> "" then
+  sql = sql & "datalevel" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_datalevel"),",")
+ end if
+ if xupform("htx_dataparent") <> "" then
+  sql = sql & "dataparent" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_dataparent"),",")
+ end if
+ if xupform("htx_ctunitid") <> "" then
+  sql = sql & "ctunitid" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_ctunitid"),",")
+ end if
+ if xupform("htx_editdate") <> "" then
+  sql = sql & "editdate" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_editdate"),",")
+ end if
+ if xupform("htx_edituserid") <> "" then
+  sql = sql & "edituserid" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_edituserid"),",")
+ end if
+ if xupform("htx_ctnodeid") <> "" then
+  sql = sql & "ctnodeid" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_ctnodeid"),",")
+ end if
+ if xupform("htx_catname") <> "" then
+  sql = sql & "catname" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_catname"),",")
+ end if
+ if xupform("htx_catshoworder") <> "" then
+  sql = sql & "catshoworder" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_catshoworder"),",")
+ end if
+ if xupform("htx_inuse") <> "" then
+  sql = sql & "inuse" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_inuse"),",")
+ end if
+'====== 2006.3.30 by gary
+ if xupform("htx_ynrss") <> "" then
+  sql = sql & "ynrss" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_ynrss"),",")
+ end if 
+ if xupform("htx_ynquery") <> "" then
+  sql = sql & "ynquery" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_ynquery"),",")
+ end if  
+'====== 
+ if xupform("htx_ctnodenpkind") <> "" then
+  sql = sql & "ctnodenpkind" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_ctnodenpkind"),",")
+ end if
+ 
+ if goflag then
+     if xupform("htx_rssurlid") <> "" then
+  sql = sql & "rssurlid" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_rssurlid"),",")
+     end if
+     if xupform("htx_rssnodetype") <> "" then
+  sql = sql & "rssnodetype" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_rssnodetype"),",")
+     end if
+ end if 
+ 
+ if checkgipconfig("kmcat") then
+ 
+  if xupform("htx_kmautoid") <> "" then
+  sql = sql & "kmautoid" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_kmautoid"),",")
+     end if
+     if xupform("htx_kmcatid") <> "" then
+  sql = sql & "kmcatid" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_kmcatid"),",")
+     end if
+     if xupform("htx_kmcat") <> "" then
+  sql = sql & "kmcat" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_kmcat"),",")
+     end if
+ end if
+ 
+ if checkgipconfig("subjectcat") then
+     if xupform("htx_subjectid") <> "" then
+  sql = sql & "subjectid" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_subjectid"),",")
+     end if
+ end if
+
+     if checkgipconfig("subjectmonth") then 
+  sql = sql & "subjectmonth" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("bfx_subjectmonth"),",")
+     end if 
+     
+ 
+ 
+for each form in xup.form
+if form.isfile then 
+    if left(form.name,6) = "htimg_" then
+   ofname = form.filename
+   fnext = ""
+   if instr(ofname, ".")>0 then fnext=mid(ofname, instr(ofname, "."))
+   tstr = now()
+   nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext
+   sql = sql & mid(form.name,7) & ","
+   sqlvalue = sqlvalue & pkstr(nfname,",")
+     xup.form(form.name).saveas apath & nfname, true
+   elseif left(form.name,7) = "htfile_" then
+   ofname = form.filename
+   fnext = ""
+   if instr(ofname, ".")>0 then fnext=mid(ofname, instr(ofname, "."))
+   tstr = now()
+   nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext
+   sql = sql & mid(form.name,8) & ","
+   sqlvalue = sqlvalue & pkstr(nfname,",")
+     xup.form(form.name).saveas apath & nfname, true
+     xsql = "insert into imagefile(newfilename, oldfilename) values(" _
+      & pkstr(nfname,",") & pkstr(ofname,")")
+     conn.execute xsql
+ end if
+end if  
+  next
+
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+ conn.execute(sql)  
+ '----940725目錄樹會員類別等級
+ if checkgipconfig("ctnodemember") then
+     if xupform("bfx_mtype") <> "" then
+         sqlmember = ""
+      if instr(xupform("bfx_mtype"),", ") = 0 then
+          sqlmember="insert into ctnodememberlvl values("&pkstr(xnewidentity,"")&","&pkstr(xupform("bfx_mtype"),"")&","&pkstr(xupform("sfx_mgrade"&xupform("bfx_mtype")),"")&")"
+      else
+          xmemberarray=split(xupform("bfx_mtype"),", ")
+      for i=0 to ubound(xmemberarray)
+       sqlmember=sqlmember&"insert into ctnodememberlvl values("&pkstr(xnewidentity,"")&","&pkstr(xmemberarray(i),"")&","&pkstr(xupform("sfx_mgrade"&xmemberarray(i)),"")&");"
+      next           
+      end if
+         if sqlmember <> "" then conn.execute(sqlmember)
+     end if
+ end if  
+end sub '---- doupdatedb() ----
+
+sub showdonebox()
+ doneuri= ""
+ if doneuri = "" then doneuri = htprogprefix & "list.asp"
+
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                              =doneuri
+
+
+
+
+   end sub '---- showdonebox() ----  

@@ -1,0 +1,5 @@
+﻿: 
+set conn = server.createobject("adodb.connection")
+conn.open session("odbcdsn")
+xrootid=session("xrootid")
+ 

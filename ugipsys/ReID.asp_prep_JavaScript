@@ -1,0 +1,147 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    alert ("查無此E-Mail!");
+   <script language=Javascript>
+                alert (" 您的帳號及密碼, 我們將以 Email 方式通知您 !");
+   window.close();
+  <script language=VBS>
+sub window_onLoad
+    fmReID.Email.focus
+end sub
+<script language=javascript>
+function byenow() {
+ window.close();
+}
+function datacheck()
+{    
+  if (document.fmReID.Email.value=="")
+  {
+     alert("請輸入您的E-Mail!");
+     return false;
+  } 
+}
+</script>
+ 
+
+
+
+
+
+
+
+
+
+
+                alert (" 您的帳號及密碼, 我們將以 Email 方式通知您 !");
+   window.close();
+  <script language=VBS>
+sub window_onLoad
+    fmReID.Email.focus
+end sub
+<script language=javascript>
+function byenow() {
+ window.close();
+}
+function datacheck()
+{    
+  if (document.fmReID.Email.value=="")
+  {
+     alert("請輸入您的E-Mail!");
+     return false;
+  } 
+}
+</script>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

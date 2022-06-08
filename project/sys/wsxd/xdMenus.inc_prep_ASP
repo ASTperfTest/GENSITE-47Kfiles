@@ -1,0 +1,103 @@
+﻿:                       =mytreenode
+  
+ xrootid=nulltext(refmodel.selectsinglenode("menutree"))
+ 
+   sqlcom = "select b.catname as xcat, b.ctnodeid as xnodeid, a.*, c.redirecturl, c.newwindow, c.ibasedsd, c.ctunitkind " _
+  & " from cattreenode as a join cattreenode as b on b.ctnodeid=a.dataparent" _
+  & " left join ctunit as c on c.ctunitid=a.ctunitid" _
+  & " where a.datalevel=2 and a.ctrootid = " & pkstr(xrootid,"") _
+  & " order by b.catshoworder, a.catshoworder"
+
+ response.write"<sql>"& sqlcom &"</sql>"
+ set rs = conn.execute(sqlcom)
+ tabindex = 0
+ divindex = 0
+ styletop = 235
+ xcat = ""
+ while not rs.eof
+         tabindex = tabindex + 1
+         divindex = divindex + 1     
+         if rs("ctunitkind") = "k" then
+   xurl = "kmdoit.asp?"&rs("redirecturl")
+  elseif rs("ctnodekind") = "c" then  '-- folder
+   xurl = "np.asp?ctnode="&rs("ctnodeid") & "&amp;mp=" & request("mp")
+  else
+   if rs("redirecturl")<> "" then
+    xurl = rs("redirecturl")
+   elseif rs("ctunitkind") ="2" then
+    xurl = "lp.asp?ctnode="&rs("ctnodeid") & "&amp;ctunit=" & rs("ctunitid") & "&amp;basedsd=" & rs("ibasedsd") & "&amp;mp=" & request("mp")
+   elseif isnumeric(rs("ibasedsd")) then
+    xurl = "np.asp?ctnode="&rs("ctnodeid") & "&amp;ctunit=" & rs("ctunitid") & "&amp;basedsd=" & rs("ibasedsd") & "&amp;mp=" & request("mp")
+   end if
+     end if
+  if rs("xcat") <> xcat then 
+   if xcat<>"" then
+    styletop = styletop + 28
+
+
+     end if
+   xcat = rs("xcat")   
+
+
+              =xcat
+             =deamp(rs("xnodeid"))
+                  =deamp(xurl)
+               =tabindex
+                  =divindex
+                                  =divindex
+                                 =divindex
+               =styletop
+    end if                   
+
+                           =rs("newwindow")
+                =deamp(rs("catname"))
+                    =deamp(xurl)
+  
+   if rs("dataparent") = cint(mytreenode)  then
+    styletop = styletop + 21           
+          end if   
+
+
+    
+  rs.movenext
+ wend
+ if xcat<>"" then response.write "</menucat>"
+
+
+  
+ xrootid2=nulltext(refmodel.selectsinglenode("menutree2"))
+ if xrootid2<>"" then
+
+   response.write "<menubar2>" 
+   sqlcom = "select a.*, c.redirecturl, c.newwindow, c.ibasedsd, c.ctunitkind " _
+  & " from cattreenode as a " _
+  & " left join ctunit as c on c.ctunitid=a.ctunitid" _
+  & " where a.datalevel=1 and a.ctrootid = " & pkstr(xrootid2,"") _
+  & " order by a.catshoworder"
+
+ set rs = conn.execute(sqlcom)
+ while not rs.eof
+   if rs("ctunitkind") = "k" then
+       xurl = "kmdoit.asp?"&rs("redirecturl")
+      elseif rs("ctnodekind") = "c" then  '-- folder
+    xurl = "np.asp?ctnode="&rs("ctnodeid") & "&amp;mp=" & request("mp")
+   else
+    if rs("redirecturl")<> "" then
+     xurl = rs("redirecturl")
+    elseif rs("ctunitkind") ="2" then
+     xurl = "lp.asp?ctnode="&rs("ctnodeid") & "&amp;ctunit=" & rs("ctunitid") & "&amp;basedsd=" & rs("ibasedsd") & "&amp;mp=" & request("mp")
+    elseif isnumeric(rs("ibasedsd")) then
+     xurl = "np.asp?ctnode="&rs("ctnodeid") & "&amp;ctunit=" & rs("ctunitid") & "&amp;basedsd=" & rs("ibasedsd") & "&amp;mp=" & request("mp")
+    end if
+        end if
+
+                         =rs("newwindow")
+               =deamp(rs("catname"))
+                   =xurl
+
+    
+  rs.movenext
+ wend
+
+
+   end if  

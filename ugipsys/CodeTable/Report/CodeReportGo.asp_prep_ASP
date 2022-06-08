@@ -1,0 +1,165 @@
+﻿:  CxMethod_ASP_rtf_1240767244()
+   htprogcap="code�n�x�w�q��"
+htprogcode="�n�x�w�q��"
+htprogprefix="code" 
+  
+response.expires = 0
+
+dim rs, sql
+dim rtf, rtf_head, rtf_tail
+
+ set conn = server.createobject ("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+ set rs=server.createobject("adodb.recordset")
+ 
+        sql="select * from codetable where codeid='" & request.querystring("codeid") & "'"
+        set rscode = conn.execute(sql)
+        
+        fsql=""  
+        fsql2=""
+
+        if isnull(rscode("codesrcitem")) then
+     if isnull(rscode("codesortfld")) then    
+  fsql="select " & rscode("codevaluefld") & "," & rscode("codedisplayfld") & " from " & rscode("codetblname")
+     else
+  fsql="select " & rscode("codevaluefld") & "," & rscode("codedisplayfld") & "," & rscode("codesortfld") & " from " & rscode("codetblname") & " order by " & rscode("codevaluefld") 
+     end if  
+        else
+     if isnull(rscode("codesortfld")) then
+  fsql="select " & rscode("codevaluefld") & "," & rscode("codedisplayfld") & " from " & rscode("codetblname") & " where " & rscode("codesrcfld") & "='" & rscode("codesrcitem") & "'" 
+     else    
+  fsql="select " & rscode("codevaluefld") & "," & rscode("codedisplayfld") & "," & rscode("codesortfld") & " from " & rscode("codetblname") & " where " & rscode("codesrcfld") & "='" & rscode("codesrcitem") & "' order by " & rscode("codesortfld")
+     end if
+        end if
+        
+        if request("xoption")="2" then
+                fsql2=rscode("codevaluefld") &" between '" &request("valuefm") &"' and '" &request("valueto") &"'" 
+        end if
+        if request("xoption")="3" then
+                fsql2=rscode("codesortfld") &" between '" &request("sortfm") &"' and '" &request("sortto") &"'" 
+        end if
+        
+     if fsql2<>"" then 
+  pos1=instr(fsql,"where")
+         pos2=instr(fsql,"order by")
+  if pos1=0 and pos2=0 then
+       fsql=fsql & " where " & fsql2
+      elseif pos1=0 and pos2<>0 then
+          fsql=left(fsql,pos2-1) & "where " & fsql2 & mid(fsql,pos2-1)
+      elseif pos1<>0 and pos2=0 then
+       fsql=fsql & " and " & fsql2 
+      else
+          fsql=left(fsql,pos2-1) & " and " & fsql2 & mid(fsql,pos2-1)
+      end if    
+     end if
+   
+       if instr(fsql,"order by")=0 then
+  fsql = fsql & " order by " & rscode("codevaluefld")  
+       end if
+       
+'response.write fsql       
+       set rs=conn.execute(fsql)
+        
+
+ if not rs.eof then
+  response.contenttype = "application/msword" 
+  
+  rtf = rtf_open(htprogprefix & ".rtf")
+  par(0) = rtf_readpar(htprogprefix & "par0.rtf")
+  
+  find_head_tail rtf, rtf_head, rtf_tail
+  
+  head=rtf_head
+  rtf_field head,1,"\f27"&"\fs35"&"�n�x:"&request("codeid")&request("codename")
+  rtf_field head,2,"\f27"&rscode("codevaluefldname")
+  rtf_field head,3,"\f27"&rscode("codesortfldname")
+  response.write head
+  
+  i=0   
+                while not rs.eof
+                     i=i+1
+                     if isnull(rscode("codesortfld")) then
+                            response.write rtf_addrow (0,i &";" &rs(0) &";" &"\f27"&rs(1) &";" )
+                     else 
+                            response.write rtf_addrow (0,i &";" &rs(0) &";" &"\f27"&rs(1) &";" &rs(2))
+                     end if
+                        
+                     rs.movenext
+                wend  
+                
+  response.write rtf_tail  
+          
+         
+  
+ else 
+
+
+
+         =htprogcap
+
+
+
+
+
+
+
+
+
+    end if 
+  
+function yearname(year)
+ dim y, d1, d2, d3, c, ret
+ 
+ if isnull(year) then
+  yearname = ""
+  exit function
+ end if
+ 
+ y = cint(year)
+ d1 = y \ 100
+ d2 = (y - d1 * 100) \ 10
+ d3 = (y - d1 * 100 - d2 * 10)
+  
+ c = "�s�@�g�t�|�����c�k�e"
+ ret = ""
+ if d1 > 0 then
+  ret = mid(c, d1+1, 1) & "��"
+ end if
+ if d2 > 0 then
+  ret = ret & mid(c, d2+1, 1) & "�q"
+ elseif d3 > 0 then
+  ret = ret & mid(c, d2+1, 1)
+ end if
+ if d3 > 0 then
+  ret = ret & mid(c, d3+1, 1)
+ end if
+ 
+ yearname = ret 
+end function
+
+function chmoney(n)
+        if isnull(n) then
+  chmoney = ""
+  exit function
+ end if
+ c = "���@�g�t�|�����c�k�e"
+ ret = ""
+ x=len(n)
+ i=0
+ while not x=0
+       i=i+1
+       ret=ret & mid(c,mid(n,i,1)+1,1)
+       x=x-1
+ wend
+ chmoney=ret 
+end function
+ 

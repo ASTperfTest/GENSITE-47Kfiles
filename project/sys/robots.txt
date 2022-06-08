@@ -1,0 +1,2 @@
+User-agent: * #表示全部Robot。 
+Disallow: / #表示所有目錄及資料。

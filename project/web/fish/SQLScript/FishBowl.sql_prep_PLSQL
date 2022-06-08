@@ -1,0 +1,137 @@
+﻿set ansi_nulls on
+go
+set quoted_identifier on
+go
+if not exists (select * from sys.objects where object_id = object_id(n'[dbo].[fishbowl_account]') and type in (n'u'))
+begin
+create table [dbo].[fishbowl_account](
+ [id] [int] identity(1,1) not null,
+ [login_id] [varchar](50) not null,
+ [game_key] [varchar](50) not null,
+ [realname] [nvarchar](200) null,
+ [nickname] [nvarchar](200) null,
+ [email] [nvarchar](200) null,
+ [is_active] [tinyint] not null constraint [df_fishbowl_account_is_active]  default ((1)),
+ [create_time] [datetime] not null,
+ [last_modify] [datetime] null,
+ constraint [pk_fishbowl_account] primary key clustered 
+(
+ [id] asc
+)with (ignore_dup_key = off) on [primary]
+) on [primary]
+end
+go
+set ansi_nulls on
+go
+set quoted_identifier on
+go
+if not exists (select * from sys.objects where object_id = object_id(n'[dbo].[fishbowl_pets_score]') and type in (n'u'))
+begin
+create table [dbo].[fishbowl_pets_score](
+ [id] [int] identity(1,1) not null,
+ [fish_id] [int] not null,
+ [health_score] [int] not null constraint [df_fishbowl_pets_score_health_score]  default ((0)),
+ [full_score] [int] not null constraint [df_fishbowl_pets_score_score]  default ((0)),
+ [water_score] [int] not null constraint [df_fishbowl_pets_score_water_score]  default ((0)),
+ [create_time] [datetime] not null,
+ constraint [pk_fishbowl_pets_score] primary key clustered 
+(
+ [id] asc
+)with (ignore_dup_key = off) on [primary]
+) on [primary]
+end
+go
+set ansi_nulls on
+go
+set quoted_identifier on
+go
+if not exists (select * from sys.objects where object_id = object_id(n'[dbo].[fishbowl_environment]') and type in (n'u'))
+begin
+create table [dbo].[fishbowl_environment](
+ [id] [int] identity(1,1) not null,
+ [account_id] [int] not null,
+ [water_status] [float] not null constraint [df_fishbowl_environment_water_status]  default ((7)),
+ [water_status_minus] [float] not null constraint [df_fishbowl_environment_water_status_minus]  default ((0)),
+ [money] [int] not null constraint [df_fishbowl_environment_money]  default ((200)),
+ [money_add] [int] not null constraint [df_fishbowl_environment_money_add]  default ((0)),
+ [use_uvlight] [datetime] null,
+ [create_time] [datetime] not null,
+ [last_modify] [datetime] null,
+ constraint [pk_fishbowl_bonus] primary key clustered 
+(
+ [id] asc
+)with (ignore_dup_key = off) on [primary]
+) on [primary]
+end
+go
+set ansi_nulls on
+go
+set quoted_identifier on
+go
+if not exists (select * from sys.objects where object_id = object_id(n'[dbo].[fishbowl_account_log]') and type in (n'u'))
+begin
+create table [dbo].[fishbowl_account_log](
+ [id] [int] identity(1,1) not null,
+ [account_id] [int] not null,
+ [action] [varchar](20) not null,
+ [ip_address] [varchar](20) not null,
+ [create_time] [datetime] not null,
+ constraint [pk_fishbowl_account_log] primary key clustered 
+(
+ [id] asc
+)with (ignore_dup_key = off) on [primary]
+) on [primary]
+end
+go
+set ansi_nulls on
+go
+set quoted_identifier on
+go
+if not exists (select * from sys.objects where object_id = object_id(n'[dbo].[fishbowl_pets]') and type in (n'u'))
+begin
+create table [dbo].[fishbowl_pets](
+ [id] [int] identity(1,1) not null,
+ [account_id] [int] not null,
+ [fish_type] [tinyint] not null constraint [df_fishbown_pets_fish_type]  default ((0)),
+ [health_status] [float] not null constraint [df_fishbown_pets_health_status]  default ((10)),
+ [health_status_minus] [float] not null constraint [df_fishbowl_pets_health_status_minus]  default ((0)),
+ [full_status] [float] not null constraint [df_fishbown_pets_full_status]  default ((4)),
+ [full_status_minus] [float] not null constraint [df_fishbowl_pets_full_status_minus]  default ((0)),
+ [is_active] [tinyint] not null constraint [df_fishbown_pets_is_active]  default ((1)),
+ [stars] [int] not null constraint [df_fishbowl_pets_stars]  default ((0)),
+ [create_time] [datetime] null,
+ [last_modify] [datetime] null,
+ [status] [tinyint] not null constraint [df_fishbowl_pets_status]  default ((0)),
+ [user_know] [tinyint] not null constraint [df_fishbowl_pets_user_know_fish_is_dead]  default ((0)),
+ constraint [pk_fishbown_pets] primary key clustered 
+(
+ [id] asc
+)with (ignore_dup_key = off) on [primary]
+) on [primary]
+end
+go
+if not exists (select * from sys.foreign_keys where object_id = object_id(n'[dbo].[fk_fishbowl_pets_score_fishbowl_pets]') and parent_object_id = object_id(n'[dbo].[fishbowl_pets_score]'))
+alter table [dbo].[fishbowl_pets_score]  with check add  constraint [fk_fishbowl_pets_score_fishbowl_pets] foreign key([fish_id])
+references [dbo].[fishbowl_pets] ([id])
+on update cascade
+on delete cascade
+go
+if not exists (select * from sys.foreign_keys where object_id = object_id(n'[dbo].[fk_fishbowl_bonus_fishbowl_account]') and parent_object_id = object_id(n'[dbo].[fishbowl_environment]'))
+alter table [dbo].[fishbowl_environment]  with check add  constraint [fk_fishbowl_bonus_fishbowl_account] foreign key([account_id])
+references [dbo].[fishbowl_account] ([id])
+on update cascade
+on delete cascade
+go
+if not exists (select * from sys.foreign_keys where object_id = object_id(n'[dbo].[fk_fishbowl_account_log_fishbowl_account]') and parent_object_id = object_id(n'[dbo].[fishbowl_account_log]'))
+alter table [dbo].[fishbowl_account_log]  with check add  constraint [fk_fishbowl_account_log_fishbowl_account] foreign key([account_id])
+references [dbo].[fishbowl_account] ([id])
+on update cascade
+on delete cascade
+go
+if not exists (select * from sys.foreign_keys where object_id = object_id(n'[dbo].[fk_fishbown_pets_fishbowl_account]') and parent_object_id = object_id(n'[dbo].[fishbowl_pets]'))
+alter table [dbo].[fishbowl_pets]  with check add  constraint [fk_fishbown_pets_fishbowl_account] foreign key([account_id])
+references [dbo].[fishbowl_account] ([id])
+on update cascade
+on delete cascade
+
+ 

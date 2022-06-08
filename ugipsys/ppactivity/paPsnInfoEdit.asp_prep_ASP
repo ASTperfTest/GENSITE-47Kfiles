@@ -1,0 +1,290 @@
+﻿:  response.expires = 0
+htprogcap="���w���"
+htprogfunc=""
+htprogcode="pau01"
+htprogprefix="psenroll" 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_453315802()
+  
+dim pkey
+dim rsreg
+dim formfunction
+tasklable="�s��" & htprogcap
+
+if request("submittask") = "update" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  editinbothcase()
+ else
+  doupdatedb()
+  showdonebox("��ƨ�s���\�i")
+ end if
+
+elseif request("submittask") = "delete" then
+ sql = "delete from paenroll where psnid=" & pkstr(request.querystring("psnid"),"") _
+  & " and pasid=" & pkstr(request.querystring("pasid"),"")
+ conn.execute sql
+ showdonebox("��ƨr�����\�i")
+
+else
+ editinbothcase()
+end if
+
+
+sub editinbothcase
+ sqlcom = "select htx.status, p.*" _
+  & " from paenroll as htx left join papsninfo as p on htx.psnid=p.psnid" _
+  & " where htx.psnid=" & pkstr(request.querystring("psnid"),"") _
+  & " and htx.pasid=" & pkstr(request.querystring("pasid"),"")
+  
+ set rsreg = conn.execute(sqlcom)
+ pkey = ""
+ pkey = pkey & "&psnid=" & rsreg("psnid")
+ if pkey<>"" then  pkey = mid(pkey,2)
+
+ showhtmlhead()
+ if errmsg <> "" then showerrbox()
+ formfunction = "edit"
+ showform()
+ initform()
+ showhtmltail()
+end sub
+
+
+function qqrs(fldname)
+ if request("submittask")="" then
+  xvalue = rsreg(fldname)
+ else
+  xvalue = ""
+  if request("htx_"&fldname) <> "" then
+   xvalue = request("htx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+  sub initform() 
+
+
+
+
+
+
+
+                         =qqrs("psnid")
+                         =qqrs("pname")
+                            =qqrs("birthday")
+                         =qqrs("corpname")
+                        =qqrs("corpaddr")
+                         =qqrs("email")
+                       =qqrs("tel")
+                          =trim(qqrs("status"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+
+  sub showform()   '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_papsninfoforme_477518215()
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+
+
+                                                                  =htprogcap
+
+  
+ sql = "select htx.*, a.actname, a.actcat, a.actdesc, a.acttarget, xref2.mvalue as xractcat" _
+  & ", (select count(*) from paenroll as e where e.pasid=htx.pasid) as ercount" _
+  & " from pasession as htx join ppact as a on a.actid=htx.actid" _
+  & " left join codemain as xref2 on xref2.mcode = a.actcat and xref2.codemetaid='ppactcat'" _
+  & " where htx.pasid=" & session("pasid")
+ set rs = conn.execute(sql)
+:      =rs("actname"):         =rs("dtnote")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showhtmlhead() ------
+
+
+  sub showhtmltail() 
+
+
+
+
+
+  end sub '--- showhtmltail() ------
+
+
+  sub showerrbox() 
+
+              =errmsg
+
+
+  
+    end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- ��ݸ�������ˬd�{���x��b�o�� �a�p�u�ҡa�����ɳ] errmsg="xxx" �� exit sub ------
+' if request("tfx_taxid") <> "" then
+'   sql = "select * from client where taxid = '"& request("tfx_taxid") &"'"
+'   set rsreg = conn.execute(sql)
+'   if not rsreg.eof then
+'  if trim(rsreg("clientid")) <> request("pfx_clientid") then
+'   errmsg = "�u�τ@�s���v����!!�э��s��j�Ȥ�τ@�s��!"
+'   exit sub
+'  end if
+'   end if
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "update paenroll set status=" & pkstr(request("htx_status"),"") _
+  & " where psnid=" & pkstr(request.querystring("psnid"),"") _
+  & " and pasid=" & pkstr(request.querystring("pasid"),"")
+
+ conn.execute(sql)  
+end sub '---- doupdatedb() ----
+
+  sub showdonebox(lmsg) 
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+                 =lmsg
+                               =htprogprefix:            =session("querypage_no")
+
+
+
+  end sub '---- showdonebox() ----  

@@ -1,0 +1,645 @@
+﻿: @ codepage = 65001 
+   
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="主題館績效統計"
+htprogfunc="查詢清單"
+htprogcode="jigsaw"
+htprogprefix="newkpi" 
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_client_5214970()
+  
+
+'response.write session("jigsql") 
+'set conn = server.createobject("adodb.connection")
+ 'strcn="provider=sqloledb;data source=10.10.5.127;user id=hygip;password=hyweb;initial catalog=mgipcoanew"
+
+'----------hyweb gip db connection patch----------
+' 'conn.open strcn
+'set conn = server.createobject("hywebdb3.dbexecute")
+'conn.connectionstring = strcn
+'----------hyweb gip db connection patch----------
+
+
+'----------hyweb gip db connection patch----------
+' 'conn.open
+'set conn = server.createobject("hywebdb3.dbexecute")
+'conn.connectionstring = 
+'----------hyweb gip db connection patch----------
+
+if request("clear") = "1" then
+ session("jigsql") = ""
+end if 
+ 
+sql="select stitle from [mgipcoanew].[dbo].[cudtgeneric] where icuitem='"&request("icuitem")&"'"
+set rs = conn.execute(sql)
+tilte=rs("stitle")
+sqlg=""
+
+startdate=request("value(startdate)") 
+enddate=request("value(enddate)") 
+if session("jigsql")="" then
+if request("ctrootid") = "4" then  
+  set kmconn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'  kmconn.open session("kmodbc")
+set kmconn = server.createobject("hywebdb3.dbexecute")
+kmconn.connectionstring = session("kmodbc")
+'----------hyweb gip db connection patch----------
+
+  
+  sql = ""
+  sql = sql & " select distinct report.report_id, category.category_name, category.category_id, report.subject, report.publisher, report.online_date, "
+  sql = sql & " actor_info.actor_detail_name from report inner join actor_info on report.create_user = actor_info.actor_info_id "
+  sql = sql & " inner join cat2rpt on report.report_id = cat2rpt.report_id inner join category on "
+  sql = sql & " cat2rpt.data_base_id = category.data_base_id and cat2rpt.category_id = category.category_id "
+  sql = sql & " inner join resource_right on 'report@' + report.report_id = resource_right.resource_id "
+  sql = sql & " where (report.status = 'pub') and (report.online_date < getdate()) and (category.data_base_id = 'db020') "
+  sql = sql & " and (resource_right.actor_info_id in('001','002') ) "
+  
+  if request("ctnodename") <> "" then
+   sql = sql & "and (category.category_name like " & pkdate("%" & request("ctnodename") & "%", "") & ") "
+  end if 
+  
+  if request("stitle") <> "" then
+   sql = sql & "and (report.subject like " & pkdate("%" & request("stitle") & "%", "") & ") "
+  end if
+  
+  if startdate <> "" and enddate <> "" then
+   sql = sql & "and (report.online_date between " & pkstr(startdate, "") & " and " & pkstr(enddate, "") & ") "
+  elseif startdate <> "" then
+   sql = sql & "and (report.online_date >= " & pkstr(startdate, "") & ") "
+  elseif enddate <> "" then
+   sql = sql & "and (report.online_date <= " & pkstr(enddate, "") & ") "
+  end if
+  
+  if request("status") = "y" then
+   sql = sql & "and (report.status = 'pub') "
+  else
+   sql = sql & "and (report.status <> 'pub') "
+  end if
+  
+  sql = sql & " order by report.online_date desc "
+  'if request("deptid") <> "" then
+  ' sql = sql & "and (cudtgeneric.idept = " & pkstr(request("deptid"), "") & ")"
+  'end if
+  'response.write sql
+  session("jigsql")=sql
+ elseif request("ctrootid") = "3" then  
+  
+  
+  sql = ""
+  sql = sql & " select distinct cattreenode.ctrootid, cudtgeneric.icuitem, cudtgeneric.stitle, cattreeroot.ctrootname, cattreenode.catname, "
+  sql = sql & " ctunit.ctunitname, cudtgeneric.deditdate, member.realname from cudtgeneric inner join cattreenode on "
+  sql = sql & " cudtgeneric.ictunit = cattreenode.ctunitid inner join cattreeroot on cattreenode.ctrootid = cattreeroot.ctrootid "
+  sql = sql & " inner join ctunit on cattreenode.ctunitid = ctunit.ctunitid inner join member on cudtgeneric.ieditor = member.account "
+  sql = sql & " inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem "
+  sql = sql & " where (cudtgeneric.siteid = n'3') and (cattreeroot.inuse = 'y') and (cudtgeneric.fctupublic = 'y') "
+  sql = sql & " and (ctunit.inuse = 'y') and (cattreenode.inuse = 'y') and (cattreeroot.inuse = 'y') and (cattreenode.ctunitid = 932) "
+  sql = sql & " and (knowledgeforum.status <> 'd')"
+  
+  if request("stitle") <> "" then
+   sql = sql & "and (cudtgeneric.stitle like " & pkdate("%" & request("stitle") & "%", "") & ") "
+  end if
+  
+  if startdate <> "" and enddate <> "" then
+   sql = sql & "and (cudtgeneric.deditdate between " & pkstr(startdate, "") & " and " & pkstr(enddate, "") & ") "
+  elseif startdate <> "" then
+   sql = sql & "and (cudtgeneric.deditdate >= " & pkstr(startdate, "") & ") "
+  elseif enddate <> "" then
+   sql = sql & "and (cudtgeneric.deditdate <= " & pkstr(enddate, "") & ") "
+  end if
+  
+  if request("status") = "y" then
+   sql = sql & "and (cudtgeneric.fctupublic = 'y') "
+  else
+   sql = sql & "and (cudtgeneric.fctupublic <> 'y') "
+  end if
+  sql = sql & " order by cudtgeneric.deditdate desc "
+
+        session("jigsql")=sql  
+ else
+  
+  sql = "" 
+  sql = sql & "select distinct cattreenode.ctrootid, cattreenode.ctnodeid, cudtgeneric.icuitem, cudtgeneric.stitle, cattreeroot.ctrootname, "
+  sql = sql & "cattreenode.catname, ctunit.ctunitname, infouser.username, cudtgeneric.deditdate, dept.deptname from cudtgeneric inner join "
+  sql = sql & "cattreenode on cudtgeneric.ictunit = cattreenode.ctunitid inner join cattreeroot on "
+  sql = sql & "cattreenode.ctrootid = cattreeroot.ctrootid inner join ctunit on "
+  sql = sql & "cattreenode.ctunitid = ctunit.ctunitid inner join infouser on "
+  sql = sql & "cudtgeneric.ieditor = infouser.userid inner join dept on cudtgeneric.idept = dept.deptid "
+  sql = sql & "where (cattreeroot.inuse = 'y') and (ctunit.inuse = 'y') "
+  sql = sql & "and (cattreeroot.inuse = 'y') and (dept.inuse = 'y')"
+  
+  if request("ctrootid") <> "" then  
+   if request("ctrootid") = "1" then   
+    sql = sql & "and (cudtgeneric.siteid = " & pkstr(request("ctrootid"), "") & ") and (cattreenode.ctrootid = 34) "   
+   elseif request("ctrootid") = "2" then   
+    sql = sql & "and (cudtgeneric.siteid = " & pkstr(request("ctrootid"), "") & ") and (cattreeroot.vgroup = 'xx')  "        
+   else
+    sql = sql & "and (cudtgeneric.ictunit = " & request("ctrootid") & ") "        
+   end if
+  end if
+ 
+  if request("ctnodename") <> "" then
+   sql = sql & "and (cattreenode.catname like " & pkdate("%" & request("ctnodename") & "%", "") & ") "
+  end if 
+  
+  if request("stitle") <> "" then
+   sql = sql & "and (cudtgeneric.stitle like " & pkdate("%" & request("stitle") & "%", "") & ") "
+  end if
+  
+  if startdate <> "" and enddate <> "" then
+   sql = sql & "and (cudtgeneric.deditdate between " & pkstr(startdate, "") & " and " & pkstr(enddate, "") & ") "
+  elseif startdate <> "" then
+   sql = sql & "and (cudtgeneric.deditdate >= " & pkstr(startdate, "") & ") "
+  elseif enddate <> "" then
+   sql = sql & "and (cudtgeneric.deditdate <= " & pkstr(enddate, "") & ") "
+  end if
+  
+  if request("status") = "y" then
+   sql = sql & "and (cudtgeneric.fctupublic = 'y') "
+  else
+   sql = sql & "and (cudtgeneric.fctupublic <> 'y') "
+  end if
+  
+  sql = sql & " order by cudtgeneric.deditdate desc "
+    
+  'if request("deptid") <> "" then
+  ' sql = sql & "and (cudtgeneric.idept = " & pkstr(request("deptid"), "") & ")"
+  'end if
+  'response.write sql
+  session("jigsql")=sql 
+ end if
+ else
+ sql=session("jigsql")
+ end if 
+ 'response.write sql
+ 
+ set rs = server.createobject("adodb.recordset")
+ 
+ if request("ctrootid") = "4" then  
+
+'----------hyweb gip db connection patch----------
+'  rs.open sql,kmconn,3,1
+set rs = kmconn.execute(sql)
+
+'----------hyweb gip db connection patch----------
+
+ else
+
+'----------hyweb gip db connection patch----------
+'  rs.open sql,conn,3,1
+set rs = conn.execute(sql)
+
+'----------hyweb gip db connection patch----------
+
+ end if
+ pagenumber = request.querystring("pagenumber")  '現在頁數
+
+ curreccount = 0
+
+ if not rs.eof then 
+   
+   totrec = rs.recordcount       '總筆數
+   
+    if totrec > 0 then 
+      
+      pagesize = cint(request.querystring("pagesize"))
+      
+      if pagesize <= 0 then  
+       pagesize = 10  
+      end if 
+      
+      rs.pagesize = pagesize       '每頁筆數
+
+      if cint(pagenumber) < 1 then 
+         pagenumber = 1
+      elseif cint(pagenumber) > rs.pagecount then 
+         pagenumber = rs.pagecount 
+      end if             
+
+      rs.absolutepage = pagenumber
+      totpage = rs.pagecount       '總頁數      
+      
+      curreccount = totrec - (pagesize * (pagenumber-1) )    
+    if curreccount > pagesize then
+     curreccount = pagesize
+    end if
+      
+    end if    
+ end if   
+
+ function checkexist(articleid )
+ 
+  sql = "select * from [mgipcoanew].[dbo].[knowledgejigsaw] where  status='y' and [articleid]='"&articleid&"' and parenticuitem='"&request("gicuitem")&"'" 
+  'sql="select * from   cudtgeneric inner join knowledgejigsaw on cudtgeneric.icuitem = knowledgejigsaw.gicuitem where   (cudtgeneric.fctupublic = 'y') and [articleid]='"&articleid&"' and parenticuitem='"&request("gicuitem")&"'" 
+  
+   
+  set rsc = conn.execute(sql)
+  if not rsc.eof then
+   checkexist = true
+  else
+   checkexist = false
+  end if
+  rsc = empty  
+ end function
+ 
+function getpath( sid, id )
+ path = ""
+ if sid = "3" then     
+  topcat = ""
+  path = "/knowledge/knowledge_cp.aspx?articleid={0}&articletype={1}&categoryid={2}"
+  sql = "select topcat from cudtgeneric where icuitem = " & id
+  set prs = conn.execute(sql)
+  if not prs.eof then
+   topcat = prs("topcat")
+  end if
+  prs.close
+  set prs = nothing
+  path = replace(path, "{0}", id)
+  path = replace(path, "{1}", "a")
+  path = replace(path, "{2}", topcat)
+ elseif sid = "2" then
+  nodeid = ""
+  mp = ""
+  path = "/subject/ct.asp?xitem={0}&ctnode={1}&mp={2}"
+  sql = "select cattreenode.ctnodeid, cattreenode.ctrootid from cattreenode "
+  sql = sql & "inner join ctunit on cattreenode.ctunitid = ctunit.ctunitid "
+  sql = sql & "inner join cudtgeneric on ctunit.ctunitid = cudtgeneric.ictunit where cudtgeneric.icuitem = " & id
+  set prs = conn.execute(sql)
+  if not prs.eof then
+   nodeid = prs("ctnodeid")
+   mp = prs("ctrootid")
+  end if
+  prs.close
+  set prs = nothing
+  path = replace(path, "{0}", id)
+  path = replace(path, "{1}", nodeid)
+  path = replace(path, "{2}", mp)
+ elseif sid = "1" then
+  nodeid = ""
+  path = "/ct.asp?xitem={0}&ctnode={1}&mp=1"
+  sql = "select cattreenode.ctnodeid from cattreenode inner join ctunit on cattreenode.ctunitid = ctunit.ctunitid "
+  sql = sql & "inner join cudtgeneric on ctunit.ctunitid = cudtgeneric.ictunit where cudtgeneric.icuitem = " & id
+  set prs = conn.execute(sql)
+  if not prs.eof then
+   nodeid = prs("ctnodeid")   
+  end if
+  prs.close
+  set prs = nothing
+  path = replace(path, "{0}", id)
+  path = replace(path, "{1}", nodeid)  
+ else
+  path = "/ct.asp?xitem={0}&ctnode={1}&mp=1"
+  path = replace(path, "{0}", id)
+  path = replace(path, "{1}", sid) 
+ end if
+ getpath = path
+end function
+
+function pkstr (s, endchar)
+  if s="" then
+ pkstr = "null" & endchar
+  else
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ pkstr="n'" & s & "'" & endchar
+  end if
+end function
+
+function pkdate (s, endchar)
+  if s="" then
+ pkdate = "null" & endchar
+  else
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ pkdate="'" & s & "'" & endchar
+  end if
+end function
+ 
+ sql2="select stitle from [mgipcoanew].[dbo].[cudtgeneric] where icuitem='"&request("gicuitem")&"'"
+  set rs2 = conn.execute(sql2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                          =tilte:        =rs2(0)
+
+
+                                        =request("icuitem"):             =request("gicuitem"):           =request("latest")
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                             =request("ctrootid"):             =request("gicuitem")
+
+
+        if request("ctrootid")<>"" then 
+
+                                      =pagenumber:    =totpage
+                                 =totrec
+
+
+                     for i = 1 to totpage 
+                          =i:      if i = cint(pagenumber) then :              end if :     =i
+           next 
+
+
+              if cint(pagenumber) <> 1 then 
+
+             end if 
+
+             if cint(pagenumber) <> rs.pagecount and cint(pagenumber) < rs.pagecount then 
+
+             end if 
+
+
+
+
+
+                                  if pagesize = 10 then :              end if 
+                                    if pagesize = 20 then :              end if 
+                                    if pagesize = 30 then :              end if 
+                                    if pagesize = 50 then :              end if 
+
+       else
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              if request("ctrootid")<>"" then 
+       if totrec > 0 then 
+                
+     i = 0   
+       for i = 1 to pagesize
+               'while not rs.eof
+               '   i = i + 1
+            'if i > (pagenumber - 1) * pagesize and i <= pagenumber * pagesize then 
+   
+
+
+
+                   if request("ctrootid") = "4" then 
+                    if instr(session("jigcheck"),rs("report_id")&"-"&request("ctrootid")&"-"&rs("category_id")) >0 or checkexist(rs("report_id")) then 
+                                                                          =rs("report_id"):    =request("ctrootid"):    =rs("category_id")
+                    else 
+                                                                          =rs("report_id"):    =request("ctrootid"):    =rs("category_id")
+                    end if 
+                   else 
+                    if instr(session("jigcheck"),rs("icuitem")&"-"&request("ctrootid")&"-"&request ("ctrootid")) >0 or checkexist(rs("icuitem")) then 
+                                                                          =rs("icuitem"):    =request("ctrootid"):    =request("ctrootid")
+                    else 
+                                                                          =rs("icuitem"):    =request("ctrootid"):    =request("ctrootid")
+                    end if
+                   end if 
+
+
+          
+         if request("ctrootid") = "4" then
+          viewurl = getpath(request("ctrootid"), rs("report_id"))
+         else
+          viewurl = getpath(request("ctrootid"), rs("icuitem"))
+         end if        
+        
+                       =session("mywwwsiteurl") & viewurl
+                  if request("ctrootid") = "4" then 
+
+                      =rs("category_name")
+                      =rs("subject")
+                      =rs("actor_detail_name")
+                      =rs("publisher")
+                      =rs("online_date")
+                  elseif request("ctrootid") = "3" then 
+
+                      =rs("catname")
+                      =rs("stitle")
+                      =rs("realname")
+
+                      =rs("deditdate")
+                  else 
+                   if request("ctrootid") = "1" then 
+
+                   elseif request("ctrootid") = "2" then 
+
+                   end if 
+                      =rs("catname")
+                      =rs("stitle")
+                      =rs("username")
+                      =rs("deptname")
+                      =rs("deditdate")
+                  end if 
+
+               
+    rs.movenext
+              if rs.eof then exit for 
+    next
+              'end if
+                'rs.movenext
+                    '   wend
+        
+               else 
+
+               end if 
+               end if
+
+
+
+
+
+
+
+
+
+
+                                                                                                            =request("icuitem") 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        =curreccount
+
+
+
+
+
+
+
+
+
+                                                         =request("icuitem"):             =request("gicuitem"):                                                                                                                                                                  =request("ctrootid")
+                                                =request("icuitem"):                                                                                                                                                                  =request("ctrootid")
+
+
+
+
+
+                                              =request("icuitem"):             =request("gicuitem"):               =pagenumber:                                                                                     =request("ctrootid")
+
+
+
+
+
+
+
+
+                        =curreccount
+
+
+
+
+
+
+
+
+
+                                                         =request("icuitem"):             =request("gicuitem"):               =pagenumber-1:                                                                                    =request("ctrootid")
+
+
+
+
+
+
+
+                        =curreccount
+
+
+
+
+
+
+
+
+
+                                                         =request("icuitem"):             =request("gicuitem"):               =pagenumber+1:                                                                                    =request("ctrootid")
+
+
+
+
+
+
+                         =curreccount
+
+
+
+
+
+                         =curreccount
+
+
+
+
+
+
+
+                                                      =request("icuitem"):             =request("gicuitem")
+
+
+
+
+
+
+
+
+                =curreccount
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                         =request("icuitem"):             =request("gicuitem"):             =request("ctrootid") 

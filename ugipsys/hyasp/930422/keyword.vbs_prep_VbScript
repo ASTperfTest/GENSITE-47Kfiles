@@ -1,0 +1,62 @@
+﻿'----db�s�u
+dbconnstr="provider=sqloledb;server=10.10.10.59;user id=hygip;password=hyweb;database=giphy"
+'dbconnstr="provider=sqloledb;server=127.0.0.1;user id=hygip;password=hyweb;database=giphy"
+wscript.echo("open db conn..."&dbconnstr)
+ set conn = createobject("adodb.connection")
+ conn.open(dbconnstr)
+wscript.echo("db conn opened.") 
+'----���owtp��ƨe�j�}�c��
+ sqlwtp="select ikeyword,ikeywordnew,keywordstatus from cudtkeywordwtp where keywordstatus<>'p' order by keywordstatus"
+ set rswtp=conn.execute(sqlwtp)
+ if rswtp.eof then 
+  wscript.echo("recordset not found!.")
+      wscript.quit(1)
+ end if 
+ wtparray=rswtp.getrows()
+wscript.echo("current issue: sql��ʃ�j�}�c��......")
+'----�}�ɮת���,�óv�@���wtp��ư}�c��match
+infile = "c:\hysearch\group\keyword.txt"
+outfile = "c:\hysearch\group\keywordtmp.txt"
+set fso = createobject("scripting.filesystemobject")
+
+set xfin = fso.opentextfile(infile)
+set xfout = fso.createtextfile(outfile)
+
+wscript.echo("����r��txt�ɧ�s��......")
+
+do while not xfin.atendofstream
+    xinstr = xfin.readline
+    writeflag=true
+    for i=0 to ubound(wtparray,2)
+ if trim(xinstr)=trim(wtparray(0,i)) then
+     if wtparray(2,i)="e" then  '----�s�׳���
+      xfout.writeline wtparray(1,i)
+  sqldelete="delete cudtkeywordwtp where ikeyword='"+wtparray(0,i)+"'"   
+  set rse=conn.execute(sqldelete)     
+     elseif wtparray(2,i)="d" then '----�r������
+  sqldelete="delete cudtkeywordwtp where ikeyword='"+wtparray(0,i)+"'"    
+  set rsd=conn.execute(sqldelete)  
+     end if
+     writeflag=false
+     exit for
+ end if
+    next
+    if writeflag then xfout.writeline trim(xinstr) 
+loop
+
+for i=0 to ubound(wtparray,2)
+ if wtparray(2,i)="a" then   '----�s�w����
+  xfout.writeline wtparray(0,i)
+  sqldelete="delete cudtkeywordwtp where ikeyword='"+wtparray(0,i)+"'"
+  set rsa=conn.execute(sqldelete)  
+ end if
+next
+xfin.close
+xfout.close
+
+fso.copyfile outfile, infile
+
+wscript.echo("����r��txt�ɧ�s����!")
+
+
+ 

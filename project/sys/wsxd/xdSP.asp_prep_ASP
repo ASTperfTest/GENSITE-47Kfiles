@@ -1,0 +1,75 @@
+﻿: @ codepage = 65001 
+
+
+
+
+
+   
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+
+function deamp(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   deamp=""
+   exit function
+  end if
+   deamp = replace(xs,"&","&amp;")
+end function
+
+' response.write "**" & request("xdurl") & "**"
+' response.end
+
+ response.write "<phtml>"
+  xdurl = request("xdurl")
+  server.execute (xdurl) 
+
+
+ response.write "</phtml>"
+
+
+
+
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true 
+ 
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\xdmp" & request("mp") & ".xml"
+'  response.write loadxml & "<hr>"
+  xv = htpagedom.load(loadxml)
+'  response.write xv & "<hr>"
+    if htpagedom.parseerror.reason <> "" then 
+      response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+      response.end()
+    end if
+
+   set refmodel = htpagedom.selectsinglenode("//mpdataset")
+ xrootid=nulltext(refmodel.selectsinglenode("menutree"))
+ response.write "<menutitle>"&nulltext(refmodel.selectsinglenode("menutitle"))&"</menutitle>"
+ response.write "<mystyle>"&nulltext(refmodel.selectsinglenode("mpstyle"))&"</mystyle>"
+ response.write "<mp>"&request("mp")&"</mp>"
+' response.write refmodel.xml
+
+   CxMethod_ASP_gensite_2005368621()
+   CxMethod_ASP_content_1941111627()
+  
+  mytreenode = 0
+  upparent = 0
+   for each xdataset in refmodel.selectnodes("dataset[contentdata='y']")
+ processxdataset
+  next
+'--------------頁尾維護單位---------------------
+footer_sql = "select footer_dept, footer_dept_url from cattreeroot left join nodeinfo on cattreeroot.ctrootid = nodeinfo.ctrootid where cattreeroot.pvxdmp ='"& request("mp") &"'"
+set footer_rs = conn.execute(footer_sql)
+response.write "<footer_dept>" & footer_rs("footer_dept") & "</footer_dept>"
+response.write "<footer_dept_url>" & footer_rs("footer_dept_url") & "</footer_dept_url>"
+
+'--------------頁尾維護單位-end---------------
+
+   CxMethod_ASP_x1menus_1545114555() 

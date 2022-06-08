@@ -1,0 +1,113 @@
+@charset "utf-8";
+
+/*  CSS Document */
+
+
+
+/*----------------------------------------------------*/
+
+.Link {
+	width: 180px;
+	padding-left: 20px;
+}
+
+
+
+.Link .Top {
+	font-size: 12px;
+	line-height: 100%;
+	color: #FFFFFF;
+	background: url(../images/left_func/aboutus_bg.gif) no-repeat;
+	letter-spacing: 0.15em;
+	padding-top: 8px;
+	padding-bottom: 1px;
+	text-indent: 10px;
+	height: 89px;
+	width: 177px;
+	list-style-image: url(../images/left_func/bullet01.gif);
+	vertical-align: 30%;
+}
+.Link .Buttom {
+	font-size: 15px;
+	line-height: 100%;
+	color: #FFFFFF;
+	background: url(../images/left_func/buttom_end.gif) no-repeat;
+	padding-top: 8px;
+	padding-bottom: 1px;
+	text-indent: 10px;
+	list-style-image: url(../images/left_func/bullet01.gif);
+	height: 26px;
+}
+
+.Link .Head {
+	font-size: 15px;
+	line-height: 150%;
+	color: #FF4E00;
+	letter-spacing: 0.15em;
+	clip:     rect(auto auto auto auto);
+	width: 180px;
+	height: 27px;
+	padding-top: 3px;
+	text-align: center;
+}
+
+.Link .Head a {
+	color: #003366;
+	background-repeat: no-repeat;
+	background-image: url(../images/left_func/func_bg.gif);
+	width: 180px;
+	height: 25px;
+	padding-top: 2px;
+	font-weight: bold;
+}
+
+.Link .Head a:hover {
+	text-decoration: none;
+	background-image: url(../images/left_func/func_bg01.gif);
+	background-repeat: no-repeat;
+
+}
+
+.Link .Body {
+	background: #FFFFFF;
+	width: 173px;
+	border-right-width: 1px;
+	border-bottom-width: 5px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-right-color: #9F9F9F;
+	border-bottom-color: #9F9F9F;
+	border-left-color: #9F9F9F;
+	margin-left: 2px;
+}
+.Link .Top li {
+	background: url(../images/left_func/bullet01.gif) no-repeat;
+	padding-left: 30px;
+	padding-bottom: 6px;
+	padding-top: 4px;
+	color: #666666;
+	line-height: 110%;
+}
+
+.Link .Body a {
+	text-decoration: none;
+	background: url(../images/left_func/func_bg02.gif) no-repeat;
+	color: #5F5F5F;
+	font-size: 13px;
+	height: 21px;
+	padding-left: 25px;
+	line-height: 180%;
+	padding-top: 1px;
+	width: 173px;
+}
+
+.Link .Body a:hover {
+	color: #4A7B7B;
+	text-decoration: none;
+	font-weight: bold;
+	background-image: url(../images/left_func/func_bg03.gif);
+	background-repeat: no-repeat;
+
+}

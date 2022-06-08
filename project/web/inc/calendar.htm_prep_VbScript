@@ -1,0 +1,314 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   
+
+sub public_setdate(xdate)
+  seldate=cdate(xdate)
+  thismonth=cdate(year(seldate) & "/" & month(seldate) & "/1")                                   
+  showcal thismonth, seldate                                   
+end sub
+
+sub window_onload()         
+  seldate=date()                                   
+  thismonth=cdate(year(date()) & "/" & month(date()) & "/1")                                   
+  showcal thismonth, seldate                                   
+end sub         
+                                   
+sub seltoday()                     
+  showcal cdate(year(date()) & "/" & month(date()) & "/1"), date()                     
+  window.external.raiseevent date(),window.document                     
+end sub                     
+                     
+sub selclear()                     
+  window.external.raiseevent "",window.document                     
+end sub                     
+                     
+sub selcancle()                     
+  window.external.raiseevent "cancle",window.document                     
+end sub                     
+                     
+sub showm(sm)                                   
+  showcal dateadd("m",sm,document.all.hshowmonth.value),document.all.hselday.value                                   
+end sub                                   
+                                   
+sub changey()                                   
+  selymd=document.all.sely.options(document.all.sely.selectedindex).value & "/" & month(document.all.hshowmonth.value) & "/1"                                   
+  showcal selymd,document.all.hselday.value                                   
+end sub                                   
+                                   
+sub changem()                                   
+  selymd=year(document.all.hshowmonth.value) & "/" & document.all.selm.options(document.all.selm.selectedindex).value & "/1"                                   
+  showcal selymd,document.all.hselday.value                                   
+end sub                                   
+                                   
+sub document_onclick()            
+  if window.event.srcelement.tagname="td" or window.event.srcelement.tagname="font" then             
+     if window.event.srcelement.tagname="td" then         
+        clickd1=cint(window.event.srcelement.children(0).innertext)            
+        clickd2=cint(mid(window.event.srcelement.id,2,1))                                
+     elseif window.event.srcelement.tagname="font" then         
+        clickd1=cint(window.event.srcelement.innertext)            
+        clickd2=cint(mid(window.event.srcelement.parentelement.id,2,1))                                
+     end if         
+    if clickd1>20 and clickd2=0 then                                   
+      csm=dateadd("m", -1, cdate(document.all.hshowmonth.value))                                   
+    elseif clickd1<15 and clickd2>
+ 

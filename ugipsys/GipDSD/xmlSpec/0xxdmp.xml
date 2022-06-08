@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MpDataSet>
+	<MenuTree></MenuTree>
+	<MenuTree2></MenuTree2>
+	<Sitemap></Sitemap>
+	<MenuTreeType></MenuTreeType>
+	<MpStyle></MpStyle>
+	<MpStyleTemplate></MpStyleTemplate>
+	<MpCSSTemplate></MpCSSTemplate>
+	<HomepageTitle></HomepageTitle>
+	<HomepageTopLogo></HomepageTopLogo>
+	<HomepageTopLogoTitleShowType></HomepageTopLogoTitleShowType>
+	<tmpValue></tmpValue>
+	<DataSet>
+		<DataLable>DataSetTemplate</DataLable>
+		<DataRemark>DataSetTemplate</DataRemark>
+		<DataNode>999999</DataNode>
+		<SqlCondition></SqlCondition>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+		<SqlTop>1</SqlTop>
+		<WithContent></WithContent>
+		<ContentData></ContentData>
+		<ContentLength></ContentLength>
+		<blockType></blockType>
+		<blockPosition></blockPosition>
+		<blockSeq></blockSeq>
+		<Israndom></Israndom>
+		<blockCSS></blockCSS>
+	</DataSet>
+</MpDataSet>

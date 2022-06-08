@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SystemParameter>
+	<GIPconfig>
+		<sendEmailToApplyer>Y</sendEmailToApplyer>
+		<EmailCompenent>CDOMessage</EmailCompenent>
+		<!--  [ CDONTS | CDOMessage | Basp21 ] -->
+		<EmailServerIp>mail.coa.gov.tw</EmailServerIp>
+		<Emailsendusername>coakm</Emailsendusername>
+		<Emailsendpassword>1Q2w3e4r5T</Emailsendpassword>
+		<EmailServerPort>25</EmailServerPort>
+		<EmailServerSendUsing>2</EmailServerSendUsing>
+		<Emailsmtpauthenticate>1</Emailsmtpauthenticate>
+		<EmailFromName>農委會農業知識入口網</EmailFromName>
+		<EmailFrom>km@mail.coa.gov.tw</EmailFrom>
+		<EmailTo></EmailTo>
+		<EmailSubject></EmailSubject>
+		<Subject></Subject>
+	</GIPconfig>
+</SystemParameter>

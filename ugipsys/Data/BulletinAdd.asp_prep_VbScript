@@ -1,0 +1,305 @@
+﻿
+
+
+
+
+
+
+
+
+sub datacheck()
+Cx_0dummy  msg2 = "請選擇「類別」！"
+  if boardform.xin_catid.value = "" then
+     msgbox msg2, 16, "sorry!"
+     boardform.xin_catid.focus
+     exit sub
+  end if
+Cx_0dummy  msg1 = "「Cx_0dummy」欄位不得為空白！"
+  if boardform.xfn_subject.value = empty then
+     msgbox msg1, 16, "sorry!"
+     boardform.xfn_subject.focus
+     exit sub
+  end if
+Cx_0dummy  msg3 = "「公佈起始時間」欄位不得為空白！"
+  msg4 = "「公佈結束時間」欄位不得為空白！"
+  msg5 = "「公佈結束時間」早於「公佈起始時間」，請重新輸入 !"
+  if boardform.xfn_begindate.value = empty then
+     msgbox msg3, 16, "sorry!"
+     boardform.xfn_begindate.focus
+     exit sub
+  elseif boardform.xfn_enddate.value = empty then
+     msgbox msg4, 16, "sorry!"
+     boardform.xfn_enddate.focus
+     exit sub
+  elseif cdate(boardform.xfn_begindate.value) > cdate(boardform.xfn_enddate.value) then
+     msgbox msg5, 16, "sorry!"
+     boardform.xfn_enddate.focus
+     exit sub
+  end if
+Cx_0dummy for fno=1 to document.boardform.length-1
+  if left(document.boardform(fno).name,7) = "content" then
+    fono = mid(document.boardform(fno).name,8)
+   if document.boardform("content"& fono).value = empty then
+      msgbox "第 "& document.boardform("no"& fono).value &" 段Cx_0dummy不得為空白！", 16, "sorry!"
+      document.boardform("content"& fono).focus
+      exit sub
+   end if
+
+   if document.boardform("imagefile"& fono).value <> empty then
+    filename = lcase(mid(document.boardform("imagefile"& fono).value, instr(document.boardform("imagefile"& fono).value,".")))
+    if filename <> ".gif" and filename <> ".jpg" then
+       msgbox "第 "& document.boardform("no"& fono).value &" 段附圖格式本系統不接受，本系統附圖僅支援 gif、jpg 格式！", 16, "sorry!"
+       document.boardform("imagefile"& fono).focus
+      exit sub
+    end if
+   end if
+  end if
+ next
+
+  boardform.submit
+end sub
+Cx_0dummydim cantarget
+sub xbtdate(n,xdate)
+ if xdate = "" then xdate = date()
+ document.all.calendar.way = xdate
+ 
+' document.all.calendar.xxx xdate
+ if document.all.calendar.style.visibility="" then
+   document.all.calendar.style.visibility="hidden"
+ else
+   document.all.calendar.style.visibility=""
+ end if
+ cantarget=n
+end sub
+
+sub btdate(n)
+ if document.all.calendar.style.visibility="" then
+   document.all.calendar.style.visibility="hidden"
+ else
+   document.all.calendar.style.visibility=""
+ end if
+ cantarget=n
+end sub
+
+sub calendar_onscriptletevent(n,o)
+  document.all.calendar.style.visibility="hidden"
+  select case cantarget
+     case 1
+          document.all.xfn_begindate.value=n
+          document.all.xfn_enddate.value=cdate(n) + 15
+     case 2
+          document.all.xfn_enddate.value=n
+  end select
+end sub
+Cx_0dummy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mycount = 1
+nowcount = 1
+
+sub addkey(cktext,ojno)
+ mycount = mycount + 1
+ nowcount = nowcount + 1
+
+
+  srchtml = "<table id=table"& mycount &" border=0 cellpadding=3 cellspacing=1 class=bluetable width=580>"
+  srchtml = srchtml & "<tr></tr><tr id=imagefiletr"& mycount &" style=display='none'><td width=10 align=center class=lightbluetable></td>"
+  srchtml = srchtml & "<td width=90 align=right class=lightbluetable></td><td width=480 id=imagetd"& mycount &" class=whitetablebg>"
+  srchtml = srchtml & "<input type=file name=imagefile"& mycount &">　　<input type=radio value=left name=imageway"& mycount &"> 左　<input type=radio name=imageway"& mycount &" value=right checked> 右</td></tr>"
+  srchtml = srchtml & "<tr id=toolbar"& mycount &" style=display:'none' class=whitetablebg><td width=10 align=center></td><td width=90 align=center></td> <td width=480></td></tr></table>"
+
+   if cktext = "f" then
+    document.all("table" & ojno).insertadjacenthtml "afterend", srchtml
+   elseif cktext = "d" then
+    document.all("table" & ojno).insertadjacenthtml "beforebegin", srchtml
+   end if
+
+    document.all("content"& mycount).focus
+    toolbarswitch(mycount)
+end sub
+
+sub boardtb_onclick()
+    set keyobj = window.event.srcelement
+    if keyobj.tagname = "textarea" or keyobj.tagname = "img" then
+    if left(keyobj.id,7) = "toolbar" then
+     settagitem = mid(keyobj.id,8,1)
+     newcount = mid(keyobj.id,9)
+
+  select case settagitem
+   case "a"
+    document.all("imagefiletr"& newcount).style.display = ""
+    document.all("toolbara"& newcount).style.display = "none"
+    document.all("toolbarc"& newcount).style.display = ""
+   case "c"
+   imagetdsrc = "<input type=file name=imagefile"& newcount &">　　<input type=radio value=left name=imageway"& newcount &">"
+   imagetdsrc = imagetdsrc & " 左　<input type=radio name=imageway"& newcount &" value=right checked> 右"
+    document.all("imagefiletr"& newcount).style.display = "none"
+    document.all("toolbarc"& newcount).style.display = "none"
+    document.all("toolbara"& newcount).style.display = ""
+    document.all("imagetd"& newcount).innerhtml = imagetdsrc
+    'alert document.all("imagefile"& newcount).value
+   case "d"
+    addkey "d",newcount
+   case "f"
+    addkey "f",newcount
+   case "g"
+    if nowcount = 1 then
+     alert "最少要有一段"& content &"！"
+    else
+     nowcount = nowcount - 1
+     document.all("table"& newcount).outerhtml = ""
+     trcount = 0
+    for fno=1 to document.boardform.length-1
+     if left(document.boardform(fno).name,7) = "content" then
+       fono = mid(document.boardform(fno).name,8)
+       trcount = trcount + 1
+    document.boardform("no"& fono).value = trcount
+     end if
+    next
+     end if
+  end select
+    elseif left(keyobj.name,7) = "content" then
+      toolbarswitch mid(keyobj.name,8)
+ end if
+ end if
+end sub
+
+ sub toolbarswitch(barno)
+    trcount = 0
+    for xtableno = 1 to document.boardform.length-1
+      if left(document.boardform(xtableno).name,7) = "content" then
+      fonoxtableno = mid(document.boardform(xtableno).name,8)
+      document.all("toolbar"& fonoxtableno).style.display = "none"
+      trcount = trcount + 1
+      document.boardform("no"& fonoxtableno).value = trcount
+     end if
+    next
+   document.all("toolbar"& barno).style.display = ""
+ end sub
+
+
+ 

@@ -1,0 +1,44 @@
+﻿: 
+
+sub aaa()
+ set conn = server.createobject("adodb.connection")
+
+ '----------hyweb gip db connection patch----------
+ 'conn.open session("odbcdsn")
+ 'set conn = server.createobject("hywebdb3.dbexecute")
+ conn.connectionstring = session("odbcdsn")
+ conn.connectiontimeout=0
+ conn.cursorlocation = 3
+ conn.open
+ '----------hyweb gip db connection patch----------
+
+
+ set kmconn = server.createobject("adodb.connection")
+
+ '----------hyweb gip db connection patch----------
+ 'kmconn.open session("kmdbconnstr")
+ 'set kmconn = server.createobject("hywebdb3.dbexecute")
+ kmconn.connectionstring = session("kmdbconnstr")
+ kmconn.connectiontimeout=0
+ kmconn.cursorlocation = 3
+ kmconn.open
+ '----------hyweb gip db connection patch----------
+
+end sub
+
+
+
+set kmconn = server.createobject("adodb.connection")
+kmconn.connectionstring = session("kmdbconnstr")
+kmconn.connectiontimeout=0
+kmconn.open
+
+set conn = server.createobject("adodb.connection")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+
+
+
+ 

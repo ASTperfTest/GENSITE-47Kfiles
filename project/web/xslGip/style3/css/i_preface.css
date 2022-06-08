@@ -1,0 +1,21 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.Preface {
+	margin: 20px 0;
+}
+.Afterword {
+	margin: 20px 0;
+}
+
+.Preface , .Afterword {
+	line-height: 150%;
+}
+.Preface ul , .Afterword ul {
+	margin: 1em 0 1em 2em;
+	padding: 0;
+}
+.Preface p , .Afterword p {
+	margin: .5em 0 1em;
+	padding: 0;
+}

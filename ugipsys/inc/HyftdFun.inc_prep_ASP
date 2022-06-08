@@ -1,0 +1,408 @@
+﻿
+
+
+
+
+
+
+  
+ '-------------------------------------------------------------------------------
+ '---hyftd----------------------------------------------------------------------- 
+ dim hyftdobj           '---hyftd物件---
+ dim hyftdserver         '---server address---
+ dim hyftdport          '---server port---
+ dim hyftduserid         '---user id---
+ dim hyftduserpassword      '---user password---
+ dim hyftdgroupname        '---group name---
+ dim hyftdconnid         '---建立連線的id---
+ dim hyftdsortqueryid       '---查詢的id(sortquery)---
+ dim hyftdqueryexid       '---查詢的id(query_ex)---
+ dim hyftdquerygroupingid     '---查詢的id(query_grouping)---
+ dim hyftdaddqueryid       '---加入查詢的id---
+ dim hyftdassociatedataname    '---associatedata name---
+  dim hyftdtotalrecordcount    '---總查詢筆數---
+  dim hyftdcurrentrecordcount   '---目前回傳的筆數---
+  dim hyftdmaxquerycount      '---查詢筆數的上限---
+  dim hyftdquerytype        '---查詢方式,0~4---
+  dim hyftdsortname        '---做排序用的某個欄位名稱---
+  dim hyftdsorttype        '---遞增,遞減---
+  dim hyftddataid         '---某筆結果的id(sysid)---
+  dim hyftddatarelatednumber    '---關聯度---
+  dim hyftddatalength       '---某筆結果的associatedata的長度---
+  dim hyftdphonetic        '---查詢時加入同音---
+  dim hyftdauthorize        '---查詢時加入同義---
+  dim hyftdstarttime        '---查詢開始時間---
+  dim hyftdendtime         '---查詢結束時間---
+  dim hyftdtimediff        '---查詢所花費時間---
+  dim hyftdrecordfrom       '---查詢時所要抓取的開始筆數---
+  dim hyftdrecordto        '---查詢時所要抓取的結束筆數---
+  dim hyftdx            '---呼叫function時的指定值---
+  dim hyftddebug          '---debug mode---
+ dim hyftdgrouping()       '---存放後分類的陣列---
+ dim hyftdgroupingcount      '---後分類的數目---
+ dim hyftdgroupingname      '---後分類名稱---
+ dim hyftdgroupingtype      '---後分類名稱排序---
+ dim hyftdgrouping1()       '---存放後分類的陣列---
+ dim hyftdgroupingcount1     '---後分類的數目---
+ dim hyftdgroupingname1      '---後分類名稱---
+ dim hyftdgroupingtype1      '---後分類名稱排序---
+ '-------------------------------------------------------------------------------
+ '---function hyftd initialization-----------------------------------------------
+ 
+ sub hyftd_initial_parameter( pagenumber, pagesize, debug, order, sort, phonetic, authorize )
+  
+  hyftdserver = application("hyftdserver")
+   hyftdport = application("hyftdport")
+   hyftduserid = ""
+  hyftduserpassword = ""
+   hyftdgroupname = application("hyftdgroupname")
+   hyftdassociatedataname = application("hyftdassociatedataname")
+   hyftdconnid = 0
+   hyftdqueryid = 0
+   hyftdsortqueryid = 0
+  hyftdqueryexid = 0
+  hyftdquerygroupingid = 0
+   hyftdaddqueryid = 0   
+   hyftdtotalrecordcount = 0
+   hyftdcurrentrecordcount = 0 
+   hyftdmaxquerycount = 10000
+   hyftdsortname = "" 
+   hyftdsorttype = 0
+   hyftddataid = 0
+   hyftddatarelatednumber = 0
+   hyftddatalength = 0
+   hyftdphonetic = cint(phonetic)
+   hyftdauthorize = cint(authorize)
+   hyftdstarttime = gettime()
+   hyftdendtime = 0
+   hyftdtimediff = 0
+   hyftdgroupingcount = 0
+   hyftdgroupingname = "onlinedate"
+  hyftdgroupingtype = 1
+  hyftdgroupingcount1 = 0
+   hyftdgroupingname1 = ""
+  hyftdgroupingtype1 = 1
+  
+  if pagenumber > 1 then
+   hyftdrecordfrom = (pagenumber - 1) * pagesize
+   hyftdrecordto = (pagenumber - 1) * pagesize + pagesize
+  else
+   hyftdrecordfrom = 0
+   hyftdrecordto = pagesize
+  end if    
+  '-------------------------------------------------------------------------------
+  '---query type------------------------------------------------------------------
+   if order = "0" then  '---相關度---
+    hyftdquerytype = 3 '---全文檢索(相關度分數出現次數*100)---
+   else         '---其它---
+     hyftdquerytype = 0 '---querytype=0,才能sortquery---
+   end if   
+   '-------------------------------------------------------------------------------
+  '---hyftd sort name-------------------------------------------------------------
+  if order = "0" then       '---關聯度---
+    hyftdsortname = ""
+   elseif order = "1" then     '---標題---
+     hyftdsortname = "subject"
+    elseif order = "2" then     '---發佈日期---
+     hyftdsortname = "onlinedate"
+    elseif order = "3" then     '---資料來源---
+     hyftdsortname = "siteid"
+    elseif order = "4" then     '---點閱次數---
+     hyftdsortname = "clickcount" 
+   end if
+   '-------------------------------------------------------------------------------
+  '---hyftd sort type-------------------------------------------------------------
+  if sort = "0" then   '---遞減---
+   hyftdsorttype = 1
+  elseif sort = "1" then '---遞增---
+   hyftdsorttype = 0
+  end if
+   
+ end sub
+
+ '-------------------------------------------------------------------------------
+ '---function hyftd initialization-----------------------------------------------
+  
+ sub hyftd_set_encoding(ft, encoding)
+ 
+  ft.hyft_setencoding(encoding)
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "set encoding : " & ft.errmsg
+    response.end
+  end if
+  
+ end sub
+ 
+ '-------------------------------------------------------------------------------
+ '---function hyftd connection---------------------------------------------------
+  
+ function hyftd_connection( ft, serverip, port, groupname, userid, userpassword ) 
+  hyftdx = ft.hyft_connect( serverip, port, groupname, userid, userpassword )
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "connection : " & ft.errmsg
+    response.end
+  end if 
+  hyftd_connection = ft.ret_val    
+  
+ end function
+
+ '-------------------------------------------------------------------------------
+ '---function hyftd initial query------------------------------------------------
+ 
+ sub hyftd_initial_query( ft, connid )
+ 
+  hyftdx = ft.hyft_initquery( connid ) 
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "initial query : " & ft.errmsg
+    response.end
+  end if
+  
+ end sub
+
+ '-------------------------------------------------------------------------------
+ '---function hyftd add query----------------------------------------------------
+ 
+ sub hyftd_add_query( ft, connid, columnname, querystring1, querystring2, querytype, phonetic, authorize )
+ 
+  hyftdx = ft.hyft_addquery( connid, columnname, querystring1, querystring2, querytype, phonetic, authorize )
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "add query : " & ft.errmsg
+    response.end
+  end if
+  
+ end sub
+ 
+ sub hyftd_add_and( ft, connid )
+  
+  hyftdx = ft.hyft_addand(connid)
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "add and : " & ft.errmsg
+    response.end
+  end if
+  
+ end sub
+
+ sub hyftd_add_or( ft, connid )
+  
+  hyftdx = ft.hyft_addor(connid)
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "add or : " & ft.errmsg
+    response.end
+  end if
+  
+ end sub
+ 
+ sub hyftd_add_not( ft, connid )
+  
+  hyftdx = ft.hyft_addnot(connid)
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "add not : " & ft.errmsg
+    response.end
+  end if
+  
+ end sub
+
+ function hyftd_query_ex( ft, connid, sortname, sorttype, maxquerycount, recordfrom, recordto, groupname, grouptype)  
+ 
+  hyftdx = ft.hyft_query_ex( connid, sortname, sorttype, maxquerycount, recordfrom, recordto, groupname, grouptype )  
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "query ex : " & ft.errmsg
+    response.end
+  end if
+  hyftd_query_ex = ft.ret_val
+  
+ end function 
+ 
+ function hyftd_sort_query( ft, connid, sortname, sorttype, recordfrom, recordto ) 
+ 
+  hyftdx = ft.hyft_sortquery( connid, sortname, sorttype, recordfrom, recordto ) 
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "sort query : " & ft.errmsg
+    response.end
+  end if
+  hyftd_sort_query = ft.ret_val
+  
+ end function
+ 
+ function hyftd_total_sysid( ft, connid, queryid )
+ 
+  hyftdx = ft.hyft_total_sysid( connid, queryid )
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "total sysid : " & ft.errmsg
+    response.end
+  end if
+  hyftd_total_sysid = ft.ret_val
+  
+ end function
+
+ function hyftd_num_sysid( ft, connid, queryid )
+ 
+  hyftdx = ft.hyft_num_sysid( connid, queryid )
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "num sysid : " & ft.errmsg
+    response.end
+  end if
+  hyftd_num_sysid = ft.ret_val
+  
+ end function
+ 
+ function hyftd_fetch_sysid( ft, connid, queryid, i )
+  
+  hyftdx = ft.hyft_fetch_sysid( connid, queryid, i )
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "fetch sysid : " & ft.errmsg
+    response.end
+  end if
+  hyftd_fetch_sysid = ft.sysid
+  
+ end function
+ 
+ function hyftd_get_related_number( ft )
+ 
+  hyftd_get_related_number = ft.ret_val
+  
+ end function
+ 
+ function hyftd_one_assdata_len( ft, connid, associatedataname, dataid )
+ 
+  hyftdx = ft.hyft_one_assdata_len( connid, associatedataname, dataid )
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "one assdata len : " & ft.errmsg
+    response.end
+  end if
+  hyftd_one_assdata_len = ft.ret_val
+  
+ end function
+ 
+ function hyftd_one_assdata( ft, connid, datalength )
+ 
+  hyftdx = ft.hyft_one_assdata( connid, datalength )
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "one assdata : " & ft.errmsg
+    response.end
+  end if
+  hyftd_one_assdata = ft.data
+  
+ end function
+ 
+ function hyftd_query_grouping( ft, connid, groupingname, groupinglen, groupingtype )
+ 
+  if groupinglen <> "0" then
+   hyftdx = ft.hyft_query_grouping( connid, groupingname & ":" & groupinglen, groupingtype )
+  else
+   hyftdx = ft.hyft_query_grouping( connid, groupingname, groupingtype )
+  end if
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "query grouping : " & ft.errmsg
+    response.end
+  end if
+  hyftd_query_grouping = ft.ret_val
+  
+ end function
+ 
+ function hyftd_num_grouping( ft, connid, queryid )
+  
+  hyftdx = ft.hyft_num_grouping( connid, queryid )
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "num grouping : " & ft.errmsg
+    response.end
+  end if
+  hyftd_num_grouping = ft.ret_val
+  
+ end function
+ 
+ function hyftd_fetch_grouping( ft, connid, queryid, i )
+ 
+  hyftdx = ft.hyft_fetch_grouping( connid, queryid, i )
+  if ft.ret_val = -1 then 'and hyftddebug = "true" then
+   response.write "fetch grouping : " & ft.errmsg
+    response.end
+  end if
+  hyftd_fetch_grouping = ft.ret_val
+ 
+ end function
+ 
+ function hyftd_get_grouping_name( ft )
+  
+  hyftd_get_grouping_name = ft.data
+  
+ end function
+
+ function hyftd_getkeys( ft, connid, querystring )
+ 
+  hyftdx = ft.hyft_getkeys( connid, querystring )
+  if ft.ret_val < 0 then 
+   response.write "get keys : " & ft.errmsg
+    response.end
+  end if
+  key_id = ft.ret_val
+  hyftdx = ft.hyft_num_keys( connid, key_id )
+  if ft.ret_val < 0 then
+   response.write "num keys : " & ft.errmsg
+    response.end
+  end if
+  key_num = ft.ret_val
+  str = ""
+  for i = 0 to key_num - 1
+   hyftdx = ft.hyft_keylen( connid, key_id, i )
+   if ft.ret_val < 0 then
+    response.write "keys len : " & ft.errmsg
+    response.end
+   end if
+   l = ft.ret_val
+   hyftdx = ft.hyft_onekey( connid, key_id, i ,l)
+   if ft.ret_val < 0 then
+    response.write "onekey : " & ft.errmsg
+    response.end
+   end if
+   str = str & ft.key & ";"
+  next
+  hyftdx = ft.hyft_free_key( connid, key_id )
+  hyftd_getkeys = str
+  
+ end function
+ 
+ function getfieldindexstring(ft, connid, queryid, fieldname)
+
+   hyftdx = ft.hyft_get_fieldindexstring(connid, queryid, fieldname)
+  if ft.ret_val < 0 then
+   response.write "hyft_get_fieldindexstring: " & ft.errmsg
+   response.end
+  end if
+  getfieldindexstring ft.data
+ end function
+
+ 
+ function comparedate( ty, tm, td )
+  
+  datenow = date()
+  yearnow = datepart("yyyy", datenow)
+  monthnow = datepart("m", datenow)
+  daynow = datepart("d", datenow)
+  dim result
+  if cint(ty) > yearnow then
+   ty = cstr(yearnow)
+   tm = cstr(monthnow)
+   td = cstr(daynow)
+  elseif cint(ty) = yearnow then
+   if cint(tm) > monthnow then
+    tm = cstr(monthnow)
+    td = cstr(daynow)
+   elseif cint(tm) = monthnow then
+    if cint(td) > daynow then
+     td = cstr(daynow)
+    end if    
+   end if
+  end if
+  if len(tm) = 1 then
+   tm = "0" & tm
+  end if
+  if len(td) = 1 then
+   td = "0" & td
+  end if
+  result = ty & tm & td
+  comparedate = result
+ 
+ end function
+ 
+ 

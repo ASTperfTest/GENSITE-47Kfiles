@@ -1,0 +1,28 @@
+﻿: 
+sub xpcondition
+ if request.form("htx_ibasedsd") <> "" then
+  wherecondition = replace("htx.ibasedsd = n'{0}'", "{0}", request.form("htx_ibasedsd") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_ctrootid") <> "" then
+  wherecondition = replace("n.ctrootid = n'{0}'", "{0}", request.form("htx_ctrootid") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_catname") <> "" then
+  wherecondition = replace("n.catname like n'%{0}%'", "{0}", request.form("htx_catname") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_ctunitname") <> "" then
+  wherecondition = replace("u.ctunitname like n'%{0}%'", "{0}", request.form("htx_ctunitname") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_stitle") <> "" then
+  wherecondition = replace("htx.stitle like n'%{0}%'", "{0}", request.form("htx_stitle") )
+  fsql = fsql & " and " & wherecondition
+ end if
+end sub
+ if request.form("htx_xkeyword") <> "" then
+  wherecondition = replace("htx.xkeyword like n'%{0}%'", "{0}", request.form("htx_xkeyword") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ 

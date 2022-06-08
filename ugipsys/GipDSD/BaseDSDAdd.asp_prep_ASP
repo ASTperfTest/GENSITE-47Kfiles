@@ -1,0 +1,307 @@
+﻿: @ codepage = 65001 
+  
+response.expires = 0
+htprogcap="單元資料定義"
+htprogfunc="新增"
+htuploadpath="/public/"
+htprogcode="ge1t01"
+htprogprefix="basedsd" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+ dim xnewidentity
+ apath=server.mappath(htuploadpath) & "\"
+'response.write apath & "<hr>"
+ if request.querystring("phase")<>"add" then
+set xup = server.createobject("tabs.upload")
+xup.codepage=65001
+xup.start apath
+
+else
+set xup = server.createobject("tabs.upload")
+end if
+
+function xupform(xvar)
+ xupform = xup.form(xvar)
+end function
+
+if xupform("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+
+
+   sub initform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_basedsdform_1158513766()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+    if (htprogright and 1)=1 then
+
+    end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+
+   sub showhtmltail() 
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' sql = "select * from client where clientid = '"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "「客戶編號」重複!!請重新建立客戶編號!"
+'  exit sub
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "insert into basedsd("
+ sqlvalue = ") values("
+ if xupform("htx_sbasetablename") <> "" then
+  sql = sql & "sbasetablename" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_sbasetablename"),",")
+ end if 
+ if xupform("htx_sbasedsdname") <> "" then
+  sql = sql & "sbasedsdname" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_sbasedsdname"),",")
+ end if
+ if xupform("htx_ibasedsd") <> "" then
+  sql = sql & "ibasedsd" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_ibasedsd"),",")
+ end if
+ if xupform("htx_tdesc") <> "" then
+  sql = sql & "tdesc" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_tdesc"),",")
+ end if
+ if xupform("htx_rdsdcat") <> "" then
+  sql = sql & "rdsdcat" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_rdsdcat"),",")
+ end if
+ if xupform("htx_inuse") <> "" then
+  sql = sql & "inuse" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_inuse"),",")
+ end if
+
+ for each form in xup.form
+ if form.isfile then 
+    if left(form.name,6) = "htimg_" then
+   ofname = form.filename
+   fnext = ""
+   if instr(ofname, ".")>0 then fnext=mid(ofname, instr(ofname, "."))
+   tstr = now()
+   nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext
+   sql = sql & mid(form.name,7) & ","
+   sqlvalue = sqlvalue & pkstr(nfname,",")
+     xup.form(form.name).saveas apath & nfname, true
+   elseif left(form.name,7) = "htfile_" then
+   ofname = form.filename
+   fnext = ""
+   if instr(ofname, ".")>0 then fnext=mid(ofname, instr(ofname, "."))
+   tstr = now()
+   nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext
+   sql = sql & mid(form.name,8) & ","
+   sqlvalue = sqlvalue & pkstr(nfname,",")
+    xup.form(form.name).saveas apath & nfname, true
+     xsql = "insert into imagefile(newfilename, oldfilename) values(" _
+      & pkstr(nfname,",") & pkstr(ofname,")")
+    conn.execute xsql
+ end if
+end if  
+ next
+
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+ sql = "set nocount on;"&sql&"; select @@identity as newid"
+ set rsx = conn.execute(sql)
+ xnewidentity = rsx(0)
+ '----若無資料表名稱,則以cudtx???為tablename
+ if xupform("htx_sbasetablename") = "" then
+  xsbasetablename="cudtx"+cstr(xnewidentity)
+  sql = "update basedsd set sbasetablename='" &xsbasetablename& "' where ibasedsd="&xnewidentity
+  conn.execute(sql)
+ end if 
+ '----若為多媒體型資料範本,自動新增slave欄位
+ if xupform("htx_rdsdcat") = "mmo" then
+  sqld=""
+  sqld=sqld&"insert into basedsdfield values("&xnewidentity&",'mmofolderid',510,'y','物件檔案存放目錄',null,'c',4,'n','n','n',null,'textbox',null,null,null,null,10);"
+  sqld=sqld&"insert into basedsdfield values("&xnewidentity&",'mmofilename',520,'y','物件檔案名稱',null,'a',100,'n','n','n',null,'mmofile',null,null,null,null,10);"
+  sqld=sqld&"insert into basedsdfield values("&xnewidentity&",'mmofiletype',530,'y','物件檔案類型',null,'a',50,'n','n','n',null,'refselect',null,'mmofiletype',null,null,10);"
+  sqld=sqld&"insert into basedsdfield values("&xnewidentity&",'mmofilealt',540,'y','物件檔案替代文字',null,'a',50,'y','n','n',null,'textbox',null,null,null,null,10);"
+  sqld=sqld&"insert into basedsdfield values("&xnewidentity&",'mmofileicon',550,'y','物件檔案顯示圖示',null,'a',50,'y','n','n',null,'mmofile',null,null,null,null,10);"  
+  sqld=sqld&"insert into basedsdfield values("&xnewidentity&",'mmofilewidth',560,'y','物件檔案寬',null,'a',10,'y','n','n',null,'textbox',null,null,null,null,10);"
+  sqld=sqld&"insert into basedsdfield values("&xnewidentity&",'mmofileheight',570,'y','物件檔案高',null,'a',10,'y','n','n',null,'textbox',null,null,null,null,10);"  
+  conn.execute(sqld)
+ end if
+end sub '---- doupdatedb() ----
+
+sub showdonebox()
+ doneuri= ""
+ if doneuri = "" then doneuri = htprogprefix & "list.asp"
+
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                             =doneuri
+
+
+
+   end sub '---- showdonebox() ----  

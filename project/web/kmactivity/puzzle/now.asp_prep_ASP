@@ -1,0 +1,12 @@
+﻿: 
+ set conn = server.createobject("adodb.connection")
+ conn.connectionstring = application("connstrpuzzle")
+ conn.connectiontimeout=0
+ conn.cursorlocation = 3
+ conn.open
+ 
+ 
+ set rs = conn.execute ("select * from sso")
+ 
+ response.write rs(0)
+ 

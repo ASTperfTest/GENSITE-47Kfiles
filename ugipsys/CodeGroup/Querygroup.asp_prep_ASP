@@ -1,0 +1,59 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+   htprogcode = "pn50m06"
+
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+
+
+
+
+                                                    =title
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      if (htprogright and 2)=2 then :                                                                end if 
+
+
+
+
+
+         CxMethod_ASP_footer_1134060862() 

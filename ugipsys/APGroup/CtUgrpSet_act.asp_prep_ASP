@@ -1,0 +1,43 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "ht001" 
+' ============= modified by chris, 2006/09/12, to handle 上稿權限能以使用者設定 聯集 群組設定 ========================'
+'  document: 950912_智庫gip擴充.doc
+'  modified list:
+' 新增此程式
+
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+
+
+  
+  '取得輸入
+  ugrpid = request("ugrpid")
+  atype = request("atype")
+  ctnodeid = request("ctnodeid")
+
+  '先全部刪除
+  sqlcom = "delete from ctugrpset where ugrpid=" & pkstr(ugrpid,"") _
+ & " and atype=" & pkstr(atype,"")
+  conn.execute(sqlcom)
+  
+  '再塞入
+  myarray = split(ctnodeid,",")
+  for i=0 to ubound(myarray)
+'response.write myarray(i) & "<br>"
+    sqlcom = "insert into ctugrpset (atype,ugrpid,ctnodeid,rights) values (" _
+  & pkstr(atype,",") _
+  & pkstr(ugrpid,",") _
+  & myarray(i) & ",1)"
+    conn.execute(sqlcom)
+  next
+  
+  '跳回
+  response.write "<html><body bgcolor='#ffffff'>"
+  response.write "<script language='javascript'>"
+  response.write "alert('設定完成!');"
+  response.write "location.replace('listgroup.asp')"
+  response.write "</script>"
+  response.write "</body></html>"  
+ 

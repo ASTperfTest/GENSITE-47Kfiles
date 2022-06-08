@@ -1,0 +1,90 @@
+﻿: @ codepage = 65001 
+   response.addheader "content-type", "text/xml; charset=utf-8" 
+
+
+
+
+
+   
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true
+  'response.write session("mysiteid")
+  'response.write server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\xdmp" & request("mp") & ".xml"
+  'response.end
+ 
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\xdmp" & request("mp") & ".xml"
+  xv = htpagedom.load(loadxml)
+'  response.write xv & "<hr>"
+    if htpagedom.parseerror.reason <> "" then 
+      response.write(loadxml & " file parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+      response.end()
+    end if
+
+   set refmodel = htpagedom.selectsinglenode("//mpdataset")
+ xrootid=nulltext(refmodel.selectsinglenode("menutree"))
+ response.write "<loadxml>" & loadxml & "</loadxml>"
+ response.write "<menutitle>"&nulltext(refmodel.selectsinglenode("menutitle"))&"</menutitle>"
+ response.write "<mp>" & request("mp") & "</mp>"   
+ response.write "<mystyle>"&nulltext(refmodel.selectsinglenode("mpstyle"))&"</mystyle>"
+  
+ 
+   CxMethod_ASP_gensite_2005368621()
+   
+   for each xdataset in refmodel.selectnodes("dataset")
+    processxdataset
+ next
+
+  mytreenode = 0
+  upparent = 0
+
+function deamp(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   deamp=""
+   exit function
+  end if
+   deamp = replace(xs,"&","&amp;")
+end function
+'--------------頁尾維護單位---------------------
+footer_sql = "select footer_dept, footer_dept_url from cattreeroot left join nodeinfo on cattreeroot.ctrootid = nodeinfo.ctrootid where cattreeroot.pvxdmp ='"& request("mp") &"'"
+set footer_rs = conn.execute(footer_sql)
+response.write "<footer_dept>" & footer_rs("footer_dept") & "</footer_dept>"
+response.write "<footer_dept_url>" & footer_rs("footer_dept_url") & "</footer_dept_url>"
+
+'--------------頁尾維護單位-end---------------
+
+response.write "<qstr>?site=2&amp;mp=" & request.querystring("mp") & "</qstr>"
+
+
+   CxMethod_ASP_x1menus_1545114555()
+   
+ sql = "select * from counter where mp='" & request("mp") & "'"
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  count = rs("counts") + 1
+  sql = "update counter set counts = counts + 1  where mp='" & request("mp") & "'"
+ else
+  count = 1
+  sql="insert into counter (mp, counts) values ('" & request("mp") & "','1')"
+ end if
+ response.write "<counter>" & count & "</counter>"
+ set rs = conn.execute(sql)
+ 
+ xrootid=nulltext(refmodel.selectsinglenode("menutree"))
+ sql = "select max(xpostdate) from cudtgeneric as htx join cattreenode as n on n.ctunitid=htx.ictunit" _
+  & " and n.ctrootid=" & xrootid
+ set rs = conn.execute(sql)
+ '新增cttreeroot 20070608
+ 
+
+               =year(rs(0)) & "/" & month(rs(0)) &"/" & day(rs(0)) 
+          =date() 

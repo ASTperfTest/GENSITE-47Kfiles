@@ -1,0 +1,180 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function href____1142803299() {history.back();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      function onfocus____363327028() {checkfocustitle(this);}
+
+
+                                                   function onfocus___1216680659() {checkfocuscontent(this);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+   function checkfocustitle(item) {
+     if(item.value == "�п�J�M�����ժ����D���D�A�� 30 �Ӧr�H��"){
+       item.value = "";
+     }     
+   }   
+   function checkfocuscontent(item) {
+     if(item.value == "�иԲӻ������D�����p"){
+       item.value = "";
+     }     
+   }
+ 
+   var sizeLimit = 200000; //sizeLimit���:byte
+  var globalflag = true;
+  var picid = "";
+  var picvalue = "";
+    
+   function checkFileSize(nid) {
+     picid = "ctl00_ContentPlaceHolder1_picFile_" + nid;
+     if( document.getElementById(picid).value != "" ) {
+       picvalue = document.getElementById(picid).value;
+       var re = /(\.jpg|\.gif)$/i;             
+        if (!re.test(picvalue)) {
+          alert('�u���\�W��JPG��GIF�v����');    
+          document.getElementById(picid).outerHTML += "";          
+        } 
+        else {
+         var img = new Image(); 
+          img.sizeLimit = sizeLimit; 
+          img.src = document.getElementById(picid).value;  
+          img.onload = showImageDimensions;     
+        }
+     }
+   }
+   function showImageDimensions() 
+    {     
+      if (this.fileSize > sizeLimit) {         
+        alert('�z�ҿ�ܪ��ɮפj�p�� ' + (this.fileSize/1000) +' kb�A\n�W�L�F�W�ǤW�� ' + (sizeLimit/1000) + ' kb�I\n�����\�W�ǡI');         
+        document.getElementById(picid).outerHTML += "";         
+      }                  
+    } 
+   function checkFile(count)
+   {        
+     for( var i = 0; i < count; i++ ) { 
+        var id = "ctl00_ContentPlaceHolder1_picFile_" + i;
+        var FileId = "ctl00_ContentPlaceHolder1_picDesc_" + i;
+        if( document.getElementById(id).value.length != 0 ) {
+          if(document.getElementById(FileId).value == "�п�J�Ϥ�����" || document.getElementById(FileId).value.length == 0 ) {
+            alert('�W�ǹϤ��ɮ� : ' + (i+1) + ", �п�J�ɮױԭz");
+            globalflag = false;
+          }         
+          else if(document.getElementById(id).value.length == 0 && document.getElementById(FileId).value.length != 0 && document.getElementById(FileId).value != "�п�J�Ϥ�����" ) {
+            alert('�ФW�ǹϤ��ɮ� :' + (i+1) );
+            globalflag = false;
+          } 
+          else {
+            globalflag = true;
+          }                                               
+        }
+      }  
+     return globalflag;
+ }
+
+ function GetReturnValue(str, content) {
+     document.getElementById('ctl00_ContentPlaceHolder1_hidFileName').value += str + "^";
+     document.getElementById('ctl00_ContentPlaceHolder1_hidFileContent').value += content + "^";
+ }  
+ 
+
+
+
+
+
+ 

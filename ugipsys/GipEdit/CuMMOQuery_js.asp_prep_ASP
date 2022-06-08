@@ -1,0 +1,331 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="多媒體物件選取"
+htprogfunc="查詢"
+htuploadpath=session("public")+"mmo"
+session("mmopath")=session("public")+"mmo"
+htprogcode="gc1ap1"
+htprogprefix="cummo" 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_10064021()
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+'----預設顯示圖示陣列
+dim iconarray(3,1)
+iconarray(0,0)="xxx":iconarray(0,1)="_audio"
+iconarray(1,0)="wav":iconarray(1,1)="_flash"
+iconarray(2,0)="zzz":iconarray(2,1)="_midi"
+iconarray(3,0)="yyy":iconarray(3,1)="_video"
+
+ xmmoitemcount = 0
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true 
+ 
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\syspara.xml"
+  xv = htpagedom.load(loadxml)
+    if htpagedom.parseerror.reason <> "" then 
+       response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+       response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+       response.end()
+    end if
+  set mmonode=htpagedom.selectsinglenode("systemparameter/mmoctunit")
+  xmmo=nulltext(mmonode)
+  
+if request("submittask")="list" then
+ fsql = "select htx.icuitem,htx.stitle,htx.created_date,c9.gicuitem,c9.mmofilename,c9.mmofoldername,c9.mmofileicon,htx.ieditor,htx.deditdate,xref1.mvalue " & _
+  "from cudtx"+xmmo+" c9 " & _
+  "left join cudtgeneric htx on htx.icuitem=c9.gicuitem " & _
+  "left join codemain as xref1 on xref1.mcode = c9.mmofiletype and xref1.codemetaid='filetype' " & _
+  "where c9.mmofilename is not null "
+ if request("htx_xkeyword")<>"" then
+  fsql=fsql&" and xkeyword like '%"+request("htx_xkeyword")+"%'"
+  xkeyword=request("htx_xkeyword")
+ end if
+ if request("htx_mmofilename")<>"" then
+  fsql=fsql&" and mmofilename like '%"+request("htx_mmofilename")+"%'"
+  xmmofilename=request("htx_mmofilename")
+ end if
+ if request("htx_mmofoldername")<>"" then
+  xmmositeid=left(request("htx_mmofoldername"),instr(request("htx_mmofoldername"),"---")-1)
+  xmmofoldername=mid(request("htx_mmofoldername"),instr(request("htx_mmofoldername"),"---")+3)
+  fsql=fsql&" and mmofoldername = '"+xmmofoldername+"'"
+ end if 
+ if request("htx_filetype")<>"" then
+  fsql=fsql&" and mmofiletype like '"+request("htx_filetype")+"%'"
+  xfiletype=request("htx_filetype")
+ end if 
+ if request("htx_idates") <> "" then
+   ranges = request("htx_idates")
+   rangee = request("htx_idatee")
+   if rangee = "" then rangee=ranges
+  fsql = fsql & " and htx.created_date between '"+ranges+"' and '"+rangee+"'"
+ end if
+'response.write fsql
+'response.end 
+ set rsreg=conn.execute(fsql)
+end if
+'response.write "xx="+session("mysiteurl")+session("mmopath")+rsreg("mmofoldername")+"<br>"
+'response.write "yy="+htuploadpath+rsreg("mmofoldername")+"<br>"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where codemetaid='filetype' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+     sql="select mmofolderid,mmofoldername,mmofolderdesc,mmositeid from mmofolder order by mmofoldername"
+   set rss=conn.execute(sql)
+   while not rss.eof
+    xmmofolderdesc=""
+    if not isnull(rss("mmofolderdesc")) and rss("mmofolderdesc")<>"" then xmmofolderdesc="("&rss("mmofolderdesc")&")"
+   
+
+                    =rss("mmositeid"):      =rss(1):     =rss(1):   =xmmofolderdesc
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if request("submittask")="list" then
+
+
+
+   if request("listway")="icon" then
+
+
+
+
+   else
+
+
+
+
+   end if
+
+       
+    if request("listway")="icon" then
+     if not rsreg.eof then
+
+         
+      count = 0
+         while not rsreg.eof
+    xmmoitemcount = xmmoitemcount + 1
+      if j>=4 then
+       response.write "</tr><tr>"
+       j=0
+      end if
+        xfiletype=lcase(mid(rsreg("mmofilename"), instrrev(rsreg("mmofilename"), ".")+1))
+
+                                                                =rsreg("icuitem"):      =rsreg("mmofoldername")
+
+          if not isnull(rsreg("mmofilename")) then
+
+            
+          if not isnull(rsreg("mmofileicon")) then
+           count = count + 1
+          
+                                      =count:                           =count:           =session("mysiteurl"):               =rsreg("mmofoldername"):    '=rsreg("mmofileicon"):   =rsreg("mmofilename")
+            else
+           xfileext="":xicon=""
+           xpos=instrrev(rsreg("mmofilename"),".")
+           if xpos<>0 then
+               xfileext=mid(rsreg("mmofilename"),xpos+1)
+               for k=0 to ubound(iconarray)
+                if xfileext=iconarray(k,0) then
+                    xicon=iconarray(k,1)
+                    exit for
+                end if
+               next
+           end if
+          
+                                                                     =xicon
+            end if
+            if rsreg("mmofoldername")="/" then
+                                            =htuploadpath:   =rsreg("mmofoldername"):   =rsreg("mmofilename"):      =rsreg("stitle")
+            else
+                                            =htuploadpath:   =rsreg("mmofoldername"):    =rsreg("mmofilename"):      =rsreg("stitle")
+            end if
+
+          else
+
+          end if
+
+
+       j=j+1         
+      rsreg.movenext     
+     wend
+
+   end if 
+    else
+
+
+
+
+
+
+
+
+  
+     if not rsreg.eof then
+         while not rsreg.eof
+    xmmoitemcount = xmmoitemcount + 1
+
+
+
+   if rsreg("mmofoldername")="/" then
+                                   =htuploadpath:   =rsreg("mmofoldername"):   =rsreg("mmofilename"):      =rsreg("stitle")
+        else
+                                   =htuploadpath:   =rsreg("mmofoldername"):    =rsreg("mmofilename"):      =rsreg("stitle")
+        end if
+
+          =rsreg("stitle")
+          =rsreg("mmofoldername")
+                         =rsreg("mmofilename")
+                         =rsreg("mvalue")
+                         =rsreg("created_date")
+
+         rsreg.movenext
+     wend
+     end if
+    end if
+    
+
+
+
+  end if
+
+
+
+
+
+
+
+
+  
+for k=1 to count
+
+                           =k
+                                     =k
+
+                                   =k:                                                   =k:                                          =k
+                                   =k
+
+  
+next
+
+
+  
+for k=1 to count
+
+                                  =k
+  
+next
+
+
+
+
+
+
+
+
+
+
+                    =xmmoitemcount
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      if request("submittask")="list" then
+                                   =xfiletype
+                                        =request("htx_mmofoldername")
+                                      =xmmofilename
+                                   =xkeyword
+                                 =ranges
+                                       =d7date(ranges)
+                                 =rangee
+                                       =d7date(rangee)
+      end if 

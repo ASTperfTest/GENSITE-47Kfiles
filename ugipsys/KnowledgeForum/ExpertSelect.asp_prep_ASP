@@ -1,0 +1,166 @@
+﻿: @ codepage = 65001 
+  
+response.expires = 0
+htprogcap=""
+htprogfunc=""
+htprogcode="kforumlist"
+htprogprefix=""
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_selecttree_859552413()
+  
+ dim querytype : querytype = request.querystring("querytype")
+ dim querytext : querytext = request.querystring("querytext")
+  
+ sql = "select account, realname, member_org from member where (id_type3 = 1) and (status = 'y') "
+ if querytype = "0" then
+  sql = sql & "and ( realname like '%" & querytext & "%' or kmcat like '%" & querytext & "%' " & _
+        "or keyword like '%" & querytext & "%' or member_org like '%" & querytext & "%' ) "
+ elseif querytype = "1" then
+  sql = sql & "and realname like '%" & querytext & "%' "
+ elseif querytype = "2" then
+  sql = sql & "and kmcat like '%" & querytext & "%' "
+ elseif querytype = "3" then
+  sql = sql & "and keyword like '%" & querytext & "%' "
+ elseif querytype = "4" then
+  sql = sql & "and member_org like '%" & querytext & "%' "
+ end if 
+ sql = sql & "order by account"
+ 
+ set rs = conn.execute(sql)
+ if rs.eof then
+  showdonebox "此條件下無資料"
+ else
+  showform
+ end if
+
+   sub showdonebox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+
+
+
+
+   end sub 
+   sub showform 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                          if querytype = "0" then :              end if 
+                          if querytype = "1" then :              end if 
+                          if querytype = "2" then :              end if 
+                          if querytype = "3" then :              end if 
+                          if querytype = "4" then :              end if 
+
+                                                                        =querytext
+
+
+
+
+
+           
+     while not rs.eof
+      response.write "<option value=""" & trim(rs("account")) & """>" & trim(rs("realname")) & "(" & trim(rs("account")) & ")【" & trim(rs("member_org")) & "】</option>"
+      rs.movenext
+     wend
+     rs.close
+     set rs = nothing
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub  

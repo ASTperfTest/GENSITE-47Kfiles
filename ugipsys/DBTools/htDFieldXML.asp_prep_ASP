@@ -1,0 +1,102 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcode="ht011"
+htprogprefix="htdfield" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_xdbutil_1468464061()
+  
+
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty "serverhttprequest", true
+ loadxml = server.mappath("/htsdsystem/schema0.xml")
+ xv = oxml.load(loadxml)
+  if oxml.parseerror.reason <> "" then
+    response.write("xml parseerror on line " &  oxml.parseerror.line)
+    response.write("<br>reason: " &  oxml.parseerror.reason)
+    response.end()
+  end if
+ 
+ set fxml = server.createobject("microsoft.xmldom")
+ fxml.async = false
+ fxml.setproperty "serverhttprequest", true
+ loadxml = server.mappath("/htsdsystem/schemafield0.xml")
+ xv = fxml.load(loadxml)
+  if fxml.parseerror.reason <> "" then
+    response.write("xml parseerror on line " &  fxml.parseerror.line)
+    response.write("<br>reason: " &  fxml.parseerror.reason)
+    response.end()
+  end if
+
+   set dxml = oxml.selectsinglenode("dataschemadef/dstable")
+
+
+ sqlcom = "select * from htdentity where entityid=" & pkstr(request.querystring("entityid"),"")
+ set rsmaster = conn.execute(sqlcom)
+
+ dxml.selectsinglenode("tablename").text = rsmaster("tablename")
+ dxml.selectsinglenode("tabledesc").text = rsmaster("entitydesc")
+ 
+ fsql = "select htx.*, xref1.mvalue as xrxdatatype from (htdfield as htx left join codemain as xref1 on xref1.mcode = htx.xdatatype and xref1.codemetaid=n'htddatatype')"
+ fsql = fsql & " where 1=1"
+ fsql = fsql & " and htx.entityid=" & pkstr(rsmaster("entityid"),"")
+ fsql = fsql & " order by htx.xfieldseq"
+ 
+ set rslist = conn.execute(fsql)
+
+   set flxml = dxml.selectsinglenode("fieldlist")
+
+
+'on error resume next
+'  if error.num > 0 then 
+'   response.write rslist("xfieldname") & "<hr>"
+'   response.end
+'  end if
+' rslist.movenext
+ while not rslist.eof 
+'  response.write rslist("xfieldname") & "<br>"
+  set xfieldnode = fxml.selectsinglenode("dataschemafield/field").clonenode(true)
+  xfieldnode.selectsinglenode("fieldname").text = rslist("xfieldname")
+  xfieldnode.selectsinglenode("fieldlabel").text = rslist("xfieldlabel")
+  if not isnull(rslist("xfielddesc")) then _
+   xfieldnode.selectsinglenode("fielddesc").text = rslist("xfielddesc")
+  xfieldnode.selectsinglenode("datatype").text = rslist("xrxdatatype")
+  if not isnull(rslist("xdatalen")) then _  
+   xfieldnode.selectsinglenode("datalen").text = rslist("xdatalen")
+  if not isnull(rslist("xinputlen")) then _   
+   xfieldnode.selectsinglenode("inputlen").text = rslist("xinputlen")
+  xfieldnode.selectsinglenode("isprimarykey").text = rslist("xisprimarykey")
+  xfieldnode.selectsinglenode("cannull").text = rslist("xcannull")
+  xfieldnode.selectsinglenode("identity").text = rslist("xidentity")
+  xfieldnode.selectsinglenode("inputtype").text = rslist("xinputtype")
+'  if error.num > 0 then 
+'   response.write rslist("xfieldname") & "<br>"
+'   response.end
+'  end if
+  if not isnull(rslist("xreflookup")) then _   
+   xfieldnode.selectsinglenode("reflookup").text = rslist("xreflookup")
+  if not isnull(rslist("xrows")) then _   
+   xfieldnode.selectsinglenode("rows").text = rslist("xrows")
+  if not isnull(rslist("xcols")) then _   
+   xfieldnode.selectsinglenode("cols").text = rslist("xcols")
+
+  flxml.appendchild xfieldnode
+   rslist.movenext
+ wend
+'  response.write oxml.selectsinglenode("//frame[@name='topframe']/@src").text
+
+ 
+ 
+ 
+ 
+' oxml.selectsinglenode("usecase/code").text = request("pfx_apcode")
+' oxml.selectsinglenode("usecase/apcat").text = request("sfx_apcat")
+' oxml.selectsinglenode("usecase/version/date").text = date()
+' oxml.selectsinglenode("usecase/version/author").text = session("userid")
+'  response.write oxml.documentelement.xml
+ oxml.save(server.mappath("/htsdsystem/xmlspec/" & rsmaster("tablename") & ".xml"))
+
+  response.end
+
+
+ 

@@ -1,0 +1,196 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      alert("Cx_0dummy未能建立站台！")
+      window.history.back
+    <script language='javascript'></script>"
+ response.write  "      alert("ftp同步站台無法連接上, 未能建立站台！")
+      window.history.back
+    <script language=vbscript>   alert("站台名稱已建立，無法再次建立！")
+   window.history.back
+ <script language=vbscript>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sub window_onload
+ clientinitform
+end sub
+
+sub clientinitform
+ reg.htx_deptid.value = "Cx_0dummy"
+end sub
+sub formadd
+msg3 = "請務必輸入「站台id」，不得為空白！"
+msg4 = "請務必輸入「站台名稱」，不得為空白！"
+  if reg.htx_mmositeid.value = empty then
+     msgbox msg3, 64, "sorry!"
+     reg.htx_mmositeid.focus
+     exit sub
+  end if
+  if reg.htx_mmositename.value = empty then
+     msgbox msg4, 64, "sorry!"
+     reg.htx_mmositename.focus
+     exit sub
+  end if
+
+  reg.submittask.value = "新增存檔"
+   reg.submit         
+        
+end sub
+
+sub formreset
+ reg.reset
+end sub
+
+ 

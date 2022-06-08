@@ -1,0 +1,187 @@
+﻿
+  @ codepage = 65001 
+   response.expires = 0 
+htprogcap="主題館績效統計"
+response.charset = "utf-8"
+htprogcode = "webgeb2"
+   
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+' if request("pcshowhtx_idates") = "" and request("pcshowhtx_idatee") = "" then
+ ' response.write "<script language='javascript'>"
+ ' response.write "alert('請選擇日期範圍！');"
+ ' response.write "history.go(-1);"
+ ' response.write "</script>"
+' end if
+if request("ckbox") <> "" then
+ session("subjects") = request("ckbox")
+ session("subjects") = replace(session("subjects"),"147","31")
+ session("subjects") = replace(session("subjects"),"148","32")
+ session("osubjects") = session("subjects") '原本選的主題館
+end if
+if session("subjects") = "" then
+ response.write "<script language='javascript'>"
+ response.write "alert('請至少選擇一個主題館！');"
+ response.write "history.go(-1);"
+ response.write "</script>"
+end if
+
+if request("pcshowhtx_idates") <> "" then
+ session("dates") = request("pcshowhtx_idates")
+end if
+if request("pcshowhtx_idatee") <> "" then
+ session("datee") = request("pcshowhtx_idatee")
+end if
+response.write "<hr>"
+'排序主題館
+
+
+
+
+
+         = htprogcap 
+
+
+
+
+
+
+
+
+
+                      =session("dates"):      =session("datee")
+
+
+                     if request("orderby")="" then:           end if
+                          if request("orderby")="click" then:           end if
+                            if request("orderby")="article" then:           end if
+                                     if request("orderby")="article_nopublic" then:           end if
+                        if request("orderby")="pic" then:           end if
+                           if request("orderby")="attach" then:           end if
+                           if request("orderby")="person" then:           end if
+                         if request("orderby")="star" then:           end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+sql = ""
+sql =sql & vbcrlf & "declare @startdate datetime"
+sql =sql & vbcrlf & "declare @enddate datetime"
+
+if session("dates")<>"" then
+    sql =sql & vbcrlf & "set @startdate = '"& session("dates") &"'"
+else
+    sql =sql & vbcrlf & "set @startdate = '1950/01/01'"
+end if
+if session("datee")<>"" then
+    sql =sql & vbcrlf & "set @enddate = '"& session("datee") &"'; set @enddate= @enddate+1"
+else
+    sql =sql & vbcrlf & "set @enddate = '2026-01-01'"
+end if
+sql =sql & vbcrlf & ""
+sql =sql & vbcrlf & "select"
+sql =sql & vbcrlf & " cattreeroot.ctrootname"
+sql =sql & vbcrlf & " ,cattreeroot.ctrootid"
+sql =sql & vbcrlf & " ,nodeinfo.create_time"
+sql =sql & vbcrlf & " ,isnull(infouser.username, '') as username"
+sql =sql & vbcrlf & " ,isnull(dept.deptname, '') as deptname"
+sql =sql & vbcrlf & " ,main.*"
+sql =sql & vbcrlf & "   ,includenopubic.count3" '文章/篇(含不公開)
+sql =sql & vbcrlf & "from"
+sql =sql & vbcrlf & "("
+sql =sql & vbcrlf & " select "
+sql =sql & vbcrlf & "  cattreenode.ctrootid"
+sql =sql & vbcrlf & "  ,count(*) as count1"
+sql =sql & vbcrlf & "  ,count(cudtgeneric.ximgfile) as count2"
+sql =sql & vbcrlf & "  ,max(isnull(cudtgeneric.deditdate,'2000/01/01')) as newdate"
+sql =sql & vbcrlf & "  ,sum(isnull(subjectforum.commandcount,0)) as sump --評論人數"
+sql =sql & vbcrlf & "  ,sum(isnull(subjectforum.gradecount,0)) as sums  --總得星數" 
+sql =sql & vbcrlf & "  ,sum(isnull(attachments.attachcount,0)) as attachcount --附件數"
+sql =sql & vbcrlf & "  ,sum(isnull(clickcount.dailyclick,0))  clickcount"
+sql =sql & vbcrlf & " from cattreenode "
+sql =sql & vbcrlf & " left join cudtgeneric on cattreenode.ctunitid = cudtgeneric.ictunit "
+sql =sql & vbcrlf & " left  join subjectforum on subjectforum.gicuitem = cudtgeneric.icuitem"
+sql =sql & vbcrlf & " left  join (select icuitem, sum(dailyclick) as dailyclick from dailyclick group by icuitem) as clickcount"
+sql =sql & vbcrlf & "      on clickcount.icuitem = cudtgeneric.icuitem"
+sql =sql & vbcrlf & " left  join (select xicuitem,count(*) as attachcount from cudtattach group by xicuitem) as attachments"
+sql =sql & vbcrlf & "    on attachments.xicuitem = cudtgeneric.icuitem"
+sql =sql & vbcrlf & " where "
+sql =sql & vbcrlf & "   cattreenode.ctrootid in (" & session("subjects")  & ")"
+sql =sql & vbcrlf & "  and cudtgeneric.fctupublic = 'y'"  '文章/篇
+sql =sql & vbcrlf & "  and cudtgeneric.xpostdate between @startdate and @enddate"
+sql =sql & vbcrlf & " group by "
+sql =sql & vbcrlf & "  cattreenode.ctrootid"
+sql =sql & vbcrlf & ")as main"
+sql =sql & vbcrlf & "left join( select cattreenode.ctrootid ,count(*) as count3"
+sql =sql & vbcrlf & " from cattreenode "
+sql =sql & vbcrlf & " left join cudtgeneric on cattreenode.ctunitid = cudtgeneric.ictunit"
+sql =sql & vbcrlf & " where cattreenode.ctrootid in (" & session("subjects")  & ")"
+sql =sql & vbcrlf & "    and cudtgeneric.xpostdate between @startdate and @enddate"
+sql =sql & vbcrlf & " group by cattreenode.ctrootid"
+sql =sql & vbcrlf & ") as includenopubic on includenopubic.ctrootid = main.ctrootid"
+sql =sql & vbcrlf & "inner join nodeinfo on nodeinfo.ctrootid = main.ctrootid"
+sql =sql & vbcrlf & "inner join cattreeroot on cattreeroot.ctrootid = main.ctrootid"
+sql =sql & vbcrlf & "left join infouser on infouser.userid=nodeinfo.owner"
+sql =sql & vbcrlf & "left join dept on dept.deptid = infouser.deptid"
+sql =sql & vbcrlf & "where cattreeroot.inuse = 'y'"
+select case request("orderby")
+    case "click"
+        sql =sql & vbcrlf & "order by clickcount"
+    case "article"
+        sql =sql & vbcrlf & "order by count1"
+ case "article_nopublic"
+        sql =sql & vbcrlf & "order by count3"
+    case "pic"
+        sql =sql & vbcrlf & "order by count2"
+    case "person"
+        sql =sql & vbcrlf & "order by sump"
+    case "star"
+        sql =sql & vbcrlf & "order by sums"
+    case "attach"
+        sql =sql & vbcrlf & "order by attachcount"        
+end select
+
+' response.write sql
+' response.end
+set rs = conn.execute(sql)
+
+do while not rs.eof
+
+
+       =rs("ctrootname")
+       =datevalue(rs("create_time"))
+       =datevalue(rs("newdate"))
+       =rs("username") & " / " & rs("deptname")
+       =rs("clickcount") 
+                                                =rs("ctrootid"):     =rs("count1")
+                                                =rs("ctrootid"):     =rs("count3")
+                                                =rs("ctrootid"):     =rs("count2")
+                                                =rs("ctrootid"):     =rs("attachcount")
+                                                =rs("ctrootid"):     =rs("sump")
+       =rs("sums")
+
+  
+rs.movenext
+loop
+ 

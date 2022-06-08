@@ -1,0 +1,91 @@
+﻿
+                               
+          
+function send() {
+ var form = document.Form1; 
+ if(form.email.value==""){
+  alert("您忘了填寫 E-mail 了！"); 
+  form.email.focus(); 
+  return false;
+ }
+ else if(form.email.value.indexOf("@")<=-1){
+  alert("您所填寫的 E-mail 格式有誤！"); 
+  form.email.focus(); 
+  return false;
+ }
+ else if(form.email.value.indexOf("'")>=0){
+  alert("您所填寫的[ E-mail ]格式有誤！"); 
+  form.email.focus(); 
+  return false;
+ }
+ if(form.captcha.value==""){
+  alert("您忘了填寫 驗證碼 了！"); 
+  form.captcha.focus(); 
+  return false;
+ }
+ form.email.value = escape(form.email.value);
+ return true;
+}  
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                               function onsubmit____516022209() {return send()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

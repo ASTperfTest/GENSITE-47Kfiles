@@ -1,0 +1,107 @@
+<?xml version="1.0" standalone="yes"?>
+<MpDataSet>
+  <MenuTree>188</MenuTree>
+  <MpStyle>Style1</MpStyle>
+  <DataSet>
+    <DataLable>BlockA</DataLable>
+    <DataRemark>New's</DataRemark>
+    <DataNode>2957</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>3</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockB</DataLable>
+    <DataRemark>鄉土話俚語</DataRemark>
+    <DataNode>2977</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>3</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockC</DataLable>
+    <DataRemark>營養補體素</DataRemark>
+    <DataNode>2970</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>3</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockD</DataLable>
+    <DataRemark>台灣栽培種甘藷</DataRemark>
+    <DataNode>2959</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>3</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockE</DataLable>
+    <DataRemark>新品種育成</DataRemark>
+    <DataNode>2960</DataNode>
+    <SqlCondition />
+    <SqlOrderBy />
+    <SqlTop>3</SqlTop>
+    <WithContent>N</WithContent>
+    <ContentData>N</ContentData>
+    <ContentLength />
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>N</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+	<DataLable>BlockF</DataLable>
+	<DataRemark>主題報導</DataRemark>
+	<DataNode></DataNode>
+	<SqlCondition />
+	<SqlOrderBy />
+	<SqlTop>4</SqlTop>
+	<WithContent>N</WithContent>
+	<ContentData>N</ContentData>
+	<ContentLength>80</ContentLength>
+	<IsTitle>Y</IsTitle>
+	<IsPic>Y</IsPic>
+	<IsPostDate>N</IsPostDate>
+	<IsExcerpt>Y</IsExcerpt>
+	<ShowStyle>Style2</ShowStyle>
+	<mpShow>Y</mpShow>
+  </DataSet>
+</MpDataSet>

@@ -1,0 +1,647 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      function href____1470241313() {window.history.back();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                             function onchange____346965866() {PageNumberOnChange()}
+
+
+
+
+
+
+
+
+                                     function href___1680131587() {PreviousPage()}
+
+
+
+                                     function href____665217303() {NextPage()}
+
+
+
+                                     function href____665217303() {NextPage()}
+
+
+
+                                                                                                  function onchange____1303444314() {PageSizeOnChange()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                function onclick___677116777() {CKBoxSelectAll()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            function onclick____299887866() {SaveItems()}
+                               function onclick___963140216() {ResetForm()}
+
+
+
+
+
+
+ 
+ function PageNumberOnChange() 
+ {
+  var doc = document.iForm;
+  doc.action = "epaper_resultList.asp?epubid=Cx_0dummy&eptreeid=Cx_0dummy&PageNumber=" + doc.PageNumber.options[doc.PageNumber.selectedIndex].value + "&PageSize=Cx_0dummy";
+  doc.submit();
+ }
+ function PageSizeOnChange() 
+ {
+  var doc = document.iForm;
+  doc.action = "epaper_resultList.asp?epubid=Cx_0dummy&eptreeid=Cx_0dummy&PageNumber=Cx_0dummy&PageSize=" + doc.PageSize.options[doc.PageSize.selectedIndex].value;
+  doc.submit();
+ }
+ function PreviousPage()
+ {
+  var doc = document.iForm;
+  doc.action = "epaper_resultList.asp?epubid=Cx_0dummy&eptreeid=Cx_0dummy&PageNumber=Cx_0dummy&PageSize=Cx_0dummy";
+  doc.submit();
+ }
+ function NextPage()
+ {
+  var doc = document.iForm;
+  doc.action = "epaper_resultList.asp?epubid=Cx_0dummy&eptreeid=Cx_0dummy&PageNumber=Cx_0dummy&PageSize=Cx_0dummy";
+  doc.submit();
+ } 
+ function CKBoxSelectAll()
+ {
+  var doc = document.iForm;
+  var flag = false;
+  if( doc.flag.value == "0" ) {
+   if( Cx_0dummy == 1 ) {
+    doc.ckbox.checked = true;   
+   }
+   else {
+    for( var i = 0; i < Cx_0dummy; i++ ) {   
+     doc.ckbox[i].checked = true;   
+    }
+   }
+   doc.flag.value = "1";
+  }
+  else {
+   if( Cx_0dummy == 1 ) {
+    doc.ckbox.checked = false;   
+   }
+   else {
+    for( var i = 0; i < Cx_0dummy; i++ ) {   
+     doc.ckbox[i].checked = false;   
+    }
+   }
+   doc.flag.value = "0";
+  }
+ }
+ function ResetForm()
+ {
+  var doc = document.iForm;
+  doc.Items.value = "";
+  doc.action = "epaper_resultList.asp?epubid=Cx_0dummy&eptreeid=Cx_0dummy&PageNumber=1&PageSize=10";
+  doc.submit();
+ }
+ function SaveItems()
+ {
+  var doc = document.iForm;
+  var flag = false;
+  var checkitems = "";
+  var uncheckitems = "";
+  if( Cx_0dummy == 1 ) {
+   if( doc.ckbox.checked ) {
+    flag = true;
+   }    
+  }
+  else {
+   for( var i = 0; i < Cx_0dummy; i++ ) {   
+    if( doc.ckbox[i].checked ) {
+     flag = true;
+     break;
+    }   
+   }
+  }
+  if( !flag ) {
+   alert("請至少選擇一篇文章");
+   return;
+  }
+  else {
+   if( Cx_0dummy == 1 ) {
+    if( doc.ckbox.checked ) {
+     checkitems = doc.ckbox.value + ";"; 
+     uncheckitems = ";";
+    }
+    else {
+     checkitems = ";"; 
+     uncheckitems = doc.ckbox.value + ";";
+    }
+   }          
+   else {
+    for( var i = 0; i < Cx_0dummy; i++ ) {
+     if( doc.ckbox[i].checked ) {
+      checkitems += doc.ckbox[i].value + ";"; 
+     }   
+     else{
+      uncheckitems += doc.ckbox[i].value + ";"; 
+     }
+    }
+   }
+   AddDelArticle( checkitems, uncheckitems);
+  }  
+ }
+ function AddDelArticle( checkitems, uncheckitems)
+ {
+  var oxmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+  
+  var httpStr = "../epaper/AddArticle.asp?epubid=Cx_0dummy&check=" + checkitems + "&uncheck=" + uncheckitems;
+  oxmlhttp.open( "GET", httpStr, false );
+   oxmlhttp.send();
+   var oRtn = oxmlhttp.responseText;    
+   if(oRtn == 1) {      
+    alert("(新增/刪除)成功");
+    document.iForm.action = "epaper_resultList.asp?epubid=Cx_0dummy&eptreeid=Cx_0dummy&PageNumber=Cx_0dummy&PageSize=Cx_0dummy";
+    document.iForm.submit();
+   }   
+ }
+
+
+
+
+ 

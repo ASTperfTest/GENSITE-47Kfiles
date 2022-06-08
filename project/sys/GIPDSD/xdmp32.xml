@@ -1,0 +1,202 @@
+<?xml version="1.0" standalone="yes"?>
+<MpDataSet>
+  <MenuTree>32</MenuTree>
+  <MpStyle>subject_pineapple</MpStyle>
+  <MenuTitle>農委會鳳梨主題館</MenuTitle>
+  <MpStylePath>http://hygip.coa.gov.tw/site/coa/xslGip/</MpStylePath>
+  <MpPublicPath>http://kmweb.coa.gov.tw/</MpPublicPath>
+  <MpNodeLogoPath>http://kmweb.coa.gov.tw/site/coa/public/</MpNodeLogoPath>
+  <MpTreejsPath>http://hygipadmin.coa.gov.tw/site/coa/wsxd/</MpTreejsPath>
+  <JspSitePath>http://kmweb.coa.gov.tw/</JspSitePath>
+  <DataSet>
+    <DataLable>BlockA</DataLable>
+    <DataRemark>認識鳳梨</DataRemark>
+    <DataNode>1520</DataNode>
+    <SqlTop>1</SqlTop>
+    <Israndom>N</Israndom>
+    <SqlCondition />
+    <SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+    <WithContent>Y</WithContent>
+    <ContentLength>150</ContentLength>
+    <ContentData>N</ContentData>
+    <ContentStyle />
+    <DataSrc />
+    <PicWidth />
+    <PicHeight />
+    <refBlock />
+    <lpShow>Y</lpShow>
+    <cpShow>Y</cpShow>
+    <KMRelated>N</KMRelated>
+    <SubjectRelated>N</SubjectRelated>
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>Y</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockB</DataLable>
+    <DataRemark>鳳梨達人</DataRemark>
+    <DataNode>1535</DataNode>
+    <SqlTop>5</SqlTop>
+    <Israndom>N</Israndom>
+    <SqlCondition />
+    <SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+    <WithContent>Y</WithContent>
+    <ContentLength>120</ContentLength>
+    <ContentData>N</ContentData>
+    <ContentStyle />
+    <DataSrc />
+    <PicWidth />
+    <PicHeight />
+    <refBlock />
+    <lpShow>Y</lpShow>
+    <cpShow>Y</cpShow>
+    <KMRelated>N</KMRelated>
+    <SubjectRelated>N</SubjectRelated>
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>Y</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockC</DataLable>
+    <DataRemark>焦點話題</DataRemark>
+    <DataNode>0</DataNode>
+    <SqlTop>1</SqlTop>
+    <Israndom>N</Israndom>
+    <SqlCondition />
+    <SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+    <WithContent>Y</WithContent>
+    <ContentLength>120</ContentLength>
+    <ContentData>N</ContentData>
+    <ContentStyle />
+    <DataSrc />
+    <PicWidth />
+    <PicHeight />
+    <refBlock />
+    <lpShow>Y</lpShow>
+    <cpShow>Y</cpShow>
+    <KMRelated>N</KMRelated>
+    <SubjectRelated>N</SubjectRelated>
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>Y</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockPhoto</DataLable>
+    <DataRemark>攝影藝廊</DataRemark>
+    <DataNode>1542</DataNode>
+    <SqlTop>2</SqlTop>
+    <Israndom>N</Israndom>
+    <SqlCondition />
+    <SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+    <WithContent>Y</WithContent>
+    <ContentLength>120</ContentLength>
+    <ContentData>N</ContentData>
+    <ContentStyle />
+    <DataSrc />
+    <PicWidth />
+    <PicHeight />
+    <refBlock />
+    <lpShow>Y</lpShow>
+    <cpShow>Y</cpShow>
+    <KMRelated>N</KMRelated>
+    <SubjectRelated>N</SubjectRelated>
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>Y</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockE</DataLable>
+    <DataRemark>你不知道的鳳梨</DataRemark>
+    <DataNode>1525</DataNode>
+    <SqlTop>1</SqlTop>
+    <Israndom>N</Israndom>
+    <SqlCondition />
+    <SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+    <WithContent>Y</WithContent>
+    <ContentLength>120</ContentLength>
+    <ContentData>N</ContentData>
+    <ContentStyle />
+    <DataSrc />
+    <PicWidth />
+    <PicHeight />
+    <refBlock />
+    <lpShow>Y</lpShow>
+    <cpShow>Y</cpShow>
+    <KMRelated>N</KMRelated>
+    <SubjectRelated>N</SubjectRelated>
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>Y</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>BlockNews</DataLable>
+    <DataRemark>鳳梨消息</DataRemark>
+    <DataNode>1518</DataNode>
+    <SqlTop>5</SqlTop>
+    <Israndom>N</Israndom>
+    <SqlCondition />
+    <SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+    <WithContent>Y</WithContent>
+    <ContentLength>120</ContentLength>
+    <ContentData>N</ContentData>
+    <ContentStyle />
+    <DataSrc />
+    <PicWidth />
+    <PicHeight />
+    <refBlock />
+    <lpShow>Y</lpShow>
+    <cpShow>Y</cpShow>
+    <KMRelated>N</KMRelated>
+    <SubjectRelated>N</SubjectRelated>
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>Y</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+    <mpShow>Y</mpShow>
+  </DataSet>
+  <DataSet>
+    <DataLable>AdRotate</DataLable>
+    <DataRemark>相關網站連結</DataRemark>
+    <DataNode>1546</DataNode>
+    <SqlTop>5</SqlTop>
+    <Israndom>Y</Israndom>
+    <SqlCondition />
+    <SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+    <WithContent>N</WithContent>
+    <ContentLength />
+    <ContentData>Y</ContentData>
+    <lpShow>Y</lpShow>
+    <cpShow>Y</cpShow>
+    <KMRelated>N</KMRelated>
+    <SubjectRelated>N</SubjectRelated>
+    <IsTitle>Y</IsTitle>
+    <IsPic>N</IsPic>
+    <IsPostDate>Y</IsPostDate>
+    <IsExcerpt>N</IsExcerpt>
+    <ShowStyle>Style1</ShowStyle>
+    <mpShow>Y</mpShow>
+    <mpShow>Y</mpShow>
+  </DataSet>
+</MpDataSet>

@@ -1,0 +1,8 @@
+SELECT     MAX(total_score) AS max_score, the_id
+FROM         (SELECT     TOP (100) PERCENT d.account_id AS the_id, d.current_round, MAX(d.current_level) AS max_level, SUM(d.current_score) AS total_score, 
+                                              SUM(d.current_timer) AS total_timer
+                       FROM          farm2009_question_data AS d INNER JOIN
+                                              farm2009_account AS a ON d.account_id = a.id
+                       GROUP BY d.current_round, d.account_id
+                       ORDER BY max_level DESC, total_score DESC, total_timer) AS tmp_table
+GROUP BY the_id

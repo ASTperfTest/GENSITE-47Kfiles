@@ -1,0 +1,256 @@
+﻿: @ codepage = 65001 
+   
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="代碼維護"
+htprogcode="pn90m02"
+htprogprefix="codedatadetail" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_checkgipconfig_1275316133()
+   session("sortflag")=false
+ session("codeid")=request.querystring("codeid")
+ 
+ sql="select * from codemetadef where codeid=" & pkstr(request.querystring("codeid"),"")
+ set rscode=conn.execute(sql)
+
+  session("codename")=rscode("codename") 
+ if not isnull(rscode("codesortfld")) then session("sortflag")=true
+ if rscode("codexmlspec") <> "" then 
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true 
+ 
+  loadxml = server.mappath(".") & "\xmlspec\" & rscode("codexmlspec") & ".xml"
+  response.write loadxml & "<hr>"
+  xv = htpagedom.load(loadxml)
+'  response.write xv & "<hr>"
+    if htpagedom.parseerror.reason <> "" then 
+      response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+      response.end()
+    end if
+   set session("codexmlspec") = htpagedom
+   
+
+
+                                           =session("codeid")
+
+     response.end
+ end if
+set rsreg = server.createobject("adodb.recordset")
+
+'fsql=request.querystring("strsql")  
+ if request.querystring("nowpage") = "" then
+    session("strsql") = ""
+  end if
+  fsql = session("strsql")
+fsql2=""
+if fsql="" or request.querystring("t")="query" then
+    if isnull(rscode("codesrcitem")) then
+ if isnull(rscode("codesortfld")) then    
+  fsql="select " & rscode("codevaluefld") & "," & rscode("codedisplayfld") & " from " & rscode("codetblname")
+ else
+  fsql="select " & rscode("codevaluefld") & "," & rscode("codedisplayfld") & "," & rscode("codesortfld") & " from " & rscode("codetblname") & " order by " & rscode("codesortfld") 
+ end if  
+    else
+ if isnull(rscode("codesortfld")) then
+  fsql="select " & rscode("codevaluefld") & "," & rscode("codedisplayfld") & " from " & rscode("codetblname") & " where " & rscode("codesrcfld") & "=n'" & rscode("codesrcitem") & "'" 
+ else    
+  fsql="select " & rscode("codevaluefld") & "," & rscode("codedisplayfld") & "," & rscode("codesortfld") & " from " & rscode("codetblname") & " where " & rscode("codesrcfld") & "=n'" & rscode("codesrcitem") & "' order by " & rscode("codesortfld")
+ end if
+    end if
+    if request.querystring("t")="query" then
+     if request("tfx_codevalue")<>"" then
+      fsql2=rscode("codevaluefld") & " like n'%" & request("tfx_codevalue") & "%' "
+     end if
+     if request("tfx_codedisplay")<>"" then
+        if fsql2<>"" then
+      fsql2=fsql2 & " and " & rscode("codedisplayfld") & " like n'%" & request("tfx_codedisplay") & "%'"     
+        else
+      fsql2=rscode("codedisplayfld") & " like n'%" & request("tfx_codedisplay") & "%' "          
+        end if
+     end if  
+     if request("tfx_codesort")<>"" then
+        if fsql2<>"" then
+      fsql2=fsql2 & " and " & rscode("codesortfld") & " like n'%" & request("tfx_codesort") & "%'"     
+        else
+      fsql2=rscode("codesortfld") & " like n'%" & request("tfx_codesort") & "%' "          
+        end if
+     end if     
+     if fsql2<>"" then 
+  pos1=instr(fsql,"where")
+         pos2=instr(fsql,"order by")
+  if pos1=0 and pos2=0 then
+       fsql=fsql & " where " & fsql2
+      elseif pos1=0 and pos2<>0 then
+          fsql=left(fsql,pos2-1) & "where " & fsql2 & mid(fsql,pos2-1)
+      elseif pos1<>0 and pos2=0 then
+       fsql=fsql & " and " & fsql2 
+      else
+          fsql=left(fsql,pos2-1) & " and " & fsql2 & mid(fsql,pos2-1)
+      end if    
+     end if
+    end if    
+    if instr(fsql,"order by")=0 then
+  fsql = fsql & " order by " & rscode("codesortfld")  
+    end if
+end if
+'response.write fsql & "<br>"
+nowpage=request.querystring("nowpage")  '現在頁數
+
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+
+
+
+
+
+
+
+                                     =htprogprefix
+
+
+                                                    =title
+
+
+
+
+
+
+
+                                 =session("codeid"):         =session("codename")
+
+                          if (htprogright and 2)=2 then :                                     =request.querystring("codeid"):             =session("codename"):            end if 
+         if (htprogright and 4)=4 then :                                    end if 
+    if checkgipconfig("codeml") then 
+  if rscode("isml")="y" then
+   response.write "多國語言：<select name=""changeml"" size=""1"">" & vbcrlf
+   xsql = "select * from codemain where codemetaid=n'sysml' order by msortvalue"
+   set rsselect = conn.execute(xsql)
+   while not rsselect.eof
+    response.write "<option value=" & rsselect("mcode") & ">" & rsselect("mvalue") & "</option>"
+    rsselect.movenext
+   wend
+   response.write "</select>"
+  end if
+ end if
+
+
+
+
+
+
+
+
+
+
+  if rsreg.eof  then
+ response.write "<font color=red size=3>====查無資料====</font>"
+else
+
+totrec=rsreg.recordcount       '總筆數
+
+perpagesize=cint(request.querystring("pagesize"))
+
+if perpagesize <= 0 then  
+   perpagesize=15  
+end if 
+
+rsreg.pagesize=perpagesize       '每頁筆數
+
+if cint(nowpage)<1 then 
+   nowpage=1
+elseif cint(nowpage) > rsreg.pagecount then 
+   nowpage=rsreg.pagecount 
+end if             
+
+rsreg.absolutepage=nowpage
+totpage=rsreg.pagecount       '總頁數
+
+'strsql=server.urlencode(fsql)  
+session("strsql") = fsql
+
+
+                                      =nowpage:    =totpage
+                                          =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+
+          if nowpage <>1 then 
+                        =htprogprefix:                   =session("codeid"):             =session("codename"):            =(nowpage-1):           =strsql:             =perpagesize
+         end if
+
+           if nowpage<>rsreg.pagecount then 
+                        =htprogprefix:                   =session("codeid"):             =session("codename"):            =(nowpage+1):           =strsql:             =perpagesize
+          end if
+
+
+                                 if perpagesize=15 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+                                  if perpagesize=300 then:            end if
+
+
+
+
+
+
+                                                   =rscode("codevaluefldname")
+                                                   =rscode("codedisplayfldname")
+   if not isnull(rscode("codesortfld")) then
+                                                   =rscode("codesortfldname")
+   end if
+
+                      
+   for i=1 to perpagesize
+
+   if not isnull(rscode("codesortfld")) then
+                                                                                         =request.querystring("codeid") :          =rsreg(0):     =rsreg(0)
+   else
+                                                                                         =request.querystring("codeid") :          =rsreg(0):     =rsreg(0)
+   end if
+                                        =rsreg(1)
+   if not isnull(rscode("codesortfld")) then
+                                        =rsreg(2)
+   end if
+
+       rsreg.movenext   
+     if rsreg.eof then exit for       
+  next
+
+
+
+
+
+
+
+
+  end if
+
+
+
+                                     =htprogprefix:                   =session("codeid"):             =session("codename"):                                   = strsql:                  =perpagesize
+
+
+
+
+                                     =htprogprefix:                   =session("codeid"):             =session("codename"):            =nowpage:                = strsql
+
+
+
+
+                                  =htprogprefix:                   =session("codeid"):             =session("codename") 

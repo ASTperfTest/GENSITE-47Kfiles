@@ -1,0 +1,26 @@
+﻿: @ codepage = 65001 
+
+
+
+   
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+   set htpagedom = session("hyxformspec")
+    set dsroot = htpagedom.selectsinglenode("//dataschemadef")  
+
+ for each xfield in dsroot.selectnodes("//field") 
+  xfid = nulltext(xfield.selectsinglenode("fieldseq"))
+  xfname = nulltext(xfield.selectsinglenode("fieldname"))
+  xflabel = nulltext(xfield.selectsinglenode("fieldlabel"))
+ 
+
+                       =xfname:            =xfname:                         =xflabel
+
+     
+ next
+ 

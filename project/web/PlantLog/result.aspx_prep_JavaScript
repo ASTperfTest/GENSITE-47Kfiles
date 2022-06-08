@@ -1,0 +1,20 @@
+﻿
+
+
+
+
+
+
+        $(document).ready(function() {
+            //Tab Menu
+            $("#tabInfo").addClass("btnDistrict");
+            $("#tabList").addClass("btnDistrict");
+            $("#tabVote").addClass("btnDistrict");
+            $("#tabFinal").addClass("btnDistrict now");
+        });
+    
+
+
+
+
+ 

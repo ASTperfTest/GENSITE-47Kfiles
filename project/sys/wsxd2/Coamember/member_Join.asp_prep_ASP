@@ -1,0 +1,73 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               =setinvitationcodeurl() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              
+        invitationcode = request("fcode") & request("ecode") & request("ucode")
+        kpi=0
+        
+        if invitationcode<> "" then
+            rspmsg="您的邀請碼不正確，但您還是可以繼續完成會員的註冊動作"
+        
+            if isnumeric(invitationcode) then            
+                set conn = server.createobject("adodb.connection")
+                conn.open session("odbcdsn")                
+                
+                sqlstr="select * from invitefriends_head where invitationcode=" & invitationcode
+                set rs=conn.execute (sqlstr)
+                if not rs.eof then      '<= 查詢邀請碼
+                
+                    sqlstr= "select rank0_1 from kpi_set_score where rank0 = 'st_3' and rank0_2='st_316'"                
+                    set rs=conn.execute (sqlstr)
+                    if not rs.eof then  '<= 取回kpi分數
+                        kpi=rs(0)
+                        rspmsg=""
+                    end if
+                end if
+            end if
+        end if         
+        
+        if rspmsg <> "" then response.write "<font color='red'>" & rspmsg & "</font>"        
+        if kpi > 0 then response.write "<font color='red'>歡迎您的註冊，當您成功註冊後您及您的邀請者都可以獲得kpi分數喔!!</font>"        
+     

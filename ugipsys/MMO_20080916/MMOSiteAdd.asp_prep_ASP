@@ -1,0 +1,192 @@
+﻿: @ codepage = 65001 
+  
+htprogcap="多媒體物件目錄管理"
+htprogcode="gc1ap3"
+htprogprefix="mmo"
+
+   response.expires = 0 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+   
+dim ftperrormsg
+dim deptcheck
+deptcheck=true
+
+if request("submittask")="新增存檔" then 
+ fldrpath=session("mmopublic")+request("htx_mmositeid") 
+ set fso = createobject("scripting.filesystemobject")
+ if fso.folderexists(server.mappath(fldrpath)) then
+
+
+
+
+
+
+
+
+
+
+     response.end
+ else 
+  '----先檢查ftp同步站台是否ok,若不ok,則end
+    if request("htx_uploadsiteftpip")<>"" and request("htx_uploadsiteftpport")<>"" and request("htx_uploadsiteftpid")<>"" and request("htx_uploadsiteftppwd")<>"" then
+   ftperrormsg=""
+   fileaction=""
+   ftpfilepath="public"
+   ftpdo request("htx_uploadsiteftpip"),request("htx_uploadsiteftpport"),request("htx_uploadsiteftpid"),request("htx_uploadsiteftppwd"),fileaction,ftpfilepath,"","",""    
+   if ftperrormsg<>"" then
+
+
+
+
+
+       response.end
+   end if
+       end if  
+  '----ftp同步機制,若無法產生目錄,則end
+    if request("htx_uploadsiteftpip")<>"" and request("htx_uploadsiteftpport")<>"" and request("htx_uploadsiteftpid")<>"" and request("htx_uploadsiteftppwd")<>"" then
+   ftperrormsg=""
+   fileaction="createdir"
+   ftpfilepath="public"
+   ftpdo request("htx_uploadsiteftpip"),request("htx_uploadsiteftpport"),request("htx_uploadsiteftpid"),request("htx_uploadsiteftppwd"),fileaction,ftpfilepath,request("htx_mmositeid"),"",""    
+   if ftperrormsg<>"" then
+
+
+
+
+
+
+               =ftperrormsg
+
+
+
+       response.end
+   end if
+       end if         
+  '----資料庫存檔
+  sqlseq="select max(mmositeseq2) from mmosite"
+  set rsseq=conn.execute(sqlseq)
+  if not isnull(rsseq(0)) then
+   xmmositeseq2=cint(rsseq(0))+1
+  else
+   xmmositeseq2=1
+  end if
+  if request("htx_deptid")<>"" then
+   xdeptid="'"&request("htx_deptid")&"'"
+  else
+   xdeptid="null"
+  end if
+  sql="insert into mmosite(mmositeid,mmositename,mmositedesc,mmositeseq2, " & _
+   "uploadsiteftpip,uploadsiteftpport,uploadsiteftpid,uploadsiteftppwd,uploadsitehttp,deptid) values(" _
+   & pkstr(request("htx_mmositeid"),",") & pkstr(request("htx_mmositename"),",") _
+   & pkstr(request("htx_mmositedesc"),",") & pkstr(xmmositeseq2,",") _
+   & pkstr(request("htx_uploadsiteftpip"),",") & pkstr(request("htx_uploadsiteftpport"),",") _
+   & pkstr(request("htx_uploadsiteftpid"),",") & pkstr(request("htx_uploadsiteftppwd"),",") _
+   & pkstr(request("htx_uploadsitehttp"),",") & xdeptid & ")"
+  conn.execute(sql)
+  '----存根目錄資料至mmofolder表
+  sqli = "insert into mmofolder values('/'," & _
+   pkstr(request("htx_mmositename"),"") & ",null," & _
+   pkstr(request("htx_mmositeid"),"") & ",null,'zzz',null,"&xdeptid&")"
+  conn.execute(sqli)  
+  
+  '----本機目錄產生
+  set f = fso.createfolder(server.mappath(fldrpath))  
+
+
+
+
+
+
+
+
+
+
+    response.end
+    end if
+else
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if 
+
+
+   sub initform() 
+
+   end sub '---- initform() ----
+
+   sub showform() 
+
+   CxMethod_ASP_mmositeform_2045481802()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                           =title
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+   sub showhtmltail() 
+
+
+
+
+
+
+
+
+
+
+
+                           =session("deptid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmltail() ------ 

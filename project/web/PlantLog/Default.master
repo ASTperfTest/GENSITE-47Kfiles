@@ -1,0 +1,58 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Default.master.cs" Inherits="_Default" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/ui.datepicker.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="js/jquery.js"></script>
+
+    <title>植物生長紀錄競賽活動 - 農業知識入口網</title>
+
+    <script type="text/javascript">
+        function setHref(url) {
+            var isIE = (navigator.appName.indexOf("Microsoft") != -1) ? true : false;
+
+            if (!isIE) {
+                parent.location.href = url;
+            } else {
+                var lha = document.getElementById('_lha');
+                if (!lha) {
+                    lha = document.createElement('a');
+                    lha.id = '_lha';
+                    lha.target = '_parent';  // Set target: for IE
+                    document.body.appendChild(lha);
+                }
+                lha.href = url;
+                lha.click();
+            }
+        }
+    </script>
+
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div id="wrap">
+        <div id="header">
+            <div id="menu">
+                <ul>
+                    <li class="btnstyle01"><a id="tabInfo" href="Default.aspx"></a></li>
+                    <li class="btnstyle02"><a id="tabList" href="uploadentry.aspx"></a></li>
+                    <li id="liVote"><a id="tabVote" href="vote.aspx"></a></li>
+                    <li class="btnstyle04"><a id="tabFinal" href="./result/results.htm"></a></li>
+                </ul>
+            </div>
+            <div id="coaTime">
+            </div>
+        </div>
+        <div>
+            <asp:ContentPlaceHolder ID="cp" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+        <div id="footer">
+            <img src="images/COA_PlantGrowth_03.jpg" width="960" height="96" alt="" /></div>
+    </div>
+    </form>
+</body>
+</html>

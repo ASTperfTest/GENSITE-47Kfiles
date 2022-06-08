@@ -1,0 +1,96 @@
+﻿
+
+
+
+
+   CxMethod_ASP_time_1402850635()
+
+   
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+
+function deamp(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   deamp=""
+   exit function
+  end if
+   deamp = replace(xs,"&","&amp;")
+end function
+
+' response.write "**" & request("xdurl") & "**"
+' response.end
+'if request("gstyle") <> "" then
+' session("gstyle")=request("gstyle")
+'end if
+
+ if request("memid") <> "" then
+  session("memid") = request("memid")
+ end if
+ qstr = request.querystring
+ if instr(qstr, "mp=1") <> 0 then
+  qstr = replace(qstr,"mp=1;","mp=" & session("harvest_mptree"))
+ end if
+ testxml = session("harvest_myxdurl") & "/xdhlp.asp?" & qstr
+ response.write "<phtml><![cdata["
+ 
+  set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty("serverhttprequest") = true
+ xv = oxml.load(testxml)
+ if oxml.parseerror.reason <> "" then 
+      response.write("oxml parseerror on line " &  oxml.parseerror.line)
+      response.write("<br>reasonxx: " &  oxml.parseerror.reason)
+      response.end()
+    end if
+ set oxsl = server.createobject("microsoft.xmldom") 
+ oxsl.async = false
+ oxsl.setproperty("serverhttprequest") = true
+ '從豐年網讀取xsl將搜尋結果寫成html
+ loadxsl = session("harvest_url") & "xslgip/"& session("harvest_mystyle") &"/hlp.xsl"
+ oxsl.load(loadxsl)
+ outstring = replace(oxml.transformnode(oxsl),"<meta http-equiv=""content-type"" content=""text/html; charset=utf-8"">","")
+ outstring = replace(outstring," xmlns=""""","")
+ 'response.write replace(outstring,"&amp;","&")
+ 'response.write oxml.transformnode(oxsl)
+ response.write replace(outstring,"&amp;","&")
+ 
+ response.write "]]></phtml>"
+
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true 
+ 
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\xdmp" & request("mp") & ".xml"
+  'response.write loadxml & "<hr>"
+  xv = htpagedom.load(loadxml)
+'  response.write xv & "<hr>"
+    if htpagedom.parseerror.reason <> "" then 
+      response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+      response.end()
+    end if
+
+   set refmodel = htpagedom.selectsinglenode("//mpdataset")
+ xrootid=nulltext(refmodel.selectsinglenode("menutree"))
+ response.write "<menutitle>"&nulltext(refmodel.selectsinglenode("menutitle"))&"</menutitle>"
+ response.write "<mystyle>"&nulltext(refmodel.selectsinglenode("mpstyle"))&"</mystyle>"
+ response.write "<mp>"&request("mp")&"</mp>"
+ 
+ '-----會員登入區塊-----gssutility
+ call getlogininfo(request("memid"), request("gstyle")) 
+ 
+' response.write refmodel.xml
+  mytreenode = 0
+  upparent = 0
+   for each xdataset in refmodel.selectnodes("dataset[contentdata='y']")
+ processxdataset
+  next
+
+
+   CxMethod_ASP_x1menus_1545114555() 

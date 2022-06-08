@@ -1,0 +1,100 @@
+﻿: 
+ function getstitle( id, atype )
+  dim str : str = ""
+  sql = "select stitle from cudtgeneric where icuitem = " & id
+  set rs = conn.execute(sql)
+  if not rs.eof then
+   str = rs("stitle")
+  end if
+  rs.close
+  set rs = nothing
+  if atype = "1" then str = "專家補充-" & id & "-" & str
+  getstitle = str
+ end function
+ 
+ function getrand()  
+  dim yea : yea = year(now)
+  dim mon : mon = month(now)  
+  dim da : da = day(now)  
+  dim hou : hou = hour(now)
+  dim min : min = minute(now)
+  dim sec : sec = second(now)
+  randomize
+  temp = rnd * 100 mod 6
+  if temp = 0 then
+   getrand = yea & mon & da & hou & min & sec 
+  elseif temp = 1 then
+   getrand = mon & da & sec & min & hou & yea 
+  elseif temp = 2 then
+   getrand = da & min & yea & sec & mon & hou 
+  elseif temp = 3 then
+   getrand = hou & mon & min & da & yea & sec 
+  elseif temp = 4 then
+   getrand = min & sec & da & hou & yea & mon 
+  elseif temp = 5 then
+   getrand = sec & hou & da & mon & min & yea 
+  end if
+ end function
+ 
+ function getemailbodyfromfile()
+  const forreading = 1, ascii = 0
+  dim objfso, objtextstream
+  filename = "mailbody.txt"
+  filepath = server.mappath(filename)
+  set objfso = server.createobject("scripting.filesystemobject")
+  if objfso.fileexists(filepath) then
+   set objtextstream = objfso.opentextfile(filepath, forreading, false, ascii)
+  else
+   response.write "mailbody.txt does not exist"
+   response.end
+  end if
+  allstr = objtextstream.readall
+  objtextstream.close
+  set objtextstream = nothing
+  set objfso = nothing
+  getemailbodyfromfile = allstr
+ end function
+ 
+ function replacetag( body, mailbody, expertid, questionid, myrand, icuitem )
+  dim realname, email
+  sql = "select realname, email from member where account = '" & expertid & "'"
+  set rs = conn.execute(sql)
+  if not rs.eof then
+   realname = rs("realname")
+   email = rs("email")
+  end if
+  rs.close
+  set rs = nothing
+  body = replace(body, "{receiver}", realname & "&nbsp;" & email)
+  body = replace(body, "{expertname}", realname)
+  body = replace(body, "{mailbody}", mailbody)
+  dim qtitle, qbody, qlink
+  sql = "select stitle, xbody, topcat from cudtgeneric where icuitem = " & questionid
+  set rs = conn.execute(sql)
+  if not rs.eof then
+   qtitle = rs("stitle")
+   qbody = rs("xbody")
+   qlink = session("mywwwsiteurl") & "/knowledge/knowledge_cp.aspx?articleid=" & questionid & "&articletype=" & rs("topcat")
+  end if 
+  rs.close
+  set rs = nothing  
+  body = replace(body, "{questiontitle}", qtitle)
+  body = replace(body, "{questioncontent}", qbody)
+  body = replace(body, "{questionlink}", qlink)
+  body = replace(body, "{replylink}", session("mywwwsiteurl") & "/knowledge/knowledgeexpertreply.aspx?articleid=" & questionid & "&darticleid=" & icuitem & "&rand=" & myrand & "&expertid=" & expertid)  
+  replacetag = body
+ end function
+ 
+ function getexpertemail( expertid )
+  dim email
+  sql = "select email from member where account = '" & expertid & "'"
+  set rs = conn.execute(sql)
+  if not rs.eof then
+   email = rs("email")
+  end if 
+  rs.close
+  set rs = nothing
+  getexpertemail = email
+ end function
+
+ 

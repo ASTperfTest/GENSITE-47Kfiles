@@ -1,0 +1,107 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function onContextMenu____1574487402() {event.returnValue=false;}
+
+
+
+
+
+
+
+                                      function onchange____557200012() {editme();}                                                           function onkeyup____557200012() {editme();}
+
+
+
+                                                function onchange____557200012() {editme();}                                                                     function onkeyup____557200012() {editme();}
+
+
+
+
+                               
+          
+
+
+function editme(){
+ var email = document.getElementById('email').value;
+ var password = document.getElementById('password').value;
+
+ var email_ok = (email != '') && (email != undefined);
+ var password_ok = (password != '') && (password != undefined);
+
+ var can_submit = email_ok && password_ok;
+
+ window.external.SetWizardButtons(true, can_submit, false);
+}
+
+function OnBack(){
+ window.external.FinalBack();
+}
+
+function OnNext(){
+ document.getElementById('editform').submit();
+}
+
+function OnCancel(){
+ alert('OnCancel');
+}
+
+window.external.SetWizardButtons(true, true, false);
+window.external.SetHeaderText('Upload photos to GIP', 'Login with your account');
+window.external.Caption = 'Upload photos to Gip';
+
+
+     
+
+
+
+
+
+
+ 

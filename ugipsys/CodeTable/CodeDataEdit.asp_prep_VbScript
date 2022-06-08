@@ -1,0 +1,226 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sub window_onload
+ initform
+end sub
+
+sub initform
+ reg.orgvalue.value="Cx_0dummy"
+ reg.orgdisplay.value="Cx_0dummy"
+ reg.tfx_value.value="Cx_0dummy"
+ reg.tfx_display.value="Cx_0dummy"
+Cx_0dummy reg.tfx_mref.value="Cx_0dummy"
+Cx_0dummy 
+Cx_0dummy 
+ reg.orgfldsort.value="Cx_0dummy"
+ reg.tfx_fldsort.value="Cx_0dummy"
+Cx_0dummy 
+end sub
+
+sub formedit
+msg4 = "請務必輸入「value值」，不得為空白！"
+msg5 = "請務必輸入「display值」，不得為空白！"
+msg6 = "請務必輸入「過濾(排序)值」，不得為空白！"
+
+  if reg.tfx_value.value = empty then
+     msgbox msg4, 64, "sorry!"
+     reg.tfx_value.focus
+     exit sub
+  end if  
+  if reg.tfx_display.value = empty then
+     msgbox msg5, 64, "sorry!"
+     reg.tfx_display.focus
+     exit sub
+  end if 
+  if blen(reg.tfx_value.value) > 20 then
+  chky=msgbox("注意！"& vbcrlf & vbcrlf &"　代碼值超過8個字元,你確定編修資料嗎？"& vbcrlf , 48+1, "請注意！！")
+  if chky=vbok then  
+    reg.submittask.value = "編修存檔"
+    reg.submit   
+      end if
+  else
+   reg.submittask.value = "編修存檔"
+   reg.submit         
+  end if          
+end sub
+
+sub formdelete
+ chky=msgbox("注意！"& vbcrlf & vbcrlf &"　你確定刪除資料嗎？"& vbcrlf , 48+1, "請注意！！")
+ if chky=vbok then
+ reg.submittask.value = "刪除"
+ reg.submit
+ end if
+end sub
+
+sub formreset
+ reg.reset
+ initform
+end sub
+   alert("value值已建立，無法再次建立！")
+   window.history.back
+ <script language=vbs>
+ 

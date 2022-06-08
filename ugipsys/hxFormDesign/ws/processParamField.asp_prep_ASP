@@ -1,0 +1,26 @@
+﻿
+   CxMethod_ASP_htuigen_2110437144()
+
+  
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+   set htpagedom = session("hyxformspec")
+    set dsroot = htpagedom.selectsinglenode("dataschemadef")  
+
+ for each param in htpagedom.selectnodes("//field[fieldname='" & request("fname") & "']")
+'  response.write param.xml
+     processparamfield param , request("xtindex"), true    
+  response.write writecodestr
+ next
+ 
+ 

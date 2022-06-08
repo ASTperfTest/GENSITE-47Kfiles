@@ -1,0 +1,72 @@
+﻿:  response.expires = 0
+htprogcap="志工資料"
+htprogfunc="志工資料"
+htprogcode="ap03"
+htprogprefix="msession" 
+   response.expires = 0 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+   CxMethod_ASP_checkgipconfig_1275316133()
+   CxMethod_ASP_htuigen_1591615763()
+   CxMethod_ASP_hyftdgip_754890524()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+   sql2="select * from codemain where codemetaid='forest_unit'"
+   set rs2=conn.execute(sql2)
+   do while not rs2.eof 
+
+                   =trim(rs2("mcode")) :       =trim(rs2("mvalue")) 
+  
+   rs2.movenext
+   loop
+ 

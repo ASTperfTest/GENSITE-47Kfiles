@@ -1,0 +1,168 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="選取文章"
+htprogfunc="符合清單"
+htprogcode="gc1ap1"
+htprogprefix="pickpage" 
+   CxMethod_ASP_pickpagelistparam_1129289015()
+   CxMethod_ASP_server_2075167351()
+
+
+
+
+         =title
+
+   CxMethod_ASP_dbutil_10064021()
+  
+
+if request("keep")="" then
+' fsql = "select htx.ctunitid, htx.ctunitname, htx.ctunitkind, htx.ibasedsd, htx.fctunitonly, xref1.mvalue as xref1ctunitkind, xref2.sbasedsdname as xref2ibasedsd, xref3.mvalue as xref3fctunitonly, d.deptname" _
+'  & " from (((ctunit as htx left join codemainlong as xref1 on xref1.mcode = htx.ctunitkind and xref1.codemetaid='refctukind') 
+'  left join basedsd as xref2 on xref2.ibasedsd = htx.ibasedsd and xref2.inuse='y') left join codemain as xref3 on xref3.mcode = htx.fctunitonly and xref3.codemetaid='boolyn')" _
+'  & " left join dept as d on d.deptid=htx.deptid " _
+'  & " where 1=1 " 
+ xselect = " htx.icuitem, htx.stitle, htx.ximgfile, u.ctunitname"
+ fsql = " from cudtgeneric as htx join ctunit as u on htx.ictunit=u.ctunitid" _
+  & "  join cattreenode as n on htx.ictunit=n.ctunitid" _
+  & " where 1=1 " 
+' fsql = fsql & " and (htx.deptid is null or htx.deptid like '" & session("deptid") & "%')" 
+ xpcondition
+ session("basesql") = fsql
+ session("xselectsql") = xselect
+end if
+ fsql = session("basesql")
+ xselect = session("xselectsql")
+ csql = "select count(*) " & fsql
+
+nowpage=request.querystring("nowpage")  '現在頁數
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  perpagesize=15  
+      
+      set rsc = conn.execute(csql)
+   totrec=rsc(0)       '總筆數
+      response.write totrec & "<hr>"
+      totpage = int(totrec/perpagesize+0.999)
+      response.write totpage & "<hr>"
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) >totpage then 
+         nowpage=totpage 
+      end if             
+
+ fsql = fsql & " order by ctunitname, stitle"
+ fsql = "select distinct top " & nowpage*perpagesize & xselect & fsql
+' response.write fsql
+' response.end
+
+
+ set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+' rsreg.cachesize = perpagesize
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,3,1
+set rsreg = conn.execute(fsql)
+ rsreg.cachesize = perpagesize
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+      rsreg.absolutepage=nowpage
+      strsql=server.urlencode(fsql)
+   end if    
+end if   
+
+
+
+       =title
+
+   if (htprogright and 2)=2 then :                                       end if 
+
+
+
+
+                     =htprogfunc
+                                                  =htprogprefix
+
+
+          if cint(nowpage) <>1 then 
+
+              =htprogprefix:                           =(nowpage-1):             =perpagesize
+         end if
+         =totrec
+
+                                 if perpagesize=15 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+                                  if perpagesize=300 then:            end if
+
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                           =(nowpage+1):             =perpagesize
+
+          end if
+
+
+
+
+
+
+
+
+
+                     
+    for i=1 to perpagesize                  
+
+
+  pkey = ""
+pkey = pkey & "&icuitem=" & rsreg("icuitem")
+if pkey<>"" then  pkey = mid(pkey,2)
+
+  =rsreg("ctunitname")
+
+
+                           =pkey:     =rsreg("stitle")
+
+
+  =rsreg("ximgfile")
+
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     =htprogprefix:                                                    =perpagesize
+
+
+
+
+                                     =htprogprefix:                           =nowpage 

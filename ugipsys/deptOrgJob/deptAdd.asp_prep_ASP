@@ -1,0 +1,337 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogfunc="新增從屬部門"
+htuploadpath="/public/"
+htprogcode="pn02m02"
+htprogprefix="dept" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+         =title
+
+   CxMethod_ASP_dbutil_10064021()
+  
+function chrtodec(inchr)
+   temp=asc(inchr)
+   if temp > 64 then
+      chrtodec=temp-55
+   else
+      chrtodec=temp-48
+   end if
+end function
+
+function dectochr(indec)
+   if indec < 10 then
+      dectochr=cstr(indec)
+   else
+      dectochr=chr(indec+55)
+   end if
+end function
+
+ dim xnewidentity
+ apath=server.mappath(htuploadpath) & "\"
+' response.write apath & "<hr>"
+  set xup = server.createobject("updownexpress.fileupload")
+  xup.open 
+
+if xupform("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+ sql = "select datalevel from cattreenode where ctnodeid=" & pkstr(request("catid"),"")
+ set rs = conn.execute(sql)
+ xdatalevel = 1
+ if not rs.eof then
+  xdatalevel = rs("datalevel") + 1
+ end if
+
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+function xupform(xvar)
+on error resume next
+ xstr = ""
+ arrval = xup.multival(xvar)
+ for i = 1 to ubound(arrval)
+  xstr = xstr & arrval(i) & ", "
+'  response.write arrval(i) & "<br>" & chr(13)
+ next 
+ if xstr = "" then
+  xstr = xup(xvar)
+  xupform = xstr
+ else
+  xupform = left(xstr, len(xstr)-2)
+ end if
+end function
+
+   sub initform() 
+
+
+
+
+
+
+
+                          =request("deptid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_deptform_1917110329()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+       =title
+
+
+
+
+
+                     =htprogfunc
+
+   end sub '--- showhtmlhead() ------
+
+
+   sub showhtmltail() 
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' sql = "select * from client where clientid = n'"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "「客戶編號」重複!!請重新建立客戶編號!"
+'  exit sub
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+
+ parentid = xupform("htx_parent")
+'--------將這筆的id抓出來改
+  sqlcom = "select deptid,seq from dept where parent = " & pkstr(parentid,"") & " order by deptid desc"
+  set rs1 = conn.execute(sqlcom)
+  if rs1.eof then 
+ myseq = "1"
+        newhidid=parentid & "1"
+  else  
+ myseq = rs1("seq") + 1
+'-------找空的deptid
+        arychkdptid = rs1.getrows(50)
+        i=1
+        for xi=ubound(arychkdptid,2) to 0 step -1
+            temp=chrtodec(right(arychkdptid(0,xi),1))
+            if temp <> i then
+               newhidid=left(arychkdptid(0,xi),len(arychkdptid(0,xi))-1) & dectochr(temp-1)
+               exit for
+            else
+               i=i+1
+            end if   
+            tempdepid=arychkdptid(0,xi)
+        next
+'-------------找不到空的deptid ,新增deptid
+     if newhidid="" then  
+        plen=len(tempdepid)
+        if plen>1 then
+           tranpar=chrtodec(right(tempdepid,1))
+        end if
+        tranpar=tranpar+1        
+        if plen > 2 then
+           newhidid=left(tempdepid,plen-1) & dectochr(tranpar)
+        else
+           newhidid=left(tempdepid,1) & dectochr(tranpar)
+        end if
+     end if
+  end if
+
+ sql = "insert into dept(deptid, parent,"
+ sqlvalue = ") values(" & pkstr(newhidid,",") & pkstr(parentid,",")
+ if xupform("htx_deptname") <> "" then
+  sql = sql & "deptname" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_deptname"),",")
+ end if
+ if xupform("htx_abbrname") <> "" then
+  sql = sql & "abbrname" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_abbrname"),",")
+ end if
+ if xupform("htx_edeptname") <> "" then
+  sql = sql & "edeptname" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_edeptname"),",")
+ end if
+ if xupform("htx_eabbrname") <> "" then
+  sql = sql & "eabbrname" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_eabbrname"),",")
+ end if
+ if xupform("htx_deptcode") <> "" then
+  sql = sql & "deptcode" & "," & "codename" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_deptcode"),",")
+  sqlvalue = sqlvalue & pkstr(xupform("htx_deptname") & " (" & xupform("htx_deptcode") & ")",",")
+ end if
+ if xupform("htx_orgrank") <> "" then
+  sql = sql & "orgrank" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_orgrank"),",")
+ end if
+ if xupform("htx_kind") <> "" then
+  sql = sql & "kind" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_kind"),",")
+ end if
+ if xupform("htx_seq") <> "" then
+  sql = sql & "seq" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_seq"),",")
+ end if
+ if xupform("htx_inuse") <> "" then
+  sql = sql & "inuse" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_inuse"),",")
+ end if
+ if xupform("htx_tdatacat") <> "" then
+  sql = sql & "tdatacat" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_tdatacat"),",")
+ end if
+
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+
+ conn.execute(sql)  
+end sub '---- doupdatedb() ----
+
+sub showdonebox()
+ doneuri= ""
+ if doneuri = "" then doneuri = htprogprefix & "list.asp"
+
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                              =doneuri
+
+
+
+
+   end sub '---- showdonebox() ----  

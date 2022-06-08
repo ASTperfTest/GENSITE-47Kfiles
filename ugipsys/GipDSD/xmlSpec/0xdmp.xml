@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MpDataSet>
+	<MenuTree>1</MenuTree>
+	<MenuTree1>1</MenuTree1>
+	<MenuTree2></MenuTree2>
+	<Sitemap>1</Sitemap>
+	<MpStyle>style1</MpStyle>
+	<DataSet>
+		<DataLable>BlockA</DataLable>
+		<DataRemark>主題專區</DataRemark>
+		<DataNode>1</DataNode>
+		<SqlCondition/>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+		<SqlTop>1</SqlTop>
+		<WithContent>Y</WithContent>
+		<ContentData>N</ContentData>
+		<ContentLength></ContentLength>
+	</DataSet>
+	<DataSet>
+		<DataLable>BlockB</DataLable>
+		<DataRemark>最新主題</DataRemark>
+		<DataNode>1</DataNode>
+		<SqlCondition></SqlCondition>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+		<SqlTop>5</SqlTop>
+		<WithContent>N</WithContent>
+		<ContentData>N</ContentData>
+		<ContentLength></ContentLength>
+	</DataSet>
+	<DataSet>
+		<DataLable>BlockC</DataLable>
+		<DataRemark>最新消息</DataRemark>
+		<DataNode>1</DataNode>
+		<SqlCondition></SqlCondition>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+		<SqlTop>5</SqlTop>
+		<WithContent>N</WithContent>
+		<ContentData>N</ContentData>
+		<ContentLength></ContentLength>
+	</DataSet>
+	<DataSet>
+		<DataLable>BlockD</DataLable>
+		<DataRemark>訊息一</DataRemark>
+		<DataNode>1</DataNode>
+		<SqlCondition></SqlCondition>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+		<SqlTop>5</SqlTop>
+		<WithContent>N</WithContent>
+		<ContentData>N</ContentData>
+		<ContentLength></ContentLength>
+	</DataSet>
+	<DataSet>
+		<DataLable>BlockE</DataLable>
+		<DataRemark></DataRemark>
+		<DataNode>1</DataNode>
+		<SqlCondition></SqlCondition>
+		<SqlOrderBy>xImportant DESC, xPostDate DESC</SqlOrderBy>
+		<SqlTop>5</SqlTop>
+		<WithContent>N</WithContent>
+		<ContentData>N</ContentData>
+		<ContentLength></ContentLength>
+	</DataSet>
+	<DataSet>
+		<DataLable>AD</DataLable>
+		<DataRemark>廣告</DataRemark>
+		<DataNode>1</DataNode>
+		<SqlCondition></SqlCondition>
+		<SqlOrderBy>ra</SqlOrderBy>
+		<SqlTop>5</SqlTop>
+		<WithContent>N</WithContent>
+		<ContentData>N</ContentData>
+		<ContentLength></ContentLength>
+		<Israndom>Y</Israndom>
+	</DataSet>
+	<DataSet>
+		<DataLable>Copyright</DataLable>
+		<DataRemark>頁尾資訊</DataRemark>
+		<DataNode>1</DataNode>
+		<SqlCondition></SqlCondition>
+		<SqlOrderBy>xPostDate</SqlOrderBy>
+		<SqlTop>5</SqlTop>
+		<WithContent>N</WithContent>
+		<ContentData></ContentData>
+		<ContentLength></ContentLength>
+	</DataSet>
+</MpDataSet>

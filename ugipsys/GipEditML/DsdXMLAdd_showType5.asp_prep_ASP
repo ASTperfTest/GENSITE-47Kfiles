@@ -1,0 +1,441 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="單元資料維護"
+htprogfunc="新增"
+htuploadpath=session("public")+"data/"
+htprogcode="gc1ap1"
+htprogprefix="dsdxml" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+   CxMethod_ASP_htuigen_1591615763()
+   CxMethod_ASP_dbutil_10064021()
+  
+sub showtype5addprocessinit(param)
+
+end sub
+
+function nulltext(xnode)
+    on error resume next
+    xstr = ""
+    xstr = xnode.text
+    nulltext = xstr
+end function
+
+function send_email (s_email,r_email,re_sbj,re_body)
+
+ set objnewmail = createobject("cdonts.newmail") 
+ objnewmail.mailformat = 0
+ objnewmail.bodyformat = 0 
+ call objnewmail.send(s_email,r_email,re_sbj,re_body)
+
+ set objnewmail = nothing
+end function 
+
+dim pkey
+dim rsreg
+dim formfunction
+dim sql, sqlvalue
+dim xnewidentity
+dim orginputtype
+tasklable="新增" & htprogcap
+ cq=chr(34)
+ ct=chr(9)
+ cl="<" & "%"
+ cr="%" & ">"
+ 
+apath=server.mappath(htuploadpath) & "\"
+set xup = server.createobject("updownexpress.fileupload")
+xup.open 
+function xupform(xvar)
+on error resume next
+ xstr = ""
+ arrval = xup.multival(xvar)
+ for i = 1 to ubound(arrval)
+  xstr = xstr & arrval(i) & ", "
+'  response.write arrval(i) & "<br>" & chr(13)
+ next 
+ if xstr = "" then
+  xstr = xup(xvar)
+  xupform = xstr
+ else
+  xupform = left(xstr, len(xstr)-2)
+ end if
+end function
+
+'function xupform(xvar)
+' xupform = request.form(xvar)
+'end function
+
+set htpagedom = session("codexmlspec")
+set refmodel = htpagedom.selectsinglenode("//dstable")
+set allmodel = htpagedom.selectsinglenode("//dataschemadef")
+    set ideptnode = htpagedom.selectsinglenode("//fieldlist/field[fieldname='idept']")
+    ideptnode.selectsinglenode("inputtype").text = "refselect"  
+    ideptnode.selectsinglenode("reflookup").text = "refdept"  
+
+
+ '----被引用資料區 
+ sqlg="select cdg.ibasedsd,cdg.ictunit,b.sbasetablename from cudtgeneric cdg left join basedsd b on cdg.ibasedsd=b.ibasedsd " & _
+  "where icuitem=" & request.querystring("icuitem")
+ set rsc=conn.execute(sqlg)
+ if isnull(rsc("sbasetablename")) then
+  xbasetablename = "cudtx" & rsc("ibasedsd")
+ else
+  xbasetablename = rsc("sbasetablename")
+ end if  
+ sqlcom = "select htx.*, ghtx.*, xrefnfilename.oldfilename as fxr_filedownload from " & xbasetablename _
+  & " as htx join cudtgeneric as ghtx on ghtx.icuitem=htx.gicuitem "_
+  & " left join imagefile as xrefnfilename on xrefnfilename.newfilename = ghtx.filedownload " _
+  & " where ghtx.icuitem=" & pkstr(request.querystring("icuitem"),"")
+ set rsreg = conn.execute(sqlcom) 
+ set htpagedomref = server.createobject("microsoft.xmldom")
+ htpagedomref.async = false
+ htpagedomref.setproperty("serverhttprequest") = true  
+     '----找出對應的ctunitx???? xmlspec檔案(若找不到則抓default)
+    set fso = server.createobject("scripting.filesystemobject")
+ filepath = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx" & cstr(rsc("ictunit")) & ".xml")  
+     if fso.fileexists(filepath) then
+      loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx" & cstr(rsc("ictunit")) & ".xml")
+     else
+      loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/cudtx" & rsc("ibasedsd") & ".xml")
+     end if 
+ xv = htpagedomref.load(loadxml) 
+ set allmodelref = htpagedomref.selectsinglenode("//dataschemadef") 
+ '----新增資料區
+     '----load xsl樣板
+     set oxsl2 = server.createobject("microsoft.xmldom")
+    oxsl2.async = false
+    xv = oxsl2.load(server.mappath("/gipdsd/xmlspec/ctunitxorder.xsl"))     
+ set nxml2 = server.createobject("microsoft.xmldom")
+ nxml2.loadxml(htpagedom.transformnode(oxsl2))
+ set allmodel2 = nxml2.documentelement  
+ for each param in allmodel2.selectnodes("//fieldlist/field[showtypestr='3']") 
+  set romovenode=allmodel2.selectsinglenode("field[fieldname='"+param.selectsinglenode("fieldname").text+"']")
+  allmodel2.removechild romovenode
+ next
+   xshowtype=request.querystring("showtype")
+
+'response.write "<xmp>"+allmodel2.xml+"</xmp>"
+'response.end 
+
+if xupform("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+function qqrs(fldname)
+ if request("submittask")="" then
+  xvalue = rsreg(fldname)
+ else
+  xvalue = ""
+  if request("htx_"&fldname) <> "" then
+   xvalue = request("htx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+'  xp = instr(xqqrs,vbcrlf&vbcrlf)
+'  while xp > 0
+'   xqqrs = left(xqqrs,xp-1) & mid(xqqrs,xp+4)
+'   xp = instr(xqqrs,vbcrlf&vbcrlf)
+'  wend
+  xqqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+  xqqrs = replace(xqqrs,chr(13),"")
+  qqrs = replace(xqqrs,chr(10),"")
+ end if
+end function
+
+   sub initform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       =xshowtype
+                    =request.querystring("icuitem")
+  
+ for each xparam in allmodel2.selectnodes("//fieldlist/field[formlist!='']") 
+      if not (nulltext(xparam.selectsinglenode("fieldname"))="fctupublic" and session("checkyn")="y") then
+   orginputtype = xparam.selectsinglenode("inputtype").text
+   if nulltext(xparam.selectsinglenode("fieldname"))="idept" or nulltext(xparam.selectsinglenode("fieldname"))="fctupublic" then
+    xparam.selectsinglenode("inputtype").text = "showtype5"
+   else
+    xparam.selectsinglenode("inputtype").text = "textbox"
+   end if
+   addprocessinit xparam
+   xparam.selectsinglenode("inputtype").text = orginputtype       
+      end if
+ next 
+ for each param in allmodel2.selectnodes(("//fieldlist/field[formlist!='' and fieldname!='icuitem' and fieldname!='ibasedsd' and fieldname!='ictunit' and fieldname!='idept' and fieldname!='fctupublic' and fieldname!='ieditor' and fieldname!='deditdate' and fieldname!='created_date' and fieldname!='showtype' and fieldname!='refid']"))
+     if nulltext(allmodelref.selectsinglenode("//fieldlist/field[fieldname='"&param.selectsinglenode("fieldname").text&"']"))<>"" then
+      if nulltext(param.selectsinglenode("fieldrefedityn"))="n" then
+   orginputtype = param.selectsinglenode("inputtype").text
+   param.selectsinglenode("inputtype").text = "showtype5"
+   editprocessinit param
+   param.selectsinglenode("inputtype").text = orginputtype        
+      else
+   editprocessinit param
+  end if
+     end if
+ next
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+  
+ for each param in allmodel2.selectnodes("//fieldlist/field[formlist!='' and inputtype!='hidden']") 
+     if not (nulltext(param.selectsinglenode("fieldname"))="fctupublic" and session("checkyn")="y") then 
+  processvalid param
+     end if
+ next
+
+
+
+
+
+
+
+
+   CxMethod_ASP_dsdxmlform_showtype5_1117177125()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+         =title
+
+
+
+
+       =title
+
+          if (htprogright and 4)=4 then
+
+          end if
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+
+   sub showhtmltail() 
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' sql = "select * from client where clientid = '"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "「客戶編號」重複!!請重新建立客戶編號!"
+'  exit sub
+' end if
+
+end sub '---- checkdbvalid() ----
+
+function d6date(dt)     '轉成民國年  999/99/99 給資料型態為smalldatetime 使用
+ if len(dt)=0 or isnull(dt) then
+      d6date=""
+ else
+                      xy=right("000"+ cstr((year(dt)-1911)),2)     '補零
+                      xm=right("00"+ cstr(month(dt)),2)
+                      xd=right("00"+ cstr(day(dt)),2)
+                      d6date=xy &  xm &  xd
+                  end if
+end function
+
+sub doupdatedb()
+ sql = "insert into  cudtgeneric(showtype,"
+ sqlvalue = ") values('"+xupform("showtype")+"'," 
+ if xupform("showtype")="4" or xupform("showtype")="5" then
+  sql = sql & "refid,"
+  sqlvalue = sqlvalue & xupform("refid") & ","
+ end if
+ for each param in allmodel.selectnodes("dstable[tablename='cudtgeneric']/fieldlist/field[formlist!='']") 
+  if nulltext(param.selectsinglenode("fieldname")) = "ximportant" _
+     and xupform("xxcheckimportant")="y" then
+   sql = sql & "ximportant,"
+   sqlvalue = sqlvalue & pkstr(d6date(date()),",")
+  elseif not ((nulltext(param.selectsinglenode("fieldname"))="fctupublic" and session("checkyn")="y") or (nulltext(param.selectsinglenode("identity"))="y")) then 
+   processinsert param
+  end if
+ next
+
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+ sql = "set nocount on;"&sql&"; select @@identity as newid"
+' response.write sql
+' response.end
+ set rsx = conn.execute(sql)
+ xnewidentity = rsx(0)
+' response.write sql & "<hr>"
+ '----不同新增方式處理slave資料 
+     sql = "insert into  " & nulltext(refmodel.selectsinglenode("tablename")) & "(gicuitem,"
+     sqlvalue = ") values(" & dfn(xnewidentity)
+     for each param in refmodel.selectnodes("fieldlist/field[formlist!='']") 
+  processinsert param
+     next
+     sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+     conn.execute(sql) 
+ '----email處理
+ if session("checkyn")="y" then
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true 
+ 
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\syspara.xml"
+  xv = htpagedom.load(loadxml)
+    if htpagedom.parseerror.reason <> "" then 
+       response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+       response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+       response.end()
+    end if
+  set emailnode=htpagedom.selectsinglenode("systemparameter/dsdxmlemail")
+  xemail=nulltext(emailnode)
+  xemailstr=nulltext(emailnode.selectsinglenode("@xdesc"))
+  fsql="select iu.username,iu.email " & _
+   " from cudtgeneric c " & _
+   " left join cattreenode ctn on c.ictunit=ctn.ctunitid and ctn.ctrootid=" & session("itemid") & _
+   " left join ctuserset2 cus2 on ctn.ctnodeid=cus2.ctnodeid and cus2.userid=n'"&session("userid")&"' " & _
+   " left join ctunit ct on c.ictunit=ct.ctunitid " & _
+   " left join infouser iu on cus2.userid=iu.userid and c.idept=iu.deptid " & _
+   " where c.icuitem="&xnewidentity
+  set rs1=conn.execute(fsql)
+  if not rs1.eof then
+          while not rs1.eof
+                 s_email=""""+xemailstr+""" <"+xemail+">"
+          r_email=rs1(1)
+            
+          email_body="【 " & rs1(0) & " 】小姐先生 您好:" & "<br>" & "<br>" & _
+                            "   現有新的待審上稿資料, 請至[後台管理網站/資料審稿作業中]審核!"& "<br><br>" & _
+                            "謝謝您!"& "<br>" & "<br>" & _
+                            xemailstr & "<br>"  
+   if not isnull(rs1(1)) then                                
+           call send_email(s_email,r_email, "上稿資料審稿通知" ,email_body)  
+          end if 
+     
+        rs1.movenext  
+      wend
+  end if 
+
+ end if 
+ '----關鍵字詞處理
+ if xupform("htx_xkeyword")<>"" then
+     redim iarray(1,0)
+     xstr=""
+     xreturnvalue=""
+     sqlinsert=""
+     xkeywordarray=split(xupform("htx_xkeyword"),",")
+     weightsum=0
+     for i=0 to ubound(xkeywordarray)
+      redim preserve iarray(1,i)
+  '----分開字詞與權重符號
+  xpos=instr(xkeywordarray(i),"*")
+  if xpos<>0 then
+   xstr=left(trim(xkeywordarray(i)),xpos-1)
+   iarray(0,i)=xstr
+   iarray(1,i)=mid(xkeywordarray(i),xpos+1)
+  else
+   xstr=trim(xkeywordarray(i))
+   iarray(0,i)=xstr
+   iarray(1,i)=1  
+  end if 
+  weightsum=weightsum+iarray(1,i)
+     next   
+     '----串sql字串 
+     for k=0 to ubound(iarray,2)
+      sqlinsert=sqlinsert+"insert into cudtkeyword values("+dfn(xnewidentity)+"'"+iarray(0,k)+"',"+cstr(round(iarray(1,k)*100/weightsum))+");"
+     next
+     if sqlinsert<>"" then conn.execute(sqlinsert)
+ end if
+end sub '---- doupdatedb() ----
+
+
+
+   sub showdonebox() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+  
+ nexturl = htprogprefix & "list.asp"
+ if xupform("nexttask") = "cuchecklist.asp" then
+
+                 =session("mywwwsiteurl"):                           =xnewidentity:           =session("itemid"):           =session("userid")
+    
+ elseif xupform("nexttask") <> "" then
+  nexturl = xupform("nexttask") & "?icuitem=" & xnewidentity
+ end if
+
+                             =nexturl
+
+
+
+   end sub '---- showdonebox() ----  

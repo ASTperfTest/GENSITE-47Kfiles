@@ -1,0 +1,39 @@
+@charset "utf-8";
+/* 新聞局駐外單位 德國 中文版 */
+/* CSS Document for Thumbnail */
+
+/* ------------------------------------------------------------- 縮圖瀏覽 */
+.Thumbnail {
+	font-size: 80%;
+	margin-top: 15px;
+	margin-bottom: 10px;
+	border-collapse: collapse;
+	width: 100%;
+}
+.Thumbnail td {
+	vertical-align: top;
+	padding: 12px 5px 8px;
+	border-bottom: 1px dashed #699DAC;
+	width: 33%;
+	text-align: center;
+}
+.Thumbnail td h5 {
+	font-size: 120%;
+	font-weight: normal;
+	margin: 0px 0px 4px;
+	padding: 0px;
+	width: 144px;
+	text-align: left;
+}
+.Thumbnail td p {
+	margin: 0px 0px 6px;
+	padding: 0px;
+	text-align: left;
+	width: 144px;
+}
+.Thumbnail td img {
+	border: 1px solid #666666;
+	margin-bottom: 3px;
+	width: 140px;
+	height: 90px;
+}

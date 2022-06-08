@@ -1,0 +1,152 @@
+﻿
+   
+on error resume next
+response.expires = 0 
+
+
+
+  
+ '改回舊的連線
+ set conn = server.createobject("adodb.connection")
+ conn.open session("odbcdsn")
+ '改回舊的連線end
+ set rsreg = server.createobject("adodb.recordset")
+ response.buffer = true
+ dim message
+
+ '身份證字號不用填
+
+ if request("account") <> "" and request("passwd") <> "" and request("realname") <> ""  and request("email") <> ""  then 
+
+  '判斷帳號是否已使用
+  set rs = conn.execute("select * from member where account ='" & request("account") & "'")
+  if rs.eof then
+   '判斷是否已是會員
+   set rsid = conn.execute("select * from member where id ='" & request("idn") & "'")
+   
+   '判斷是否有填寫出生年
+   if request("birthyear") <>"" then
+    dim xbirtmm
+    dim xbirtdd
+    dim xbirthday
+    if request("birthmonth") <=9 then 
+     xbirtmm ="0" & request("birthmonth")
+    else
+     xbirtmm = request("birthmonth")
+    end if
+    
+    if request("birthday") <=9 then 
+     xbirtdd ="0" & request("birthday")
+    else
+     xbirtdd = request("birthday")
+    end if
+   
+    xbirthday = request("birthyear") & xbirtmm & xbirtdd
+   else
+    xbirthday=""
+   end if
+   
+   if rsid.eof then
+       '新增帳號
+    dim orderepaper : orderepaper = "y"
+    if request("orderepaper") <> "y" then orderepaper = "n"
+     
+        sql = "insert into member( account, passwd, realname, homeaddr, phone, mobile, email, " & _ 
+       "createtime, modifytime, zip, home_ext, birthday, sex, id_type1, fax, create_user, id, " & _ 
+       "nickname, actor, status, orderepaper, scholarvalidate, uploadright, uploadpiccount ) values( " & pkstr(request("account"),"") & ", " & pkstr(request("passwd"),"") & ", " & _
+       "" & chg_uni(pkstr(request("realname"),"")) & ", " & pkstr(request("homeaddr"),"") & ", " & pkstr(request("phone"),"") & ", " & _
+       "" & pkstr(request("mobile"),"") & ", " & pkstr(request("email"),"") & ", getdate(), getdate(), " & pkstr(request("zip"),"") & ", " & _
+       "" & pkstr(request("home_ext"),"") & ",'" & xbirthday & "', " & pkstr(request("sex"),"") & ", '1', " & pkstr(request("fax"),"") & ", " & _
+       "'hyweb', " & pkstr(request("idn"),"") & ", " & chg_uni(pkstr(request("nickname"),"")) & ", '0', 'y', '" & orderepaper & "', 'z', 'y', 1)"
+    'response.write(sql) & request("account")
+    conn.execute(sql)
+
+    '訂閱電子報
+    if request("orderepaper") = "y" then
+     dim emailflag
+     emailflag = true
+     '檢查是否已經訂閱
+     set ts = conn.execute("select count(*) from epaper where email = '" & request("email") & "' and ctrootid = 21")
+     if err.number <> 0 or conn.errors.count <> 0 then
+      emailflag = false
+     end if    
+     if ts(0) > 0 then
+      emailflag = false
+     end if
+   
+     '檢查email格式是否正確
+     if len(request("email")) > 3 and instr(request("email"), "@") > 0 and instr(request("email"), ".") > 0 and emailflag = true then
+      '正確...存入資料庫
+      sql = "insert into epaper ( email, createtime, ctrootid) values ('"& request("email") & "', getdate(), 21)"
+      conn.execute(sql)     
+     end if
+    end if
+    if err.number <> 0 then
+     response.write "<html><body bgcolor='#ffffff'>"
+     response.write "<script language='javascript'>"
+     response.write "alert('申請會員發生錯誤,請洽系統管理員');"
+     response.write "location.replace('sp.asp?xdurl=coamember/member_completec.asp');"
+     'response.write "location.replace('member_completec.asp')"
+     response.write "</script>"
+     response.write "</body></html>" 
+    else
+     '寄出通知信  
+     response.write "<hr> 寄出通知信"
+     'response.end         
+     
+        CxMethod_ASP_mailbody_c_791353379()
+       
+     response.write "<html><body bgcolor='#ffffff'>"
+     response.write "<script language='javascript'>"
+     response.write "alert('我們將以e-mail通知您的申請狀況!');"
+     response.write "location.replace('sp.asp?xdurl=coamember/member_completec.asp');"
+     'response.write "location.replace('member_completec.asp')"
+     response.write "</script>"
+     response.write "</body></html>" 
+    end if      
+   else 
+    '如果id已存在提示已具有會員身份
+    response.write "<html><body bgcolor='#ffffff'>"
+    response.write "<script language='javascript'>"
+    response.write "alert('您已具有會員身份!!');"
+    response.write "history.back();"
+    'response.write "location.replace('/index.jsp');"
+    'response.write "location.replace('/');"
+    response.write "</script>"
+    response.write "</body></html>"  
+   end if
+   'response.end     
+    else
+   '如果account已存在提示改用其他帳號
+   response.write "<html><body bgcolor='#ffffff'>"
+   response.write "<script language='javascript'>"
+   response.write "alert('此帳號已經存在, 請改用其他帳號!');"
+   response.write "history.back();"
+   response.write "</script>"
+   response.write "</body></html>"   
+    end if
+ else
+  response.write "<html><body bgcolor='#ffffff'>"
+  response.write "<script language='javascript'>"
+  response.write "alert('請填入必要資料以供審核, 謝謝!');"
+  response.write "history.back();"
+  response.write "</script>"
+  response.write "</body></html>"  
+ end if
+ 
+function chg_uni(str)        'ascii轉unicode
+ dim old,new_w,istr
+ old = str
+ new_w = ""
+ for istr = 1 to len(str)
+  if ascw(mid(old,istr,1)) < 0 then
+   new_w = new_w & "&#" & ascw(mid(old,istr,1))+65536 & ";"
+  elseif        ascw(mid(old,istr,1))>0 and ascw(mid(old,istr,1))<127 then
+   new_w = new_w & mid(old,istr,1)
+  else
+   new_w = new_w & "&#" & ascw(mid(old,istr,1)) & ";"
+  end if
+ next
+ chg_uni=new_w
+end function
+ 

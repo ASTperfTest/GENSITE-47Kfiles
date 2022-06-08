@@ -1,0 +1,149 @@
+﻿use [plant_log]
+go
+
+if  exists (select * from dbo.sysobjects where id = object_id(n'[df_owner_score]') and type = 'd')
+begin
+alter table [dbo].[owner] drop constraint [df_owner_score]
+end
+
+go
+
+use [plant_log]
+go
+
+/****** object:  table [dbo].[owner]    script date: 06/19/2009 18:17:07 ******/
+if  exists (select * from sys.objects where object_id = object_id(n'[dbo].[owner]') and type in (n'u'))
+drop table [dbo].[owner]
+go
+
+use [plant_log]
+go
+
+/****** object:  table [dbo].[owner]    script date: 06/19/2009 18:17:07 ******/
+set ansi_nulls on
+go
+
+set quoted_identifier on
+go
+
+create table [dbo].[owner](
+ [owner_id] [nvarchar](255) not null,
+ [display_name] [nvarchar](255) not null,
+ [nickname] [nvarchar](255),
+ [topic] [nvarchar](50) not null,
+ [email] [nvarchar](255),
+ [description] [ntext],
+ [is_approve] bit default (1) not null,
+ [creator_id] [nvarchar](255) not null,
+ [create_datetime] [datetime] not null,
+ [modifier_id] [nvarchar](255) not null,
+ [modify_datetime] [datetime] not null,
+ constraint [pk_owner] primary key clustered 
+(
+ [owner_id] asc
+) on [primary]
+) on [primary]
+
+go
+
+use [plant_log]
+go
+
+/****** object:  table [dbo].[entry]    script date: 06/19/2009 18:17:19 ******/
+if  exists (select * from sys.objects where object_id = object_id(n'[dbo].[entry]') and type in (n'u'))
+drop table [dbo].[entry]
+go
+
+use [plant_log]
+go
+
+/****** object:  table [dbo].[entry]    script date: 06/19/2009 18:17:19 ******/
+set ansi_nulls on
+go
+
+set quoted_identifier on
+go
+
+create table [dbo].[entry](
+ [entry_id] [nvarchar](255) not null,
+ [owner_id] [nvarchar](255) not null,
+ [date] [datetime] not null,
+ [title] [nvarchar](255) null,
+ [description] [ntext] null,
+ [is_public] bit default (1) not null,
+ [is_approve] bit default (1) not null,
+ [creator_id] [nvarchar](255) not null,
+ [create_datetime] [datetime] not null,
+ [modifier_id] [nvarchar](255) not null,
+ [modify_datetime] [datetime] not null,
+primary key clustered 
+(
+ [entry_id] asc
+) on [primary]
+) on [primary]
+
+go
+
+use [plant_log]
+go
+
+/****** object:  table [dbo].[img_file]    script date: 06/19/2009 18:17:22 ******/
+if  exists (select * from sys.objects where object_id = object_id(n'[dbo].[img_file]') and type in (n'u'))
+drop table [dbo].[img_file]
+go
+
+use [plant_log]
+go
+
+/****** object:  table [dbo].[img_file]    script date: 06/19/2009 18:17:22 ******/
+set ansi_nulls on
+go
+
+set quoted_identifier on
+go
+
+create table [dbo].[img_file](
+ [file_id] [nvarchar](255) not null,
+ [entry_id] [nvarchar](255) not null,
+ [name] [nvarchar](255) not null,
+ [uri] [nvarchar](255) not null,
+primary key clustered 
+(
+ [file_id] asc
+) on [primary]
+) on [primary]
+
+go
+
+use [plant_log]
+go
+
+/****** object:  table [dbo].[vote_record]    script date: 06/22/2009 11:13:59 ******/
+if  exists (select * from sys.objects where object_id = object_id(n'[dbo].[vote_record]') and type in (n'u'))
+drop table [dbo].[vote_record]
+go
+
+use [plant_log]
+go
+
+/****** object:  table [dbo].[vote_record]    script date: 06/22/2009 11:13:59 ******/
+set ansi_nulls on
+go
+
+set quoted_identifier on
+go
+
+create table [dbo].[vote_record](
+ [record_id] [int] identity(1,1) not null,
+ [ip] [nvarchar](50) not null,
+ [vote_date] [datetime] not null,
+ [voter_id] [nvarchar](50) not null,
+ [user_id] [nvarchar](50) not null,
+constraint [pk_vote_record] primary key clustered 
+(
+ [record_id] asc
+) on [primary]
+) on [primary]
+
+go
+ 

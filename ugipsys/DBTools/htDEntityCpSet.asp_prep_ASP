@@ -1,0 +1,49 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcode="ht011"
+htprogprefix="htdfield" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_xdbutil_1468464061()
+  
+ xnewdbname = request("htx_xdbname")
+ xnewtblname = request("htx_xtablename")
+
+ sqlcom = "select * from htdentity where entityid=" & pkstr(request("htx_entityid"),"")
+ set rsmaster = conn.execute(sqlcom)
+ 
+ xnewentity = "htdentity"
+ if xnewdbname <> "" then xnewentity = xnewdbname & ".dbo." & xnewentity
+ xnewfield = "htdfield"
+ if xnewdbname <> "" then xnewfield = xnewdbname & ".dbo." & xnewfield
+
+ sql = "insert into " & xnewentity & "(dbid, tablename, entitydesc, entityuri, apcatid) values(" _
+  & pkstr(rsmaster("dbid"),",") _
+  & pkstr(xnewtblname,",") _
+  & pkstr(rsmaster("entitydesc"),",") _
+  & pkstr(rsmaster("entityuri"),",") _
+  & pkstr(rsmaster("apcatid"),")")
+ response.write sql & "<hr>"
+ conn.execute(sql)  
+
+ sql = "select @@identity as dbid"
+ set rsx = conn.execute(sql)
+ xnewdbid = rsx("dbid")
+' xnewdbid = 1
+
+ fsql = "select * into #xtemphtdfield from htdfield where entityid=" & pkstr(rsmaster("entityid"),"")
+ conn.execute(fsql)  
+ fsql = "update #xtemphtdfield set entityid=" & xnewdbid
+ conn.execute(fsql)  
+ fsql = "insert into " & xnewfield & " select * from #xtemphtdfield"
+ conn.execute(fsql)  
+
+ fsql = "select * from " & xnewfield & " where entityid=" & xnewdbid
+ set rslist = conn.execute(fsql)
+
+
+ while not rslist.eof 
+  response.write rslist("xfieldname") & "," & rslist("entityid") & "<br>"
+   rslist.movenext
+ wend
+
+ 

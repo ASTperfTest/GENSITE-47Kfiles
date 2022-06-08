@@ -1,0 +1,56 @@
+﻿
+
+
+   
+ for each param in refmodel.selectnodes("fieldlist/field[formlist='y']") 
+  response.write "<tr><td class=""etablelable"" align=""right"">"
+  if nulltext(param.selectsinglenode("cannull")) = "n" then _
+   response.write "<font color=""red"">*</font>"
+  response.write nulltext(param.selectsinglenode("fieldlabel")) & "</td>"
+  response.write "<td class=""etablecontent"">"
+  if formfunction = "edit" and nulltext(param.selectsinglenode("isprimarykey"))="y" then 
+   orginputtype = param.selectsinglenode("inputtype").text
+   param.selectsinglenode("inputtype").text = "readonly"
+   processparamfield param
+   param.selectsinglenode("inputtype").text = orginputtype
+  else
+   processparamfield param
+  end if
+  response.write "</td></tr>"
+ next
+
+
+
+
+
+
+
+
+
+
+  if formfunction = "query" then 
+          if (htprogright and 2) <> 0 then 
+
+
+          end if
+  elseif formfunction = "edit" then 
+          if (htprogright and 8) <> 0 then 
+
+           end if 
+
+          if (htprogright and 16) <> 0 then 
+
+         end if 
+
+
+
+   else '-- add ---
+            if (htprogright and 4)<>0 then 
+
+            end if
+
+            if (htprogright and 4)<>0  then 
+
+            end if
+
+   end if  

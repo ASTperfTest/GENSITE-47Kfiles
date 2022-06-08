@@ -1,0 +1,208 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="資料來源管理"
+htprogfunc="查詢"
+htprogcode="ht011"
+htprogprefix="htddb" 
+   response.expires = 0 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+ set rsreg = server.createobject("adodb.recordset")
+ fsql=request.querystring("strsql")
+
+if fsql="" then
+ fsql = "select b.* from htddb as b where 1=1"
+ if request.form("htx_dbid") <> "" then
+  wherecondition = replace("b.dbid like n'%{0}%'", "{0}", request.form("htx_dbid") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_dbname") <> "" then
+  wherecondition = replace("b.dbname like n'%{0}%'", "{0}", request.form("htx_dbname") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_dbdesc") <> "" then
+  wherecondition = replace("b.dbdesc like n'%{0}%'", "{0}", request.form("htx_dbdesc") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_dbip") <> "" then
+  wherecondition = replace("b.dbip like n'%{0}%'", "{0}", request.form("htx_dbip") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ for each x in request.form
+     if request(x) <> "" then
+            if mid(x,2,3) = "fx_" then
+         select case left(x,1)
+            case "s"
+               fsql = fsql & " and " & mid(x,5) & "=" & pkstr(request(x),"")
+            case else
+               fsql = fsql & " and " & mid(x,5) & " like n'%" & request(x) & "%'"
+           end select
+         end if
+     end if
+ next 
+end if
+
+nowpage=request.querystring("nowpage")  '現在頁數
+'response.write fsql
+'response.end
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=10  
+      end if 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+      strsql=server.urlencode(fsql)
+   end if    
+end if   
+
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap
+
+
+
+
+
+
+
+
+
+          if (htprogright and 4)=4 then
+                   =htprogprefix
+          end if
+          if (htprogright and 2)=2 then
+                   =htprogprefix
+          end if
+
+
+
+
+
+
+
+                                       =htprogprefix
+
+  if not rsreg.eof then
+
+                                      =nowpage:    =totpage
+                                          =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+          if cint(nowpage) <>1 then 
+                        =htprogprefix:                    =(nowpage-1):           =strsql:             =perpagesize
+         end if
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):           =strsql:             =perpagesize
+          end if
+
+
+                                 if perpagesize=10 then:            end if
+                                 if perpagesize=20 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+
+
+
+
+
+
+
+
+
+
+
+                     
+    for i=1 to perpagesize                  
+
+
+  pkey = ""
+pkey = pkey & "&dbid=" & rsreg("dbid")
+if pkey<>"" then  pkey = mid(pkey,2)
+
+  =rsreg("dbid")
+
+
+                          =pkey
+  =rsreg("dbname")
+
+
+
+  =rsreg("dbdesc")
+
+
+  =rsreg("dbip")
+
+
+                            =pkey
+
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+  else
+
+
+
+
+  end if
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

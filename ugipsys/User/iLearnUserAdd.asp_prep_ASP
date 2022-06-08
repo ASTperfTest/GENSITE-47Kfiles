@@ -1,0 +1,191 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+   htprogcode = "ht002"
+   
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+function xmlimportuser(op, userid, fn, email, pw ) ' op: 1-新增，2-更新，3-刪除
+ xs = "<?xml version=""1.0"" encoding=""utf-8""?>"
+ xs = ""
+ xs = xs & "<person recstatus=""" & op & """><userid>" &  userid & "</userid><name><fn> " _
+  & fn & " </fn></name><email>" & email & "</email>" _
+  & "<extension><userorgid>443</userorgid><account_password>" & pw & "</account_password></extension>" _
+  & "</person>"
+ response.write xs & "<hr>" & vbcrlf
+ for i=1 to len(fn)
+  response.write mid(fn,i,1) & asc(mid(fn,i,1)) & "=>" & hex(asc(mid(fn,i,1))) & "<br>"
+ next
+ response.write server.urlencode(fn) & "<hr>"
+ xmlimportuser = xs
+end function
+
+if request("task")="新增存檔" then
+ sqlcom = "select * from infouser where userid = n'" & request("pfx_userid") & "'"
+ set rs = conn.execute(sqlcom)
+ if not rs.eof then 
+
+
+
+
+   else
+ sql="insert into infouser(userid,password,username,usertype,ugrpid,deptid,jobname,email,telephone,tdatacat,uploadpath,visitcount) values (" _
+  & drs("pfx_userid") & drs("tfx_xpassword") & drs("tfx_username") & "'p'," _
+  & drs("sfx_ugrpid") & drs("sfx_deptid") & drs("tfx_jobname") _
+  & drs("tfx_email") & drs("tfx_telephone") & drs("sfx_tdatacat") & drs("tfx_uploadpath")& " 0)"
+' conn.execute(sql)
+
+'http://10.10.5.73:7777/webservices/ilawebservices?invoke=importuser&param0=loginusername%3ddemo_admin&
+'param1=loginpassword%3dwelcome&param2=loginsiteshortname%3ddemo&param3=xmlcontents%3d%3cperson+recstatus%3d%221%22%3e%3cuserid%3exed%3c%2fuserid%3e%3cname%3e%3cfn%3eedwin+xsmith%3c%2ffn%3e%3c%2fname%3e%3cemail%3exedwin.smith@oracle.com%3c%2femail%3e%3c%2fperson%3e&param4=
+
+'  wsurl = "http://mofsys.hyweb.com.tw/ws/ga.asp?invoke=importuser" _
+  wsurl = "http://10.10.5.73:7777/webservices/ilawebservices?invoke=importuser" _
+   & "&param0=" & server.urlencode("loginusername=demo_admin") _
+   & "&param1=" & server.urlencode("loginpassword=welcome") _
+   & "&param2=" & server.urlencode("loginsiteshortname=demo") _
+   & "&param3=" & server.urlencode("locale=zh_cn") _
+   & "&param4=" & server.urlencode("xmlcontents=" _
+    & xmlimportuser("1", request("pfx_userid"), request("tfx_username"), _
+     request("tfx_email"), request("tfx_xpassword")) )
+
+
+ set oxmldoc = server.createobject("microsoft.xmldom")
+ oxmldoc.async = false
+ oxmldoc.setproperty("serverhttprequest") = true 
+ 
+ response.write vbcrlf & vbcrlf & wsurl & "<hr>" & vbcrlf
+ rv = oxmldoc.load(wsurl)
+ response.write rv & "<hr>" & vbcrlf
+' response.write server.mappath("\ms") & "\testfile.txt"
+' response.end
+ response.write oxmldoc.documentelement.xml
+
+
+  response.end
+
+
+
+
+
+
+
+                                            =request("pfx_userid")
+
+         response.end
+ end if
+end if
+
+
+
+
+
+
+
+
+
+
+
+
+                                                    =title
+
+
+
+
+
+
+
+
+
+                          if (htprogright and 2)=2 then 
+                                       end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     sql="select deptid,deptname from dept where inuse='y' order by kind"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where codemetaid='topdatacat' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+
+
+
+
+              sql1 = "select * from ugrp"                                                                                                                                
+            set rs1 = conn.execute(sql1)                                                                                                                                
+             if rs1.eof then
+
+              else 
+
+              do while not rs1.eof 
+                            =rs1("ugrpid"):     =rs1("ugrpname")
+                rs1.movenext 
+              loop 
+             end if 
+
+
+
+
+
+
+
+
+
+
+
+
+               if (htprogright and 4)=4 then :                                                                             end if 
+
+
+
+
+
+
+    CxMethod_ASP_footer_1134060862() 

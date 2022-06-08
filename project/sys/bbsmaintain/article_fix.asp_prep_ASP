@@ -1,0 +1,40 @@
+﻿: 
+ response.expires = 0
+ htprogcap = "�q�ױm��"
+ htprogfunc = "�q�ױm�Ϻ��@"
+ htprogcode = "bbs010"
+ htprogprefix = "msession"
+ response.expires = 0
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+ 
+ 
+ submit_str = trim(request("submit"))
+ bid = trim(request("bid"))
+ mid2 = trim(request("mid"))
+ sid = trim(request("sid"))
+ if bid = "" or mid2 = "" or sid = "" then
+  response.redirect "index.asp"
+  response.end
+ end if
+  
+    
+ if submit_str = "�ק�" then
+  sql = "" & _
+   " update article set " & _
+   " title = " & pkstr(request("title"), "") & ", " & _
+   " message = " & pkstr(request("message"), "") & _
+   " where sid = " & pkstr(sid, "") & _
+   " and mid = " & pkstr(mid2, "") & " and bid = " & pkstr(bid, "")
+ elseif submit_str = "�r��" then
+  sql = "" & _
+   " delete from article where sid = " & pkstr(sid, "") & _
+   " and mid = " & pkstr(mid2, "") & " and bid = " & pkstr(bid, "")
+ end if
+ conn.execute(sql)
+     
+ response.redirect "articlelist.asp?bid=" & bid
+ 

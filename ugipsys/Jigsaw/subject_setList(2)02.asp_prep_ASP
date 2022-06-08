@@ -1,0 +1,77 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="主題館績效統計"
+htprogfunc="查詢清單"
+htprogcode="jigsaw"
+htprogprefix="newkpi" 
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_client_5214970()
+
+  
+
+
+icuitem=request("icuitem")
+check=request("check")
+uncheck=request("uncheck")
+check1=session("jigcheck")
+a=session("jigcheck1")
+b=check
+c=uncheck
+checkarr = split(b, ";")
+uncheckarr = split(c, ";")
+'response.write request("gicuitem")
+
+for i = 0 to ubound(checkarr)
+   if (instr(a,checkarr(i))>0) then
+ 
+   else
+    add=checkarr(i)+";"
+    a=a+add
+ end if
+next
+
+for i = 0 to ubound(uncheckarr)-1
+    if (instr(a,uncheckarr(i))>0) then
+    cut=uncheckarr(i)+";"
+       a=replace(a,cut,"")
+    end if
+next
+session("jigcheck1")=a
+update1=split(a, ";")
+for i = 0 to ubound(update1)-1
+ sql = "update [mgipcoanew].[dbo].[knowledgejigsaw] set [status] ='n' where [gicuitem] ='"&update1(i)&"'"
+ conn.execute(sql)
+ 'added by joey,2009/10/12,http://gssjira.gss.com.tw/browse/coakm-9 , 刪除的同時移除該user的kpi相關數值
+ 'modified by joey, 2009/10/26, http://gssjira.gss.com.tw/browse/coakm-19, 當管理員刪除網友留言後，要將[sharejigsaw] 欄位值-1
+ sql2="select ieditor , convert(varchar, deditdate, 111) as deditdate from cudtgeneric where icuitem=" & update1(i)
+ set rs = conn.execute(sql2)
+ if rs.eof=false then
+  sql3="update membergradeshare set membergradeshare.sharejigsaw=membergradeshare.sharejigsaw-1 where membergradeshare.memberid='" & rs("ieditor") & "' and convert(varchar, membergradeshare.sharedate, 111)='" & rs("deditdate") & "'"
+  conn.execute(sql3)
+  'response.write "mysql3:" & sql3 &"<br>"
+ end if
+
+
+
+next
+showdonebox "刪除成功！"
+'response.redirect "subjectpublist.asp?icuitem="&request("icuitem")
+ 
+    sub showdonebox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+                                                                 =request("icuitem")
+
+
+
+   end sub  

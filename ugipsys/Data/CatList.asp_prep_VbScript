@@ -1,0 +1,303 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+xtype = ""
+
+sub formorderopen()
+  divtop = document.body.scrolltop + window.event.y + 100
+  document.all.setorderview.style.top = divtop
+  xtype = "orderby"
+  document.all.setview.style.visibility = "hidden"
+  reg.reset
+  document.all.setorderview.style.visibility = ""
+Cx_0dummy  document.all("editdelbt").style.display="none"
+Cx_0dummyend sub
+
+sub formeditopen(d,n,v)
+  divtop = document.body.scrolltop + window.event.y + 50
+  document.all.setview.style.top = divtop
+  document.all.setview.style.visibility = ""
+  document.all.setorderview.style.visibility = "hidden"
+  reg.reset
+  document.reg.catid.value = d
+  document.reg.catname.value = n
+  xtype = "edit"
+  document.all.edittitle.innertext = "編修分類"
+Cx_0dummy     if v = 0 then
+      document.all("editdelbt").style.display=""
+     else
+      document.all("editdelbt").style.display="none"
+     end if
+Cx_0dummyend sub
+
+sub formaddopen()
+  divtop = document.body.scrolltop + window.event.y + 100
+  document.all.setview.style.top = divtop
+  xtype = "add"
+  document.all.setview.style.visibility = ""
+  document.all.setorderview.style.visibility = "hidden"
+Cx_0dummy  document.all("editdelbt").style.display="none"
+Cx_0dummy  document.all.edittitle.innertext = "新增分類"
+  reg.reset
+end sub
+
+sub windowclose()
+  document.all.setview.style.visibility = "hidden"
+  document.all.setorderview.style.visibility = "hidden"
+Cx_0dummy  document.all("editdelbt").style.display="none"
+Cx_0dummy  xtype = ""
+  reg.reset
+end sub
+
+sub upedit()
+  msg1 = "請輸入分類名稱！"
+  if trim(reg.catname.value) = empty then
+     msgbox msg1, 64, "sorry!"
+     reg.catname.focus
+     exit sub
+  end if
+
+Cx_0dummy  msg = "抱歉!"& vbcrlf & vbcrlf &"類別名稱字數過多，請勿超過10個中文字。"& vbcrlf & vbcrlf &"請重新輸入 !"
+Cx_0dummy  msg = "抱歉!"& vbcrlf & vbcrlf &"類別名稱字數過多，請勿超過20個字元。"& vbcrlf & vbcrlf &"請重新輸入 !"
+Cx_0dummy  if blen(reg.catname.value) > 20 then
+   msgbox msg, 64, "sorry!"
+   reg.catname.focus
+   exit sub
+  end if
+
+  reg.action="catconfig.asp?language=Cx_0dummy&datatype=Cx_0dummy&xtype="& xtype
+  reg.submit
+end sub
+
+sub del()
+ chky=msgbox("確定刪除?", 48+1, "刪除確認")
+ if chky=vbok then
+   xtype = "del"
+   reg.action="catconfig.asp?language=Cx_0dummy&datatype=Cx_0dummy&xtype="& xtype
+   reg.submit
+ end if
+end sub
+
+function blen(xs)
+ xl = len(xs)
+ for i=1 to len(xs)
+  if asc(mid(xs,i,1))<0 then xl = xl + 1
+ next
+ blen = xl
+end function
+
+ sub chgorderup(formobjname)
+  set xn = document.orderreg(formobjname)
+  oldopt = xn.options.selectedindex
+
+  if oldopt <> -1 then
+   if oldopt+1 > 1 then
+  oldtext = xn.options(oldopt).text
+  oldvalue = xn.options(oldopt).value
+  oldtext2 = xn.options(oldopt-1).text
+  oldvalue2 = xn.options(oldopt-1).value
+
+   xn.options(oldopt).text = xn.options(oldopt-1).text
+     xn.options(oldopt).value = xn.options(oldopt-1).value
+   xn.options(oldopt-1).text = oldtext
+   xn.options(oldopt-1).value = oldvalue
+   xn.options(oldopt-1).selected = true
+   xn.options(oldopt).selected = false
+   else
+   alert ("已經是最上方了！")
+   end if
+  else
+   alert ("請先選擇..")
+  end if
+ end sub
+
+ sub chgorderdown(formobjname)
+  set xn = document.orderreg(formobjname)
+  rno = xn.options.length
+  oldopt = xn.options.selectedindex
+
+  if oldopt <> -1 then
+  if oldopt+1 < rno then
+   oldtext = xn.options(oldopt).text
+   oldvalue = xn.options(oldopt).value
+   oldtext2 = xn.options(oldopt+1).text
+   oldvalue2 = xn.options(oldopt+1).value
+
+      xn.options(oldopt).text = xn.options(oldopt+1).text
+    xn.options(oldopt).value = xn.options(oldopt+1).value
+    xn.options(oldopt+1).text = oldtext
+    xn.options(oldopt+1).value = oldvalue
+    xn.options(oldopt+1).selected = true
+    xn.options(oldopt).selected = false
+  else
+   alert ("已經是最下方了！")
+  end if
+  else
+   alert ("請先選擇..")
+  end if
+ end sub
+
+ sub document_onkeydown()
+  if xtype = "orderby" and window.event.keycode = 16 or window.event.keycode = 17 then
+   document.all.orderreg.catid.multiple = false
+  end if
+ end sub
+
+ sub document_onkeyup()
+   if xtype = "orderby" then document.all.orderreg.catid.multiple = true
+ end sub
+
+ sub formsubmit()
+  optpos = orderreg.catid.options.length
+  for optcount = 0 to optpos - 1
+    document.all.orderreg.catid.options(optcount).selected = true
+  next
+  orderreg.submit
+ end sub
+
+ 

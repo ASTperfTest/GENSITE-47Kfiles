@@ -1,0 +1,223 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="資料附件"
+htprogfunc="條列"
+htprogcode="gc1ap1"
+htprogprefix="cuattach" 
+   response.expires = 0 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_checkgipconfig_1275316133()
+
+
+
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+dim mpkey, dpkey
+dim rsmaster, rslist
+ sqlcom = "select * from cudtgeneric where icuitem=" & pkstr(request.querystring("icuitem"),"")
+ set rsmaster = conn.execute(sqlcom)
+ mpkey = ""
+ mpkey = mpkey & "&icuitem=" & rsmaster("icuitem")
+ if mpkey<>"" then  mpkey = mid(mpkey,2)
+
+
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+                             =mpkey
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+function qqrs(fldname)
+ xvalue = rsmaster(fldname)
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+
+                          =qqrs("stitle")
+                           =qqrs("icuitem")
+
+  
+ fsql = "select dhtx.*, i.oldfilename " _
+  & " from cudtattach as dhtx" _
+  & " left join imagefile as i on i.newfilename=dhtx.nfilename" _
+  & " where 1=1" _
+  & " and dhtx.xicuitem=" & pkstr(rsmaster("icuitem"),"") _
+  & " order by dhtx.listseq"
+  
+ set rslist = conn.execute(fsql)
+
+
+                                                                             =mpkey:         =session("userid"):            =session("public") :                      =session("mysiteid") 
+
+
+
+
+
+
+
+
+
+
+
+  
+i=1
+ while not rslist.eof
+  dpkey = ""
+  dpkey = dpkey & "&ixcuattach=" & rslist("ixcuattach")
+  if dpkey<>"" then  dpkey = mid(dpkey,2)
+  
+
+
+
+                             =dpkey:         =session("userid"):            =session("public") :                      =session("mysiteid") 
+
+   =i :    =rslist("atitle")
+
+
+
+  =rslist("oldfilename")
+
+
+  =rslist("blist")
+
+
+  =rslist("listseq")
+
+
+  =rslist("aeditor")
+
+
+  =rslist("aeditdate")
+
+
+      
+         i=i+1  
+         rslist.movenext
+     wend
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+'max  2011/05/24
+'重新查詢，音樂及照片管理
+
+'bob  2011/08/16
+'只有styleg才出現
+fsql_new =" select "
+fsql_new = fsql_new & vbcrlf & "   xicuitem"
+fsql_new = fsql_new & vbcrlf & " ,atitle"
+fsql_new = fsql_new & vbcrlf & " ,nfilename"
+fsql_new = fsql_new & vbcrlf & " ,blist"
+fsql_new = fsql_new & vbcrlf & " ,bgmusic "
+fsql_new = fsql_new & vbcrlf & "from cudtattach as l "
+fsql_new = fsql_new & vbcrlf & "join cudtx7 as r on l.xicuitem=r.gicuitem "
+fsql_new = fsql_new & vbcrlf & "where blist = 'y' "
+fsql_new = fsql_new & vbcrlf & "and right(nfilename, 4) in ('.jpg' ,'jpge' ,'.gif' ,'.bmp')"
+fsql_new = fsql_new & vbcrlf & "and xicuitem=" & rsmaster("icuitem")
+fsql_new = fsql_new & vbcrlf & "and exists(select * from cattreenode where ctunitid in ("
+fsql_new = fsql_new & vbcrlf & "  select ictunit from cudtgeneric where icuitem=" & rsmaster("icuitem")
+fsql_new = fsql_new & vbcrlf & " ) and xsldata = 'styleg')"  '只有styleg才出現
+fsql_new = fsql_new & vbcrlf & "order by listseq " 
+
+set rs_newlist = conn.execute(fsql_new)
+
+sql_bgnusic = "select * from backgroundmusic"
+set rs_bgmusic = conn.execute(sql_bgnusic)
+
+
+    if not rs_newlist.eof then 
+
+                                               =request("icuitem")
+   function chk(val1,val2,strrtn) 
+    if ucase(val1)=ucase(val2) then
+    chk=strrtn
+       else
+       chk=""
+       end if
+end function 
+
+
+
+
+
+
+                                              =chk(rs_newlist("bgmusic"),"","selected")
+                      while not rs_bgmusic.eof 
+                                  =rs_bgmusic("bgmusicid") :            =rs_bgmusic("bgmusicid") :     =chk(rs_newlist("bgmusic"),rs_bgmusic("bgmusicid"),"selected"):    =rs_bgmusic("title") 
+                      rs_bgmusic.movenext
+                    wend 
+                    
+                                                                    =chk(rs_newlist("bgmusic"),"artist01.mp3","selected")
+                                                                =chk(rs_newlist("bgmusic"),"artist02.mp3","selected")
+                                                                =chk(rs_newlist("bgmusic"),"artist03.mp3","selected")
+                                                                =chk(rs_newlist("bgmusic"),"artist04.mp3","selected")
+                                                          =chk(rs_newlist("bgmusic"),"random","selected")
+
+
+
+                       =session("mywwwsiteurl") :                                      =rsmaster("icuitem") :      =now() 
+
+
+
+
+
+     end if 
+
+
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

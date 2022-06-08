@@ -1,0 +1,73 @@
+﻿
+
+
+
+
+
+
+  
+   ' step 1: �ϥ� createobject ���� object. dll name: hysdk, class name: hyft
+   set obj = server.createobject("hysdk.hyft.1")
+
+   ' step 2: �i�s hyft_connect �s�� hyftd
+   x = obj.hyft_connect("localhost", 2816, "writer", "", "")
+
+   ' hyft_connect() �ǧ^�Ȭ��s�u id, �s��� obj.ret_val ��
+   id = obj.ret_val
+   if id = -1 then
+      '�y�o�s�u����, �h���~�t���s��� obj.errmsg
+      response.write "�s�u hyftd �o�Ϳ��~, ���~�t��: " & obj.errmsg & "<br><br>"
+      response.end
+   else
+      response.write "�s�u hyftd ���\! id = " & id & "<br><br>"
+   end if
+
+   ' step 3: ��l�ƭd�����
+   x = obj.hyft_initquery(id)
+   ' �ǧ^�Ȭ� obj.ret_val
+   ret = obj.ret_val
+   if ret = -1 then
+      '�y�o��l�ƥ���, �h���~�t���s��� obj.errmsg
+      response.write "initquery �o�Ϳ��~, ���~�t��: " & obj.errmsg
+      response.end
+   end if
+
+   ' step 4: �}�l�i�s hyft_addquery, �n�n�d�ߤ�����ƶ�j
+   response.write "�d�߱���gau=�k���j�l<br><br>"
+   x = obj.hyft_addquery(id, "au", "�k���j�l", "", 0, 0, 0)
+   if ret = -1 then
+      response.write "addquery �o�Ϳ��~, ���~�t��: " & obj.errmsg
+      response.end
+   end if
+
+   ' step 5: �i�s hyft_query, �}�l�d��
+   x = obj.hyft_query(id, 0, 1000)
+   res_id = obj.ret_val
+   if res_id = -1 then
+      response.write "query �o�Ϳ��~, ���~�t��: " & obj.errmsg
+      response.end
+   end if 
+
+   ' step 6: ���o����
+   x = obj.hyft_num_sysid(id, res_id)
+   ' ���ƶǧ^�Ȧs��� obj.ret_val
+   num = obj.ret_val
+   if num < 0 then
+      response.write "num_sysid �o�Ϳ��~, ���~�t��: " & obj.errmsg
+      response.end
+   end if 
+   ' num > 0 ��ܦ��d����
+   if num > 0 then
+      ' step 6-1: �@������@�� sysid
+      for i = 0 to num-1
+ x = obj.hyft_fetch_sysid(id, res_id, i)
+        '����x�ӥ� sysid �s��� obj.sysid
+        sysid = obj.sysid
+        response.write "sysid=***" & sysid & "***<br><br>"
+      next
+      response.write "����!"
+   else
+      response.write "num = 0, no data found."
+   end if
+   set obj=nothing 
+ 

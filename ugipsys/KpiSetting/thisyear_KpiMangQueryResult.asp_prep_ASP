@@ -1,0 +1,365 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ htprogcap = "單元資料維護"
+ htprogfunc = "查詢"
+ htprogcode="kpi01"
+ htprogprefix="" 
+ response.charset = "utf-8"
+
+   CxMethod_ASP_server_1606199358()
+  
+ 
+ dim account 
+ dim realname 
+ dim nickname 
+ dim level 
+ dim gradetype 
+ dim gradefrom 
+ dim gradeto 
+ dim condition 
+ dim gradetypethis : gradetypethis = request.querystring("gradetypethis")
+ dim exporturl
+ 
+ function getgradebylevel( level )
+  dim grade : grade = 0
+  if level > 4 then 
+   grade = 99999
+  else
+   sql = "select top 1 * from codemain where codemetaid = 'gradelevel' and mcode = '" & level & "'"
+   set rs = conn.execute(sql)
+   if not rs.eof then
+    grade = rs("mvalue")
+   end if
+   rs.close
+   set rs = nothing
+  end if
+  getgradebylevel = grade
+ end function
+ 
+ function getnamebygrade( grade )
+  dim name : name = ""
+  dim level : level = ""
+  if grade = "0" then
+   level = "1"
+  else
+   sql = "select top 1 * from codemain where codemetaid = 'gradelevel' and " & grade & " < mvalue order by msortvalue"
+   set rs = conn.execute(sql)
+   if not rs.eof then
+    level = rs("mcode")
+   else
+    level = "5"
+   end if
+   rs.close
+   set rs = nothing
+   level = cstr(cint(level) - 1)
+  end if
+  if level = "1" then
+   name = "入門級"
+  elseif level = "2" then
+   name = "進階級"
+  elseif level = "3" then
+   name = "高手級"
+  elseif level = "4" then
+   name = "達人級"
+  end if
+  getnamebygrade = name
+ end function 
+ 
+ if request.querystring("keep") = "" then
+ 
+  account = request.querystring("account")
+  realname = request.querystring("realname")
+  nickname = request.querystring("nickname")
+  level = request.querystring("level")
+  gradetype = request.querystring("gradetype")
+  gradefrom = request.querystring("gradefrom")
+  gradeto = request.querystring("gradeto") 
+   
+  ' sqlselect = "membergradesummary.memberid, membergradesummary.browsetotal, membergradesummary.logintotal, " & _
+        ' "membergradesummary.sharetotal, membergradesummary.contenttotal, membergradesummary.additionaltotal, " & _
+        ' "membergradesummary.calculatetotal, member.realname, isnull(member.nickname, '') as nickname "
+  ' sqlfrom = "from membergradesummary inner join member on membergradesummary.memberid = member.account "
+  sqlwhere = "where 1 = 1 "
+  sqlselect = "isnull(gradebrowse_thisyear.gradebrowse, 0) as gradebrowse, isnull(gradelogin_thisyear.gradelogin, 0) as gradelogin, "
+  
+  sqlselect = sqlselect & " isnull(gradeshare_thisyear.gradeshare, 0) as gradeshare, member.account as memberid ,"
+  sqlselect = sqlselect & " (isnull(vcb.thisyearbrowsegrade,0)+isnull(vcc.thisyearcommendgrade,0)+isnull(vcd.thisyeardiscussgrade,0)+"
+  sqlselect = sqlselect & " isnull(mgcby.contentiqpoint,0)+isnull(mgcby.contentraisepoint,0)+ "  
+  sqlselect = sqlselect & " isnull(mgcby.contentlogopoint,0)+ isnull(mgcby.contentplantlogpoint,0)+ "  
+  sqlselect = sqlselect & " isnull(mgcby.contentfishbowlpoint,0)+ isnull(mgcby.contentdrpoint,0)+  "  
+  sqlselect = sqlselect & " isnull(mgcby.contentknowledgeqapoint,0)+isnull(mgcby.contentdr2010point,0)+ "  
+  sqlselect = sqlselect & " isnull(mgcby.contenttreasurehuntpoint,0) ) as contenttotal" 
+  sqlselect = sqlselect & ", isnull(viewaddthis.thisyearaddpoint, 0) as additionaltotal ,"
+  sqlselect = sqlselect & " (isnull(gradebrowse_thisyear.gradebrowse, 0) * 0.15 + isnull(gradelogin_thisyear.gradelogin, 0) * 0.2) + isnull(gradeshare_thisyear.gradeshare, 0) * 0.3 "
+  sqlselect = sqlselect & " + (isnull(vcb.thisyearbrowsegrade,0)+isnull(vcc.thisyearcommendgrade,0)+isnull(vcd.thisyeardiscussgrade,0)"
+ sqlselect = sqlselect & " + isnull(mgcby.contentiqpoint,0)+isnull(mgcby.contentraisepoint,0)+isnull(mgcby.contentlogopoint,0)+ isnull(mgcby.contentplantlogpoint,0)+isnull(mgcby.contentfishbowlpoint,0)+ isnull(mgcby.contentdrpoint,0)+ isnull(mgcby.contentknowledgeqapoint,0)+ isnull(mgcby.contentdr2010point,0)+isnull(mgcby.contenttreasurehuntpoint,0)"
+ sqlselect = sqlselect & ") * 0.2 "
+  sqlselect = sqlselect & "  + isnull(viewaddthis.thisyearaddpoint, 0) * 0.15 as total , "
+  sqlselect = sqlselect & " member.realname, isnull(member.nickname, '') as nickname "
+  
+  'sqlfrom = "from gradebrowse_thisyear "
+  'sqlfrom = sqlfrom & " inner join gradelogin_thisyear on gradebrowse_thisyear.memberid = gradelogin_thisyear.memberid "
+  'sqlfrom = sqlfrom & " inner join gradeshare_thisyear on gradebrowse_thisyear.memberid = gradeshare_thisyear.memberid "
+  'sqlfrom = sqlfrom & " inner join member on gradebrowse_thisyear.memberid = member.account "
+
+  sqlfrom = "from member "
+  sqlfrom = sqlfrom & " left join gradelogin_thisyear  on member.account = gradelogin_thisyear.memberid "
+  sqlfrom = sqlfrom & " left join gradeshare_thisyear  on member.account = gradeshare_thisyear.memberid "
+  sqlfrom = sqlfrom & " left join gradebrowse_thisyear on member.account = gradebrowse_thisyear.memberid "
+  sqlfrom = sqlfrom & " left join membergradesummary b on member.account = b.memberid "
+  sqlfrom = sqlfrom & " left join gradecontentbrowse_thisyear vcb on member.account = vcb.ieditor  "
+  sqlfrom = sqlfrom & " left join gradecontentcommend_thisyear vcc on member.account = vcc.ieditor  "
+  sqlfrom = sqlfrom & " left join gradecontentdiscuss_thisyear vcd on member.account = vcd.ieditor "
+  sqlfrom = sqlfrom & " left join view_membergradeadditional_thisyear viewaddthis on member.account = viewaddthis.memberid "
+  sqlfrom = sqlfrom & " left join dbo.membergradecontentbyyear mgcby on member.account = mgcby.memberid and (convert(int, convert(varchar(4), getdate(), 120 ) ) - isnull(years,0) = 0) "
+  if account <> "" then 
+   condition = condition & "帳號：" & account & ","
+   sqlwhere = sqlwhere & "and member.account like '%" & account & "%' "
+  end if
+  if realname <> "" then 
+   condition = condition & "真實姓名：" & realname & ","
+   sqlwhere = sqlwhere & "and member.realname like '%" & realname & "%' "
+  end if
+  if nickname <> "" then 
+   condition = condition & "暱稱：" & nickname & ","
+   sqlwhere = sqlwhere & "and member.nickname like '%" & nickname & "%' "
+  end if
+  if level <> "" then 
+   if level = "1" then
+    name = "入門級"
+   elseif level = "2" then
+    name = "進階級"
+   elseif level = "3" then
+    name = "高手級"
+   elseif level = "4" then
+    name = "達人級"
+   end if
+   condition = condition & "會員等級：" & name & ","
+   sqlwhere = sqlwhere & "and ((isnull(gradebrowse_thisyear.gradebrowse, 0) * 0.2 + isnull(gradelogin_thisyear.gradelogin, 0) * 0.2) + isnull(gradeshare_thisyear.gradeshare, 0) * 0.3 + (isnull(vcb.thisyearbrowsegrade,0)+isnull(vcc.thisyearcommendgrade,0)+isnull(vcd.thisyeardiscussgrade,0)) * 0.15 + isnull(b.additionaltotal-b.additionaltotalhistory, 0) * 0.15) >= " & getgradebylevel(cint(level)) & " "
+   sqlwhere = sqlwhere & "and ((isnull(gradebrowse_thisyear.gradebrowse, 0) * 0.2 + isnull(gradelogin_thisyear.gradelogin, 0) * 0.2) + isnull(gradeshare_thisyear.gradeshare, 0) * 0.3 + i(isnull(vcb.thisyearbrowsegrade,0)+isnull(vcc.thisyearcommendgrade,0)+isnull(vcd.thisyeardiscussgrade,0)) * 0.15 + isnull(b.additionaltotal-b.additionaltotalhistory, 0) * 0.15) < " & getgradebylevel(cint(level) + 1) & " "
+  end if
+  if gradefrom <> "" or gradeto <> "" then 
+   if gradetype = "1" then 
+    condition = condition & "分數類別：會員總積分,"
+    sqlwhere = sqlwhere & "and ((isnull(gradebrowse_thisyear.gradebrowse, 0) * 0.2 + isnull(gradelogin_thisyear.gradelogin, 0) * 0.2) + isnull(gradeshare_thisyear.gradeshare, 0) * 0.3 + (isnull(vcb.thisyearbrowsegrade,0)+isnull(vcc.thisyearcommendgrade,0)+isnull(vcd.thisyeardiscussgrade,0)) * 0.15 + isnull(b.additionaltotal-b.additionaltotalhistory, 0) * 0.15) "
+   elseif gradetype = "2" then 
+    condition = condition & "分數類別：吸收度(瀏覽行為)積分,"
+    sqlwhere = sqlwhere & "and gradebrowse_thisyear.gradebrowse "
+   elseif gradetype = "3" then 
+    condition = condition & "分數類別：持久度(登入行為)積分,"
+    sqlwhere = sqlwhere & "and gradelogin_thisyear.gradelogin "
+   elseif gradetype = "4" then 
+    condition = condition & "分數類別：分享度(互動行為)積分,"
+    sqlwhere = sqlwhere & "and gradeshare_thisyear.gradeshare "
+    elseif gradetype = "5" then 
+     condition = condition & "分數類別：貢獻度(內容價值)積分,"
+     sqlwhere = sqlwhere & "and (isnull(vcb.thisyearbrowsegrade,0)+isnull(vcc.thisyearcommendgrade,0)+isnull(vcd.thisyeardiscussgrade,0)) "
+    elseif gradetype = "6" then 
+     condition = condition & "分數類別：踴躍度(活動參與)積分,"
+     sqlwhere = sqlwhere & "and (isnull(vcb.thisyearbrowsegrade,0)+isnull(vcc.thisyearcommendgrade,0)+isnull(vcd.thisyeardiscussgrade,0)) "
+   end if
+   if gradefrom <> "" and gradeto <> "" then
+    condition = condition & "會員總積分：" & gradefrom & "~" & gradeto & ","
+    sqlwhere = sqlwhere & "between " & gradefrom & " and " & gradeto & " "
+   elseif gradefrom <> "" and gradeto = "" then
+    condition = condition & "會員總積分：大於 " & gradefrom & ","
+    sqlwhere = sqlwhere & ">= " & gradefrom & " "
+   elseif gradefrom = "" and gradeto <> "" then
+    condition = condition & "會員總積分：小於 " & gradeto & ","
+    sqlwhere = sqlwhere & "<= " & gradeto & " "
+   end if      
+  end if
+  if len(condition) > 0 then condition = left(condition, len(condition) - 1)
+ 
+  session("csql") = "select count(*) " & sqlfrom & sqlwhere
+  session("fsql") = sqlselect & sqlfrom & sqlwhere 
+  session("condition") = condition
+  exporturl = "thisyear_kpimembersummaryexport.asp?account=" & server.urlencode(account) & "&realname=" & server.urlencode(realname) & _
+        "&nickname=" & server.urlencode(nickname) & "&level=" & level & "&gradetype=" & gradetype & _
+        "&gradefrom=" & gradefrom & "&gradeto=" & gradeto
+  session("exporturl") = exporturl
+ end if
+ if gradetypethis = "1" then
+  sqlorder = "order by total desc"
+  exporturl = session("exporturl") & "&gradetypethis=1"
+ elseif gradetypethis = "2" then
+  sqlorder = "order by gradebrowse_thisyear.gradebrowse desc, total desc"
+  exporturl = session("exporturl") & "&gradetypethis=2"
+ elseif gradetypethis = "3" then
+  sqlorder = "order by gradelogin_thisyear.gradelogin desc, total desc"
+  exporturl = session("exporturl") & "&gradetypethis=3"
+ elseif gradetypethis = "4" then
+  sqlorder = "order by gradeshare_thisyear.gradeshare desc, total desc"
+  exporturl = session("exporturl") & "&gradetypethis=4"
+ elseif gradetypethis = "5" then
+  sqlorder = "order by contenttotal, total desc"
+  exporturl = session("exporturl") & "&gradetypethis=5"
+ elseif gradetypethis = "6" then
+  sqlorder = "order by additionaltotal, total desc"
+  exporturl = session("exporturl") & "&gradetypethis=6"
+ else 
+  sqlorder = "order by total desc"
+  exporturl = session("exporturl") & "&gradetypethis=1"
+ end if
+ fsql = session("fsql") & sqlorder 
+ csql = session("csql")
+ condition = session("condition")
+
+ nowpage = request.querystring("nowpage")  '現在頁數
+  perpagesize = request.querystring("pagesize")
+ if not isnumeric(perpagesize) then
+  perpagesize = 15
+ else
+  perpagesize = cint(request.querystring("pagesize"))
+ end if
+  if perpagesize <= 0 then perpagesize = 15
+
+  set rsc = conn.execute(csql)
+  totrec = rsc(0)       '總筆數
+  totpage = int(totrec / perpagesize + 0.999)
+
+  if cint(nowpage) < 1 then 
+    nowpage = 1
+  elseif cint(nowpage) > totpage then 
+    nowpage = totpage 
+  end if             
+
+ fsql = "select top " & nowpage * perpagesize & " " & fsql 
+
+ set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+' rsreg.cachesize = perpagesize
+'response.write fsql
+'----------hyweb gip db connection patch----------
+' rsreg.open fsql, conn, 3, 1
+set rsreg =  conn.execute(fsql)
+ rsreg.cachesize = perpagesize
+'----------hyweb gip db connection patch----------
+'response.write fsql
+
+ if not rsreg.eof then
+  if totrec > 0 then 
+      rsreg.pagesize = perpagesize       '每頁筆數
+      rsreg.absolutepage = nowpage      
+  end if    
+ end if   
+  
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         =condition:               =exporturl
+
+
+                        if gradetypethis = "" then :              end if 
+                        if gradetypethis = "2" then :              end if 
+                        if gradetypethis = "3" then :              end if 
+                        if gradetypethis = "4" then :              end if 
+                        if gradetypethis = "5" then :              end if 
+                        if gradetypethis = "6" then :              end if 
+
+
+
+       if cint(nowpage) <> 1 then 
+
+                                                                   =gradetypethis:            =(nowpage-1):             =perpagesize
+       end if 
+         =totrec
+
+                       if perpagesize=15 then:            end if
+                          if perpagesize=30 then:            end if
+                          if perpagesize=50 then:            end if
+                           if perpagesize=300 then:            end if
+
+
+
+     for ipage=1 to totpage 
+                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+       next 
+
+
+       if cint(nowpage)<>totpage then 
+                                                                      =gradetypethis:            =(nowpage+1):             =perpagesize
+
+       end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+ if not rsreg.eof then   
+  for i = 1 to perpagesize
+   ' score =0
+   ' sql_b = "select rank0_1 from kpi_set_score where   (rank0 = 'st_1') and (rank0_2 = 'st_111') "
+   ' set rs_b =  conn.execute(sql_b)
+   ' score = score + rs_b("rank0_1") * rsreg("gradebrowse") 
+   ' sql_l = "select rank0_1 from kpi_set_score where   (rank0 = 'st_1') and (rank0_2 = 'st_112') "
+   ' set rs_l =  conn.execute(sql_l)
+   ' score = score + rs_l("rank0_1") * rsreg("gradelogin") 
+   ' sql_s = "select rank0_1 from kpi_set_score where   (rank0 = 'st_1') and (rank0_2 = 'st_113') "
+   ' set rs_s =  conn.execute(sql_s)
+   ' score = score + rs_s("rank0_1") * rsreg("gradeshare") 
+   ' score =score / 100
+   response.write "<tr>" & vbcrlf
+   response.write "<td><a href=""/member/newmemberedit.asp?account=" & trim(rsreg("memberid")) & """>" & trim(rsreg("memberid")) & "&nbsp;</a></td>" & vbcrlf 
+   response.write "<td>" & trim(rsreg("realname")) & "&nbsp;</td>" & vbcrlf 
+   response.write "<td>" & trim(rsreg("nickname")) & "&nbsp;</td>" & vbcrlf 
+   response.write "<td>" & getnamebygrade(cint(rsreg("total"))) & "&nbsp;</td>" & vbcrlf 
+   response.write "<td><a href=""kpicalculatetotal.asp?memberid=" & trim(rsreg("memberid")) & "&thisyear=thisyear"">" & cint(rsreg("total")) & "&nbsp;</a></td>" & vbcrlf 
+   response.write "<td><a href=""kpibrowsetotal.asp?memberid=" & trim(rsreg("memberid")) & "&thisyear=thisyear"">" & rsreg("gradebrowse") & "&nbsp;</a></td>" & vbcrlf 
+   response.write "<td><a href=""kpilogintotal.asp?memberid=" & trim(rsreg("memberid")) & "&thisyear=thisyear"">" & rsreg("gradelogin") & "&nbsp;</a></td>" & vbcrlf 
+   response.write "<td><a href=""kpisharetotal.asp?memberid=" & trim(rsreg("memberid")) & "&thisyear=thisyear"">" & rsreg("gradeshare") & "&nbsp;</a></td>" & vbcrlf 
+   response.write "<td>" & rsreg("contenttotal") & "&nbsp;</td>" & vbcrlf 
+   response.write "<td>" & rsreg("additionaltotal") & "&nbsp;</td>" & vbcrlf 
+   response.write "</tr>" & vbcrlf 
+   rsreg.movenext
+      if rsreg.eof then exit for 
+  next 
+ end if
+ 
+
+
+
+
+
+
+
+                                                                                                                                                =nowpage:             =perpagesize
+
+
+
+                                                                                 =gradetypethis:                                                                     =perpagesize
+
+
+
+                                                                                 =gradetypethis:            =nowpage 

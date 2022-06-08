@@ -1,0 +1,60 @@
+/*	
+	國工局全球網 - All Rights Reserved.
+	
+	Produicted By 凌網科技 HyWeb Tech. Co., Ltd.2004.
+	http://www.hyweb.com.tw　
+	HyWeb CSS Style(writed by m10/Carol13 Chen) 2004/02/26
+*/
+
+body {
+	text-align: center;
+	margin: 0px;
+	background-color: #D6D5D5;
+	background-image: url(../images/wel_bg.gif);
+	background-repeat: repeat-x;
+
+}
+
+
+/* 範圍 DIV 設定 */
+#Top {
+	width: 725px;
+	height: 430px;
+
+}
+
+#Mid {
+	width: 725px;
+	height: 33px;
+	text-align: right;
+	padding-top: 8px;
+}
+#Mid a {
+	font-size: 15px;
+	color: #FFCC00;
+	font-weight: bold;
+	text-decoration: none;
+	background-image: url(../images/wel_point1.gif);
+	background-repeat: no-repeat;
+	margin-right: 20px;
+	padding-left: 20px;
+}
+#Mid a:hover {
+	color: #FFFFFF;
+	text-decoration: none;
+	background-image: url(../images/wel_point2.gif);
+	background-repeat: no-repeat;
+	margin-right: 20px;
+	padding-left: 20px;
+}
+
+
+#Down {
+	width: 725px;
+	text-align: left;
+	padding-top: 5px;
+	font-size: 13px;
+	color: #50607E;
+	line-height: 18px;
+
+}

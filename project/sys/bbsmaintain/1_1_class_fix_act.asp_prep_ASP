@@ -1,0 +1,43 @@
+﻿:  
+ response.expires = 0
+ htprogcap = "�q�ױm��"
+ htprogfunc = "�q�ױm�Ϻ��@"
+ htprogcode = "bbs010"
+ htprogprefix = "msession" 
+ response.expires = 0 
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+
+ action = trim(request("submit"))
+ id = trim(request("id"))
+ master = trim(request("master"))
+ seq = trim(request("seq"))
+ name = trim(request("name"))
+ 
+
+ if name = "" or not isnumeric(seq) then
+  response.write "<script language='javascript'>alert('�п�j�����w�١b�����ƨǽп�j�Ʀr�i');history.go(-1);</script>"
+  response.end
+ end if
+
+
+ if action = "�ק�" then
+  sql = "" & _
+   " update talk05 set " & _
+   " name = '" & replace(name, "'", "''") & "', " & _
+   " master = '" & replace(master, "'", "''") & "', " & _
+   " seq = " & pkstr(seq, "") & ", " & _
+   " updatetime = getdate() " & _
+   " where id = " & pkstr(id, "")
+ elseif action = "�r��" then
+  sql = "" & _
+   " delete talk05 where id = " & pkstr(id, "") & "; " & _
+   " delete article where bid = " & pkstr(subject_id, "")
+ end if
+ 
+ conn.execute(sql)
+ response.redirect "1_1.asp"
+ 

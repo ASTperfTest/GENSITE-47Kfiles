@@ -1,0 +1,138 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+htprogcode="newmember"
+htprogprefix = "newmember"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbutil_10064021()
+  
+ dim memberid : memberid = request.querystring("memberid")
+ dim add : add = request.querystring("add")
+ 
+ if add = "y" then
+  addkeyword
+ else
+  showform
+ end if 
+
+   
+sub addkeyword 
+
+ dim keyword : keyword = ""
+ dim newkeyword : newkeyword = request("keyword")
+ 
+ sql = "select isnull(keyword, '') as keyword from member where account = " & pkstr(memberid, "")
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  keyword = rs("keyword")
+ end if
+ rs.close
+ set rs = nothing
+ 
+ keyword = keyword & newkeyword & ","
+ sql = "update member set keyword = " & pkstr(keyword, "") & " where account = " & pkstr(memberid, "")
+ conn.execute(sql)
+ showdonebox "新增完成"
+end sub
+
+   sub showdonebox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+                                                        =memberid:            =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+
+   end sub 
+   sub showform 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                              =memberid:            =request("nowpage"):             =request("pagesize")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      =memberid:            =request("nowpage"):             =request("pagesize")
+
+
+
+                                                      =memberid:            =request("nowpage"):             =request("pagesize")
+
+
+   end sub  

@@ -1,0 +1,65 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+        
+        function RetrunMessage(msg) {
+            alert(msg);
+            window.location = "bgMusicList.aspx";
+        }
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                               function onclick____1159587498() {Btsave_Click}
+                                                function onclick___1563694229() {Btcancel_Click}
+
+
+
+
+
+
+
+
+
+
+ 

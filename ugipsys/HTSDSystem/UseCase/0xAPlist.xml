@@ -1,0 +1,260 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<CatList>
+	<APCat>
+		<CatID>HT001</CatID>
+		<CatName>系統管理test</CatName>
+		<UseCaseList>
+			<UseCase>
+				<APCode>tt001</APCode>
+				<APName>這是測試</APName>
+				<HighLevelSpec>
+					<Date>2001/6/29</Date>
+					<Author>system</Author>
+					<Status></Status>
+				</HighLevelSpec>
+			</UseCase>
+			<UseCase>
+				<APCode>uc01</APCode>
+				<APName>買東東</APName>
+				<HighLevelSpec>
+					<Date>2001/6/23</Date>
+					<Author>system</Author>
+					<Status>Y</Status>
+				</HighLevelSpec>
+				<HighLevelSpec>
+					<Date>2001/6/21</Date>
+					<Author>system</Author>
+					<Status>Y</Status>
+				</HighLevelSpec>
+				<ExpandedSpec>
+					<Date>2001/6/29</Date>
+					<Author>Chris</Author>
+					<Status>Y</Status>
+					<TypicalCourseOfEvents>
+						<Event type="Actor Action" id="1">
+				This use case begins when a Customer arrives at the POST checkout with items to purchases.
+			</Event>
+						<Event type="Actor Action" id="2">
+				The Cashier records each item.
+				<Option>If there is more than one of an item, the Cashier can enter the quantity as well.</Option>
+						</Event>
+						<Event type="System Response" id="3">
+				Determines the item price and adds the item information to the running sales transaction.
+				The description and price of the current item are presented.
+			</Event>
+						<Event type="Actor Action" id="4">
+				On Completion of item entry, the Cashier indicates to the POST that item entry is complete.
+			</Event>
+						<Event type="System Response" id="5">
+				Calculates and presents the sale total.
+			</Event>
+						<Event type="Actor Action" id="6">
+				The Cashier tells the Customer the total.
+			</Event>
+						<Event type="Actor Action" id="7">
+				Customer choose payment type:
+				<Select><test>cash payment</test><UseCase>Pay by Cash</UseCase></Select>
+							<Select><test>credit payment</test><UseCase>Pay by Credit</UseCase></Select>
+							<Select><test>check payment</test><UseCase>Pay by Check</UseCase></Select>
+						</Event>
+						<Event type="System Response" id="8">
+				Logs the completed sale.
+			</Event>
+						<Event type="System Response" id="9">
+				Updates inventory levels.
+			</Event>
+						<Event type="System Response" id="10">
+				Generates a receipt.
+			</Event>
+						<Event type="Actor Action" id="11">
+				The Cashier gives the receipt to the Customer.
+			</Event>
+						<Event type="Actor Action" id="12">
+				The Customer leaves with the items purchased.
+			</Event>
+					</TypicalCourseOfEvents>
+				</ExpandedSpec>
+			</UseCase>
+			<UseCase>
+				<APCode>uc04</APCode>
+				<APName>啟用</APName>
+				<HighLevelSpec>
+					<Date>2001/6/29</Date>
+					<Author>system</Author>
+					<Status>Y</Status>
+				</HighLevelSpec>
+			</UseCase>
+		</UseCaseList>
+	</APCat>
+	<APCat>
+		<CatID>AB1</CatID>
+		<CatName>請採購</CatName>
+		<UseCaseList>
+			<UseCase>
+				<APCode>AB00</APCode>
+				<APName>請採購流程</APName>
+				<HighLevelSpec>
+					<Date>2001/8/3</Date>
+					<Author>chen</Author>
+					<Status>Y</Status>
+				</HighLevelSpec>
+			</UseCase>
+			<UseCase>
+				<APCode>AB1p001</APCode>
+				<APName>請購</APName>
+				<HighLevelSpec>
+					<Date>2001/8/6</Date>
+					<Author>chen</Author>
+					<Status>Y</Status>
+				</HighLevelSpec>
+				<ExpandedSpec>
+					<Date>2001/8/5</Date>
+					<Author>chen</Author>
+					<Status>Y</Status>
+					<TypicalCourseOfEvents>
+						<Event type="Client" id="0">
+				列出目前尚未結案的請購案，檢視請購案目前進行的狀況
+			</Event>
+						<Event type="Client" id="10" ContractXML="xx.xml">
+				[請增]--
+			</Event>
+						<Event type="Server" id="11">
+				傳回目前預算使用狀況
+			</Event>
+						<Event type="Client" id="12" ContractXML="evx_test1.xml">
+				選擇要運用的預算
+			</Event>
+						<Event type="Client" id="13" ContractXML="evx_tt2.xml">
+				填寫請購明細<BR/>
+				項目、規格...
+			</Event>
+						<Event type="Server" id="14">
+				新增請購案
+			</Event>
+						<Event type="Client" id="15" ContractXML="evx_test2.xml">
+				[編修/刪除]--進行到什麼條件允許修刪?
+			</Event>
+					</TypicalCourseOfEvents>
+				</ExpandedSpec>
+			</UseCase>
+			<UseCase>
+				<APCode>AB1p003</APCode>
+				<APName>檢查預算</APName>
+				<HighLevelSpec>
+					<Date>2001/8/6</Date>
+					<Author>chen</Author>
+					<Status>Y</Status>
+				</HighLevelSpec>
+			</UseCase>
+			<UseCase>
+				<APCode>AB1p005</APCode>
+				<APName>請購核准</APName>
+				<HighLevelSpec>
+					<Date>2001/8/6</Date>
+					<Author>chen</Author>
+					<Status></Status>
+				</HighLevelSpec>
+			</UseCase>
+			<UseCase>
+				<APCode>AB1p010</APCode>
+				<APName>採購招標</APName>
+				<HighLevelSpec>
+					<Date>2001/8/6</Date>
+					<Author>chen</Author>
+					<Status></Status>
+				</HighLevelSpec>
+			</UseCase>
+			<UseCase>
+				<APCode>AB1p015</APCode>
+				<APName>詢比議價</APName>
+				<HighLevelSpec>
+					<Date>2001/8/6</Date>
+					<Author>chen</Author>
+					<Status></Status>
+				</HighLevelSpec>
+			</UseCase>
+			<UseCase>
+				<APCode>AB1p017</APCode>
+				<APName>公開招標</APName>
+				<HighLevelSpec>
+					<Date>2001/8/6</Date>
+					<Author>chen</Author>
+					<Status></Status>
+				</HighLevelSpec>
+			</UseCase>
+			<UseCase>
+				<APCode>AB1p020</APCode>
+				<APName>採購合約</APName>
+				<HighLevelSpec>
+					<Date>2001/8/6</Date>
+					<Author>chen</Author>
+					<Status></Status>
+				</HighLevelSpec>
+			</UseCase>
+			<UseCase>
+				<APCode>AB1p030</APCode>
+				<APName>點收</APName>
+				<HighLevelSpec>
+					<Date>2001/8/6</Date>
+					<Author>chen</Author>
+					<Status></Status>
+				</HighLevelSpec>
+				<ExpandedSpec>
+					<Date>2001/8/8</Date>
+					<Author>chen</Author>
+					<Status></Status>
+					<TypicalCourseOfEvents>
+						<Event type="Client" id="0">
+						</Event>
+						<Event type="Client" id="1">
+						</Event>
+						<Event type="Server" id="1">
+						</Event>
+					</TypicalCourseOfEvents>
+				</ExpandedSpec>
+			</UseCase>
+			<UseCase>
+				<APCode>AB1p033</APCode>
+				<APName>驗收</APName>
+				<HighLevelSpec>
+					<Date>2001/8/6</Date>
+					<Author>chen</Author>
+					<Status></Status>
+				</HighLevelSpec>
+			</UseCase>
+			<UseCase>
+				<APCode>AB1p035</APCode>
+				<APName>驗收核錄</APName>
+				<HighLevelSpec>
+					<Date>2001/8/6</Date>
+					<Author>chen</Author>
+					<Status></Status>
+				</HighLevelSpec>
+			</UseCase>
+			<UseCase>
+				<APCode>AB1p040</APCode>
+				<APName>採購支付</APName>
+				<HighLevelSpec>
+					<Date>2001/8/6</Date>
+					<Author>chen</Author>
+					<Status></Status>
+				</HighLevelSpec>
+			</UseCase>
+		</UseCaseList>
+	</APCat>
+	<APCat>
+		<CatID>AF1</CatID>
+		<CatName>固定資產</CatName>
+		<UseCaseList>
+			<UseCase>
+				<APCode>AF00</APCode>
+				<APName>固定資產管理</APName>
+				<HighLevelSpec>
+					<Date>2001/8/3</Date>
+					<Author>chen</Author>
+					<Status></Status>
+				</HighLevelSpec>
+			</UseCase>
+		</UseCaseList>
+	</APCat>
+</CatList>

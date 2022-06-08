@@ -1,0 +1,123 @@
+﻿: @ codepage = 65001 
+  
+'// purpose: to add epaper volume without user input.
+'// modify date: 2006/01/06
+'// ps: 1. 發行日為排程執行日.
+'//     2. 標題為抓取 checkgipconfig 中的參數.
+'//     3. 起迄日為今天前7天至今天.
+'//     4. 則數, 預設為5則.
+'//
+'// =========================================
+
+response.expires = 0
+htprogcap="電子報管理"
+htprogfunc="新增發行"
+htuploadpath="/public/"
+htprogcode="gw1m51"
+htprogprefix="epub" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_checkgipconfig_1275316133()
+
+
+
+
+                               =htprogprefix
+
+
+
+
+  
+    dim defaulttitle
+    dim defaultcount
+
+    defaulttitle=getgipconfigtext("epaperdefaulttitle")
+    defaultcount=getgipconfigtext("epaperdefaultcount")
+
+ htx_pubdate = date
+    htx_epubid  = ""            '// empty, to identity.
+    htx_title   = defaulttitle
+    htx_dbdate  = date - 7
+    htx_dedate  = date
+    htx_maxno   = defaultcount
+ 'checkdbvalid()
+ doupdatedb htx_pubdate, htx_epubid, htx_title, htx_dbdate, htx_dedate, htx_maxno
+
+
+
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+
+sub checkdbvalid() '===================== server side validation put here =================
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' sql = "select * from client where clientid = '"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "「客戶編號」重複!!請重新建立客戶編號!"
+'  exit sub
+' end if
+end sub '---- checkdbvalid() ----
+
+function getmaxvolume(byval htx_title)
+    dim rtnval
+    dim getsql
+
+ rtnval = ""
+ 'getsql = "select * from eppub where ctrootid = '"& session("eptreeid") &"' and "
+ set rsvalidate = conn.execute(getsql)
+ 
+ getmaxvolume = rtnval
+getmaxvolume
+end function
+
+
+sub doupdatedb(byval htx_pubdate, byval htx_epubid, byval htx_title, byval htx_dbdate, byval htx_dedate, byval htx_maxno)
+ sql = "insert into eppub(ctrootid, "
+ sqlvalue = ") values(" & session("eptreeid") & ","
+
+ if htx_pubdate <> "" then
+  sql = sql & "pubdate" & ","
+  sqlvalue = sqlvalue & pkstr(htx_pubdate,",")
+ end if
+
+ if htx_epubid <> "" then
+  sql = sql & "epubid" & ","
+  sqlvalue = sqlvalue & pkstr(htx_epubid,",")
+ end if
+
+ if htx_title <> "" then
+  sql = sql & "title" & ","
+  sqlvalue = sqlvalue & pkstr(htx_title,",")
+ end if
+
+ if htx_dbdate <> "" then
+  sql = sql & "dbdate" & ","
+  sqlvalue = sqlvalue & pkstr(htx_dbdate,",")
+ end if
+
+ if htx_dedate <> "" then
+  sql = sql & "dedate" & ","
+  sqlvalue = sqlvalue & pkstr(htx_dedate,",")
+ end if
+ if htx_maxno <> "" then
+  sql = sql & "maxno" & ","
+  sqlvalue = sqlvalue & pkstr(htx_maxno,",")
+ end if
+
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+ sql = "set nocount on;"&sql&"; select @@identity as newid"
+ response.write sql
+ 'set rsx = conn.execute(sql)
+ 'xnewidentity = rsx(0)
+end sub 
+'---- doupdatedb() ----
+ 

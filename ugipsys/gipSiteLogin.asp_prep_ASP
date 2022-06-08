@@ -1,0 +1,119 @@
+﻿: @ codepage = 65001 :   
+response.cachecontrol = "no-cache" 
+response.addheader "pragma", "no-cache" 
+response.expires = -1
+
+   CxMethod_ASP_dbutil_453315802()
+  
+' session("gipodbc")="provider=sqloledb;data source=127.0.0.1;user id=hygip;password=hyweb;initial catalog=mgiphy"
+' session("odbcdsn")="provider=sqloledb;data source=127.0.0.1;user id=hygip;password=hyweb;initial catalog=mgiphy"
+
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("gipodbc")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("gipodbc")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+ sql = "select * from gipsites where gipsiteid=" & pkstr(request("siteid"),"")
+
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "site not found!!!"
+  response.end
+ end if
+
+ session("odbcdsn")=rs("gipsitedbconn")
+ session("mysiteid") = rs("gipsiteid")
+' session("mysiteurl") = "http://hygipsys.hyweb.com.tw"
+ session("mysiteurl") = rs("gipsiteurlsys")
+ session("mysyssiteurl") = rs("gipsiteurlsys")
+ session("mywwwsiteurl") = rs("gipsiteurl")
+ session("mysitename") = rs("gipsitename")
+     session("public") = "/site/" & rs("gipsiteid") & "/public/"
+ session("pagecount") = 10
+     session.timeout = 60
+       session("pwd") = false
+
+     '---
+set xonn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'xonn.open session("odbcdsn")
+'set xonn = server.createobject("hywebdb3.dbexecute")
+xonn.connectionstring = session("odbcdsn")
+xonn.connectiontimeout=0
+xonn.cursorlocation = 3
+xonn.open
+'----------hyweb gip db connection patch----------
+
+
+ session("xrootid") = rs("gipsitedefaultroot")
+ session("exrootid") = rs("gipsiteinnerroot")
+
+ sql = "select * from cattreeroot where vgroup='gy'"
+ set rs = xonn.execute(sql)
+ if not rs.eof then   session("exrootid") = rs("ctrootid")
+
+
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+'----------hyweb gip db connection patch----------
+
+ sqlcom = "select i.*, d.tdatacat " _
+  & " from infouser as i left join dept as d on i.deptid=d.deptid " _
+  & " where userid=" & pkstr(request("username"),"") _
+  & " and password=" & pkstr(request("password"),"")
+' response.write sqlcom
+' response.end ' or 'a'='a
+ set rs = conn.execute(sqlcom)
+ if rs.eof then
+
+
+
+
+
+
+
+  
+ else
+  session("lastvisit") = rs("lastvisit")
+  session("lastip") = rs("lastip")
+  session("visitcount") = rs("visitcount")
+  lastvisit = date()
+  visitcount = rs("visitcount") + 1
+  sql = "update infouser set lastvisit = '"& lastvisit &"', visitcount = "& visitcount _
+   & ", lastip='" & request.servervariables("remote_addr") &"' where userid = '"& rs("userid") &"'"
+  conn.execute(sql)
+  session("pwd") = true
+  session("userid") = rs("userid")
+  session("username") = rs("username")
+  session("ugrpid") = rs("ugrpid")
+  session("deptid") = rs("deptid")
+  session("tdatacat") = rs("tdatacat")
+  xpath = "/public/data/" & trim(rs("uploadpath")) 
+  if right(xpath,1)<>"/" then xpath = xpath & "/"
+  session("uploadpath") = xpath
+  session("email") = rs("email")
+
+
+    if instr(session("ugrpid")&",", "htsd,") > 0 then 
+
+   else 
+
+   end if 
+
+
+
+  
+ end if
+ 

@@ -1,0 +1,199 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_server_1606199358()
+  
+unitid = request.querystring("unitid")
+
+function chbr(s)
+  if isnull(s) or s="" then
+    chbr=""
+  else
+    chbr=replace(s, vbcrlf, "<br>")
+  end if
+end function
+
+function qqs(s)
+  if isnull(s) or s="" then
+    qqs=""
+  else
+    xqqs=replace(s,chr(34),chr(34) & "&chr(34)&" &chr(34))
+    qqs = replace(xqqs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+  end if
+end function
+
+ sqltitel = "select e_comname, c_comname, email from company"
+ set rstitle = conn.execute(sqltitel)
+  if not rstitle.eof then
+   if not (isnull(rstitle("c_comname")) or rstitle("c_comname")="") then
+    e_comname = rstitle("c_comname")    
+   else
+    e_comname = rstitle("e_comname")
+   end if
+    email = rstitle("email")
+  else
+   e_comname = session("corpcname")
+   email = ""
+  end if    
+
+ sqlcom = "select inforuser.enlname, inforuser.enfname, dataunit.begindate, "&_
+       "dataunit.subject "&_
+    "from dataunit left join "&_
+       "inforuser on dataunit.edituserid = inforuser.userid where unitid = "& unitid
+ set rs = conn.execute(sqlcom)
+
+ sql="select * from datacontent where unitid = "& unitid &" order by position"
+ set rs2=conn.execute(sql)
+
+subject= rs("subject")
+htmlsrc = "<html><head><link rel=stylesheet href=http://wcnin.neterprise.com.tw/pagestyle/system1.css></head><body>"
+htmlsrc = htmlsrc & "<center><table border=0 width=500 cellspacing=0 cellpadding=0 class=c12-1>"
+htmlsrc = htmlsrc & "<tr><td class=c12-3>"& rs("subject") &"</td></tr>"
+
+ if not rs2.eof then
+   while not rs2.eof
+ htmlsrc = htmlsrc & "<tr><td>"
+    xpath = "http://wcnin.neterprise.com.tw" & session("public")
+    if not (isnull(rs2("imagefile")) or rs2("imagefile")="") then htmlsrc = htmlsrc & "<img src="& xpath & rs2("imagefile") &" border=0 align="& rs2("imageway") &">"
+    htmlsrc = htmlsrc & chbr(rs2("contents")) & "</td></tr>"
+   rs2.movenext
+   wend
+ end if 
+ 
+htmlsrc = htmlsrc &"<tr><td><br><br><br><br>" & e_comname &"<br><a href=http://"& session("npweburl") &">http://"& session("npweburl") & "</a></td></tr>"
+htmlsrc = htmlsrc & "</table></center>" 
+
+ e_comname = "=?utf-8?b?" & eb64str(e_comname) & "?="
+ newemail = delhtmlcode(email)
+
+ if isnull(newemail) = true or instr(newemail,"@") = 0 then
+  mailacc = e_comname
+ else
+  mailacc = e_comname & "<" & newemail & ">"
+ end if
+
+ 
+  clientemailaddr = multi(request.form("mailck")) 
+   for x = 1 to ubound(clientemailaddr) 
+       set objnewmail = createobject("cdonts.newmail") 
+       objnewmail.mailformat = 0
+       objnewmail.bodyformat = 0 
+       call objnewmail.send(mailacc, clientemailaddr(x), subject, htmlsrc )
+       set objnewmail = nothing
+   next
+   
+ function delhtmlcode(codedata)
+  newdata = codedata
+  while instr(newdata,"<") > 0 and instr(newdata,">") > 0
+    temptext = mid(newdata,instr(newdata,"<"))
+    delcode = mid(newdata,instr(newdata,"<"),instr(temptext,">"))
+    sno = instr(newdata,"<") + 1 
+    while instr(2,delcode,"<") > 0 
+     temptext1 = instr(sno,newdata,"<")
+     temptext = mid(newdata,temptext1)
+     delcode = mid(newdata,temptext1,instr(temptext,">"))
+     sno = sno + 1
+    wend
+    newdata = replace(newdata, delcode,"")
+  wend
+  delhtmlcode = newdata
+ end function
+
+function multi(tstr)
+  dim outstr()
+  to_no=1
+  while len(tstr) > 0
+    pos=instr(tstr, ",")
+    if pos = 0 then
+      redim preserve outstr(to_no)
+      outstr(to_no) = tstr
+      tstr = ""
+    else
+      redim preserve outstr(to_no)
+      outstr(to_no) = left(tstr, pos-1)
+      tstr=trim(mid(tstr, pos+1))
+      to_no=to_no+1
+    end if
+  wend
+  multi = outstr
+end function
+
+'====>> base 64 encoding
+
+function eb64str(bs)
+ dim bv(4)
+ dim cbytes(100)
+
+ bslen = len(bs)
+ cbuf = bs
+ crstr = ""
+ cacount = 0
+
+ for i = 1 to bslen
+  xasc = asc(mid(bs,i,1))
+  if xasc < 0 then
+   xasc = xasc + 65536
+   cbytes(cacount) = int(xasc / 256)
+   cbytes(cacount+1) = xasc mod 256
+   cacount = cacount + 2
+  else
+   cbytes(cacount) = xasc
+   cacount = cacount + 1
+  end if
+ next
+ xcacount = cacount
+ while xcacount mod 3 <> 0
+  cbytes(xcacount) = 0
+  xcacount = xcacount +1
+ wend
+ 
+ crstr = ""
+ c3 = int((cacount) / 3)
+ for x3i = 0 to c3-1
+  p = x3i*3
+  crstr = crstr & e64(int(cbytes(p)/4))
+  crstr = crstr & e64((cbytes(p) mod 4) * 16 + int(cbytes(p+1)/16))
+  crstr = crstr & e64((cbytes(p+1) mod 16) * 4 + int(cbytes(p+2)/64))
+  crstr = crstr & e64((cbytes(p+2) mod 64))
+ next
+ p = p+3
+ while p < cacount
+  if p mod 3 = 0 then
+   crstr = crstr & e64(int(cbytes(p)/4))
+   crstr = crstr & e64((cbytes(p) mod 4) * 16 + int(cbytes(p+1)/16))
+  elseif p mod 3 = 1 then
+   crstr = crstr & e64((cbytes(p) mod 16) * 4 + int(cbytes(p+1)/64))
+  end if
+  p = p+1
+ wend
+ while p mod 3 <> 0
+  crstr = crstr & "="
+  p = p+1
+ wend
+ 
+ eb64str = crstr
+end function
+
+function e64(n)
+ if n < 26 then
+  e64 = chr(n+65)
+ elseif n < 52 then
+  e64 = chr(n+71)
+ elseif n < 62 then
+  e64 = chr(n-4)
+ elseif n = 62 then
+  e64 = chr(43)
+ elseif n = 63 then
+  e64 = chr(47)
+ else
+  e64 = "="
+ end if
+end function
+
+'====>> base 64 encoding end
+
+
+
+
+                                                          =language:             =datatype:           =unitid
+
+                                                      =language:             =datatype 

@@ -1,0 +1,279 @@
+﻿:                     
+   response.expires = 0 
+  
+ formfunction = "list"
+
+ formid = request("formid")
+ progpath = request("progpath")
+ if progpath <> "" then
+  if left(progpath,1) = "/" then progpath = mid(progpath,2)
+  progpath = replace(progpath,"/","\")
+  progpath = progpath & "\"
+ end if
+
+ set htpagedom = server.createobject("microsoft.xmldom")
+ htpagedom.async = false
+ htpagedom.setproperty("serverhttprequest") = true 
+ 
+ loadxml = server.mappath(".") & "\formspec\" & progpath & formid & ".xml"
+ xv = htpagedom.load(loadxml)
+  if htpagedom.parseerror.reason <> "" then 
+    response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+    response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+    response.end()
+  end if
+
+pgprefix = nulltext(htpagedom.selectsinglenode("//htpage/htprogprefix"))
+progpath = nulltext(htpagedom.selectsinglenode("//htpage/htprogpath"))
+if progpath = "" then 
+ pgpath = server.mappath("genedcode/")
+else
+ pgpath = server.mappath(progpath)
+end if
+if right(pgpath,1) <> "\" then pgpath = pgpath & "\"
+
+ dim xsearchlistitem(20,2)
+ xitemcount = 0
+
+    set fs = createobject("scripting.filesystemobject")
+ set htformdom = htpagedom.selectsinglenode("//pagespec")
+ set refmodel = htpagedom.selectsinglenode("//htpage/resultset")
+ set xdetail = htformdom.selectsinglenode("detailrow")
+' response.write refmodel.selectsinglenode("tablename").text & "<hr>"
+
+ cq=chr(34)
+ ct=chr(9)
+ cl="<" & "%"
+ cr="%" & ">"
+
+ htprogcap= nulltext(htpagedom.selectsinglenode("//pagespec/pagehead"))
+ htprogfunc=nulltext(htpagedom.selectsinglenode("//pagespec/pagefunction"))
+ htprogcode=nulltext(htpagedom.selectsinglenode("//htpage/htprogcode"))
+ htprogprefix=pgprefix
+
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_453315802()
+   CxMethod_ASP_htuibgen_570454434()
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap:                        =htprogfunc
+
+
+
+
+
+
+
+
+
+  
+ showaidlinklist
+
+
+
+
+  
+ for each x in htpagedom.selectnodes("//pagespec/tasklinklist/tasklink")
+  response.write "<option value=""" & nulltext(x.selectsinglenode("taskurl")) _
+   & """>" & nulltext(x.selectsinglenode("taskname")) & "</option>" & vbcrlf
+ next
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ for each param in xdetail.selectnodes("colspec")
+  response.write "<td class=etablelable>" & nulltext(param.selectsinglenode("collabel")) & "</td>"
+ next
+ response.write "</tr>"
+
+ xplinestr = ""
+ for each param in xdetail.selectnodes("colspec")
+  xplinestr = xplinestr & "<td class=etablecontent><font size=2>" 
+  xurl = nulltext(param.selectsinglenode("url"))
+  if  xurl <> "" then
+   anchoruri = xurl
+   xpos = instrrev(anchoruri,".")
+   if xpos>0 then anchoruri = left(anchoruri,xpos-1)
+   xpos = instrrev(anchoruri,"/")
+   if xpos>0 then
+    xprogpath = left(anchoruri,xpos-1)
+    anchoruri = mid(anchoruri,xpos+1)
+   else
+    xprogpath = request("progpath")
+   end if
+   xplinestr = xplinestr & "<a href=""uiview.asp?formid=" & anchoruri & "&progpath=" & xprogpath & """>"
+  end if
+  processcontent param.selectsinglenode("content")
+'  if nulltext(param.selectsinglenode("url"))
+'  xplinestr = xplinestr & "xxxxxxxx"
+  if xurl <> "" then xplinestr = xplinestr & "</a>"
+  xplinestr = xplinestr & "</font></td>"
+ next
+
+ for xi=1 to 3    
+  response.write "<tr><td class=etablecontent align=center>" _
+   & "<input type=checkbox name=ckbox" & xi & "></td>"
+  response.write xplinestr & "</tr>"
+ next
+
+
+
+   showuinotes 
+
+
+
+
+
+                                      =fopt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  =request("progpath")
+
+
+
+
+
+
+
+                            =fopt
+
+
+
+
+
+
+                                  =htprogprefix:                                             =perpagesize:        =fopt
+
+
+
+
+                                  =htprogprefix:                    =nowpage:                                         =fopt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+sub processcontent(xdom)
+dim x
+ if xdom.nodename = "reffield" then
+  processreffield xdom.text
+'  xplinestr = xplinestr & "xxxxxxxx"
+'    xfout.writeline cl & "=rsreg(""" & xdom.text & """)" & cr
+  exit sub
+ end if
+ if xdom.nodename = "#comment" then exit sub
+ if xdom.nodename = "#text" then
+  xplinestr = xplinestr & xdom.text
+'  xfout.writeline xdom.text
+  exit sub
+ end if
+ for each x in xdom.childnodes
+  processcontent x
+ next
+end sub
+
+sub processreffield (xreffield)
+ set xrf = refmodel.selectsinglenode("fieldlist/field[fieldname='" & xreffield & "']")
+ if nulltext(xrf.selectsinglenode("valuetype")) = "direct" then
+  xplinestr = xplinestr & "xxxxxxxx"
+ else
+  processparamfield xrf
+ end if
+end sub
+ 

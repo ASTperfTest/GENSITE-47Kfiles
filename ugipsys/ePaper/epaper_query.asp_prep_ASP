@@ -1,0 +1,104 @@
+﻿: @  codepage="65001" 
+   response.expires = 0
+htprogcap="電子報管理"
+htprogfunc="電子報發行清單"
+htprogcode="gw1m51"
+htprogprefix="epub" 
+
+   CxMethod_ASP_epublistparam_1087716033()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+
+
+
+
+
+
+
+
+
+
+                                                                            =request("epubid"):             =request("eptreeid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           
+          'sql = "select deptid, deptname from dept where (inuse = 'y') order by deptid"
+          'set rs1 = conn.execute(sql)
+          'while not rs1.eof
+          ' response.write "<option value=""" & rs1("deptid") & """>" & rs1("deptname") & "</option>"
+          ' rs1.movenext
+          'wend
+          

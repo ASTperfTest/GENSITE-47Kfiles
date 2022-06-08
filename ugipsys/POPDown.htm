@@ -1,0 +1,33 @@
+﻿<html>
+<body>
+<!-- Load this object to check existence of this object, if not then ask user to load it -->
+<OBJECT 
+id=PopMenu 
+classid="clsid:7823A620-9DD9-11CF-A662-00AA00C066D2" 
+codebase="iemenu.cab#Version=4,70,0,1161" 
+align=left 
+hspace=0 
+vspace=0 width="14" height="14" 
+>
+</OBJECT> 
+
+<!--Add active x object testing here -->
+</body>
+</html>
+<script language=vbs>
+
+ErrText =    "您剛剛選擇了 ''不(N)'' 安裝 Internet Explorer Popup Memu Control !!" & vbcrlf 
+ErrText = ErrText & "系統必須使用這個元件操作 ''下拉式功能選擇''" & vbcrlf
+ErrText = ErrText & "否則將導致系統無法運作" & vbcrlf 
+ErrText = ErrText & "系統會再次詢問您是否安裝該元件, 請務必選取 ''是(Y)''"
+
+on error resume next
+popmenu.clear
+
+if err.number <> 0 then
+	msgBox ErrText, 16, "請注意!" 
+	top.location.reload
+else
+	window.navigate "default.asp"
+end if
+</script>

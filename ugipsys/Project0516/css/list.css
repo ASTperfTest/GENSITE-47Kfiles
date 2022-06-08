@@ -1,0 +1,151 @@
+﻿#ListTable {
+	font-size: 12px;
+	width: 100%;
+	margin-bottom: 15px;
+	padding: 0px;
+	margin-top: 5px;
+}
+#ListTable img {
+	border: none;
+}
+#ListTable th, #ListTable th.First {
+	font-weight: normal;
+	color: #333333;
+	padding-top: 6px;
+	padding-bottom: 3px;
+	white-space: nowrap;
+}
+#ListTable th {
+	background: #D0F1BD;
+	border: 1px solid #FFFFFF;
+}
+#ListTable th.First {
+	background: #D0F1BD url(none);
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #FFFFFF;
+}
+#ListTable td {
+	border-bottom: 1px dotted #C5C5C5;
+	text-align: left;
+	padding: 6px 3px 3px;
+}
+#ListTable td.Center {
+	text-align: center;
+}
+#ListTable td.Right {
+	text-align: right;
+}
+/*-----------------test----------------------------*/
+.ListTable {
+	font-size: 12px;
+	width: 100%;
+	margin-bottom: 15px;
+	padding: 0px;
+	margin-top: 5px;
+}
+.ListTable img {
+	border: none;
+}
+.ListTable th, #ListTable th.First {
+	font-weight: normal;
+	color: #333333;
+	padding-top: 6px;
+	padding-bottom: 3px;
+	white-space: nowrap;
+}
+.ListTable th {
+	background: #D0F1BD;
+	border: 1px solid #FFFFFF;
+}
+.ListTable th.First {
+	background: #D0F1BD url(none);
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #FFFFFF;
+}
+.ListTable td {
+	border-bottom: 1px dotted #C5C5C5;
+	text-align: left;
+	padding: 6px 3px 3px;
+}
+.ListTable td.Center {
+	text-align: center;
+}
+.ListTable td.Right {
+	text-align: right;
+}
+/*-----------------------------------------------*/
+#DataTable {
+	font-size: 12px;
+	width: 100%;
+	margin-bottom: 15px;
+	margin-top: 3px;
+	border-top: 3px solid #BDC9B6;
+	border-bottom: 2px solid #BDC9B6;
+	border-left: 1px solid #BDC9B6;
+}
+#DataTable td {
+	border-right: 1px solid #BDC9B6;
+	border-bottom: 1px solid #BDC9B6;
+	vertical-align: top;
+	padding: 5px 3px 3px;
+}
+#DataTable th {
+	color: #005555;
+	font-weight: normal;
+	background: #F8FBF2;
+	border-right: 1px solid #BDC9B6;
+	border-bottom: 1px solid #BDC9B6;
+	vertical-align: top;
+	padding: 5px 3px 3px;
+	text-align: right;
+	white-space: nowrap;
+}
+#DataTable ul {
+	line-height: 170%;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 20px;
+}
+/*-----------------------------------------------*/
+#Form2 {
+	padding: 0px;
+	margin: 0px 20px;
+}
+#Form2 label{
+	font-size: 12px;
+	color: #005555;
+	text-align: right;
+	padding-top: 5px;
+	padding-left: 5px;
+}
+/*-----------------------------------------------*/
+.InputButton {
+	font-size: 12px;
+	background: url(../images/form_but_bg.gif) repeat-x;
+	padding-top: 3px;
+	color: #202624;
+	border-top: 1px solid #BBBBBB;
+	border-right: 1px solid #888888;
+	border-bottom: 1px solid #888888;
+	border-left: 1px solid #BBBBBB;
+}
+.cbutton {
+	font-size: 12px;
+	background: url(../images/form_but_bg.gif) repeat-x;
+	padding-top: 3px;
+	color: #2B4723;
+	border-top: 1px solid #BBBBBB;
+	border-right: 1px solid #888888;
+	border-bottom: 1px solid #888888;
+	border-left: 1px solid #BBBBBB;
+}
+#FormName {
+	font-size: 15px;
+	font-weight: normal;
+	margin-top: 15px;
+	text-align: center;
+	letter-spacing: 0.15em;
+	color: #333333;
+}

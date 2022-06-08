@@ -1,0 +1,168 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sub datacheck()
+  msg2="請輸入查詢條件！"  
+
+  if boardform.xfn_begindate.value = empty and boardform.xfn_enddate.value = empty and boardform.selectkey.value = empty then
+     msgbox msg2, 16, "sorry!"    
+     boardform.selectkey.focus    
+     exit sub
+  end if
+
+  msg3 = "請輸入「公佈起始時間」！"  
+  msg4 = "請輸入「公佈結束時間」！"  
+  msg5 = "「公佈結束時間」早於「公佈起始時間」，請重新輸入 !"
+  if boardform.selectkey.value = empty then  
+   if boardform.xfn_begindate.value = empty then
+     msgbox msg3, 16, "sorry!"
+     boardform.xfn_begindate.focus
+     exit sub
+   elseif boardform.xfn_enddate.value = empty then
+     msgbox msg4, 16, "sorry!"
+     boardform.xfn_enddate.focus
+     exit sub
+   elseif cdate(boardform.xfn_begindate.value) > cdate(boardform.xfn_enddate.value) then    
+     msgbox msg5, 16, "sorry!"    
+     boardform.xfn_enddate.focus    
+     exit sub
+   end if
+  end if
+  
+  boardform.submit
+end sub
+
+dim cantarget
+sub btdate(n)             
+ if document.all.calendar.style.visibility="" then                
+   document.all.calendar.style.visibility="hidden"             
+ else             
+   document.all.calendar.style.visibility=""              
+ end if                   
+ cantarget=n     
+end sub                
+                               
+sub calendar_onscriptletevent(n,o)                
+  document.all.calendar.style.visibility="hidden"                
+  select case cantarget     
+     case 1     
+          document.all.xfn_begindate.value=n
+     case 2     
+          document.all.xfn_enddate.value=n
+  end select     
+end sub 
+
+ 

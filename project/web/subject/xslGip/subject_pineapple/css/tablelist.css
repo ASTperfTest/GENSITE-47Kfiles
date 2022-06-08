@@ -1,0 +1,48 @@
+@charset "utf-8";
+/* 新聞局駐外單位 德國 中文版 */
+/* CSS Document for table_list */
+
+/* ------------------------------------------------------------- 表格條列 */
+.TableList {
+	font-size: 80%;
+	line-height:150%;
+	border-collapse:collapse;
+	border: 2px solid #CCCCCC;
+	width: 90%;
+	margin-top: 20px;
+	margin-bottom: 15px;
+	margin-left: 20px;
+}
+.TableList caption {
+	font-size: 120%;
+	padding-bottom: 5px;
+}
+.TableList th {
+	font-weight: normal;
+	padding: 3px 6px;
+	border-right: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+	background-color: #CC9900;
+	text-align: left;
+	vertical-align: top;
+	color: #FFFFFF;
+}
+.TableList td {
+	vertical-align: top;
+	padding: 3px 6px;
+	border-right: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+}
+.TableList td.aLeft {
+	text-align: left;
+}
+.TableList td.aRight {
+	text-align: right;
+}
+.TableList td img {
+	border: none;
+}
+.TableList td.Date {
+	white-space: nowrap;
+	font-family: Arial, Helvetica, sans-serif;
+}

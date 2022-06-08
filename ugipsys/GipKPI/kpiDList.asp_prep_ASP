@@ -1,0 +1,195 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+response.charset = "utf-8"
+htprogcap="績效管理"
+htprogfunc="查詢"
+htprogcode="gc1ap9"
+htprogprefix="kpid" 
+   CxMethod_ASP_kpidlistparam_928654017()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+
+ set rsreg = server.createobject("adodb.recordset")
+ 'fsql=request.querystring("strsql")
+  if request.querystring("nowpage") = "" then
+    session("strsql") = ""
+  end if
+  fsql = session("strsql")
+
+if fsql="" then
+ fsql = "select htx.*, dept.abbrname, xref1.mvalue as xtopcat, xref2.mvalue as xpublic, cu.ctunitname, u.username" _
+  & " from cudtgeneric as htx" _
+  & " left join codemain as xref1 on xref1.mcode = htx.topcat and xref1.codemetaid='topdatacat'" _
+  & " left join codemain as xref2 on xref2.mcode = htx.fctupublic and xref2.codemetaid='ispublic3'" _
+  & " left join ctunit as cu on cu.ctunitid = htx.ictunit" _
+  & " left join infouser as u on u.userid = htx.ieditor" _
+  & " left join dept  on dept.deptid = htx.idept " _
+  & " where 1=1 " 
+
+ xconstr = ""
+ xpcondition
+ session("xconstr") = xconstr
+ fsql = fsql & " order by htx.topcat, htx.idept, htx.deditdate desc" 
+end if
+
+nowpage=request.querystring("nowpage")  '現在頁數
+'response.write fsql
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=10  
+      end if 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+      'strsql=server.urlencode(fsql)
+   session("strsql") = fsql
+   end if    
+end if   
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+    if (htprogright and 1)=1 then
+
+    end if
+
+
+
+
+
+
+
+
+
+                                            =session("xconstr")
+
+
+
+
+
+
+
+
+                                       =htprogprefix
+
+  if not rsreg.eof then
+
+                                      =nowpage:    =totpage
+                                          =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+          if cint(nowpage) <>1 then 
+                        =htprogprefix:                    =(nowpage-1):           =strsql:             =perpagesize
+         end if
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):           =strsql:             =perpagesize
+          end if
+
+
+                                 if perpagesize=10 then:            end if
+                                 if perpagesize=20 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+
+
+
+
+
+
+
+
+
+
+
+                     
+    for i=1 to perpagesize        
+     xurl = session("mywwwsiteurl") & "/content.asp?cuitem="  & rsreg("icuitem")
+
+
+
+  =rsreg("ctunitname")
+
+
+            =xurl
+  =rsreg("stitle")
+
+
+
+  =rsreg("xpublic")
+
+
+  =rsreg("username")
+
+
+  =d7date(rsreg("deditdate"))
+
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+  else
+
+
+
+
+  end if
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

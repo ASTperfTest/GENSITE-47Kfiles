@@ -1,0 +1,9 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="單元資料維護"
+htprogfunc="新增"
+htuploadpath=session("public")+"data/"
+htprogcode="gc1ap1"
+htprogprefix="dsdxml" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021() 

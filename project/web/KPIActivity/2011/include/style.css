@@ -1,0 +1,90 @@
+@charset "big5";
+body{
+	padding:0;
+	margin:0;
+	background-image: url(../bg.jpg);
+	background-repeat: repeat-x;
+}
+#wrapper {
+	width:960px;
+	margin:0 auto;
+}
+#mainpic {
+	background-image: url(../mainpic.jpg);
+	background-repeat: no-repeat;
+	height: 774px;
+	width: 956px;
+}
+.word {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+#menu {
+	background-image: url(../menubg.jpg);
+	background-repeat: no-repeat;
+	height: 45px;
+	width: 935px;
+	padding-left: 25px;
+	padding-top: 10px;
+}
+#main {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	line-height: 1.7em;
+	padding: 10px;
+}
+.img {
+	padding: 7px;
+}
+ul{
+	padding:0;
+	_margin:0 0 0 5px;
+}
+li{
+	font-size: 12px;
+}
+img{
+	border:none;
+}
+h1{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	color: #090;
+}
+.rank {
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #F90;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #F90;
+	background-image: url(file:///C|/Users/cate/Desktop/work/%E8%BE%B2%E5%A7%94%E6%9C%83/%E8%80%95%E8%80%98%E8%80%90%E5%8A%9B%E8%B3%BD/rank_tdbg.gif);
+	background-repeat: repeat;
+}
+.rank th{
+	padding:5px;
+	background-color: #CC0;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #F90;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #F90;
+}
+.rank td{
+	padding:5px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #F90;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #F90;
+}
+.word2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	line-height: 1.7em;
+}
+.word3 {
+	color: #BCBCBC;
+}

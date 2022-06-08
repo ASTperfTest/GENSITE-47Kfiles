@@ -1,0 +1,215 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "ge1t21" 
+' ============= modified by chris, 2006/09/12, to handle 上稿權限能以使用者設定 聯集 群組設定 ========================'
+'  document: 950912_智庫gip擴充.doc
+'  modified list:
+' 加 include /inc/checkgipconfig.inc '-- 判別是否用 <ctugrpset>
+' 修改 sql 在 <ctugrpset>為y時檢查使用者上稿權限與群組上稿權限的聯集
+
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbfunc_1723934251()
+   CxMethod_ASP_checkgipconfig_1275316133()
+
+
+
+
+
+  
+ if request.querystring("itype")="" then
+  opencloseanchor="folder_toc.asp?itype=2"
+  openclosestr="展開"
+  openclosestate="close"
+ else
+  opencloseanchor="folder_toc.asp"
+  openclosestr="收合"
+  openclosestate="open"  
+ end if
+ ftypename = "資料上稿"+"　　　<a href='"+opencloseanchor+"'>"+openclosestr+"</a>"
+ userid = session("userid")
+
+   const cid     = 2 'catid
+   const cname   = 3 'catname
+   const cparent = 7 'dataparent
+   const cchild  = 8 'childcount
+   const clevel  = 6 'datalevel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        =openclosestate
+   response.write "treeroot = gfld(""forumtoc"", """ & ftypename & """, """")" & vbcrlf
+ nowcount = 0
+
+' ===begin========== modified by chris, 2006/09/12, to handle 上稿權限能以使用者設定 聯集 群組設定 ========================
+' -- 把用戶的群組資料由 basic,aaa 轉成 'basic','aaa' 以方便用在 sql 的 in (...) 裡
+ xpos=instr(session("ugrpid"),",")
+ if xpos>0 then
+  idstr=replace(session("ugrpid"),", ","','")
+  idstr="'"&idstr&"'"
+ else
+  idstr="'" & session("ugrpid") & "'"
+ end if
+' ===end========== modified by chris, 2006/09/12, to handle 上稿權限能以使用者設定 聯集 群組設定 ========================
+
+ sqlcom = "select * from cattreeroot where pvxdmp is not null " _
+  & " and (deptid is null or deptid like '" & session("deptid") & "%'" _
+  & " or '" & session("deptid") & "' like deptid+'%')"
+ set rstree = conn.execute(sqlcom)
+ 
+ while not rstree.eof
+  itemid = rstree("ctrootid")
+ session("itemid")=itemid
+
+
+  if instr(session("ugrpid")&",", "htsd,") > 0 then  
+ sqlcom = "select t.*, 'y' as rights" _
+  & ", (select count(*) from cattreenode as c where c.dataparent=t.ctnodeid " _
+  & " and c.ctnodekind='c') as haschildfolder " _
+  & ", (select count(*) from cattreenode as c where c.dataparent=t.ctnodeid) as haschild " _
+  & " from cattreenode as t " _
+  & " where ctrootid = "& pkstr(itemid,"") _
+  &" order by datalevel, catshoworder"
+  else
+' ===begin========== modified by chris, 2006/09/12, to handle 上稿權限能以使用者設定 聯集 群組設定 ========================
+ sqlcom = "select t.*, coalesce(u.rights,0) as rights " _
+  & ", (select count(*) from cattreenode as c where c.dataparent=t.ctnodeid " _
+  & " and c.ctnodekind='c') as haschildfolder " _
+  & ", (select count(*) from cattreenode as c join ctuserset as cu on cu.ctnodeid=c.ctnodeid " _
+  & " and cu.userid=" & pkstr(userid,"") _
+  & " where c.dataparent=t.ctnodeid and cu.rights is not null) as haschild " _
+  & " from cattreenode as t left join ctuserset as u on u.ctnodeid=t.ctnodeid " _
+  & " and u.userid=" & pkstr(userid,"") _
+  & " where ctrootid = "& pkstr(itemid,"") _
+  &" order by datalevel, catshoworder"
+ if checkgipconfig("ctugrpset") then
+   sqlcom = "select t.*, coalesce(u.rights,0)+" _
+  & "(select count(*) from ctugrpset as g where g.ctnodeid=t.ctnodeid and g.atype='a' " _
+  & " and g.ugrpid in (" & idstr & ")) as rights " _
+  & ", (select count(*) from cattreenode as c where c.dataparent=t.ctnodeid " _
+  & " and c.ctnodekind='c') as haschildfolder " _
+  & ", (select count(*) from cattreenode as c join ctuserset as cu on cu.ctnodeid=c.ctnodeid " _
+  & " and cu.userid=" & pkstr(userid,"") _
+  & " where c.dataparent=t.ctnodeid and cu.rights is not null) " _
+  & " + (select count(*) from cattreenode as c join ctugrpset as cg on cg.ctnodeid=c.ctnodeid" _
+  & " and cg.atype='a' and cg.ugrpid in (" & idstr & ") " _
+  & " where c.dataparent=t.ctnodeid and cg.rights is not null) as haschild" _
+  & " from cattreenode as t left join ctuserset as u on u.ctnodeid=t.ctnodeid " _
+  & " and u.userid=" & pkstr(userid,"") _
+  & " where ctrootid = "& pkstr(itemid,"") _
+  &" order by datalevel, catshoworder"
+   grightcount = 0
+   xsql = "select count(*) from ctugrpset as u join cattreenode as t on u.ctnodeid=t.ctnodeid" _
+  & " and u.ugrpid in(" & idstr _
+  & ") where ctrootid = "& pkstr(itemid,"")
+   set rsg= conn.execute(xsql)
+   grightcount = rsg(0)
+ end if
+' response.write "//" & xsql & vbcrlf
+
+ xsql = "select count(*) from ctuserset as u join cattreenode as t on u.ctnodeid=t.ctnodeid" _
+  & " and u.userid=" & pkstr(userid,"") _
+  & " where ctrootid = "& pkstr(itemid,"")
+ set rsu= conn.execute(xsql)
+
+ if rsu(0)+grightcount = 0 then sqlcom = "select * from ap where 1=2"
+' response.write "//" & sqlcom & vbcrlf
+' response.end
+' ===end========== modified by chris, 2006/09/12, to handle 上稿權限能以使用者設定 聯集 群組設定 ========================
+  end if 
+
+ set rs = conn.execute(sqlcom)
+ if not rs.eof then
+  xparent = "treeroot"
+  catlink = "blank.htm" 'catlist.asp?itemid="& itemid &"&catid="& rs("ctnodeid")
+'  if rs("haschild")<> 0 or rs("haschildfolder") <> 0 then 
+   response.write "t"& itemid &"= insfld(" & xparent &", gfld(""forumtoc"", """& server.htmlencode(rstree("ctrootname")) &""", """& catlink &"""))" & vbcrlf
+'  end if
+ end if
+ while not rs.eof
+  xparent = "t" &itemid
+  if rs(clevel) > 1 then xparent = "n" & rs(cparent)
+  if rs("ctnodekind") = "c" then
+   catlink = "blank.htm" 'catlist.asp?itemid="& itemid &"&catid="& rs("ctnodeid")
+   if rs("haschild")<> 0 then 
+    response.write "n"& rs(cid) &"= insfld(" & xparent &", gfld(""forumtoc"", """& server.htmlencode(rs(cname)) &""", """& catlink &"""))" & vbcrlf
+   elseif rs("haschildfolder") <> 0 then
+    childcount = 0
+    checkallchild rs("ctnodeid")
+    if childcount > 0 then _
+     response.write "n"& rs(cid) &"= insfld(" & xparent &", gfld(""forumtoc"", """& server.htmlencode(rs(cname)) &""", """& catlink &"""))" & vbcrlf
+   end if
+  else
+      forumlink = "ctxmlin.asp?itemid="& itemid &"&ctnodeid="& rs("ctnodeid")
+      if rs("rights")>0 then
+       response.write "insdoc("& xparent &", glnk(""forumtoc"", """& replace(rs("catname"),"""","&quot;") &""", """& forumlink &"""))" & vbcrlf
+    end if
+  end if
+  rs.movenext
+ wend
+
+ rstree.movenext
+wend 
+ 
+
+
+
+
+
+
+
+  
+sub checkallchild (xnodeid)
+  if instr(session("ugrpid")&",", "htsd,") > 0 then  
+ xsql = "select t.*, 'y' as rights " _
+  & ", (select count(*) from cattreenode as c where c.dataparent=t.ctnodeid " _
+  & " and c.ctnodekind='c') as haschildfolder " _
+  & ", (select count(*) from cattreenode as c where c.dataparent=t.ctnodeid) as haschild " _
+  & " from cattreenode as t where t.dataparent = "& xnodeid
+  else
+ xsql = "select t.* " _
+  & ", (select count(*) from cattreenode as c where c.dataparent=t.ctnodeid " _
+  & " and c.ctnodekind='c') as haschildfolder " _
+  & ", (select count(*) from cattreenode as c join ctuserset as cu on cu.ctnodeid=c.ctnodeid " _
+  & " and cu.userid=" & pkstr(userid,"") _
+  & " where c.dataparent=t.ctnodeid and cu.rights is not null) as haschild " _
+  & " from cattreenode as t where t.dataparent = "& xnodeid
+' ===begin========== modified by chris, 2006/09/12, to handle 上稿權限能以使用者設定 聯集 群組設定 ========================
+ if checkgipconfig("ctugrpset") then
+   xsql = "select t.* " _
+  & ", (select count(*) from cattreenode as c where c.dataparent=t.ctnodeid " _
+  & " and c.ctnodekind='c') as haschildfolder " _
+  & ", (select count(*) from cattreenode as c join ctuserset as cu on cu.ctnodeid=c.ctnodeid " _
+  & " and cu.userid=" & pkstr(userid,"") _
+  & " where c.dataparent=t.ctnodeid and cu.rights is not null) " _
+  & " + (select count(*) from cattreenode as c join ctugrpset as cg on cg.ctnodeid=c.ctnodeid" _
+  & " and cg.atype='a' and cg.ugrpid in (" & idstr & ") " _
+  & " where c.dataparent=t.ctnodeid and cg.rights is not null) as haschild" _
+  & " from cattreenode as t where t.dataparent = "& xnodeid
+ end if
+' ===end========== modified by chris, 2006/09/12, to handle 上稿權限能以使用者設定 聯集 群組設定 ========================
+  end if 
+ set xrs = conn.execute(xsql)
+ while not xrs.eof
+  if xrs("haschild") > 0 then 
+   childcount = childcount + xrs("haschild") 
+  elseif xrs("haschildfolder") > 0 then
+   checkallchild xrs("ctnodeid")
+  end if
+  
+  xrs.movenext
+ wend
+end sub
+ 

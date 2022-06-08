@@ -1,0 +1,183 @@
+﻿: @ codepage = 65001 
+  
+response.expires = 0
+htprogcap=""
+htprogfunc=""
+htprogcode="kforumlist"
+htprogprefix = "" 
+dim ictunitid : ictunitid = "934"
+
+   CxMethod_ASP_server_1606199358()
+  
+dim questionid : questionid = request.querystring("questionid")
+if request("submittask") = "delete" then
+
+ dim selecteditems : selecteditems = request("selecteditems")
+ dim items : items = split(selecteditems, ";")
+ dim count : count = 0
+ for i = 0 to ubound(items)
+  if items(i) <> "" then
+   sql = "update knowledgeforum set status = 'd' where gicuitem = " & items(i) 
+   conn.execute(sql)
+   count = count + 1
+  end if
+ next
+ showdonebox "刪除成功,共刪除 " & count & " 筆", "2"
+else
+ showform
+end if
+
+
+   sub showdonebox(lmsg, atype) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+       if atype = "1" then 
+
+                                                       =request.querystring("questionid")
+       else 
+                                                       =request.querystring("questionid"):            =request.querystring("nowpage"):             =request.querystring("pagesize")
+       end if 
+
+
+
+   end sub 
+  
+sub showform
+ '-------------------------------------------------------------
+ dim questiontitle
+ sql = "select stitle from cudtgeneric where icuitem = " & questionid
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  questiontitle = rs("stitle")
+ end if
+ rs.close
+ set rs = nothing
+ '-------------------------------------------------------------
+
+ sql = "select * from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem " & _
+    "where cudtgeneric.ictunit = " & ictunitid & " and knowledgeforum.status <> 'w' " & _
+    "and knowledgeforum.parenticuitem = " & questionid & " order by knowledgeforum.expertreplydate desc"
+ set rs = conn.execute(sql)   
+ if rs.eof then  
+  showdonebox "本資料無專家補充", "1"
+  response.end
+ else
+  dim recordcount
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      =questionid:            =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+
+
+         =questiontitle
+
+
+                                                                                                   =questionid:            =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+
+
+
+
+
+
+
+
+
+
+     
+   while not rs.eof 
+    recordcount = recordcount + 1
+  
+
+                                                                        =rs("icuitem")
+
+
+                                                      =questionid:                =rs("gicuitem"):            =request.querystring("nowpage"):             =request.querystring("pagesize")
+       
+      if len(rs("xbody")) > 75 then
+       response.write mid(rs("xbody"), 1, 75) & "..."
+      else
+       response.write rs("xbody")
+      end if
+     
+
+
+
+                             =rs("ieditor"):    =rs("expertid")
+                                          =rs("status")
+                                          =rs("expertreplydate")
+
+      
+     if rs("expertsend") = "y" then 
+      response.write "v"
+     else
+      response.write "&nbsp;"
+     end if
+    
+
+                                          =rs("expertsenddate")
+
+     
+    rs.movenext
+   wend 
+   rs.close
+   set rs = nothing
+  
+
+
+
+
+
+
+
+
+
+
+
+
+                =recordcount
+
+
+
+
+
+
+                         =recordcount
+
+
+
+
+
+
+
+
+
+
+
+  
+ end if
+end sub
+ 

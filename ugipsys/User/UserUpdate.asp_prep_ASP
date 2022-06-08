@@ -1,0 +1,149 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+   htprogcode = "htp02"
+   
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_checkgipconfig_1275316133()
+  
+if request("task")="編修存檔" then
+ sql="update infouser set password=" & drs("tfx_xpassword") _
+  & " username=" & drs("tfx_username") _
+  & " tdatacat=" & drs("sfx_tdatacat") _
+  & " email=" & drs("tfx_email") _
+  & " telephone=" & drs("tfx_telephone") _
+  & " jobname=" & pkstr(request("tfx_jobname"),"") _
+  & " where userid=" & pkstr(request("pfx_userid"),"")
+ conn.execute(sql)
+ 
+ if checkgipconfig("checkloginpassword") then
+          session("password") = trim(request("tfx_xpassword"))
+ end if
+
+
+
+
+
+  
+ response.end
+else
+ sql="select i.*, d.deptname from infouser as i left join dept as d on i.deptid=d.deptid " _
+  & " where userid='" & session("userid") & "'"
+ set rs=conn.execute(sql)
+end if
+
+
+
+
+
+
+
+
+
+
+
+
+                                                    =title
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                               =rs("userid")
+
+                                                     =rs("deptname")
+
+
+
+
+
+                                                                      if not checkgipconfig("usercolumnuseless") then :       end if 
+                                                      if not checkgipconfig("usercolumnuseless") then 
+
+
+     sql="select mcode,mvalue from codemain where codemetaid='topdatacat' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+            end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               if (htprogright and 8)=8 then :                                                                              end if 
+
+               if (htprogright and 16)<>0 then :                                                                             end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            =rs("userid")
+                               =rs("password")
+                            =rs("password")
+                              =rs("username")
+   if not checkgipconfig("usercolumnuseless") then 
+                              =rs("tdatacat")
+   end if 
+                             =rs("jobname")
+                           =rs("email")
+                               =rs("telephone") 

@@ -1,0 +1,384 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="主題單元管理"
+htprogfunc="新增"
+htuploadpath="/public/"
+htprogcode="ge1t11"
+htprogprefix="ctunit" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+   CxMethod_ASP_checkgipconfig_1275316133()
+  
+response.write request("xn") & "<hr>"
+ dim xnewidentity, xnewname
+ apath=server.mappath(htuploadpath) & "\"
+' response.write apath & "<hr>"
+ if request.querystring("phase")<>"add" then
+set xup = server.createobject("tabs.upload")
+xup.codepage=65001
+xup.start apath
+
+else
+set xup = server.createobject("tabs.upload")
+end if
+
+function xupform(xvar)
+ xupform = xup.form(xvar)
+end function
+
+if xupform("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+   sub initform() 
+
+
+
+
+
+
+
+                               =request("xn")
+
+
+
+   if checkgipconfig("mmofolder") then 
+
+   end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if checkgipconfig("ctunitexpirecheck") then 
+
+
+
+
+
+   end if 
+   if checkgipconfig("mmofolder") then 
+
+
+
+
+
+   end if
+
+
+
+
+
+
+
+
+    if checkgipconfig("mmofolder") then 
+
+    end if
+
+
+
+
+
+   if checkgipconfig("mmofolder") then 
+
+
+
+
+
+
+   end if
+
+  if checkgipconfig("mmofolder") then 
+
+
+
+
+
+
+
+
+
+
+
+
+  end if
+
+
+   CxMethod_ASP_xctunitform_882038777()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+    if (htprogright and 1)=1 then
+
+    end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+
+   sub showhtmltail() 
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- ??d{xbo apu?a?] errmsg="xxx"  exit sub ------
+' sql = "select * from client where clientid = '"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "u?sv!!?s???s!"
+'  exit sub
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "insert into ctunit("
+ sqlvalue = ") values("
+ if xupform("htx_ctunitname") <> "" then
+  sql = sql & "ctunitname" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_ctunitname"),",")
+ end if
+ if xupform("htx_ctunitid") <> "" then
+  sql = sql & "ctunitid" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_ctunitid"),",")
+ end if
+ if xupform("htx_ctunitkind") <> "" then
+  sql = sql & "ctunitkind" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_ctunitkind"),",")
+ end if
+ if xupform("htx_redirecturl") <> "" then
+  sql = sql & "redirecturl" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_redirecturl"),",")
+ end if
+ if xupform("htx_newwindow") <> "" then
+  sql = sql & "newwindow" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_newwindow"),",")
+ end if
+ if xupform("htx_ibasedsd") <> "" then
+  sql = sql & "ibasedsd" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_ibasedsd"),",")
+ end if
+ if xupform("htx_fctunitonly") <> "" then
+  sql = sql & "fctunitonly" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_fctunitonly"),",")
+ end if
+ if xupform("htx_checkyn") <> "" then
+  sql = sql & "checkyn" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_checkyn"),",")
+ end if
+ if xupform("htx_deptid") <> "" then
+  sql = sql & "deptid" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_deptid"),",")
+ end if
+  if checkgipconfig("ctunitexpirecheck") then
+  if xupform("htx_ctunitexpireday") <> "" then
+   sql = sql & "ctunitexpireday" & ","
+   sqlvalue = sqlvalue & pkstr(xupform("htx_ctunitexpireday"),",")
+  end if
+ end if
+ if checkgipconfig("mmofolder") then 
+  if xupform("htx_mmofolderid") <> "" and xupform("htx_mmofolderid") <> "0" then
+   sql = sql & "mmofolderid" & ","
+   sqlvalue = sqlvalue & pkstr(xupform("htx_mmofolderid"),",")
+  end if
+ end if
+for each form in xup.form
+if form.isfile then 
+    if left(form.name,6) = "htimg_" then
+   ofname = form.filename
+   fnext = ""
+   if instr(ofname, ".")>0 then fnext=mid(ofname, instr(ofname, "."))
+   tstr = now()
+   nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext
+   sql = sql & mid(form.name,7) & ","
+   sqlvalue = sqlvalue & pkstr(nfname,",")
+     xup.form(form.name).saveas apath & nfname, true
+   elseif left(form.name,7) = "htfile_" then
+   ofname = form.filename
+   fnext = ""
+   if instr(ofname, ".")>0 then fnext=mid(ofname, instr(ofname, "."))
+   tstr = now()
+   nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext
+   sql = sql & mid(form.name,8) & ","
+   sqlvalue = sqlvalue & pkstr(nfname,",")
+     xup.form(form.name).saveas apath & nfname, true
+     xsql = "insert into imagefile(newfilename, oldfilename) values(" _
+      & pkstr(nfname,",") & pkstr(ofname,")")
+     conn.execute xsql
+ end if
+end if  
+  next
+
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+ sql = "set nocount on;"&sql&"; select @@identity as newid"
+' response.write sql
+' response.end
+ set rsx = conn.execute(sql)
+ xnewidentity = rsx(0)
+ xnewname = xupform("htx_ctunitname")
+
+end sub '---- doupdatedb() ----
+
+sub showdonebox()
+ doneuri= ""
+ if doneuri = "" then doneuri = htprogprefix & "list.asp"
+
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                              =doneuri
+                          =xnewidentity:            =xnewname
+
+
+
+
+
+   end sub '---- showdonebox() ----  

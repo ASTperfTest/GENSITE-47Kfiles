@@ -1,0 +1,18 @@
+﻿
+
+
+
+                                
+          
+function delayer(){
+    window.location = "http://kmbeta2.coa.gov.tw/index.asp"
+}
+     
+
+
+function onLoad___1476244747() {delayer()}
+
+
+
+
+ 

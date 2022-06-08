@@ -1,0 +1,193 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+htprogcode="newmember"
+htprogprefix = "newmember"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbutil_10064021()
+  
+ dim memberid : memberid = request.querystring("memberid")
+ dim add : add = request.querystring("add")
+ if add = "y" then
+  addkeyword
+ else
+  showform
+ end if
+
+   
+ sub addkeyword
+  dim ckbox : ckbox = request("ckbox")
+  dim ckboxarr
+  dim keyword
+  if ckbox <> "" then
+   ckboxarr = split(ckbox, ",")
+   sql = "select isnull(keyword, '') as keyword from member where account = " & pkstr(memberid, "")
+   set rs = conn.execute(sql)
+   if not rs.eof then
+    keyword = rs("keyword")
+   end if
+   rs.close
+   set rs = nothing
+   for i = 0 to ubound(ckboxarr)
+    keyword = keyword & trim(request("keyword" & trim(ckboxarr(i)))) & ","
+   next
+   sql = "update member set keyword = " & pkstr(keyword, "") & " where account = " & pkstr(memberid, "")
+   conn.execute(sql)
+  end if    
+  showdonebox "新增完成"
+ end sub
+
+   sub showdonebox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+                                                        =memberid:            =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+
+   end sub 
+   
+sub showform
+ 
+ dim keywordarr
+ dim keyword
+ sql = "select isnull(keyword, '') as keyword from member where account = " & pkstr(memberid, "")
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  keyword = trim(rs("keyword"))
+ end if
+ rs.close
+ set rs = nothing
+ if keyword <> "" then keywordarr = split(keyword, ",")
+ 
+ dim kmkeywordarr
+ dim kmkeyword
+ dim total : total = 0
+ kmsql = "select * from [coa].[dbo].[user_keyword_frequency] (" & pkstr(memberid, "") & ") order by frequency desc"  
+ 'kmsql = "select top 20 * from [coa].[dbo].[user_keyword_frequency] ('k101001547') order by frequency desc"                                                                                            
+ set kmrs = kmconn.execute(kmsql)
+ while not kmrs.eof 
+  kmkeyword = kmkeyword & trim(kmrs("keyword")) & ","
+  kmrs.movenext
+ wend
+ kmrs.close
+ set kmrs = nothing
+ if kmkeyword <> "" then 
+  kmkeywordarr = split(kmkeyword, ",") 
+  total = ubound(kmkeywordarr)
+  if total > 20 then total = 20
+ end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                        =memberid:            =request("nowpage"):             =request("pagesize")
+
+
+
+
+
+
+
+
+
+
+
+       
+     if not isempty(kmkeywordarr) then
+     for i = 0 to total - 1
+      if i = 0 then 
+       response.write "<tr>"
+      elseif i mod 4 = 0 then
+       response.write "</tr><tr>"
+      end if
+    
+         if instr(keyword, kmkeywordarr(i)) > 0 then 
+                                                                              =i
+                                                       =i:                           =kmkeywordarr(i)
+         else 
+                                                                              =i
+                                                       =i:                           =kmkeywordarr(i)
+         end if 
+           
+     next
+     response.write "</tr>"
+     end if
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               =memberid:            =request("nowpage"):             =request("pagesize")
+
+
+
+                                                      =memberid:            =request("nowpage"):             =request("pagesize")
+
+
+   end sub  

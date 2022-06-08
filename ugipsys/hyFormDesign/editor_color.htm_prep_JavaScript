@@ -1,0 +1,145 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function ColorSelected(c) {
+// window.returnValue = c + ";" + document.all("xHeight").value;
+window.returnValue = c + ";" + "no";
+window.close();
+}
+
+
+
+
+
+
+
+
+
+
+
+function onclick____677777971() {ColorSelected('#FFFFFF');}
+
+function onclick___1060868429() {ColorSelected('#FFCCCC');}
+
+function onclick____1256886375() {ColorSelected('#FFCC99');}
+
+function onclick___1432758177() {ColorSelected('#FFFFCC');}
+
+function onclick___1316291021() {ColorSelected('#99FF99');}
+
+function onclick___1010095009() {ColorSelected('#CCFFFF');}
+
+function onclick___1766681889() {ColorSelected('#FFCCFF');}
+
+
+
+function onclick____1617343071() {ColorSelected('#CCCCCC');}
+
+function onclick___1251510605() {ColorSelected('#FF6666');}
+
+function onclick____612089359() {ColorSelected('#FFBB33');}
+
+function onclick____1329253139() {ColorSelected('#FFFF99');}
+
+function onclick___919165581() {ColorSelected('#66FF99');}
+
+function onclick___1793117229() {ColorSelected('#66FFFF');}
+
+function onclick____1512307731() {ColorSelected('#FF99FF');}
+
+
+
+function onclick___900932758() {ColorSelected('#C0C0C0');}
+
+function onclick____82094899() {ColorSelected('#FF0000');}
+
+function onclick___1566613873() {ColorSelected('#FF9900');}
+
+function onclick___982802761() {ColorSelected('#FFFF00');}
+
+function onclick___393234125() {ColorSelected('#33FF33');}
+
+function onclick____1420604243() {ColorSelected('#33CCFF');}
+
+function onclick___1878963825() {ColorSelected('#DD77DD');}
+
+
+
+function onclick____711350419() {ColorSelected('#999999');}
+
+function onclick___1444739617() {ColorSelected('#CC0000');}
+
+function onclick___2098491753() {ColorSelected('#FF6600');}
+
+function onclick____1229509775() {ColorSelected('#DDCC00');}
+
+function onclick____546330975() {ColorSelected('#00CC00');}
+
+function onclick____899710531() {ColorSelected('#4488FF');}
+
+function onclick____813633919() {ColorSelected('#CC33CC');}
+
+
+
+function onclick____870821203() {ColorSelected('#666666');}
+
+function onclick___1844691565() {ColorSelected('#990000');}
+
+function onclick___717877405() {ColorSelected('#CC6600');}
+
+function onclick___195982793() {ColorSelected('#999900');}
+
+function onclick____721998227() {ColorSelected('#009900');}
+
+function onclick____819590707() {ColorSelected('#3333FF');}
+
+function onclick____1488838631() {ColorSelected('#993366');}
+
+
+
+function onclick___1144078849() {ColorSelected('#333333');}
+
+function onclick___2090540589() {ColorSelected('#660000');}
+
+function onclick____1206511587() {ColorSelected('#993300');}
+
+function onclick____23840055() {ColorSelected('#666600');}
+
+function onclick____1145118035() {ColorSelected('#006600');}
+
+function onclick____1276587283() {ColorSelected('#000099');}
+
+function onclick___2017895169() {ColorSelected('#663366');}
+
+
+
+function onclick___1035468617() {ColorSelected('#000000');}
+
+function onclick___1478002561() {ColorSelected('#330000');}
+
+function onclick___1735568125() {ColorSelected('#663300');}
+
+function onclick____119476151() {ColorSelected('#333300');}
+
+function onclick____773228287() {ColorSelected('#003300');}
+
+function onclick___188487469() {ColorSelected('#000066');}
+
+function onclick___1619170249() {ColorSelected('#330033');}
+
+
+
+
+ 

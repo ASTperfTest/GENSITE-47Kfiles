@@ -1,0 +1,81 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sub formaddsubmit()
+ chky=msgbox('注意！'& vbcrlf & vbcrlf &'　您確認匯入內容嗎？'& vbcrlf , 48+1, '請注意！！')
+ if chky=vbok then
+  reg.action='Cx_0dummy_act.asp'
+  reg.submit
+ end if
+end sub
+<script language=vbs></script> 
+ 
+ 

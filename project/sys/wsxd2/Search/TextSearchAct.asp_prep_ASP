@@ -1,0 +1,104 @@
+﻿: 
+ response.expires = 0
+ response.expiresabsolute = now() - 1 
+ response.addheader "pragma","no-cache" 
+ response.addheader "cache-control","private" 
+ response.cachecontrol = "no-cache"
+
+
+
+    
+ on error resume next
+ '-----------------------------------------------------------------------     
+ dim keyword
+ '-------------------------------------------------------------------------------
+ '---keyword setting----------------------------------------------------------------
+ keyword = request("searchtext") 
+ keyword = replace(keyword, "'", "''")
+ if isnull(keyword) then keyword = "" 
+ 
+ hyftdserver = application("hyftdserver")
+  hyftdport = application("hyftdport")
+  hyftduserid = ""
+ hyftduserpassword = ""
+ hyftdgroupname = "term" 
+ '-------------------------------------------------------------------------------
+ '---initial hyftd parameter-----------------------------------------------------  
+  set hyftdobj = server.createobject("hysdk.hyft.1")
+  '-------------------------------------------------------------------------------
+ '---set encoding----------------------------------------------------------------
+ call hyftd_set_encoding(hyftdobj, "big5")   
+ '-------------------------------------------------------------------------------
+ '---connect to hyftd server and initial query-----------------------------------
+ hyftdconnid = hyftd_connection( hyftdobj, hyftdserver, hyftdport, hyftdgroupname, hyftduserid, hyftduserpassword )  
+ call hyftd_initial_query(hyftdobj, hyftdconnid)  
+ 
+ dim keys
+ keys = hyftd_getkeys( hyftdobj, hyftdconnid, keyword ) 
+ 
+ hyftdx = hyftdobj.hyft_close(hyftdconnid)    
+ hyftdobj = empty
+ keys = sortbycount(keys)
+ if keys = "" then
+
+
+
+
+
+  
+ end if
+ function sortbycount( keys )  
+  dim words()  
+  dim wordscount()
+  dim resu
+  items = split(keys, ";")
+  dim lens : lens = ubound(items)    
+  redim words(lens)
+  redim wordscount(lens)  
+  dim atext, btext, count
+  dim insertcount : insertcount = 0
+  for i = 0 to lens - 1
+   flag = true
+   count = 0
+   atext = items(i)
+   for j = 0 to lens - 1
+    btext = items(j)
+    if j < i and atext = btext then
+     flag = false 
+    end if 
+    if atext = btext then
+     count = count + 1
+    end if
+   next
+   if flag = true then
+    words(insertcount) = atext
+    wordscount(insertcount) = count
+    insertcount = insertcount + 1
+   end if   
+  next  
+  'for i = 0 to insertcount 
+  ' response.write words(i) & "~" & wordscount(i) & ";"  
+  'next  
+  for i = 0 to insertcount
+   for j = 0 to insertcount - i
+    if wordscount(j) < wordscount(j+1) then
+     temp = wordscount(j)
+     wordscount(j) = wordscount(j+1)
+     wordscount(j+1) = temp
+     temp = words(j)
+     words(j) = words(j+1)
+     words(j+1) = temp
+    end if 
+   next
+  next
+  for i = 0 to insertcount 
+   if words(i) <> "" then
+    str = str & words(i) & ";" 
+   end if
+  next    
+  str = left(str, len(str) - 1)
+  sortbycount = str
+ end function 
+
+
+                                =replace(keys, ";" ," ") 

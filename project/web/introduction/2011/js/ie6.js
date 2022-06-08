@@ -1,0 +1,1 @@
+DD_belatedPNG.fix('.number, h3.title3, h3.title3 span');

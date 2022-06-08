@@ -1,0 +1,174 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="電子報管理"
+htprogfunc="電子報清單"
+htprogcode="gw1m51"
+htprogprefix="epaper"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+
+ set rsreg = server.createobject("adodb.recordset")
+ fsql=request.querystring("strsql")
+'response.write fsql &"**1st<hr>"
+if fsql="" then
+ fsql = "select htx.ctrootid,htx.ctrootname, htx.purpose " _
+  & " ,(select count(*) from eppub ep where ep.ctrootid=htx.ctrootid) eppubcount " _
+  & " from cattreeroot as htx " _
+  & " where htx.vgroup='ge'"  
+end if
+'response.write fsql &"**2nd<hr>"
+'response.end
+nowpage=request.querystring("nowpage")  '現在頁數
+
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,3,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+'rsreg.open fsql,conn
+'totrec=rsreg.recordcount
+'response.write "totrec:" & totrec & conn
+
+if not rsreg.eof then 
+ 'response.write "111"
+   totrec=rsreg.recordcount       '總筆數
+   'response.write totrec
+   'perpagesize = 10
+   if totrec>0 then 
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=10  
+      end if 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      'rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+   end if
+   'response.write " not rsreg.eof" & rsreg("ctrootid")
+   'response.write perpagesize
+end if   
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       =htprogprefix
+
+  if not rsreg.eof then
+
+                                      =nowpage:    =totpage
+                                          =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+          if cint(nowpage) <>1 then 
+                        =htprogprefix:                    =(nowpage-1):           =strsql:             =perpagesize
+         end if
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):           =strsql:             =perpagesize
+          end if
+
+
+                                 if perpagesize=10 then:            end if
+                                 if perpagesize=20 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+
+
+
+
+
+
+
+
+
+
+        
+            
+    for i=1 to perpagesize                  
+    'response.write rsreg("ctrootid")  
+
+
+
+                                    =rsreg("ctrootid"):               =server.urlencode(rsreg("ctrootname"))
+  =rsreg("ctrootname")
+
+
+
+  =rsreg("purpose")
+
+                                        =rsreg("eppubcount")
+
+                                  =rsreg("ctrootid"):               =server.urlencode(rsreg("ctrootname"))
+
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+  else
+
+
+
+
+  end if
+
+
+
+
+
+                                     =htprogprefix:                                             =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage 

@@ -1,0 +1,84 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           function onSubmit____1825884942() {return checkform(Cx_0dummy);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               
+          
+function checkform(xmp){
+ var fm = document.fm_area;
+ var flag=false;
+ var filter=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+
+ if (fm.email.value == "") {
+  alert("請輸入收件人電子信箱!"); fm.email.focus();  return flag;
+ }
+ if(fm.email2.value =="") {
+  alert("請輸入寄件人電子信箱!"); fm.email2.focus();  return flag;
+ }
+ if (!filter.test(fm.email.value)) {
+  alert("請輸入合法的收件人電子郵件"); fm.email.focus(); return flag;
+ }
+ if (!filter.test(fm.email2.value)) {
+  alert("請輸入合法的寄件人電子郵件"); fm.email2.focus(); return flag;
+ }  
+ 
+ fm.action="forward_send.asp"; 
+
+}
+
+
+     
+
+
+
+
+ 

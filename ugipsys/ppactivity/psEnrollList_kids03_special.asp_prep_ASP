@@ -1,0 +1,249 @@
+﻿:  response.expires = 0
+htprogcap="�����w��"
+htprogfunc="�����ǭ��m��"
+htprogcode="pa005"
+htprogprefix="psenroll" 
+   response.expires = 0 
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+'----------hyweb gip db connection patch----------
+
+
+
+   CxMethod_ASP_dbutil_453315802()
+  
+ if request.querystring("pasid")<> "" then _
+  session("pasid") = request.querystring("pasid")
+ set rsreg = server.createobject("adodb.recordset")
+ fsql=request.querystring("strsql")
+
+if fsql="" then
+ fsql = "select htx.ppname, htx.pparentid, htx.ppbirth, htx.p2name, htx.psn2id, htx.p2birth, htx.pasid, htx.ckvalue, htx.erdate, htx.ppcount, htx.status, htx.psnid as xpsnid, p.*" _
+  & ", xref1.mvalue as xrstatus" _
+  & " from (paenroll as htx left join papsninfo as p on p.psnid = htx.psnid)" _
+  & " left join codemain as xref1 on xref1.mcode = htx.status and xref1.codemetaid='ppcestatus'" _
+  & " where htx.pasid=" & session("pasid")
+ if request.form("htx_coname") <> "" then
+  wherecondition = replace("htx.coname like '%{0}%'", "{0}", request.form("htx_coname") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_codesc") <> "" then
+  wherecondition = replace("htx.codesc like '%{0}%'", "{0}", request.form("htx_codesc") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_codates") <> "" then
+  ranges = request.form("htx_codates")
+  rangee = request.form("htx_codatee")
+  if rangee = "" then rangee=ranges
+  wherecondition = replace("((htx.cobdate between '{0}' and '{1}') or ('{0}' between htx.cobdate and htx.coedate))", "{0}", ranges)
+  wherecondition = replace(wherecondition, "{1}", rangee)
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_cedates") <> "" then
+  ranges = request.form("htx_cedates")
+  rangee = request.form("htx_cedatee")
+  if rangee = "" then rangee=ranges
+  wherecondition = replace("((htx.cebdate between '{0}' and '{1}') or ('{0}' between htx.cebdate and htx.ceedate))", "{0}", ranges)
+  wherecondition = replace(wherecondition, "{1}", rangee)
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_status") <> "" then
+  wherecondition = replace("htx.status = '{0}'", "{0}", request.form("htx_status") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ for each x in request.form
+     if request(x) <> "" then
+            if mid(x,2,3) = "fx_" then
+         select case left(x,1)
+            case "s"
+               fsql = fsql & " and " & mid(x,5) & "=" & pkstr(request(x),"")
+            case else
+               fsql = fsql & " and " & mid(x,5) & " like '%" & request(x) & "%'"
+           end select
+         end if
+     end if
+ next
+ fsql = fsql & " order by htx.erdate"
+end if
+
+nowpage=request.querystring("nowpage")  '�{�b����
+
+'response.write fsql & "<hr>"
+'response.end
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '�`����
+   if totrec>0 then 
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=20  
+      end if 
+      
+      rsreg.pagesize=perpagesize       '�c������
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '�`����
+      strsql=server.urlencode(fsql)
+   end if    
+end if   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  sql = "select htx.*, a.actname, a.actcat, a.actdesc, a.acttarget, xref2.mvalue as xractcat" _
+  & ", (select count(*) from paenroll as e where e.pasid=htx.pasid) as ercount" _
+  & ", (select sum(ppcount) from paenroll as p where p.pasid=htx.pasid) as xppcount" _
+  & " from pasession as htx join ppact as a on a.actid=htx.actid" _
+  & " left join codemain as xref2 on xref2.mcode = a.actcat and xref2.codemetaid='ppactcat'" _
+  & " where htx.pasid=" & session("pasid") 
+  set rs = conn.execute(sql)
+  :      =rs("actname"):         =rs("dtnote")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  total = 0
+      for i=1 to 25                  
+  
+
+    pkey = ""
+  pkey = pkey & "&psnid=" & rsreg("xpsnid")
+  pkey = pkey & "&pasid=" & rsreg("pasid")
+  
+  if pkey<>"" then  pkey = mid(pkey,2)
+
+
+     
+  total = total + rsreg("ppcount")
+  ' response.write rsreg("ppcount") 
+  ' response.write total
+  ' response.write rs("pbackup")
+  if total < rs("pbackup") then 
+         
+    response.write i
+  else
+    response.write "�ƨ�" 
+                end if 
+
+
+
+
+                 =rsreg("pname")
+
+
+                 =rsreg("myorg")
+
+
+                 =rsreg("psnid")
+
+                 =d7date(rsreg("birthday"))
+
+
+                  =rsreg("ppname")
+
+
+                 =rsreg("pparentid")
+
+
+                 =rsreg("ppbirth")
+
+
+                 =rsreg("tel")
+
+
+                  =rsreg("p2name")
+
+
+                  =rsreg("psn2id")
+
+                 =rsreg("p2birth")
+
+
+        
+          rsreg.movenext
+          if rsreg.eof then exit for 
+      next 
+   

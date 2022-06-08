@@ -1,0 +1,126 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                      function onClick____1266536553() {checkSearchForm(0)}
+                                                                                       function onClick____1266536554() {checkSearchForm(1)}
+
+
+
+       function checkSearchForm(value)
+       {           
+         var flag = true;
+         if (document.getElementById("ctl00$MemberInfo1$MemberAccountTBox") != null && document.getElementById("ctl00$MemberInfo1$MemberPassWordTBox") != null ) {
+           
+              if ( document.getElementById("ctl00$MemberInfo1$MemberAccountTBox").value != "" || document.getElementById("ctl00$MemberInfo1$MemberPassWordTBox").value != "" ){                     
+                document.aspnetForm.Keyword.value = "";
+               flag = false;
+             }
+             else {
+               if(document.getElementById("keyword").value == "" ) {
+                 flag = false;
+               }               
+             }             
+         }                    
+         if( flag ) {
+          if( value == 0 ) {
+           if( document.aspnetForm.Keyword.value == "" ) {
+            alert('請輸入查詢值');
+            event.returnValue = false;
+           }
+           else {
+            document.aspnetForm.__VIEWSTATE.value = "";
+            document.aspnetForm.action = "/kp.asp?xdURL=Search/SearchResultList.asp&mp=1";
+            document.aspnetForm.submit();
+           }
+          }
+          else {
+           document.aspnetForm.__VIEWSTATE.value = "";
+           document.aspnetForm.action = "/kp.asp?xdURL=Search/AdvancedSearch.asp&mp=1";
+           document.aspnetForm.submit();
+          }
+        }
+        else {
+          event.returnValue = false;
+        }
+       }
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

@@ -1,0 +1,230 @@
+﻿: @ codepage = 65001 
+  
+htprogcap="多媒體物件上稿"
+if request.querystring("s")="11" then
+ htprogcode="ge1t11"
+elseif request.querystring("s")="p1" then
+ htprogcode="gc1ap1"
+else
+ htprogcode="gc1ap3"
+end if
+htprogprefix="mmo"
+
+   response.expires = 0 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+tasklable="新增" & htprogcap
+if request("submittask")="新增存檔" then
+ xpath = request("xxpath")
+' uppath = "site/"& session("mysiteid") & "/public/" & session("mmopublic") & request("mmositeid") & "/" & xpath
+ uppath = session("mmopublic") & request("mmositeid") & "/" & xpath
+ if right(uppath,1)<>"/" then uppath = uppath & "/"
+ 
+ fldrpath=uppath+request("tfx_mmofoldername")
+
+ set fso = createobject("scripting.filesystemobject")
+ if fso.folderexists(server.mappath(fldrpath)) then
+
+
+
+
+
+
+
+
+
+
+
+    else
+  '----ftp參數處理
+  ftperrormsg = ""
+  ftpfilepath="public/"&request("mmositeid")&"/"&xpath
+  sqlu="select * from mmosite where mmositeid='"&request("mmositeid")&"'"
+  set rsreg=conn.execute(sqlu)
+  if not rsreg.eof then
+      xftpip = rsreg("uploadsiteftpip")
+      xftpport = rsreg("uploadsiteftpport")
+      xftpid = rsreg("uploadsiteftpid")
+      xftppwd = rsreg("uploadsiteftppwd")
+     end if
+  '----先檢查ftp同步站台是否ok,若不ok,則end
+    if xftpip<>"" and xftpport<>"" and xftpid<>"" and xftppwd<>"" then
+   fileaction=""
+   ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,"","",""    
+   if ftperrormsg<>"" then
+
+
+
+
+
+
+
+
+
+       response.end
+   end if
+       end if  
+  '----ftp同步機制,若無法產生目錄,則end
+    if xftpip<>"" and xftpport<>"" and xftpid<>"" and xftppwd<>"" then
+   fileaction="createdir"
+   ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,request("tfx_mmofoldername"),"",""  
+   if ftperrormsg<>"" then
+
+
+
+
+
+               =ftperrormsg
+
+
+
+       response.end
+   end if
+       end if  
+       '----新增資料庫資料     
+  xmmofoldername=""
+  if request("htx_deptid")<>"" then
+   xdeptid="'"&request("htx_deptid")&"'"
+  else
+   xdeptid="null"
+  end if  
+  if request("xxpath")<>"" then
+   xmmofoldername="/"+request("xxpath")+"/"+request("tfx_mmofoldername")
+  else
+   xmmofoldername="/"+request("tfx_mmofoldername")
+  end if
+  xmmofolderparent="/"+request("xxpath")
+  sql="insert into mmofolder values('"&xmmofoldername&"','"&request("tfx_mmofolderdesc")&"',null,'"&request("mmositeid")&"',null,'"&xmmofolderparent&"','"&request("tfx_mmofoldernameshow")&"',"&xdeptid&")"
+  conn.execute(sql)
+  '----新增本機目錄
+
+  set f = fso.createfolder(server.mappath(fldrpath))
+
+
+
+
+
+
+    if request.querystring("mmofolderid")<>"" then
+
+
+    else
+
+    end if
+
+
+    response.end
+    end if
+else
+ if request.querystring("mmofolderid")<>"" then
+  sqlm="select mmofoldername,mmositeid from mmofolder where mmofolderid="&request.querystring("mmofolderid")
+  set rsm=conn.execute(sqlm)
+  xmmositeid=rsm("mmositeid")  
+  xpath = mid(rsm("mmofoldername"),2)
+  xxpath = mid(rsm("mmofoldername"),2)
+ else
+  xmmositeid=request.querystring("mmositeid")  
+  xpath = request("xpath")
+  xxpath = request("xpath")
+ end if
+ uppath = session("mmopublic") & xmmositeid & "/" & xpath
+ if right(uppath,1)<>"/" then uppath = uppath & "/"
+ if right(xpath,1)<>"/" then xpath = xpath & "/"
+ if left(xpath,1)="/" then xpath = mid(xpath,2)
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if 
+
+
+   sub initform() 
+
+   end sub '---- initform() ----
+
+   sub showform() 
+
+   CxMethod_ASP_mmofolderform_713689379()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                                                    =title
+
+
+
+
+
+
+
+                                              =uppath
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+   sub showhtmltail() 
+
+
+
+
+
+
+
+
+
+
+
+                           =session("deptid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmltail() ------ 

@@ -1,0 +1,185 @@
+﻿:                                                                                                =request.querystring("itemid") :           =request.querystring("catid") :                =request.querystring("ctnodekind") 
+
+
+
+
+                            =rsc(0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     sql="select ctunitid,ctunitname from ctunit where ctunitid is not null and inuse='y' order by ctunitname"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid=n'bonoff' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+  if request.querystring("ctnodekind")="c" then
+
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid=n'ctnodenpkind' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+  end if
+  if goflag then
+
+
+
+
+     sql="select rssurlid,rssurlname from rssurl where rssurlshowyn='y' order by rssurlseq"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if checkgipconfig("subjectmonth") then
+
+
+
+   sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid=n'mouthid' order by msortvalue"
+ set rss=conn.execute(sql)
+ mcount=0
+ while not rss.eof
+  mcount=mcount+1
+ 
+                                                       =rss(0):     =rss(1)
+    if mcount mod 6 = 0 then response.write "<br>"
+  rss.movenext
+ wend
+
+
+  end if
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid=n'rssnodetype' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+
+
+
+  end if
+
+
+
+
+
+
+  if formfunction = "query" then 
+          if (htprogright and 2) <> 0 then 
+
+
+          end if
+  elseif formfunction = "edit" then 
+          if (htprogright and 8) <> 0 then 
+
+           end if 
+
+          if (htprogright and 16) <> 0 then 
+
+         end if 
+
+
+
+   else '-- add ---
+            if (htprogright and 4)<>0 then 
+
+            end if
+
+            if (htprogright and 4)<>0  then 
+
+            end if
+
+   end if  

@@ -1,0 +1,44 @@
+﻿:  CxMethod_ASP_dbutil_10064021()
+
+
+
+
+
+
+  
+ if session("userid")="" then
+ 
+  response.write "<script language=javascript>alert('no permissions!');window.history.back();</script>"
+  response.end
+  
+ else
+ 
+  set conn = server.createobject("adodb.connection")
+  
+  conn.open session("odbcdsn")
+  
+  dim id 
+  
+  id=request("icuitemid") 
+  
+ if not isnumeric(id) then 
+ 
+  response.write "<script language=javascript>alert('error!');window.history.back();</script>"
+  response.end
+
+ 
+ else
+ 
+  icuitemid = request("icuitemid")
+  
+ end if 
+  sel = request("sel")
+ 
+  xsql = "update cudtx7 set bgmusic = '" & sel & "' where gicuitem = " & pkstr(icuitemid,"")
+  conn.execute xsql 
+ 
+  response.write "<script language=javascript>alert('修改成功');window.location.href='cuattachlist.asp?icuitem=" & icuitemid & "&t="& now() &"';</script>"
+ 
+ 
+ end if
+ 

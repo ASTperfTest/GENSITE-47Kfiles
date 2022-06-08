@@ -1,0 +1,115 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+response.addheader "content-type", "text/xml; charset=utf-8"
+   htprogcode = "ge1t21" 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+dim ctroot, orgroot, dtlevel, xmlstr
+ outcode "<root>"
+ gdepth = cint(request("depth"))
+  if request("id")="treeroot" then
+ sqlcom = "select * from cattreeroot where pvxdmp is not null " _
+  & " and (deptid is null or deptid like '" & session("deptid") & "%'" _
+  & " or '" & session("deptid") & "' like deptid+'%')" _
+  & " order by deptid, ctrootid"
+ set rstree = conn.execute(sqlcom)
+     outcode "<node>"
+  outcode "<id>treeroot</id>" 
+  outcode "<nodetype>c</nodetype>" 
+  outcode "<desc>資料上稿</desc>" 
+  outcode "<children>"
+
+ while not rstree.eof
+   ctroot = rstree("ctrootid")
+   xsql = "select count(*) from ctuserset as u join cattreenode as t on u.ctnodeid=t.ctnodeid" _
+  & " and u.userid=" & pkstr(session("userid"),"") _
+  & " where ctrootid = "& pkstr(ctroot,"")
+   set rs= conn.execute(xsql)
+   if rs(0) > 0 then 
+     outcode "<node>"
+  outcode "<sql>t" & xsql & "</sql>" 
+  outcode "<id>t" & rstree("ctrootid") & "</id>" 
+  outcode "<nodetype>c</nodetype>" 
+  outcode "<desc>" & deamp(rstree("ctrootname")) & "</desc>" 
+  if gdepth>0 then      traversetree 0, gdepth-1
+     outcode "</node>"
+   end if
+     rstree.movenext
+ wend
+  outcode "</children>"
+     outcode "</node>"
+  elseif left(request("id"),1)="t" then
+ sqlcom = "select * from cattreeroot where ctrootid=" & pkstr(mid(request("id"),2),"")
+ set rstree = conn.execute(sqlcom)
+ if not rstree.eof then
+     outcode "<node>"
+  outcode "<id>t" & rstree("ctrootid") & "</id>" 
+  outcode "<nodetype>c</nodetype>" 
+  outcode "<desc>" & deamp(rstree("ctrootname")) & "</desc>" 
+  ctroot = rstree("ctrootid")
+  if gdepth>0 then      traversetree 0, gdepth
+     outcode "</node>"
+ end if
+  else
+ sqlcom = "select * from cattreenode where ctnodeid=" & pkstr(request("id"),"")
+ set rstree = conn.execute(sqlcom)
+ if not rstree.eof then
+  ctroot = rstree("ctrootid")
+     outcode "<node>"
+  outcode "<id>" & rstree("ctnodeid") & "</id>" 
+  outcode "<nodetype>" & rstree("ctnodekind") & "</nodetype>" 
+  if rstree("ctunitid")<>"" then
+   outcode "<desc><a href=""ctxmlin.asp?itemid=" & ctroot & "&amp;ctnodeid=" _
+    & rstree("ctnodeid") & """>" & deamp(rstree("catname")) & "</a></desc>" 
+  else
+   outcode "<desc>" & deamp(rstree("catname")) & "</desc>" 
+     end if 
+  if rstree("ctnodekind") = "c" and gdepth>0 then      traversetree rstree("ctnodeid"), gdepth
+     outcode "</node>"
+ end if
+  end if
+ outcode "</root>"
+'    response.write xmlstr & "<hr/>"
+
+sub traversetree (parent, ndepth)
+ sqlcom = "select * from ctuserset as u join cattreenode as t on u.ctnodeid=t.ctnodeid" _
+  & " where t.ctrootid = "& pkstr(ctroot,"") _
+  & " and u.userid=" & pkstr(session("userid"),"") _
+  & " and t.dataparent=" & parent & " order by catshoworder"
+' response.write sqlcom & "<hr>"
+ set rst = conn.execute(sqlcom)
+ if rst.eof then exit sub
+ 
+ outcode "<children>"
+  while not rst.eof
+     outcode "<node>"
+  outcode "<id>" & rst("ctnodeid") & "</id>" 
+  outcode "<nodetype>" & rst("ctnodekind") & "</nodetype>" 
+  if rst("ctunitid")<>"" then
+   outcode "<desc><a href=""ctxmlin.asp?itemid=" & ctroot & "&amp;ctnodeid=" _
+    & rst("ctnodeid") & """>" & deamp(rst("catname")) & "</a></desc>" 
+  else
+   outcode "<desc>" & deamp(rst("catname")) & "</desc>" 
+     end if 
+  if rst("ctnodekind") = "c" and ndepth>1 then      traversetree rst("ctnodeid"), ndepth-1
+     outcode "</node>"
+  rst.movenext
+ wend
+ outcode "</children>"
+end sub
+
+function deamp(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   deamp=""
+   exit function
+  end if
+   deamp = replace(xs,"&","&amp;")
+end function
+
+sub outcode(xstr)
+' xmlstr = xmlstr & xstr
+ response.write xstr & vbcrlf
+end sub
+ 

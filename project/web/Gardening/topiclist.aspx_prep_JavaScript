@@ -1,0 +1,134 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                          function OnClick___1764120399() {Sort_Click}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $(document).ready(function() {
+            //Tab Menu
+            $("#tabInfo").addClass("btnDistrict");
+            $("#tabList").addClass("btnDistrict");
+            $("#tabVote").addClass("btnDistrict now");
+            $("#tabFinal").addClass("btnDistrict");
+        });
+
+        function vote(id) {
+            $("#Action").val('Vote|' + id);
+        }
+
+        function Export() {
+            $("#Action").val('Export');
+            document.aspnetForm.submit();
+        }
+
+        function CheckVoteRecord(id) {
+            $("#Action").val('CheckRecord|' + id);
+        }
+    
+
+
+
+
+ 

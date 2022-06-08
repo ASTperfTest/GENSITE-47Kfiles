@@ -1,0 +1,354 @@
+/*	
+	國工局全球網 - All Rights Reserved.
+	
+	Produicted By 凌網科技 HyWeb Tech. Co., Ltd.2004.
+	http://www.hyweb.com.tw　
+	HyWeb CSS Style(writed by m10/Carol13 Chen) 2004/02/26
+*/
+
+@import url("Tmenu.css");
+@import url("search.css");
+@import url("common.css");
+@import url("status.css");
+@import url("epaper.css");
+@import url("fast.css");
+@import url("news.css");
+@import url("build.css");
+
+
+body {
+	text-align: center;
+	margin: 0px;
+	background-color: #E3E3E3;
+
+}
+
+
+/* 範圍 DIV 設定 */
+#IndexTop {
+	background-image: url(../images/index_Top.gif);
+	background-repeat: no-repeat;
+	height: 103px;
+	text-align: right;
+
+}
+
+#IndexMid {
+	background-image: url(../images/index_MidBg.gif);
+	background-repeat: no-repeat;
+	height: 60px;
+
+}
+#IndexMidDown {
+	background-image: url(../images/index_MidBg2.gif);
+	background-repeat: no-repeat;
+	height: 8px;
+	margin: 0px;
+
+
+}
+
+
+
+#MainLeft {
+	width: 186px;
+	float: left;
+
+}
+
+#MainRight {
+	float: right;
+	width: 583px;
+
+}
+
+
+#IndexDown {
+	background-image: url(../images/index_DownBg.gif);
+	background-repeat: no-repeat;
+	height: 79px;
+	block:bottom;
+	clear:both;
+
+}
+
+/* IndexTop---------member 會員登入------- */
+#IndexTop .memberLogin {
+	font-size: 13px;
+	color: #000000;
+	text-decoration: none;
+	background-image: url(../images/memberLogin.gif);
+	background-repeat: no-repeat;
+	height: 20px;
+	position: relative;
+	top: 53px;
+	right: 100px;
+	padding-top: 7px;
+	padding-left: 25px;
+
+}
+#IndexTop .memberLogin:hover {
+	color: #0066CC;
+}
+
+#IndexTop .memberApply {
+	font-size: 13px;
+	color: #000000;
+	text-decoration: none;
+	background-image: url(../images/memberApply.gif);
+	background-repeat: no-repeat;
+	height: 20px;
+	position: relative;
+	top: 30px;
+	right: 10px;
+	padding-top: 7px;
+	padding-left: 25px;
+
+}
+#IndexTop .memberApply:hover {
+	color: #0066CC;
+}
+
+/* IndexMid---------info 時間氣溫資訊------- */
+#IndexMid .info {
+	font-size: 13px;
+	color: #ffffff;
+	text-align: left;
+	text-indent: 20px;
+	margin-top: 5px;
+	float: left;
+
+}
+
+
+
+/* MainLeft--------- ad  廣告連結------- */
+#MainLeft .ad {
+	margin-bottom: 10px;
+
+}
+
+/* MainRight---------other ( other1 主題報導    other2 知識導覽    otherRight 國道工程之美  ) ------- */
+#otherLeft {
+	float: left;
+	width: 358px;
+	margin-top: 10px;
+
+}
+#other1 {
+	background-image: url(../images/other1_Bg.gif);
+	background-repeat: repeat-y;
+	text-align: left;
+}
+#other1 .other1Title {
+	background-image: url(../images/other1_titleBg.jpg);
+	background-repeat: repeat-y;
+	height: 31px;
+	width: 358px;
+	padding-top: 12px;
+	padding-left: 18px;
+}
+#other1 .other1Title .Left {
+	float: left;
+	font-size: 15px;
+	font-weight: bold;
+	color: #755D38;
+}
+#other1 .title {
+	font-size: 15px;
+	color: #81107A;
+	margin-right: 28px;
+	margin-left: 17px;
+	margin-top: 5px;
+}
+
+#other1 .text {
+	font-size: 13px;
+	color: #755D38;
+	margin-right: 28px;
+	margin-left: 17px;
+	margin-top: 5px;
+	line-height: 19px;
+
+}
+#other1 .img {
+	margin-right: 10px;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	float: left;
+}
+#other1 .text a {
+	color: #BC6100;
+	text-decoration: none;
+}
+#other1 .text a:hover {
+	color: #C800B3;
+	text-decoration: underline;
+}
+
+
+
+
+
+#other2 {
+	background-image: url(../images/other2_Bg.gif);
+	background-repeat: repeat-y;
+	text-align: left;
+	font-size: 13px;
+	color: #E66100;
+	margin-top: 5px;
+
+}
+#other2 .other2Title {
+	background-image: url(../images/other2_titleBg.jpg);
+	background-repeat: repeat-y;
+	height: 32px;
+	width: 358px;
+	padding-top: 12px;
+	padding-left: 18px;
+}
+#other2 .other2Title .Left {
+	float: left;
+	font-size: 15px;
+	font-weight: bold;
+	color: #755D38;
+}
+#other2 .title {
+	font-size: 15px;
+	color: #81107A;
+	margin-right: 28px;
+	margin-left: 17px;
+	margin-top: 5px;
+}
+
+#other2 .text {
+	font-size: 13px;
+	color: #755D38;
+	margin-right: 28px;
+	margin-left: 17px;
+	margin-top: 5px;
+	line-height: 19px;
+
+}
+#other2 .img {
+	margin-right: 10px;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	float: left;
+}
+#other2 .text a {
+	color: #BC6100;
+	text-decoration: none;
+}
+#other2 .text a:hover {
+	color: #C800B3;
+	text-decoration: underline;
+}
+
+
+#otherRight {
+	float: right;
+	width: 225px;
+	background-image: url(../images/other3_Bg.jpg);
+	background-repeat: repeat-y;
+	text-align: left;
+	font-size: 13px;
+	color: #E66100;
+	margin-top: 10px;
+
+}
+#otherRight .otherRightTitle {
+	background-image: url(../images/other3_titleBg.jpg);
+	background-repeat: repeat-y;
+	height: 31px;
+	width: 225px;
+	padding-top: 12px;
+	padding-left: 18px;
+	font-size: 15px;
+	font-weight: bold;
+	color: #755D38;
+}
+#otherRight .title {
+	font-size: 15px;
+	color: #81107A;
+	margin-right: 28px;
+	margin-left: 17px;
+	margin-top: 5px;
+}
+#otherRight .img a  {
+	background-image: url(../images/otherRight_picBg.gif);
+	margin-right: 10px;
+	margin-left: 20px;
+	margin-top: 0px;
+	margin-bottom: 8px;
+	background-repeat: no-repeat;
+	padding-top: 0px;
+	padding-right: 8px;
+	padding-bottom: 5px;
+	padding-left: 0px;
+	background-position: right bottom;
+	width: 100px;
+}
+
+#otherRight .img a:hover {
+	background-image: url(../images/otherRight_picBg2.gif);
+}
+
+
+/* IndexDown---------頁底版權資訊 ------- */
+#IndexDown .left {
+	float: left;
+	width: 220px;
+	color: #4A689B;
+	font-size: 13px;
+	margin-top: 33px;
+	margin-left: 3px;
+
+}
+#IndexDown .left a {
+	color: #4A689B;
+	font-size: 13px;
+	text-decoration: none;
+}
+#IndexDown .left a:hover {
+	color: #0C6CE3;
+	text-decoration: underline;
+}
+#IndexDown .right {
+	float: right;
+	text-align: left;
+	width: 515px;
+
+}
+#IndexDown .ie {
+	color: #878787;
+	font-size: 13px;
+	margin-top: 10px;
+	margin-left: 30px;
+
+
+
+}
+#IndexDown .add {
+	color: #ffffff;
+	font-size: 12px;
+	margin-top: 2px;
+
+
+}
+
+#IndexDown .time {
+	color: #4A689B;
+	font-size: 13px;
+	margin-top: 7px;
+}
+#IndexDown .time a {
+	color: #EE5A00;
+	text-decoration: none;
+}
+#IndexDown .time a:hover {
+	color: #17A600;
+	text-decoration: underline;
+}

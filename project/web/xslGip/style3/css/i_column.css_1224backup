@@ -1,0 +1,324 @@
+@charset "utf-8";
+/* 農業知識入口網-報導專欄版型1 */
+/* October 2008 */
+/*2008報導專欄版型擴充：內容頁特殊版型4款*/
+
+/*共用樣式*/
+.cp08 {
+	margin: 0 8px 20px;
+	/*font-size: 1.33em;因為td.center 已設文字大小，所以先將內文字還原成以16px為基準*/
+	letter-spacing: .1em;
+}
+.template1 .column , .template2 .column , .template3 .column , .template4 .column {
+	line-height: 165%;
+}
+.cp08 h4 {
+	border-bottom: 2px dotted #aaa;
+	margin: 0px 0px 8px;
+	padding: 0 0 3px;
+	font-weight: normal;
+}
+.cp08 .column h5 {
+	padding: 0;
+	font-size: 1em;
+	margin: 15px 0 8px;
+	font-weight: normal;
+	color: #000;
+}
+.cp08 .column p {
+	padding: 0;
+	margin:0 0 1em;
+	font-size: inherit;
+}
+.cp08 .column .image {
+	padding: 2px;
+	border: 1px solid #bbb;
+}
+
+
+.cp08 .attachment li , .cp08 .thumb li {
+	line-height: 130%;
+}
+.cp08 .attachment li p {
+	margin: 3px 0 5px;
+	padding: 0;
+}
+.cp08 .thumb li p {
+	margin: 3px 0 5px;
+	padding: 0;
+	width: 130px;
+}
+.cp08 .attachment h4 {
+	border-bottom: 2px solid #ccc;
+}
+.cp08 .attachment h5 {
+	border-bottom: 1px dotted #bbb;
+	font-size: 1.25em;
+}
+.cp08 .thumb li {
+}
+
+/*------------------------------------------------------附件 共用樣式*/
+.attachment {
+	margin: 20px 0 10px;
+	padding: 15px 0;
+	border-top: 2px solid #ccc;
+	border-bottom: 2px solid #ccc;
+	clear: both;
+	*width: 100%;
+}
+.attachment h5 {
+	letter-spacing: .3em;
+	margin: 0 0 10px;
+	padding: 0 5px 3px;
+}
+.attachment li {
+	line-height: 150%;
+	padding: 0 0 0 20px;
+}
+.attachment li a {
+	text-decoration: underline;
+	color: #105a93;
+}
+.attachment li a:hover {
+	text-decoration: none;
+	color: #eb7f00;
+}
+/*-----------------------------------------------------template1*/
+.template1 {
+	margin: 0;
+}
+
+.template1 .column {/*文章主體*/
+	margin: 0 0 15px;
+}
+.template1 .column .image {
+	float: right;
+	padding: 3px;
+	margin: 0 0 5px 10px;
+	border: 1px solid #ccc;
+}
+.template1 .column .image img {/*文章內大圖寬度*/
+	max-width: 280px;
+	_width: 280px;
+}
+
+
+/*附件*/
+.template1 .attachment ul {
+	list-style: none;
+	padding: 0 5px 0 3px;
+}
+.template1 .attachment li {
+	list-style: none;
+	clear: both;
+	width: 100%;
+	margin: 6px 0;
+	padding: 0;
+	*padding-top: 5px;
+	overflow: hidden;
+}
+.template1 .attachment li .image {
+	width: 80px;
+	height: 80px;
+	float: left;
+	border: 3px solid #ddd;
+	margin: 0 10px 0 0;
+	*margin-top: -3px;
+	overflow: hidden;
+}
+.template1 .attachment li .image img {
+	width: 120px;
+}
+.template1 .attachment li .title {
+	font-size: 1.1em;
+	margin: 0 0 .5em 0;
+}
+
+
+/*-----------------------------------------------------template2 ,template3 */
+/*文字區 版型二、版型三共用樣式*/
+.template2 , .template3 {
+	overflow: hidden;
+	min-width: 410px;
+}
+.template2 .column , .template3 .column {
+	margin: 0 1em 15px 0;
+	padding: 0 1em 0 0;
+	float: left;
+	width: 68%;
+	border-right: 1px dotted #bbb;
+	overflow: hidden;
+}
+.template2 .column .image img , .template3 .column .image img {
+	max-width: 280px;
+	_width: 280px;
+}
+.template2 .column p , .template3 .column p {
+	clear: left;
+}
+
+/*版型二大圖*/
+.template2 .column .image {
+	float: left;
+	margin: 0 10px 5px 0;
+}
+
+/*附件*/
+.template2 .attachment ul , .template3 .attachment ul  {
+	margin: 0;
+	padding: 0;
+}
+.template2 .attachment li , .template3 .attachment li  {
+	list-style: none;
+	padding: 0 0 0 18px;
+	margin: .8em 0;
+	background: url(../images/li_bg.gif) no-repeat 3px 3px;
+}
+
+/*-----------------------------------縮圖區 版型二、版型三共用*/
+.template2 .thumb , .template3 .thumb {
+	width: 23%;
+	min-width: 126px;
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+.template2 .thumb ul , .template3 .thumb ul {
+	margin: 0 auto;
+	padding: 0;
+	width: 130px;
+	list-style: none;
+	_text-align: center;
+}
+.template2 .thumb li , .template3 .thumb li {
+	margin: 0 auto;
+	margin: 0 0 10px;
+}
+.template2 .thumb li p , .template3 .thumb li p { /*縮圖區圖說文字*/
+	clear: both;
+	width: 132px;
+	line-height: 125%;
+	letter-spacing: 1px;
+}
+.template2 .thumb .image , .template3 .thumb .image {
+	width: 124px;
+	border: 1px solid #bbb;
+	margin: 0 auto 3px;
+	padding: 0;
+	float: left;
+}
+.template2 .thumb .image img , .template3 .thumb .image img {
+	width: 120px;
+	height: 90px;
+	border: 2px solid #fff;
+}
+
+
+
+/*-----------------------------------------------------template3*/
+.template3 {
+}
+.template3 .column1 , .template3 .column2 { /*第一區和第二區共通樣式*/
+	overflow: hidden;
+	clear: both;
+	padding: 15px 0 15px;
+	margin: 0;
+	border-bottom: 1px dotted #bbb;
+	_width: 100%;
+}
+.template3 .column .image { /*文字區內大圖*/
+	padding: 3px;
+	margin: 0 10px 5px 0;
+}
+.template3 .column1 .image { /*第一文字區內大圖*/
+	float: left;
+}
+.template3 .column2 .image { /*第二文字區內大圖*/
+	float: right;
+}
+
+.template3 .column1 .column {/*第一文字區，縮圖靠右*/
+	float: left;
+	padding-right: 1em;
+}
+.template3 .column2 .column {/*第二文字區，縮圖靠左*/
+	float: right;
+	margin: 0 0 15px 1em;
+	padding: 0 0 0 1em;
+	border-left: 1px dotted #bbb;
+	border-right: none;
+}
+
+/*-----------------------------------------------------template4*/
+.template4 {
+	overflow: hidden;
+}
+.template4 .column {
+	float: left;
+	width: 68%;
+	margin: 0 2% 0 0;
+}
+.template4 .column .image {
+	padding: 3px;
+	margin: 0 10px 5px 0;
+	border: 1px solid #ccc;
+	max-width: 280px;
+	_width: 280px;
+}
+.template4 .column .image img {
+	max-width: 280px;
+	_width: 280px;
+}
+
+.template4 .attachment {
+	clear: none;
+	border: none;
+	margin: 0;
+	padding: 0;
+	width: 190px;
+	float: left;
+	width: 28%;
+	border: 1px solid #bbb;
+}
+.template4 .attachment h4 {
+	margin: 10px 8px 5px;
+	padding: 0;
+	border-bottom: 2px solid #555;
+	letter-spacing: 5px;
+}
+.template4 .attachment div {
+	margin: 0 8px 15px;
+}
+.template4 .attachment ul  {
+	margin: 0;
+	padding: 0;
+}
+.template4 .attachment li  {
+	list-style: none;
+	padding: 0 0 0 18px;
+	margin: .6em 0;
+	background: url(../images/li_bg.gif) no-repeat 3px 5px;
+	line-height: 150%;
+}
+.template4 .attachment h5 {
+	margin: 0;
+	border-bottom: 1px solid #bbb;
+	font-size: .95em;
+	line-height: 110%;
+	color: #333;
+}
+.template4 .attachment .type1 h5 {
+	background: url(../images/att_type1_bg.jpg) no-repeat right 3px;
+	padding: 9px 0 2px 3px;
+}
+
+.template4 .attachment .type2 h5 {
+	background: url(../images/att_type2_bg.jpg) no-repeat right 0;
+	padding: 15px 0 2px 3px;
+}
+.template4 .attachment .type3 h5 {
+	background: url(../images/att_type3_bg.jpg) no-repeat right 0;
+	padding: 12px 0 2px 3px;
+}
+

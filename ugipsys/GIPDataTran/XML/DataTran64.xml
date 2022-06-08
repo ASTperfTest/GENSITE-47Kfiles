@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DataTran>
+	<targetDB>uGIPwebey</targetDB>
+	<sourceDB>Webey</sourceDB>
+	<sourceTable>iptplan</sourceTable>
+	<CtUintTranList>
+		<CtUintTran>
+			<targetField>ximportant</targetField>
+			<sourceField>seq</sourceField>
+		</CtUintTran>
+		<CtUintTran>
+			<targetField>stitle</targetField>
+			<sourceField>title</sourceField>
+		</CtUintTran>
+		<CtUintTran>
+			<targetField>xpostDate</targetField>
+			<sourceField>createtime</sourceField>
+		</CtUintTran>
+		<CtUintTran>
+			<targetField>xurl</targetField>
+			<sourceField>weburl</sourceField>
+		</CtUintTran>		
+		<CtUintTran>
+			<targetField>createdDate</targetField>
+			<sourceField>createtime</sourceField>
+		</CtUintTran>
+		<CtUintTran>
+			<targetField>deditDate</targetField>
+			<sourceField>modifytime</sourceField>
+		</CtUintTran>
+		<CtUintTran>
+			<targetField>ieditor</targetField>
+			<sourceField>modifyuser</sourceField>
+		</CtUintTran>
+	</CtUintTranList>
+	<whereCondition>where 1=1</whereCondition>
+	<orderby>order by seq desc</orderby>
+	<updateFieldList>
+		<updateField>iptplanid</updateField>
+	</updateFieldList>
+	<attachment>
+		<attachmentTable>iptplan</attachmentTable>
+		<attachmentKeyList>
+			<attachmentKey>
+				<PKField>iptplanid</PKField>
+				<FKField>iptplanid</FKField>
+			</attachmentKey>
+		</attachmentKeyList>
+		<orderby>order by ghtx.seq desc</orderby>
+		<attachmentTran>			
+			<aTitleField>picfile_realname</aTitleField>
+			<aDescField>picalt</aDescField>
+			<NFileNameField>picfile</NFileNameField>
+		</attachmentTran>
+	</attachment>
+</DataTran>

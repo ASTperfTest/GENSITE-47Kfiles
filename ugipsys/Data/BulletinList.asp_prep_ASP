@@ -1,0 +1,135 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_server_1606199358()
+  
+ if catdecide = "y" then
+  catsql = request.querystring("catsql")
+  response.redirect "bulletincatlist.asp?language="& language &"&datatype="& datatype &"&catsql="& catsql
+  response.end
+ elseif datedecide = "y" then
+  response.redirect "bulletindatelist.asp?language="& language &"&datatype="& datatype
+  response.end
+ end if
+
+ itemcount = 0
+ orderbyck = ""
+ sqlcom = "select subject, editdate, unitid "&_
+    "from dataunit where "&_
+       "language = n'"& language &"' and datatype = n'"& datatype &"' order by showorder"
+ set rs = conn.execute(sqlcom)
+  if not rs.eof then orderbyck = "y"
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     =title
+
+
+
+
+
+
+
+
+             if (htprogright and 8)=8 and orderbyck = "y" then :                                                               end if 
+             if (htprogright and 4)=4 then :                                     =language:             =datatype:            end if 
+
+
+
+                                                          =subject
+
+
+
+
+   if rs.eof then 
+
+   else 
+
+
+                                     =subject
+
+
+     do while not rs.eof
+      itemcount = itemcount + 1 
+
+                                             =language:                 =datatype:               =rs("unitid"):     =rs("subject")
+                         =rs("editdate")
+
+      rs.movenext
+      loop 
+
+   end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                    =language:             =datatype
+
+
+       sqlcom = "select subject, editdate, unitid "&_
+       "from dataunit where "&_
+          "language = n'"& language &"' and datatype = n'"& datatype &"' order by showorder"
+       set rs2 = conn.execute(sqlcom)
+        if not rs2.eof then 
+                           =itemcount
+         do while not rs2.eof 
+                           =rs2("unitid"):     =leftstr(rs2("subject"))
+        rs2.movenext
+      loop 
+
+        end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+function leftstr(s)
+  l = 15
+  if language = "e" then l = 30
+  if len(s) > l then
+    leftstr = left(s,l) & "..."
+  else
+    leftstr=s
+  end if
+end function
+
+ 

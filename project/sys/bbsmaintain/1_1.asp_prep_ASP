@@ -1,0 +1,98 @@
+﻿: 
+ response.expires = 0
+ htprogcap = "�q�ױm��"
+ htprogfunc = "�q�ױm�Ϻ��@"
+ htprogcode = "bbs010"
+ htprogprefix = "msession"
+ response.expires = 0
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+
+ sql = "select * from talk05 order by seq"
+ set rs = conn.execute(sql)
+ sql = "select count(*) from talk05"
+ set ts = conn.execute(sql)
+
+ page = 1
+ if request("page") <> "" then page = request("page")
+
+ totalpage = 1
+ if ts(0) > 0 then
+  totalpage = ts(0) \ 10
+  if ts(0) mod 10 <> 0 then totalpage = totalpage + 1
+ end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 = totalpage :                                              = page 
+
+  
+ n = 1
+ while n <= totalpage
+  response.write "<option value='" & n & "'"
+  if int(n) = int(page) then response.write " selected"
+  response.write ">" & n & "</option>"
+  n = n + 1
+ wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            = totalpage :              = page 
+
+  
+ n = 1
+ while n <= totalpage
+  response.write "<option value='" & n & "'"
+  if int(n) = int(page) then response.write " selected"
+  response.write ">" & n & "</option>"
+  n = n + 1
+ wend
+
+
+
+
+
+
+
+
+
+  
+ i = 0
+ while not rs.eof
+  i = i + 1
+  if i <= (page * 10) and i > (page - 1) * 10 then
+
+
+                                    = i 
+                                                    = rs("id") :     = trim(rs("name")) 
+
+  
+  end if
+  rs.movenext
+ wend
+ 

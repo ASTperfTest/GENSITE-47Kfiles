@@ -1,0 +1,341 @@
+﻿:                     
+   response.expires = 0 
+   CxMethod_ASP_htcodegen_1119211473()
+
+
+
+
+
+
+
+
+
+  
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+ formid = request("formid")
+ progpath = request("progpath")
+ if progpath <> "" then
+  if left(progpath,1) = "/" then progpath = mid(progpath,2)
+  progpath = replace(progpath,"/","\")
+  progpath = progpath & "\"
+ end if
+
+ set htpagedom = server.createobject("microsoft.xmldom")
+ htpagedom.async = false
+ htpagedom.setproperty("serverhttprequest") = true 
+ 
+ loadxml = server.mappath(".") & "\formspec\" & progpath & formid & ".xml"
+ debugprint loadxml & "<hr>"
+ xv = htpagedom.load(loadxml)
+  if htpagedom.parseerror.reason <> "" then 
+    response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+    response.write("<br>reason: " &  htpagedom.parseerror.reason)
+    response.end()
+  end if
+
+pgprefix = nulltext(htpagedom.selectsinglenode("//htpage/htprogprefix"))
+progpath = nulltext(htpagedom.selectsinglenode("//htpage/htprogpath"))
+if progpath = "" then 
+ pgpath = server.mappath("genedcode/")
+else
+ pgpath = server.mappath(progpath)
+end if
+if right(pgpath,1) <> "\" then pgpath = pgpath & "\"
+
+    set fs = createobject("scripting.filesystemobject")
+'--xxxform.inc--------------------------
+ set htformdom = htpagedom.selectsinglenode("//pagespec/formui")
+ set refmodel = htpagedom.selectsinglenode("//htform/formmodel[@id='" & htformdom.selectsinglenode("@ref").text & "']")
+' response.write refmodel.selectsinglenode("tablename").text & "<hr>"
+
+ cq=chr(34)
+ ct=chr(9)
+ cl="<" & "%"
+ cr="%" & ">"
+
+' for each xcode in htformdom.selectnodes("scriptcode")
+'  xfout.write replace(xcode.text,chr(10),chr(13)&chr(10))
+' next
+
+'--xxxlist.asp--------------------------
+    set xfout = fs.createtextfile(pgpath&pgprefix&"list.asp")
+
+ xfout.writeline cl & " response.expires = 0"
+ xfout.writeline "htprogcap=""" & nulltext(htpagedom.selectsinglenode("//pagespec/pagehead")) & cq
+ xfout.writeline "htprogfunc=""" & nulltext(htpagedom.selectsinglenode("//pagespec/pagefunction")) & cq
+ xfout.writeline "htprogcode=""" & nulltext(htpagedom.selectsinglenode("//htpage/htprogcode")) & cq
+ xfout.writeline "htprogprefix=""" & pgprefix & cq & " " & cr
+
+    set xfin = fs.opentextfile(server.mappath("template0/tempmdlist1.asp"))
+ dumptempfile
+    xfin.close
+
+ sqlwhere = ""
+ urlpara = ""
+ chkpara = ""
+ xcount = 0
+ masterref = htformdom.selectsinglenode("masterref").text
+ 
+ for each param in refmodel.selectnodes("fieldlist[tablename='" & masterref & "']/field[isprimarykey='y']")
+  if xcount <> 0 then  sqlwhere = sqlwhere & " & "" and "
+  if urlpara <> "" then urlpara = urlpara & "&"
+  urlpara = urlpara & param.selectsinglenode("fieldname").text & "=" & cl & "=rsreg(""" & param.selectsinglenode("fieldname").text & """)" & cr
+  chkpara=cl & "=rsreg(""" & param.selectsinglenode("fieldname").text & """)" & cr
+  sqlwhere = sqlwhere & param.selectsinglenode("fieldname").text _
+   & "="" & pkstr(request.querystring(""" & param.selectsinglenode("fieldname").text & """),"""")"
+  xcount = xcount + 1
+ next
+ sqlstr = ct & "sqlcom = ""select * from " & masterref & " where " & sqlwhere
+ xfout.writeline sqlstr
+ xfout.writeline ct & "set rsmaster = conn.execute(sqlcom)"
+
+ xfout.writeline ct & "mpkey = """"" 
+ for each param in refmodel.selectnodes("fieldlist[tablename='" & masterref & "']/field[isprimarykey='y']")
+  xfout.writeline ct & "mpkey = mpkey & ""&" & param.selectsinglenode("fieldname").text _
+   & "="" & rsmaster(""" & param.selectsinglenode("fieldname").text & """)"
+ next 
+ xfout.writeline ct & "if mpkey<>"""" then  mpkey = mid(mpkey,2)"
+
+
+    set xfin = fs.opentextfile(server.mappath("template0/tempmdlist2.asp"))
+ dumptempfile
+    xfin.close
+
+ for each x in htpagedom.selectnodes("//pagespec/aidlinklist/anchor")
+  ckright = nulltext(x.selectsinglenode("checkright"))
+  pkeystr = ""
+  if nulltext(x.selectsinglenode("anchorwpk"))="y" then _
+   pkeystr = "?" & cl & "=pkey" & cr
+  if ckright <> "" then _
+   xfout.writeline ct&ct & cl & "if (htprogright and " & ckright & ")=" & ckright & " then" & cr
+  if x.selectsinglenode("anchortype").text="back" then
+   xfout.writeline ct&ct&ct & "<a href=""javascript:window.history.back();" _
+    & """ title=""" & nulltext(x.selectsinglenode("anchordesc")) & """>" _
+    & x.selectsinglenode("anchorlabel").text & "</a> "
+  else
+   xfout.writeline ct&ct&ct & "<a href=""" & x.selectsinglenode("anchoruri").text _
+    & pkeystr & """ title=""" & nulltext(x.selectsinglenode("anchordesc")) & """>" _
+    & x.selectsinglenode("anchorlabel").text & "</a>"
+  end if
+  if ckright <> "" then _
+   xfout.writeline ct&ct & cl & "end if" & cr
+ next
+
+    set xfin = fs.opentextfile(server.mappath("template0/tempmdlist2a.asp"))
+ dumptempfile
+    xfin.close
+
+    set xfin = fs.opentextfile(server.mappath("template0/tempform1.inc"))
+ dumptempfile
+    xfin.close
+
+ for each x in htformdom.selectsinglenode("pxhtml").childnodes
+  recursivetag x
+ next
+
+    set xfin = fs.opentextfile(server.mappath("template0/tempmdlist2b.asp"))
+ dumptempfile
+    xfin.close
+
+ for each x in htformdom.selectnodes("//pxhtml//reffield")
+     editprocessinit x.text
+    next
+ xfout.writeline "</script>"
+ 
+ xfout.writeline cl
+
+ set xdetail = htformdom.selectsinglenode("detailrow")
+ detailref = xdetail.selectsinglenode("detailref").text
+
+ xselect = "dhtx.*"
+ xfrom = detailref & " as dhtx"
+ xrcount = 0
+
+ for each param in xdetail.selectnodes("colspec//reffield")
+   xstr = param.text
+   inpos = instr(xstr,"/")
+   reftable = left(xstr,inpos-1)
+   reffield = mid(xstr,inpos+1)
+   if reftable <> detailref then
+  if nulltext(refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/fklink/asalias")) = "" then
+   xrcount = xrcount + 1
+   xalias = "dref" & xrcount
+   refmodel.selectsinglenode("fieldlist[tablename='"&reftable&"']/fklink/asalias").text=xalias
+
+   set xfk = refmodel.selectsinglenode("fieldlist[tablename='"&reftable&"']")
+   xfrom = "(" & xfrom & " " & xfk.selectsinglenode("fklink/jointype").text & " join " _
+    & xfk.selectsinglenode("tablename").text & " as " & xalias & " on " 
+   x1st = 0
+   for each xfkfield in xfk.selectnodes("fklink/fkfieldlist")
+    if x1st > 0 then  xfrom = xfrom & " and "
+    xfrom = xfrom & xalias & "." & xfkfield.selectsinglenode("myfield").text & " = " _
+     & xfk.selectsinglenode("fklink/reftable").text & "." _
+     & xfkfield.selectsinglenode("reffield").text
+    x1st = x1st + 1
+   next
+   xfrom = xfrom & ")"
+  else
+   xalias = refmodel.selectsinglenode("fieldlist[tablename='"&reftable&"']/fklink/asalias").text
+  end if
+
+        xafldname = xalias & "_" & reffield
+  xselect = xselect & ", " & xalias & "." & reffield & " as " & xafldname
+        ' --- 把 detailrow 裡的 reffield 換掉
+        for each xd in xdetail.selectnodes("//colspec//reffield[text()='" _
+         & param.text & "']")
+         xd.text = xalias & "/" & xafldname
+        next
+        ' -----------------------------------
+   end if
+ next
+ xrcount = 0
+
+ for each param in refmodel.selectnodes("fieldlist[tablename='" & detailref & "']/field[valuetype='reflookup']")
+  xrcount = xrcount + 1
+  xalias = "xref" & xrcount
+  sql="select * from codemetadef where codeid='" & param.selectsinglenode("reflookup").text & "'"
+        set rslk=conn.execute(sql)
+        response.write param.selectsinglenode("fieldname").text & "==>" & rslk("codedisplayfld") & "<hr>"
+  xselect = xselect & ", " & xalias & "." & rslk("codedisplayfld") & " as " & param.selectsinglenode("fieldname").text
+  xfrom = "(" & xfrom & " left join " & rslk("codetblname") & " as " & xalias & " on " _
+   & xalias & "." & rslk("codevaluefld") & " = dhtx." & param.selectsinglenode("reffield").text
+  if not isnull(rslk("codesrcfld")) then _
+      xfrom = xfrom & " and " & xalias & "." & rslk("codesrcfld") & "='" & rslk("codesrcitem") & "'"
+  xfrom = xfrom & ")"
+ next
+
+ xfout.writeline ct & "fsql = ""select " & xselect & cq & " _"
+ xfout.writeline ct&ct & "& "" from " & xfrom & cq & " _"
+ xfout.writeline ct&ct & "& "" where 1=1""" & " _"
+ for each x in refmodel.selectsinglenode("fieldlist[tablename='" & detailref & "']").selectnodes("fklink/fkfieldlist")
+  xfout.writeline ct&ct & "& "" and dhtx." & x.selectsinglenode("myfield").text & "="" & " _
+   & "pkstr(rsmaster(""" & x.selectsinglenode("reffield").text & """),"""")" & " _"
+ next
+ xorderby = " order by "
+ if nulltext(xdetail.selectsinglenode("divfield")) <> "" then
+  xorderby = xorderby & xdetail.selectsinglenode("divfield").text & ", "
+ end if
+ for each x in xdetail.selectnodes("orderby")
+  xorderby = xorderby & x.text & ", "
+ next
+ if xorderby = " order by "   then xorderby = ""
+ xfout.writeline ct&ct & "& """ & xorderby & cq
+ xfout.writeline ct & "set rslist = conn.execute(fsql)"
+
+ xfout.writeline cr
+ 
+ for each param in xdetail.selectnodes("anchor")
+   select case nulltext(param.selectsinglenode("type"))
+  case "button"
+   xfout.writeline ct & "<input type=button value=""" & param.selectsinglenode("funclabel").text & """ onclick=""" _
+    & param.selectsinglenode("action").text & "('" & param.selectsinglenode("url").text _
+    & "?" & cl & "=mpkey" & cr & "')"">"
+  case "ptypeset"
+   xfout.writeline ct & "<input type=button value=""" & param.selectsinglenode("funclabel").text & """ onclick=""" _
+    & param.selectsinglenode("action").text & "('" & param.selectsinglenode("url").text _
+    & "&" & cl & "=mpkey" & cr & "')"">"    
+   end select
+ next
+
+    xfout.writeline "<center>"
+    xfout.writeline " <table width=""95%"" cellspacing=""1"" cellpadding=""0"" class=""bg"">"
+    xfout.writeline " <tr align=""left"">"
+
+ if nulltext(xdetail.selectsinglenode("divlabel")) <> "" then
+  xfout.writeline ct & "<td class=etablelable>" & xdetail.selectsinglenode("divlabel").text & "</td>"
+ end if
+ for each param in xdetail.selectnodes("colspec")
+  xfout.writeline ct & "<td class=etablelable>" & nulltext(param.selectsinglenode("collabel")) & "</td>"
+ next
+ xfout.writeline " </tr>"
+ 
+ xfout.writeline cl
+ xfout.writeline ct & "while not rslist.eof"
+ xfout.writeline ct & ct & "dpkey = """"" 
+ for each param in refmodel.selectnodes("fieldlist[tablename='" & detailref & "']/field[isprimarykey='y']")
+  xfout.writeline ct & ct & "dpkey = dpkey & ""&" & param.selectsinglenode("fieldname").text _
+   & "="" & rslist(""" & param.selectsinglenode("fieldname").text & """)"
+ next 
+ xfout.writeline ct & ct & "if dpkey<>"""" then  dpkey = mid(dpkey,2)"
+ xfout.writeline cr
+    '---------------------------------------
+ 
+ if nulltext(xdetail.selectsinglenode("divfield")) <> "" then
+  xfout.writeline ct & "<td class=etablecontent><font size=2>" 
+    xfout.writeline cl & "=rslist(""" & xdetail.selectsinglenode("divfield").text & """)" & cr
+  xfout.writeline "</font></td>"
+ end if
+
+ for each param in xdetail.selectnodes("colspec")
+  xfout.writeline ct & "<td class=etablecontent><font size=2>" 
+  xurl = nulltext(param.selectsinglenode("url"))
+  if  xurl <> "" then _
+   xfout.writeline ct & "<a href=""" & nulltext(param.selectsinglenode("url")) & "?" & cl & "=dpkey" & cr & """>"
+  processcontent param.selectsinglenode("content")
+  if xurl <> "" then xfout.writeline "</a>"
+  xfout.writeline "</font></td>"
+ next
+
+
+    '---------------------------
+    set xfin = fs.opentextfile(server.mappath("template0/tempmdlist4.asp"))
+ dumptempfile
+    xfin.close
+
+ xfout.writeline ct & "<tr>"
+    xfout.writeline ct & ct & "<td width=""100%"" colspan=""2"" align=""center"">"
+    xc = 0
+ for each param in refmodel.selectnodes("funcbuttonlist/funcbutton")
+  xc = xc + 1
+  xfout.writeline ct & ct & "<input type=button value=""" & param.selectsinglenode("funclabel").text _
+   & """ onclick=""butaction(" & xc & ")"">"
+ next
+ xfout.writeline ct & "</td></tr>"
+
+    set xfin = fs.opentextfile(server.mappath("template0/tempmdlist5.asp"))
+ dumptempfile
+    xfin.close
+    xc = 0
+ for each param in refmodel.selectnodes("funcbuttonlist/funcbutton")
+  xc = xc + 1
+  xfout.writeline ct & ct & "case " & xc & ": " _
+   & param.selectsinglenode("action").text & " """ _
+   & param.selectsinglenode("url").text & "?"" & gpkey"
+ next
+
+    set xfin = fs.opentextfile(server.mappath("template0/templist6.asp"))
+ dumptempfile
+    xfin.close
+    xfout.close
+
+sub processcontent(xdom)
+dim x
+ if xdom.nodename = "reffield" then
+  xstr = xdom.text
+  inpos = instr(xstr,"/")
+  reftable = left(xstr,inpos-1)
+  reffield = mid(xstr,inpos+1)
+    xfout.writeline cl & "=rslist(""" & reffield & """)" & cr
+  exit sub
+ end if
+ if xdom.nodename = "#comment" then exit sub
+ if xdom.nodename = "#text" then
+  xfout.writeline xdom.text
+  exit sub
+ end if
+ for each x in xdom.childnodes
+  processcontent x
+ next
+end sub
+ 

@@ -1,0 +1,20 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "ge1t21" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+
+  
+if request("submittask")="批次存檔" then
+    for each x in request.form
+     if left(x,5)="ckbox" and request(x)<>"" then     
+        xn=mid(x,6)
+        sql="update infouser set ugrpname='" & request("tfx_ugrpname") & "',ugrpid='" & request("sfx_ugrpid") & _
+          "' where userid='" & request("pfx_userid"&xn) & "'"
+'response.write sql & "<br>"                   
+  conn.execute(sql)
+    end if   
+    next       
+end if
+ 

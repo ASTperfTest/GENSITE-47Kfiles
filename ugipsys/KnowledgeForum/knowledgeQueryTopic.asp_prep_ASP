@@ -1,0 +1,143 @@
+﻿: response.expires = 0
+htprogcap="主題館績效統計"
+htprogfunc="查詢清單"
+htprogcode="gc1ap9"
+htprogprefix="newkpi" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+
+
+
+  
+    if request("reset")="y" then
+        session("stitle") = ""
+        session("xbody") = ""
+    end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       if xnewwindow="" then:           end if
+                        if xnewwindow="y" then:           end if
+                        if xnewwindow="n" then:           end if
+
+
+
+
+
+
+
+
+
+                       if status="" then:           end if
+                        if status="n" then:           end if
+                        if status="d" then:           end if
+
+
+
+
+
+
+
+
+
+                       if fctupublic="" then:           end if
+                        if fctupublic="y" then:           end if
+                        if fctupublic="n" then:           end if
+
+
+
+
+
+
+
+
+                       if vgroup="" then:           end if
+                        if vgroup="a" then:           end if
+                        if vgroup <> "" then:           end if
+                       if vgroup = "off" then:           end if
+
+
+
+
+
+
+
+
+
+                                                                     =session("stitle") 
+
+
+
+                                                                    =session("xbody") 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      =request.querystring("icuitem"):            =request.querystring("nowpage"):             =cint(request.querystring("pagesize")) 

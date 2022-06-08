@@ -1,0 +1,98 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<OperationContract>
+	<Code>GE1T01</Code>
+	<APCat>GE1</APCat>
+	<formSpec>BaseDSDEditList</formSpec><htPattern>genMDEditList</htPattern>
+	<htSpecPattern>MDList</htSpecPattern>
+	<htCodePath>/GipDSD</htCodePath>
+	<Version>
+		<Date>2003/4/18</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<FromEvent type="Client" id="11"/>
+		<ContractSpec>
+			<Name>evx_BaseDSDEditList</Name>
+			<Type>Client</Type>
+			<ResponsibilityList>
+				<Responsibility>[MD編修條列] -- 編修資料定義				
+					1.編修欄位: 類別, 名稱, 說明, 生效; 
+					2.在 sBaseTableName 為NULL時可刪除；否則只能將 生效 欄設為 N 不用; 
+					3.另加『維護資料表』按鈕 (sBaseTableName為NULL時新增Table, 否則Alter Table)
+					4.Detail列出BaseDSDField的：顯示序, 生效, 標題, 說明, 資料型別, 長度, 輸入型式, 參照代碼</Responsibility>
+			</ResponsibilityList>
+			<PreConditionList>
+				<PreCondition></PreCondition>
+			</PreConditionList>
+			<AnchorList>
+				<Anchor>
+					<AnchorLabel>查詢</AnchorLabel>
+					<AnchorType>A</AnchorType>
+					<AnchorDesc>重設查詢條件</AnchorDesc>
+					<AnchorURI>BaseDSDQuery.asp</AnchorURI>
+					<checkRight>1</checkRight>
+					<AnchorPos>Top</AnchorPos>
+					<AnchorWPK></AnchorWPK>
+				</Anchor>
+				<Anchor>
+					<AnchorLabel>回前頁</AnchorLabel>
+					<AnchorType>Back</AnchorType>
+					<AnchorDesc>回前頁</AnchorDesc>
+					<AnchorURI></AnchorURI>
+					<checkRight></checkRight>
+					<AnchorPos>Top</AnchorPos>
+				</Anchor>
+			</AnchorList>
+			<DescriptionList>
+				<Description></Description>
+			</DescriptionList>
+			<RefObjectList>
+				<RefObject xRef="Y" xUpdate="Y">單元資料定義主檔</RefObject>
+				<RefObject xRef="Y" xUpdate="Y">單元資料欄位定義</RefObject>
+			</RefObjectList>
+			<OutputList>
+				<Output></Output>
+			</OutputList>
+			<PostConditionList>
+				<PostCondition eop="">
+					<!-- instanceCreate/instanceDelete/attributeModify/AssocFormed/AssocBroken -->
+				</PostCondition>
+			</PostConditionList>
+			<htDEntityList>
+				<htDEntity xRef="Y" xUpdate="Y">BaseDSD</htDEntity>
+				<htDEntity xRef="Y" xUpdate="Y">BaseDSDField</htDEntity>
+			</htDEntityList>
+			<CrossReferenceList>
+				<CrossReference></CrossReference>
+			</CrossReferenceList>
+			<NoteList>
+				<Note></Note>
+			</NoteList>
+			<ExceptionList>
+				<Exception></Exception>
+			</ExceptionList>
+			<ActorList>
+				<Actor></Actor>
+			</ActorList>
+		</ContractSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+</OperationContract>

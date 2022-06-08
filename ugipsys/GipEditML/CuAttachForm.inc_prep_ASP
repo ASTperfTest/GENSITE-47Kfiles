@@ -1,0 +1,108 @@
+﻿:                                                                                               =request.querystring("icuitem") :          =request.querystring("user") :          =request.querystring("path") :            =request.querystring("siteid") 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if checkgipconfig("attachlarge") then
+
+
+
+
+
+
+  else
+
+
+
+
+
+  if checkgipconfig("attachmentkind") then
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid='attachkinda' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+  end if
+  if checkgipconfig("attachmenttype") then
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid='attachtype' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+  end if
+  end if
+
+
+
+
+
+  if checkgipconfig("attachlist") then
+
+  end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if formfunction = "query" then 
+          if (htprogright and 2) <> 0 then 
+
+
+          end if
+  elseif formfunction = "edit" then 
+          if (htprogright and 8) <> 0 then 
+
+           end if 
+
+          if (htprogright and 16) <> 0 then 
+
+         end if 
+
+
+
+   else '-- add ---
+            if (htprogright and 4)<>0 then 
+
+            end if
+
+            if (htprogright and 4)<>0  then 
+
+            end if
+
+   end if  

@@ -1,0 +1,67 @@
+﻿: @ codepage = 65001 
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+   set htpagedom = session("hyxformspec")
+    set dsroot = htpagedom.selectsinglenode("//dataschemadef")  
+
+ listfield dsroot.selectsinglenode("//dstable[tablename='formuser']")
+  response.write "<tr><td align=left colspan=7>" 
+  response.write "<a href=""hfdfieldadd.asp"">新增欄位</a>"
+  response.write "</td></tr>" 
+ if nulltext(dsroot.selectsinglenode("//dstable[tablename='formlist']/tablename"))="formlist" then
+   listfield dsroot.selectsinglenode("//dstable[tablename='formlist']")
+  response.write "<tr><td align=left colspan=7>" 
+  response.write "<a href=""hfdfieldadd.asp?part=formlist"">新增欄位</a>"
+  response.write "　<button class=cbutton onclick=""vbs:genlist 0"">產生表列</button>"
+  response.write "　<button class=cbutton onclick=""vbs:genlist 1"">產生表列帶項次</button>"
+  response.write "</td></tr>" 
+ end if
+ listfield dsroot.selectsinglenode("//dstable[tablename='formgeneric']")
+ listfield dsroot.selectsinglenode("//dstable[tablename='hfaptform']")
+
+sub listfield(xtable)
+  response.write "<tr bgcolor=""#cccccc""><th align=left colspan=7>" 
+  response.write nulltext(xtable.selectsinglenode("tabledesc")) 
+  response.write "</th></tr>" 
+  xpart = ""
+  if nulltext(xtable.selectsinglenode("tablename"))="formlist" then xpart = "&part=formlist"
+ for each xfield in xtable.selectnodes("fieldlist/field") 
+  xfid = nulltext(xfield.selectsinglenode("fieldseq"))
+  xfname = nulltext(xfield.selectsinglenode("fieldname"))
+  xflabel = nulltext(xfield.selectsinglenode("fieldlabel"))
+ 
+
+                       =xfname:            =xfname:                         =xflabel
+
+      =xfname
+      =nulltext(xfield.selectsinglenode("datatype"))
+      =nulltext(xfield.selectsinglenode("inputtype"))
+      =nulltext(xfield.selectsinglenode("inputlen"))
+      =nulltext(xfield.selectsinglenode("cannull"))
+   if nulltext(xtable.selectsinglenode("tablename"))<>"hfaptform" and nulltext(xtable.selectsinglenode("tablename"))<>"formgeneric" then 
+                                          =xfname:   =xpart
+   end if 
+
+     
+ next
+end sub
+ 

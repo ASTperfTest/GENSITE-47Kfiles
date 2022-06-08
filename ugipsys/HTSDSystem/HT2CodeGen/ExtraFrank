@@ -1,0 +1,50 @@
+'-----eNewsPaper/ePaperAdd.asp Ln205	新增電子報期別帶入default值
+	SQL="Inser Into ePaper " & _
+		"Select "&pkStr(request("htx_epID"),",")&pkStr(request("htx_ePaperID"),",") & _
+		"epTitle,epFoot,epTitlePicPath,epTitlePicDir from ePaperType " & _
+		pkStr(request("htx_editUser"),",")&pkStr(request("htx_editDate"),",") & _
+		"'0' where epID=" pkStr(request("htx_epID"),"")
+		
+'----eNewsPaper/ePaperEdit.asp		發行過電子報不能修改只能view
+'----Ln13	EditFlag=true
+'----Ln60	if RSreg("epState")="1" then EditFlag=false
+'----Ln345	<%if EditFlag then%>
+			<A href="ePaperMakerList.asp?<%=pKey%>">新聞內容設定</A>						
+			<A href="ePaperPublishSet.asp?<%=pKey%>">發行</A>
+		<%end if%>
+'----eNewsPaper/ePaperFormE.asp  Ln96	<%if EditFlag then%>   <%end if%>		
+
+
+'------CompMember/CompMemberEdit.asp
+加hidden org_compState; ApproveMailFlag
+及submit時檢查
+以處理由未審核改為審核時處理及發e-mail用
+	<INPUT TYPE=hidden name=OrgCompState value="">
+	<INPUT TYPE=hidden name=ApproveFlag value="">
+	
+  	if reg.OrgCompState.value="0" and reg.htx_compState.value="1" then
+         	chky=msgbox("注意！"& vbcrlf & vbcrlf &"　你確定批核此筆資料成為公司會員嗎？"& vbcrlf , 48+1, "請注意！！")
+        	if chky<>vbok then 
+        		exit sub
+        	else	        
+        		reg.ApproveFlag.value="1"        			
+        	end if
+  	end if
+  	
+	'---------------發Mail處理, 待處理
+	if request("ApproveFlag")="1" then
+
+	end if  	
+	
+	
+'--------電子報發行新聞來源設定 Call Achi於web下sourceSample
+eNewsPaper/ePaperMakerList.asp Ln 88 
+	<INPUT TYPE=button VALUE="新聞內容設定" onClick="VBS:PaperMakerListXML()">
+	
+sub windowreload
+	document.location.reload
+end sub
+
+sub PaperMakerListXML
+	window.open "ePaperMakerXMLList.asp?<%=mpKey%>"
+end sub

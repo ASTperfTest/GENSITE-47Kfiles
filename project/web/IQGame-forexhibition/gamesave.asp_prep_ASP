@@ -1,0 +1,195 @@
+﻿: 
+'#####(autogen) 開始：此段程式碼為自動產生，註解部份請勿刪除 #####
+'下列有設定部份如有需要可自行設定
+'此版本為  ver.0.2
+'此段程式碼產生日期為： 2009/6/9 上午 10:55:22
+'(可修改)未來是否自動更新此程式中的 pattern (y/n) : y
+
+'(可修改)此程式是否記錄 log 檔
+activelog4u=true
+
+'(可修改)錯誤發生時要到那個頁面,未填時直接結束，1. 可以是 / :首頁, 2. http://xxx.xxx.xxx.xxx/ooo.htm
+onerrorpath="/"
+
+'目前程式位置在
+progpath="d:\hyweb\gensite\project\web\iqgame-forexhibition\gamesave.asp"
+
+'--------- (可修改)要檢查的 request 變數名稱 --------
+genparamsarray=array("ptime", "tone", "toneselect", "name", "money", "age", "sex")
+genparamspattern=array("<", ">", "%3c", "%3e", ";", "%27", "'", "=", "+", "*", "/", "%", "@", "~", "!", "#", "$", "&", "\", "(", ")", "{", "}", "[", "]") '#### 要檢查的 pattern(程式會自動更新):genpat ####
+genparamsmessage=now() & vbtab & "error(1):request變數含特殊字元"
+
+'-------- (可修改)只檢查單引號，如 request 變數未來將要放入資料庫，請一定要設定(防 sql injection) --------
+sqlinjparamsarray=array()
+sqlinjparamspattern=array("'") '#### 要檢查的 pattern(程式會自動更新):db ####
+sqlinjparamsmessage=now() & vbtab & "error(2):request變數含單引號"
+
+'-------- (可修改)只檢查 html標籤符號，如 request 變數未來將要輸出，請設定 (防 cross site scripting)--------
+xssparamsarray=array()
+xssparamspattern=array("<", ">", "%3c", "%3e") '#### 要檢查的 pattern(程式會自動更新):html ####
+xssparamsmessage=now() & vbtab & "error(3):request變數含html標籤符號"
+
+'-------- (可修改)檢查數字格式 --------
+chknumericarray=array()
+chknumericmessage=now() & vbtab & "error(4):request變數不為數字格式"
+
+'-------- (可修改)檢察日期格式 --------
+chkdatearray=array()
+chkdatemessage=now() & vbtab & "error(5):request變數不為日期格式"
+
+'##########################################
+chkpattern genparamsarray, genparamspattern, genparamsmessage
+chkpattern sqlinjparamsarray, sqlinjparamspattern, sqlinjparamsmessage
+chkpattern xssparamsarray, xssparamspattern, xssparamsmessage
+chknumeric chknumericarray, chknumericmessage
+chkdate chkdatearray, chkdatemessage
+'--------- 檢查 request 變數名稱 --------
+sub chkpattern(parray, patern, message)
+ for each str in parray 
+  p=request(str)
+  for each ptn in patern
+   if (instr(p, ptn) >0) then
+    message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+    log4u(message) '寫入到 log
+    onerroraction
+   end if
+  next
+ next
+end sub
+
+'-------- 檢查數字格式 --------
+sub chknumeric(parray, message)
+ for each str in parray
+  p=request(str)
+  if not isnumeric(p) then
+   message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'--------檢察日期格式 --------
+sub chkdate(parray, message)
+ for each str in parray
+  p=request(str)
+  if not isdate(p) then
+   message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'onerror
+sub onerroraction()
+ if (onerrorpath<>"") then response.redirect(onerrorpath)
+ response.end
+end sub
+
+'log 放在網站根目錄下的 /logs，檔名： yyyymmdd_log4u.txt
+function log4u(strlog)
+ if (activelog4u) then
+  fldr=server.mappath("/") & "/logs"
+  filename=year(date()) & right("0"&month(date()), 2) & right("0"&day(date()),2)
+  
+  filename = filename & "_log4u.txt"
+  
+  dim fso, f
+  set fso = createobject("scripting.filesystemobject")
+  
+  '產生新的目錄
+  if (not fso.folderexists(fldr)) then
+   set f = fso.createfolder(fldr)
+  else
+   showabsolutepath = fso.getabsolutepathname(fldr)
+  end if
+  
+  const forreading = 1, forwriting = 2, forappending = 8
+  '開啟檔案
+  set fso = createobject("scripting.filesystemobject")
+  set f = fso.opentextfile( fldr & "\" & filename , forappending, true, -1)
+  f.write strlog  & vbcrlf
+ end if
+end function
+'##### 結束：此段程式碼為自動產生，註解部份請勿刪除 #####
+:   
+
+    set conn = server.createobject("adodb.connection")
+ conn.open session("odbcdsn")
+ ptime = request("ptime")
+ 
+ tone  = "0"
+ if request("tone") = "1" then
+     tone = request("toneselect")
+ else
+     tone  = "0"
+ end if
+ 
+ name = pkstr(request("name"),"")
+    bfind = "n"
+ 
+ sql = "select * from flashgame,cudtgeneric where cudtgeneric.icuitem=flashgame.gicuitem and deditdate= (rtrim(ltrim(str(year(getdate())))) + '/' + rtrim(ltrim(str(month(getdate())))) +  '/' + rtrim(ltrim(str(day(getdate()))))) and name = '" & request("name") & "' order by rate desc" 
+    
+    'response.write(sql)
+ set todaylogin=conn.execute(sql)
+    
+ ncount = 0
+    
+ while not todaylogin.eof
+     ncount = ncount + 1
+     todaylogin.movenext
+ wend
+    'response.write sql & ncount
+ if ncount > 3 then
+ else 
+        ' response.write pkstr(request("name"),"")
+        ''  response.end
+        'xsql = "insert into cudtgeneric(ibasedsd,ictunit,stitle,xbody,xpostdate,xkeyword,idept,ieditor,fctupublic,deditdate,xnewwindow,showtype)" _
+        '   & " values(38,651," & name & ",'',getdate(),'',0,'hyweb','y',getdate(),'n',1)"
+        xsql = "insert into cudtgeneric(ibasedsd,ictunit,stitle,xbody,xpostdate,xkeyword,idept,ieditor,fctupublic,deditdate,xnewwindow,showtype)" _
+         & " values(38,651," & name & ",'',getdate(),'',0,'hyweb','y',rtrim(ltrim(str(year(getdate())))) + '/' + rtrim(ltrim(str(month(getdate())))) +  '/' + rtrim(ltrim(str(day(getdate())))),'n',1)"
+     
+        sql = "set nocount on;"&xsql&"; select @@identity as newid"    
+     'debugprint sql
+     'response.write  filename & "<br>"
+        'response.write sql & "<br>"
+        'response.end
+        set rsx = conn.execute(sql)
+        xnewidentity = rsx(0)     
+        money = request("money")
+        rate = money - ptime
+        str="insert into flashgame(gicuitem,name,age,sex,ptimemin,ptimesec,ptime,email,hakkalangtone,money,rate) values(" & xnewidentity & "," & name  & "," & pkstr(request("age"),"") & "," & pkstr(request("sex"),"") & "," & cint((ptime-(ptime mod 60))/60) & "," & cint(ptime mod 60) & "," & ptime & "," & pkstr(request("email"),"") & "," & pkstr(tone,"") & "," & money & "," & rate & ")"
+   
+        conn.execute(str)
+        'sql="select top 20 * from flashgame order by rate desc,gicuitem desc"
+        sql="select top 1 * from flashgame where name = " & name   & " and money > " & money & ""
+        'response.write sql
+        'response.end
+        set gamedata=conn.execute(sql)
+       
+        while not gamedata.eof
+            'response.write xnewidentity
+            'response.write gamedata("gicuitem")
+            'if cstr(xnewidentity) = cstr(gamedata("gicuitem")) then
+            bfind = "y"
+            'end if
+            gamedata.movenext
+        wend
+  end if
+  set conn = nothing
+  response.write "&in=" & bfind
+  
+function pkstr (s, endchar)
+    if s="" then
+     pkstr = "null" & endchar
+    else
+     pos = instr(s, "'")
+     while pos > 0
+      s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+      pos = instr(pos + 2, s, "'")
+     wend
+     pkstr="'" & s & "'" & endchar
+    end if
+end function
+ 

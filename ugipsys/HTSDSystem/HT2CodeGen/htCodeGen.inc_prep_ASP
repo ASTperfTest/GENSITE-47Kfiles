@@ -1,0 +1,1136 @@
+﻿:  
+sub dumptempfile()
+    do while not xfin.atendofstream
+        xinstr = xfin.readline
+        xfout.writeline xinstr
+    loop
+end sub
+
+sub writecode(xstr)
+ response.write xstr
+ xfout.writeline xstr
+end sub
+
+sub writepart(xstr)
+ response.write xstr
+ xfout.write xstr
+end sub
+
+sub showaidlinklist
+ for each x in htpagedom.selectnodes("//pagespec/aidlinklist/anchor")
+  ckright = nulltext(x.selectsinglenode("checkright"))
+  pkeystr = ""
+  if nulltext(x.selectsinglenode("anchorwpk"))="y" then _
+   pkeystr = "?" & cl & "=pkey" & cr
+  if ckright <> "" then _
+   xfout.writeline ct&ct & cl & "if (htprogright and " & ckright & ")=" & ckright & " then" & cr
+  if x.selectsinglenode("anchortype").text="back" then
+   xfout.writeline ct&ct&ct & "<a href=""javascript:window.history.back();" _
+    & """ title=""" & nulltext(x.selectsinglenode("anchordesc")) & """>" _
+    & x.selectsinglenode("anchorlabel").text & "</a> "
+  else
+   xfout.writeline ct&ct&ct & "<a href=""" & x.selectsinglenode("anchoruri").text _
+    & pkeystr & """ title=""" & nulltext(x.selectsinglenode("anchordesc")) & """>" _
+    & x.selectsinglenode("anchorlabel").text & "</a>"
+  end if
+  if ckright <> "" then _
+   xfout.writeline ct&ct & cl & "end if" & cr
+ next
+end sub
+
+function helpenumeratecodelist(codeid, helpfield)
+ sql="select * from codemetadef where codeid=n'" & codeid & "'"
+    set rslk=conn.execute(sql)
+ str=ct&ct&ct&cl & "sql=""select " & rslk("codevaluefld") & "," & rslk("codedisplayfld")
+ if helpfield <> "" then  str = str & "," & helpfield
+ str = str & " from " & rslk("codetblname")
+ 
+ if not rslk.eof then
+   if isnull(rslk("codesortfld")) then
+  if isnull(rslk("codesrcfld")) then
+      str= str & """" & vbcrlf & _
+       ct&ct&ct&"set rss=conn.execute(sql)" & vbcrlf & _
+       ct&ct&ct&"while not rss.eof"&cr& vbcrlf
+  else 
+      str= str & " where " & rslk("codesrcfld") & "=n'" & rslk("codesrcitem") & "'""" & vbcrlf & _
+       ct&ct&ct&"set rss=conn.execute(sql)" & vbcrlf & _
+       ct&ct&ct&"while not rss.eof"&cr& vbcrlf
+  end if          
+   else
+  if isnull(rslk("codesrcfld")) then
+      str= str & " where " & rslk("codesortfld") & " is not null order by " & rslk("codesortfld") & """" & vbcrlf & _
+       ct&ct&ct&"set rss=conn.execute(sql)" & vbcrlf & _
+       ct&ct&ct&"while not rss.eof"&cr& vbcrlf
+     else 
+      str= str & " where " & rslk("codesortfld") & " is not null and " & rslk("codesrcfld") & "=n'" & rslk("codesrcitem") & "' order by " & rslk("codesortfld") & """" & vbcrlf & _
+       ct&ct&ct&"set rss=conn.execute(sql)" & vbcrlf & _
+       ct&ct&ct&"while not rss.eof"&cr& vbcrlf
+  end if
+   end if
+ end if
+ helpenumeratecodelist=str
+end function
+
+function enumeratecodelist(codeid)
+ sql="select * from codemetadef where codeid=n'" & codeid & "'"
+        set rslk=conn.execute(sql)
+ str=""
+ if not rslk.eof then
+   if isnull(rslk("codesortfld")) then
+  if isnull(rslk("codesrcfld")) then
+      str=ct&ct&ct&cl & "sql=""select " & rslk("codevaluefld") & "," & rslk("codedisplayfld") & " from " & rslk("codetblname") & """" & vbcrlf & _
+       ct&ct&ct&"set rss=conn.execute(sql)" & vbcrlf & _
+       ct&ct&ct&"while not rss.eof"&cr& vbcrlf
+  else 
+      str=ct&ct&ct&cl & "sql=""select " & rslk("codevaluefld") & "," & rslk("codedisplayfld") & " from " & rslk("codetblname") & " where " & rslk("codesrcfld") & "=n'" & rslk("codesrcitem") & "'""" & vbcrlf & _
+       ct&ct&ct&"set rss=conn.execute(sql)" & vbcrlf & _
+       ct&ct&ct&"while not rss.eof"&cr& vbcrlf
+  end if          
+   else
+  if isnull(rslk("codesrcfld")) then
+      str=ct&ct&ct&cl & "sql=""select " & rslk("codevaluefld") & "," & rslk("codedisplayfld") & " from " & rslk("codetblname") & " where " & rslk("codesortfld") & " is not null order by " & rslk("codesortfld") & """" & vbcrlf & _
+       ct&ct&ct&"set rss=conn.execute(sql)" & vbcrlf & _
+       ct&ct&ct&"while not rss.eof"&cr& vbcrlf
+     else 
+      str=ct&ct&ct&cl & "sql=""select " & rslk("codevaluefld") & "," & rslk("codedisplayfld") & " from " & rslk("codetblname") & " where " & rslk("codesortfld") & " is not null and " & rslk("codesrcfld") & "=n'" & rslk("codesrcitem") & "' order by " & rslk("codesortfld") & """" & vbcrlf & _
+       ct&ct&ct&"set rss=conn.execute(sql)" & vbcrlf & _
+       ct&ct&ct&"while not rss.eof"&cr& vbcrlf
+  end if
+   end if
+ end if
+ enumeratecodelist=str
+end function
+
+function enumeratecodereflookup(codeid)
+ sql="select * from codemetadef where codeid=n'" & codeid & "'"
+        set rslk=conn.execute(sql)
+ str=""
+ if not rslk.eof then
+  if isnull(rslk("codesrcfld")) then
+      str=cl & ct & "sql=""select " & rslk("codevaluefld") & "," & rslk("codedisplayfld") & " from " & rslk("codetblname") & " where " & rslk("codevaluefld") & "= """
+  else 
+      str=cl & ct & "sql=""select " & rslk("codevaluefld") & "," & rslk("codedisplayfld") & " from " & rslk("codetblname") & " where " & rslk("codesrcfld") & "=n'" & rslk("codesrcitem") & "' and " & rslk("codevaluefld") & "= """
+  end if          
+ end if
+ enumeratecodereflookup=str
+end function
+
+sub recursivetag(xdom)
+dim x
+ if xdom.nodename = "reffield" then
+  processparam(xdom.text)
+  exit sub
+ end if
+ if xdom.nodename = "refanchor" then
+  processanchor(xdom.text)
+  exit sub
+ end if
+ if xdom.nodename = "#comment" then exit sub
+ if xdom.nodename = "#text" then
+  writepart xdom.text
+  exit sub
+ end if
+ writepart "<" & xdom.nodename
+ for xi = 0 to xdom.attributes.length-1
+  writepart " " & xdom.attributes.item(xi).nodename & "=""" _
+   & xdom.attributes.item(xi).text & """"
+ next
+ writepart ">"
+ for each x in xdom.childnodes
+  recursivetag x
+ next
+ writecode "</" & xdom.nodename & ">"
+end sub
+
+sub recursiveqparam(xdom)
+dim x
+ if xdom.nodename = "reffield" then
+  processqparam(xdom.text)
+  exit sub
+ end if
+ if xdom.nodename = "#comment" then exit sub
+ if xdom.nodename = "#text" then
+  writepart xdom.text
+  exit sub
+ end if
+ writepart "<" & xdom.nodename
+ for xi = 0 to xdom.attributes.length-1
+  writepart " " & xdom.attributes.item(xi).nodename & "=""" _
+   & xdom.attributes.item(xi).text & """"
+ next
+ writepart ">"
+ for each x in xdom.childnodes
+  recursiveqparam x
+ next
+ writecode "</" & xdom.nodename & ">"
+end sub
+
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+' if not isnull(xnode) then
+'   if isobject(xnode) then
+'  nulltext = 
+'   end if
+' else
+'  nulltext = "aaa"
+' end if
+end function
+
+function nctabchar(n)
+ if ctabchar = "" then
+  nctabchar = ""
+ else
+  nctabchar = string(n,ctabchar)
+ end if
+end function
+
+sub debugprint(xstr)
+ response.write xstr
+end sub
+
+sub processinsert(xstr)
+ inpos = instr(xstr,"/")
+ reftable = left(xstr,inpos-1)
+ reffield = mid(xstr,inpos+1)
+ if nulltext(refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/fklink/asalias")) <> "" then exit sub
+ set param = refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/field[fieldname='" & reffield & "']")
+ paramtype = param.selectsinglenode("datatype").text
+
+ if lcase(right(nulltext(param.selectsinglenode("inputtype")),4)) = "file" then exit sub
+
+ xfout.writeline ct&"if xupform(""htx_" & reffield & """) <> """" then"
+ xfout.writeline ct&ct&"sql = sql & """ & reffield & """ & "","""
+ xfout.writeline ct&ct&"sqlvalue = sqlvalue & pkstr(xupform(""htx_" & reffield & """),"","")"
+ xfout.writeline ct&"end if"
+end sub
+
+sub processinserttable (xstr, thistable)
+ inpos = instr(xstr,"/")
+ reftable = left(xstr,inpos-1)
+ if reftable <> thistable then exit sub
+ reffield = mid(xstr,inpos+1)
+' if nulltext(refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/fklink/asalias")) <> "" then exit sub
+ set param = refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/field[fieldname='" & reffield & "']")
+ paramtype = param.selectsinglenode("datatype").text
+
+ if lcase(right(nulltext(param.selectsinglenode("inputtype")),4)) = "file" then exit sub
+
+ xfout.writeline ct&"if xupform(""htx_" & reffield & """) <> """" then"
+ xfout.writeline ct&ct&"sql = sql & """ & reffield & """ & "","""
+ xfout.writeline ct&ct&"sqlvalue = sqlvalue & pkstr(xupform(""htx_" & reffield & """),"","")"
+ xfout.writeline ct&"end if"
+end sub
+
+sub processupdatetable (xstr, thistable)
+ inpos = instr(xstr,"/")
+ reftable = left(xstr,inpos-1)
+ if reftable <> thistable then exit sub
+ reffield = mid(xstr,inpos+1)
+' if nulltext(refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/fklink/asalias")) <> "" then exit sub
+
+ set param = refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/field[fieldname='" & reffield & "']")
+ if nulltext(param.selectsinglenode("mpkey")) = "y" then exit sub
+ if nulltext(param.selectsinglenode("identity")) = "y" then exit sub
+ if nulltext(param.selectsinglenode("inputtype")) = "calc" then exit sub
+ paramtype = param.selectsinglenode("datatype").text
+
+ if nulltext(param.selectsinglenode("inputtype")) = "imgfile" then
+  processimgfile xstr
+  exit sub
+ elseif nulltext(param.selectsinglenode("inputtype")) = "file" then
+  processattfile xstr
+  exit sub
+ end if
+
+' xfout.writeline ct&"if request(""htx_" & reffield & """) <> """" then"
+ select case paramtype
+   case "calc"
+   case "integer"
+   xfout.writeline ct&ct&"sql = sql & """ & reffield & "="" & " & "drn(""htx_" & reffield & """)"
+   case else
+   xfout.writeline ct&ct&"sql = sql & """ & reffield & "="" & " & "pkstr(xupform(""htx_" & reffield & """),"","")"
+ end select
+' xfout.writeline ct&"end if"
+end sub
+
+sub processupdate(xstr)
+ inpos = instr(xstr,"/")
+ reftable = left(xstr,inpos-1)
+ reffield = mid(xstr,inpos+1)
+ if nulltext(refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/fklink/asalias")) <> "" then exit sub
+
+ set param = refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/field[fieldname='" & reffield & "']")
+ if nulltext(param.selectsinglenode("mpkey")) = "y" then exit sub
+ if nulltext(param.selectsinglenode("identity")) = "y" then exit sub
+ if nulltext(param.selectsinglenode("inputtype")) = "calc" then exit sub
+ paramtype = param.selectsinglenode("datatype").text
+
+ if nulltext(param.selectsinglenode("inputtype")) = "imgfile" then
+  processimgfile xstr
+  exit sub
+ elseif nulltext(param.selectsinglenode("inputtype")) = "file" then
+  processattfile xstr
+  exit sub
+ end if
+
+' xfout.writeline ct&"if request(""htx_" & reffield & """) <> """" then"
+ select case paramtype
+   case "calc"
+   case "integer"
+   xfout.writeline ct&ct&"sql = sql & """ & reffield & "="" & " & "drn(""htx_" & reffield & """)"
+   case else
+   xfout.writeline ct&ct&"sql = sql & """ & reffield & "="" & " & "pkstr(xupform(""htx_" & reffield & """),"","")"
+ end select
+' xfout.writeline ct&"end if"
+end sub
+
+sub processimgfile(xstr)
+' response.write "<hr>" & xstr & "<hr>"
+ inpos = instr(xstr,"/")
+ reftable = left(xstr,inpos-1)
+ reffield = mid(xstr,inpos+1)
+ set param = refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/field[fieldname='" & reffield & "']")
+ inputtype = param.selectsinglenode("inputtype").text
+
+ xfout.writeline ct&"if xupform(""htimgactck_" & reffield & """) <> """" then"
+ xfout.writeline ct&"  actck = xupform(""htimgactck_" & reffield & """)"
+ xfout.writeline ct&"  if actck=""editlogo"" or actck=""addlogo"" then"
+ xfout.writeline ct&ct&"fname = """""
+ xfout.writeline ct&ct&"for each xatt in xup.attachments"
+ xfout.writeline ct&ct&"  if xatt.name = ""htimg_" & reffield & """ then"
+ xfout.writeline ct&ct&ct&"ofname = xatt.filename"
+ xfout.writeline ct&ct&ct&"fnext = """""
+ xfout.writeline ct&ct&ct&"if instr(ofname, ""."")>0 then fnext=mid(ofname, instr(ofname, "".""))"
+ xfout.writeline ct&ct&ct&"tstr = now()"
+ xfout.writeline ct&ct&ct&"nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext"
+ xfout.writeline ct&ct&ct&"sql = sql & """ & reffield & "="" & " & "pkstr(nfname,"","")"
+ xfout.writeline ct&ct&ct&"if xupform(""hoimg_" & reffield & """) <> """" then _"
+ xfout.writeline ct&ct&ct&ct&"xup.deletefile apath & xupform(""hoimg_" & reffield & """)"
+ xfout.writeline ct&ct&ct&"xatt.savefile apath & nfname, false"
+ xfout.writeline ct&ct&"  end if"
+ xfout.writeline ct&ct&"next"
+ xfout.writeline ct&"  elseif actck=""dellogo"" then"
+ xfout.writeline ct&ct&"xup.deletefile apath & xupform(""hoimg_" & reffield & """)"
+ xfout.writeline ct&ct&"sql = sql & """ & reffield & "=null,"""
+ xfout.writeline ct&"  end if"
+ xfout.writeline ct&"end if"
+
+end sub
+
+sub processattfile(xstr)
+' response.write "<hr>" & xstr & "<hr>"
+ inpos = instr(xstr,"/")
+ reftable = left(xstr,inpos-1)
+ reffield = mid(xstr,inpos+1)
+ set param = refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/field[fieldname='" & reffield & "']")
+ inputtype = param.selectsinglenode("inputtype").text
+
+ xfout.writeline ct&"if xupform(""htfileactck_" & reffield & """) <> """" then"
+ xfout.writeline ct&"  actck = xupform(""htfileactck_" & reffield & """)"
+ xfout.writeline ct&"  if actck=""editlogo"" or actck=""addlogo"" then"
+ xfout.writeline ct&ct&"fname = """""
+ xfout.writeline ct&ct&"for each xatt in xup.attachments"
+ xfout.writeline ct&ct&"  if xatt.name = ""htfile_" & reffield & """ then"
+ xfout.writeline ct&ct&ct&"ofname = xatt.filename"
+ xfout.writeline ct&ct&ct&"fnext = """""
+ xfout.writeline ct&ct&ct&"if instr(ofname, ""."")>0 then fnext=mid(ofname, instr(ofname, "".""))"
+ xfout.writeline ct&ct&ct&"tstr = now()"
+ xfout.writeline ct&ct&ct&"nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext"
+ xfout.writeline ct&ct&ct&"sql = sql & """ & reffield & "="" & " & "pkstr(nfname,"","")"
+ xfout.writeline ct&ct&ct&"if xupform(""hofile_" & reffield & """) <> """" then"
+ xfout.writeline ct&ct&ct&ct&"if xup.isfileexist( apath & xupform(""hofile_" & reffield & """)) then _"
+ xfout.writeline ct&ct&ct&ct&ct&"xup.deletefile apath & xupform(""hofile_" & reffield & """)"
+ xfout.writeline ct&ct&ct&ct&"xsql = ""delete imagefile where newfilename="" & pkstr(xupform(""hofile_" & reffield & """),"""")"
+ xfout.writeline ct&ct&ct&ct&"conn.execute xsql"
+ xfout.writeline ct&ct&ct&"end if"
+ xfout.writeline ct&ct&ct&"xatt.savefile apath & nfname, false"
+ xfout.writeline ct&ct&ct&"xsql = ""insert into imagefile(newfilename, oldfilename) values("" & pkstr(nfname,"","") & pkstr(ofname,"")"")"
+ xfout.writeline ct&ct&ct&"conn.execute xsql"
+ xfout.writeline ct&ct&"  end if"
+ xfout.writeline ct&ct&"next"
+ xfout.writeline ct&"  elseif actck=""dellogo"" then"
+ xfout.writeline ct&ct&"if xup.isfileexist( apath & xupform(""hofile_" & reffield & """)) then _"
+ xfout.writeline ct&ct&ct&"xup.deletefile apath & xupform(""hofile_" & reffield & """)"
+ xfout.writeline ct&ct&"xsql = ""delete imagefile where newfilename="" & pkstr(xupform(""hofile_" & reffield & """),"""")"
+ xfout.writeline ct&ct&"conn.execute xsql"
+ xfout.writeline ct&ct&"sql = sql & """ & reffield & "=null,"""
+ xfout.writeline ct&"  end if"
+ xfout.writeline ct&"end if"
+
+end sub
+
+sub processvalid(xstr)
+ inpos = instr(xstr,"/")
+ reftable = left(xstr,inpos-1)
+ reffield = mid(xstr,inpos+1)
+ set param = refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/field[fieldname='" & reffield & "']")
+ it = nulltext(param.selectsinglenode("inputtype"))
+ l  = nulltext(param.selectsinglenode("datalen"))
+ if nulltext(param.selectsinglenode("cannull")) = "n" then
+  select case nulltext(param.selectsinglenode("inputtype"))
+   case "refcheckboxother"
+   case "refcheckbox"
+   case "checkbox"
+   case "refradioother"
+   case "refradio"
+   case "radio"
+   case "hidden"
+   case "file"
+  xfout.writeline ct&"if reg.htfile_" & reffield & ".value = empty then "
+  xfout.writeline ct&ct&"msgbox replace(nmsg,""{0}""," _
+   & cq & param.selectsinglenode("fieldlabel").text & """), 64, ""sorry!"""
+  xfout.writeline ct&ct&"reg.htfile_" & reffield & ".focus"
+  xfout.writeline ct&ct&"exit sub"
+  xfout.writeline ct&"end if"
+   case else
+  xfout.writeline ct&"if reg.htx_" & reffield & ".value = empty then "
+  xfout.writeline ct&ct&"msgbox replace(nmsg,""{0}""," _
+   & cq & param.selectsinglenode("fieldlabel").text & """), 64, ""sorry!"""
+  xfout.writeline ct&ct&"reg.htx_" & reffield & ".focus"
+  xfout.writeline ct&ct&"exit sub"
+  xfout.writeline ct&"end if"
+  end select
+ end if
+ if it="password" then
+  xfout.writeline ct&"if reg.htx_" & reffield & ".value <> " _
+   & " reg.htx_" & reffield & "2check.value  then "
+  xfout.writeline ct&ct&"msgbox ""密碼欄與確認欄的輸入資料需相同"", 64, ""sorry!"""
+  xfout.writeline ct&ct&"reg.htx_" & reffield & ".focus"
+  xfout.writeline ct&ct&"exit sub"
+  xfout.writeline ct&"end if"
+ end if
+ dt = nulltext(param.selectsinglenode("datatype"))
+ if it = "imgfile" then
+   xfout.writeline ct&"if reg.htimg_" & reffield & ".value <> """" then" 
+   xfout.writeline ct&ct&"ximgname = reg.htimg_" & reffield & ".value"
+   xfout.writeline ct&ct&"xfiletype = """""
+   xfout.writeline ct&ct&"if instr(ximgname, ""."")>0 then xfiletype=lcase(mid(ximgname, instr(ximgname, ""."")+1))"
+   xfout.writeline ct&ct&"if xfiletype<>""gif"" and xfiletype<>""jpg"" and xfiletype<>""jpeg"" then"
+   xfout.writeline ct&ct&ct&"msgbox replace(pmsg,""{0}""," _
+    & cq & param.selectsinglenode("fieldlabel").text & """), 64, ""sorry!"""
+   xfout.writeline ct&ct&ct&"reg.htimg_" & reffield & ".focus"
+   xfout.writeline ct&ct&ct&"exit sub"
+   xfout.writeline ct&ct&"end if"
+   xfout.writeline ct&"end if"
+ elseif lcase(right(dt,4)) = "char" then
+  if l<>"" and (it="" or it="textbox" or it="textarea") then
+   xfout.writeline ct&"if blen(reg.htx_" & reffield & ".value) > " & l & " then"
+   xfout.writeline ct&ct&"msgbox replace(replace(lmsg,""{0}""," _
+    & cq & param.selectsinglenode("fieldlabel").text & """),""{1}"","""&l&"""), 64, ""sorry!"""
+   xfout.writeline ct&ct&"reg.htx_" & reffield & ".focus"
+   xfout.writeline ct&ct&"exit sub"
+   xfout.writeline ct&"end if"
+  end if
+ elseif lcase(right(dt,8)) = "datetime" then
+   xfout.writeline ct&"if (reg.htx_" & reffield & ".value <> """") and (not isdate(reg.htx_" & reffield & ".value)) then" 
+   xfout.writeline ct&ct&"msgbox replace(dmsg,""{0}""," _
+    & cq & param.selectsinglenode("fieldlabel").text & """), 64, ""sorry!"""
+   xfout.writeline ct&ct&"reg.htx_" & reffield & ".focus"
+   xfout.writeline ct&ct&"exit sub"
+   xfout.writeline ct&"end if"
+ elseif lcase(left(dt,3)) = "int" or dt="real" then
+   xfout.writeline ct&"if (reg.htx_" & reffield & ".value <> """") and (not isnumeric(reg.htx_" & reffield & ".value)) then" 
+   xfout.writeline ct&ct&"msgbox replace(imsg,""{0}""," _
+    & cq & param.selectsinglenode("fieldlabel").text & """), 64, ""sorry!"""
+   xfout.writeline ct&ct&"reg.htx_" & reffield & ".focus"
+   xfout.writeline ct&ct&"exit sub"
+   xfout.writeline ct&"end if"
+ end if
+end sub
+
+
+sub processinit(xstr)
+ if formfunction = "add" then
+  addprocessinit xstr
+ elseif formfunction = "edit" then
+  editprocessinit xstr
+ elseif formfunction = "query" then
+  queryprocessinit xstr  
+ end if
+end sub
+
+sub addprocessinit(xstr)
+ inpos = instr(xstr,"/")
+ reftable = left(xstr,inpos-1)
+ reffield = mid(xstr,inpos+1)
+ set param = refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/field[fieldname='" & reffield & "']")
+ if nulltext(param.selectsinglenode("clientdefault/type")) = "" then exit sub
+ select case nulltext(param.selectsinglenode("inputtype"))
+   case "imgfile"
+   case "file"
+   case "refradio"
+  lhs = ct & "initradio ""htx_" & reffield & ""","
+   case "radio"
+  lhs = ct & "initradio ""htx_" & reffield & ""","
+   case "refcheckbox"
+  lhs = ct & "initcheckbox ""htx_" & reffield & ""","
+   case "checkbox"
+  lhs = ct & "initcheckbox ""htx_" & reffield & ""","
+   case "popdate"
+  lhs = ct&"reg.pcshowhtx_" & reffield & ".value= "
+   case else
+  lhs = ct&"reg.htx_" & reffield & ".value= "
+ end select
+ select case param.selectsinglenode("clientdefault/type").text
+   case "value"
+    rhs = cq & param.selectsinglenode("clientdefault/set").text & cq
+   case "clientfunc"
+    rhs = param.selectsinglenode("clientdefault/set").text
+   case "serverfunc"
+    rhs = cq & cl & "=" & param.selectsinglenode("clientdefault/set").text & cr & cq
+   case "session"
+    rhs = cq & cl & "=session(" & param.selectsinglenode("clientdefault/set").text & ")" & cr & cq
+ end select
+   xfout.writeline lhs & rhs
+ if nulltext(param.selectsinglenode("inputtype"))="popdate" then
+  lhs = ct&"reg.htx_" & reffield & ".value= "
+    writecode lhs & rhs
+ end if
+end sub
+
+sub editprocessinit(xstr)
+ inpos = instr(xstr,"/")
+ reftable = left(xstr,inpos-1)
+ reffield = mid(xstr,inpos+1)
+ set param = refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/field[fieldname='" & reffield & "']")
+ if nulltext(param.selectsinglenode("inputtype")) <> "calc" then
+   select case nulltext(param.selectsinglenode("inputtype"))
+    case "refradioother"
+   xfout.writeline ct & "initotherradio ""htx_" & reffield & """," & cq & cl & "=qqrs(""" & reffield & """)" & cr & cq _
+    & ", ""other_" & reffield & cq 
+    case "refradio"
+   xfout.writeline ct & "initradio ""htx_" & reffield & """," & cq & cl & "=qqrs(""" & reffield & """)" & cr & cq 
+    case "radio"
+   xfout.writeline ct & "initradio ""htx_" & reffield & """," & cq & cl & "=qqrs(""" & reffield & """)" & cr & cq 
+    case "refcheckboxother"
+   xfout.writeline ct & "initothercheckbox ""htx_" & reffield & """," & cq & cl & "=qqrs(""" & reffield & """)" & cr & cq _
+    & ", ""other_" & reffield & cq 
+    case "refcheckbox"
+   xfout.writeline ct & "initcheckbox ""htx_" & reffield & """," & cq & cl & "=qqrs(""" & reffield & """)" & cr & cq 
+    case "checkbox"
+   xfout.writeline ct & "initcheckbox ""htx_" & reffield & """," & cq & cl & "=qqrs(""" & reffield & """)" & cr & cq 
+    case "calc"
+     xfout.writeline ct & param.selectsinglenode("calc").text
+  case "readonlydefault"    
+   lhs = ct&"reg.htx_" & reffield & ".value= "
+   select case param.selectsinglenode("clientdefault/type").text
+     case "value"
+      rhs = cq & param.selectsinglenode("clientdefault/set").text & cq
+     case "clientfunc"
+      rhs = param.selectsinglenode("clientdefault/set").text
+     case "serverfunc"
+      rhs = cq & cl & "=" & param.selectsinglenode("clientdefault/set").text & cr & cq
+     case "session"
+      rhs = cq & cl & "=session(" & param.selectsinglenode("clientdefault/set").text & ")" & cr & cq
+   end select   
+     xfout.writeline lhs & rhs
+     xfout.writeline ct&"reg.htx_" & reffield & ".readonly=""true""" 
+   xfout.writeline ct&"reg.htx_" & reffield & ".classname=""rdonly"""      
+    case "file"
+   xfout.writeline ct & "initattfile """ & reffield & """, " & cq & cl & "=qqrs(""" & reffield & """)" & cr _
+    & """, " & cq & cl & "=qqrs(""fxr_" & reffield & """)" & cr & cq 
+'   lhs = ct&"reg.hofile_" & reffield & ".value= "
+'   rhs = cq & cl & "=qqrs(""fxr_" & reffield & """)" & cr & cq
+'     xfout.writeline lhs & rhs
+    case "imgfile"
+   xfout.writeline ct & "initimgfile """ & reffield & """," & cq & cl & "=qqrs(""" & reffield & """)" & cr & cq 
+'   lhs = ct&"document.all(""imgsrc_" & reffield & """).src= "
+'   rhs = cq & cl & "=htuploadpath" & cr & cl & "=qqrs(""" & reffield & """)" & cr & cq
+'     xfout.writeline lhs & rhs
+    case "password"
+   lhs = ct&"reg.htx_" & reffield & ".value= "
+   rhs = cq & cl & "=qqrs(""" & reffield & """)" & cr & cq
+     xfout.writeline lhs & rhs
+   lhs = ct&"reg.htx_" & reffield & "2check.value= "
+   rhs = cq & cl & "=qqrs(""" & reffield & """)" & cr & cq
+     xfout.writeline lhs & rhs
+    case "popdate"
+   lhs = ct&"reg.htx_" & reffield & ".value= "
+   rhs = cq & cl & "=qqrs(""" & reffield & """)" & cr & cq
+     xfout.writeline lhs & rhs
+   lhs = ct&"reg.pcshowhtx_" & reffield & ".value= "
+   rhs = "d7date(" & cq& cl & "=qqrs(""" & reffield & """)" & cr & cq & ")"
+     xfout.writeline lhs & rhs
+    case else
+      if nulltext(param.selectsinglenode("datatype")) = "datetime" then
+   lhs = ct&"reg.htx_" & reffield & ".value= "
+   rhs = "d7date(" & cq & cl & "=qqrs(""" & reffield & """)" & cr & cq & ")"
+      else
+   lhs = ct&"reg.htx_" & reffield & ".value= "
+   rhs = cq & cl & "=qqrs(""" & reffield & """)" & cr & cq
+      end if
+     xfout.writeline lhs & rhs
+     end select
+   end if
+ if nulltext(param.selectsinglenode("calc")) <> "" then _
+    xfout.writeline ct & param.selectsinglenode("calc").text
+end sub
+
+sub queryprocessinit(xstr)
+ inpos = instr(xstr,"/")
+ reftable = left(xstr,inpos-1)
+ reffield = mid(xstr,inpos+1)
+ set param = refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/field[fieldname='" & reffield & "']")
+ if nulltext(param.selectsinglenode("clientdefault/type")) = "" then exit sub
+ lhs = ct&"reg.htx_" & reffield & ".value= "
+ select case param.selectsinglenode("clientdefault/type").text
+   case "value"
+    rhs = cq & param.selectsinglenode("clientdefault/set").text & cq
+   case "clientfunc"
+    rhs = param.selectsinglenode("clientdefault/set").text
+   case "serverfunc"
+    rhs = cq & cl & "=" & param.selectsinglenode("clientdefault/set").text & cr & cq
+   case "session"
+    rhs = cq & cl & "=session(" & param.selectsinglenode("clientdefault/set").text & ")" & cr & cq
+ end select
+   xfout.writeline lhs & rhs
+end sub
+
+sub processanchor(xstr)
+' response.write "anchorlist/anchor[funclabel='" & xstr & "']<hr>"
+ set param = refmodel.selectsinglenode("anchorlist/anchor[funclabel='" & xstr & "']")
+ select case nulltext(param.selectsinglenode("type"))
+  case "button"
+   xfout.writeline ct & "<input type=button value=""" & xstr & """ onclick=""" _
+    & param.selectsinglenode("action").text & "('" & param.selectsinglenode("url").text _
+    & "?" & cl & "=pkey" & cr & "')"">"
+ end select
+end sub
+
+sub processparam(xstr)
+' response.write xstr
+ inpos = instr(xstr,"/")
+ reftable = left(xstr,inpos-1)
+ reffield = mid(xstr,inpos+1)
+     set param = refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/field[fieldname='" & reffield & "']")
+ processparamfield param
+end sub
+
+sub processqparam(xstr)
+' response.write xstr
+ inpos = instr(xstr,"/")
+ reftable = left(xstr,inpos-1)
+ reffield = mid(xstr,inpos+1)
+' response.write xreftable & "==>" & xreffield & "<br>"
+' response.write "fieldlist[tablename='" & xreftable & "']/field[fieldname='" & reffield & "']"
+' exit sub
+
+'--------------add or edit function
+     set param = refmodel.selectsinglenode("fieldlist[tablename='" & reftable & "']/field[fieldname='" & reffield & "']")
+ processqparamfield param
+end sub
+
+sub processparamfield (param)
+
+  paramcode = param.selectsinglenode("fieldname").text
+  paramtype = param.selectsinglenode("datatype").text
+  paramsize= nulltext(param.selectsinglenode("datalen"))
+  fielddesc= nulltext(param.selectsinglenode("fielddesc"))
+  if fielddesc <> "" then _
+   fielddesc = " title=""" & fielddesc & cq
+  if paramsize = "" then paramsize = 10
+  if paramsize > 50 then paramsize = 50
+'   writecode nulltext(param.selectsinglenode("inputtype"))
+  select case nulltext(param.selectsinglenode("inputtype"))
+    case ""
+     writecode "<input name=""htx_"&paramcode&""" size="""&paramsize& cq & fielddesc & ">"
+    case "textbox"
+     writecode "<input name=""htx_"&paramcode&""" size="""&paramsize& cq & fielddesc & ">"
+    case "password"
+     writecode "<input name=""htx_"&paramcode&""" type=""password"" size="""&paramsize& cq & fielddesc & ">"
+     writecode " 密碼確認："
+   fielddesc = " title=""再輸入一次密碼供確認檢查" & fielddesc & cq
+     writecode "<input name=""htx_"&paramcode&"2check"" type=""password"" size="""&paramsize& cq & fielddesc & ">"
+    case "calc"
+     writecode "<input name=""htx_"&paramcode&""" size="""&paramsize&""" readonly=""true"">"
+    case "readonly"
+     refcode = nulltext(param.selectsinglenode("reflookup"))
+     if refcode = "" then 
+      writecode "<input name=""htx_"&paramcode&""" size="""&paramsize&""" readonly=""true"" class=""rdonly"">"
+     else
+      xrs = "rsmaster"
+      if formfunction = "edit" then xrs = "rsreg"
+      writecode "<input type=""hidden"" name=""htx_"&paramcode&""">"
+    writecode enumeratecodereflookup(refcode) & " & pkstr(" & xrs & "(""" _
+     & paramcode&"""),"""")"
+    writecode ct&"set rss=conn.execute(sql)"
+    writecode ct&"if not rss.eof then"
+    writecode ct&ct&"response.write rss(1)"
+    writecode ct&"end if" & cr
+     end if
+    case "hidden"
+     writecode "<input type=""hidden"" name=""htx_"&paramcode&""">"
+    case "varchar"
+     writecode "<input name=""htx_"&paramcode&""" size="""&paramsize&""">"
+    case "textarea"
+     writecode "<textarea name=""htx_"&paramcode&""" rows="""&nulltext(param.selectsinglenode("rows")) _
+      &""" cols="""&nulltext(param.selectsinglenode("cols"))& cq & fielddesc & ">"
+     writecode "</textarea>"
+    case "file"
+     if formfunction = "add" then
+     writecode "<input type=""file"" name=""htfile_" & paramcode & """>"
+     elseif formfunction = "edit" then
+   writecode "<table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"">"
+   writecode ct & "<tr><td colspan=""2"">"
+     writecode ct&ct&"<input type=""file"" name=""htfile_" & paramcode & """>"
+     writecode ct&ct&"<input type=""hidden"" name=""hofile_" & paramcode & """>"
+     writecode ct&ct&"<input type=""hidden"" name=""htfileactck_" & paramcode & """>"
+   writecode ct & "</td></tr>"
+   writecode ct & "<tr>"
+   writecode ct & "<td width=""37%""><span id=""logo_" & paramcode & """ class=""rdonly""></span>"
+     writecode ct&ct&"<div id=""nologo_" & paramcode & """ style=""color:red"">無附檔</div></td>"
+   writecode ct & "<td valign=""bottom"">"
+     writecode ct&ct&"<div id=""lbtnhide0_" & paramcode & """>"
+      writecode ct&ct&cl&" if (htprogright and 4)<>0 then " & cr
+     writecode ct&ct&ct&"<img id=""addlogo_" & paramcode & """ class=""hand"" src=""../pagestyle/addimg.gif"" onclick=""vbs: addxfile '" & paramcode & "'"">"
+      writecode ct&ct&cl&" end if " & cr
+     writecode ct&ct&"</div>"
+     writecode ct&ct&"<div id=""lbtnhide1_" & paramcode & """>"
+      writecode ct&ct&cl&" if (htprogright and 8)<>0 then " & cr
+     writecode ct&ct&ct&"<img id=""chglogo_" & paramcode & """ class=""hand"" src=""../pagestyle/chimg.gif"" onclick=""vbs: chgxfile '" & paramcode & "'"">"
+      writecode ct&ct&cl&" end if " & cr
+      writecode ct&ct&cl&" if (htprogright and 16)<>0 then " & cr
+     writecode ct&ct&ct&"<img id=""dellogo_" & paramcode & """ class=""hand"" src=""../pagestyle/delimg.gif"" onclick=""vbs: delxfile '" & paramcode & "'"">"
+      writecode ct&ct&cl&" end if " & cr
+     writecode ct&ct&"</div>"
+     writecode ct&ct&"<div id=""lbtnhide2_" & paramcode & """>"
+      writecode ct&ct&cl&" if (htprogright and 8)<>0 then " & cr
+     writecode ct&ct&ct&"<img id=""orglogo_" & paramcode & """ class=""hand"" src=""../pagestyle/resetimg.gif"" onclick=""vbs: orgxfile '" & paramcode & "'"">"
+      writecode ct&ct&cl&" end if " & cr
+     writecode ct&ct&"</div>"
+   writecode ct & "</td></tr></table>"
+     end if
+    case "imgfile"
+     if formfunction = "add" then
+     writecode "<input type=""file"" name=""htimg_" & paramcode & """>"
+     elseif formfunction = "edit" then
+   writecode "<table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"">"
+   writecode ct & "<tr><td colspan=""2"">"
+     writecode ct&ct&"<input type=""file"" name=""htimg_" & paramcode & """>"
+     writecode ct&ct&"<input type=""hidden"" name=""hoimg_" & paramcode & """>"
+     writecode ct&ct&"<input type=""hidden"" name=""htimgactck_" & paramcode & """>"
+   writecode ct & "</td></tr>"
+   writecode ct & "<tr>"
+   writecode ct & "<td width=""37%""><img id=""logo_" & paramcode & """ src="""">"
+     writecode ct&ct&"<div id=""nologo_" & paramcode & """ style=""color:red"">無圖片</div></td>"
+   writecode ct & "<td valign=""bottom"">"
+     writecode ct&ct&"<div id=""lbtnhide0_" & paramcode & """>"
+      writecode ct&ct&cl&" if (htprogright and 4)<>0 then " & cr
+     writecode ct&ct&ct&"<img id=""addlogo_" & paramcode & """ class=""hand"" src=""../pagestyle/addimg.gif"" onclick=""vbs: addlogo '" & paramcode & "'"">"
+      writecode ct&ct&cl&" end if " & cr
+     writecode ct&ct&"</div>"
+     writecode ct&ct&"<div id=""lbtnhide1_" & paramcode & """>"
+      writecode ct&ct&cl&" if (htprogright and 8)<>0 then " & cr
+     writecode ct&ct&ct&"<img id=""chglogo_" & paramcode & """ class=""hand"" src=""../pagestyle/chimg.gif"" onclick=""vbs: chglogo '" & paramcode & "'"">"
+      writecode ct&ct&cl&" end if " & cr
+      writecode ct&ct&cl&" if (htprogright and 16)<>0 then " & cr
+     writecode ct&ct&ct&"<img id=""dellogo_" & paramcode & """ class=""hand"" src=""../pagestyle/delimg.gif"" onclick=""vbs: dellogo '" & paramcode & "'"">"
+      writecode ct&ct&cl&" end if " & cr
+     writecode ct&ct&"</div>"
+     writecode ct&ct&"<div id=""lbtnhide2_" & paramcode & """>"
+      writecode ct&ct&cl&" if (htprogright and 8)<>0 then " & cr
+     writecode ct&ct&ct&"<img id=""orglogo_" & paramcode & """ class=""hand"" src=""../pagestyle/resetimg.gif"" onclick=""vbs: orglogo '" & paramcode & "'"">"
+      writecode ct&ct&cl&" end if " & cr
+     writecode ct&ct&"</div>"
+   writecode ct & "</td></tr></table>"
+     end if
+    case "popdate"
+     calendarflag = true
+     followstr = nulltext(param.selectsinglenode("followchange"))
+     if followstr <> "" then followstr = "htx_" & followstr 
+     followstr = " ,'" & followstr & "'"
+     writecode "<input name=""htx_"&paramcode&""" type=hidden>"
+     writecode "<input name=""pcshowhtx_"&paramcode&""" size="""&paramsize&""" readonly onclick=""vbs: popcalendar 'htx_"&paramcode&"'"& followstr & cq & fielddesc & ">"
+    case "refcheckboxother"
+     refcode = param.selectsinglenode("reflookup").text
+     tblrow = param.selectsinglenode("tblrow").text
+     dynamiccode = ""
+      for each dc in param.selectnodes("dynamicbehavior")
+       dynamiccode = " " & dc.selectsinglenode("event").text & "=""" _
+        & dc.selectsinglenode("pcall").text & """"
+      next
+     dynamiccode = replace(dynamiccode,chr(34),chr(34)&chr(34))
+   writecode "<table width=""100%"">"
+   writecode ct&ct&ct&cl&" pdxc = """""
+   writecode ct&ct&ct&ct&" tblrowcount = 0" & cr
+   writecode helpenumeratecodelist(refcode, nulltext(param.selectsinglenode("helptextfield")))
+   xtdtext = "<td"
+   if nulltext(param.selectsinglenode("helptextfield")) <> "" then _
+    xtdtext = xtdtext & " title=""" & cl & "=rss(2)" & cr & cq
+   xtdtext = xtdtext & " " & cl & " if ucase(rss(0))=""z"" then response.write ""colspan=2 """ & cr
+   xtdtext = xtdtext & ">"
+   if dynamiccode <> "" then _
+    writecode ct&ct&ct&cl&" pdxc = replace("""& dynamiccode & """,""'mcode'"",""'""&rss(0)&""'"")" & cr
+   writecode ct&ct&ct&cl& " if (tblrowcount mod " & tblrow & ") = 0 then  response.write ""<tr>""" & cr 
+   writecode ct&xtdtext&"<input type=""checkbox"" name=""htx_"&paramcode&""" value="""&cl&"=rss(1)"&cr & """ " & cl&"=pdxc"&cr & ">" _
+      &"<font size=2>"&cl&"=rss(1)"&cr&"</font>"
+   writecode ct&ct&cl&ct&"rss.movenext"& vbcrlf & _
+    ct&ct&ct&"tblrowcount = tblrowcount + 1" & vbcrlf & _
+       ct&ct&"wend"& cr
+   writecode ct&"<input type=""text"" name=""other_" &paramcode& """ size=10 onchange=""vbs: setothercheckbox 'htx_" _
+    & paramcode & "',me.value"">"
+   if nulltext(param.selectsinglenode("btnselectall")) <> "" then
+    writecode cl&ct&ct&"tblrowcount = tblrowcount + 1"
+    writecode ct&ct&"if (tblrowcount mod 8) = 0 then  response.write ""<tr>"""
+    writecode ct&ct&"while (tblrowcount mod 8 ) < 7"
+    writecode ct&ct&ct&"response.write ""<td>"""
+    writecode ct&ct&ct&"tblrowcount = tblrowcount + 1"
+    writecode ct&ct&"wend" & vbcrlf & cr
+    writecode ct&ct&"<td><input type=button value=""全選"" name=""pickall" _
+     & paramcode & """ class=""cbutton"" onclick=""" _
+     & nulltext(param.selectsinglenode("btnselectall")) & """>"
+   end if      
+      writecode "</table>"
+    case "refcheckbox"
+     refcode = param.selectsinglenode("reflookup").text
+     tblrow = param.selectsinglenode("tblrow").text
+     dynamiccode = ""
+      for each dc in param.selectnodes("dynamicbehavior")
+       dynamiccode = " " & dc.selectsinglenode("event").text & "=""" _
+        & dc.selectsinglenode("pcall").text & """"
+      next
+     dynamiccode = replace(dynamiccode,chr(34),chr(34)&chr(34))
+   writecode "<table width=""100%"">"
+   writecode ct&ct&ct&cl&" pdxc = """""
+   writecode ct&ct&ct&ct&" tblrowcount = 0" & cr
+   writecode enumeratecodelist(refcode)
+   if dynamiccode <> "" then _
+    writecode ct&ct&ct&cl&" pdxc = replace("""& dynamiccode & """,""'mcode'"",""'""&rss(0)&""'"")" & cr
+   writecode ct&ct&ct&cl& " if (tblrowcount mod " & tblrow & ") = 0 then  response.write ""<tr>""" & cr 
+   writecode ct&"<td><input type=""checkbox"" name=""htx_"&paramcode&""" value="""&cl&"=rss(0)"&cr & """ " & cl&"=pdxc"&cr & ">" _
+      &"<font size=2>"&cl&"=rss(1)"&cr&"</font>"
+   writecode ct&ct&cl&ct&"rss.movenext"& vbcrlf & _
+    ct&ct&ct&"tblrowcount = tblrowcount + 1" & vbcrlf & _
+       ct&ct&"wend"& cr
+   if nulltext(param.selectsinglenode("btnselectall")) <> "" then
+    writecode cl&ct&ct&"if (tblrowcount mod 8) = 0 then  response.write ""<tr>"""
+    writecode ct&ct&"while (tblrowcount mod 8 ) < 7"
+    writecode ct&ct&ct&"response.write ""<td>"""
+    writecode ct&ct&ct&"tblrowcount = tblrowcount + 1"
+    writecode ct&ct&"wend" & vbcrlf & cr
+    writecode ct&ct&"<td><input type=button value=""全選"" name=""pickall" _
+     & paramcode & """ class=""cbutton"" onclick=""" _
+     & nulltext(param.selectsinglenode("btnselectall")) & """>"
+   end if      
+      writecode "</table>"
+    case "radio"
+     dynamiccode = ""
+      for each dc in param.selectnodes("dynamicbehavior")
+       dynamiccode = " " & dc.selectsinglenode("event").text & "=""" _
+        & dc.selectsinglenode("pcall").text & """"
+      next
+     set optionlist = param.selectnodes("item")
+   pdxc = ""
+     for each optitem in optionlist 
+      if dynamiccode <> "" then _
+       pdxc = replace(dynamiccode, "'mcode'", "'" & optitem.selectsinglenode("mcode").text & "'")
+    writecode "<input type=""radio"" name=""htx_"&paramcode&""" value="""&optitem.selectsinglenode("mcode").text & """ " & pdxc & ">"
+      writecode optitem.selectsinglenode("mvalue").text & "&nbsp;&nbsp;"
+     next
+    case "refradio"
+     refcode = param.selectsinglenode("reflookup").text
+     dynamiccode = ""
+      for each dc in param.selectnodes("dynamicbehavior")
+       dynamiccode = " " & dc.selectsinglenode("event").text & "=""" _
+        & dc.selectsinglenode("pcall").text & """"
+      next
+     dynamiccode = replace(dynamiccode,chr(34),chr(34)&chr(34))
+   writecode ct&ct&ct&cl&" pdxc = """"" & cr
+   writecode enumeratecodelist(refcode)
+   if dynamiccode <> "" then _
+    writecode ct&ct&ct&cl&" pdxc = replace("""& dynamiccode & """,""'mcode'"",""'""&rss(0)&""'"")" & cr
+   writecode "<input type=""radio"" name=""htx_"&paramcode&""" value="""&cl&"=rss(0)"&cr & """ " & cl&"=pdxc"&cr & ">"
+     writecode ct&ct&ct&cl&"=rss(1)"&cr& "&nbsp;&nbsp;"
+   writecode ct&ct&ct&cl&ct&"rss.movenext"& vbcrlf & _
+       ct&ct&ct&"wend"& cr
+
+    case "refradioother"
+     refcode = param.selectsinglenode("reflookup").text
+     tblrow = param.selectsinglenode("tblrow").text
+     dynamiccode = ""
+      for each dc in param.selectnodes("dynamicbehavior")
+       dynamiccode = " " & dc.selectsinglenode("event").text & "=""" _
+        & dc.selectsinglenode("pcall").text & """"
+      next
+     dynamiccode = replace(dynamiccode,chr(34),chr(34)&chr(34))
+   writecode "<table width=""100%"">"
+   writecode ct&ct&ct&cl&" pdxc = """""
+   writecode ct&ct&ct&ct&" tblrowcount = 0" & cr
+   writecode helpenumeratecodelist(refcode, nulltext(param.selectsinglenode("helptextfield")))
+   xtdtext = "<td"
+   if nulltext(param.selectsinglenode("helptextfield")) <> "" then _
+    xtdtext = xtdtext & " title=""" & cl & "=rss(2)" & cr & cq
+   xtdtext = xtdtext & ">"
+   if dynamiccode <> "" then _
+    writecode ct&ct&ct&cl&" pdxc = replace("""& dynamiccode & """,""'mcode'"",""'""&rss(0)&""'"")" & cr
+   writecode ct&ct&ct&cl& " if (tblrowcount mod " & tblrow & ") = 0 then  response.write ""<tr>""" & cr 
+   writecode ct&xtdtext&"<input type=""radio"" name=""htx_"&paramcode&""" value="""&cl&"=rss(1)"&cr & """ " & cl&"=pdxc"&cr & ">" _
+      &"<font size=2>"&cl&"=rss(1)"&cr&"</font>"
+   writecode ct&ct&cl&ct&"rss.movenext"& vbcrlf & _
+    ct&ct&ct&"tblrowcount = tblrowcount + 1" & vbcrlf & _
+       ct&ct&"wend"& cr
+   writecode ct&"<input type=""text"" name=""other_" &paramcode& """ size=10 onchange=""vbs: setothercheckbox 'htx_" _
+    & paramcode & "',me.value"">"
+      writecode "</table>"
+    case "selection"
+   writecode "<select name=""htx_"&paramcode&""" size=1>"
+        writecode "<option value="""">請選擇</option>"
+     set optionlist = param.selectnodes("item")
+     for each optitem in optionlist 
+    writecode "<option value="""&optitem.selectsinglenode("mcode").text & """>" _
+       & optitem.selectsinglenode("mvalue").text & "</option>"
+     next
+   writecode "</select>" & vbcrlf
+
+    case "refselect"
+     refcode = param.selectsinglenode("reflookup").text
+     dynamiccode = ""
+      for each dc in param.selectnodes("dynamicbehavior")
+       dynamiccode = " " & dc.selectsinglenode("event").text & "=""" _
+        & dc.selectsinglenode("pcall").text & """"
+      next
+'     response.write refcode
+'     set optionlist = rptxmldoc.selectnodes("//dstable[tablename='codemain']/instance/row[codemetaid='"&refcode&"']")
+   writecode "<select name=""htx_"&paramcode&""" size=1>"
+        writecode "<option value="""">請選擇</option>"
+   writecode enumeratecodelist(refcode)
+   writecode ct&ct&ct&"<option value="""&cl&"=rss(0)"&cr&""">"&cl&"=rss(1)"&cr&"</option>"
+   writecode ct&ct&ct&cl&ct&"rss.movenext"& vbcrlf & _
+       ct&ct&ct&"wend"& cr
+   writecode "</select>" & vbcrlf
+    case "refselectother"
+     refcode = param.selectsinglenode("reflookup").text
+     dynamiccode = ""
+      for each dc in param.selectnodes("dynamicbehavior")
+       dynamiccode = " " & dc.selectsinglenode("event").text & "=""" _
+        & dc.selectsinglenode("pcall").text & """"
+      next
+'     response.write refcode
+'     set optionlist = rptxmldoc.selectnodes("//dstable[tablename='codemain']/instance/row[codemetaid='"&refcode&"']")
+   writecode "<select name=""htx_"&paramcode&""" size=1>"
+        writecode "<option value="""">請選擇</option>"
+   writecode enumeratecodelist(refcode)
+   writecode ct&ct&ct&"<option value="""&cl&"=rss(0)"&cr&""">"&cl&"=rss(1)"&cr&"</option>"
+   writecode ct&ct&ct&cl&ct&"rss.movenext"& vbcrlf & _
+       ct&ct&ct&"wend"& cr
+   writecode "</select>" & vbcrlf
+  end select
+end sub
+
+sub processqparamfield(param)
+ paramcode = param.selectsinglenode("fieldname").text
+ reffield = paramcode
+  paramtype = nulltext(param.selectsinglenode("inputtype"))
+  paramkind = nulltext(param.selectsinglenode("paramkind"))
+  paramsize= nulltext(param.selectsinglenode("inputlen"))
+  if paramsize = "" then paramsize = 10
+  if paramsize > 50 then paramsize = 50
+  select case paramkind
+   case "range"
+     if paramtype="popdate" then
+      calendarflag = true
+      writecode "<input name=""pcshowhtx_"&paramcode&"s"" size="""&paramsize&""" readonly onclick=""vbs: popcalendar 'htx_"&paramcode&"s','htx_"&paramcode&"e'""> ～ "
+      writecode "<input name=""htx_"&paramcode&"s"" type=hidden><input name=""htx_"&paramcode&"e"" type=hidden>"
+      writecode "<input name=""pcshowhtx_"&paramcode&"e"" size="""&paramsize&""" readonly onclick=""vbs: popcalendar 'htx_"&paramcode&"e',''"">"
+     else
+      writecode "<input name=""htx_"&paramcode&"s"" size="""&paramsize&"""> ～ "
+      writecode "<input name=""htx_"&paramcode&"e"" size="""&paramsize&""">"     
+     end if
+   case else
+    select case paramtype
+    case "popdate"
+      writecode "<input name=""htx_"&paramcode&""" type=hidden>"
+      writecode "<input name=""pcshowhtx_"&paramcode&""" size="""&paramsize&""" readonly onclick=""vbs: popcalendar 'htx_"&paramcode&"',''"">"
+    case "refselect"
+     refcode = param.selectsinglenode("reflookup").text    
+   writecode "<select name=""htx_"&paramcode&""" size=1>"   
+        writecode "<option value="""">請選擇</option>"
+   writecode enumeratecodelist(refcode)
+   writecode ct&ct&ct&"<option value="""&cl&"=rss(0)"&cr&""">"&cl&"=rss(1)"&cr&"</option>"
+   writecode ct&ct&ct&cl&ct&"rss.movenext"& vbcrlf & _
+       ct&ct&ct&"wend"& cr
+   writecode "</select>" & vbcrlf  
+    case "selection"
+   writecode "<select name=""htx_"&paramcode&""" size=1>"
+        writecode "<option value="""">請選擇</option>"
+     set optionlist = param.selectnodes("item")
+     for each optitem in optionlist 
+    writecode "<option value="""&optitem.selectsinglenode("mcode").text & """>" _
+       & optitem.selectsinglenode("mvalue").text & "</option>"
+     next
+   writecode "</select>" & vbcrlf
+    case "radio"
+     dynamiccode = ""
+      for each dc in param.selectnodes("dynamicbehavior")
+       dynamiccode = " " & dc.selectsinglenode("event").text & "=""" _
+        & dc.selectsinglenode("pcall").text & """"
+      next
+     set optionlist = param.selectnodes("item")
+   pdxc = ""
+     for each optitem in optionlist 
+      if dynamiccode <> "" then _
+       pdxc = replace(dynamiccode, "'mcode'", "'" & optitem.selectsinglenode("mcode").text & "'")
+    writecode "<input type=""radio"" name=""htx_"&paramcode&""" value="""&optitem.selectsinglenode("mcode").text & """ " & pdxc & ">"
+      writecode optitem.selectsinglenode("mvalue").text & "&nbsp;&nbsp;"
+     next
+    case "refradio"
+     refcode = param.selectsinglenode("reflookup").text
+     dynamiccode = ""
+      for each dc in param.selectnodes("dynamicbehavior")
+       dynamiccode = " " & dc.selectsinglenode("event").text & "=""" _
+        & dc.selectsinglenode("pcall").text & """"
+      next
+     dynamiccode = replace(dynamiccode,chr(34),chr(34)&chr(34))
+   writecode ct&ct&ct&cl&" pdxc = """"" & cr
+   writecode enumeratecodelist(refcode)
+   if dynamiccode <> "" then _
+    writecode ct&ct&ct&cl&" pdxc = replace("""& dynamiccode & """,""'mcode'"",""'""&rss(0)&""'"")" & cr
+   writecode "<input type=""radio"" name=""htx_"&paramcode&""" value="""&cl&"=rss(0)"&cr & """ " & cl&"=pdxc"&cr & ">"
+     writecode ct&ct&ct&cl&"=rss(1)"&cr& "&nbsp;&nbsp;"
+   writecode ct&ct&ct&cl&ct&"rss.movenext"& vbcrlf & _
+       ct&ct&ct&"wend"& cr
+
+    case "refcheckbox"
+     refcode = param.selectsinglenode("reflookup").text
+     tblrow = nulltext(param.selectsinglenode("tblrow"))
+     if tblrow = "" then tblrow = 10
+     dynamiccode = ""
+      for each dc in param.selectnodes("dynamicbehavior")
+       dynamiccode = " " & dc.selectsinglenode("event").text & "=""" _
+        & dc.selectsinglenode("pcall").text & """"
+      next
+     dynamiccode = replace(dynamiccode,chr(34),chr(34)&chr(34))
+   writecode "<table width=""100%"">"
+   writecode ct&ct&ct&cl&" pdxc = """""
+   writecode ct&ct&ct&ct&" tblrowcount = 0" & cr
+   writecode enumeratecodelist(refcode)
+   if dynamiccode <> "" then _
+    writecode ct&ct&ct&cl&" pdxc = replace("""& dynamiccode & """,""'mcode'"",""'""&rss(0)&""'"")" & cr
+   writecode ct&ct&ct&cl& " if (tblrowcount mod " & tblrow & ") = 0 then  response.write ""<tr>""" & cr 
+   writecode ct&"<td><input type=""checkbox"" name=""htx_"&paramcode&""" value=""'"&cl&"=rss(0)"&cr & "'"" " & cl&"=pdxc"&cr & ">" _
+      &"<font size=2>"&cl&"=rss(1)"&cr&"</font>"
+   writecode ct&ct&cl&ct&"rss.movenext"& vbcrlf & _
+    ct&ct&ct&"tblrowcount = tblrowcount + 1" & vbcrlf & _
+       ct&ct&"wend"& cr
+   if nulltext(param.selectsinglenode("btnselectall")) <> "" then
+    writecode cl&ct&ct&"if (tblrowcount mod 8) = 0 then  response.write ""<tr>"""
+    writecode ct&ct&"while (tblrowcount mod 8 ) < 7"
+    writecode ct&ct&ct&"response.write ""<td>"""
+    writecode ct&ct&ct&"tblrowcount = tblrowcount + 1"
+    writecode ct&ct&"wend" & vbcrlf & cr
+    writecode ct&ct&"<td><input type=button value=""全選"" name=""pickall" _
+     & paramcode & """ class=""cbutton"" onclick=""" _
+     & nulltext(param.selectsinglenode("btnselectall")) & """>"
+   end if      
+      writecode "</table>"
+    case "ptypeselect"
+     writecode "<select name=""htx_"&paramcode&""" size=1>"
+   response.write "<" & "!--#include file=""../xml/ptype.inc""--" & ">"
+   writecode "</select>" & vbcrlf        
+    case else
+     writecode "<input name=""htx_"&paramcode&""" size="""&paramsize&""">"
+   end select
+  end select 
+end sub
+
+
+sub xprocessqparamfield(param)
+  paramcode = nulltext(param.selectsinglenode("fieldname"))
+  paramtype = nulltext(param.selectsinglenode("inputtype"))
+  paramkind = nulltext(param.selectsinglenode("paramkind"))
+  paramsize= nulltext(param.selectsinglenode("inputlen"))
+  if paramsize = "" then paramsize = 10
+  if paramsize > 50 then paramsize = 50
+  select case paramkind
+    case "range"
+     if paramtype="popdate" then
+      calendarflag = true
+      writecode "xx<input name=""pcshowhtx_"&paramcode&"s"" size="""&paramsize&""" readonly onclick=""vbs: popcalendar 'htx_"&paramcode&"s','htx_"&paramcode&"e'""> ～ "
+      writecode "xx<input name=""htx_"&paramcode&"s"" type=hidden><input name=""htx_"&paramcode&"e"" type=hidden>"
+      writecode "xx<input name=""pcshowhtx_"&paramcode&"e"" size="""&paramsize&""" readonly onclick=""vbs: popcalendar 'htx_"&paramcode&"e',''"">"
+     else
+      writecode "<input name=""htx_"&paramcode&"s"" size="""&paramsize&"""> ～ "
+      writecode "<input name=""htx_"&paramcode&"e"" size="""&paramsize&""">"     
+     end if
+    case "value"
+     if paramtype="popdate" then
+      writecode "xx<input name=""htx_"&paramcode&""" type=hidden>"
+      writecode "xx<input name=""pcshowhtx_"&paramcode&""" size="""&paramsize&""" readonly onclick=""vbs: popcalendar 'htx_"&paramcode&"',''"">"
+     else
+      writecode "xx<input name=""htx_"&paramcode&""" size="""&paramsize&""">"
+     end if
+    case "refselect"
+     refcode = param.selectsinglenode("reflookup").text    
+   writecode "<select name=""htx_"&paramcode&""" size=1>"   
+        writecode "<option value="""">請選擇</option>"
+   writecode enumeratecodelist(refcode)
+   writecode ct&ct&ct&"<option value="""&cl&"=rss(0)"&cr&""">"&cl&"=rss(1)"&cr&"</option>"
+   writecode ct&ct&ct&cl&ct&"rss.movenext"& vbcrlf & _
+       ct&ct&ct&"wend"& cr
+   writecode "</select>" & vbcrlf  
+    case "selection"
+   writecode "<select name=""htx_"&paramcode&""" size=1>"
+        writecode "<option value="""">請選擇</option>"
+     set optionlist = param.selectnodes("item")
+     for each optitem in optionlist 
+    writecode "<option value="""&optitem.selectsinglenode("mcode").text & """>" _
+       & optitem.selectsinglenode("mvalue").text & "</option>"
+     next
+   writecode "</select>" & vbcrlf
+    case "radio"
+     dynamiccode = ""
+      for each dc in param.selectnodes("dynamicbehavior")
+       dynamiccode = " " & dc.selectsinglenode("event").text & "=""" _
+        & dc.selectsinglenode("pcall").text & """"
+      next
+     set optionlist = param.selectnodes("item")
+   pdxc = ""
+     for each optitem in optionlist 
+      if dynamiccode <> "" then _
+       pdxc = replace(dynamiccode, "'mcode'", "'" & optitem.selectsinglenode("mcode").text & "'")
+    writecode "<input type=""radio"" name=""htx_"&paramcode&""" value="""&optitem.selectsinglenode("mcode").text & """ " & pdxc & ">"
+      writecode optitem.selectsinglenode("mvalue").text & "&nbsp;&nbsp;"
+     next
+    case "refradio"
+     refcode = param.selectsinglenode("reflookup").text
+     dynamiccode = ""
+      for each dc in param.selectnodes("dynamicbehavior")
+       dynamiccode = " " & dc.selectsinglenode("event").text & "=""" _
+        & dc.selectsinglenode("pcall").text & """"
+      next
+     dynamiccode = replace(dynamiccode,chr(34),chr(34)&chr(34))
+   writecode ct&ct&ct&cl&" pdxc = """"" & cr
+   writecode enumeratecodelist(refcode)
+   if dynamiccode <> "" then _
+    writecode ct&ct&ct&cl&" pdxc = replace("""& dynamiccode & """,""'mcode'"",""'""&rss(0)&""'"")" & cr
+   writecode "<input type=""radio"" name=""htx_"&paramcode&""" value="""&cl&"=rss(0)"&cr & """ " & cl&"=pdxc"&cr & ">"
+     writecode ct&ct&ct&cl&"=rss(1)"&cr& "&nbsp;&nbsp;"
+   writecode ct&ct&ct&cl&ct&"rss.movenext"& vbcrlf & _
+       ct&ct&ct&"wend"& cr
+    case "refcheckbox"
+     refcode = param.selectsinglenode("reflookup").text
+     dynamiccode = ""
+      for each dc in param.selectnodes("dynamicbehavior")
+       dynamiccode = " " & dc.selectsinglenode("event").text & "=""" _
+        & dc.selectsinglenode("pcall").text & """"
+      next
+     dynamiccode = replace(dynamiccode,chr(34),chr(34)&chr(34))
+   writecode ct&ct&ct&cl&" pdxc = """"" & cr
+   writecode enumeratecodelist(refcode)
+   if dynamiccode <> "" then _
+    writecode ct&ct&ct&cl&" pdxc = replace("""& dynamiccode & """,""'mcode'"",""'""&rss(0)&""'"")" & cr
+   writecode "<input type=""checkbox"" name=""htx_"&paramcode&""" value="""&cl&"=rss(0)"&cr & """ " & cl&"=pdxc"&cr & ">"
+     writecode ct&ct&ct&cl&"=rss(1)"&cr& "　"
+   writecode ct&ct&ct&cl&ct&"rss.movenext"& vbcrlf & _
+       ct&ct&ct&"wend"& cr
+    case "ptypeselect"
+     writecode "<select name=""htx_"&paramcode&""" size=1>"
+   xfout.writeline "<" & "!--#include file=""../xml/ptype.inc""--" & ">"
+   writecode "</select>" & vbcrlf        
+  end select 
+end sub
+
+ 

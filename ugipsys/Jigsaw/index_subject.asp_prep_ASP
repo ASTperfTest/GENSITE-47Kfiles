@@ -1,0 +1,91 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="主題館績效統計"
+htprogfunc="查詢清單"
+htprogcode="jigsaw"
+htprogprefix="newkpi" 
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_client_5214970()
+  
+ sql="select [fctupublic],[stitle],[ximgfile],[xbody],[ximportant] from [mgipcoanew].[dbo].[cudtgeneric] where [icuitem]="&request("icuitem")
+
+ set rs=conn.execute(sql)
+ set xup = server.createobject("tabs.upload")
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                           =request("icuitem")
+
+
+
+
+
+                                                                              =rs("stitle")
+
+
+
+                                                                           =rs("xbody")
+
+
+
+                                                     =rs("ximgfile")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        if  rs("fctupublic")="y" then response.write "selected"
+                        if  rs("fctupublic")="n" then response.write "selected"
+
+
+
+
+                                                                         =rs("ximportant") 

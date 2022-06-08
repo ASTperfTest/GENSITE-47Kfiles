@@ -1,0 +1,221 @@
+﻿
+   response.expires = 0 
+htprogprefix="ppact" 
+   CxMethod_ASP_dbutil_453315802()
+  
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+   session("actxid")="d" 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            
+   sql = "select htx.*, pe.status as mystatus, a.actname, a.actdesc, a.acttarget, a.acthrs, a.actfee" _
+   & ", (select count(*) from paenroll as e where e.pasid=htx.pasid) as ercount" _
+   & ", (select sum(ppcount) from paenroll as p where p.pasid=htx.pasid) as xppcount" _
+   & " from pasession as htx join ppact as a on a.actid=htx.actid" _
+   & " left join paenroll as pe on pe.pasid=htx.pasid and pe.psnid=" & pkstr(session("wuxpid"),"") _
+   & " where actcat='m1'" _
+   & " order by htx.actid, htx.bdate"
+ 
+   ' response.write sql 
+   ' response.end
+ 
+   set rs = conn.execute(sql)
+   newactid = ""
+   cnt = 0
+   
+   while not rs.eof
+   if rs("actid") <> newactid then
+    if newactid <> "" then
+     response.write "</table></td></tr>"
+    end if
+    count = 0
+    newactid = rs("actid")
+    cnt=cnt+1
+   
+
+
+                                                       =rs("actdesc"):                       =rs("actname")
+
+
+     
+   end if
+   count = count +1
+   xstyle = "cursor:hand; font-size: 12px; text-decoration: underline; "
+   
+   if rs("mystatus") <> "" then  xstyle= xstyle & " background:pink;"
+   if rs("astatus")="a"  and (isnull(rs("xppcount")) or rs("xppcount")<rs("plimit")) then
+   
+   
+
+                                                     =count
+
+
+                              =rs("pasid"):            =xstyle
+          =rs("dtnote"):                            =rs("ercount")
+      =rs("dtnote")
+                                 =rs("xppcount")
+                                                   =rs("pasid")
+
+
+
+
+     
+    else
+   
+
+                                       =count
+
+      =rs("dtnote"):                                                                                         =rs("pasid")
+
+
+
+     
+   end if
+   rs.movenext
+   wend
+   response.write "</table></td></tr>"
+   ' response.end
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+function chnweekday(xday)
+ if isdate(xday) then
+'   get_weekday_num = weekday(gweekdaystr)
+      select case weekday(xday)
+     case 1 : chnweekday = "��"
+     case 2 : chnweekday = "�@"
+     case 3 : chnweekday = "�g"
+     case 4 : chnweekday = "�t"
+     case 5 : chnweekday = "�|"
+     case 6 : chnweekday = "��"
+     case 7 : chnweekday = "��"
+      end select 
+    else
+     chnweekday = ""
+    end if
+end function
+ 

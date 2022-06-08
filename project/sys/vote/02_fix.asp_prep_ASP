@@ -1,0 +1,329 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ 'htprogcap = "功能管理"
+ 'htprogfunc = "問卷調查"
+ htprogcode = "gw1_vote01"
+ 'htprogprefix = "msession"
+ response.expires = 0
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+
+   
+
+ subjectid = request("subjectid")
+ if subjectid = "" then
+  response.write "<body onload='javascript:history.go(-1);'>"
+  response.end
+ end if
+ 
+ 
+ sql = "" & _
+  " select m011_subject, m011_questno, m011_bdate, m011_edate, " & _
+  " isnull(m011_online, '0') m011_online, m011_notetype, " & _
+  " m011_haveprize, m011_jumpquestion, m011_onlyonce, m011_questionnote, " & _
+  " isnull(m011_km_online, '0') m011_km_online " & _
+  " from m011 where m011_subjectid = " & subjectid
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "<body onload='javascript:history.go(-1);'>"
+  response.end
+ end if
+ 
+ notetype = trim(rs("m011_notetype"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      =subjectid 
+
+
+                                                                          =replace(trim(rs("m011_subject")), chr(34), "&quot;") 
+
+
+
+
+
+
+  
+ for i = 2002 to 2012
+  if cint(i) = cint(year(rs("m011_bdate"))) then
+   response.write "<option value='" & i & "' selected>" & i & "</option>"
+  else
+   response.write "<option value='" & i & "'>" & i & "</option>"  
+  end if
+ next
+
+
+
+
+  
+ for i = 1 to 12
+  if cint(i) = cint(month(rs("m011_bdate"))) then
+   response.write "<option value='" & i & "' selected>" & i & "</option>"
+  else
+   response.write "<option value='" & i & "'>" & i & "</option>"  
+  end if
+ next
+
+
+
+
+  
+ for i = 1 to 31
+  if cint(i) = cint(day(rs("m011_bdate"))) then
+   response.write "<option value='" & i & "' selected>" & i & "</option>"
+  else
+   response.write "<option value='" & i & "'>" & i & "</option>"  
+  end if
+ next
+
+
+
+
+  
+ for i = 2002 to 2012
+  if cint(i) = cint(year(rs("m011_edate"))) then
+   response.write "<option value='" & i & "' selected>" & i & "</option>"
+  else
+   response.write "<option value='" & i & "'>" & i & "</option>"  
+  end if
+ next
+
+
+
+
+  
+ for i = 1 to 12
+  if cint(i) = cint(month(rs("m011_edate"))) then
+   response.write "<option value='" & i & "' selected>" & i & "</option>"
+  else
+   response.write "<option value='" & i & "'>" & i & "</option>"  
+  end if
+ next
+
+
+
+
+  
+ for i = 1 to 31
+  if cint(i) = cint(day(rs("m011_edate"))) then
+   response.write "<option value='" & i & "' selected>" & i & "</option>"
+  else
+   response.write "<option value='" & i & "'>" & i & "</option>"  
+  end if
+ next
+
+
+
+
+
+
+
+                                                                                  if rs("m011_online") = "1" then :            end if 
+                                                          if rs("m011_online") = "0" then :            end if 
+
+
+
+
+
+                                                                                      if rs("m011_km_online") = "1" then :            end if 
+                                                            if rs("m011_km_online") = "0" then :            end if 
+
+
+
+
+                                                                   =trim(rs("m011_questionnote")) 
+
+
+
+
+
+  
+ for i = 1 to 30
+  if cint(i) = cint(rs("m011_questno")) then
+   response.write "<option value='" & i & "' selected>" & i & "</option>"
+  else
+   response.write "<option value='" & i & "'>" & i & "</option>"
+  end if
+ next
+
+
+
+
+
+
+
+                                                                if rs("m011_jumpquestion") = "0" then :            end if 
+                                                                if rs("m011_jumpquestion") = "1" then :            end if 
+
+
+
+
+
+                                                             if rs("m011_haveprize") = "1" then :            end if 
+                                                             if rs("m011_haveprize") = "0" then :            end if 
+
+
+
+
+
+
+                                                               if mid(notetype, 1, 1) = "1" then :            end if 
+                                                               if mid(notetype, 2, 1) = "1" then :            end if 
+                                                               if mid(notetype, 3, 1) = "1" then :            end if 
+                                                               if mid(notetype, 4, 1) = "1" then :            end if 
+                                                               if mid(notetype, 5, 1) = "1" then :            end if 
+                                                               if mid(notetype, 6, 1) = "1" then :            end if 
+                                                               if mid(notetype, 7, 1) = "1" then :            end if 
+                                                               if mid(notetype, 8, 1) = "1" then :            end if 
+                                                               if mid(notetype, 9, 1) = "1" then :            end if 
+
+
+
+
+
+                                                            if rs("m011_onlyonce") = "1" then :            end if 
+                                                            if rs("m011_onlyonce") = "0" then :            end if 
+
+
+
+
+
+
+
+                                                                                               = rs("m011_questno") :     = rs("m011_jumpquestion")  

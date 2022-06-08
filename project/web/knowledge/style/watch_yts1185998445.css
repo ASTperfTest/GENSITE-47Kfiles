@@ -1,0 +1,780 @@
+#vidTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 18px; MARGIN: 10px 22px 5px
+}
+#thisVidDiv {
+	WIDTH: 480px
+}
+#thisVidCell {
+	PADDING-RIGHT: 21px; PADDING-LEFT: 22px
+}
+#otherVidsDiv {
+	WIDTH: 330px
+}
+#otherVidsCell {
+	PADDING-RIGHT: 22px
+}
+.wsWrapper {
+	MARGIN-BOTTOM: 20px
+}
+.wsHeading {
+	FONT-WEIGHT: bold; FONT-SIZE: 16px
+}
+.wsBody {
+	BORDER-RIGHT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; MARGIN-TOP: 5px; BORDER-LEFT: #ccc 1px solid; BORDER-BOTTOM: #ccc 1px solid
+}
+#actionsAreaDiv {
+	MARGIN: 10px 0px; TEXT-ALIGN: center
+}
+#actionsAreaDiv .actionText {
+	FONT-WEIGHT: bold; FONT-SIZE: 16px; MARGIN: 0px 0px 0px 4px; TEXT-DECORATION: underline
+}
+#actionsAreaDiv A.actionLink {
+	MARGIN: 0px 12px 0px 0px; TEXT-DECORATION: none
+}
+#actionsAreaDiv .actionResult {
+	PADDING-RIGHT: 5px; DISPLAY: none; PADDING-LEFT: 5px; FONT-WEIGHT: bold; BACKGROUND: #d1f0b3; PADDING-BOTTOM: 5px; MARGIN: 10px 0px 0px; PADDING-TOP: 5px; TEXT-ALIGN: center
+}
+#actionsAreaDiv .moreAction {
+	PADDING-RIGHT: 15px; DISPLAY: none; PADDING-LEFT: 15px; BACKGROUND: #e6ebfa; PADDING-BOTTOM: 15px; MARGIN: 10px 0px 0px; PADDING-TOP: 15px; TEXT-ALIGN: left
+}
+#actionsAreaDiv .moreAction .close {
+	FONT-SIZE: 11px; FLOAT: right; PADDING-BOTTOM: 2px
+}
+.actionRowBottom {
+	MARGIN: 10px 0px 0px 5px; TEXT-ALIGN: center
+}
+.actionRowBottom A {
+	MARGIN-RIGHT: 10px; TEXT-DECORATION: none
+}
+.actionRowBottom A:hover {
+	MARGIN-RIGHT: 10px; TEXT-DECORATION: none
+}
+.actionRowBottom1 {
+	BORDER-RIGHT: #fff 1px solid; PADDING-RIGHT: 3px; PADDING-LEFT: 3px; FLOAT: left; PADDING-BOTTOM: 3px; PADDING-TOP: 1px; BORDER-BOTTOM: #fff 1px solid
+}
+.actionOverBottom {
+	BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 3px; PADDING-LEFT: 3px; BACKGROUND: #e6ebfa; FLOAT: left; PADDING-BOTTOM: 3px; PADDING-TOP: 1px; BORDER-BOTTOM: #999 1px solid
+}
+.actionOverBottom SPAN {
+	TEXT-DECORATION: underline
+}
+.actionClickedBottom {
+	PADDING-RIGHT: 3px; BORDER-TOP: #999 1px solid; PADDING-LEFT: 3px; BACKGROUND: #e6ebfa; FLOAT: left; PADDING-BOTTOM: 3px; BORDER-LEFT: #999 1px solid; PADDING-TOP: 1px
+}
+.actionClickedBottom SPAN {
+	TEXT-DECORATION: underline
+}
+#shareVideoDiv {
+	
+}
+#shareVideoDiv #postBlog {
+	MARGIN-TOP: 10px
+}
+#shareVideoDiv #postBlog LABEL {
+	FONT-WEIGHT: bold; FLOAT: left; MARGIN: 3px 8px 8px 0px; WIDTH: 100px; COLOR: #666; TEXT-ALIGN: right
+}
+#shareVideoDiv #postBlog .fieldDiv {
+	FLOAT: left; MARGIN: 0px 0px 4px; WIDTH: 305px
+}
+#shareVideoDiv #postBlog .field {
+	WIDTH: 300px
+}
+#ratingAndStatsDiv {
+	background: #0099CC;
+	padding: 10px;
+}
+#ratingAndStatsDiv #ratingDiv {
+}
+#ratingAndStatsDiv #ratingDiv .footerMessage {
+	MARGIN-LEFT: 47px
+}
+#ratingAndStatsDiv .rating {
+	VERTICAL-ALIGN: text-top;
+	HEIGHT: auto;
+	padding-top: 20px;
+}
+#ratingAndStatsDiv .statLabel {
+	FONT-WEIGHT: bold; FONT-SIZE: 16px; MARGIN: 0px 4px 0px 0px; COLOR: #666
+}
+#ratingAndStatsDiv .ratingCount {
+	FONT-SIZE: 11px; MARGIN: 0px 0px 0px 4px; COLOR: #333
+}
+#ratingAndStatsDiv #viewsDiv {
+	PADDING-RIGHT: 80px; FLOAT: right; PADDING-TOP: 3px
+}
+#ratingAndStatsDiv #statsDiv {
+	FONT-SIZE: 11px; FLOAT: right; TEXT-ALIGN: right
+}
+#ratingAndStatsDiv .statsLabel {
+	FONT-WEIGHT: bold; COLOR: #333
+}
+#ratingAndStatsDiv .statsValue {
+	PADDING-LEFT: 2px; FLOAT: right; TEXT-ALIGN: left
+}
+#vrParentDiv {
+	BORDER-RIGHT: #fc3 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #fc3 1px solid; PADDING-LEFT: 5px; FONT-WEIGHT: bold; BACKGROUND: #ffc; PADDING-BOTTOM: 5px; MARGIN: 5px 0px; BORDER-LEFT: #fc3 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #fc3 1px solid
+}
+#videoStatsDiv {
+	BORDER-RIGHT: #ccc 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #ccc 1px solid; PADDING-LEFT: 5px; FONT-SIZE: 11px; PADDING-BOTTOM: 5px; BORDER-LEFT: #ccc 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #ccc 1px solid
+}
+#videoProvidedBy {
+	MARGIN-BOTTOM: 5px
+}
+#videoOwnerDiv {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-SIZE: 11px; BACKGROUND: #e6ebfa; MARGIN-BOTTOM: 5px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px
+}
+#embedDiv {
+	BORDER-RIGHT: #ccc 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #ccc 0px solid; PADDING-LEFT: 5px; FONT-SIZE: 11px; PADDING-BOTTOM: 5px; BORDER-LEFT: #ccc 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #ccc 1px solid
+}
+.embedField {
+	FONT-SIZE: 10px; WIDTH: 270px
+}
+#customizeEmbedDiv {
+	BORDER-RIGHT: #ccc 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #ccc 0px solid; DISPLAY: none; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; BORDER-LEFT: #ccc 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #ccc 1px solid
+}
+#customizeEmbedForm {
+	DISPLAY: block; FLOAT: left; WIDTH: 210px
+}
+#customizeEmbedDesc {
+	DISPLAY: block; FONT-SIZE: 11px; FLOAT: right; WIDTH: 250px
+}
+#customizeEmbedTheme {
+	CLEAR: both; DISPLAY: block; HEIGHT: 100px
+}
+#customizeEmbedThemeSwatches {
+	PADDING-RIGHT: 4px; DISPLAY: block; PADDING-LEFT: 4px; FLOAT: left; PADDING-BOTTOM: 4px; WIDTH: 310px; PADDING-TOP: 4px; HEIGHT: 80px
+}
+#customizeEmbedThemePreview {
+	DISPLAY: block; FLOAT: right; MARGIN: 4px
+}
+.imageRadioLink {
+	BORDER-RIGHT: 0px; BORDER-TOP: 0px; DISPLAY: inline-block; FLOAT: left; MARGIN: 3px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px
+}
+.imageRadioLink:hover IMG {
+	BACKGROUND-COLOR: lightblue
+}
+.imageRadioLink IMG.radio_selected {
+	BORDER-RIGHT: #000 1px solid; BORDER-TOP: #000 1px solid; BORDER-LEFT: #000 1px solid; BORDER-BOTTOM: #000 1px solid
+}
+.imageRadioLink IMG {
+	BORDER-RIGHT: #fff 1px solid; PADDING-RIGHT: 4px; BORDER-TOP: #fff 1px solid; PADDING-LEFT: 4px; PADDING-BOTTOM: 4px; MARGIN: 0px; BORDER-LEFT: #fff 1px solid; PADDING-TOP: 4px; BORDER-BOTTOM: #fff 1px solid; BACKGROUND-COLOR: #fff
+}
+#attributionsDiv {
+	MARGIN-TOP: 5px; MARGIN-BOTTOM: 15px
+}
+#channelVidsDiv {
+	BORDER-RIGHT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; BACKGROUND: #eee; MARGIN-BOTTOM: 20px; BORDER-LEFT: #ccc 1px solid; BORDER-BOTTOM: #ccc 1px solid
+}
+#channelBrandCap {
+	TEXT-ALIGN: center
+}
+#channelVidsTop {
+	PADDING-RIGHT: 7px; PADDING-LEFT: 7px; PADDING-BOTTOM: 0px; PADDING-TOP: 4px
+}
+#channelIconDiv {
+	FLOAT: left
+}
+.channelIconWrapper {
+	BORDER-RIGHT: #999 1px solid; BORDER-TOP: #999 1px solid; BORDER-LEFT: #999 1px solid; WIDTH: 44px; BORDER-BOTTOM: #999 1px solid; HEIGHT: 44px
+}
+.channelIcon {
+	BORDER-RIGHT: #fff 1px solid; BORDER-TOP: #fff 1px solid; OVERFLOW: hidden; BORDER-LEFT: #fff 1px solid; WIDTH: 43px; BORDER-BOTTOM: #fff 1px solid; HEIGHT: 43px
+}
+.channelIcon IMG {
+	MARGIN-LEFT: -6px; HEIGHT: 43px
+}
+#channelStats {
+	FONT-SIZE: 11px; PADDING-TOP: 2px
+}
+#channelVidsBody {
+	PADDING-LEFT: 7px
+}
+#channelSeeAllVidsDiv {
+	FONT-SIZE: 11px; MARGIN-BOTTOM: 10px; TEXT-ALIGN: right
+}
+#channelSeeAllVidsSpan {
+	PADDING-LEFT: 4px; FONT-WEIGHT: normal; FONT-SIZE: 11px
+}
+.comedianCtype {
+	BACKGROUND: #c90; COLOR: #ff9
+}
+.directorCtype {
+	BACKGROUND: #f33; COLOR: #fcc
+}
+.guruCtype {
+	BACKGROUND: #090; COLOR: #cfc
+}
+.musicianCtype {
+	BACKGROUND: #66c; COLOR: #ccf
+}
+.partnerCtype {
+	BACKGROUND: #06f; COLOR: #9cf
+}
+.politicianCtype {
+	BACKGROUND: #666; COLOR: #fff
+}
+.standardCtype {
+	BACKGROUND: #666; COLOR: #fff
+}
+#videoDetailsDiv {
+	PADDING-RIGHT: 7px; BORDER-TOP: #ccc 1px dotted; PADDING-LEFT: 7px; PADDING-BOTTOM: 3px; MARGIN: 3px 0px; PADDING-TOP: 3px; BORDER-BOTTOM: #ccc 1px dotted
+}
+#videoStill {
+	
+}
+#videoDescDiv {
+	PADDING-TOP: 4px
+}
+#moreVideoDetailsLink {
+	TEXT-ALIGN: right
+}
+#moreVideoDetailsBody {
+	DISPLAY: none
+}
+#lessVideoDetailsLink {
+	DISPLAY: none; FONT-SIZE: 11px; TEXT-ALIGN: right
+}
+#videoSpecsDiv {
+	FONT-SIZE: 11px; LINE-HEIGHT: 20px
+}
+.tagValues {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 5px; LINE-HEIGHT: 13px; PADDING-TOP: 3px
+}
+#videoURLDiv {
+	
+}
+.urlField {
+	FONT-SIZE: 10px; WIDTH: 225px
+}
+#asDiv {
+	MARGIN: 10px 0px
+}
+#asHeaderDiv {
+	FONT-WEIGHT: bold; FONT-SIZE: 13px; PADDING-BOTTOM: 2px
+}
+#asUsersDiv {
+	
+}
+#streamsDiv {
+	PADDING-RIGHT: 0px; BORDER-TOP: #ccc 1px solid; PADDING-LEFT: 0px; PADDING-BOTTOM: 6px; PADDING-TOP: 6px; BORDER-BOTTOM: #ccc 1px solid
+}
+#watchqueueHeading {
+	FONT-WEIGHT: bold; FONT-SIZE: 16px; TEXT-ALIGN: left
+}
+.watchSectionDiv {
+	MARGIN-BOTTOM: 20px
+}
+.watchSectionHeading {
+	FONT-WEIGHT: bold; FONT-SIZE: 16px
+}
+.watchSectionBody {
+	BORDER-RIGHT: #ccc 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #ccc 1px solid; MARGIN-TOP: 5px; PADDING-LEFT: 2px; PADDING-BOTTOM: 2px; BORDER-LEFT: #ccc 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #ccc 1px solid
+}
+.addtoQL90 {
+	PADDING-RIGHT: 1px; MARGIN-TOP: -24px; PADDING-LEFT: 1px; PADDING-BOTTOM: 1px; MARGIN-LEFT: 0px; WIDTH: 100%; PADDING-TOP: 1px; TEXT-ALIGN: left
+}
+* HTML .addtoQL90 {
+	MARGIN-TOP: -27px
+}
+.addtoQL75 {
+	MARGIN-TOP: -23px; MARGIN-LEFT: 1px; WIDTH: 100%; TEXT-ALIGN: left
+}
+* HTML .addtoQL75 {
+	MARGIN-TOP: -27px
+}
+.watchVideo {
+	PADDING-RIGHT: 3px; PADDING-LEFT: 3px; FLOAT: left; PADDING-BOTTOM: 0px; WIDTH: 23%; PADDING-TOP: 0px; TEXT-ALIGN: center
+}
+.playlistRowLeft {
+	FLOAT: left; PADDING-BOTTOM: 4px
+}
+.playlistRowMiddle {
+	PADDING-LEFT: 4px; FLOAT: left; WIDTH: 170px; PADDING-TOP: 4px
+}
+.playlistRowRight {
+	FLOAT: right; VERTICAL-ALIGN: middle; TEXT-ALIGN: center
+}
+.playlistTitle {
+	FONT-SIZE: 11px; COLOR: #666
+}
+.playlistUsername {
+	
+}
+.playlistItemDuration {
+	FONT-SIZE: 11px; COLOR: #666; POSITION: relative; TOP: -2px
+}
+.playlistRowDeleter {
+	PADDING-LEFT: 5px; CURSOR: hand; PADDING-TOP: 10px
+}
+.playlistRow {
+	CLEAR: both; PADDING-LEFT: 4px; VERTICAL-ALIGN: middle; HEIGHT: 34px
+}
+.playlistRowPlaying {
+	CLEAR: both; BORDER-RIGHT: #fc3 1px solid; BORDER-TOP: #fc3 1px solid; PADDING-LEFT: 4px; PADDING-BOTTOM: 1px; VERTICAL-ALIGN: middle; BORDER-LEFT: #fc3 1px solid; PADDING-TOP: 1px; BORDER-BOTTOM: #fc3 1px solid; HEIGHT: 34px; BACKGROUND-COLOR: #ffffcc
+}
+.playlistIndex {
+	FONT-SIZE: 12px; FLOAT: left; COLOR: #666; MARGIN-RIGHT: 0px; HEIGHT: 34px; TEXT-ALIGN: center
+}
+#relatedVidsBody {
+	PADDING-LEFT: 7px; PADDING-TOP: 10px
+}
+H1 {
+	FONT-WEIGHT: bold; FONT-SIZE: 18px
+}
+#adLeaderboard {
+	DISPLAY: none; MARGIN: 12px 0px; WIDTH: 875px; TEXT-ALIGN: center
+}
+#adFullBanner {
+	DISPLAY: none; MARGIN: 12px 0px
+}
+#adMediumRectangle {
+	MARGIN-TOP: 12px; DISPLAY: none; MARGIN-BOTTOM: 12px
+}
+#adSquareRectangle {
+	DISPLAY: none; MARGIN: 12px auto; WIDTH: 250px; HEIGHT: 250px
+}
+#adSkyscraper {
+	DISPLAY: none; BACKGROUND: #333; FLOAT: left; WIDTH: 120px
+}
+#interactDiv {
+	WIDTH: 450px; MARGIN-RIGHT: 15px
+}
+#aboutExploreDiv {
+	WIDTH: 300px; MARGIN-RIGHT: 15px
+}
+#sideAdDiv {
+	WIDTH: 90px
+}
+#ratingDiv {
+	white-space: nowrap;
+	display: inline;	
+}
+#ratingDiv .rating {
+	HEIGHT: auto
+}
+#actionsAndStatsDiv {
+	PADDING-RIGHT: 0px; MARGIN-TOP: 3px; PADDING-LEFT: 0px; MARGIN-BOTTOM: 8px; PADDING-BOTTOM: 0px; WIDTH: 450px; PADDING-TOP: 6px; POSITION: relative
+}
+#ratingDiv .rating {
+	HEIGHT: auto
+}
+#actionsAndStatsDiv {
+	BORDER-RIGHT: #ccc 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #ccc 1px solid; MARGIN-TOP: 12px; PADDING-LEFT: 0px; BACKGROUND: #f6f6f6; MARGIN-BOTTOM: 12px; PADDING-BOTTOM: 0px; BORDER-LEFT: #ccc 1px solid; WIDTH: 450px; PADDING-TOP: 6px; BORDER-BOTTOM: #ccc 1px solid; POSITION: relative
+}
+#ratingDivWrapper {
+	FLOAT: left; WIDTH: 26%; TEXT-ALIGN: center
+}
+#ratingMessage {
+	FONT-SIZE: 11px; MARGIN-BOTTOM: 2px
+}
+#ratingLogin {
+	MARGIN-TOP: 12px; FONT-SIZE: 11px
+}
+.ratingNote {
+	FONT-SIZE: 11px; MARGIN: 4px 0px; WIDTH: 90px
+}
+.actionsDiv {
+	MARGIN-TOP: 4px; FLOAT: left; WIDTH: 28%; TEXT-ALIGN: left
+}
+.sm.actionsDiv {
+	PADDING-LEFT: 4px; WIDTH: 22%
+}
+.actionRow {
+	LINE-HEIGHT: 1.4em
+}
+.statsDiv {
+	PADDING-RIGHT: 0px; BORDER-TOP: #ccc 1px solid; PADDING-LEFT: 0px; PADDING-BOTTOM: 4px; MARGIN: 4px 0px 0px; WIDTH: 100%; PADDING-TOP: 4px; TEXT-ALIGN: center
+}
+.smStat {
+	FONT-SIZE: 11px; MARGIN: 0px 20px
+}
+.statRow {
+	PADDING-RIGHT: 10px; DISPLAY: inline; PADDING-LEFT: 10px; FLOAT: left; PADDING-BOTTOM: 5px; MARGIN: 5px; BORDER-LEFT: #ccc 1px solid; PADDING-TOP: 5px
+}
+.statVal {
+	FONT-WEIGHT: bold
+}
+.statDivider {
+	DISPLAY: inline; MARGIN: 2px 10px; VERTICAL-ALIGN: middle; COLOR: #ccc
+}
+#honorLinkDiv {
+	PADDING-RIGHT: 0px; BORDER-TOP: #ccc 1px solid; DISPLAY: block; PADDING-LEFT: 0px; FONT-WEIGHT: bold; PADDING-BOTTOM: 4px; MARGIN: 4px 0px 0px; PADDING-TOP: 4px; TEXT-ALIGN: center
+}
+.popupDiv {
+	BORDER-RIGHT: #ccc 1px solid; PADDING-RIGHT: 6px; BORDER-TOP: #ccc 1px solid; PADDING-LEFT: 6px; BACKGROUND: #fff; PADDING-BOTTOM: 6px; BORDER-LEFT: #ccc 1px solid; PADDING-TOP: 6px; BORDER-BOTTOM: #ccc 1px solid
+}
+.popupDiv .closeDiv {
+	FONT-SIZE: 11px; FLOAT: right
+}
+.popupDiv .okTable {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; WIDTH: 100%; PADDING-TOP: 0px; TEXT-ALIGN: right; border-spacing: 0px
+}
+#fullStats {
+	DISPLAY: none
+}
+#fullStatsClose {
+	FLOAT: right; MARGIN: 0px 10px
+}
+.moreStats {
+	PADDING-RIGHT: 20px; BORDER-TOP: #ccc 1px solid; PADDING-LEFT: 20px; FONT-SIZE: 85%; PADDING-BOTTOM: 4px; MARGIN: 4px 0px 0px; PADDING-TOP: 4px; TEXT-ALIGN: left
+}
+.statItem {
+	MARGIN: 0px 0px 0px 15px
+}
+.audioStatItem {
+	FONT-SIZE: 11px; MARGIN: 3px 0px 0px
+}
+.audioStatKey {
+	COLOR: #666
+}
+.audioStatValue {
+	
+}
+#referDiv {
+	
+}
+#honorsDiv {
+	
+}
+#linksToValue {
+	MARGIN-LEFT: 55px; PADDING-TOP: 4px
+}
+#addFavsDiv {
+	DISPLAY: none; LEFT: 0px; OVERFLOW: auto; WIDTH: 430px; POSITION: absolute; TOP: 0px
+}
+#addPlaylistsDiv {
+	BORDER-TOP: #666 1px dashed; MARGIN-TOP: 8px; PADDING-TOP: 8px
+}
+#sendToMobileDiv {
+	DISPLAY: none; LEFT: 0px; OVERFLOW: auto; WIDTH: 430px; POSITION: absolute; TOP: 0px; HEIGHT: 100px
+}
+#addGroupsDiv {
+	DISPLAY: none; LEFT: 0px; OVERFLOW: auto; WIDTH: 430px; POSITION: absolute; TOP: 0px; HEIGHT: 250px
+}
+#embedTextarea {
+	WIDTH: 400px; HEIGHT: 100px
+}
+.gpEntry {
+	MARGIN: 0px 0px 6px 8px
+}
+#commentsDiv {
+	CLEAR: both; MARGIN-TOP: 20px
+}
+.standaloneComments {
+	WIDTH: 550px
+}
+.commentHeading {
+	MARGIN: 24px 0px 0px
+}
+.commentEntry {
+	CLEAR: both; MARGIN: 6px 0px 16px
+}
+.commentEntryReply {
+	MARGIN: 6px 0px 16px 40px
+}
+.commentHead {
+	PADDING-RIGHT: 4px; PADDING-LEFT: 4px; PADDING-BOTTOM: 4px; PADDING-TOP: 4px; BACKGROUND-COLOR: #eee
+}
+.commentAuthHead {
+	PADDING-RIGHT: 4px; PADDING-LEFT: 4px; PADDING-BOTTOM: 4px; PADDING-TOP: 4px; BACKGROUND-COLOR: #ffc
+}
+.commentSpam {
+	PADDING-RIGHT: 4px; PADDING-LEFT: 4px; PADDING-BOTTOM: 4px; PADDING-TOP: 4px; BACKGROUND-COLOR: #ffe
+}
+.commentBody {
+	MARGIN-TOP: 4px; MARGIN-LEFT: 4px
+}
+.commentAction {
+	MARGIN-TOP: 0px; TEXT-ALIGN: right
+}
+#commentPostDiv {
+	MARGIN-TOP: 12px
+}
+#commentTextarea {
+	WIDTH: 400px; HEIGHT: 80px
+}
+#commentTopAction {
+	MARGIN: -8px 0px 10px; TEXT-ALIGN: right
+}
+.commentPagination {
+	BORDER-RIGHT: #ccc 1px solid; PADDING-RIGHT: 3px; BORDER-TOP: #ccc 1px solid; PADDING-LEFT: 3px; FONT-WEIGHT: bold; FONT-SIZE: 11px; MARGIN-BOTTOM: 10px; PADDING-BOTTOM: 3px; BORDER-LEFT: #ccc 1px solid; PADDING-TOP: 3px; BORDER-BOTTOM: #ccc 1px solid; TEXT-ALIGN: center
+}
+.commentPnum {
+	PADDING-RIGHT: 4px; PADDING-LEFT: 4px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+#vResponseParent {
+	BORDER-RIGHT: #fc3 1px solid; PADDING-RIGHT: 6px; BORDER-TOP: #fc3 1px solid; MARGIN-TOP: 6px; PADDING-LEFT: 6px; FONT-WEIGHT: bold; PADDING-BOTTOM: 6px; BORDER-LEFT: #fc3 1px solid; PADDING-TOP: 6px; BORDER-BOTTOM: #fc3 1px solid; BACKGROUND-COLOR: #ffc
+}
+#vResponseDiv {
+	MARGIN-BOTTOM: 10px
+}
+#vResponseHeading {
+	PADDING-RIGHT: 4px; PADDING-LEFT: 4px; BACKGROUND: #eee; PADDING-BOTTOM: 4px; MARGIN: 10px 0px 6px; PADDING-TOP: 4px
+}
+#aboutVidDiv {
+	MARGIN-BOTTOM: 12px
+}
+#userStatsDiv {
+	MARGIN-LEFT: 18px
+}
+#aboutDirectorTable {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 3px 0px 0px; WIDTH: 100%; PADDING-TOP: 0px; border-spacing: 0
+}
+#aboutDirectorTable TD {
+	VERTICAL-ALIGN: bottom
+}
+.dvnvp {
+	MARGIN: 1px 0px
+}
+#vidDescDiv {
+	MARGIN: 8px 0px
+}
+#vidTagsDiv {
+	MARGIN-LEFT: 245px; WIDTH: 140px
+}
+#vidTagsValue {
+	MARGIN-LEFT: 38px
+}
+#vidFacetsDiv {
+	MARGIN-TOP: 8px
+}
+#vidFacetsTable {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; border-spacing: 0
+}
+#vidFacetsTable TD {
+	VERTICAL-ALIGN: middle
+}
+#vidFacetsTable TD.tags {
+	FONT-SIZE: 11px; PADDING-BOTTOM: 5px
+}
+.vidURLField {
+	FONT-SIZE: 10px; WIDTH: 230px
+}
+#subscribeDiv {
+	MARGIN-TOP: 5px; FLOAT: right; MARGIN-LEFT: auto; WIDTH: 110px; MARGIN-RIGHT: auto; TEXT-ALIGN: center
+}
+#exploreBody {
+	HEIGHT: 450px
+}
+#exploreTabs {
+	FONT-WEIGHT: bold; FONT-SIZE: 12px; WIDTH: 300px; HEIGHT: 2.2em; TEXT-ALIGN: center
+}
+#exploreTabs .selected {
+	BORDER-RIGHT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; BACKGROUND: #eee; BORDER-LEFT: #ccc 1px solid
+}
+#exploreTabs .selected A {
+	COLOR: #000; TEXT-DECORATION: none
+}
+#exploreTabs .notselected {
+	BACKGROUND: #fff; BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none
+}
+#exploreTabs .notselected A {
+	COLOR: #03c; TEXT-DECORATION: none
+}
+#exploretableft {
+	FLOAT: left; VERTICAL-ALIGN: middle; WIDTH: 90px; HEIGHT: 2em; TEXT-ALIGN: center
+}
+#exploretabcenter {
+	FLOAT: left; VERTICAL-ALIGN: middle; WIDTH: 118px; HEIGHT: 2em; TEXT-ALIGN: center
+}
+#exploretabright {
+	FLOAT: left; WIDTH: 90px; HEIGHT: 2em; TEXT-ALIGN: center
+}
+#exploretabright A {
+	VERTICAL-ALIGN: bottom
+}
+.exploreContent {
+	OVERFLOW: auto; HEIGHT: 405px
+}
+#exploreDiv A.selectedNavLink {
+	FONT-WEIGHT: 700; COLOR: #000; TEXT-DECORATION: none
+}
+#exploreDiv A.unSelectedNavLink {
+	FONT-WEIGHT: 400; COLOR: #03c; BORDER-BOTTOM: #03c 1px dotted; TEXT-DECORATION: none
+}
+#exSubNavTable {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 4px 0px 8px; WIDTH: 100%; PADDING-TOP: 0px; border-spacing: 0
+}
+#exUserHeadDiv {
+	FONT-WEIGHT: 700; FONT-SIZE: 14px; PADDING-BOTTOM: 6px
+}
+#plList {
+	MARGIN-TOP: 4px; LINE-HEIGHT: 18px
+}
+.showingTable {
+	PADDING-RIGHT: 3px; PADDING-LEFT: 3px; PADDING-BOTTOM: 3px; MARGIN: 0px; WIDTH: 100%; PADDING-TOP: 3px; BORDER-COLLAPSE: separate; border-spacing: 0
+}
+.vWatchEntry {
+	MARGIN: 6px 0px 2px
+}
+.vWatchEntry TABLE {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px 4px; PADDING-TOP: 0px; BORDER-COLLAPSE: separate; border-spacing: 0
+}
+.vWatchEntry .title {
+	FONT-SIZE: 12px
+}
+.vWatchEntry .facets {
+	MARGIN-TOP: 2px; FONT-SIZE: 11px
+}
+.vNowPlaying {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: #ffc; PADDING-BOTTOM: 2px; PADDING-TOP: 2px
+}
+#dVidsDiv {
+	MARGIN-BOTTOM: 24px
+}
+#dVidsDiv .heading {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: 700; FONT-SIZE: 15px; MARGIN-BOTTOM: 6px; PADDING-BOTTOM: 3px; COLOR: #999; PADDING-TOP: 3px; TEXT-ALIGN: center
+}
+#dVidsDiv .vimgMd {
+	BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; WIDTH: 90px; HEIGHT: 70px; BORDER-RIGHT-WIDTH: 0px
+}
+.dvidEntry {
+	MARGIN-BOTTOM: 12px; MARGIN-LEFT: auto; WIDTH: 90px; MARGIN-RIGHT: auto
+}
+.dvidEntry .img {
+	MARGIN-BOTTOM: 2px
+}
+#watchTable {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; WIDTH: 100%; PADDING-TOP: 0px; BORDER-COLLAPSE: separate; border-spacing: 0
+}
+#commentsDiv TABLE {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; WIDTH: 100%; PADDING-TOP: 0px; BORDER-COLLAPSE: separate; border-spacing: 0
+}
+#watchTable TD {
+	VERTICAL-ALIGN: top
+}
+.vWatchEntry TD {
+	VERTICAL-ALIGN: top
+}
+#ratingCount {
+	MARGIN-TOP: 2px
+}
+#mobileNote {
+	MARGIN-TOP: 2px
+}
+#subscribeCount {
+	MARGIN-TOP: 2px
+}
+#linksToLabel {
+	FLOAT: left
+}
+#vidTagsLabel {
+	FLOAT: left
+}
+#linkstoDiv {
+	DISPLAY: none; LEFT: 0px; WIDTH: 430px; POSITION: absolute; TOP: 0px
+}
+#inappropriateVidDiv {
+	DISPLAY: none; LEFT: 0px; WIDTH: 430px; POSITION: absolute; TOP: 0px
+}
+#blogVidDiv {
+	DISPLAY: none; LEFT: 0px; WIDTH: 430px; POSITION: absolute; TOP: 0px
+}
+#embedVidDiv {
+	DISPLAY: none; LEFT: 0px; WIDTH: 430px; POSITION: absolute; TOP: 0px
+}
+#commentSubmit {
+	MARGIN-TOP: 4px
+}
+#directorLogo {
+	MARGIN-TOP: 4px
+}
+#aboutDirectorTable .img {
+	PADDING-RIGHT: 6px
+}
+.vWatchEntry .img {
+	PADDING-RIGHT: 6px
+}
+#vidDescBegin {
+	DISPLAY: inline
+}
+#vidDescMore {
+	DISPLAY: inline
+}
+#vidTagsBegin {
+	DISPLAY: inline
+}
+#vidTagsMore {
+	DISPLAY: inline
+}
+#vidDescRemain {
+	DISPLAY: none
+}
+#vidDescLess {
+	DISPLAY: none
+}
+#vidTagsRemain {
+	DISPLAY: none
+}
+#vidTagsLess {
+	DISPLAY: none
+}
+#exContentWrapper {
+	BACKGROUND: #eee
+}
+#exRelatedDiv {
+	BACKGROUND: #eee
+}
+#exUserContentDiv {
+	BACKGROUND: #eee
+}
+#exPlaylistDiv {
+	BACKGROUND: #eee
+}
+.dvidEntry .title {
+	FONT-SIZE: 11px
+}
+.dvidEntry .facets {
+	FONT-SIZE: 11px
+}
+#asBox {
+	BORDER-RIGHT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; BACKGROUND: #f6f6f6; BORDER-LEFT: #ccc 1px solid; BORDER-BOTTOM: #ccc 1px solid
+}
+#asHeader {
+	PADDING-BOTTOM: 6px
+}
+#asTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 13px; COLOR: #333
+}
+#asAbout {
+	FONT-SIZE: 11px; TEXT-ALIGN: right
+}
+#asUsers {
+	
+}
+.asUser {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 0px; FLOAT: left; PADDING-BOTTOM: 2px; PADDING-TOP: 2px
+}
+#asDefaultUsers {
+	DISPLAY: inline
+}
+#asMoreUsers {
+	DISPLAY: none
+}
+#asMore {
+	DISPLAY: none; FONT-SIZE: 11px; TEXT-ALIGN: right
+}
+#asLess {
+	DISPLAY: none; FONT-SIZE: 11px; TEXT-ALIGN: right
+}
+#commentLimitBox {
+	MARGIN-BOTTOM: 30px
+}
+#commentLimitBox .header {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px; BACKGROUND-COLOR: #f8f3d6
+}
+#commentLimitBox .body {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px; BACKGROUND-COLOR: #fbf9e8
+}
+#commentCaptcha {
+	MARGIN: 0px auto; WIDTH: 400px; TEXT-ALIGN: center
+}
+#commentCaptcha .formInput {
+	FLOAT: left; WIDTH: 260px; PADDING-TOP: 15px
+}
+#commentCaptcha .verificationImage {
+	FLOAT: left; WIDTH: 120px; TEXT-ALIGN: center
+}
+#streamsBox {
+	BORDER-RIGHT: #ccc 1px solid; PADDING-RIGHT: 4px; BORDER-TOP: #ccc 1px solid; MARGIN-TOP: -2px; PADDING-LEFT: 4px; MARGIN-BOTTOM: 12px; PADDING-BOTTOM: 4px; BORDER-LEFT: #ccc 1px solid; WIDTH: 290px; PADDING-TOP: 4px; BORDER-BOTTOM: #ccc 1px solid; HEIGHT: 22px; BACKGROUND-COLOR: #eee
+}

@@ -1,0 +1,134 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<UseCase>
+	<Name>問卷發送</Name>
+	<Code>HTsa2AM02</Code>
+	<APCat>HTsa0A</APCat>
+	<Version>
+		<Date>2002/12/19</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<ExpandedSpec>
+			<Type>primary</Type>
+			<Type>essential</Type>
+			<ActorList>
+				<Actor initiator="Y">問卷處理者</Actor>
+			</ActorList>
+			<Purpose>問卷處理者, 發送該單位問卷</Purpose>
+			<PreCondition>
+				<UseCase></UseCase>
+			</PreCondition>
+			<DescriptionList>
+				<Description>1.發送對象分內部/外部
+				</Description>
+				<Description>2.提供發送對象過濾查詢介面
+				</Description>
+				<Description>3.發Email, 並設亂數為identify值
+				</Description>
+				<Description>4.記錄發送對象資料
+				</Description>
+			</DescriptionList>
+			<TypicalCourseOfEvents>
+				<Event type="Client" id="0" ContractXML="evx_sQSetBList.xml">
+					[條列] -- 同問卷清單<br/>				
+					1.列出單位內所有問卷: 主題, 調查對象(內部/外部),調查期間, 狀態(未結案), 已發送份數; <br/>
+					2.依調查期間排序; <br/>
+					3.按【已發送份數】連結到此問卷的發送作業畫面<br/>
+				</Event>
+				<Event type="Client" id="C02" ContractXML="evx_sQSetTakeList.xml">
+					[條列] -- 問卷發送作業<br/>				
+					1.列出此問卷已發送的對象: 身分證號, 姓名, 單位, 職稱, Email, 填卷狀態, 填卷日期，<br/>
+					2.按【新增】至發送對象過濾介面選取加入新的發送對象
+				</Event>
+				<Event type="Client" id="C03" ContractXML="evx_sPQTakeEmpPsetQuery.xml">
+					[查詢] -- 員工發送對象過濾<br/>				
+					1.條件介面為人事系統使用者查詢介面<br/>
+					2.按查詢按鈕到發送對象清單
+				</Event>
+				<Event type="Client" id="C04" ContractXML="evx_sPQTakeEmpPsetList.xml">
+					[條列勾選] -- 勾選發送對象清單<br/>				
+					1.勾選發送對象清單: 身分證號, 姓名, 單位, 職稱, Email; 左方有checkbox供勾選, 預設已勾選<br/>
+					2.按確定發送按鈕, 系統顯示警告訊息
+				</Event>
+				<Event type="Client" id="C13">
+					[查詢] -- 外部發送對象匯入<br/>				
+					1.上傳記錄有填卷對象資料的Excel檔<br/>
+				</Event>
+				<Event type="Server" id="S01">
+					[問卷發送/編號]<br/>				
+					1.系統存入問卷作業檔時, 除給每一筆問卷一個自動編號外, 另外再給一個10位亂數, 作為日後填寫時識別用<br/>
+					2.Email發送, 內有線上填寫問卷連結, 後跟問卷自動編號, 亂數識別碼則附在Email中<br/>
+					3.Email發送前, 先check名單是否有重覆,若重複且尚未回覆者,則將原亂數識別碼再附入Email中，不新增一筆record
+				</Event>
+			</TypicalCourseOfEvents>
+		</ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+	<Version>
+		<Date>2002/12/19</Date>
+		<Author>chen</Author>
+		<Kind>HighLevel</Kind>
+		<HighLevelSpec>
+			<Type>primary</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<DescriptionList>
+				<Description>1.發送對象分內部/外部
+				</Description>
+				<Description>2.提供發送對象過濾查詢介面
+				</Description>
+				<Description>3.發Email, 並設亂數為identify值
+				</Description>
+				<Description>4.記錄發送對象資料
+				</Description>
+			</DescriptionList>
+			<VisitRecordList>
+				<VisitRecord>
+					<Who/>
+					<Date/>
+					<Location/>
+					<comment/>
+				</VisitRecord>
+			</VisitRecordList>
+		</HighLevelSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject/>
+				<Description/>
+				<Who/>
+				<DueDate/>
+				<DoneDate/>
+				<Conclusion/>
+			</TBD>
+		</TBDList>
+	</Version>
+</UseCase>

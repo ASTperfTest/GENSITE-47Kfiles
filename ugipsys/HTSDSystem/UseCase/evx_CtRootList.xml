@@ -1,0 +1,106 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<OperationContract>
+	<Code>GE1T21</Code>
+	<APCat>GE1</APCat>
+	<formSpec>CtRootList</formSpec><htPattern>genList</htPattern>
+	<htSpecPattern>List</htSpecPattern>
+	<htCodePath>/GipPlan</htCodePath>
+	<Version>
+		<Date>2003/4/7</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<FromEvent type="Client" id="0"/>
+		<ContractSpec>
+			<Name>evx_CtRootList</Name>
+			<Type>Client</Type>
+			<ResponsibilityList>
+				<Responsibility>[條列] -- 導覽頁(分類樹根)清單				
+					1.列出所有自己可檢視的導覽頁: 名稱, 分眾對象, 用途, 負責人, 開放狀態(on/off); 
+					2.依開放狀態, 分眾對象排序; 
+					3.Anchor在名稱，點選進入編修/刪除此導覽頁設定
+					4.另Anchor標『編修分類樹』，點選進入編修此導覽頁的分類樹
+					5.有[新增]權限者可按【新增】新增導覽頁</Responsibility>
+			</ResponsibilityList>
+			<PreConditionList>
+				<PreCondition></PreCondition>
+			</PreConditionList>
+			<AnchorList>
+				<Anchor>
+					<AnchorLabel>查詢</AnchorLabel>
+					<AnchorType>A</AnchorType>
+					<AnchorDesc>重設查詢條件</AnchorDesc>
+					<AnchorURI>CtRootQuery.asp</AnchorURI>
+					<checkRight>1</checkRight>
+					<AnchorPos>Top</AnchorPos>
+					<AnchorWPK></AnchorWPK>
+				</Anchor>
+				<Anchor>
+					<AnchorLabel>新增</AnchorLabel>
+					<AnchorType>A</AnchorType>
+					<AnchorDesc>新增</AnchorDesc>
+					<AnchorURI>CtRootAdd.asp</AnchorURI>
+					<checkRight>4</checkRight>
+					<AnchorPos>Top</AnchorPos>
+					<AnchorWPK></AnchorWPK>
+				</Anchor>
+				<Anchor>
+					<AnchorLabel>回前頁</AnchorLabel>
+					<AnchorType>Back</AnchorType>
+					<AnchorDesc>回前頁</AnchorDesc>
+					<AnchorURI></AnchorURI>
+					<checkRight></checkRight>
+					<AnchorPos>Top</AnchorPos>
+				</Anchor>
+			</AnchorList>
+			<DescriptionList>
+				<Description></Description>
+			</DescriptionList>
+			<RefObjectList>
+				<RefObject xRef="Y" xUpdate="N">導覽頁主檔</RefObject>
+			</RefObjectList>
+			<OutputList>
+				<Output></Output>
+			</OutputList>
+			<PostConditionList>
+				<PostCondition eop="">
+					<!-- instanceCreate/instanceDelete/attributeModify/AssocFormed/AssocBroken -->
+				</PostCondition>
+			</PostConditionList>
+			<htDEntityList>
+				<htDEntity xRef="Y" xUpdate="N">CatTreeRoot</htDEntity>
+			</htDEntityList>
+			<CrossReferenceList>
+				<CrossReference></CrossReference>
+			</CrossReferenceList>
+			<NoteList>
+				<Note></Note>
+			</NoteList>
+			<ExceptionList>
+				<Exception></Exception>
+			</ExceptionList>
+			<ActorList>
+				<Actor></Actor>
+			</ActorList>
+		</ContractSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+</OperationContract>

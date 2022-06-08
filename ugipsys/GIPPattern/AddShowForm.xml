@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<htPage>
+	<xslname>pattern/PatternAdd.xsl</xslname>
+	<HTProgPrefix>CtUnit</HTProgPrefix>
+	<HTProgCode>GE1T11</HTProgCode>
+	<HTUploadPath>/public/</HTUploadPath>
+	<HTProgPath>/GipDSD</HTProgPath>
+	<HTGenPattern>genAdd</HTGenPattern>
+	<htForm>
+		<formModel id="CtUnitAdd">
+			<fieldList>
+				<tableName>CtUnit</tableName>
+				<masterTable>Y</masterTable>
+				<field>
+					<fieldName>ctUnitName</fieldName>
+					<fieldLabel>CtUnit.ctUnitName</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>30</dataLen>
+					<inputLen>30</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<default/>
+					<inputType>textbox</inputType>
+					<fieldDesc>作為分類節點的預設值</fieldDesc>
+					<rows/>
+					<cols/>
+				</field>
+				<field>
+					<fieldName>ctUnitLogo</fieldName>
+					<fieldLabel>CtUnit.ctUnitLogo</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>50</dataLen>
+					<inputLen>50</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<default/>
+					<inputType>imgfile</inputType>
+					<fieldDesc>作為單元LOGO的預設值</fieldDesc>
+					<rows/>
+					<cols/>
+				</field>
+				<field>
+					<fieldName>ctUnitKind</fieldName>
+					<fieldLabel>CtUnit.ctUnitKind</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<default/>
+					<inputType>refSelect</inputType>
+					<fieldDesc/>
+					<refLookup>
+						<code name="1" value="網頁模組"/>
+						<code name="2" value="訊息模組"/>
+						<code name="3" value="組室模組"/>
+						<code name="4" value="多媒體模組"/>
+						<code name="U" value="URL 連結"/>
+					</refLookup>
+					<rows/>
+					<cols/>
+				</field>
+				<field>
+					<fieldName>redirectUrl</fieldName>
+					<fieldLabel>CtUnit.redirectUrl</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>100</dataLen>
+					<inputLen>100</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<default/>
+					<inputType>textbox</inputType>
+					<fieldDesc/>
+					<rows/>
+					<cols/>
+				</field>
+				<field>
+					<fieldName>newWindow</fieldName>
+					<fieldLabel>CtUnit.newWindow</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<default/>
+					<inputType>refSelect</inputType>
+					<fieldDesc/>
+					<refLookup>
+						<code name="Y" value="是"/>
+						<code name="N" value="否"/>
+					</refLookup>
+					<rows/>
+					<cols/>
+				</field>
+				<field>
+					<fieldName>ibaseDsd</fieldName>
+					<fieldLabel>CtUnit.ibaseDsd</fieldLabel>
+					<dataType>int</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>4</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<default/>
+					<inputType>refSelect</inputType>
+					<fieldDesc/>
+					<refLookup>
+						<code name="2" value="標題URL連結"/>
+						<code name="4" value="類別條列式公告"/>
+						<code name="5" value="條列式新聞公告"/>
+						<code name="7" value="純網頁"/>
+						<code name="12" value="機關新聞"/>
+						<code name="13" value="機關行事曆"/>
+						<code name="15" value="行政指導有關文書"/>
+						<code name="16" value="施政相關計畫"/>
+						<code name="17" value="預算決算書"/>
+						<code name="18" value="請訴願處理"/>
+						<code name="19" value="公共工程及採購契約"/>
+						<code name="20" value="支付或接受之補助"/>
+						<code name="21" value="合議制會議記錄"/>
+						<code name="22" value="常見問題彙編"/>
+						<code name="23" value="各類申請案件作業規範"/>
+						<code name="24" value="其他"/>
+						<code name="25" value="條列資訊"/>
+						<code name="26" value="發表文章"/>
+						<code name="27" value="首長"/>
+						<code name="28" value="廣告輪播"/>
+						<code name="30" value="照片區"/>
+						<code name="31" value="線上申辦"/>
+					</refLookup>
+					<rows/>
+					<cols/>
+				</field>
+				<field>
+					<fieldName>fctUnitOnly</fieldName>
+					<fieldLabel>CtUnit.fctUnitOnly</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<default/>
+					<inputType>refSelect</inputType>
+					<fieldDesc/>
+					<refLookup>
+						<code name="Y" value="是"/>
+						<code name="N" value="否"/>
+					</refLookup>
+					<rows/>
+					<cols/>
+				</field>
+				<field>
+					<fieldName>checkYn</fieldName>
+					<fieldLabel>CtUnit.checkYn</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<default>Y</default>
+					<inputType>hidden</inputType>
+					<fieldDesc/>
+					<rows/>
+					<cols/>
+				</field>
+				<field>
+					<fieldName>inUse</fieldName>
+					<fieldLabel>CtUnit.inUse</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<default>Y</default>
+					<inputType>hidden</inputType>
+					<fieldDesc/>
+					<rows/>
+					<cols/>
+				</field>
+			</fieldList>
+		</formModel>
+	</htForm>
+	<pageSpec>
+		<pageHead>主題單元管理</pageHead>
+		<pageFunction>新增</pageFunction>
+		<aidLinkList>
+			<Anchor>
+				<AnchorLabel>查詢</AnchorLabel>
+				<AnchorType>A</AnchorType>
+				<AnchorDesc>重設查詢條件</AnchorDesc>
+				<AnchorURI>query.do?queryspec=CtUnitQuery.xml&amp;listspec=CtUnitList.xml</AnchorURI>
+				<checkRight>1</checkRight>
+				<AnchorPos>Top</AnchorPos>
+				<AnchorWPK/>
+			</Anchor>
+		</aidLinkList>
+		<formUI ref="CtUnitAdd">
+			<scriptCode><![CDATA[ 
+			
+		 ]]></scriptCode>
+		</formUI>
+		<UINotes>
+			
+		
+		</UINotes>
+	</pageSpec>
+</htPage>

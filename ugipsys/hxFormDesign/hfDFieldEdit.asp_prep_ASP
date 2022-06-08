@@ -1,0 +1,327 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="ʺa]p"
+htprogfunc="s"
+htprogcode="hf011"
+htprogprefix="htdfield" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+dim pkey
+dim rsreg
+dim formfunction
+tasklable="s" & htprogcap
+
+   set htpagedom = session("hyxformspec")
+    set dsroot = htpagedom.selectsinglenode("//dataschemadef")  
+ set xfieldnode = htpagedom.selectsinglenode("//field[fieldname='" & request("fieldname") & "']")
+
+if request("submittask") = "update" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  editinbothcase()
+ else
+  doupdatedb()
+  showdonebox("ƨs\i")
+ end if
+
+elseif request("submittask") = "delete" then
+ xtablename = "formuser"
+ if request("part")="formlist" then xtablename="formlist"
+ set myparent = dsroot.selectsinglenode("dstable[tablename='" & xtablename &"']/fieldlist")
+ myparent.removechild xfieldnode
+ set session("hyxformspec") = htpagedom
+ 
+ showdonebox("ƨr\i")
+
+else
+ editinbothcase()
+end if
+
+
+sub editinbothcase
+ 
+ showhtmlhead()
+ if errmsg <> "" then showerrbox()
+ formfunction = "edit"
+ showform()
+ initform()
+ showhtmltail()
+end sub
+
+
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+function qqrs(fldname)
+ if request("submittask")="" then
+  xvalue = nulltext(xfieldnode.selectsinglenode(fldname))
+ else
+  xvalue = ""
+  if request("xuf_"&fldname) <> "" then
+   xvalue = request("xuf_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+  sub initform() 
+
+
+
+
+
+
+
+                             =qqrs("fieldname")
+                             =qqrs("fieldname")
+                              =qqrs("fieldlabel")
+                            =qqrs("datatype")
+                             =qqrs("inputtype")
+                            =qqrs("inputlen")
+                             =qqrs("cannull")
+                            =qqrs("cannull")
+                            =qqrs("itemlist")
+   if request("part")="formlist" then 
+                             =qqrs("fielddesc")
+   else 
+                                 =qqrs("isprimarykey")
+   end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+
+  sub showform()   '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_hfdfieldform_24239144()
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showhtmlhead() ------
+
+
+  sub showhtmltail() 
+
+
+
+
+
+  end sub '--- showhtmltail() ------
+
+
+  sub showerrbox() 
+
+              =errmsg
+
+
+  
+    end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- ݸˬd{xbo apuҡaɳ] errmsg="xxx"  exit sub ------
+' if request("tfx_taxid") <> "" then
+'   sql = "select * from client where taxid = n'"& request("tfx_taxid") &"'"
+'   set rsreg = conn.execute(sql)
+'   if not rsreg.eof then
+'  if trim(rsreg("clientid")) <> request("pfx_clientid") then
+'   errmsg = "uτ@sv!!эsjȤτ@s!"
+'   exit sub
+'  end if
+'   end if
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+
+ xfieldnode.selectsinglenode("fieldname").text = request("xuf_fieldname")
+ xfieldnode.selectsinglenode("fieldlabel").text = request("xuf_fieldlabel")
+ xfieldnode.selectsinglenode("datatype").text = request("xuf_datatype")
+ xfieldnode.selectsinglenode("inputtype").text = request("xuf_inputtype")
+ xfieldnode.selectsinglenode("inputlen").text = request("xuf_inputlen")
+ xfieldnode.selectsinglenode("datalen").text = request("xuf_inputlen")
+ xfieldnode.selectsinglenode("cannull").text = request("xuf_cannull")
+ xfieldnode.selectsinglenode("fielddesc").text = request("xuf_fielddesc")
+ xfieldnode.selectsinglenode("isprimarykey").text = request("xuf_isprimarykey")
+ 
+ if request("xuf_itemlist")<>"" then
+  itemary = split(request("xuf_itemlist"),vbcrlf)
+  for i = 0 to ubound(itemary)
+   if itemary(i)<>"" then
+    set nitem = htpagedom.createelement("item")
+    set ncode = htpagedom.createelement("mcode")
+     ncode.text = itemary(i)
+     nitem.appendchild ncode
+    set nvalue = htpagedom.createelement("mvalue")
+     nvalue.text = itemary(i)
+     nitem.appendchild nvalue
+    xfieldnode.appendchild nitem
+   end if
+  next
+  
+ end if
+ set session("hyxformspec") = htpagedom
+end sub '---- doupdatedb() ----
+
+  sub showdonebox(lmsg) 
+ mpkey = ""
+ mpkey = mpkey & "&entityid=" & request("htx_entityid")
+ if mpkey<>"" then  mpkey = mid(mpkey,2)
+
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+                 =lmsg
+
+
+
+
+  end sub '---- showdonebox() ----  

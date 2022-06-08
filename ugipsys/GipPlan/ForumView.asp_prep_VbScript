@@ -1,0 +1,63 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ sub forumedit()
+  window.location.href = "forumedit.asp?itemid=Cx_0dummy&forumid=Cx_0dummy"
+ end sub
+
+ sub articleedit()
+  window.location.href = "articleview.asp?itemid=Cx_0dummy&forumid=Cx_0dummy"
+ end sub
+
+ sub articleesedit()
+  window.location.href = "articleview.asp?itemid=Cx_0dummy&forumid=Cx_0dummy&forumes=y"
+ end sub
+
+ 

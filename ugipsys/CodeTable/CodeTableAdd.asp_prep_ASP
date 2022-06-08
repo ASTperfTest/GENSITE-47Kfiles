@@ -1,0 +1,227 @@
+﻿: @ codepage = 65001 
+  htprogcap="nxwq"
+htprogcode="pn50m03"
+htprogprefix="codetable" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_checkgipconfig_1275316133()
+  
+
+if request("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+ clientid=0
+ tasklable="sw" & htprogcap
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+   sub initform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_codetableform_782203257()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                                                    =title
+
+
+
+
+
+
+
+
+
+                          if (htprogright and 2)=2 then :            =htprogprefix:                     end if 
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+   sub showhtmltail() 
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- ݸˬd{xbo apuҡaɳ] errmsg="xxx"  exit sub ------
+ sql = "select codeid from codemetadef where codeid = n'"& request("pfx_codeid") &"'"
+ set rsvalidate = conn.execute(sql)
+
+ if not rsvalidate.eof then
+  errmsg = "unxidv!!эsإ!"
+  exit sub
+ end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ xshowornot="n"
+ if request("bfx_showornot")<>"" then xshowornot="y"
+ sql = "insert into codemetadef(showornot,"
+ sqlvalue = ") values(n'"&xshowornot&"',"
+ if checkgipconfig("codeml") then
+  xisml="n"
+  if request("bfx_isml")<>"" then xisml="y"
+  sql = sql & "isml,"
+  sqlvalue = sqlvalue & pkstr(xisml,",")
+ end if
+ for each x in request.form
+  if request(x) <> "" then
+   if mid(x,2,3) = "fx_" and left(x,1)<>"b" then
+  select case left(x,1)
+    case "p"
+   sql = sql & mid(x,5) & ","
+   sqlvalue = sqlvalue & pkstr(request(x),",")
+    case "d"
+   sql = sql & mid(x,5) & ","
+   sqlvalue = sqlvalue & pkstr(request(x),",")
+    case "n"
+   sql = sql & mid(x,5) & ","
+   sqlvalue = sqlvalue & request(x) & ","
+    case else
+   sql = sql & mid(x,5) & ","
+   sqlvalue = sqlvalue & pkstr(request(x),",")
+  end select
+   end if
+  end if
+ next 
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+
+ conn.execute(sql)  
+end sub '---- doupdatedb() ----
+
+
+
+   sub showdonebox() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                             =htprogprefix
+
+
+
+   end sub '---- showdonebox() ----  

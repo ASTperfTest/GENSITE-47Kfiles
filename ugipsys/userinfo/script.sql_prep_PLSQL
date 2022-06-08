@@ -1,0 +1,155 @@
+﻿if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[sp_userinfo]') and objectproperty(id, n'isprocedure') = 1)
+drop procedure [dbo].[sp_userinfo]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[userlogininfo]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[userlogininfo]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[useractionlog]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[useractionlog]
+go
+
+create table [dbo].[userlogininfo] (
+ [id] [int] identity (1, 1) not null ,
+ [userid] [char] (10) collate chinese_taiwan_stroke_ci_as null ,
+ [logintime] [datetime] null ,
+ [loginip] [varchar] (50) collate chinese_taiwan_stroke_ci_as null ,
+ [act] [varchar] (5000) collate chinese_taiwan_stroke_ci_as null 
+) on [primary]
+go
+
+create table [dbo].[useractionlog] (
+ [logtaskid] [int] identity (1, 1) not null ,
+ [loginsid] [int] not null ,
+ [xtarget] [varchar] (10) collate chinese_taiwan_stroke_ci_as null ,
+ [xaction] [char] (1) collate chinese_taiwan_stroke_ci_as null ,
+ [recordnumber] [int] null ,
+ [objtitle] [varchar] (800) collate chinese_taiwan_stroke_ci_as null ,
+ [actionrecord] [varchar] (4000) collate chinese_taiwan_stroke_ci_as null ,
+ [actiontime] [datetime] null 
+) on [primary]
+go
+
+alter table [dbo].[userlogininfo] with nocheck add 
+ constraint [pk_userlogininfo] primary key  clustered 
+ (
+  [id]
+ )  on [primary] 
+go
+
+alter table [dbo].[useractionlog] with nocheck add 
+ constraint [df_useractionlog_actiontime] default (getdate()) for [actiontime],
+ constraint [pk_useractionlog] primary key  clustered 
+ (
+  [logtaskid]
+ )  on [primary] 
+go
+
+set quoted_identifier on 
+go
+set ansi_nulls on 
+go
+
+
+create procedure sp_userinfo( 
+         @vuserid    char(10),
+         @vstartdate      char(10),
+         @venddate   char(10)   
+  )
+as
+   declare  @icnt int,@sql varchar(5000)
+   set nocount on
+
+   create table #temp
+   (xid                        int,
+                   username    varchar(20),
+    userid                 varchar(10),
+    loginip  varchar(50),
+    logintime datetime,
+                   act                         varchar(50),
+                   xtarget                   varchar(50),
+                   ctunit                     varchar(200),
+                   objtitle                   varchar(800),
+                   cnt                         int )
+
+   if @vuserid <>''
+   begin
+           if @vstartdate <>'' and @venddate <>'' 
+           begin
+                    select @sql=' insert into #temp (xid,userid,loginip,logintime,act)
+                                        select id,userid,loginip,logintime,act from userlogininfo 
+                                        where userid=''' +@vuserid + ''' and logintime between ''' + @vstartdate + ''' and ''' + @venddate+ ''''
+                    exec (@sql)
+
+           end
+           else
+           begin    
+                    select @sql=' insert into #temp (xid,userid,loginip,logintime,act)
+                                        select id,userid,loginip,logintime,act from userlogininfo 
+                                        where userid=''' +@vuserid + ''''
+                    exec (@sql)
+           end 
+   end
+   else
+   begin
+           if @vstartdate <>'' and @venddate <>'' 
+           begin
+                    select @sql=' insert into #temp (xid,userid,loginip,logintime,act)
+                                        select id,userid,loginip,logintime,act from userlogininfo 
+                                        where logintime between ''' + @vstartdate + ''' and ''' + @venddate + ''''
+                    exec (@sql)
+           end
+           else
+           begin    
+                    select @sql=' insert into #temp (xid,userid,loginip,logintime,act)
+                                        select id,userid,loginip,logintime,act from userlogininfo'
+                    exec (@sql)
+           end 
+   end
+
+    insert into #temp (xid,userid,loginip,logintime,act,xtarget,ctunit,objtitle)
+    select a.xid,a.userid,a.loginip,b.actiontime,b.xaction,b.xtarget,b.recordnumber,b.objtitle
+    from #temp a,useractionlog b where a.xid=b.loginsid
+
+    update #temp 
+    set username = b.username
+    from #temp a, infouser b
+    where a.userid=b.userid
+
+    update #temp 
+    set xtarget = '資料上稿--'
+    where xtarget='0a'
+
+    update #temp 
+    set act = '新增資料'
+    where act='1'
+
+    update #temp 
+    set act = '修改資料'
+    where act='2'
+
+    update #temp 
+    set act = '刪除資料'
+    where act='3' 
+
+    update #temp
+    set ctunit=c.catname
+    from #temp a,cudtgeneric b,cattreenode c
+    where a.ctunit=b.icuitem and b.ictunit=c.ctunitid
+
+    select @icnt=count(*) from #temp
+    update #temp set cnt=@icnt 
+
+   select * from #temp  order by xid desc
+
+   drop table #temp 
+
+go
+set quoted_identifier off 
+go
+set ansi_nulls on 
+go
+
+
+ 

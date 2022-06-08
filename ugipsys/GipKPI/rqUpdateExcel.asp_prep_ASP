@@ -1,0 +1,69 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="績效管理"
+htprogfunc="稽催清單"
+htprogcode="gc1ap9"
+htprogprefix="kpiquery" 
+        response.contenttype = "application/vnd.ms-excel"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+dim xcatcount(10)
+
+if fsql="" then
+ fsql = "select htx.ctunitid, htx.ctunitname, htx.ctunitexpireday " _
+  & " , s.userid, u.username, u.email" _
+  & " , (select max(deditdate) from cudtgeneric where ictunit=htx.ctunitid) as lastupdate" _
+  & " , n.catname" _
+  & " from ctunit as htx join cattreenode as n on n.ctunitid=htx.ctunitid" _
+  & " join ctuserset as s on s.ctnodeid=n.ctnodeid" _
+  & " join infouser as u on u.userid=s.userid" _
+  & " where htx.ctunitexpireday > 0" _
+  & " and (select max(deditdate) from cudtgeneric where ictunit=htx.ctunitid) " _
+    & " < dateadd(day, -htx.ctunitexpireday, getdate())" _
+  & " order by htx.ctunitid, n.ctnodeid, s.userid" 
+'  & " join infouser as u on u.userid=s.userid -- and u.email is not null" _
+end if
+' response.write fsql & "<hr>"
+ set rs = conn.execute(fsql)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ xctunit = ""
+ while not rs.eof
+  xdept=rs("ctunitid")
+  if xctunit <> rs("ctunitid") then
+   if xctunit <> "" then  
+    response.write "</td></tr>"
+   end if
+
+   xctunit = rs("ctunitid")
+
+                                                 =rs("ctunitname")
+                                 =rs("ctunitexpireday")
+                                 =rs("lastupdate")
+                  =rs("catname")
+
+  
+  end if
+
+                                    =rs("userid"):         =xctunit:     =rs("username")
+  
+  rs.movenext
+ wend    
+ 
+ 

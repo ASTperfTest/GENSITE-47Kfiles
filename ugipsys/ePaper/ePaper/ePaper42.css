@@ -1,0 +1,79 @@
+/* 電子報
+-----------------------------------------------------------------------------------*/
+
+#epapertop {
+	background-image: url(images/epaper_top.gif);
+	background-repeat: no-repeat;
+	height: 111px;
+	width: 700px;
+}
+#epaperall {
+	border: 1px solid #3B7102;
+	width: 600px;
+	text-align: left;
+	background-image: url(images/epaper_bk.gif);
+	background-repeat: repeat-y;
+}
+
+#copyright {
+	font-family: Arial, "新細明體";
+	font-size: 12px;
+	background-color: #B3DE53;
+	height: auto;
+	width: 700px;
+	text-align: center;
+	line-height: 16px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+body {
+	text-align: left;
+	background-position: center;
+	margin: 0px;
+}
+#content {
+	font-family: Arial, "新細明體";
+	font-size: 12px;
+}
+#topic {
+	padding-right: 20px;
+	padding-left: 20px;
+	font-family: Arial, "新細明體";
+	font-size: 12px;
+	line-height: 18px;
+	width: 650px;
+	padding-bottom: 5px;
+}
+#topictitle {
+	font-family: Arial, "新細明體";
+	font-size: 12px;
+	font-weight: bold;
+	background-image: url(images/topic.gif);
+	background-repeat: no-repeat;
+	height: 18px;
+	width: 630px;
+	padding-top: 6px;
+	padding-left: 28px;
+	letter-spacing: 3px;
+}
+#epapertime {
+	font-family: Arial, "新細明體";
+	color: #FFFFFF;
+	font-size: 12px;
+	float: right;
+	margin-top: 14px;
+	margin-right: 16px;
+}
+.contenttitle {
+	font-size: 14px;
+	color: #CC3300;
+	font-weight: bold;
+}
+#topic a {
+	color: #0066CC;
+	text-decoration: none;
+}
+#topic a:hover {
+	color: #FF0000;
+	text-decoration: underline;
+}

@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="mGIPcoanew" Class="mGIPcoanewDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=KWPI-COA-DEV;Initial Catalog=mGIPcoanew;Persist Security Info=True;User ID=hygip" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="mGIPcoanewConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.CuDTGeneric" Member="CuDTGeneric">
+    <Type Name="CuDTGeneric">
+      <Column Name="iCUItem" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="iBaseDSD" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="iCTUnit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="fCTUPublic" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="avBegin" Type="System.DateTime" DbType="SmallDateTime" CanBeNull="true" />
+      <Column Name="avEnd" Type="System.DateTime" DbType="SmallDateTime" CanBeNull="true" />
+      <Column Name="sTitle" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="iEditor" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="dEditDate" Type="System.DateTime" DbType="SmallDateTime NOT NULL" CanBeNull="false" />
+      <Column Name="iDept" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="topCat" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="vGroup" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="xKeyword" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="xImportant" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="xURL" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="xNewWindow" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="xPostDate" Type="System.DateTime" DbType="SmallDateTime NOT NULL" CanBeNull="false" />
+      <Column Name="xPostDateEnd" Type="System.DateTime" DbType="SmallDateTime" CanBeNull="true" />
+      <Column Name="Created_Date" Type="System.DateTime" DbType="SmallDateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Abstract" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="showType" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="fileDownLoad" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="refID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="xImgFile" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="RSS" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="KMcat" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="KMcatID" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="KMautoID" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="xabstract" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="siteId" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="ClickCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="HaveBuildIndex" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="xBody" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="NewtopCat" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Crop" Member="Crop">
+    <Type Name="Crop">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="iCUItem" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="alias" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="type" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="description" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="season" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="origin" Type="System.String" DbType="NVarChar(1024)" CanBeNull="true" />
+      <Column Name="feature" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="nutritionValue" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="selectionMethod" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="nutrient" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="cuisine" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="variety" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="note" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="tips" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="sortOrderSpring" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sortOrderSummer" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sortOrderAutumn" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sortOrderWinter" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Fish" Member="Fish">
+    <Type Name="Fish">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="iCUItem" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="season" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="origin" Type="System.String" DbType="NVarChar(1024)" CanBeNull="true" />
+      <Column Name="family" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="scientificName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="commonName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="distributionInTaiwan" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="habitats" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="reference" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="characteristic" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="habitatsType" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="distribution" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="utility" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="sortOrderSpring" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sortOrderSummer" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sortOrderAutumn" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sortOrderWinter" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.KnowledgeJigsaw" Member="KnowledgeJigsaw">
+    <Type Name="KnowledgeJigsaw">
+      <Column Name="gicuitem" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="orderSiteUnit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="orderSubject" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="orderKnowledgeTank" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="orderKnowledgeHome" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="orderArticle" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CtRootId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CtUnitId" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="parentIcuitem" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ArticleId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Status" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="path" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CuDTx7" Member="CuDTx7">
+    <Type Name="CuDTx7">
+      <Column Name="giCuItem" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CuDTx7F8" Type="System.String" DbType="VarChar(7000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CodeMain" Member="CodeMain">
+    <Type Name="CodeMain">
+      <Column Name="codeMetaID" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="mCode" Type="System.String" DbType="VarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="mValue" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="mSortValue" Type="System.String" DbType="VarChar(6)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CatTreeNode" Member="CatTreeNode">
+    <Type Name="CatTreeNode">
+      <Column Name="CtRootID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CtNodeKind" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="CtNodeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CatName" Type="System.String" DbType="NVarChar(70) NOT NULL" CanBeNull="false" />
+      <Column Name="CtNameLogo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CatShowOrder" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="DataLevel" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="DataParent" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ChildCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DataCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CtUnitID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="inUse" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="EditDate" Type="System.DateTime" DbType="SmallDateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EditUserID" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="dCondition" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="xslList" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="xslData" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="CtNodeNPKind" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="RSS" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="KMcat" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="KMcatID" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="KMautoID" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="SubjectID" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="KMTreeYN" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="RSSURLID" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="RSSNodeType" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="SubjectMonth" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="CatNameMemo" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CatTreeRoot" Member="CatTreeRoot">
+    <Type Name="CatTreeRoot">
+      <Column Name="CtRootID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CtRootName" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="vGroup" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Purpose" Type="System.String" DbType="VarChar(80)" CanBeNull="true" />
+      <Column Name="inUse" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="EditDate" Type="System.DateTime" DbType="SmallDateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Editor" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="deptID" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="pvXdmp" Type="System.String" DbType="VarChar(6)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CtUnit" Member="CtUnit">
+    <Type Name="CtUnit">
+      <Column Name="CtUnitID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CtUnitName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CtUnitLogo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="HeaderPart" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FooterPart" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="fStyle" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="BgLogo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="BgColor" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="CtUnitKind" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="redirectURL" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="newWindow" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="iBaseDSD" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="fCtUnitOnly" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="inUse" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="UnitDesc" Type="System.String" DbType="VarChar(60)" CanBeNull="true" />
+      <Column Name="CheckYN" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="deptID" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="ctunitexpireday" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="mmofolderId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.InfoUser" Member="InfoUser">
+    <Type Name="InfoUser">
+      <Column Name="UserID" Type="System.String" DbType="VarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="UserType" Type="System.Char" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="deptID" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="jobName" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ugrpID" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="LastVisit" Type="System.DateTime" DbType="SmallDateTime" CanBeNull="true" />
+      <Column Name="VisitCount" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="ugrpName" Type="System.String" DbType="Char(500)" CanBeNull="true" />
+      <Column Name="Telephone" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="tDataCat" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="uploadPath" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="lastIP" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Dept" Member="Dept">
+    <Type Name="Dept">
+      <Column Name="giCuItem" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="deptID" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="deptName" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="AbbrName" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="eDeptName" Type="System.String" DbType="VarChar(60)" CanBeNull="true" />
+      <Column Name="eAbbrName" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="OrgRank" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="kind" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="DeptHead" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="inUse" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="tDataCat" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="servPhone" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="servAddr" Type="System.String" DbType="VarChar(80)" CanBeNull="true" />
+      <Column Name="servHour" Type="System.String" DbType="VarChar(80)" CanBeNull="true" />
+      <Column Name="eservAddr" Type="System.String" DbType="VarChar(80)" CanBeNull="true" />
+      <Column Name="eservHour" Type="System.String" DbType="VarChar(80)" CanBeNull="true" />
+      <Column Name="parent" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="nodeKind" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="seq" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="webSite" Type="System.String" DbType="VarChar(80)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MemberGradeShare" Member="MemberGradeShare">
+    <Type Name="MemberGradeShare">
+      <Column Name="memberId" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="shareDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="shareAsk" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="shareDiscuss" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="shareCommend" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="shareOpinion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="shareSuggest" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="shareExplain" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="shareVote" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="shareJigsaw" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="shareGardening" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Member" Member="Member">
+    <Type Name="Member">
+      <Column Name="account" Type="System.String" DbType="Char(100) NOT NULL" CanBeNull="false" />
+      <Column Name="passwd" Type="System.String" DbType="Char(100) NOT NULL" CanBeNull="false" />
+      <Column Name="realname" Type="System.String" DbType="Char(200) NOT NULL" CanBeNull="false" />
+      <Column Name="homeaddr" Type="System.String" DbType="Char(500)" CanBeNull="true" />
+      <Column Name="phone" Type="System.String" DbType="Char(100)" CanBeNull="true" />
+      <Column Name="mobile" Type="System.String" DbType="Char(100)" CanBeNull="true" />
+      <Column Name="email" Type="System.String" DbType="Char(100)" CanBeNull="true" />
+      <Column Name="mcode" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="createtime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="modifytime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="zip" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="home_ext" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="birthday" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="sex" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="member_org" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="id_type1" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="id_type2" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="id_type3" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="com_tel" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="com_ext" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="fax" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="status" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="create_user" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="modify_user" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="audit_user" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="audit_time" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="org_no" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="org_name" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="farmer_status" Type="System.Char" DbType="NChar(1)" CanBeNull="true" />
+      <Column Name="[level]" Member="level" Type="System.Char" DbType="NChar(1)" CanBeNull="true" />
+      <Column Name="introduce" Type="System.String" DbType="NVarChar(1024)" CanBeNull="true" />
+      <Column Name="photo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="category" Type="System.String" DbType="VarChar(512)" CanBeNull="true" />
+      <Column Name="id" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="autoid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ptitle" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="actor" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="KMcat" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="KMcatID" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="KMautoID" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="logincount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="orderepaper" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="nickname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="pictype" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="uploadRight" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="uploadPicCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="scholarValidate" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="keyword" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="contact" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.KnowledgeForum" Member="KnowledgeForum">
+    <Type Name="KnowledgeForum">
+      <Column Name="gicuitem" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DiscussCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CommandCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BrowseCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TraceCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GradeCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GradePersonCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="HavePros" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="ParentIcuitem" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Status" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="expertReplyDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="expertId" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="expertRand" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="expertSend" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="expertReply" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="expertSendDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

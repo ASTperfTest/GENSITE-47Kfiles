@@ -1,0 +1,170 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="績效管理"
+htprogfunc="查詢清單"
+htprogcode="gc1ap9"
+htprogprefix="kpiquery" 
+   CxMethod_ASP_kpilistparam_1660807637()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+dim xcatcount(10)
+
+ fsql=request.querystring("strsql")
+
+
+ for each x in request.form
+'  response.write x & "==>" & request(x) & "<br>"
+ next
+
+if fsql="" then
+ fsql = "select idept, count(*) as xcount, " _
+  & " idept, u.deptid," _
+  & " min(dept.abbrname) as dpname, min(xref1.mvalue) as xtopcat" _
+  & " from cudtgeneric as htx" _
+  & " left join codemain as xref1 on xref1.mcode = htx.topcat and xref1.codemetaid='topdatacat'" _
+  & " left join infouser as u on htx.ieditor=u.userid" _
+  & " left join dept  on dept.deptid = htx.idept " _
+  & " where 1=1 " 
+
+ xconstr = ""
+ xpcondition
+ fsql = fsql & " group by htx.idept, u.deptid" _
+    & " order by htx.idept, u.deptid" 
+end if
+' response.write fsql & "<hr>"
+ set rs = conn.execute(fsql)
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+    if (htprogright and 1)=1 then
+
+    end if
+
+
+
+
+
+
+
+
+
+                                            =xconstr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                   =cno
+
+
+
+
+
+
+  
+ cdept = ""
+ catcount = 0
+ basecondition = "kpidlist.asp?" 
+ if request.form("htx_ctunitid") <> "" then _
+  basecondition = basecondition & "htx_ctunitid=" & request.form("htx_ctunitid") & "&"
+ if request.form("htx_ibasedsd") <> "" then _
+  basecondition = basecondition & "htx_ibasedsd=" & request.form("htx_ibasedsd") & "&"
+ if request.form("htx_idates") <> "" then _
+  basecondition = basecondition & "htx_idates=" & request.form("htx_idates") & "&"
+ if request.form("htx_idatee") <> "" then _
+  basecondition = basecondition & "htx_idatee=" & request.form("htx_idatee") & "&"
+ if request.form("htx_topcat") <> "" then _
+  basecondition = basecondition & "htx_topcat=" & request.form("htx_topcat") & "&"
+ while not rs.eof
+  xdept=rs("idept")
+  if xdept <> cdept then
+   if cdept <> "" then  
+
+                                             =dpname
+                                =selfcount
+                                =othercount
+                                         =basecondition:             =cdept:     =selfcount+othercount
+
+  
+   end if
+
+   cdept = xdept
+   dpname = rs("dpname")
+   
+   selfcount = 0
+   othercount = 0
+  end if
+  catcount = catcount + rs("xcount")
+  if rs("deptid") = xdept then 
+   selfcount = selfcount + rs("xcount")
+  else
+   othercount = othercount + rs("xcount")
+  end if
+  rs.movenext
+ wend    
+ 
+
+                                             =dpname
+                                =selfcount
+                                =othercount
+                                         =basecondition:             =cdept:     =selfcount+othercount
+
+
+
+                                                   =catcount
+
+
+
+
+
+
+
+
+
+
+
+
+  if cno<>"" then
+
+
+              =cno
+
+
+
+
+
+
+
+              =cno
+
+
+
+
+
+
+
+
+  end if 

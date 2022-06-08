@@ -1,0 +1,51 @@
+﻿: @ codepage = 65001 
+  
+'randomize
+set xup = server.createobject("lyfupload.uploadfile")
+act = xup.request("send")
+ xpath = xup.request("xxpath")
+ uppath = session("uploadpath") & xpath
+ if right(uppath,1)<>"/" then uppath = uppath & "/"
+
+if act = "新增" then 
+' response.write xup.request("newfolder")
+
+ response.write uppath & xup.request("newfolder")
+'response.end
+'set fldr = fso.getfolder(server.mappath(uppath))
+ set fso = createobject("scripting.filesystemobject")
+ set f = fso.createfolder(server.mappath(uppath & xup.request("newfolder")))
+
+
+              =server.mappath(uppath & xup.request("newfolder"))
+
+                                       =xpath
+
+   
+ response.end
+ 
+elseif act <> "送出" then 
+ response.end
+end if
+ 
+
+
+'============  photo upload ==================
+
+apath = server.mappath(uppath)
+fn = xup.savefile ("photo1", apath, true, filename)
+fn = xup.savefile ("photo2", apath, true, filename)
+fn = xup.savefile ("photo3", apath, true, filename)
+fn = xup.savefile ("photo4", apath, true, filename)
+fn = xup.savefile ("photo5", apath, true, filename)
+fn = xup.savefile ("photo6", apath, true, filename)
+fn = xup.savefile ("photo7", apath, true, filename)
+fn = xup.savefile ("photo8", apath, true, filename)
+fn = xup.savefile ("photo9", apath, true, filename)
+fn = xup.savefile ("photo0", apath, true, filename)
+
+
+
+
+                     =xpath
+                                      =xpath 

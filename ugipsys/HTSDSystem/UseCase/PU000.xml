@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UseCase>
+	<Name>採購管理系統</Name>
+	<Code>PU000</Code>
+	<APCat>PU</APCat>
+	<Version>
+		<Date>2005/7/19</Date>
+		<Author>chen</Author>
+		<Kind>HighLevel</Kind>
+		<HighLevelSpec>
+			<Type>primary</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<Package>
+				<Actor id="PU01">交辦人</Actor>
+				<Actor id="PU11">公文</Actor>
+				<Actor id="PU31">管理員</Actor>
+				<Actor id="PU41">承辦人</Actor>
+				<UseCase>
+					<Name>請購</Name>
+					<Code>PU110</Code>
+					<Description></Description>
+					<xNote>
+						Name, Code, Purpose, Description, 
+						RequirementMatch (需求回溯用), PreCondition, PostCondition</xNote>
+					<InvolveActor>PU01</InvolveActor>
+					<InvolveActor>PU11</InvolveActor>
+				</UseCase>
+				<UseCase>
+					<Name>分文指派</Name>
+					<Code>PU310</Code>
+					<Description></Description>
+					<InvolveActor>PU31</InvolveActor>
+				</UseCase>
+				<UseCase>
+					<Name>辦理設定</Name>
+					<Code>PU410</Code>
+					<Description></Description>
+					<InvolveActor>PU41</InvolveActor>
+				</UseCase>
+				<UseCase>
+					<Name>詢價</Name>
+					<Code>PU420</Code>
+					<Description></Description>
+					<InvolveActor>PU41</InvolveActor>
+				</UseCase>
+				</Package>
+			<DescriptionList>
+				<Description>
+					<table border="1" width="80%">
+				          <tr>
+					  	<th width="30%">模組  \  Actor</th>
+					  	<th>交辦人</th>
+					  	<th>公文系統</th>
+					  	<th>管理者</th>
+					  	<th>承辦人</th>
+					  </tr>						
+					  <tr>
+					  	<td>請購</td>
+					  	<td>填寫請購單 <span color="red">[簽核]</span></td>
+					  	<td>請購公文轉入</td>
+					  	<td>　</td>
+					  	<td>　</td>
+					  </tr>
+					  <tr>
+					  	<td>分文指派</td>
+					  	<td>　</td>
+					  	<td>　</td>
+					  	<td>指派承辦人/時程</td>
+					  	<td>　</td>
+					  </tr>
+					  <tr>
+					  	<td rowspan="3">辦理</td>
+					  	<td>　</td>
+					  	<td>　</td>
+					  	<td>　</td>
+					  	<td>設定</td>
+					  </tr>
+					  <tr>
+					  	<td>　</td>
+					  	<td>　</td>
+					  	<td>　</td>
+					  	<td>詢價 <span color="red">[簽核]</span></td>
+					  </tr>
+					  <tr>
+					  	<td>　</td>
+					  	<td>　</td>
+					  	<td>　</td>
+					  	<td>到貨</td>
+					  </tr>
+					  <tr>
+					  	<td>驗收</td>
+					  	<td>驗收</td>
+					  	<td>　</td>
+					  	<td>　</td>
+					  	<td>　</td>
+					  </tr>
+					</table>
+				</Description>
+			</DescriptionList>
+			<VisitRecordList>
+				<VisitRecord>
+					<Who/>
+					<Date/>
+					<Location/>
+					<comment/>
+				</VisitRecord>
+			</VisitRecordList>
+		</HighLevelSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject/>
+				<Description/>
+				<Who/>
+				<DueDate/>
+				<DoneDate/>
+				<Conclusion/>
+			</TBD>
+		</TBDList>
+	</Version>
+</UseCase>

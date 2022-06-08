@@ -1,0 +1,32 @@
+﻿                               
+          
+ function goToHome()
+ {
+  window.location= "/";
+ }  
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           function onClick___900913625() {goToHome()}
+
+
+
+
+
+ 

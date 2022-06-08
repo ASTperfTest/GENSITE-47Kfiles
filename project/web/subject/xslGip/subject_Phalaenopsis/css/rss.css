@@ -1,0 +1,54 @@
+@charset "utf-8";
+/*    */
+/* CSS Document for Sitemap */
+
+@import url("common.css");
+
+.RSS {
+	margin-left: 35px;
+	margin-right: 30px;
+	font-size: 80%;
+	line-height: 150%;
+}
+.RSS h3 {
+	font-size: 120%;
+	color: #BD5F00;
+	font-weight: normal;
+	letter-spacing: 0.15em;
+	margin-top: 20px;
+	margin-bottom: 0.2em;
+	padding-bottom: 3px;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #999999;
+}
+.RSS dl {
+	font-size: 120%;
+	line-height: 150%;
+	margin: 0px;
+	padding: 0px;
+}
+.RSS dl dt {
+	color: #DE5D00;
+	margin-left: 1em;
+	margin-top: 0.8em;
+}
+.RSS dl dd {
+	font-size: 80%;
+	line-height: 150%;
+}
+.RSS ul {
+	margin: 0px;
+	padding-left: 3em;
+	list-style: square;
+}
+.RSS ul li {
+	margin-top: 5px;
+	padding-top: 3px;
+
+}
+.RSS ul li img  {
+	margin-left: 3px;
+	border: none;
+	vertical-align: -10%;
+}

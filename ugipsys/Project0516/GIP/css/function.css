@@ -1,0 +1,78 @@
+﻿body {
+	margin: 0px;
+	padding: 0px;
+	background: #EBF5E2;
+}
+#xFunction {
+	margin-top: 0px;
+	float: left;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #FFFFFF;
+}
+#xFunction a.Cat1 {
+	color: #333333;
+	font-size: 13px;
+	padding-top: 7px;
+	padding-bottom: 3px;
+	padding-left: 25px;
+	background: url(../images/func_bg0.gif) no-repeat 9px 8px;
+	display: block;
+	text-decoration: none;
+	letter-spacing: 0.1em;
+	border-top: 1px solid #FFFFFF;
+	border-bottom: 1px solid #B0D3A3;
+	width: 135px;
+}
+#xFunction a.Cat1:hover {
+	background: #FFFFFF url(../images/func_bg0.gif) no-repeat 9px 8px;
+}
+.Cat2 a {
+	display: block;
+	width: 135px;
+	font-size: 13px;
+	color: #333333;
+	padding-top: 7px;
+	padding-bottom: 3px;
+	padding-left: 25px;
+	background: #F3F9EE url(../images/func_bg.gif) no-repeat 12px 8px;
+	text-decoration: none;
+}
+.Cat2 a:hover {
+	background: #FFFFFF url(../images/func_bg.gif) no-repeat 12px 8px;
+	color: #333333;
+}
+/*-------------------------------------------------------------------------*/
+.Display {
+	background: #999999 url(../images/dispaly_bg.gif) repeat-y;
+	height: 800px;
+	float: right;
+}
+.Display a.Hide {
+	margin-top: 220px;
+	width: 7px;
+	height: 43px;
+	display: block;
+	background: url(../images/dispaly_hide.gif) no-repeat;
+}
+.Display a.Hide:hover {
+	margin-top: 220px;
+	width: 7px;
+	height: 43px;
+	display: block;
+	background: url(../images/dispaly_hide_m.gif) no-repeat;
+}
+.Display a.Show {
+	margin-top: 220px;
+	width: 7px;
+	height: 43px;
+	display: block;
+	background: url(../images/dispaly_show.gif) no-repeat;
+}
+.Display a.Show:hover {
+	margin-top: 220px;
+	width: 7px;
+	height: 43px;
+	display: block;
+	background: url(../images/dispaly_show_m.gif) no-repeat;
+}

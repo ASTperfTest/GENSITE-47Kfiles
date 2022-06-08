@@ -1,0 +1,126 @@
+﻿: @ codepage = 65001 
+  
+ response.charset = "utf-8"
+    response.cachecontrol = "no-cache" 
+ response.addheader "pragma", "no-cache" 
+ response.expires = -1
+
+   CxMethod_ASP_dbfunc_1170075012()
+   CxMethod_ASP_web_sqlinjection_1652335853()
+   CxMethod_ASP_checkurl_711317765()
+   CxMethod_ASP_checkpoint_beforeloadxml_1893843243()
+  
+
+htx_xpostdates = request("htx_xpostdates")
+htx_xpostdatee = request("htx_xpostdatee")
+
+if htx_xpostdates <> "" or htx_xpostdatee <>"" then
+    isdatevalid = isdate(htx_xpostdates)
+    isdatevalid = isdate(htx_xpostdatee) and isdatevalid
+    if not isdatevalid then
+        
+
+
+
+
+
+                                                 =request.servervariables("query_string") 
+
+
+
+                  
+        response.end
+    end if
+end if
+
+
+
+
+  
+
+call checkurl(request.querystring)
+ mp = getmpvalue() 
+
+ qstr = request.querystring
+ if instr(qstr, "mp=") = 0 then qstr = qstr & "&mp=" & mp
+ 
+ for each xf in request.form 
+  if pkstrwithsripthtml( request(xf), "" ) <> "null" then 
+      value = server.urlencode( striphtml( request.form(xf) ) )      
+   qstr = qstr & "&" & xf & "=" & value
+         '判斷是不是由條件式查詢來的         
+      if left(xf, 4) = "htx_" and value <> "" and left(qstr, 15) <> "isusersearch=y&" then
+          qstr = "isusersearch=y&" & qstr
+      end if
+  end if
+ next
+ call lpsqlinjectioncheck()
+
+'this function in include file
+call checkpoint_beforeloadxml(request("mp"), request("ctnode"), request("xitem"))
+
+ 
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty("serverhttprequest") = true 
+ set oxsl = server.createobject("microsoft.xmldom")
+ 
+ memid = session("memid")
+ gstyle = session("gstyle")
+ 
+ xv = oxml.load(session("myxdurl") & "/wsxd/xdlp.asp?" & qstr & "&memid=" & memid & "&gstyle=" & gstyle)
+
+  if oxml.parseerror.reason <> "" then 
+   response.write "<html>"
+    response.write("<br/>htpagedom parseerror on line " &  oxml.parseerror.line)
+    response.write("<br/>reason: " &  oxml.parseerror.reason)
+   response.write "</html>"
+    'response.end()
+  end if
+  xmystyle= nulltext(oxml.selectsinglenode("//hpmain/mpstyle"))
+ if xmystyle="" then 
+  xmystyle=nulltext(oxml.selectsinglenode("//hpmain/mystyle"))
+   if xmystyle="" then xmystyle=session("mystyle")
+ end if
+ 
+ oxsl.load(server.mappath("xslgip/" & xmystyle & "/lp.xsl"))
+ 
+   fstyle = oxml.selectsinglenode("//xsldata").text
+   if fstyle <> "" then
+  set fxsl = server.createobject("microsoft.xmldom")
+  fxsl.load(server.mappath("xslgip/" & xmystyle & "/" & fstyle & ".xsl"))
+  set oxroot = oxsl.selectsinglenode("xsl:stylesheet") 
+ on error resume next
+  for each xs in fxsl.selectnodes("//xsl:template")
+   set nx = xs.clonenode(true)
+   ckstr = "@match='" & nx.getattribute("match") & "'"   
+   if nx.getattribute("mode")<>"" then  ckstr = ckstr & " and @mode='" & nx.getattribute("mode") & "'"
+   set orgex = oxroot.selectsinglenode("//xsl:template[" & ckstr & "]")
+   oxroot.removechild orgex
+   oxroot.appendchild nx
+  next
+  for each xs in fxsl.selectnodes("//msxsl:script")
+   set nx = xs.clonenode(true)
+   oxroot.appendchild nx
+  next
+ end if  
+
+ response.contenttype = "text/html" 
+ outstring = replace(oxml.transformnode(oxsl),"<meta http-equiv=""content-type"" content=""text/html; charset=utf-8"">","")
+ outstring=replace(outstring,"&amp;","&")
+ outstring=replace(outstring,"&lt;","<")
+ outstring=replace(outstring,"&gt;",">") 
+ 
+ '增加計數用程式, bike 2009/09/21
+ outstring = replace(outstring,"</body>","<script type=""text/javascript"" src=""/viewcounter.aspx""></script></body>")
+ 
+ outstring = replace(outstring,"2007 all rights reserved",year(date) & " all rights reserved")
+ response.write outstring
+
+ function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+ end function
+ 

@@ -1,0 +1,140 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<UseCase>
+	<Name>問卷編輯</Name>
+	<Code>HTsa2AM01</Code>
+	<APCat>HTsa0A</APCat>
+	<Version>
+		<Date>2002/12/19</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<ExpandedSpec>
+			<Type>primary</Type>
+			<Type>essential</Type>
+			<ActorList>
+				<Actor initiator="Y">問卷處理者</Actor>
+			</ActorList>
+			<Purpose>問卷處理者, 新增/查詢/編修/copy該單位問卷</Purpose>
+			<PreCondition>
+				<UseCase></UseCase>
+			</PreCondition>
+			<DescriptionList>
+				<Description>1.各單位只得就各單位作問卷
+				</Description>
+				<Description>2.問卷新增/編修/查詢/copy
+				</Description>
+				<Description>3.問卷新增/編修時, 可設定題目類型.統計方式.是否公開結果....等屬性
+				</Description>
+			</DescriptionList>
+			<TypicalCourseOfEvents>
+				<Event type="Client" id="0" ContractXML="evx_QSetList.xml">
+					[條列] -- 問卷清單<br/>				
+					1.列出單位內問卷: 主題, 調查對象(內部/外部), 調查時間, 問卷狀態(未結案/已結案); 依調查期間排序; 連結在主題<br/>
+					2.按主題連結到編修問卷主體畫面<br/>
+					3.按新增連結到新增問卷主體畫面							
+				</Event>
+				<Event type="Client" id="C01" ContractXML="evx_QSetAdd.xml">
+					[新增] -- 問卷主體<br/>				
+					1.新增問卷主體欄位: 問卷主題, 調查期間, 調查對象, 瀏覽期間, 說明, 問卷統計結果是否公開(公開/只公開給參與問卷調查者/不公開),分節名稱<br/>
+				</Event>
+				<Event type="Client" id="C02" ContractXML="evx_QSetEdit.xml">
+					[編修] -- 問卷主體<br/>				
+					1.編修問卷主體欄位: 問卷主題, 調查期間, 調查對象, 瀏覽期間, 說明, 問卷狀態(未結案/已結案), 問卷統計結果是否公開(公開/只公開給參與問卷調查者/不公開), 編修者, 編輯日期, 分節名稱<br/>
+					2.按【編修問卷題目】連結到問卷題目清單畫面
+					3.按【copy問卷】帶問卷主題欄供修改後複製成另一份問卷，再去進行編修
+				</Event>
+				<Event type="Client" id="C03" ContractXML="evx_QSetQuery.xml">
+					[查詢] -- 問卷主體<br/>				
+					條件欄位: 問卷主題, 調查期間, 調查對象, 問卷狀態(未結案/已結案)<br/>
+				</Event>
+				<Event type="Server" id="C05">
+					[copy問卷]<br/>				
+					1.複製原問卷的：主體、題目、答案<br/>
+				</Event>
+				<Event type="Client" id="C10" ContractXML="evx_SQBaseList.xml">
+					[MD條列] -- 問卷題目清單]<br/>				
+					1.上方為問卷主體資料: 問卷主題, 調查期間, 調查對象;按新增問卷題目按鈕到新增問卷題目畫面 <br/>
+					2.下方為問卷題目清單: 分節, 題號, 題目, 方式; 依分節+分號排序; 連結在題目<br/>
+					3.按題目連結到編修問卷題目畫面<br/>
+					4.按【新增】加入新題目<br/>
+				</Event>
+				<Event type="Client" id="C12" ContractXML="evx_SQBaseEditList.xml">
+					[編修] -- 問卷題目<br/>				
+					1.分問題與答案二個頁標<br/>
+					2.問題頁標: 分節選擇, 題號, 題目文字, 目的, 作答方式(文字/量表/單選/複選), 滿分上限, 線上作答送出後是否立即呈現結果, 統計後本題是否公開(公開/只公開給參與問卷調查者/不公開)<br/>
+					3.答案頁標: 序號, 答案, 對應分數
+				</Event>
+				<Event type="Client" id="C11" ContractXML="evx_SQBaseAdd.xml">
+					[新增] -- 問卷題目<br/>				
+					同編修問卷題目, 但按鈕為新增存檔
+				</Event>
+				<Event type="Client" id="C22" ContractXML="evx_SQBAnswerEdit.xml">
+					[編修] -- 題目答案<br/>				
+					序號, 答案, 對應分數
+				</Event>
+				<Event type="Client" id="C21" ContractXML="evx_SQBAnswerAdd.xml">
+					[新增] -- 題目答案<br/>				
+					序號, 答案, 對應分數
+				</Event>
+			</TypicalCourseOfEvents>
+		</ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName>2001 2nd Time Internal Customer Survey Results For Non-life</DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+	<Version>
+		<Date>2002/12/19</Date>
+		<Author>chen</Author>
+		<Kind>HighLevel</Kind>
+		<HighLevelSpec>
+			<Type>primary</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<DescriptionList>
+				<Description>1.各單位只得就各單位作問卷
+				</Description>
+				<Description>2.問卷新增/編修/查詢
+				</Description>
+				<Description>3.問卷新增/編修時, 可設定題目類型.統計方式.是否公開結果....等屬性
+				</Description>
+			</DescriptionList>
+			<VisitRecordList>
+				<VisitRecord>
+					<Who/>
+					<Date/>
+					<Location/>
+					<comment/>
+				</VisitRecord>
+			</VisitRecordList>
+		</HighLevelSpec>
+		<ReferenceDocumentList>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject/>
+				<Description/>
+				<Who/>
+				<DueDate/>
+				<DoneDate/>
+				<Conclusion/>
+			</TBD>
+		</TBDList>
+	</Version>
+</UseCase>

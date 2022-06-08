@@ -1,0 +1,332 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="電子報管理"
+htprogfunc="新增發行"
+htuploadpath="/public/"
+htprogcode="gw1m51"
+htprogprefix="epub" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+ dim xnewidentity
+ apath=server.mappath(htuploadpath) & "\"
+' response.write apath & "<hr>"
+ if request.querystring("phase")<>"edit" then
+set xup = server.createobject("tabs.upload")
+xup.codepage=65001
+xup.start apath
+
+else
+set xup = server.createobject("tabs.upload")
+end if
+
+function xupform(xvar)
+ xupform = xup.form(xvar)
+end function
+
+if xupform("submittask") = "add" then
+ 
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+
+
+   sub initform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_epubform_2008080344()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc:     =session("epapername")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+
+   sub showhtmltail() 
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' sql = "select * from client where clientid = '"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "「客戶編號」重複!!請重新建立客戶編號!"
+'  exit sub
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+
+ sql = "insert into eppub(ctrootid, "
+ sqlvalue = ") values(" & session("eptreeid") & ","
+
+ '2005/3/17 apple 新增各個電子報自己的期別
+ set rscheck = conn.execute("sp_columns @table_name = 'eppub' , @column_name ='eissue'")
+ if not rscheck.eof then
+  set rsissue = conn.execute( "select max(""eissue"") from eppub where ctrootid='"& session("eptreeid") &"'" )
+  if not rsissue.eof then
+   sql = sql & "eissue, "
+   sqlvalue = sqlvalue  & rsissue(0)+1 & ","
+  end if 
+ end if 
+ 
+ if xupform("htx_pubdate") <> "" then
+  sql = sql & "pubdate" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_pubdate"),",")
+ end if
+ if xupform("htx_epubid") <> "" then
+  sql = sql & "epubid" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_epubid"),",")
+ end if
+ if xupform("htx_title") <> "" then
+  sql = sql & "title" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_title"),",")
+ end if
+ if xupform("htx_dbdate") <> "" then
+  sql = sql & "dbdate" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_dbdate"),",")
+ end if
+ if xupform("htx_dedate") <> "" then
+  sql = sql & "dedate" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_dedate"),",")
+ end if
+ if xupform("htx_maxno") <> "" then
+  sql = sql & "maxno" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_maxno"),",")
+ end if
+ if xupform("htx_pubtype") <> "" then
+  sql = sql & "pubtype" & ","
+  sqlvalue = sqlvalue & pkstr(xupform("htx_pubtype"),",")
+ end if
+
+
+ for each form in xup.form
+ if form.isfile then 
+    if left(form.name,6) = "htimg_" then
+   ofname = form.filename
+   fnext = ""
+   if instr(ofname, ".")>0 then fnext=mid(ofname, instr(ofname, "."))
+   tstr = now()
+   nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext
+   sql = sql & mid(form.name,7) & ","
+   sqlvalue = sqlvalue & pkstr(nfname,",")
+     xup.form(form.name).saveas apath & nfname, true
+  elseif left(form.name,7) = "htfile_" then
+   ofname = form.filename
+   fnext = ""
+   if instr(ofname, ".")>0 then fnext=mid(ofname, instr(ofname, "."))
+   tstr = now()
+   nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext
+   sql = sql & mid(form.name,8) & ","
+   sqlvalue = sqlvalue & pkstr(nfname,",")
+     xup.form(form.name).saveas apath & nfname, true
+     xsql = "insert into imagefile(newfilename, oldfilename) values(" _
+      & pkstr(nfname,",") & pkstr(ofname,")")
+     response.write sql
+     response.end 
+     'conn.execute xsql
+ end if
+end if  
+  next
+
+ sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+ sql = "set nocount on;"&sql&"; select @@identity as newid"
+ set rsx = conn.execute(sql)
+ xnewidentity = rsx(0) 
+
+end sub '---- doupdatedb() ----
+
+sub showdonebox()
+ doneuri= ""
+ if doneuri = "" then 
+  doneuri = htprogprefix & "list.asp?eptreeid=" & xupform("eptreeid")
+ end if
+
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                             =doneuri
+
+
+
+   end sub '---- showdonebox() ----  

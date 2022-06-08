@@ -1,0 +1,119 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+  subjectid=request("subjectid")
+
+  
+  sql="select m011_subject from m011 where m011_subjectid=" & subjectid
+  set rs=conn.execute(sql)
+  if not rs.eof then
+     subject=rs("m011_subject")
+     
+  end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                             =trim(rs("m011_subject"))
+
+  
+sql2="select * from m012 where m012_subjectid=" & subjectid & " order by m012_questionid"
+set rs2=conn.execute(sql2)
+if not rs2.eof then
+
+i=1
+while not rs2.eof
+
+'sum_sql="select * from m013 where m013_subjectid=" & subjectid & " and m013_questionid=" & rs2("m012_questionid") & " order by m013_answerid"
+
+
+
+
+                                                              =i:     =trim(rs2("m012_title"))
+
+
+
+
+
+                          
+                          sqls="select * from m013 where m013_subjectid=" & subjectid & " and m013_questionid=" & rs2("m012_questionid")
+                          set srs=conn.execute(sqls)             
+                          sum=0
+                          while not srs.eof       
+                            sum=sum+srs("m013_no") 
+                          srs.movenext
+                          wend    
+                          if sum=0 then
+                             sum=1
+                          end if
+
+                          sql3="select * from m013 where m013_subjectid=" & subjectid & " and m013_questionid=" & rs2("m012_questionid") & " order by m013_answerid"
+                          set rs3=conn.execute(sql3)
+
+                          while not rs3.eof    
+    
+                          num=rs3("m013_no")*100.00/sum
+                          'num=formatnumber(rs3("m013_no")*100/sum , 2, -1)
+   
+
+
+                                                                              =trim(rs3("m013_title"))
+                                                                                                                        =int(num*100.00)/100.00:                                           =rs3("m013_no"):     =int(num*100.00)/100.00
+
+                          
+                           rs3.movenext
+                           wend
+
+
+
+  
+i=i+1
+rs2.movenext
+wend
+end if
+ 

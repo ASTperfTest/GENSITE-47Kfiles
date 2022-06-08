@@ -1,0 +1,70 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<UseCase>
+	<Name>線上問卷調查</Name>
+	<Code>HTsa9AM01</Code>
+	<APCat>HTsa0A</APCat>
+	<Version>
+		<Date>2002/12/19</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<ExpandedSpec>
+			<Type>primary</Type>
+			<Type>essential</Type>
+			<ActorList>
+				<Actor initiator="Y">問卷填寫者</Actor>
+			</ActorList>
+			<Purpose></Purpose>
+			<PreCondition>
+				<UseCase>問卷調查</UseCase>
+			</PreCondition>
+			<DescriptionList>
+				<Description>1.問卷調查對象可click Email中的連結後, 輸入問卷識別碼後直接填寫(不檢查權限, 畫面仍要有版面Logo)</Description>
+				<Description>2.或登入後線上填寫(submit後不能修改)</Description>
+			</DescriptionList>
+			<TypicalCourseOfEvents>
+				<Event type="Client" id="0" ContractXML="evx_loginSurvey.xml">
+					[線上問卷調查登入頁]<br/>				
+					1.問卷調查對象可按Email中的連結後, 進入線上問卷登入頁<br/>
+					2.不檢查權限, 畫面仍有版面Logo, 輸入問卷識別碼後進入線上問卷調查
+				</Event>
+				<Event type="Server" id="S01">
+					[問卷識別檢查]<br/>				
+					1.系統檢查連結URL後的問卷自動編號與輸入之問卷識別碼, 若不正確則reject<br/>
+					2.若正確, 再檢查填寫日期是否在問卷調查期間內, 若不是, reject, 若是則進入線上問卷調查
+				</Event>
+				<Event type="Client" id="C01">
+					[線上問卷調查]<br/>				
+					1.除了由Email連結進來外, 問卷調查對象也可由登入系統後的線上問卷調查進來<br/>
+					2.列出待該使用者填寫的問卷 (應填/可填)，以及暫存尚未送出的問卷。<br/>
+					3.點選問卷進入問卷填寫
+				</Event>
+				<Event type="Client" id="C02" ContractXML="evx_doSurvey.xml">
+					[線上問卷調查]<br/>				
+					1.除了由Email連結進來外, 問卷調查對象也可由登入系統後的線上問卷調查進來<br/>
+					2.問卷填寫可暫存<br/>
+					3.問卷調查填寫完送出後不能再修改; 若問卷編輯時設定填寫完可立即瀏覽問卷結果者, 進入問卷統計瀏覽模組
+				</Event>
+			</TypicalCourseOfEvents>
+		</ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+</UseCase>

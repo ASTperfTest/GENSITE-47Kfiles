@@ -1,0 +1,50 @@
+﻿:  
+ response.expires = 0
+ htprogcap = "�q�ױm��"
+ htprogfunc = "�q�ױm�Ϻ��@"
+ htprogcode = "bbs010"
+ htprogprefix = "msession" 
+ response.expires = 0 
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ sql = ""
+ sql = sql & " select a.id, a.name, count(b.bid) cnt " 
+ sql = sql & " from talk05 a left join article b on a.id = b.bid " 
+ 'sql = sql & " where a.master = '" & session("userid") & "' " 
+ sql = sql & " group by a.id, a.name having count(b.bid) > 0 "
+ 'sql = "select * from article"
+ set rs = conn.execute(sql)
+ 'response.write sql
+ 'response.end
+ while not rs.eof
+
+
+                                              = rs("id") :     = trim(rs("name")) 
+                        = rs("cnt") 
+
+  
+  rs.movenext
+ wend
+ 

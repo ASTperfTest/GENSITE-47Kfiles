@@ -1,0 +1,92 @@
+﻿: response.expires = 0
+htprogcap="主題館績效統計"
+htprogfunc="查詢清單"
+htprogcode="kforumlist"
+htprogprefix="kforumlist" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       if validate="" then:           end if
+                       if validate="all" then:           end if
+                        if validate="w" then:           end if
+                        if validate="y" then:           end if
+                        if validate="n" then:           end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      =request.querystring("icuitem"):            =request.querystring("nowpage"):             =cint(request.querystring("pagesize")) 

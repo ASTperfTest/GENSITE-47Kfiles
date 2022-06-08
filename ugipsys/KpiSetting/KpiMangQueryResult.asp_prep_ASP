@@ -1,0 +1,324 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ htprogcap = "單元資料維護"
+ htprogfunc = "查詢"
+ htprogcode="kpi01"
+ htprogprefix="" 
+ response.charset = "utf-8"
+
+   CxMethod_ASP_server_1606199358()
+  
+ 
+ dim account 
+ dim realname 
+ dim nickname 
+ dim level 
+ dim gradetype 
+ dim gradefrom 
+ dim gradeto 
+ dim condition 
+ dim gradetypethis : gradetypethis = request.querystring("gradetypethis")
+ dim exporturl
+ 
+ function getgradebylevel( level )
+  dim grade : grade = 0
+  if level > 4 then 
+   grade = 99999
+  else
+   sql = "select top 1 * from codemain where codemetaid = 'gradelevel' and mcode = '" & level & "'"
+   set rs = conn.execute(sql)
+   if not rs.eof then
+    grade = rs("mvalue")
+   end if
+   rs.close
+   set rs = nothing
+  end if
+  getgradebylevel = grade
+ end function
+ 
+ function getnamebygrade( grade )
+  dim name : name = ""
+  dim level : level = ""
+  if grade = "0" then
+   level = "1"
+  else
+   sql = "select top 1 * from codemain where codemetaid = 'gradelevel' and " & grade & " < mvalue order by msortvalue"
+   set rs = conn.execute(sql)
+   if not rs.eof then
+    level = rs("mcode")
+   else
+    level = "5"
+   end if
+   rs.close
+   set rs = nothing
+   level = cstr(cint(level) - 1)
+  end if
+  if level = "1" then
+   name = "入門級"
+  elseif level = "2" then
+   name = "進階級"
+  elseif level = "3" then
+   name = "高手級"
+  elseif level = "4" then
+   name = "達人級"
+  end if
+  getnamebygrade = name
+ end function 
+ 
+ if request.querystring("keep") = "" then
+ 
+  account = request.querystring("account")
+  realname = request.querystring("realname")
+  nickname = request.querystring("nickname")
+  level = request.querystring("level")
+  gradetype = request.querystring("gradetype")
+  gradefrom = request.querystring("gradefrom")
+  gradeto = request.querystring("gradeto") 
+   
+  sqlselect = "membergradesummary.memberid, membergradesummary.browsetotal, membergradesummary.logintotal, " & _
+        "membergradesummary.sharetotal, membergradesummary.contenttotal, membergradesummary.additionaltotal, " & _
+        "membergradesummary.calculatetotal, member.realname, isnull(member.nickname, '') as nickname "
+  sqlfrom = "from membergradesummary inner join member on membergradesummary.memberid = member.account "
+  sqlwhere = "where 1 = 1 "
+    
+  if account <> "" then 
+   condition = condition & "帳號：" & account & ","
+   sqlwhere = sqlwhere & "and member.account like '%" & account & "%' "
+  end if
+  if realname <> "" then 
+   condition = condition & "真實姓名：" & realname & ","
+   sqlwhere = sqlwhere & "and member.realname like '%" & realname & "%' "
+  end if
+  if nickname <> "" then 
+   condition = condition & "暱稱：" & nickname & ","
+   sqlwhere = sqlwhere & "and member.nickname like '%" & nickname & "%' "
+  end if
+  if level <> "" then 
+   if level = "1" then
+    name = "入門級"
+   elseif level = "2" then
+    name = "進階級"
+   elseif level = "3" then
+    name = "高手級"
+   elseif level = "4" then
+    name = "達人級"
+   end if
+   condition = condition & "會員等級：" & name & ","
+   sqlwhere = sqlwhere & "and membergradesummary.calculatetotal >= " & getgradebylevel(cint(level)) & " "
+   sqlwhere = sqlwhere & "and membergradesummary.calculatetotal < " & getgradebylevel(cint(level) + 1) & " "
+  end if
+  if gradefrom <> "" or gradeto <> "" then 
+   if gradetype = "1" then 
+    condition = condition & "分數類別：會員總積分,"
+    sqlwhere = sqlwhere & "and membergradesummary.calculatetotal "
+   elseif gradetype = "2" then 
+    condition = condition & "分數類別：吸收度(瀏覽行為)積分,"
+    sqlwhere = sqlwhere & "and membergradesummary.browsetotal "
+   elseif gradetype = "3" then 
+    condition = condition & "分數類別：持久度(登入行為)積分,"
+    sqlwhere = sqlwhere & "and membergradesummary.logintotal "
+   elseif gradetype = "4" then 
+    condition = condition & "分數類別：分享度(互動行為)積分,"
+    sqlwhere = sqlwhere & "and membergradesummary.sharetotal "
+   elseif gradetype = "5" then 
+    condition = condition & "分數類別：貢獻度(內容價值)積分,"
+    sqlwhere = sqlwhere & "and membergradesummary.contenttotal "
+   elseif gradetype = "6" then 
+    condition = condition & "分數類別：踴躍度(活動參與)積分,"
+    sqlwhere = sqlwhere & "and membergradesummary.additionaltotal "
+   end if
+   if gradefrom <> "" and gradeto <> "" then
+    condition = condition & "會員總積分：" & gradefrom & "~" & gradeto & ","
+    sqlwhere = sqlwhere & "between " & gradefrom & " and " & gradeto & " "
+   elseif gradefrom <> "" and gradeto = "" then
+    condition = condition & "會員總積分：大於 " & gradefrom & ","
+    sqlwhere = sqlwhere & ">= " & gradefrom & " "
+   elseif gradefrom = "" and gradeto <> "" then
+    condition = condition & "會員總積分：小於 " & gradeto & ","
+    sqlwhere = sqlwhere & "<= " & gradeto & " "
+   end if      
+  end if
+  
+  if len(condition) > 0 then condition = left(condition, len(condition) - 1)
+ 
+  session("csql") = "select count(*) " & sqlfrom & sqlwhere
+  session("fsql") = sqlselect & sqlfrom & sqlwhere 
+  session("condition") = condition
+  exporturl = "kpimembersummaryexport.asp?account=" & server.urlencode(account) & "&realname=" & server.urlencode(realname) & _
+        "&nickname=" & server.urlencode(nickname) & "&level=" & level & "&gradetype=" & gradetype & _
+        "&gradefrom=" & gradefrom & "&gradeto=" & gradeto
+  session("exporturl") = exporturl
+ end if
+ if gradetypethis = "1" then
+  sqlorder = "order by membergradesummary.calculatetotal desc"
+  exporturl = session("exporturl") & "&gradetypethis=1"
+ elseif gradetypethis = "2" then
+  sqlorder = "order by membergradesummary.browsetotal desc, membergradesummary.calculatetotal desc"
+  exporturl = session("exporturl") & "&gradetypethis=2"
+ elseif gradetypethis = "3" then
+  sqlorder = "order by membergradesummary.logintotal desc, membergradesummary.calculatetotal desc"
+  exporturl = session("exporturl") & "&gradetypethis=3"
+ elseif gradetypethis = "4" then
+  sqlorder = "order by membergradesummary.sharetotal desc, membergradesummary.calculatetotal desc"
+  exporturl = session("exporturl") & "&gradetypethis=4"
+ elseif gradetypethis = "5" then
+  sqlorder = "order by membergradesummary.contenttotal desc, membergradesummary.calculatetotal desc"
+  exporturl = session("exporturl") & "&gradetypethis=5"
+ elseif gradetypethis = "6" then
+  sqlorder = "order by membergradesummary.additionaltotal desc, membergradesummary.calculatetotal desc"
+  exporturl = session("exporturl") & "&gradetypethis=6"
+ else 
+  sqlorder = "order by membergradesummary.calculatetotal desc"
+  exporturl = session("exporturl") & "&gradetypethis=1"
+ end if
+ fsql = session("fsql") & sqlorder 
+ csql = session("csql")
+ condition = session("condition")
+
+ nowpage = request.querystring("nowpage")  '現在頁數
+  perpagesize = request.querystring("pagesize")
+ if not isnumeric(perpagesize) then
+  perpagesize = 15
+ else
+  perpagesize = cint(request.querystring("pagesize"))
+ end if
+  if perpagesize <= 0 then perpagesize = 15
+
+  set rsc = conn.execute(csql)
+  totrec = rsc(0)       '總筆數
+  totpage = int(totrec / perpagesize + 0.999)
+
+  if cint(nowpage) < 1 then 
+    nowpage = 1
+  elseif cint(nowpage) > totpage then 
+    nowpage = totpage 
+  end if             
+
+ fsql = "select top " & nowpage * perpagesize & " " & fsql 
+
+ set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+' rsreg.cachesize = perpagesize
+
+'----------hyweb gip db connection patch----------
+' rsreg.open fsql, conn, 3, 1
+set rsreg =  conn.execute(fsql)
+ rsreg.cachesize = perpagesize
+'----------hyweb gip db connection patch----------
+
+
+ if not rsreg.eof then
+  if totrec > 0 then 
+      rsreg.pagesize = perpagesize       '每頁筆數
+      rsreg.absolutepage = nowpage      
+  end if    
+ end if   
+  
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         =condition:               =exporturl
+
+
+                        if gradetypethis = "" then :              end if 
+                        if gradetypethis = "2" then :              end if 
+                        if gradetypethis = "3" then :              end if 
+                        if gradetypethis = "4" then :              end if 
+                        if gradetypethis = "5" then :              end if 
+                        if gradetypethis = "6" then :              end if 
+
+
+
+       if cint(nowpage) <> 1 then 
+
+                                                          =gradetypethis:            =(nowpage-1):             =perpagesize
+       end if 
+         =totrec
+
+                       if perpagesize=15 then:            end if
+                          if perpagesize=30 then:            end if
+                          if perpagesize=50 then:            end if
+                           if perpagesize=300 then:            end if
+
+
+
+     for ipage=1 to totpage 
+                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+       next 
+
+
+       if cint(nowpage)<>totpage then 
+                                                             =gradetypethis:            =(nowpage+1):             =perpagesize
+
+       end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+ if not rsreg.eof then   
+  for i = 1 to perpagesize
+   response.write "<tr>" & vbcrlf
+   response.write "<td><a href=""/member/newmemberedit.asp?account=" & trim(rsreg("memberid")) & """>" & trim(rsreg("memberid")) & "&nbsp;</a></td>" & vbcrlf 
+   response.write "<td>" & trim(rsreg("realname")) & "&nbsp;</td>" & vbcrlf 
+   response.write "<td>" & trim(rsreg("nickname")) & "&nbsp;</td>" & vbcrlf 
+   response.write "<td>" & getnamebygrade(rsreg("calculatetotal")) & "&nbsp;</td>" & vbcrlf 
+   response.write "<td><a href=""kpicalculatetotal.asp?memberid=" & trim(rsreg("memberid")) & """>" & rsreg("calculatetotal") & "&nbsp;</a></td>" & vbcrlf 
+   response.write "<td><a href=""kpibrowsetotal.asp?memberid=" & trim(rsreg("memberid")) & """>" & rsreg("browsetotal") & "&nbsp;</a></td>" & vbcrlf 
+   response.write "<td><a href=""kpilogintotal.asp?memberid=" & trim(rsreg("memberid")) & """>" & rsreg("logintotal") & "&nbsp;</a></td>" & vbcrlf 
+   response.write "<td><a href=""kpisharetotal.asp?memberid=" & trim(rsreg("memberid")) & """>" & rsreg("sharetotal") & "&nbsp;</a></td>" & vbcrlf 
+   response.write "<td>" & rsreg("contenttotal") & "&nbsp;</td>" & vbcrlf 
+   response.write "<td>" & rsreg("additionaltotal") & "&nbsp;</td>" & vbcrlf 
+   response.write "</tr>" & vbcrlf 
+   rsreg.movenext
+      if rsreg.eof then exit for 
+  next 
+ end if
+ 
+
+
+
+
+
+
+
+                                                                                                                                       =nowpage:             =perpagesize
+
+
+
+                                                                        =gradetypethis:                                                                     =perpagesize
+
+
+
+                                                                        =gradetypethis:            =nowpage 

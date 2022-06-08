@@ -1,0 +1,226 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    alert("編修完成！")
+    window.navigate "editgroupbygroup.asp?ugrpid=Cx_0dummy"
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+sub chkbox(x)     
+ if reg(x & "1").checked then     
+    for i=2 to 8     
+       document.all("x" & x & i).style.display=""         
+    next     
+  else     
+    for i=2 to 8    
+       document.all("x" & x & i).style.display="none"         
+       reg(x & i).checked=false     
+    next     
+  end if     
+end sub   
+  
+sub rightstable_ondblclick     
+ set xobj = window.event.srcelement    
+ if xobj.tagname="input" then 
+ if xobj.type = "checkbox" then     
+  xname=xobj.name     
+  xnpos = cint(right(xname,1))     
+  xname = left(xname, len(xname)-1)     
+  xboolean = xobj.checked     
+  for i=2 to xnpos     
+   document.all(xname&i).checked = xboolean     
+  next     
+ end if     
+ end if
+end sub     
+
+ 

@@ -1,0 +1,183 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+htprogcap="主題館績效統計"
+response.charset = "utf-8"
+htprogcode = "webgeb2"
+   
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+subjectid = request("subjectid")
+session("subjects") = ""
+session("dates") = ""
+session("datee") = ""
+response.write "<hr>"
+
+
+
+         = htprogcap 
+
+
+
+
+
+
+
+
+
+
+
+
+                                                        =htprogcap
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if subjectid = "all" then
+
+
+
+
+  
+sql = "select cattreeroot.ctrootid ,cattreeroot.ctrootname"
+sql = sql & " from nodeinfo left outer join cattreeroot on nodeinfo.ctrootid = cattreeroot.ctrootid "
+sql = sql & " where (nodeinfo.type1 = '農') and cattreeroot.inuse = 'y'"
+set rs = conn.execute(sql)
+i=1
+while not rs.eof
+
+                                              =rs("ctrootid"):    =rs("ctrootname")
+  
+ if i mod 3 = 0 then
+  response.write "</tr><tr><td class='etablelable' align='right'></td>"
+ end if
+ i=i+1
+ rs.movenext
+wend
+
+
+
+
+
+
+  
+sql = "select cattreeroot.ctrootid ,cattreeroot.ctrootname"
+sql = sql & " from nodeinfo left outer join cattreeroot on nodeinfo.ctrootid = cattreeroot.ctrootid "
+sql = sql & " where     (nodeinfo.type1 = '林') and cattreeroot.inuse = 'y'"
+set rs = conn.execute(sql)
+i=1
+while not rs.eof
+
+                                              =rs("ctrootid"):    =rs("ctrootname")
+  
+ if i mod 3 = 0 then
+  response.write "</tr><tr><td class='etablelable' align='right'></td>"
+ end if
+ i=i+1
+ rs.movenext
+wend
+
+
+
+
+
+
+  
+sql = "select cattreeroot.ctrootid ,cattreeroot.ctrootname"
+sql = sql & " from nodeinfo left outer join cattreeroot on nodeinfo.ctrootid = cattreeroot.ctrootid "
+sql = sql & " where     (nodeinfo.type1 = '漁') and cattreeroot.inuse = 'y'"
+set rs = conn.execute(sql)
+i=1
+while not rs.eof
+
+                                              =rs("ctrootid"):    =rs("ctrootname")
+  
+ if i mod 3 = 0 then
+  response.write "</tr><tr><td class='etablelable' align='right'></td>"
+ end if
+ i=i+1
+ rs.movenext
+wend
+
+
+
+
+
+
+  
+sql = "select cattreeroot.ctrootid ,cattreeroot.ctrootname"
+sql = sql & " from nodeinfo left outer join cattreeroot on nodeinfo.ctrootid = cattreeroot.ctrootid "
+sql = sql & " where     (nodeinfo.type1 = '牧') and cattreeroot.inuse = 'y'"
+set rs = conn.execute(sql)
+i=1
+while not rs.eof
+
+                                              =rs("ctrootid"):    =rs("ctrootname")
+  
+ if i mod 3 = 0 then
+  response.write "</tr><tr><td class='etablelable' align='right'></td>"
+ end if
+ i=i+1
+ rs.movenext
+wend
+
+
+
+
+
+
+  
+sql = "select cattreeroot.ctrootid ,cattreeroot.ctrootname"
+sql = sql & " from nodeinfo left outer join cattreeroot on nodeinfo.ctrootid = cattreeroot.ctrootid "
+sql = sql & " where (nodeinfo.type1 = '其他') and cattreeroot.inuse = 'y'"
+set rs = conn.execute(sql)
+i=1
+while not rs.eof
+
+                                              =rs("ctrootid"):    =rs("ctrootname")
+  
+ if i mod 3 = 0 then
+  response.write "</tr><tr><td class='etablelable' align='right'></td>"
+ end if
+ i=i+1
+ rs.movenext
+wend
+
+
+  else
+sql = "select cattreeroot.ctrootid ,cattreeroot.ctrootname ,nodeinfo.type1 "
+sql = sql & " from  nodeinfo left outer join type on nodeinfo.type1 = type.classname "
+sql = sql & " left outer join cattreeroot on nodeinfo.ctrootid = cattreeroot.ctrootid "
+sql = sql & " where (type.classid = '"& subjectid &"') and cattreeroot.inuse = 'y'"
+set rs = conn.execute(sql)
+
+
+                     =rs("type1")
+
+
+  
+i=1
+while not rs.eof
+
+                                              =rs("ctrootid"):    =rs("ctrootname")
+  
+ if i mod 3 = 0 then
+  response.write "</tr><tr><td class='etablelable' align='right'></td>"
+ end if
+ i=i+1
+ rs.movenext
+wend
+
+
+  end if 

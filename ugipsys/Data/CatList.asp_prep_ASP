@@ -1,0 +1,232 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_server_1606199358()
+  
+ itemcount = 0
+
+ sql = "select * from datacat where language = n'"& language &"' and datatype = n'"& datatype &"' order by catshoworder"
+    set rs = conn.execute(sql)
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     =title
+
+
+
+
+
+
+
+
+             if (htprogright and 8)=8 and not rs.eof then :                                                                    end if 
+             if (htprogright and 4)=4 then :                                                                   end if 
+             if (htprogright and 2)=2 then :                                       =language:             =datatype:            end if 
+
+
+
+
+
+
+
+
+
+             if rs.eof then 
+
+
+       else 
+
+
+
+
+
+                do while not rs.eof
+                itemcount = itemcount + 1
+                 sqlcom = "select count(*) from dataunit where catid = "& rs("catid")
+     set rscom = conn.execute(sqlcom) 
+
+                                                                                  =rs("catid"):     =rs("catname"):     =rscom(0):     =rs("catname")
+                                                                       =rscom(0)
+
+                 rs.movenext
+                 loop 
+
+             end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    if (htprogright and 4)=4 then :                                                                       end if :    if (htprogright and 16)=16 then :                                                                                     end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              =language:             =datatype
+
+
+       sqlcom = "select catid, catname from datacat where language = n'"& language &"' and datatype = n'"& datatype &"' order by catshoworder"
+       set rs2 = conn.execute(sqlcom)
+        if not rs2.eof then 
+                           =itemcount
+         do while not rs2.eof 
+                           =rs2("catid"):     =rs2("catname")
+        rs2.movenext
+      loop 
+
+        end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   if (htprogright and 16)=16 then 
+
+   end if 
+
+
+
+
+
+
+
+
+
+
+
+
+   if (htprogright and 16)=16 then 
+
+
+
+
+
+   end if 
+
+
+
+
+
+
+
+
+   if (htprogright and 16)=16 then 
+
+   end if 
+
+
+
+
+
+
+
+   if (htprogright and 16)=16 then 
+
+   end if 
+
+
+
+
+
+
+
+
+
+
+
+
+   if language = "c" then 
+
+   elseif language = "e" then 
+
+   end if 
+
+
+
+
+
+
+                                       =language:             =datatype
+
+
+
+
+
+
+
+                                        =language:             =datatype 

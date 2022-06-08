@@ -1,0 +1,115 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+   
+    function check_login() {      
+      var Title = document.getElementById("Txt_Name");
+      var description = document.getElementById("Txt_Description");
+     var class2 = document.form1.DDL_Class1.value;
+     var file = document.form1.Fileup.value;
+     var subtitle = document.getElementById("Txt_SubTitle");
+     
+     if(Title.value == "") { 
+      alert("請輸入主題");
+      event.returnValue = false;  
+     }
+     else if(description.value == "") {
+       alert("請輸入主題館描述");
+      event.returnValue = false;
+     } 
+     else if(class2 == "--請選擇--") {
+      alert("請選擇分類");
+      event.returnValue = false;    
+     }
+     else if(Title.value.length > 20) {
+       alert("主題不得超過20字!");
+       event.returnValue = false;
+     }
+     else if(description.value.length > 250) {
+       alert("描述不得超過250字!");
+       event.returnValue = false;
+     }
+     else if(subtitle.value.length > 100) {
+       alert("副標題不得超過100字!");
+       event.returnValue = false;
+     }  
+    }    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     function OnClick____106898644() {next_Click}
+                                                             function OnClick____1436291440() {save_Click}
+                                                                           function OnClick____1274240882() {delete_Click}
+
+
+
+
+
+
+ 

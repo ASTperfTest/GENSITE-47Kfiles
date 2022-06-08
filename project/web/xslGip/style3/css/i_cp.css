@@ -1,0 +1,162 @@
+/* CSS Document */
+
+#cp {
+	margin: 20px 8px 0;
+	padding: 0;
+	line-height: 160%;
+}
+#cp h4 {
+	border-bottom: 2px dotted #aaa;
+	margin: 0 0 8px;
+	padding: 0 0 3px;
+	font-weight: normal;
+}
+.phoimg {
+	float: left;
+	margin: 0 15px 5px 0;
+	padding: 0;
+}
+.phoimg img {
+	max-width: 320px;
+	_width: 200px;
+	border: 2px solid #bbb;
+	margin: 0;
+}
+
+/*----------------------------------------------------------------download 附件下載*/
+.download {
+	margin: 30px 0;
+	border-top: 1px solid #bbb;
+}
+.download h5 {
+	font-size: 1.25em;
+}
+.download ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.download li {
+	background: url(../images/li_bg2.gif) no-repeat 0 0;
+	padding: 1px 0 4px 24px;
+}
+.download li .date {
+	margin-left: 1em;
+}
+
+/* ------------- 資料上稿用樣式*/
+/*table*/
+.article table {
+	width:100%;
+	border-collapse:collapse;
+	border-top: 2px solid #bbb;
+	border-bottom: 2px solid #bbb;
+	margin: 0 0 20px;
+	padding: 0;
+}
+.article  table caption {
+	color: #000;
+	font-size: 110%;
+	padding: 4px 0;
+}
+.article  table th {
+	text-align: center;
+	border-bottom: 1px solid #bbb;
+	padding: 4px 8px;
+	vertical-align: top;
+}
+.article  table td {
+	padding: 4px 8px;
+	border-bottom: 1px dotted #aaa;
+	vertical-align: top;
+}
+.article  hr {
+	border: none;
+	border-bottom: 1px solid #bbb;
+}
+
+/*video*/
+.video {
+	text-align: center;
+	margin: 0 auto 20px;
+}
+.video embed {
+	width: 500px;
+}
+/*---------------------------------------------------------------- 以下暫時用途不明 2008/12/28 removed by chiung
+
+#cp .subtable {
+}
+#cp .subtable .subleft {
+	padding-right: 10px;
+}
+#cp .subtable .subleft .problem {
+	color: #006699;
+	background: #E8F8FF;
+	padding: 10px;
+	line-height: 150%;
+	margin-bottom: 10px;
+}
+#cp .subtable .subleft .problem2 {
+	color: #006699;
+	background: #EEEEEE;
+	padding: 10px;
+	line-height: 150%;
+	margin-bottom: 10px;
+}
+#cp .subtable .subleft .adddate {
+	padding: 5px 10px;
+	line-height: 200%;
+	margin-bottom: 2px;
+	border: 1px dashed #99CC66;
+	color: #464646;
+}
+#cp .subtable .subleft .adddate a {
+	color: #464646;
+	text-decoration:none;
+	margin-right: 3px;
+	margin-left: 3px;
+}
+#cp .subtable .subleft .adddate a:hover {
+	color:#8D0202;
+	text-decoration:underline;
+}
+
+#cp .subtable .subright {
+	background-color: #FBFCEB;
+	padding: 10px 10px 5px;
+	border: 3px double #ECECBD;
+	margin: 0px;
+	width: 150px;
+}
+#cp .subtable .subright li {
+	line-height: 150%;
+	color: #464646;
+}
+*/
+/*----------------------------------*/
+
+#cp .eva2 {
+	margin-top: 10px;
+	vertical-align: middle;
+	padding: 10px 10px 10px;
+}
+
+#cp form {
+	padding: 10px;
+}
+#cp label {
+	font-size: 125%;
+	color: #333333;
+	background: url(../images1/icom_i02.gif) no-repeat 2px 3px;
+	padding-left: 16px;
+	line-height: 150%;
+}
+
+
+
+#cp .cptable col.title{}
+#cp .cptable col.cptablecol2{}
+
+
+

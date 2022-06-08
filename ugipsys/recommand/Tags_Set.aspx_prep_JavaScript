@@ -1,0 +1,119 @@
+﻿
+
+
+
+
+
+
+
+
+
+        // 實作全選
+        function Select_All(spanChk) {
+            elm = document.forms[0];
+            for (i = 0; i <= elm.length - 1; i++) {
+                if (elm[i].type == "checkbox" && elm[i].id != spanChk.id) {
+                    if (!elm.elements[i].checked)
+                        elm.elements[i].click();
+                }
+            }
+        }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              function OnClick___560319974() {btnAdd_Click}
+
+                                                                 function OnClick___852747271() {btnSearch_Click}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                   function onclick___687753492() {PreviousLink_Click}
+
+
+
+
+                                                             function onclick____1305815084() {NextLink_Click}
+
+
+
+
+
+
+
+
+
+
+                                                                                       function onclick___166652106() {Select_All(this);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                    function OnClick___2105806270() {btnDelete_Click}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

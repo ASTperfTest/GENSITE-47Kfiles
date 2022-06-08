@@ -1,0 +1,144 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="影音資料附件"
+htprogfunc="條列"
+htprogcode="gc1ap1"
+htprogprefix="cuaudioattach" 
+   response.expires = 0 
+   CxMethod_ASP_server_2075167351()
+
+
+
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+dim mpkey, dpkey
+dim rsmaster, rslist
+ sqlcom = "select * from cudtgeneric where icuitem=" & pkstr(request.querystring("icuitem"),"")
+ set rsmaster = conn.execute(sqlcom)
+ mpkey = ""
+ mpkey = mpkey & "&icuitem=" & rsmaster("icuitem")
+ if mpkey<>"" then  mpkey = mid(mpkey,2)
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+                             =mpkey
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+function qqrs(fldname)
+ xvalue = rsmaster(fldname)
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+
+                          =qqrs("stitle")
+                           =qqrs("icuitem")
+
+  
+ fsql = "select dhtx.*, i.oldfilename " _
+  & " from cudtattachaudio as dhtx" _
+  & " left join imagefile as i on i.newfilename=dhtx.nfilename" _
+  & " where 1=1" _
+  & " and dhtx.xicuitem=" & pkstr(rsmaster("icuitem"),"") _
+  & " order by dhtx.listseq"
+  
+ set rslist = conn.execute(fsql)
+
+                                                                                  =mpkey:         =session("userid"):            =session("public") :                      =session("mysiteid") 
+
+
+
+
+
+
+
+
+
+  
+i=1
+ while not rslist.eof
+  dpkey = ""
+  dpkey = dpkey & "&ixcuattach=" & rslist("ixcuattach")
+  if dpkey<>"" then  dpkey = mid(dpkey,2)
+  
+
+
+                             =dpkey:         =session("userid"):            =session("public") :                      =session("mysiteid") 
+   =i :    =rslist("atitle")
+
+
+
+  =rslist("blist")
+
+
+  =rslist("listseq")
+
+
+  =rslist("aeditor")
+
+
+  =rslist("aeditdate")
+
+
+      
+         i=i+1  
+         rslist.movenext
+     wend
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

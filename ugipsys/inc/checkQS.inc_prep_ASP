@@ -1,0 +1,28 @@
+﻿: 
+function checkurl(url)
+
+url=ucase(url)
+
+myfiltersymbols = "',"",@,<,>,~,`,!,$,^,*,/,\,(,),{,},[,],-,+,;,script:"
+
+myfiltersymbols=split(myfiltersymbols,",")
+
+
+for i = 0 to ubound(myfiltersymbols)
+ 
+
+ 
+ if (instr(url,myfiltersymbols(i))>0) then
+   response.redirect "/"
+ 
+ else
+    check=hex(asc(myfiltersymbols(i)))
+    check="%"&check
+    if (instr(url,check)>0) then
+           response.redirect "/"
+    end if  
+ end if
+next
+
+end function
+ 

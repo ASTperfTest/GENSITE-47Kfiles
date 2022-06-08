@@ -1,0 +1,64 @@
+﻿: 
+ '---�a�ק벼---
+ response.write "<queryitems>"
+ for each item in request.querystring
+  response.write "<" & item & ">" & request.querystring(item) & "</" & item & ">" 
+ next
+ response.write "</queryitems>"
+ 
+ response.write "<attributevote>"
+  dim voteictunit : voteictunit = 2180
+  dim totalvote : totalvote = 0
+  dim votea : votea = 0
+  dim voteb : voteb = 0
+  dim votec : votec = 0
+  dim voted : voted = 0
+  dim votee : votee = 0
+  sql = "select count(*) as votecount, topcat from cudtgeneric where ictunit = " & voteictunit & " " & _
+     "and refid = " & xitem & " and fctupublic = 'y' group by topcat"  
+     
+  set rs = conn.execute(sql)
+  while not rs.eof 
+   select case rs("topcat")
+    case "a"
+     votea = rs("votecount")
+    case "b"
+     voteb = rs("votecount")
+    case "c"
+     votec = rs("votecount")
+    case "d"
+     voted = rs("votecount")
+    case "e"
+     votee = rs("votecount")
+   end select  
+   rs.movenext
+  wend
+  rs.close
+  set rs = nothing
+  totalvote = votea + voteb + votec + voted + votee
+  response.write "<totalvote>" & totalvote & "</totalvote>"
+  response.write "<votea>" & votea & "</votea>"
+  response.write "<voteb>" & voteb & "</voteb>"
+  response.write "<votec>" & votec & "</votec>"
+  response.write "<voted>" & voted & "</voted>"
+  response.write "<votee>" & votee & "</votee>"
+  if totalvote > 0 then  
+   response.write "<voteapercent>" & round(votea / totalvote * 100, 2) & "</voteapercent>"
+   response.write "<votebpercent>" & round(voteb / totalvote * 100, 2) & "</votebpercent>"
+   response.write "<votecpercent>" & round(votec / totalvote * 100, 2) & "</votecpercent>"
+   response.write "<votedpercent>" & round(voted / totalvote * 100, 2) & "</votedpercent>"
+   response.write "<voteepercent>" & round(votee / totalvote * 100, 2) & "</voteepercent>"     
+   sql = "select icuitem, xbody from cudtgeneric where ictunit = " & voteictunit & " " & _
+      "and refid = " & xitem & " and cast(xbody as nvarchar) <> '' and fctupublic = 'y' order by xpostdate desc"   
+   set rs = conn.execute(sql)
+   while not rs.eof 
+    response.write "<article>"
+    response.write "<icuitem>" & rs("icuitem") & "</icuitem>"
+    response.write "<xbody><![cdata[" & rs("xbody") & "]]></xbody>"
+    response.write "</article>"
+    rs.movenext
+   wend
+  end if
+ response.write "</attributevote>"
+ '---end of �a�ק벼---
+ 

@@ -1,0 +1,185 @@
+﻿:  response.expires = 0
+htprogcap="�ҵ{�ǭ��޲z"
+htprogfunc="�m��"
+htprogcode="pa010"
+htprogprefix="pppsninfo" 
+   CxMethod_ASP_pppsninfolistparam_532624226()
+   CxMethod_ASP_server_1884692838()
+   CxMethod_ASP_dbutil_251025643()
+  
+
+ set rsreg = server.createobject("adodb.recordset")
+ fsql=request.querystring("strsql")
+
+if fsql="" then
+ fsql = "select htx.psnid, htx.pname, htx.birthday, htx.email, htx.tel, htx.corpname" _
+  & " from papsninfo as htx" _
+  & " where 1=1"
+ xpcondition
+end if
+
+nowpage=request.querystring("nowpage")  '�{�b����
+
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then
+   totrec=rsreg.recordcount       '�`����
+   if totrec>0 then
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then
+         perpagesize=10
+      end if
+
+      rsreg.pagesize=perpagesize       '�c������
+
+      if cint(nowpage)<1 then
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then
+         nowpage=rsreg.pagecount
+      end if
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '�`����
+      strsql=server.urlencode(fsql)
+   end if
+end if
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap:                        =htprogfunc
+
+
+    if (htprogright and 4)=4 then
+
+    end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       =htprogprefix
+
+  if not rsreg.eof then
+
+                                      =nowpage:    =totpage
+                                           =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+          if cint(nowpage) <>1 then 
+                        =htprogprefix:                    =(nowpage-1):           =strsql:             =perpagesize
+         end if
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):           =strsql:             =perpagesize
+          end if
+
+
+                                 if perpagesize=10 then:            end if
+                                 if perpagesize=20 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    for i=1 to perpagesize
+
+
+  pkey = ""
+pkey = pkey & "&psnid=" & rsreg("psnid")
+if pkey<>"" then  pkey = mid(pkey,2)
+
+                              =pkey
+  =rsreg("psnid")
+
+
+
+                              =pkey
+  =rsreg("pname")
+
+
+
+  =rsreg("birthday")
+
+
+  =rsreg("email")
+
+
+  =rsreg("tel")
+
+
+  =rsreg("corpname")
+
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for
+    next
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+  else
+
+
+
+
+  end if
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

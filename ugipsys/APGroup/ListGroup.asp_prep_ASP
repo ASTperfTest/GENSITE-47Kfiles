@@ -1,0 +1,106 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "ht001" 
+   CxMethod_ASP_server_1606199358()
+
+   CxMethod_ASP_dbutil_10064021()
+  
+if request("task") = "查詢" then
+     sqlcom = "select * from ugrp where 1=1"
+     for each xitem in request.form
+         if request(xitem) <> "" then
+              if left(xitem,2)="fg" then
+                    sqlcom = sqlcom & "and " & mid(xitem,3) & " like n'%" & request(xitem) & "%'"
+              end if
+         end if
+     next
+else
+     sqlcom = "select * from ugrp where 1=1 "
+end if
+ if instr(session("ugrpid")&",", "htsd,") = 0 then  sqlcom = sqlcom & " and ugrpid<>n'htsd'"
+
+
+
+
+
+         =title
+
+
+
+
+       =title
+
+   if (htprogright and 4)=4 then :                                  end if 
+   if (htprogright and 2)=2 then :                                      end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     set rs=conn.execute(sqlcom)
+       rec=0 
+       while not rs.eof 
+        rec=rec+1  
+
+
+                                 =rs("ugrpid")
+                        =rs("ugrpid")
+                        =rs("ugrpname")
+                        =rs("ispublic")
+         =rs("remark")
+
+      rs.movenext
+      wend 
+
+      if (htprogright and 8)=8 and rec <>0 then 
+
+
+      end if 
+
+
+
+
+
+   if rec>1 then 
+
+
+
+
+
+
+   else 
+
+
+
+   end if 
+
+
+
+
+
+
+
+
+
+   if rec>1 then 
+
+
+
+
+
+
+   else 
+
+
+
+   end if  

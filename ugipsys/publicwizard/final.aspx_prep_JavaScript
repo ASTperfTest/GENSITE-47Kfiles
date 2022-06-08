@@ -1,0 +1,124 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function onContextMenu____1574487402() {event.returnValue=false;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               
+          
+
+function OnBack(){
+ history.go(-1);
+}
+
+function OnNext(){
+
+  var xml = window.external.Property("TransferManifest");
+  var files = xml.selectNodes("transfermanifest/filelist/file");
+
+   for (i = 0; i < files.length; i++) {
+     var postTag = xml.createNode(1, "post", "");
+     postTag.setAttribute("href", "http://ngipsys.hyweb.com.tw/publicwizard/acceptfile.aspx");
+     postTag.setAttribute("name", "myfile");
+    /*
+     var dataTag = xml.createNode(1, "formdata", "");
+     dataTag.setAttribute("name", "MAX_FILE_SIZE");
+     dataTag.text = "2000000";
+     postTag.appendChild(dataTag);
+     */
+ 
+     var dataTag = xml.createNode(1, "formdata", "");
+     dataTag.setAttribute("name", "action");
+     dataTag.text = "Save";
+     postTag.appendChild(dataTag);
+ 
+     files.item(i).appendChild(postTag);
+   }
+
+   var uploadTag = xml.createNode(1, "uploadinfo", "");
+   var htmluiTag = xml.createNode(1, "htmlui", "");
+   htmluiTag.text = "http://ngipsys.hyweb.com.tw/publicwizard/seeyourfiles.aspx";
+   //uploadTag.appendChild(htmluiTag);
+ 
+   xml.documentElement.appendChild(uploadTag);
+ //alert(xml.xml);
+ window.external.FinalNext();
+}
+
+function OnCancel(){
+ alert('OnCancel');
+}
+
+window.external.SetWizardButtons(true, true, true);
+window.external.SetHeaderText('Upload photos to GIP', 'Login with your account');
+window.external.Caption = 'Upload photos to Gip';
+
+
+     
+
+
+
+
+
+
+ 

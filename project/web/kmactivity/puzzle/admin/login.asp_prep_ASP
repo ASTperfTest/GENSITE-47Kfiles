@@ -1,0 +1,61 @@
+﻿: 
+if request.form("user_id")<>"" and request.form("password")<>"" then 
+ if request.form("user_id")="administrator" and request.form("password")="gss" then
+  session("login")="ok"
+  response.redirect "main.asp"
+ else
+  session("errnumber")=1
+    session("msg")="�b���αk�x���~�i" 
+ end if
+end if
+
+sub message()
+  if session("errnumber")=0 then
+    response.write "<center>"&session("msg")&"</center>"
+  else
+    response.write "<script language='javascript'>alert('"&session("msg")&"')</script>"
+  end if
+  session("msg")=""
+  session("errnumber")=0
+end sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  message() 

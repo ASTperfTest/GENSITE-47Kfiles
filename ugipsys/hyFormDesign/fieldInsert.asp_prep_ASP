@@ -1,0 +1,99 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="動態表單設計"
+htprogfunc="編修"
+htuploadpath="/"
+htprogcode="hf011"
+htprogprefix="dsdxml" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+'formfunction="add"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid=n'htddatatype' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid=n'htdinputtype' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where msortvalue is not null and codemetaid=n'boolyn' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                                                =rss(0):     =pdxc
+     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+  if formfunction = "edit" then 
+          if (htprogright and 8) <> 0 then 
+
+           end if 
+
+          if (htprogright and 16) <> 0 then 
+
+         end if 
+
+
+   else '-- add ---
+            if (htprogright and 4)<>0 then 
+
+            end if
+
+            if (htprogright and 4)<>0  then 
+
+            end if
+
+   end if 
+
+
+   
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+   set htpagedom = session("hyxformspec")
+    set dsroot = htpagedom.selectsinglenode("//dataschemadef")  
+
+ 

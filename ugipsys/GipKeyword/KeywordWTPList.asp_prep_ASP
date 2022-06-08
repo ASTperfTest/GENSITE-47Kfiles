@@ -1,0 +1,254 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="關鍵字詞維護"
+htprogfunc="待處理清單"
+htprogcode="gc1ap7"
+htprogprefix="keywordwtp" 
+   CxMethod_ASP_keywordwtplistparam_1681115261()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+
+set rsreg = server.createobject("adodb.recordset")
+nowpage=request.querystring("nowpage")  '現在頁數
+
+if request("dojob")="update" then
+    sqlupdate=""
+    for each x in request.form
+ if left(x,5)="ckbox" and request(x)<>"" then
+     xn=mid(x,6)
+     sqlupdate=sqlupdate+"update cudtkeywordwtp set keywordstatus='a' where ikeyword=n'" & request("ikeyword"&xn) & "';"
+        end if
+    next
+'response.write   sqlupdate  
+    if sqlupdate<>"" then conn.execute(sqlupdate)
+
+
+
+
+
+
+
+                     =htprogprefix
+
+
+       response.end
+elseif request("dojob")="delete" then
+ sqldelete="delete cudtkeywordwtp where ikeyword=n'" & request("deletekeyword") & "'"
+  conn.execute(sqldelete)
+
+
+
+
+
+
+
+                     =htprogprefix
+
+
+       response.end
+else
+    if nowpage="" then
+ fsql = "select wtp.*,cm.mvalue,iu.username from cudtkeywordwtp wtp " & _
+  "left join codemain cm on wtp.keywordstatus=cm.mcode and cm.codemetaid='keywordstatus' " & _
+  "left join infouser iu on wtp.editor=iu.userid " & _
+  " where 1=1 "
+ xpcondition
+ fsql = fsql & " order by cm.msortvalue,wtp.icount desc "
+ session("xdic2list")=fsql
+    else
+ fsql=session("xdic2list")
+    end if
+end if
+'response.write fsql
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=10  
+      end if 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+   end if    
+end if   
+
+function qqrs(fldname)
+ if request("submittask")="" then
+  xvalue = rsreg(fldname)
+ else
+  xvalue = ""
+  if request("htx_"&fldname) <> "" then
+   xvalue = request("htx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function  
+
+
+
+
+
+
+
+
+                                      =htprogprefix
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+    if (htprogright and 4)=4 then
+              =htprogprefix
+    end if
+    if (htprogright and 8)=8 then
+              =htprogprefix
+    end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if not rsreg.eof then
+
+                                      =nowpage:    =totpage
+                                          =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+          if cint(nowpage) <>1 then 
+                        =htprogprefix:                    =(nowpage-1):             =perpagesize
+         end if
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):             =perpagesize
+          end if
+
+
+                                 if perpagesize=10 then:            end if
+                                 if perpagesize=20 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     
+    for i=1 to perpagesize                  
+
+
+
+  if rsreg("keywordstatus")="p" then
+                                   =i
+                                    =i:            =rsreg("ikeyword")
+  else
+
+                                    =i:            =rsreg("ikeyword")
+  end if
+
+
+  =rsreg("ikeyword")
+
+
+  =rsreg("ikeywordnew")
+
+
+  =rsreg("icount")
+
+
+  =rsreg("mvalue")
+
+
+  =rsreg("username")
+
+
+  =d7date(rsreg("editdate"))
+
+
+                                                                           =rsreg("ikeyword")
+
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+  else
+
+
+
+
+  end if
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

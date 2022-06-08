@@ -1,0 +1,72 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+ subjectid = replace(trim(request("subjectid")), "'", "''")
+
+
+ if subjectid = "" then
+  response.write "<script language='javascript'>alert('操作錯誤！');history.go(-1);</script>"
+  'response.end
+ end if
+
+ subject = trim(request("subject"))
+ name = replace(request("name"), "'", "''")
+ email= replace(request("email"), "'", "''")
+ sex = request("sex")
+ age = request("age")
+ addrarea = request("addrarea")
+ member = request("member")
+ money = request("money")
+ job = request("job")
+ edu = request("edu")
+ eid = request("eid")
+ hospital = replace(request("hospital"), "'", "''")
+ hospitalarea = replace(request("hospitalarea"), "'", "''")
+
+  sql = "select r_name from registerdata where r_subjectid = " & subjectid & " and r_name = '" & name & "'"
+  set rs = conn.execute(sql)
+  if not rs.eof then
+   response.write "<script language='javascript'>alert('你已做過報名！');history.go(-1);</script>"
+   'response.end
+  else 
+
+  sql = "" & _
+   " insert into registerdata ( " & _
+   " r_subject, " & _
+   " r_name, " & _
+   " r_sex, " & _
+   " r_email, " & _
+   " r_age, " & _
+   " r_addrarea, " & _
+   " r_familymember, " & _
+   " r_money, " & _
+   " r_job, " & _
+   " r_edu, " & _
+   " r_subjectid, " & _
+   " r_polldate, " & _
+   " r_eid, " & _
+   " r_hospital, " & _
+   " r_hospitalarea " & _
+   " ) values ( " & _
+   " '" & subject & "', " & _
+   " '" & name & "', " & _
+   " '" & sex & "', " & _
+   " '" & email & "', " & _
+   " '" & age & "', " & _
+   " '" & addrarea & "', " & _
+   " '" & member & "', " & _
+   " '" & money & "', " & _
+   " '" & job & "', " & _
+   " '" & edu & "', " & _
+   subjectid & ", " & _
+   " getdate(), " & _
+   " '" & eid & "', " & _
+   " '" & hospital & "', " & _
+   " '" & hospitalarea & "' " & _   
+   " ); "
+  conn.execute(sql)
+ response.write "<script language='javascript'>alert('您的報名表已經送出！');location.replace('http://social.hyweb.com.tw/lp.asp?ctnode=170&ctunit=78&basedsd=34');</script>"
+ end if
+' response.end
+ 

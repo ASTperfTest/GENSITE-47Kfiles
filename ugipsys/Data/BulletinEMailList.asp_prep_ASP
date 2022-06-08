@@ -1,0 +1,156 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_server_1606199358()
+
+   unitid = request.querystring("unitid") 
+  
+ ckno = 0
+
+ sql = "select c.contactemail, c.comptypestr,c.area,c.comptype,c.country,c.companyid,c.sename,c.contactname,c.adddate,p.puserid,p.chname as salesname," & _
+         "(select c_item from colcontain where autoid=c.area) as aname," & _ 
+         "(select c_item from colcontain where autoid=c.country) as cname" & _  
+         " from customer as c left join personnel as p on c.puserid=p.puserid " & _
+         "where mark='1'" 
+ if request.form("nfx_area") <> "" then sql = sql & " and area = "& request.form ("nfx_area")
+ if request.form("nfx_country") <> "" then sql = sql & " and country = "& request.form ("nfx_country")
+ if request.form("nfx_puserid") <> "" then sql = sql & " and c.puserid = "& request.form ("nfx_puserid")
+ if request.form("nfx_empower") <> "" then sql = sql & " and empower = "& request.form ("nfx_empower")
+ 
+                      if request.form("bfx_comptype") <> "" then
+                       xstr = request.form("bfx_comptype")
+                       xpos = instr(xstr,",")
+                       sqlstr = " and ("
+                       if xpos= 0 then
+                  sql = sql & " and c.comptype like n'%" & request.form("bfx_comptype") & "%'"                                        
+                       else
+                          while xpos<>0 
+                        xxstr=left(xstr,xpos-1)
+                     sqlstr = sqlstr & "c.comptype like n'%" & xxstr & "%' or "
+                     xstr=mid(xstr,xpos+1)
+                     xpos=instr(xstr,",")
+                     if xpos=0 then sqlstr = sqlstr & "c.comptype like n'%" & xstr & "%')"                 
+                       wend
+                   sql = sql & sqlstr
+                   end if
+                end if
+    set rs = conn.execute(sql)
+     
+
+
+
+
+
+
+
+
+
+
+
+
+                                                         =apcatimagename
+
+
+
+                                   =title
+
+
+
+
+
+
+
+
+
+
+             if (htprogright and 2)=2 then :        menuhtml "menu1" :                                        =language:             =datatype:           =unitid:                 end if 
+             if (htprogright and 2)=2 then :        menuhtml "menu2" :                                       =language:             =datatype:                   end if 
+
+
+
+
+
+
+
+   if not rs.eof then 
+                                                                       =language:             =datatype:           =unitid
+
+
+
+
+
+
+
+
+
+
+
+
+   do while not rs.eof 
+    ckno = ckno + 1 
+
+                                                                     =rs("contactemail")
+          =rs("aname")
+          =rs("cname")
+          =rs("sename")
+          =rs("contactname")
+          =rs("salesname")
+
+   rs.movenext
+   loop 
+
+
+
+
+
+
+   else 
+
+
+
+
+                                                          =language:             =datatype:           =unitid
+   end if 
+
+
+
+
+
+          =ckno
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   if ckno>1 then 
+
+
+
+
+
+
+   else 
+
+
+
+   end if  

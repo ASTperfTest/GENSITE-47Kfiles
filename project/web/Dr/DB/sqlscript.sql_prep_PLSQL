@@ -1,0 +1,126 @@
+﻿set ansi_nulls on
+go
+set quoted_identifier on
+go
+if not exists (select * from sys.objects where object_id = object_id(n'[dbo].[farm2009_account]') and type in (n'u'))
+begin
+create table [dbo].[farm2009_account](
+ [id] [int] identity(1,1) not null,
+ [login_id] [varchar](50) not null,
+ [game_key] [varchar](50) not null,
+ [realname] [nvarchar](200) null,
+ [nickname] [nvarchar](200) null,
+ [email] [nvarchar](200) null,
+ [create_time] [datetime] not null,
+ [last_modify] [datetime] null,
+ constraint [pk_farm2009_account] primary key clustered 
+(
+ [id] asc
+)with (ignore_dup_key = off) on [primary]
+) on [primary]
+end
+go
+set ansi_nulls on
+go
+set quoted_identifier on
+go
+if not exists (select * from sys.objects where object_id = object_id(n'[dbo].[farm2009_questions]') and type in (n'u'))
+begin
+create table [dbo].[farm2009_questions](
+ [id] [int] identity(151,1) not null,
+ [qrank] [tinyint] not null constraint [df_qa_qrank]  default ((0)),
+ [qcontent] [nvarchar](150) not null constraint [df_qa_qcontent]  default ('�l���'),
+ [a1] [nvarchar](100) not null constraint [df_qa_a1]  default ('�l���'),
+ [a2] [nvarchar](100) not null constraint [df_qa_a2]  default ('�l���'),
+ [a3] [nvarchar](100) not null constraint [df_qa_a3]  default ('�l���'),
+ [correct] [tinyint] not null constraint [df_qa_correct]  default ((0)),
+ [disable] [tinyint] not null constraint [df_qa_disable]  default ((0)),
+ constraint [pk_farm2009_questions] primary key clustered 
+(
+ [id] asc
+)with (ignore_dup_key = off) on [primary]
+) on [primary]
+end
+go
+set ansi_nulls on
+go
+set quoted_identifier on
+go
+if not exists (select * from sys.objects where object_id = object_id(n'[dbo].[farm2009_account_log]') and type in (n'u'))
+begin
+create table [dbo].[farm2009_account_log](
+ [id] [int] identity(1,1) not null,
+ [account_id] [int] not null,
+ [action] [varchar](30) not null,
+ [ip_address] [varchar](15) not null,
+ [create_time] [datetime] not null,
+ constraint [pk_farm2009_account_log] primary key clustered 
+(
+ [id] asc
+)with (ignore_dup_key = off) on [primary]
+) on [primary]
+end
+go
+set ansi_nulls on
+go
+set quoted_identifier on
+go
+if not exists (select * from sys.objects where object_id = object_id(n'[dbo].[farm2009_question_data]') and type in (n'u'))
+begin
+create table [dbo].[farm2009_question_data](
+ [id] [int] identity(1,1) not null,
+ [account_id] [int] not null,
+ [current_level] [tinyint] not null constraint [df_farm2009_question_data_current_level]  default ((0)),
+ [current_score] [int] not null constraint [df_farm2009_question_data_current_score]  default ((0)),
+ [current_timer] [bigint] not null constraint [df_farm2009_question_data_current_timer]  default ((0)),
+ [current_round] [int] not null constraint [df_farm2009_question_data_current_round]  default ((1)),
+ [create_time] [datetime] not null,
+ constraint [pk_farm2009_question_data] primary key clustered 
+(
+ [id] asc
+)with (ignore_dup_key = off) on [primary]
+) on [primary]
+end
+go
+exec sys.sp_addextendedproperty @name=n'ms_description', @value=n'' ,@level0type=n'schema', @level0name=n'dbo', @level1type=n'table', @level1name=n'farm2009_question_data'
+
+go
+set ansi_nulls on
+go
+set quoted_identifier on
+go
+if not exists (select * from sys.objects where object_id = object_id(n'[dbo].[farm2009_question_log]') and type in (n'u'))
+begin
+create table [dbo].[farm2009_question_log](
+ [id] [int] identity(1,1) not null,
+ [data_id] [int] not null,
+ [question_id] [int] not null,
+ [question_order] [tinyint] not null constraint [df_farm2009_question_log_question_order]  default ((0)),
+ [is_correct] [tinyint] not null constraint [df_farm2009_question_log_is_correct]  default ((0)),
+ [create_time] [datetime] not null,
+ constraint [pk_farm2009_question_log] primary key clustered 
+(
+ [id] asc
+)with (ignore_dup_key = off) on [primary]
+) on [primary]
+end
+go
+if not exists (select * from sys.foreign_keys where object_id = object_id(n'[dbo].[fk_farm2009_account_log_farm2009_account]') and parent_object_id = object_id(n'[dbo].[farm2009_account_log]'))
+alter table [dbo].[farm2009_account_log]  with check add  constraint [fk_farm2009_account_log_farm2009_account] foreign key([account_id])
+references [dbo].[farm2009_account] ([id])
+on update cascade
+on delete cascade
+go
+if not exists (select * from sys.foreign_keys where object_id = object_id(n'[dbo].[fk_farm2009_question_data_farm2009_account]') and parent_object_id = object_id(n'[dbo].[farm2009_question_data]'))
+alter table [dbo].[farm2009_question_data]  with check add  constraint [fk_farm2009_question_data_farm2009_account] foreign key([account_id])
+references [dbo].[farm2009_account] ([id])
+on update cascade
+on delete cascade
+go
+if not exists (select * from sys.foreign_keys where object_id = object_id(n'[dbo].[fk_farm2009_question_log_farm2009_questions]') and parent_object_id = object_id(n'[dbo].[farm2009_question_log]'))
+alter table [dbo].[farm2009_question_log]  with check add  constraint [fk_farm2009_question_log_farm2009_questions] foreign key([question_id])
+references [dbo].[farm2009_questions] ([id])
+on update cascade
+on delete cascade
+
+ 

@@ -1,0 +1,191 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="代碼定義管理"
+htprogfunc="代碼定義清單"
+htprogcode="pn50m03"
+htprogprefix="codetable" 
+   CxMethod_ASP_codetablelistparam_2015725504()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+
+ set rsreg = server.createobject("adodb.recordset")
+ 'fsql=request.querystring("strsql")
+  if request.querystring = "" then
+    session("strsql") = ""
+  end if
+  fsql = session("strsql")
+
+if fsql="" then
+ fsql = "select htx.codeid, htx.codename, htx.codetblname, htx.codetype, htx.coderank, htx.showornot, xref1.mvalue as xref1showornot" _
+  & " from (codemetadef as htx left join codemain as xref1 on xref1.mcode = showornot and xref1.codemetaid=n'boolyn')" _
+  & " where 1=1"
+ xpcondition
+ fsql = fsql & " order by " & "htx.codetype, htx.coderank, htx.codeid"
+end if
+
+nowpage=request.querystring("nowpage")  '現在頁數
+
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=20  
+      end if 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+      'strsql=server.urlencode(fsql)
+   session("strsql") = fsql
+   end if    
+end if   
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+    if (htprogright and 2)=2 then
+
+    end if
+    if (htprogright and 4)=4 then
+
+    end if
+
+
+
+
+
+
+
+                                       =htprogprefix
+
+  if not rsreg.eof then
+
+                                      =nowpage:    =totpage
+                                          =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+          if cint(nowpage) <>1 then 
+                        =htprogprefix:                    =(nowpage-1):           =strsql:             =perpagesize
+         end if
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):           =strsql:             =perpagesize
+          end if
+
+
+                                 if perpagesize=10 then:            end if
+                                 if perpagesize=20 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+
+
+
+
+
+
+
+
+
+
+
+
+                     
+    for i=1 to perpagesize                  
+
+
+  pkey = ""
+pkey = pkey & "&codeid=" & rsreg("codeid")
+if pkey<>"" then  pkey = mid(pkey,2)
+
+  =rsreg("codetype")
+
+
+                              =pkey
+  =rsreg("codeid")
+
+
+
+  =rsreg("codename")
+
+
+  =rsreg("coderank")
+
+
+  =rsreg("codetblname")
+
+
+  =rsreg("xref1showornot")
+
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+  else
+
+
+
+
+  end if
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

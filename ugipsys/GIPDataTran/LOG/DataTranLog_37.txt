@@ -1,0 +1,16 @@
+主題單元37資料轉檔(2005/11/10)
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,37,'Y','N','0','1',N'Word文件（DOC 檔瀏覽器）下載',N'http://www.microsoft.com/downloads/details.aspx?displaylang=zh-tw&familyid=db1b77ab-0921-4671-b33c-ce0fc16d7c87',N'2003/08/06',N'3',N'test',N'2003/11/13 14:32:56',N'2003/08/06 17:30:48'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(3962)
+[htx.downloadid = '35'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,37,'Y','N','0','1',N'Adobe Reader（PDF 檔瀏覽器）下載',N'http://www.chinese-t.adobe.com/products/acrobat/readstep2.html',N'2003/08/06',N'2',N'sysop',N'2003/08/06 17:27:51',N'2003/08/06 17:27:01'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(3963)
+[htx.downloadid = '34'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate) VALUES(7,37,'Y','N','0','1',N'如何向行政院陳情？',null,N'2003/08/14',N'1',N'sysop',N'2004/08/19 09:47:26',N'2003/08/14 11:30:07'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(3964)
+[htx.downloadid = '36'] 資料轉檔完成!
+----------------------------------------------------------------------------
+===============================================================================
+轉檔 3 筆, 共成功 3 筆!

@@ -1,0 +1,86 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	margin: 10px;
+}
+.warp {
+	width: 44em;
+	margin: 0 auto;
+	padding: 10px 0 5px;
+	border: 1px solid #bbb;
+	background: url(../images/h1_bg.gif) no-repeat 10px top;
+}
+/*-------------------------------------共用樣式*/
+h1 {
+	font-size: 1em;
+	font-weight: normal;
+	letter-spacing: .2em;
+	line-height: 110%;
+	margin: 0 8px 8px;
+	padding: 18px 0 3px;
+	border-bottom: 3px solid #ccc;
+	background: url(../images/logo.gif) no-repeat right top;
+}
+select {
+	color: #555;
+	font-size: 75%;
+	line-height: 150%;
+}
+option {
+	font-size: inherit;
+}
+input.text {
+	font-size: 75%;
+	border: 1px solid #bbb;
+}
+input.btn {
+	font-size: 75%;
+}
+form {
+	margin: 0;
+	padding: 0;
+}
+
+/*-------------------------------------*/
+
+.inlineSearch {
+	margin: 8px 10px;
+}
+.inlineSearch input{
+	vertical-align: middle;
+}
+
+
+/*-------------------------------------*/
+.optionList {
+	border-top: 1px dashed #bbb;
+	border-bottom: 1px dashed #bbb;
+	overflow: hidden;
+	padding: 10px 0;
+	margin: 8px;
+	_width: 99%;
+}
+.all {
+	float: left;
+	width: 24em;
+}
+.picker {
+	float: left;
+	margin: 0;
+	padding: 20px 10px 0;
+}
+.picker a {
+	display: block;
+	margin-bottom: 8px;
+	cursor: pointer;
+}
+.selected {
+	float: left;
+	width: 24em;
+}
+
+.button {
+	margin: 5px 8px;
+}
+

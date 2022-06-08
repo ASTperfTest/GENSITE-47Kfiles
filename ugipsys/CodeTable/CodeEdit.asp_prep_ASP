@@ -1,0 +1,16 @@
+﻿: @ codepage = 65001 
+   
+response.expires=0
+htprogcap="代碼維護"
+htprogcode="pn90m02"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+
+
+
+
+
+
+
+                                    =request.querystring("myid") 

@@ -1,0 +1,200 @@
+﻿: @ codepage = 65001 :    CxMethod_ASP_dbfunc_874801204()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+dim menucat(10)
+
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+xn = 0
+xmidx = 1
+xitemcount = 0
+xfileuppath = ""
+xdatauppath = ""
+xpos=instr(session("ugrpid"),",")
+if xpos>0 then
+ idstr=replace(session("ugrpid"),", ","','")
+ idstr="'"&idstr&"'"
+else
+ idstr="'" & session("ugrpid") & "'"
+end if
+sqlcom = "select distinct ap.apcode, apnamec, aporder, apcatcname, apcat.apseq, specpath as appath " _
+  & ", ap.xsnewwindow, ap.xssubmit" _
+  & " from ap join apcat on ap.apcat=apcat.apcatid" _
+  & " join ugrpap on ap.apcode=ugrpap.apcode" _
+  & " where ugrpid in (" & idstr & ") and rights>0 " _
+  & " order by apcat.apseq, ap.aporder, ap.apcode" 
+set rs = conn.execute(sqlcom)
+
+xapcat = ""
+xapcode = ""
+while not rs.eof
+
+ if rs("apcatcname") <> xapcat then
+  
+  xn = xn + 1
+  menucat(xn) = rs("apcatcname")
+
+            =xn-1:         =xitemcount
+            =xn:         =xmidx
+  
+  xapcat = rs("apcatcname")
+  xitemcount = 0
+  xaporder = ""
+ end if
+
+    if rs("apnamec") <> xapcode then 
+     if rs("apcode")="gc1ap5" then xfileuppath = rs("appath")
+     if rs("apcode")="gc1ap1" then xdatauppath = rs("appath")
+
+ xapo = left(rs("aporder"),1)
+ if xapo <> xaporder then
+  if xitemcount <> 0 then
+
+           =xmidx
+  
+  end if
+  xaporder = xapo
+ end if
+
+
+         =xmidx:          =rs("apnamec")
+         =xmidx:          =rs("appath")
+         =xmidx:          =rs("xsnewwindow")
+         =xmidx:          =rs("xssubmit")
+  
+ xmidx = xmidx + 1
+ xitemcount = xitemcount + 1
+ xapcode=rs("apnamec")
+    end if
+ rs.movenext
+wend
+
+            =xn:         =xitemcount
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ sqlcom = "select i.*, d.deptname, t.mvalue as topdatacat " _
+  & " from infouser as i left join dept as d on i.deptid=d.deptid " _
+  & " left join codemain as t on t.codemetaid='topdatacat' and t.mcode=i.tdatacat" _
+  & " where userid='" & session("userid") & "'"
+ set rs = conn.execute(sqlcom)
+
+
+
+
+
+
+
+
+
+
+    if instr(session("ugrpid")&",", "htsd,") > 0 then 
+    for i = 1 to xn 
+                                                                             =i:                                              =i:                                                                      =i:                                                          =i:                      =menucat(i)
+    next
+ elseif xfileuppath<>"" then
+  if xdatauppath<>"" then
+
+
+                                            =xdatauppath
+    end if 
+
+                                            =xfileuppath
+   end if 
+
+
+
+
+
+     =rs("username"):     =rs("userid"):    =rs("deptname"):    =rs("topdatacat")
+         =d7date(session("lastvisit")):     =session("lastip"):    =session("visitcount")
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if instr(session("ugrpid")&",", "htsd,") > 0 then 
+
+
+
+
+
+
+
+
+
+   end if  

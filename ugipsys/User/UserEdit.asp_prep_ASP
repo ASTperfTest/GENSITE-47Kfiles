@@ -1,0 +1,381 @@
+﻿: @ codepage = 65001 
+
+   response.expires = 0 
+   htprogcode = "ht002"
+   
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+   CxMethod_ASP_checkgipconfig_1275316133()
+  
+if request("task")="編修存檔" then
+ sql="update infouser set password=" & drs("tfx_xpassword") _
+  & " ugrpname=" & drs("tfx_ugrpname") _
+  & " username=" & drs("tfx_username") _
+  & " ugrpid=" & drs("sfx_ugrpid") _
+  & " deptid=" & drs("sfx_deptid") _
+  & " tdatacat=" & drs("sfx_tdatacat") _
+  & " email=" & drs("tfx_email") _
+  & " telephone=" & drs("tfx_telephone") _
+  & " uploadpath=" & drs("tfx_uploadpath") _
+  & " jobname=" & pkstr(request("tfx_jobname"),",")
+   if checkgipconfig("eatwebformap") then
+  sql = sql & "eatwebformap=" & pkstr(request("eatwebformap"),",")
+   end if
+   if checkgipconfig("useripcheck") then
+  sql = sql & "netip1=" & drn("htx_netip1")
+  sql = sql & "netip2=" & drn("htx_netip2")
+  sql = sql & "netip3=" & drn("htx_netip3")
+  sql = sql & "netip4=" & drn("htx_netip4")
+  sql = sql & "netmask1=" & drn("htx_netmask1")
+  sql = sql & "netmask2=" & drn("htx_netmask2")
+  sql = sql & "netmask3=" & drn("htx_netmask3")
+  sql = sql & "netmask4=" & drn("htx_netmask4")
+   end if
+ sql = left(sql,len(sql)-1) & " where userid=" & pkstr(request("pfx_userid"),"")
+ conn.execute(sql)
+     if request("s")="a" then
+ 
+
+
+                                                      =request("ugrpid")
+
+       else
+ 
+
+
+
+
+            end if 
+ response.end
+elseif request("task")="刪除" then
+ sql="delete from infouser where userid=n'" & request("pfx_userid") & "'"
+ conn.execute(sql)
+
+
+
+
+         response.end 
+else
+ sql="select * from infouser where userid=n'" & request.querystring("userid") & "'"
+ set rs=conn.execute(sql)
+end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                    =title
+
+
+
+
+
+
+
+
+
+
+         if (htprogright and 8)=8 then :                                       =request("userid"):              end if 
+         if (htprogright and 8)=8 then :                                        =request("userid"):              end if 
+         if (htprogright and 2)=2 then :                                        end if 
+
+
+
+
+
+
+
+
+
+
+                                              =request.querystring("ugrpid")
+                                         =request.querystring("s")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                      if not checkgipconfig("usercolumnuseless") then :       end if 
+                                                      if not checkgipconfig("usercolumnuseless") then 
+
+
+     sql="select mcode,mvalue from codemain where codemetaid='topdatacat' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+            end if 
+
+
+
+
+  
+ sqlcom ="select d.deptid,d.deptname,d.parent,len(d.deptid)-1,d.seq," & _
+  "(select count(*) from dept where parent=d.deptid and nodekind='d') " & _
+  "  from dept as d where d.nodekind='d' " _
+  & " and d.deptid like n'" & session("deptid") & "%'" _
+  & " order by len(d.deptid), d.parent, d.seq" 
+'response.write sqlcom
+ set rss = conn.execute(sqlcom)
+ if not rss.eof then
+  arydept = rss.getrows(300)
+  glastmsglevel = 0
+  genlist 0, 0, 1, 0
+         expandfrom arydept(cid, 0), 0, 0
+ end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ sql1 = "select count(*) from ugrp where 1 = 1 "
+ if (htprogright and 64) = 0 then sql1 = sql1 & " and ispublic = 'y'"
+ if instr(session("ugrpid") & ",", "htsd,") = 0 then  sql1 = sql1 & " and ugrpid <> 'htsd'"
+ if instr(session("ugrpid") & ",", "eatwfsuper,") > 0 and instr(session("ugrpid") & ",", "htsd,") = 0 then
+  sql1 = sql1 & " and ugrpid in ('eatwfsuper', 'eatwebform', 'eatwebfrm2')"
+        end if
+ set ts1 = conn.execute(sql1)
+
+                         = ts1(0) + 1 
+  
+ sql1 = "select * from ugrp where 1 = 1 "
+ if (htprogright and 64) = 0 then sql1 = sql1 & " and ispublic = 'y'"
+ if instr(session("ugrpid") & ",", "htsd,") = 0 then sql1 = sql1 & " and ugrpid <> 'htsd'"
+ if instr(session("ugrpid") & ",", "eatwfsuper,") > 0 and instr(session("ugrpid") & ",", "htsd,") = 0 then
+  sql1 = sql1 & " and ugrpid in ('eatwfsuper', 'eatwebform', 'eatwebfrm2')"
+        end if
+ set rs1 = conn.execute(sql1)
+ if rs1.eof then
+
+
+  
+ else
+
+
+  
+  do while not rs1.eof
+
+                            =rs1("ugrpid"):     =rs1("ugrpname")
+  
+   rs1.movenext
+  loop
+ end if
+
+
+
+
+
+
+
+                                                                      if not checkgipconfig("usercolumnuseless") then :          end if 
+                                                      if not checkgipconfig("usercolumnuseless") then :                                                                       end if 
+
+
+  
+   if checkgipconfig("eatwebformap") then
+  sql1 = "select count(*) from codemain where (codemetaid = 'webformapcode')"
+  set ts1 = conn.execute(sql1)
+
+
+
+
+                         = ts1(0) + 1 
+
+  
+  sql1 = "select mcode, mvalue from codemain where (codemetaid = 'webformapcode') order by  msortvalue"
+  set rs1 = conn.execute(sql1)
+  while not rs1.eof
+
+                            =rs1("mcode"):     =rs1("mvalue")
+  
+   rs1.movenext 
+         wend
+
+
+
+
+
+
+
+  
+ end if
+
+
+  
+   if checkgipconfig("useripcheck") then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end if 
+
+
+
+
+               if (htprogright and 8)=8 then :                                                                              end if 
+
+               if (htprogright and 16)<>0 then :                                                                             end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     =rs("ugrpid")
+
+
+
+
+
+
+
+                            =rs("userid")
+                               =rs("password")
+                            =rs("password")
+                              =rs("username")
+                              =rs("ugrpname")
+                            =rs("deptid")
+   if not checkgipconfig("usercolumnuseless") then 
+                              =rs("tdatacat")
+   end if 
+                             =rs("jobname")
+                           =rs("email")
+                               =rs("telephone")
+   if not checkgipconfig("usercolumnuseless") then 
+                                =rs("uploadpath")
+   end if 
+  
+   if checkgipconfig("eatwebformap") then
+
+                     =rs("eatwebformap")
+
+
+
+
+
+
+
+   
+        end if 
+
+  
+   if checkgipconfig("useripcheck") then
+
+                            =rs("netip1")
+                            =rs("netip2")
+                            =rs("netip3")
+                            =rs("netip4")
+                              =rs("netmask1")
+                              =rs("netmask2")
+                              =rs("netmask3")
+                              =rs("netmask4")
+   
+        end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                        =rs("userid") 

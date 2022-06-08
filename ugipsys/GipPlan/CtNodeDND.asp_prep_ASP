@@ -1,0 +1,320 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+'------ modify history list (begin) ------
+' 2006/1/6 92004/chirs
+' 1. ctnodednd.asp created from /gipdsd/ctunitdsd.asp
+'
+'------ modify history list (begin) ------
+htprogcap="目錄樹管理"
+htprogfunc="欄位選取"
+htprogcode="ge1t21"
+htprogprefix="ctunitnode" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_xdbutil_1468464061()
+  
+function checkboxyn(xnode, xfun, xlist, xname)
+ xstr = ""
+   on error resume next
+   xnodestr = ""
+   xnodestr = xnode.text
+   xliststr = ""
+   xliststr = xlist.text 
+   xnamestr = ""
+   xnamestr = xname.text 
+   if xnamestr="stitle" and xfun = "show" then 
+    xstr = " disabled "
+   elseif xnodestr = "n" and xfun = "form" then
+    xstr = " checked disabled "
+   elseif xliststr <> "" then
+    xstr = " checked "   
+   end if
+   checkboxyn = xstr
+end function
+
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+ sqlcom = "select htx.*, u.ibasedsd " _
+  & " ,(select count(*) from cattreenode where dataparent=htx.ctnodeid) childcount" _
+  & " from cattreenode as htx join ctunit as u on u.ctunitid=htx.ctunitid" _
+  & " join basedsd as b on b.ibasedsd=u.ibasedsd" _
+  & " where htx.ctnodeid=" & pkstr(request.querystring("ctnodeid"),"")
+ set rsreg = conn.execute(sqlcom)
+ if rsreg.eof then
+   showdonebox("資料不存在！")
+   response.end
+ end if
+
+ mynodeid = rsreg("ctnodeid")
+ myunitid = rsreg("ctunitid")
+ mybaseid = rsreg("ibasedsd")
+ 
+'----1.0依ctnodeid檢查/gipdsd/xmlspec下是否存在ctnodex???.xml(???=ctnodeid)
+'----1.1依ctunitid檢查/gipdsd/xmlspec下是否存在ctunitx???.xml(???=ctunitid)
+'------1.1.1若不存在, gipdsd/cudtx???(???=basedsd)
+'----2.1開xmldom物件, load xml
+'----3.1psetlistedit方式批次編修
+
+'----1.0xmlspec檔案檢查
+set fso = server.createobject("scripting.filesystemobject")
+loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctnodex" & mynodeid & ".xml")
+if not fso.fileexists(loadxml) then
+ loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx" & myunitid & ".xml")
+ if not fso.fileexists(loadxml) then
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/cudtx" & mybaseid & ".xml")
+ end if
+end if
+
+'----2.1開xmldom物件, load .xml
+set oxml = server.createobject("microsoft.xmldom")
+oxml.async = false
+oxml.setproperty "serverhttprequest", true
+xv = oxml.load(loadxml)
+if oxml.parseerror.reason <> "" then
+ response.write("xml parseerror on line " &  oxml.parseerror.line)
+ response.write("<br>reason: " &  oxml.parseerror.reason)
+ response.end()
+end if 
+'----轉換順序 
+set oxsl = server.createobject("microsoft.xmldom")
+oxsl.async = false
+xv = oxsl.load(server.mappath("/gipdsd/xmlspec/ctunitxorder.xsl"))
+set nxml0 = server.createobject("microsoft.xmldom")
+nxml0.loadxml(oxml.transformnode(oxsl))
+set allmodel = nxml0.selectnodes("fieldlist/field[inputtype!='hidden']")
+set allmodelref = nxml0.selectnodes("fieldlist/field[inputtype!='hidden' and (inputtype='refselect' or inputtype='refselectother' or inputtype='refcheckbox' or inputtype='refcheckboxother' or inputtype='refradio' or inputtype='refradioother')]")
+'----orderby初始值
+xshowclientsqlorderby=""
+xshowclientsqlorderbytype=""
+if nulltext(oxml.selectsinglenode("//dataschemadef/showclientsqlorderby"))<>"" then
+ orderbystr=nulltext(oxml.selectsinglenode("//dataschemadef/showclientsqlorderby"))
+'response.write  orderbystr & "<br>"
+ if instr(orderbystr,"desc")<>0 then
+  xshowclientsqlorderbytype="desc"
+  orderbystr=left(orderbystr,len(orderbystr)-5)
+ end if
+ xshowclientsqlorderby=mid(orderbystr,10)
+end if
+'response.write xshowclientsqlorderby&"[]"&xshowclientsqlorderbytype 
+xformclientcatreflookup=""
+if nulltext(oxml.selectsinglenode("//dataschemadef/formclientcat"))<>"" then
+ xformclientcatreflookup=nulltext(oxml.selectsinglenode("//dataschemadef/dstable/fieldlist/field[fieldname='"+nulltext(oxml.selectsinglenode("//dataschemadef/formclientcat"))+"']/reflookup"))
+end if
+
+
+
+
+
+
+
+
+
+                                                                     =mynodeid
+
+                        =htprogcap:                       =htprogfunc
+
+    if (htprogright and 4)=4 then
+
+    end if
+
+
+
+
+
+
+
+
+
+
+
+
+    for each param in allmodel
+                    =nulltext(param.selectsinglenode("fieldname")):     =nulltext(param.selectsinglenode("fieldlabel"))
+    next
+
+
+
+
+
+
+
+
+
+    for each param in allmodelref
+                    =nulltext(param.selectsinglenode("fieldname")):     =nulltext(param.selectsinglenode("fieldlabel"))
+    next
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     sql="select mcode,mvalue from codemain where codemetaid='showclientstyle' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+     sql="select mcode,mvalue from codemain where codemetaid='formclientstyle' order by msortvalue"
+   set rss=conn.execute(sql)
+   while not rss.eof
+
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+
+
+
+
+
+
+
+  
+for each param in allmodel
+ j=j+1
+
+
+
+                                          =j:            =nulltext(param.selectsinglenode("fieldname"))
+                                       =j:                                 =nulltext(param.selectsinglenode("fieldseq"))
+
+                                        =nulltext(param.selectsinglenode("fieldlabelinit"))
+
+
+                                         =j:            =nulltext(param.selectsinglenode("fieldlabel"))
+
+
+                                        =j:            =nulltext(param.selectsinglenode("fielddesc"))
+
+
+                                                 =j:    =checkboxyn(param.selectsinglenode("cannull"),"show",param.selectsinglenode("showlistclient"),param.selectsinglenode("fieldname"))
+
+
+                                                 =j:    =checkboxyn(param.selectsinglenode("cannull"),"formclient",param.selectsinglenode("formlistclient"),param.selectsinglenode("fieldname"))
+
+
+                                                  =j:    =checkboxyn(param.selectsinglenode("cannull"),"query",param.selectsinglenode("querylistclient"),param.selectsinglenode("fieldname"))
+
+
+                                           =j:    =checkboxyn(param.selectsinglenode("cannull"),"show",param.selectsinglenode("showlist"),param.selectsinglenode("fieldname"))
+
+
+                                           =j:    =checkboxyn(param.selectsinglenode("cannull"),"form",param.selectsinglenode("formlist"),param.selectsinglenode("fieldname"))
+
+
+                                            =j:    =checkboxyn(param.selectsinglenode("cannull"),"query",param.selectsinglenode("querylist"),param.selectsinglenode("fieldname"))
+
+
+  
+next
+
+
+
+
+
+
+
+                             =nulltext(oxml.selectsinglenode("//dataschemadef/showclientstyle"))
+                             =nulltext(oxml.selectsinglenode("//dataschemadef/formclientstyle"))
+                                  =xshowclientsqlorderby
+                                      =xshowclientsqlorderbytype
+                           =nulltext(oxml.selectsinglenode("//dataschemadef/formclientcat"))
+                                    =xformclientcatreflookup
+
+   for each param in allmodelref
+  i=i+1
+
+                             =i
+              =i:      =nulltext(param.selectsinglenode("fieldname"))
+              =i:      =nulltext(param.selectsinglenode("reflookup"))
+   next
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  sub showdonebox(lmsg) 
+ mpkey = "&phase=edit&ctnodeid="&request("ctnodeid")
+ if mpkey<>"" then  mpkey = mid(mpkey,2)
+ doneuri= "ctunitnodeedit.asp"
+ if doneuri = "" then doneuri = htprogprefix & "list.asp"
+
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+                 =lmsg
+                               =doneuri:    =mpkey
+
+
+
+  end sub '---- showdonebox() ----  

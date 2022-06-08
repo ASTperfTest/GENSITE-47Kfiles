@@ -1,0 +1,231 @@
+﻿: 
+'#####(autogen) 開始：此段程式碼為自動產生，註解部份請勿刪除 #####
+'下列有設定部份如有需要可自行設定
+'此版本為  ver.0.2
+'此段程式碼產生日期為： 2009/6/9 上午 10:55:22
+'(可修改)未來是否自動更新此程式中的 pattern (y/n) : y
+
+'(可修改)此程式是否記錄 log 檔
+activelog4u=true
+
+'(可修改)錯誤發生時要到那個頁面,未填時直接結束，1. 可以是 / :首頁, 2. http://xxx.xxx.xxx.xxx/ooo.htm
+onerrorpath="/"
+
+'目前程式位置在
+progpath="d:\hyweb\gensite\project\web\member\member_forget_act.asp"
+
+'--------- (可修改)要檢查的 request 變數名稱 --------
+genparamsarray=array("submit.x", "cancel.x", "account")
+genparamspattern=array("<", ">", "%3c", "%3e", ";", "%27", "'", "=", "+", "*", "/", "%", "@", "~", "!", "#", "$", "&", "\", "(", ")", "{", "}", "[", "]") '#### 要檢查的 pattern(程式會自動更新):genpat ####
+genparamsmessage=now() & vbtab & "error(1):request變數含特殊字元"
+
+'-------- (可修改)只檢查單引號，如 request 變數未來將要放入資料庫，請一定要設定(防 sql injection) --------
+sqlinjparamsarray=array()
+sqlinjparamspattern=array("'") '#### 要檢查的 pattern(程式會自動更新):db ####
+sqlinjparamsmessage=now() & vbtab & "error(2):request變數含單引號"
+
+'-------- (可修改)只檢查 html標籤符號，如 request 變數未來將要輸出，請設定 (防 cross site scripting)--------
+xssparamsarray=array()
+xssparamspattern=array("<", ">", "%3c", "%3e") '#### 要檢查的 pattern(程式會自動更新):html ####
+xssparamsmessage=now() & vbtab & "error(3):request變數含html標籤符號"
+
+'-------- (可修改)檢查數字格式 --------
+chknumericarray=array()
+chknumericmessage=now() & vbtab & "error(4):request變數不為數字格式"
+
+'-------- (可修改)檢察日期格式 --------
+chkdatearray=array()
+chkdatemessage=now() & vbtab & "error(5):request變數不為日期格式"
+
+'##########################################
+chkpattern genparamsarray, genparamspattern, genparamsmessage
+chkpattern sqlinjparamsarray, sqlinjparamspattern, sqlinjparamsmessage
+chkpattern xssparamsarray, xssparamspattern, xssparamsmessage
+chknumeric chknumericarray, chknumericmessage
+chkdate chkdatearray, chkdatemessage
+'--------- 檢查 request 變數名稱 --------
+sub chkpattern(parray, patern, message)
+ for each str in parray 
+  p=request(str)
+  for each ptn in patern
+   if (instr(p, ptn) >0) then
+    message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+    log4u(message) '寫入到 log
+    onerroraction
+   end if
+  next
+ next
+end sub
+
+'-------- 檢查數字格式 --------
+sub chknumeric(parray, message)
+ for each str in parray
+  p=request(str)
+  if not isnumeric(p) then
+   message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'--------檢察日期格式 --------
+sub chkdate(parray, message)
+ for each str in parray
+  p=request(str)
+  if not isdate(p) then
+   message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'onerror
+sub onerroraction()
+ if (onerrorpath<>"") then response.redirect(onerrorpath)
+ response.end
+end sub
+
+'log 放在網站根目錄下的 /logs，檔名： yyyymmdd_log4u.txt
+function log4u(strlog)
+ if (activelog4u) then
+  fldr=server.mappath("/") & "/logs"
+  filename=year(date()) & right("0"&month(date()), 2) & right("0"&day(date()),2)
+  
+  filename = filename & "_log4u.txt"
+  
+  dim fso, f
+  set fso = createobject("scripting.filesystemobject")
+  
+  '產生新的目錄
+  if (not fso.folderexists(fldr)) then
+   set f = fso.createfolder(fldr)
+  else
+   showabsolutepath = fso.getabsolutepathname(fldr)
+  end if
+  
+  const forreading = 1, forwriting = 2, forappending = 8
+  '開啟檔案
+  set fso = createobject("scripting.filesystemobject")
+  set f = fso.opentextfile( fldr & "\" & filename , forappending, true, -1)
+  f.write strlog  & vbcrlf
+ end if
+end function
+'##### 結束：此段程式碼為自動產生，註解部份請勿刪除 #####
+:    CxMethod_ASP_client_1527114747()
+   CxMethod_ASP_dbfunc_1170075012()
+   
+sub strrandomize(strseed)
+ dim i,nseed 
+ nseed = clng(0)
+ for i = 1 to len(strseed)
+  nseed = nseed xor ((256 * ((i - 1) mod 4) * ascb(mid(strseed, i, 1))))
+ next
+ randomize nseed
+end sub
+
+function generatepassword(nlength)
+ dim i, bmadeconsonant, c, nrnd
+
+ const strdoubleconsonants = "npqrstuvwxy"
+ const strconsonants = "abcdefghijkm"
+ const strvocal = "3456789"
+
+ generatepassword = ""
+ bmadeconsonant = false
+
+ for i = 0 to nlength
+  nrnd = rnd
+  if generatepassword <> "" and (bmadeconsonant <> true) and (nrnd < 0.25) then
+   c = mid(strdoubleconsonants, int(len(strdoubleconsonants) * rnd + 1), 1)
+   c = c & c
+   i = i + 1
+   bmadeconsonant = true
+  else
+   if (bmadeconsonant <> true) and (nrnd < 0.75) then
+    c = mid(strconsonants, int(len(strconsonants) * rnd + 1), 1)
+    bmadeconsonant = true
+   else
+    c = mid(strvocal,int(len(strvocal) * rnd + 1), 1)
+    bmadeconsonant = false
+   end if
+  end if
+  generatepassword = generatepassword & c
+ next
+
+ if len(generatepassword) > nlength then
+  generatepassword = left(generatepassword, nlength)
+ end if
+end function
+  '取得輸入
+  submit = request("submit.x")
+  cancel = request("cancel.x")
+  
+  '取消
+  if trim(cancel) <> "" then
+    response.write "<script language='javascript'>location.replace('default.asp');</script>"
+  
+  '確定
+  'if trim(submit) <> "" then
+  else
+    '取得輸入
+    account = request("account")
+    realname = request("realname")
+    email = request("email")
+    
+    '檢查輸入
+    if trim(account) = "" then
+      response.write "<script language='javascript'>alert('請輸入帳號 !!');history.go(-1);</script>"
+    elseif trim(realname) = "" then
+      response.write "<script language='javascript'>alert('請輸入姓名 !!');history.go(-1);</script>"
+    elseif trim(email) = "" then
+      response.write "<script language='javascript'>alert('請輸入電子信箱 !!');history.go(-1);</script>"
+    '檢查email格式是否正確
+ elseif len(email) <= 3 and instr(email, "@") <= 0 and instr(email, ".") <= 0 then
+      '不正確...跳回
+  response.write "<script language='javascript'>alert('您的電子信箱格式輸入錯誤 !!');history.go(-1);</script>"
+ else
+      '正確
+
+    '檢查帳號是否存在
+  set ts = conn.execute("select count(*) from member where account = '" & account & "'")
+  if ts(0) < 1 then
+   response.write "<script language='javascript'>alert('您的帳號或密碼錯誤 !!');history.go(-1);</script>"
+  else
+    
+    '取得帳號基本資料
+   sql = "select m.*, r.ctrootid from member as m left join cattreeroot as r on r.vgroup=m.mcode and r.inuse='y'" _
+    & " where account = " & pkstr(account,"")
+   set rs = conn.execute(sql)
+    
+    '檢查姓名
+   if trim(rs("realname")) <> trim(realname) then
+    response.write "<script language='javascript'>alert('您的姓名或電子信箱錯誤 !!');history.go(-1);</script>"
+   elseif trim(rs("email")) <> trim(email) then
+    response.write "<script language='javascript'>alert('您的姓名或電子信箱錯誤 !!');history.go(-1);</script>"
+   else
+ '產生密碼
+    strrandomize(right(cstr(now),4) )
+    passwd1 = generatepassword(6)
+
+    '將新密碼存入資料庫
+    sql = "update member set passwd='" & passwd1 & "' where account='" & account & "'"
+    conn.execute(sql)
+
+ '寄出密碼
+    set mymail = createobject("cdo.message")
+    mymail.subject = "財政部全球資訊網 - 會員密碼提醒"
+    mymail.from = "財政部全球資訊網 <websys@mof.gov.tw>"
+    mymail.to = email 
+    mymail.htmlbody = "請使用系統新產生的密碼登入，登入後可自行修改密碼。<p>" & realname & "，您的新密碼：<b>" & passwd1 & "<b>"  
+    mymail.send
+    set mymail = nothing
+
+    '導回首頁
+    response.write "<script language='javascript'>alert('新密碼已寄出 !!');location.replace('default.asp');</script>"
+   end if
+  end if
+ end if
+  end if
+ 

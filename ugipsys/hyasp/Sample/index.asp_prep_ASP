@@ -1,0 +1,101 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+   gg="gg"
+   ' step 1: �ϥ� createobject ���� object. dll name: hysdk, class name: hyft
+   set obj = server.createobject("hysdk.hyft.1")
+
+   ' step 2: �i�s hyft_connect �s�� hyftd
+   x = obj.hyft_connect("localhost", 2816, "gg", "", "")
+
+   ' hyft_connect() �ǧ^�Ȭ��s�u id, �s��� obj.ret_val ��
+   id = obj.ret_val
+  
+   if id = -1 then
+      '�y�o�s�u����, �h���~�t���s��� obj.errmsg
+      response.write "�s�u hyftd �o�Ϳ��~, ���~�t��: " & obj.errmsg & "<br><br>"
+      response.end
+   else
+      'response.write "�s�u hyftd ���\! id = " & id & "<br><br>"
+   end if
+
+   ' step 3: ��l�ƭd�����
+   x = obj.hyft_initquery(id)
+   ' �ǧ^�Ȭ� obj.ret_val
+   ret = obj.ret_val 
+   if ret = -1 then
+      '�y�o��l�ƥ���, �h���~�t���s��� obj.errmsg
+      response.write "initquery �o�Ϳ��~, ���~�t��: " & obj.errmsg
+      response.end
+   end if
+   
+   query = request("query")
+   
+   x = obj.hyft_addquery(id, "", query, "", 0, 0, 0)   
+   ret = obj.ret_val
+   if ret = -1 then
+      response.write "addquery �o�Ϳ��~, ���~�t��: " & obj.errmsg
+      response.end
+   end if
+
+   'step 5: �i�s hyft_query, �}�l�d��(���ƭ�1��1000)
+    x = obj.hyft_query(id, 0,1000)
+  res_id= obj.ret_val
+  'response.write "res_id = " & res_id & "<br><br>"
+    
+    ' step 6: ���o����,���ƶǧ^�Ȧs��� obj.ret_val
+    x = obj.hyft_num_sysid(id,res_id)
+    num = obj.ret_val
+    
+    ' step 7: ���o������ƪ�id
+    x = obj.hyft_get_assdata_by_resultset(id,res_id,"gg")
+    assdata_id = obj.ret_val 
+    
+    ' step 8: ���o���ޤά�����ƥ��e
+    if num >0 then
+     for i = 0 to num-1
+   
+   '��x�c�@����ƪ�sysid
+   x = obj.hyft_fetch_sysid(id, res_id, i)
+         sysid = obj.sysid
+         'response.write "sysid=***" & sysid & "***<br>"
+         
+         '��x�c�@����ƪ�������ƪ���
+         x=obj.hyft_one_assdata_len(id,gg, sysid)
+         data_len=obj.ret_val
+         'response.write "data_len=***" & data_len& "***<br>"
+         
+         '��x�c�@����ƪ�������ƥ��e
+         x=obj.hyft_one_assdata(id,data_len)
+         data =obj.data   
+         response.write "data=***" &  data & "***<br>"
+      
+     next 
+     
+     '����������id
+     x=obj.hyft_free_assdata(id, assdata_id)
+    else
+     response.write "�d�l���"
+    end if
+    
+   set obj=nothing 
+ 

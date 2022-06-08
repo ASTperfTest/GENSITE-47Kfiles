@@ -1,0 +1,78 @@
+﻿: 
+if session("progcode") <> htprogcode then
+ session("progcode") = htprogcode
+ session("orderlist") = ""
+ setpagecon = session("pagecount")
+elseif request.form("pagecount") <> "" then
+ setpagecon = cint(request.form("pagecount"))
+ session("pagecount") = cint(request.form("pagecount"))
+elseif session("pagecount") <> "" then
+ setpagecon = session("pagecount")
+end if
+
+if request.form("orderlist") <> "" then
+ session("orderlist") = request.form("orderlist")
+end if
+
+if request("page_no") = "" and request("nowpage") = "" then
+  pno=0
+elseif request("nowpage") <> "" then
+  pno=0
+elseif request("page_no") <> "" then
+  pno=cint(request("page_no"))-1
+end if
+
+if request.form("sql") <> "" then
+   session("querysql") = request.form("sql")
+elseif request("page_no") = "" and request.form("pagecount") = "" and request.form("orderlist") = "" then
+   session("orderlist") = deforderlist
+   session("querysql") = setsql
+end if
+
+ sql = session("querysql")
+
+ if session("orderlist") <> "" then sql = sql & " order by "& session("orderlist")
+
+'response.write sql & "<hr>"
+'response.end
+
+ recno = 0
+ orderbyck = ""
+  if sql <> "" then
+ session("querypage_no") = pno+1
+ set rs = server.createobject("adodb.recordset")
+
+'----------hyweb gip db connection patch----------
+' rs.open sql,conn,1,1
+set rs = conn.execute(sql)
+
+'----------hyweb gip db connection patch----------
+
+ if not rs.eof then
+  orderbyck = "y"
+  recno = rs.recordcount
+  pgno = int((recno-1)/setpagecon)
+  pointer = pno*setpagecon+1
+  rs.absoluteposition=pointer
+ end if
+   end if
+
+  if pno * setpagecon + setpagecon > recno then
+    tbi=recno mod setpagecon
+  else
+    tbi=setpagecon
+  end if
+
+ if orderfield <> "" and ordername <> "" then
+ orderfield = split(orderfield,",")
+ ordername = split(ordername,",")
+ dosortdisplay = ""
+  for xfield = 0 to ubound(orderfield)
+    if xorder = session("orderlist") then
+     dosortdisplay = dosortdisplay & "<option value="& orderfield(xfield) &" selected>"& ordername(xfield) &"</option>" & vbcrlf
+    else
+     dosortdisplay = dosortdisplay & "<option value="& orderfield(xfield) &">"& ordername(xfield) &"</option>" & vbcrlf
+    end if
+  next
+ end if
+ 

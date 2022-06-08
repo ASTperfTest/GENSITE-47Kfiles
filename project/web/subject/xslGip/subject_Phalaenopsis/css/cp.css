@@ -1,0 +1,142 @@
+@charset "utf-8";
+@import url("common.css");
+@import url("cp_common.css");
+/* 新聞局駐外單位 德國 中文版 */
+/* CSS Document for cp */
+
+/* --------------------------------------------------------- 文章, 詳細內容 */
+.Article {
+	margin: 20px 0px 30px 8px;
+	padding: 0px 30px 0px 0px;
+}
+.Article h1 {
+	font-size: 100%;
+	font-weight: normal;
+	color: #BD5F00;
+	padding: 0px;
+	margin: 0px 0px 3px;
+}
+.Article .Body {
+	font-size: 80%;
+	margin: 0px;
+	line-height: 150%;
+	padding-top: 10px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+.Article .Body .Image {
+	margin: 5px 15px 10px 5px;
+	width: 160px;
+	float: left;
+}
+.Article .Body .Image img {
+	border: 1px solid #666666;
+	width: 160px;
+}
+.Article .Body .Image p {
+	margin: 3px 0px 0px;
+	padding: 0px;
+	color: #666666;
+}
+.Article .Body h2 {
+	font-size: 120%;
+	color: #009999;
+	line-height: 140%;
+	letter-spacing: 0.15em;
+	margin-top: 1.5em;
+	margin-bottom: 0.2em;
+	padding: 0px;
+	font-weight: normal;
+}
+.Article .Body h3 {
+	font-size: 100%;
+	color: #009999;
+	font-weight: normal;
+	letter-spacing: 0.15em;
+	margin-top: 1.5em;
+	margin-bottom: 0.2em;
+}
+.Article .Body h4 {
+	font-size: 100%;
+	color: #009999;
+	font-weight: normal;
+	letter-spacing: 0.1em;
+	margin-top: 1.5em;
+	margin-bottom: 0.2em;
+}
+.Article .Body p {
+	margin-top: 0px;
+	margin-bottom: 8px;
+	margin-left: 12px;
+}
+.Article .Body ol ,
+.Article .Body ul {
+	font-size: 12px;
+	line-height: 160%;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	margin-left: 5em;
+}
+/* --------------------------------------------------------- 文章內的資料表格 */
+
+.Article .Body table {
+	font-size: 100%;
+	line-height:150%;
+	border-collapse:collapse;
+	border: 2px solid #CCCCCC;
+	width: 90%;
+	margin-top: 20px;
+	margin-bottom: 15px;
+}
+.Article .Body table caption {
+	font-size: 120%;
+	padding-bottom: 5px;
+}
+.Article .Body table th {
+	font-weight: normal;
+	padding: 3px 6px;
+	border-right: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+	background-color: #36b6cf;
+	text-align: left;
+	vertical-align: top;
+	color: #FFFFFF;
+}
+.Article .Body table td {
+	vertical-align: top;
+	padding: 3px 6px;
+	border-right: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+}
+.Relation {
+	margin-right: 30px;
+}
+.Relation h3 {
+	font-size: 100%;
+	color: #BD5F00;
+	font-weight: normal;
+	letter-spacing: 0.15em;
+	margin-top: 1.5em;
+	margin-bottom: 0.2em;
+	padding-bottom: 2px;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #999999;
+}
+.Relation ol {
+	margin: 0px 0px 0px 40px;
+}
+.Relation ol li {
+	margin: 8px 0px 0px;
+}
+.Relation ol li .Title a {
+	font-size: 100%;
+	padding-bottom: 5px;
+}
+.Relation ol li .Brief {
+	display: block;
+	margin-top: 5px;
+	font-size: 80%;
+	line-height: 135%;
+}

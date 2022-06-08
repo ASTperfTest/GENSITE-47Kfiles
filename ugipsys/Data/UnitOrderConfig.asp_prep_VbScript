@@ -1,0 +1,23 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  alert("Cx_0dummy")
+  document.location.href="bulletinlist.asp?language=Cx_0dummy&datatype=Cx_0dummy&catsql=Cx_0dummy"
+
+ 

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt"
+	xmlns:user="urn:user-namespace-here" version="1.0">
+	<xsl:output method="html" encoding="utf-8" omit-xml-declaration="yes" indent="yes" standalone="yes" />
+   <xsl:include href="hySearch.xsl" />
+	<xsl:template match="hpMain">
+		<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-TW">
+			<head>
+				<title>GIP</title>
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				<link href="xslGIP/style1/css/home.css" rel="stylesheet" type="text/css" />
+			</head>
+			<body>
+				<!-- 保險新知／最新消息／重要公告 -->
+				<div class="Main">
+					<div class="News">
+						<xsl:apply-templates select="MainArticle" />
+						<BR />
+						<xsl:apply-templates select="AttachmentList" />
+					</div>
+				</div>
+			</body>
+		</html>
+	</xsl:template>
+	<xsl:template match="xPath">
+		<!--  路徑連結  -->
+		<a href="mp.asp">首頁</a>
+		<xsl:for-each select="xPathNode">
+			<img src="xslGIP/style1/images/arrow_path.gif" alt=" " />
+			<a>
+				<xsl:attribute name="href">np.asp?ctNode=<xsl:value-of select="@xNode" /></xsl:attribute>
+				<xsl:value-of select="@Title" />
+			</a>
+		</xsl:for-each>
+		<!--xsl:value-of select="//xPath/UnitName" / -->
+	</xsl:template>
+	<xsl:template match="MainArticle">
+		<!--  <div class="News"> -->
+		<div class="Path">
+			<xsl:apply-templates select="//xPath" />
+		</div>
+		<div class="Head">
+			<xsl:value-of select="//xPath/UnitName" />
+		</div>
+		<div class="Body">
+			<h1>
+				<xsl:value-of select="Caption" />
+			</h1>
+			<xsl:if test="xImgFile">
+				<img hspace="10" vspace="10" align="left">
+					<xsl:attribute name="src">
+						<xsl:value-of select="xImgFile" />
+					</xsl:attribute>
+					<xsl:attribute name="alt">
+						<xsl:value-of select="Caption" />
+					</xsl:attribute>
+				</img>
+			</xsl:if>
+			<xsl:value-of disable-output-escaping="yes" select="Content" />
+		</div>
+		<!--</div>-->
+	</xsl:template>
+	<xsl:template match="AttachmentList">
+		<div id="attachmenu">附件列表</div>
+		<div id="attachlist">
+			<ol>
+				<xsl:for-each select="Attachment">
+					<xsl:apply-templates select="." />
+				</xsl:for-each>
+			</ol>
+		</div>
+	</xsl:template>
+	<xsl:template match="Attachment">
+		<li>
+			<a target="_nwGIP">
+				<xsl:attribute name="href">
+					<xsl:value-of select="URL" />
+				</xsl:attribute>
+				<xsl:attribute name="title">
+					<xsl:value-of select="Caption" />
+				</xsl:attribute>
+				<xsl:value-of select="Caption" />
+			</a>
+		</li>
+	</xsl:template>
+	<xsl:template match="RelatedList">
+		<div class="RelArtical">
+			<div class="Head">相關文章</div>
+			<div class="Body">
+				<ul>
+					<xsl:for-each select="RelatedRef">
+						<xsl:apply-templates select="." />
+					</xsl:for-each>
+				</ul>
+			</div>
+		</div>
+	</xsl:template>
+	<xsl:template match="RelatedRef">
+		<li>
+			<a>
+				<xsl:attribute name="href">
+					<xsl:value-of select="URL" />
+				</xsl:attribute>
+				<xsl:attribute name="title">
+					<xsl:value-of select="keyWeights" />
+				</xsl:attribute>
+				<xsl:value-of select="Caption" />
+			</a>
+		</li>
+	</xsl:template>
+</xsl:stylesheet>

@@ -1,0 +1,115 @@
+﻿
+   
+on error resume next
+response.expires = 0 
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+ response.buffer = true
+ 
+ if session("memid") <> "" then
+
+  if request("account") <> "" and request("passwd1") <> "" and request("email") <> "" then 
+
+   '---vincent:判斷傳入的會員帳密是否正確---
+   set rs = conn.execute("select * from member where account = " & pkstr( request("account"), "") & " and passwd = " & pkstr(request("passwd1"), "") & " ")
+  
+   if rs.eof then
+    '---傳入帳密錯誤,導回首頁---
+    response.write "<script>alert('原密碼輸入錯誤!!');history.back();</script>"
+   
+   else
+    '---傳入帳密正確---
+   
+    '---判斷是否有填寫出生年---
+    if request("birthyear") <> "" then
+     dim xbirtmm
+     dim xbirtdd
+     dim xbirthday
+     if request("birthmonth") <= 9 then 
+      xbirtmm = "0" & request("birthmonth")
+     else
+      xbirtmm = request("birthmonth")
+     end if
+    
+     if request("birthday") <= 9 then 
+      xbirtdd = "0" & request("birthday")
+     else
+      xbirtdd = request("birthday")
+     end if   
+     xbirthday = pkstr(request("birthyear") & xbirtmm & xbirtdd, "")
+    else
+     xbirthday = pkstr("", "")
+    end if
+   
+    '---判斷actor---
+
+    dim account, passwd, nickname, sex, addr, zip, phone, home_ext, mobile, fax, email
+    dim actor, member_org, com_tel, com_ext, ptitle
+       
+    account = pkstr(request("account"), "")
+    if request("passwd2") <> "" then
+     passwd = pkstr(request("passwd2"), "")
+    else
+     passwd = pkstr(request("passwd1"), "")
+    end if
+    nickname = pkstr(request("nickname"), "")
+    sex = pkstr(request("sex"), "")
+    addr = pkstr(request("addr"), "")
+    zip = pkstr(request("zip"), "")
+    phone = pkstr(request("phone"), "")
+    home_ext = pkstr(request("home_ext"), "")
+    mobile = pkstr(request("mobile"), "")
+    fax = pkstr(request("fax"), "")
+    email = pkstr(request("email"), "")
+       
+    if request("actor") = "1" or request("actor") = "2" or request("actor") = "3" then
+        
+     actor = pkstr(request("actor"), "")
+     member_org = pkstr(request("member_org"), "")
+     com_tel = pkstr(request("com_tel"), "")
+     com_ext = pkstr(request("com_ext"), "")
+     ptitle = pkstr(request("ptitle"), "")
+     
+     sql = "update member set passwd = " & passwd & ", nickname = " & nickname & ", birthday = " & xbirthday & ", " & _
+        "sex = " & sex & ", homeaddr = " & addr & ", zip = " & zip & ", phone = " & phone & ", home_ext = " & home_ext & ", " & _
+        "mobile = " & mobile & ", fax = " & fax & ", email = " & email & ", actor = " & actor & ", member_org = " & member_org & ", " & _
+        "com_tel = " & com_tel & ", com_ext = " & com_ext & ", ptitle = " & ptitle & " where account = " & account 
+    else
+    
+     sql = "update member set passwd = " & passwd & ", nickname = " & nickname & ", birthday = " & xbirthday & ", " & _
+       "sex = " & sex & ", homeaddr = " & addr & ", zip = " & zip & ", phone = " & phone & ", home_ext = " & home_ext & ", " & _
+       "mobile = " & mobile & ", fax = " & fax & ", email = " & email & " where account = " & account 
+    end if
+            
+    'response.write(sql)
+    conn.execute(sql)
+    
+    '訂閱電子報處理
+    epapercheck = request("epapercheck")
+    if epapercheck = "1" then
+     checksql = "select * from epaper where email = "& email
+     set check_epaper = conn.execute(checksql)
+     if check_epaper.eof then
+      sql1 = "insert into epaper (email,createtime,ctrootid) values ("&email&", getdate(),'21')"
+      conn.execute(sql1)
+     end if
+    else
+     sql2 = "delete from epaper where email = "& email
+     conn.execute(sql2)
+    end if
+    '訂閱電子報處理end
+   
+    response.write "<script>alert('修改個人資料成功');window.location.href='" & session("myurl") & "';</script>"   
+   end if
+  else
+   response.write "<script>alert('請輸入正確資料!!');history.back();</script>"
+  end if
+   
+ else
+  response.redirect "../mp.asp?mp=1"
+ end if
+  
+ 

@@ -1,0 +1,910 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+htprogcode="newmember"
+htprogprefix = "newmember"
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_newmembermail_1426012861()
+   CxMethod_ASP_checkgipapconfig_594848678()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+ dim id
+ id = trim(request.querystring("account"))
+ 
+ gardenexpert_sql = "select * from gardening_expert where  account= "& "'"  & id & "'"
+ set gardenexpert_rsreg = conn.execute(gardenexpert_sql)
+ if not gardenexpert_rsreg.eof then
+  gardenexpert_intro = gardenexpert_rsreg("introduction")
+  gardenexpert_order = gardenexpert_rsreg("sort_order")
+ else
+  gardenexpert_intro = ""
+  gardenexpert_order = ""
+ end if
+ 
+ 
+ 
+
+
+ if request.querystring("status")="suspension" then   
+        sql = ""
+        sql = sql & vbcrlf & "declare @accountid varchar(50)"
+        sql = sql & vbcrlf & "set @accountid = '" & id & "'"
+        sql = sql & vbcrlf & ""
+        sql = sql & vbcrlf & "declare @inviterid varchar(50)"
+        sql = sql & vbcrlf & "declare @kpiaddedsno int"
+        sql = sql & vbcrlf & "declare @inviter_kpipointe int"
+        sql = sql & vbcrlf & ""
+        sql = sql & vbcrlf & "if exists (select * from member where account=@accountid and [status]='y')"
+        sql = sql & vbcrlf & "begin"
+        sql = sql & vbcrlf & " begin tran"
+        sql = sql & vbcrlf & "  select "
+        sql = sql & vbcrlf & "    @inviterid=invitefriends_head.account"
+        sql = sql & vbcrlf & "   ,@kpiaddedsno=invitefriends_detail.kpiaddedsno"
+        sql = sql & vbcrlf & "   ,@inviter_kpipointe=inviter_kpipointe"
+        sql = sql & vbcrlf & "  from invitefriends_detail "
+        sql = sql & vbcrlf & "  inner join invitefriends_head on invitefriends_head.invitationcode=invitefriends_detail.invitationcode"
+        sql = sql & vbcrlf & "  where inviteaccount = @accountid"
+        sql = sql & vbcrlf & "  and isactive = 1"
+        sql = sql & vbcrlf & ""
+        sql = sql & vbcrlf & "  --kpi扣分"
+        sql = sql & vbcrlf & "  update membergradelogin"
+        sql = sql & vbcrlf & "   set logininvite = (logininvite-@inviter_kpipointe)"
+        sql = sql & vbcrlf & "  from membergradelogin "
+        sql = sql & vbcrlf & "  where memberid=@inviterid "
+        sql = sql & vbcrlf & "  and sno = @kpiaddedsno"
+        sql = sql & vbcrlf & "  and year(logindate) = year(getdate()) --同年度的扣分，跨年度不予以追究(技正)"
+        sql = sql & vbcrlf & ""
+        sql = sql & vbcrlf & "  if (@@rowcount>0)"
+        sql = sql & vbcrlf & "  begin   "
+        sql = sql & vbcrlf & "   --標記停權(同年度才標記)"
+        sql = sql & vbcrlf & "   update invitefriends_detail "
+        sql = sql & vbcrlf & "    set isactive = 9"
+        sql = sql & vbcrlf & "   from invitefriends_detail "
+        sql = sql & vbcrlf & "   where inviteaccount = @accountid and isactive = 1   "
+        sql = sql & vbcrlf & "  end"
+        sql = sql & vbcrlf & "  "
+        sql = sql & vbcrlf & "  update member set status = 'n' where account=@accountid"
+        sql = sql & vbcrlf & " commit"
+        sql = sql & vbcrlf & "end"      
+  conn.execute(sql)
+ end if 
+
+ if request.querystring("status")="recoverright" then
+        sql = ""
+        sql = sql & vbcrlf & "declare @accountid varchar(50)"
+        sql = sql & vbcrlf & "set @accountid = '" & id & "'"
+        sql = sql & vbcrlf & ""
+        sql = sql & vbcrlf & "declare @inviterid varchar(50)"
+        sql = sql & vbcrlf & "declare @kpiaddedsno int"
+        sql = sql & vbcrlf & "declare @inviter_kpipointe int"
+        sql = sql & vbcrlf & ""
+        sql = sql & vbcrlf & "if exists (select * from member where account=@accountid and [status]!='y')"
+        sql = sql & vbcrlf & "begin"
+        sql = sql & vbcrlf & " begin tran"
+        sql = sql & vbcrlf & "  select "
+        sql = sql & vbcrlf & "    @inviterid=invitefriends_head.account"
+        sql = sql & vbcrlf & "   ,@kpiaddedsno=invitefriends_detail.kpiaddedsno"
+        sql = sql & vbcrlf & "   ,@inviter_kpipointe=inviter_kpipointe"
+        sql = sql & vbcrlf & "  from invitefriends_detail "
+        sql = sql & vbcrlf & "  inner join invitefriends_head on invitefriends_head.invitationcode=invitefriends_detail.invitationcode"
+        sql = sql & vbcrlf & "  where inviteaccount = @accountid"
+        sql = sql & vbcrlf & "  and isactive = 9"
+        sql = sql & vbcrlf & ""
+        sql = sql & vbcrlf & "  --kpi加分"
+        sql = sql & vbcrlf & "  update membergradelogin"
+        sql = sql & vbcrlf & "   set logininvite = (logininvite+@inviter_kpipointe)"
+        sql = sql & vbcrlf & "  from membergradelogin "
+        sql = sql & vbcrlf & "  where memberid=@inviterid "
+        sql = sql & vbcrlf & "  and sno = @kpiaddedsno  "
+        sql = sql & vbcrlf & ""
+        sql = sql & vbcrlf & "  if (@@rowcount>0)"
+        sql = sql & vbcrlf & "  begin      "
+        sql = sql & vbcrlf & "   update invitefriends_detail "
+        sql = sql & vbcrlf & "    set isactive = 1"
+        sql = sql & vbcrlf & "   from invitefriends_detail "
+        sql = sql & vbcrlf & "   where inviteaccount = @accountid and isactive = 9"
+        sql = sql & vbcrlf & "  end"
+        sql = sql & vbcrlf & "  "
+        sql = sql & vbcrlf & "  update member set status = 'y' where account=@accountid"
+        sql = sql & vbcrlf & " commit"
+        sql = sql & vbcrlf & "end"       
+  conn.execute(sql)
+ end if 
+
+ if request.querystring("scholar") = "pass" then
+  sql = "update member set scholarvalidate = 'y', email = '" & request("email") & "' where account = '" & id & "'"
+  conn.execute(sql)
+  dim myname, myemail
+  sql = "select realname, email from member where account = '" & id & "'"
+  set rs = conn.execute(sql)
+  if not rs.eof then
+   myname = rs("realname")
+   myemail = rs("email")
+  end if
+  rs.close
+  set rs = nothing
+  if trim(myemail) <> "" then
+   epapertitle = "農業知識入口網學者會員審核狀況通知"
+
+   body = "親愛的 " & myname & " 您好:<br/><br/>" & vbcrlf & vbcrlf
+   body = body & "感謝您申請「農業知識入口網」的學者會員。<br/>" & vbcrlf
+   body = body & "「農業知識入口網」""通過""您的學者會員申請。<br/>"& vbcrlf
+   body = body & "有了您的參與將使得這個農業知識平台更理想更茁壯。我們熱切期盼您提供寶貴的意見與建議。<br/>" & vbcrlf
+   body = body & "謝謝!<br/>" & vbcrlf
+   body = body & "                                      敬祝平安<br/>" & vbcrlf
+   body = body & "                                                系統管理員 敬上<br/>" & vbcrlf
+
+   's_email = "taft_km@mail.coa.gov.tw"
+   s_email = """"&getgipapconfigtext("emailfromname")&""" <"&getgipapconfigtext("emailfrom")&">"
+   r_email = myemail
+  
+   call send_email(s_email,r_email,epapertitle,body)
+  end if
+ end if 
+ 
+ if request.querystring("scholar") = "notpass" then
+  sql = "update member set scholarvalidate = 'n', email = '" & request("email") & "' where account = '" & id & "'"
+  conn.execute(sql)
+  sql = "select realname, email from member where account = '" & id & "'"
+  set rs = conn.execute(sql)
+  if not rs.eof then
+   myname = rs("realname")
+   myemail = rs("email")
+  end if
+  rs.close
+  set rs = nothing
+  if trim(myemail) <> "" then
+   epapertitle = "農業知識入口網學者會員審核狀況通知"
+
+   body = "親愛的 " & myname & " 您好:<br/><br/>" & vbcrlf & vbcrlf
+   body = body & "感謝您申請「農業知識入口網」的學者會員。<br/>" & vbcrlf
+   body = body & "「農業知識入口網」""不通過""您的學者會員申請。<br/>"& vbcrlf
+   body = body & "有了您的參與將使得這個農業知識平台更理想更茁壯。我們熱切期盼您提供寶貴的意見與建議。<br/>" & vbcrlf
+   body = body & "謝謝!<br/>" & vbcrlf
+   body = body & "                                      敬祝平安<br/>" & vbcrlf
+   body = body & "                                                系統管理員 敬上<br/>" & vbcrlf
+
+   's_email = "taft_km@mail.coa.gov.tw"
+   s_email = """"&getgipapconfigtext("emailfromname")&""" <"&getgipapconfigtext("emailfrom")&">"
+   r_email = myemail
+  
+   call send_email(s_email,r_email,epapertitle,body)
+  end if
+ end if 
+
+
+ 
+ 
+ 
+ sql = "select * from member where  account= "& "'"  & id & "'"
+ set rsreg = conn.execute(sql)
+ 
+ '檢查有沒有訂閱電子報
+ sqlepaper = "select * from epaper where email ='"& rsreg("email") &"'"
+ set rsepaper = conn.execute(sqlepaper)
+ if not rsepaper.eof then
+  checkmail = 1
+ else
+  checkmail = 0
+ end if 
+ '檢查有沒有訂閱電子報end
+ 
+ 
+ 
+ '檢查有沒有開啟動態游標
+ if rsreg("showcursoricon") = 1 then
+  checkcursor = 1
+ else
+  checkcursor = 0
+ end if 
+ '檢查有沒有開啟動態游標end
+ 
+ 
+ '備註欄
+ if len(rsreg("remark")) > 0 then
+  remark = rsreg("remark")
+ else
+  remark = ""
+ end if
+ 
+ 
+ 
+  set xup = server.createobject("tabs.upload")
+   
+  dim test : test = "" 
+   
+  if rsreg("id_type2")="1" and rsreg("id_type1")="1" then
+  test = "2"
+  else
+    test = "1"
+  end if
+   
+ if  rsreg.eof then
+      response.write "<script>alert('找不到資料');history.back();</script>"
+      response.end
+ else
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   if test = "2" then 
+
+   else test="1" 
+
+   end if 
+
+
+
+
+                                                         =id
+
+
+
+
+                                                                                         =trim(rsreg("account")):            =request.querystring("nowpage"):             =request.querystring("pagesize"):         =request.querystring("from")
+                                              =rsreg("status")
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                               =trim(rsreg("account"))
+
+
+
+
+                                                                                                        =trim(rsreg("realname"))
+
+
+
+                                                                                      =rsreg("nickname")
+
+
+
+                                                                                                =trim(rsreg("passwd"))
+
+
+
+
+
+                                                                                                      =trim(rsreg("passwd"))
+
+
+
+                                                                                                  =rsreg("id"):                           =rsreg("id")
+
+
+
+                                                                                                                                  =rsreg("member_org")
+
+
+
+
+                                                                                                         =rsreg("com_tel")
+
+
+                                                                                                                      =rsreg("com_ext")
+
+
+
+
+                                                                                                                             =rsreg("ptitle")
+
+
+
+
+   
+dim birthyear : birthyear = ""
+if not isnull( rsreg("birthday") ) then 
+ birthyear = mid(rsreg("birthday"),1,4)
+end if
+dim birthmonth : birthmonth =""
+if not isnull( rsreg("birthday") ) then 
+ birthmonth = mid(rsreg("birthday"),5,2)
+end if
+dim birthdaytext : birthdaytext =""
+if not isnull( rsreg("birthday") ) then 
+ birthdaytext = mid(rsreg("birthday"),7,2)
+end if
+
+
+                                                           =birthyear
+
+
+                        if birthmonth=""   then :            end if
+                     if birthmonth="01" then :            end if
+                     if birthmonth="02" then :            end if
+                     if birthmonth="03" then :            end if
+                     if birthmonth="04" then :            end if
+                     if birthmonth="05" then :            end if
+                     if birthmonth="06" then :            end if
+                     if birthmonth="07" then :           end if
+                     if birthmonth="08" then :            end if
+                     if birthmonth="09" then :           end if
+                     if birthmonth="10" then :            end if
+                     if birthmonth="11" then :           end if
+                     if birthmonth="12" then :             end if
+
+
+
+                      if birthmonth=""     then:           end if
+                      if birthdaytext="01" then:           end if
+                      if birthdaytext="02" then:           end if
+                      if birthdaytext="03" then:           end if
+                      if birthdaytext="04" then:           end if
+                      if birthdaytext="05" then:           end if
+                      if birthdaytext="06" then:           end if
+                      if birthdaytext="07" then:           end if
+                      if birthdaytext="08" then:           end if
+                      if birthdaytext="09" then:           end if
+                      if birthdaytext="10" then:           end if
+                      if birthdaytext="11" then:           end if
+                      if birthdaytext="12" then:           end if
+                      if birthdaytext="13" then:           end if
+                      if birthdaytext="14" then:           end if
+                      if birthdaytext="15" then:           end if
+                      if birthdaytext="16" then:           end if
+                      if birthdaytext="17" then:           end if
+                      if birthdaytext="18" then:           end if
+                      if birthdaytext="19" then:           end if
+                      if birthdaytext="20" then:           end if
+                      if birthdaytext="21" then:           end if
+                      if birthdaytext="22" then:           end if
+                      if birthdaytext="23" then:           end if
+                      if birthdaytext="24" then:           end if
+                      if birthdaytext="25" then:           end if
+                      if birthdaytext="26" then:           end if
+                      if birthdaytext="27" then:           end if
+                      if birthdaytext="28" then:           end if
+                      if birthdaytext="29" then:           end if
+                      if birthdaytext="30" then:           end if
+                      if birthdaytext="31" then:           end if
+
+
+
+
+
+
+
+                                                                     if trim(rsreg("sex"))="1" then:            end if
+
+                                                            if trim(rsreg("sex"))="0" then:            end if
+
+
+
+
+
+
+
+                                                       =trim(rsreg("homeaddr"))
+
+                                                                        =trim(rsreg("zip"))
+
+
+
+
+                                                           =trim(rsreg("phone"))
+
+                                                                                =trim(rsreg("home_ext"))
+
+
+
+                                                                                    =trim(rsreg("mobile"))
+
+
+
+                                                                                              =trim(rsreg("fax"))
+
+
+
+                                                                                   =trim(rsreg("email"))
+
+
+
+
+
+      if rsreg("mcode") = "y" then 
+
+      else 
+
+      end if 
+             =rsreg("validcount") 
+
+
+
+
+
+                                                                                    if checkmail = 1 then:            end if
+
+                                                                           if checkcursor = 1 then:            end if
+
+
+
+
+
+                                                                                     =remark
+
+
+
+                                                                                                                                           =trim(rsreg("kmcat"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     if trim(rsreg("uploadright"))="" then :            end if
+                                     if trim(rsreg("uploadright"))="y" then :            end if
+                                     if trim(rsreg("uploadright"))="n" then :            end if
+
+                                                                                        =rsreg("uploadpiccount")
+
+
+
+
+
+
+           
+         if rsreg("scholarvalidate")="z" then 
+          response.write "(無)"
+         elseif rsreg("scholarvalidate") = "w" then 
+          response.write "(待審核)"
+         elseif rsreg("scholarvalidate") = "y" then 
+          response.write "(通過)"
+         elseif rsreg("scholarvalidate") = "n" then 
+          response.write "(不通過)"
+         end if
+        
+
+          if rsreg("scholarvalidate") = "w" or rsreg("scholarvalidate") = "y" or rsreg("scholarvalidate") = "n" then 
+
+
+          end if 
+
+
+
+      if rsreg("scholarvalidate") = "z" then
+
+
+
+
+
+
+      end if
+
+
+
+
+
+
+
+
+
+                                                             if trim(rsreg("id_type3"))="1" then :               end if
+
+                                                                         if not gardenexpert_rsreg.eof then :              end if
+
+
+
+
+
+
+                                                                 =rsreg("keyword")
+
+
+
+
+
+
+
+
+
+
+       if rsreg("photo")<>"" then
+                                           =rsreg("photo")
+       end if 
+
+
+
+                                                                                           =gardenexpert_intro
+
+
+
+                                                                     =gardenexpert_order
+
+      if gardenexpert_rsreg.eof then 
+
+
+
+
+
+
+
+     end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              
+                             idx=0                             
+                             invitationstr = ""
+                             invitationstr = invitationstr & vbcrlf & "select "
+                             invitationstr = invitationstr & vbcrlf & "  m.nickname"
+                             invitationstr = invitationstr & vbcrlf & " ,m.account "
+                             invitationstr = invitationstr & vbcrlf & " ,m.createtime "
+                             invitationstr = invitationstr & vbcrlf & " ,i.isactive "
+                             invitationstr = invitationstr & vbcrlf & " from    member as m "
+                             invitationstr = invitationstr & vbcrlf & " inner join invitefriends_detail as i on m.account = i.inviteaccount "
+                             invitationstr = invitationstr & vbcrlf & " where  i.invitationcode = (select invitationcode from invitefriends_head where account='" & id & "')"
+                             
+                             set rs = conn.execute(invitationstr)
+                             if rs.eof then
+                                response.write "<tr>"
+                                response.write "<td colspan='10'>尚無邀請好友</td>"
+                                response.write "</tr>"                             
+                             end if
+                             do while not rs.eof
+                                idx = idx+1
+                                response.write "<tr>"
+                                response.write "<td>" & idx & "</td>"
+                                response.write "<td>" & rs("account") & "</td>"
+                                response.write "<td>" & rs("nickname") & "</td>"
+                                response.write "<td>" & rs("createtime") & "</td>"
+                                
+                                select case cstr(rs("isactive"))
+                                    case "0"
+                                        response.write "<td>否</td>"
+                                    case "1"
+                                        response.write "<td>是</td>"
+                                    case "9"
+                                        response.write "<td>停權</td>"
+                                end select
+                                
+                                response.write "</tr>"
+                                rs.movenext
+                             loop
+                            
+
+
+
+
+              
+
+
+        if rsreg("status")="y"  then
+
+       else 
+
+             end if 
+
+
+
+
+
+
+
+
+
+
+
+
+    end if
+
+
+
+
+                                                      =id:            =request("nowpage"):             =request("pagesize")
+
+
+
+
+                                                            =request("nowpage"):             =request("pagesize")
+
+
+                                                      =request("nowpage"):             =request("pagesize")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      =request("account"):                              =request("nowpage"):             =request("pagesize")
+
+
+
+
+
+
+
+
+
+
+
+                                                       =request("account"):                         =request("nowpage"):             =request("pagesize")
+
+
+
+
+
+
+
+
+
+
+
+
+                                                       =request("account"):                            =request("nowpage"):             =request("pagesize")
+
+
+
+
+                                                      =request("account"):                                =request("nowpage"):             =request("pagesize") 

@@ -1,0 +1,267 @@
+﻿: @ codepage = 65001 
+   
+ response.cachecontrol = "no-cache"
+ response.addheader "pragma", "no-cache"
+ response.expires = -1 
+
+
+   CxMethod_ASP_dbfunc_874801204()
+   CxMethod_ASP_checkgipconfig_1465664730()
+   CxMethod_ASP_web_sqlinjection_176928617()
+
+  
+
+'// purpose: decode a string
+'// ex: ret = unicodedecode(inputstring, publickey)
+function unicodedecode(byval inputstring, byval publickey)
+    dim ipos
+    dim returnvalue
+    dim currentchar
+
+    returnvalue = ""
+    currentchar = ""
+
+    if inputstring <> "" then
+        for ipos = 1 to len(inputstring)
+            currentchar = mid(inputstring,ipos,1)
+            'response.write "<br>" & ipos & ":" & currentchar & " --> " & uncoddecodechar(currentchar, publickey)
+            returnvalue = returnvalue & uncoddecodechar(currentchar, publickey)
+        next
+    end if
+
+    unicodedecode = returnvalue
+end function
+
+'// purpose: decode a char
+'// ex: ret = unicodedecodechar(inputchar, publickey)
+function uncoddecodechar(byval inputchar, byval publickey)
+    dim ipos
+    dim returnvalue
+    dim currentbyte
+
+    returnvalue = ""
+    currentbyte = ""
+
+    if inputchar <> "" then
+        for ipos = 1 to lenb(inputchar)
+            currentbyte = midb(inputchar,ipos,1)
+            if ipos=1 then
+                currentbyte = chrb(ascb(currentbyte)-publickey)
+            end if
+            returnvalue = returnvalue & currentbyte
+        next
+    end if
+    
+    uncoddecodechar = returnvalue
+end function
+
+'--start-- 2011/8/25modify by vivian:取得web.config appsettingkey
+function getappsetting(strappsettingkey)
+  dim xmlwebconfig
+  dim nodeappsettings
+  dim nodechildnode
+  dim strappsettingvalue
+
+  set xmlwebconfig = server.createobject("msxml2.domdocument.6.0")
+  xmlwebconfig.async = false
+  xmlwebconfig.load(server.mappath("/web.config"))
+
+  if xmlwebconfig.parseerror.errorcode = 0 then
+    set nodeappsettings = xmlwebconfig.selectsinglenode("//configuration/appsettings")
+    for each nodechildnode in nodeappsettings.childnodes 
+      if nodechildnode.text = "" then
+          if nodechildnode.getattribute("key") = strappsettingkey then
+            strappsettingvalue = nodechildnode.getattribute("value")
+            exit for
+          end if
+      end if  
+    next
+    set nodeappsettings = nothing
+  end if
+  set xmlwebconfig = nothing
+
+  getappsetting = strappsettingvalue
+end function
+'--end-- 2011/8/25modify by vivian
+
+ set conn = server.createobject("adodb.connection")
+ conn.open session("odbcdsn")
+ 
+ if request.form("hidguid") <> "" then
+     sqlcom = "select userid, password " _
+         & "from infouser " _
+         & "inner join sso on infouser.userid = sso.user_id " _
+         & "where sso.guid = '" & request.form("hidguid") & "'" _
+         & "and sso.creation_datetime between dateadd(hh,-2,getdate()) and dateadd(hh,1,getdate()) " 
+     set rs = conn.execute(sqlcom)
+     if not rs.eof then
+         username = rs("userid")
+         password = rs("password")
+     else
+
+
+
+
+
+
+
+
+       
+     end if
+ else 
+     username = request.form("tfx_username")
+     password = request.form("tfx_password")
+     
+     publickey = 18
+     username = unicodedecode(username,publickey)
+     password = unicodedecode(password,publickey)      
+ end if
+
+    '--start-- 2011/8/25modify by vivian:sso網絡系統帳號登入主題館
+    sqlcom = "select * " _
+        & "from infouser " _
+        & " where userid=" & pkstrwithsripthtml(username,"")  
+    set rs = conn.execute(sqlcom)
+    if rs.eof then    
+        dim subject_username
+        url = getappsetting("kmintra") + "/coa/login.aspx?sysuserid="+username+"&syspassword="+password
+        set xmlhttp = createobject("msxml2.serverxmlhttp") 
+        xmlhttp.open "get", url, false 
+        xmlhttp.send "" 
+        if instr(xmlhttp.responsetext,":success") <> 0 then
+            subject_username = left(xmlhttp.responsetext, instr(xmlhttp.responsetext,":success")-1)
+            set xmlhttp = nothing 
+            
+            if subject_username <> "fail" then
+                sqlcom = "select userid, password " _
+                & "from infouser " _
+                & "where userid = '" & subject_username & "'" 
+                set rs = conn.execute(sqlcom)
+                if not rs.eof then
+                    username = rs("userid")
+                    password = rs("password")
+                end if
+            end if
+        end if
+ end if
+ '--end-- 2011/8/25modify by vivian
+ 
+ if session("dgbas_uid") <> "" then
+  sqlcom = "select i.*, d.tdatacat " _
+   & " from infouser as i left join dept as d on i.deptid=d.deptid " _
+   & " where userid=" & pkstrwithsripthtml(session("dgbas_uid"),"")
+ else
+  sqlcom = "select i.*, d.tdatacat " _
+   & " from infouser as i left join dept as d on i.deptid=d.deptid " _
+   & " where userid=" & pkstrwithsripthtml(username,"") _
+   & " and password=" & pkstrwithsripthtml(password,"")
+ end if 
+
+ set rs = conn.execute(sqlcom)
+ if rs.eof then
+
+
+
+
+
+
+
+
+  
+ else
+ 
+   if checkgipconfig("useripcheck") then
+   
+   if isnumeric(rs("netip1")) then
+     raip = split(request.servervariables("remote_addr"),".")
+    ipwrong = false
+    for xi = 1 to ubound(raip) + 1
+      if isnumeric( rs("netmask" & xi) ) then
+        netmask = cint( rs("netmask" & xi) )
+       else
+         netmask = 255
+       end if
+     'response.write raip(xi-1) & ", rip=" & rs("netip"&xi) & ", mask=" & netmask & "<br>"
+     'response.write (raip(xi-1) and netmask) & "," & (cint(rs("netip"&xi)) and netmask) & "<br>"
+     if (raip(xi-1) and netmask) <> (cint(rs("netip"&xi)) and netmask) then ipwrong = true
+    next
+
+    if ipwrong then
+
+
+
+
+
+
+
+  
+       response.end
+    end if
+   end if
+  end if
+ 
+  if checkgipconfig("userlogfile") then
+ 
+   sql = " insert into userlogininfo(userid,logintime,loginip,act) " & _
+      " values(" & pkstrwithsripthtml(request.form("tfx_username"),"") &  ", " & _
+      " getdate(), '" & request.servervariables("remote_addr") & "', '登入') "
+   sql = " set nocount on;" & sql & "; select @@identity as newid"
+   set rsx = conn.execute(sql)
+   session("loginlogsid") = rsx(0)
+
+  end if
+
+  session("lastvisit")  = rs("lastvisit")
+  session("lastip")   = rs("lastip")
+  session("visitcount") = rs("visitcount")
+  lastvisit = date()
+  visitcount = rs("visitcount") + 1
+  sql = " update infouser set lastvisit = " & pkstr(lastvisit, "") & ", visitcount = " & visitcount & ", " & _
+     " lastip = '" & request.servervariables("remote_addr") & "' where userid = " & pkstrwithsripthtml(rs("userid"), "") & " "
+  
+  conn.execute(sql)
+  
+  session("pwd")     = true
+  session("userid")   = striphtml( rs("userid") )
+  session("username")  = striphtml( rs("username") )
+  session("ugrpid")   = rs("ugrpid")
+  session("deptid")   = rs("deptid")
+  session("tdatacat")  = rs("tdatacat")
+  session("uploadpath") = xpath
+  if isnull(rs("email")) then
+   session("email")   = ""
+  else
+   session("email")   = striphtml( rs("email") )
+  end if
+  
+  
+  xpath = "/public/data/" & trim( rs("uploadpath") ) 
+  if right(xpath,1) <> "/" then xpath = xpath & "/"
+  
+  if checkgipconfig("checkloginpassword") then
+   session("password") = rs("password")
+  end if
+  
+  if checkgipconfig("accountdeny") then
+     if instr(session("ugrpid"), "999") > 0 then
+       session("pwd") = false
+        response.write "<script language=javascript>alert('您沒有權限使用此系統！');history.go(-1);</script>"
+        response.end
+      end if
+    end if
+    
+  if checkgipconfig("eatwebformap") then
+   session("eatwebformap") = trim(rs("eatwebformap") & " ")
+  end if
+
+
+      if instr(session("ugrpid")&",", "htsd,") > 0 then 
+
+
+      else 
+
+      end if 
+
+
+
+   end if  

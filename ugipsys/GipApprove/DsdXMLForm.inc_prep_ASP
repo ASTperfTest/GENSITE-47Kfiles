@@ -1,0 +1,80 @@
+﻿
+
+
+
+   
+ for each param in allmodel2.selectnodes("//fieldlist/field[formlist!='']") 
+        if nulltext(param.selectsinglenode("inputtype"))<>"hidden" and nulltext(param.selectsinglenode("fieldname"))<>"idept" then
+      response.write "<tr><td class=""etablelable"" align=""right"">"
+      if nulltext(param.selectsinglenode("cannull")) = "n" then _
+   response.write "<font color=""red"">*</font>"
+      response.write nulltext(param.selectsinglenode("fieldlabel")) & "</td>"
+      response.write "<td class=""etablecontent"">"
+        end if
+  if formfunction = "edit" and nulltext(param.selectsinglenode("isprimarykey"))="y" then 
+   orginputtype = param.selectsinglenode("inputtype").text
+   param.selectsinglenode("inputtype").text = "readonly"
+   processparamfield param
+   param.selectsinglenode("inputtype").text = orginputtype
+  elseif nulltext(param.selectsinglenode("fieldname"))="fctupublic" then
+   param.selectsinglenode("reflookup").text = "ispublic3"
+   processparamfield param  
+   param.selectsinglenode("reflookup").text = "ispublic"    
+  elseif nulltext(param.selectsinglenode("fieldname"))="idept" then
+      if (htprogright and 64) <> 0 then 
+          response.write "<tr><td class=""etablelable"" align=""right"">"
+          if nulltext(param.selectsinglenode("cannull")) = "n" then _
+    response.write "<span class=""must"">*</span>"
+          response.write nulltext(param.selectsinglenode("fieldlabel")) & "</td>"
+          response.write "<td class=""etablecontent"">"       
+   response.write "<select name=""htx_idept"" size=1>" & vbcrlf 
+   sql="select deptid,deptname from dept where inuse='y' order by kind, deptid"
+   set rss=conn.execute(sql)
+   while not rss.eof
+                    =rss(0):     =rss(1)
+      rss.movenext
+   wend
+   response.write "</select>"        
+   response.write "</td></tr>"        
+      else
+   response.write "<input type=""hidden"" name=""htx_idept"">" & vbcrlf
+      end if       
+  else
+       processparamfield param      
+  end if
+  if session("codeid")<>"7" and nulltext(param.selectsinglenode("fieldname")) = "ximportant" then
+
+
+  
+  end if
+        if nulltext(param.selectsinglenode("fieldname"))="xkeyword" then 
+      response.write "<input type=""button"" value=""自動產生"" class=""cbutton"" onclick=""vbs:keywordmake"">"
+       end if  
+        if nulltext(param.selectsinglenode("inputtype"))<>"hidden" and nulltext(param.selectsinglenode("fieldname"))<>"idept" then
+      response.write "</td></tr>"
+       end if
+ next
+
+
+
+
+
+
+
+
+
+
+
+     if session("codeid")="7" then 
+
+        end if 
+
+
+
+            if (htprogright and 4)<>0 then 
+
+            end if
+
+            if (htprogright and 4)<>0  then 
+
+            end if 

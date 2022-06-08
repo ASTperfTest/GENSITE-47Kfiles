@@ -1,0 +1,51 @@
+﻿: 
+  response.cachecontrol = "no-cache" 
+  response.addheader "pragma", "no-cache" 
+  response.expires = -1  
+  
+  set conn = server.createobject("adodb.connection")
+ conn.open session("odbcdsn")
+ sql="select top 1 * from member where account='" & request("useridno") & "' and passwd='" & request("useremail") & "'"
+  set gamedata=conn.execute(sql)
+  i = 0
+  if not gamedata.eof then
+    count = gamedata("logincount")+1
+    
+    today = year(now()) & "/" & month(now()) & "/" & day(now()) 
+    
+    'sql = "select * from memberflashloginlog where account='" & request("useridno") & "' and logindatetime >= '" & today & "' and logindatetime < dateadd(day, 1, '" & today & "')"
+
+        sql = "select top 1 * from flashgame,cudtgeneric where cudtgeneric.icuitem=flashgame.gicuitem and name = '" & request("useridno") & "' order by rate desc" 
+        
+        set highmoneyrs=conn.execute(sql)
+        
+        highmoney = 0
+        if not highmoneyrs.eof then
+            highmoney = highmoneyrs("money")
+        end if
+
+     sql = "select * from flashgame,cudtgeneric where cudtgeneric.icuitem=flashgame.gicuitem and deditdate= (rtrim(ltrim(str(year(getdate())))) + '/' + rtrim(ltrim(str(month(getdate())))) +  '/' + rtrim(ltrim(str(day(getdate()))))) and name = '" & request("useridno") & "' order by rate desc" 
+    
+    'response.write(sql)
+    set todaylogin=conn.execute(sql)
+    
+    ncount = 0
+    
+     while not todaylogin.eof
+         ncount = ncount + 1
+         todaylogin.movenext
+        wend
+    'response.write sql & ncount
+    if ncount > 3 then
+      response.write("success=true&count=" & count & "&realname=" & gamedata("realname") & "&relogin=true&highmoney=" & highmoney & "&")
+    else    
+      response.write("success=true&count=" & count & "&realname=" & gamedata("realname") & "&relogin=false&highmoney=" & highmoney & "&")
+      conn.execute("update member set logincount=logincount+1 where  account='" & request("useridno") & "' and passwd='" & request("useremail") & "'")
+             conn.execute("insert memberflashloginlog(account) values('" & request("useridno") & "')")
+         end if    
+  else
+    response.write("success=false&")
+  end if
+  
+  set conn = nothing
+ 

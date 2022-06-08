@@ -1,0 +1,205 @@
+﻿
+
+
+
+
+
+        function checkMailAddress() {
+            var txt1 = document.getElementById('Cx_0dummy').value.replace(/^[\s　]+/g, "").replace(/[\s　]+$/g, "");
+            var txt2 = document.getElementById('Cx_0dummy').value.replace(/^[\s　]+/g, "").replace(/[\s　]+$/g, "");
+            var txt3 = document.getElementById('Cx_0dummy').value.replace(/^[\s　]+/g, "").replace(/[\s　]+$/g, "");
+            var txt4 = document.getElementById('Cx_0dummy').value.replace(/^[\s　]+/g, "").replace(/[\s　]+$/g, "");
+            if (txt1 == "" && txt2 == "" && txt3 == "" && txt4 == "") {
+                alert("至少輸入一位好友的信箱");
+                document.getElementById('Cx_0dummy').value = "";
+                document.getElementById('Cx_0dummy').value = "";
+                document.getElementById('Cx_0dummy').value = "";
+                document.getElementById('Cx_0dummy').value = "";
+                event.returnValue = false;
+            }
+
+        }
+        function copyToClipboard(txt) {
+            var copied = false;
+            if (window.clipboardData) {
+                window.clipboardData.clearData();
+                window.clipboardData.setData("Text", txt);
+                copied = true;
+            } else if (navigator.userAgent.indexOf("Opera") != -1) {
+                window.location = txt;
+            } else if (window.netscape) {
+                try {
+                    netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+                } catch (e) {
+                    alert("被瀏覽器拒絕！\n請在瀏覽器地址欄輸入'about:config'並回上頁\n然後將'signed.applets.codebase_principal_support'設置為'true'");
+                }
+                var clip = Components.classes['@mozilla.org/widget/clipboard;1'].createInstance(Components.interfaces.nsIClipboard);
+                if (!clip)
+                    return;
+                var trans = Components.classes['@mozilla.org/widget/transferable;1'].createInstance(Components.interfaces.nsITransferable);
+                if (!trans)
+                    return;
+                trans.addDataFlavor('text/unicode');
+                var str = new Object();
+                var len = new Object();
+                var str = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
+                var copytext = txt;
+                str.data = copytext;
+                trans.setTransferData("text/unicode", str, copytext.length * 2);
+                var clipid = Components.interfaces.nsIClipboard;
+                if (!clip)
+                    return false;
+                clip.setData(trans, null, clipid.kGlobalClipboard);
+                copied = true;
+            }
+            if (copied) alert('已經複製');
+            else alert("使用的瀏覽器不支援文字複製功能!");
+        }
+    <script type='text/javascript'>
+        var sendOK = 'Cx_0dummy';
+        if (sendOK == 'Y') {
+            alert('信送出囉');
+            location.href = '/Member/MemberInvitePage.aspx';
+        }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        var sendOK = 'Cx_0dummy';
+        if (sendOK == 'Y') {
+            alert('信送出囉');
+            location.href = '/Member/MemberInvitePage.aspx';
+        }
+    
+
+
+
+ 

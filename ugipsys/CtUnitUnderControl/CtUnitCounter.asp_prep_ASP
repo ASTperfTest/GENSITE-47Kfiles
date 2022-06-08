@@ -1,0 +1,66 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "uwc" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+
+
+
+  
+ ftypename = "計數單元設定"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  'userid = request("userid")
+  userid = "hyweb"
+
+
+                                              =userid 
+  
+    sqlcom = "select * from ctunit where 1=1 "
+    sqlcom = sqlcom & " and (deptid is null or deptid like n'" & session("deptid") & "%')"
+    sqlcom = sqlcom & " order by ctunitname, ctunitid"
+    set rsunit = conn.execute(sqlcom)
+ while not rsunit.eof
+
+        forumcheck = "<input type=checkbox name='ctunitid' value='" & rsunit("ctunitid") & "' >" & rsunit("ctunitname")
+        
+        sqlcom = "select * from ctunitcount where (userid='"& userid &"')"
+        sqlcom = sqlcom & " and (ctunitid ="& rsunit("ctunitid") &")"
+        set rsuserunit = conn.execute(sqlcom)
+        if not rsuserunit.eof then
+      if cint(rsuserunit("rights")) = 0 then
+      else
+        forumcheck = "<input type=checkbox name='ctunitid' value='" & rsunit("ctunitid") & "' checked>" & rsunit("ctunitname")
+      end if
+        end if
+        response.write "<font style='font-size:80%'>"& forumcheck & "</font><br />"
+  rsunit.movenext
+ wend
+ 

@@ -1,0 +1,344 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function href____1470241313() {window.history.back();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                   function onclick___677116777() {CKBoxSelectAll()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   function onClick____299887866() {SaveItems()}
+                     function onClick___963140216() {ResetForm()}
+
+
+
+
+
+  
+ 
+  function CKBoxSelectAll()
+  {
+   var doc = document.iForm;
+   var flag = false;
+   if( doc.flag.value == "0" ) {
+    for( var i = 0; i < Cx_0dummy; i++ ) {      
+     doc.ckbox[i].checked = true;   
+    }
+    doc.flag.value = "1";
+   }
+   else {
+    for( var i = 0; i < Cx_0dummy; i++ ) {   
+     doc.ckbox[i].checked = false;   
+    }
+    doc.flag.value = "0";
+   }
+  }
+  function ResetForm()
+  {
+   var doc = document.iForm;
+   doc.Items.value = "";
+   doc.action = "epaper_setList.asp?epubid=Cx_0dummy&eptreeid=Cx_0dummy";
+   doc.submit();
+  }
+  function SaveItems()
+  {
+   var doc = document.iForm;
+   var checkitems = "";
+   var uncheckitems = "";
+   
+   for( var i = 0; i < Cx_0dummy; i++ ) {
+    if( doc.ckbox[i].checked ) {
+     checkitems += doc.ckbox[i].value + ";"; 
+    }   
+    else{
+     uncheckitems += doc.ckbox[i].value + ";"; 
+    }    
+   }  
+   AddDelArticle( checkitems, uncheckitems);
+  }
+  function AddDelArticle( checkitems, uncheckitems )
+  {
+   var oxmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+   var httpStr = "../epaper/AddArticle.asp?epubid=Cx_0dummy&check=" + checkitems + "&uncheck=" + uncheckitems;
+   oxmlhttp.open( "GET", httpStr, false );
+    oxmlhttp.send();
+    var oRtn = oxmlhttp.responseText;       
+    if(oRtn == 1) {      
+     alert("編修成功");
+     document.iForm.action = "ePubList.asp?epTreeID=Cx_0dummy";
+     document.iForm.submit();
+    }   
+  }
+ 
+
+
+ 

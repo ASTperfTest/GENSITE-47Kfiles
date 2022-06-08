@@ -1,0 +1,19 @@
+﻿: @ codepage = 65001 
+   
+ response.expires = 0
+   htprogcode = "gc1ap5"
+  catalogueframe = "220,*"
+  session("uploadpath") = request("xpath")
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_xdbutil_1468464061()
+
+
+
+
+
+
+
+
+                  =catalogueframe
+                                                                                               =session("uploadpath") 

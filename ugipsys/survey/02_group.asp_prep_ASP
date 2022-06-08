@@ -1,0 +1,445 @@
+﻿:  CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+ subjectid = request("subjectid")
+ 
+ if subjectid = "" then
+  response.write "<script language='javascript'>history.go(-1);</script>"
+  response.end
+ end if
+ 
+ 
+ sql = "" & _
+  " select m011_subject, m011_bdate, m011_edate, m011_haveprize, m011_notetype from m011 where " & _
+  " m011_subjectid = " & subjectid
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "<script language='javascript'>history.go(-1);</script>"
+  response.end
+ end if
+ notetype = trim(rs("m011_notetype"))
+ 
+ set ts = conn.execute("select count(*) from m014 where m014_subjectid = " & subjectid)
+ if ts(0) = 0 then
+  response.write "<script language='javascript'>alert('目前尚無任何答題資料！');history.go(-1);</script>"
+  response.end
+ end if
+ base_answer_no = ts(0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                               = subjectid 
+  
+ if rs("m011_haveprize") = "1" then
+
+                                                                                              = subjectid 
+                                                                                                 = subjectid 
+  
+ end if
+
+                                                                                                    = subjectid 
+
+
+
+
+                                                                                                         = subjectid 
+
+
+
+                             = datevalue(rs("m011_bdate")) :      = datevalue(rs("m011_edate")) 
+                             = trim(rs("m011_subject")) 
+
+  
+ sql = "select count(*), m014_sex from m014 where m014_subjectid = " & subjectid & " group by m014_sex"
+ set ts = conn.execute(sql)
+ while not ts.eof
+  if ts("m014_sex") = "m" then
+   boy_no = ts(0)
+  else
+   girl_no = ts(0)
+  end if
+  
+  ts.movenext
+ wend
+ 
+ boy_ratio = formatpercent(boy_no / base_answer_no, 1, false)
+ girl_ratio = formatpercent(girl_no / base_answer_no, 1, false)
+
+  
+ if mid(notetype, 3, 1) = "1" then
+
+
+
+
+
+
+
+                                                                   = boy_ratio 
+                            = boy_ratio :    = boy_no 
+
+
+
+                                                                   = girl_ratio 
+                            = girl_ratio :    = girl_no 
+
+
+
+
+
+  
+ end if
+ if mid(notetype, 11, 1) = "1" then
+
+
+
+
+
+  
+ dim eid_str(5)
+ eid_str(1) = "到院住院病患"
+ eid_str(2) = "到院門診病患"
+ eid_str(3) = "病患家屬"
+ eid_str(4) = "社區民眾"
+ eid_str(5) = "其他"
+
+ sql = "select count(*), m014_eid from m014 where m014_subjectid = " & subjectid & " group by m014_eid"
+ set ts = conn.execute(sql)
+ for i = 1 to 5
+  if ts.eof then
+   eid_no = 0
+  else
+   if cint(i) = cint(ts("m014_eid")) then
+    eid_no = ts(0)
+    ts.movenext
+   else
+    eid_no = 0
+   end if
+  end if
+  
+  if eid_no > 0 then
+   eid_ratio = formatpercent(eid_no / base_answer_no, 1, false)
+
+
+                = eid_str(i) 
+                                                                   = eid_ratio 
+                            = eid_ratio :    = eid_no 
+
+  
+  end if
+ next
+
+
+
+
+   
+ end if
+ if mid(notetype, 4, 1) = "1" then
+
+
+
+
+
+  
+ dim age_str(8)
+ age_str(1) = "0到11歲"
+ age_str(2) = "12到17歲"
+ age_str(3) = "18到23歲"
+ age_str(4) = "24到29歲"
+ age_str(5) = "30到39歲"
+ age_str(6) = "40到49歲"
+ age_str(7) = "50到59歲"
+ age_str(8) = "60歲以上"
+
+ sql = "select count(*), m014_age from m014 where m014_subjectid = " & subjectid & " group by m014_age"
+ set ts = conn.execute(sql)
+ for i = 1 to 8
+  if ts.eof then
+   age_no = 0
+  else
+   if cint(i) = cint(ts("m014_age")) then
+    age_no = ts(0)
+    ts.movenext
+   else
+    age_no = 0
+   end if
+  end if
+  
+  if age_no > 0 then
+   age_ratio = formatpercent(age_no / base_answer_no, 1, false)
+
+
+                = age_str(i) 
+                                                                   = age_ratio 
+                            = age_ratio :    = age_no 
+
+  
+  end if
+ next
+
+
+
+
+     
+ end if
+ if mid(notetype, 5, 1) = "1" then
+
+
+
+
+
+       
+ dim city(25)
+ city(1) = "臺北縣"
+ city(2) = "宜蘭縣"
+ city(3) = "桃園縣"
+ city(4) = "新竹縣"
+ city(5) = "苗栗縣"
+ city(6) = "臺中縣"
+ city(7) = "彰化縣"
+ city(8) = "南投縣"
+ city(9) = "雲林縣"
+ city(10) = "嘉義縣"
+ city(11) = "臺南縣"
+ city(12) = "高雄縣"
+ city(13) = "屏東縣"
+ city(14) = "臺東縣"
+ city(15) = "花蓮縣"
+ city(16) = "澎湖縣"
+ city(17) = "基隆市"
+ city(18) = "新竹市"
+ city(19) = "臺中市"
+ city(20) = "嘉義市"
+ city(21) = "臺南市"
+ city(22) = "臺北市"
+ city(23) = "高雄市"
+ city(24) = "金門縣"
+ city(25) = "連江縣"
+ 
+ sql = "select count(*), m014_addrarea from m014 where m014_subjectid = " & subjectid & " group by m014_addrarea"
+ set ts = conn.execute(sql)
+ for i = 1 to 25
+  if ts.eof then
+   city_no = 0
+  else
+   if cint(i) = cint(ts("m014_addrarea")) then
+    city_no = ts(0)
+    ts.movenext
+   else
+    city_no = 0
+   end if
+  end if
+  
+  if city_no > 0 then
+   city_ratio = formatpercent(city_no / base_answer_no, 1, false)
+
+
+                = city(i) 
+                                                                   = city_ratio 
+                            = city_ratio :    = city_no 
+
+  
+  end if
+ next
+
+
+
+
+   
+ end if
+ if mid(notetype, 6, 1) = "1" then
+
+
+
+
+
+       
+ dim family_str(6)
+ family_str(1) = "1人"
+ family_str(2) = "2人"
+ family_str(3) = "3人"
+ family_str(4) = "4人"
+ family_str(5) = "5至8人"
+ family_str(6) = "8人以上"
+ 
+ sql = "select count(*), m014_familymember from m014 where m014_subjectid = " & subjectid & " group by m014_familymember"
+ set ts = conn.execute(sql)
+ for i = 1 to 6
+  if ts.eof then
+   familymember_no = 0
+  else
+   if cint(i) = cint(ts("m014_familymember")) then
+    familymember_no  = ts(0)
+    ts.movenext
+   else
+    familymember_no  = 0
+   end if
+  end if
+  
+  if familymember_no  > 0 then
+   familymember_ratio = formatpercent(familymember_no  / base_answer_no, 1, false)
+
+
+                = family_str(i) 
+                                                                   = familymember_ratio 
+                            = familymember_ratio :    = familymember_no 
+
+  
+  end if
+ next
+
+
+
+
+   
+ end if
+ if mid(notetype, 7, 1) = "1" then
+
+
+
+
+
+  
+ dim money_str(6)
+ money_str(1) = "5000元以下"
+ money_str(2) = "5000到1萬元"
+ money_str(3) = "1萬到3萬元"
+ money_str(4) = "3萬到5萬元"
+ money_str(5) = "5萬到10萬元"
+ money_str(6) = "10萬元以上"
+ 
+ sql = "select count(*), m014_money from m014 where m014_subjectid = " & subjectid & " group by m014_money"
+ set ts = conn.execute(sql)
+ for i = 1 to 6
+  if ts.eof then
+   money_no = 0
+  else
+   if cint(i) = cint(ts("m014_money")) then
+    money_no  = ts(0)
+    ts.movenext
+   else
+    money_no  = 0
+   end if
+  end if
+  
+  if money_no  > 0 then
+   money_ratio = formatpercent(money_no  / base_answer_no, 1, false)
+
+
+                = money_str(i) 
+                                                                   = money_ratio 
+                            = money_ratio :    = money_no 
+
+  
+  end if
+ next
+
+
+
+
+   
+ end if
+ if mid(notetype, 8, 1) = "1" then
+
+
+
+
+
+  
+ dim job_str(7)
+ job_str(1) = "軍"
+ job_str(2) = "公"
+ job_str(3) = "商"
+ job_str(4) = "教職"
+ job_str(5) = "自由業"
+ job_str(6) = "服務業"
+ job_str(7) = "其他"
+ 
+ sql = "select count(*), m014_job from m014 where m014_subjectid = " & subjectid & " group by m014_job"
+ set ts = conn.execute(sql)
+ for i = 1 to 7
+  if ts.eof then
+   job_no = 0
+  else
+   if cint(i) = cint(ts("m014_job")) then
+    job_no  = ts(0)
+    ts.movenext
+   else
+    job_no  = 0
+   end if
+  end if
+  
+  if job_no  > 0 then
+   job_ratio = formatpercent(job_no  / base_answer_no, 1, false)
+
+
+                = job_str(i) 
+                                                                   = job_ratio 
+                            = job_ratio :    = job_no 
+
+  
+  end if
+ next
+
+
+
+
+   
+ end if
+ if mid(notetype, 9, 1) = "1" then
+
+
+
+
+
+  
+ dim edu_str(5)
+ edu_str(1) = "小學及小學以下"
+ edu_str(2) = "國(初)中"
+ edu_str(3) = "高中(職)"
+ edu_str(4) = "大學(專)"
+ edu_str(5) = "研究所以上"
+
+ sql = "select count(*), m014_edu from m014 where m014_subjectid = " & subjectid & " group by m014_edu"
+ set ts = conn.execute(sql)
+ for i = 1 to 5
+  if ts.eof then
+   edu_no = 0
+  else
+   if cint(i) = cint(ts("m014_edu")) then
+    edu_no  = ts(0)
+    ts.movenext
+   else
+    edu_no  = 0
+   end if
+  end if
+  
+  if edu_no  > 0 then
+   edu_ratio = formatpercent(edu_no  / base_answer_no, 1, false)
+
+
+                = edu_str(i) 
+                                                                   = edu_ratio 
+                            = edu_ratio :    = edu_no 
+
+  
+  end if
+
+ next
+
+
+
+
+   
+ end if
+ 

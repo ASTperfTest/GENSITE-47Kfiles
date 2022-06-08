@@ -1,0 +1,39 @@
+﻿:  
+ response.expires = 0
+ htprogcap = "�q�ױm��"
+ htprogfunc = "�q�ױm�Ϻ��@"
+ htprogcode = "bbs010"
+ htprogprefix = "msession" 
+ response.expires = 0 
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+ 
+ sql = "select isnull(max(id), 0) + 1 from talk05"
+ set rs = conn.execute(sql)
+ id = rs(0)
+ 
+ name = trim(request("name"))
+ master = trim(request("master"))
+ seq = trim(request("seq"))
+ 
+ if name = "" or not isnumeric(seq) then
+  response.write "<script language='javascript'>alert('�п�j�����w�١b�����ƨǽп�j�Ʀr�i');history.go(-1);</script>"
+  response.end
+ end if
+
+ sql = "" & _
+  " insert into talk05 ( " & _
+  " id, name, master, updatetime, seq " & _
+  " ) values( " & _
+  id & ", " & _
+  " '" & replace(name, "'", "''") & "', " & _
+  " '" & replace(master, "'", "''") & "', " & _
+  " getdate(), " & _
+  replace(seq, "'", "''") & _
+  " ) "
+ conn.execute(sql)
+ response.redirect "1_1.asp"
+ 

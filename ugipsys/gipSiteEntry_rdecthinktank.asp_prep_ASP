@@ -1,0 +1,80 @@
+﻿: 
+response.cachecontrol = "no-cache" 
+response.addheader "pragma", "no-cache" 
+response.expires = -1
+
+   CxMethod_ASP_dbutil_453315802()
+  
+' session("gipodbc")="provider=sqloledb;data source=127.0.0.1;user id=hygip;password=hyweb;initial catalog=ngiphy"
+' session("odbcdsn")="provider=sqloledb;data source=127.0.0.1;user id=hygip;password=hyweb;initial catalog=ngiphy"
+
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("gipodbc")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("gipodbc")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+ sql = "select * from gipsites where gipsiteid=" & pkstr(request("siteid"),"")
+ 
+ 'response.write session("gipodbc")
+
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "site not found!!!"
+  response.end
+ end if
+
+ '931116 start add by jason
+ 'for dgbas sso
+ session("dgbas_uid") = request("uid")
+ '931116 end add by jason
+
+ session("odbcdsn")=rs("gipsitedbconn")
+ session("mysiteid") = rs("gipsiteid")
+ session("mysiteurl") = rs("gipsiteurlsys")
+ session("mysyssiteurl") = rs("gipsiteurlsys")
+ session("mywwwsiteurl") = rs("gipsiteurl")
+ session("mysitename") = rs("gipsitename")
+    session("public") = "/site/" & rs("gipsiteid") & "/public/"
+    session("mmopublic") = "/site/" & rs("gipsiteid") & "/public/"  
+ session("pagecount") = 10
+    session.timeout = 60
+    session("pwd") = false
+
+     '---
+ set xonn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' xonn.open session("odbcdsn")
+'set xonn = server.createobject("hywebdb3.dbexecute")
+xonn.connectionstring = session("odbcdsn")
+xonn.connectiontimeout=0
+xonn.cursorlocation = 3
+xonn.open
+'----------hyweb gip db connection patch----------
+
+
+ session("xrootid") = rs("gipsitedefaultroot")
+ session("exrootid") = rs("gipsiteinnerroot")
+
+ sql = "select * from cattreeroot where vgroup='gy'"
+ set rs = xonn.execute(sql)
+ if not rs.eof then   session("exrootid") = rs("ctrootid")
+
+ '931116 start add by jason
+ 'for dgbas sso
+ '當有傳入使用者帳號，直接去找資料庫，跳過輸入帳號密碼畫面
+ if session("dgbas_uid")<>"" then
+  response.redirect "checklogin_rdecthinktank.asp"
+ else
+  response.redirect "default_rdecthinktank.asp"
+ end if
+ '931116 end add by jason
+ 
+ 

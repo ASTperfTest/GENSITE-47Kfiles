@@ -1,0 +1,217 @@
+@charset "utf-8";
+/* CSS Document 秋季晚上版樣式 */
+
+body {
+	background: #164059;
+	color: #444;
+}
+/*------------------------------------------------------------- header */
+.header {
+	background: url(../images/bannerBg3nt.gif) repeat-x 0 0px;
+}
+
+/*------------------------------------------------------------- layout */
+.layout td.center {
+	background: #fff url(../images/layout_center_bg_nt.gif) repeat-x 0 10px;
+}
+
+/*---------------------------------------------------------------- subnav 子系統選單 */
+.subnav {
+	border-top: 1px solid #214551;
+	border-bottom: 1px solid #214551;
+	background: #23967f url(../images/subnav_bg_4nt.gif) repeat-x 0 0;
+}
+.subnav a {
+	color:#FFF;
+	background: url(../images/subnav_a_bg_4nt.gif) repeat-x 0 0;
+	border-left: 1px solid #4fbeb2;
+	border-right: 1px solid #1f6960;
+}
+.subnav a:hover {
+	color:#edff56;
+	background: url(../images/subnav_hover_bg_4nt.gif) repeat-x 0 0;
+	border-left: 1px solid #25606b;
+	border-right: 1px solid #25606b;
+}
+
+/*---------------------------------------------------------------- season 節氣與日期 */
+.season {
+	background: url(../images/season_bg_3nt.png) no-repeat 0 0;
+}
+.season p {
+	color: #b6f8eb;
+	background: url(../images/season_p_nt.gif) repeat-x 0 bottom;
+}
+.season h2 {
+	color: #ffff7d;
+}
+.season p.statement , .season p.statement a {
+	color: #ddd;
+}
+
+/*------------------------------------------------------- 主選單 menu , 知識家 主選單 menu2 */
+.menu , .menu2 {
+	background: #0a5078 url(../images/menu_bg_nt.png) no-repeat left bottom;
+}
+.menu ul , .menu2 span {
+	background: url(../images/menu_ul_bg_nt.gif) no-repeat left top;
+}
+.menu2 span {
+	display: block;
+}
+.menu li a , .menu2 li a {
+	color: #e5fcff;
+	background: url(../images/menu_a_bg_nt.png) no-repeat right bottom;
+}
+.menu li a:hover , .menu2 li a:hover {
+	color: #ffff81;
+	background: url(../images/menu_hover_bg_nt.png) no-repeat right bottom;
+}
+
+/*---------------------------------------------------------------- rss */
+.left .rss {
+	_background: url(../images/rss_nt.gif) no-repeat center 0;
+}
+
+/*---------------------------------------------------------------- 首頁中欄資訊區塊 */
+.topic p a {
+	background: url(../images/more_bg_nt.gif) no-repeat 0 1px;
+}
+
+/*---------------------------------------------------------------- ad */
+.ad li a img {
+	border: 1px solid #5c868e;
+}
+.ad li a:hover img {
+	border: 1px solid #bef7ff;
+}
+
+/*---------------------------------------------------------------- 右欄資訊區塊 */
+/*----- search 搜尋服務，login 會員登入 ，epaper 訂閱電子報  */
+.search  {
+	background: url(../images/search_h2_3nt.png) no-repeat 0 0;
+}
+.login  {
+	background: url(../images/login_h2_nt.png) no-repeat 0 0;
+}
+.login2  { /*會員登入後功能*/
+	background: url(../images/login2_h2_nt.png) no-repeat 0 0;
+}
+.epaper  {
+	background: url(../images/epaper_h2_nt.png) no-repeat 0 0;
+}
+
+.search form , .login .body , .login2 .body , .epaper .body , .rbox .body {
+	background: url(../images/right_div_bg_nt.png) no-repeat 0 bottom;
+}
+
+/*右欄共用樣式*/
+.rbox {
+	background: url(../images/right_div_bg_nt.png) no-repeat 0 bottom;
+}
+.rbox h2 {
+	background: url(../images/rb_nt.png) no-repeat 0 0;
+}
+.rbox .body {
+	background: url(../images/rb_body_nt.gif) repeat-y 0 0;
+}
+
+/*-------------------------- theme 主題報導專欄 */
+.theme {
+	background: url(../images/theme_bg_nt.gif) no-repeat right top;
+}
+.theme .body {
+	background: url(../images/theme_body_bg_nt.gif) no-repeat left bottom;
+}
+.theme .body p , .theme .body p a {
+	color: #444;
+}
+.theme .body a img {
+	border: 1px solid #bbb;
+}
+.theme h2 {
+	border-bottom: 2px solid #aaa;
+}
+
+/*-------------------------------------------------- more */
+.more a {
+	background: url(../images/more_bg_nt.gif) no-repeat 0 2px;
+}
+.more a:hover {
+}
+
+/*---------------------------------------------------------------- footer */
+.footer {
+	color: #ccc;
+	border-top: 1px solid #035972;
+	background: url(../images/footer_bg_nt.gif) repeat-x 0 0;
+}
+.footer img {
+	background: url(../images/webindoor_nt.gif) repeat-x 0 0;
+}
+.footer a {
+	color: #4998d0;
+}
+.footer .count {
+	color: #164059;
+}
+
+/*================================================================================= 知識家*/
+/*----------------------------------------------------- sta 知識統計 */
+.sta {
+	background: url(../images/sta_bg_3nt.png) no-repeat 0 0;
+}
+.sta h2 , .sta p {
+	color: #b6f8f4;
+}
+
+/*================================================================================= 標籤雲*/
+.TagCloud
+{
+    background: url(../images/theme_bg_nt.gif) no-repeat right top;
+	border: 0;
+	font-family: Arial;
+	width:180px;
+	margin:0 0 10px 15px;
+	padding:20px 0 0;
+    width:204px;
+}
+.TagCloud h2 {
+	border-bottom: 2px solid #aaa;
+	font-size:16px;
+	margin:0 21px 5px;
+}
+.TagCloud div
+{
+    background: url(../images/theme_body_bg_nt.gif) no-repeat left bottom;
+	font-family: Arial;
+	width:165px;
+	padding:0 21px 22px;
+}
+
+.TagCloud div a
+{
+	text-decoration: none;
+	margin:3px;
+}
+
+.TagCloud a
+{
+	text-decoration: none;
+	margin:3px;
+	CURSOR: pointer;
+}
+
+.TagCloud div .TagLv_1{font-size: 14px;color: #0B5891; font-weight:100;}
+
+.TagCloud div .TagLv_2{font-size: 16px;color: #0B5891; font-weight:200;}
+
+.TagCloud div .TagLv_3{font-size: 18px;color: #0B5891; font-weight:300;}
+
+.TagCloud div .TagLv_4{font-size: 20px;color: #0B5891; font-weight:400;}
+
+.TagCloud div .TagLv_5{font-size: 22px;color: #0B5891; font-weight:500;}
+
+.TagCloud div .TagLv_6{font-size: 24px;color: #0B5891; font-weight:600;}
+
+.TagCloud div .TagLv_7{font-size: 26px; color: #0B5891;font-weight:700;}

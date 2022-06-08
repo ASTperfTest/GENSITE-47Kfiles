@@ -1,0 +1,147 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="代碼維護"
+htprogfunc="查詢"
+htuploadpath="/"
+htprogcode="pn90m02"
+htprogprefix="codexml" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_htuigen_1591615763()
+  
+tasklable="查詢" & htprogcap
+ cq=chr(34)
+ ct=chr(9)
+ cl="<" & "%"
+ cr="%" & ">"
+
+   set htpagedom = session("codexmlspec")
+   set refmodel = htpagedom.selectsinglenode("//dstable")
+
+ showhtmlhead()
+ formfunction = "query"
+ showform()
+ initform()
+ showhtmltail()
+
+
+   sub initform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+  sub showform() 
+
+
+                       =htprogprefix
+
+
+
+
+
+
+
+
+
+   
+ for each param in refmodel.selectnodes("fieldlist/field[paramkind]") 
+  response.write "<tr><td class=""etablelable"" align=""right"">"
+  response.write nulltext(param.selectsinglenode("fieldlabel")) & "</td>" & vbcrlf
+  response.write "<td class=""etablecontent"">"
+  processparamfield param
+  response.write "</td></tr>" & vbcrlf
+ next
+
+
+
+
+
+
+
+
+
+  if formfunction = "query" then 
+          if (htprogright and 2) <> 0 then 
+
+
+          end if
+  elseif formfunction = "edit" then 
+          if (htprogright and 8) <> 0 then 
+
+           end if 
+
+          if (htprogright and 16) <> 0 then 
+
+         end if 
+
+
+
+   else '-- add ---
+            if (htprogright and 4)<>0 then 
+
+            end if
+
+            if (htprogright and 4)<>0  then 
+
+            end if
+
+   end if 
+
+
+
+
+
+
+
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+
+
+                                   =htprogprefix
+
+
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showhtmlhead() ------
+
+  sub showhtmltail() 
+
+
+
+
+
+  end sub '--- showhtmltail() ------ 

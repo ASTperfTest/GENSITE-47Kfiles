@@ -1,0 +1,2403 @@
+﻿if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[adrotate]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[adrotate]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[ap]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[ap]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[apcat]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[apcat]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[askout]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[askout]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[banner]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[banner]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[basedsd]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[basedsd]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[basedsdfield]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[basedsdfield]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cattreenode]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cattreenode]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cattreeroot]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cattreeroot]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[catalogue]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[catalogue]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cm01]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cm01]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cm02]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cm02]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cm03]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cm03]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cm04]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cm04]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cm05]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cm05]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cm06]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cm06]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cm07]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cm07]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cm08]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cm08]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cm09]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cm09]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cm10]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cm10]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cm11]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cm11]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cm12]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cm12]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cm13]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cm13]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[code1]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[code1]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[codeht]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[codeht]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[codemain]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[codemain]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[codemainlong]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[codemainlong]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[codemetadef]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[codemetadef]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[counter]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[counter]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[ctunit]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[ctunit]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[ctuserset]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[ctuserset]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[ctuserset2]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[ctuserset2]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[ctuserset3]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[ctuserset3]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtx9]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtx9]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtgeneric]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtgeneric]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtattach]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtattach]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtkeyword]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtkeyword]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtkeywordwtp]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtkeywordwtp]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtpage]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtpage]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtwimg]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtwimg]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtx2]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtx2]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtx27]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtx27]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtx3]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtx3]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtx30]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtx30]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtx4]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtx4]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtx5]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtx5]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtx7]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtx7]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtx8]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtx8]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtxdformspec]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtxdformspec]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtxmmo]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtxmmo]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[cudtxpaper]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[cudtxpaper]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[datacat]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[datacat]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[datacontent]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[datacontent]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[dataunit]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[dataunit]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[dept]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[dept]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[deptorg]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[deptorg]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[eppub]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[eppub]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[epsend]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[epsend]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[epaper]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[epaper]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[fileup]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[fileup]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[forum]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[forum]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[forumarticle]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[forumarticle]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[forumessencearticle]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[forumessencearticle]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[gipsites]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[gipsites]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[hfaptform]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[hfaptform]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[hfaptjob]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[hfaptjob]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[hfdeptset]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[hfdeptset]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[htddb]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[htddb]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[htdentity]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[htdentity]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[htdfield]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[htdfield]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[imagefile]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[imagefile]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[infouser]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[infouser]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[joborg]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[joborg]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[listconten]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[listconten]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[m011]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[m011]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[m012]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[m012]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[m013]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[m013]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[m014]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[m014]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[m015]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[m015]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[m016]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[m016]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[m074]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[m074]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[mall]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[mall]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[memcattree]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[memcattree]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[memepaper]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[memepaper]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[member]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[member]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[mmofolder]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[mmofolder]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[mmosite]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[mmosite]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[orgversion]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[orgversion]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[poll]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[poll]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[polluser]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[polluser]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[rpt6]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[rpt6]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[ugrp]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[ugrp]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[ugrpap]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[ugrpap]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[ugrpcode]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[ugrpcode]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[uploadsite]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[uploadsite]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[workday]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[workday]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[x2maintosub]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[x2maintosub]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[x9postcat]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[x9postcat]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[x9temp]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[x9temp]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[xcatnew]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[xcatnew]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[xdmplist]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[xdmplist]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[xfupload]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[xfupload]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[zcustomdbinfo]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[zcustomdbinfo]
+go
+
+if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[zcustomdbstatus]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[zcustomdbstatus]
+go
+
+create table [dbo].[adrotate] (
+ [gicuitem] [int] not null ,
+ [adfixseq] [tinyint] null ,
+ [adweight] [tinyint] null 
+) on [primary]
+go
+
+create table [dbo].[ap] (
+ [apcode] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [apnamee] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [apnamec] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as null ,
+ [apcat] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [specpath] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [appath] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [aporder] [nvarchar] (3) collate chinese_taiwan_stroke_cs_as not null ,
+ [apmask] [tinyint] not null ,
+ [spare64] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [spare128] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [xsnewwindow] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [xssubmit] [nchar] (1) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[apcat] (
+ [apcatid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [apcatcname] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [apcatename] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as null ,
+ [apseq] [tinyint] null 
+) on [primary]
+go
+
+create table [dbo].[askout] (
+ [askoutiid] [int] not null ,
+ [aouserid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [xdept] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [aokind] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [aodate] [smalldatetime] not null ,
+ [aocount] [tinyint] not null ,
+ [aodesc] [nvarchar] (500) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[banner] (
+ [bannerid] [int] not null ,
+ [seq] [int] null ,
+ [bannerpic] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [bannerpicrealname] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [bannerurl] [nchar] (200) collate chinese_taiwan_stroke_cs_as null ,
+ [bannertxt] [ntext] collate chinese_taiwan_stroke_cs_as null ,
+ [banneronline] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [createtime] [datetime] null ,
+ [createuser] [nchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [modifytime] [datetime] null ,
+ [modifyuser] [nchar] (10) collate chinese_taiwan_stroke_cs_as null 
+) on [primary] textimage_on [primary]
+go
+
+create table [dbo].[basedsd] (
+ [ibasedsd] [int] identity (1, 1) not null ,
+ [sbasetablename] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [sbasedsdname] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as not null ,
+ [tdesc] [nvarchar] (300) collate chinese_taiwan_stroke_cs_as null ,
+ [rdsdcat] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [inuse] [nchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [sbasedsdxml] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[basedsdfield] (
+ [ibasedsd] [int] not null ,
+ [ibasefield] [int] identity (1, 1) not null ,
+ [xfieldname] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as null ,
+ [xfieldseq] [smallint] null ,
+ [inuse] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [xfieldlabel] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as null ,
+ [xfielddesc] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [xdatatype] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [xdatalen] [int] null ,
+ [xcannull] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [xisprimarykey] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [xidentity] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [xdefaultvalue] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [xinputtype] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [xclientdefault] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [xreflookup] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [xrows] [smallint] null ,
+ [xcols] [smallint] null ,
+ [xinputlen] [smallint] null 
+) on [primary]
+go
+
+create table [dbo].[cattreenode] (
+ [ctrootid] [int] not null ,
+ [ctnodekind] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [ctnodeid] [int] identity (1, 1) not null ,
+ [catname] [nvarchar] (70) collate chinese_taiwan_stroke_cs_as not null ,
+ [ctnamelogo] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [catshoworder] [int] null ,
+ [datalevel] [tinyint] not null ,
+ [dataparent] [int] null ,
+ [childcount] [int] not null ,
+ [datacount] [int] not null ,
+ [ctunitid] [int] null ,
+ [inuse] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [editdate] [smalldatetime] not null ,
+ [edituserid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [dcondition] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [xsllist] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [xsldata] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [ctnodenpkind] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [rss] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[cattreeroot] (
+ [ctrootid] [int] identity (1, 1) not null ,
+ [ctrootname] [nvarchar] (40) collate chinese_taiwan_stroke_cs_as not null ,
+ [vgroup] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [purpose] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [inuse] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [editdate] [smalldatetime] not null ,
+ [editor] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [deptid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [pvxdmp] [nvarchar] (6) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[catalogue] (
+ [itemid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [catid] [int] not null ,
+ [catname] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as not null ,
+ [catshoworder] [int] null ,
+ [editdate] [smalldatetime] not null ,
+ [edituserid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [datalevel] [int] not null ,
+ [datatop] [int] not null ,
+ [dataparent] [int] not null ,
+ [childcount] [int] not null ,
+ [datacount] [int] not null 
+) on [primary]
+go
+
+create table [dbo].[cm01] (
+ [gicuitem] [int] not null 
+) on [primary]
+go
+
+create table [dbo].[cm02] (
+ [gicuitem] [int] not null 
+) on [primary]
+go
+
+create table [dbo].[cm03] (
+ [gicuitem] [int] not null 
+) on [primary]
+go
+
+create table [dbo].[cm04] (
+ [gicuitem] [int] not null ,
+ [cudtx12f15] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx12f16] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx12f17] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[cm05] (
+ [gicuitem] [int] not null 
+) on [primary]
+go
+
+create table [dbo].[cm06] (
+ [gicuitem] [int] not null 
+) on [primary]
+go
+
+create table [dbo].[cm07] (
+ [gicuitem] [int] not null ,
+ [cudtx15f18] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx15f19] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx15f20] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx15f21] [nvarchar] (60) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx15f22] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx15f23] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx15f24] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx15f25] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx15f26] [nvarchar] (800) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx15f27] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx15f28] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx15f29] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx15f30] [nvarchar] (800) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx15f31] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx15f32] [smalldatetime] null ,
+ [cudtx15f33] [smalldatetime] null ,
+ [cudtx15f34] [nvarchar] (800) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[cm08] (
+ [gicuitem] [int] not null ,
+ [cudtx16f35] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx16f36] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[cm09] (
+ [gicuitem] [int] not null ,
+ [cudtx17f37] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx17f38] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx17f39] [smalldatetime] null ,
+ [cudtx17f40] [int] null ,
+ [cudtx17f41] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[cm10] (
+ [gicuitem] [int] not null ,
+ [cudtx18f42] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx18f43] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx18f44] [nvarchar] (800) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx18f45] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[cm11] (
+ [gicuitem] [int] not null 
+) on [primary]
+go
+
+create table [dbo].[cm12] (
+ [gicuitem] [int] not null ,
+ [cudtx20f46] [nchar] (1) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[cm13] (
+ [gicuitem] [int] not null 
+) on [primary]
+go
+
+create table [dbo].[code1] (
+ [item] [nvarchar] (5) collate chinese_taiwan_stroke_cs_as not null ,
+ [descrip] [nvarchar] (140) collate chinese_taiwan_stroke_cs_as null ,
+ [code] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [hist] [nvarchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [freq] [nvarchar] (3) collate chinese_taiwan_stroke_cs_as null ,
+ [aux1] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [chposdegree] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [numdutywhrs] [numeric](5, 2) null ,
+ [numdeduwhrs] [numeric](5, 2) null ,
+ [rjob] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [qjobyn] [nchar] (1) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[codeht] (
+ [item] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [code] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [descrip] [nvarchar] (140) collate chinese_taiwan_stroke_cs_as not null ,
+ [sortfld] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[codemain] (
+ [codemetaid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [mcode] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as not null ,
+ [mvalue] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [msortvalue] [nvarchar] (6) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[codemainlong] (
+ [codemetaid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [mcode] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as not null ,
+ [mvalue] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [msortvalue] [nvarchar] (6) collate chinese_taiwan_stroke_cs_as null ,
+ [mlongvalue] [nvarchar] (200) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[codemetadef] (
+ [codeid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [codename] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [codetblname] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as not null ,
+ [codesrcfld] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [codesrcitem] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [codevaluefld] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [codedisplayfld] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [codesortfld] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [codevaluefldname] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [codedisplayfldname] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [codesortfldname] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [codetype] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [coderank] [nvarchar] (3) collate chinese_taiwan_stroke_cs_as null ,
+ [showornot] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [codexmlspec] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[counter] (
+ [mp] [int] not null ,
+ [counts] [int] not null 
+) on [primary]
+go
+
+create table [dbo].[ctunit] (
+ [ctunitid] [int] identity (1, 1) not null ,
+ [ctunitname] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [ctunitlogo] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [headerpart] [int] null ,
+ [footerpart] [int] null ,
+ [fstyle] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [bglogo] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [bgcolor] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [ctunitkind] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [redirecturl] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [newwindow] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [ibasedsd] [int] null ,
+ [fctunitonly] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [inuse] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [unitdesc] [nvarchar] (60) collate chinese_taiwan_stroke_cs_as null ,
+ [checkyn] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [deptid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [ctunitexpireday] [int] null 
+) on [primary]
+go
+
+create table [dbo].[ctuserset] (
+ [userid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [ctnodeid] [int] not null ,
+ [rights] [smallint] not null 
+) on [primary]
+go
+
+create table [dbo].[ctuserset2] (
+ [userid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [ctnodeid] [int] not null ,
+ [rights] [smallint] not null 
+) on [primary]
+go
+
+create table [dbo].[ctuserset3] (
+ [userid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [ctnodeid] [int] not null ,
+ [rights] [smallint] not null 
+) on [primary]
+go
+
+create table [dbo].[cudtx9] (
+ [gicuitem] [int] not null ,
+ [mmofoldername] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [mmofilename] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [mmofiletype] [nvarchar] (2) collate chinese_taiwan_stroke_cs_as null ,
+ [mmofilesize] [smallmoney] null ,
+ [mmofilealt] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [mmoimageheight] [int] null ,
+ [mmoimagewidth] [int] null ,
+ [mmofileicon] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [mmositeid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[cudtgeneric] (
+ [icuitem] [int] identity (1, 1) not null ,
+ [ibasedsd] [int] not null ,
+ [ictunit] [int] null ,
+ [fctupublic] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [avbegin] [smalldatetime] null ,
+ [avend] [smalldatetime] null ,
+ [stitle] [nvarchar] (500) collate chinese_taiwan_stroke_cs_as not null ,
+ [ieditor] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [deditdate] [smalldatetime] not null ,
+ [idept] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [topcat] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [vgroup] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [xkeyword] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [ximportant] [int] null ,
+ [xurl] [nvarchar] (200) collate chinese_taiwan_stroke_cs_as null ,
+ [xnewwindow] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [xpostdate] [smalldatetime] not null ,
+ [xbody] [ntext] collate chinese_taiwan_stroke_cs_as null ,
+ [xpostdateend] [smalldatetime] null ,
+ [createddate] [smalldatetime] null ,
+ [xabstract] [nvarchar] (200) collate chinese_taiwan_stroke_cs_as null ,
+ [filedownload] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [refid] [int] null ,
+ [showtype] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [ximgfile] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null 
+) on [primary] textimage_on [primary]
+go
+
+create table [dbo].[cudtattach] (
+ [ixcuattach] [int] identity (1, 1) not null ,
+ [xicuitem] [int] not null ,
+ [atitle] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as not null ,
+ [adesc] [nvarchar] (800) collate chinese_taiwan_stroke_cs_as null ,
+ [ofilename] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [nfilename] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as not null ,
+ [aeditor] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [aeditdate] [smalldatetime] not null ,
+ [blist] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [listseq] [nvarchar] (2) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[cudtkeyword] (
+ [icuitem] [int] not null ,
+ [xkeyword] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [weight] [int] null 
+) on [primary]
+go
+
+create table [dbo].[cudtkeywordwtp] (
+ [ikeyword] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as not null ,
+ [icount] [int] null ,
+ [ikeywordnew] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [keywordstatus] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [editor] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [editdate] [smalldatetime] null 
+) on [primary]
+go
+
+create table [dbo].[cudtpage] (
+ [ixcupage] [int] identity (1, 1) not null ,
+ [xicuitem] [int] not null ,
+ [atitle] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as not null ,
+ [adesc] [nvarchar] (800) collate chinese_taiwan_stroke_cs_as null ,
+ [npageid] [int] not null ,
+ [blist] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [listseq] [nvarchar] (2) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[cudtwimg] (
+ [gicuitem] [int] not null ,
+ [ximgfile] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[cudtx2] (
+ [gicuitem] [int] not null ,
+ [cudtx2f5] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx2f7] [nvarchar] (300) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx2f9] [nchar] (1) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[cudtx27] (
+ [gicuitem] [int] not null ,
+ [cudtx24f51] [nvarchar] (512) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx24f52] [nvarchar] (16) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx24f53] [nvarchar] (512) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx24f54] [nvarchar] (1000) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx24f55] [nvarchar] (2000) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx24f56] [nvarchar] (2000) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[cudtx3] (
+ [gicuitem] [int] not null ,
+ [gicuitem123] [int] null 
+) on [primary]
+go
+
+create table [dbo].[cudtx30] (
+ [gicuitem] [int] not null ,
+ [cudtx9f16] [nvarchar] (250) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx9f18] [nvarchar] (250) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx9f19] [nvarchar] (250) collate chinese_taiwan_stroke_cs_as null ,
+ [cudtx9f121] [nvarchar] (250) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[cudtx4] (
+ [gicuitem] [int] not null ,
+ [cudtx4f14] [nchar] (1) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[cudtx5] (
+ [gicuitem] [int] not null 
+) on [primary]
+go
+
+create table [dbo].[cudtx7] (
+ [gicuitem] [int] not null ,
+ [cudtx7f8] [nvarchar] (4000) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[cudtx8] (
+ [gicuitem] [int] not null 
+) on [primary]
+go
+
+create table [dbo].[cudtxdformspec] (
+ [gicuitem] [int] not null ,
+ [xmlspec] [ntext] collate chinese_taiwan_stroke_cs_as null ,
+ [phtml] [ntext] collate chinese_taiwan_stroke_cs_as null ,
+ [expiredaynum] [int] not null ,
+ [formscript] [ntext] collate chinese_taiwan_stroke_cs_as null 
+) on [primary] textimage_on [primary]
+go
+
+create table [dbo].[cudtxmmo] (
+ [icuitem] [int] not null ,
+ [fctupublic] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [avbegin] [smalldatetime] null ,
+ [avend] [smalldatetime] null ,
+ [stitle] [nvarchar] (500) collate chinese_taiwan_stroke_cs_as not null ,
+ [ieditor] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [deditdate] [smalldatetime] not null ,
+ [topcat] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [vgroup] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [xkeyword] [nvarchar] (40) collate chinese_taiwan_stroke_cs_as null ,
+ [ximportant] [int] null ,
+ [xurl] [nvarchar] (160) collate chinese_taiwan_stroke_cs_as null ,
+ [xnewwindow] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [xpostdate] [smalldatetime] not null ,
+ [mmocat] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [mmofileext] [nvarchar] (2) collate chinese_taiwan_stroke_cs_as not null ,
+ [mmofiletime] [int] null ,
+ [mmofilepath] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [mmofoldername] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [xiicuitem] [int] null 
+) on [primary]
+go
+
+create table [dbo].[cudtxpaper] (
+ [gicuitem] [int] not null ,
+ [author] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[datacat] (
+ [catid] [int] not null ,
+ [language] [nvarchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [datatype] [nvarchar] (3) collate chinese_taiwan_stroke_cs_as not null ,
+ [catname] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [catshoworder] [int] null ,
+ [editdate] [smalldatetime] null ,
+ [edituserid] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[datacontent] (
+ [unitid] [int] not null ,
+ [contentid] [int] not null ,
+ [content] [nvarchar] (4000) collate chinese_taiwan_stroke_cs_as null ,
+ [imagefile] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [imageway] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [position] [int] null 
+) on [primary]
+go
+
+create table [dbo].[dataunit] (
+ [unitid] [int] not null ,
+ [datatype] [nvarchar] (3) collate chinese_taiwan_stroke_cs_as not null ,
+ [catid] [int] null ,
+ [language] [nvarchar] (3) collate chinese_taiwan_stroke_cs_as not null ,
+ [subject] [nvarchar] (200) collate chinese_taiwan_stroke_cs_as not null ,
+ [showorder] [int] null ,
+ [begindate] [smalldatetime] null ,
+ [enddate] [smalldatetime] null ,
+ [editdate] [smalldatetime] not null ,
+ [edituserid] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as not null ,
+ [extend1] [nvarchar] (200) collate chinese_taiwan_stroke_cs_as null ,
+ [extend2] [nvarchar] (200) collate chinese_taiwan_stroke_cs_as null ,
+ [extend3] [nvarchar] (200) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[dept] (
+ [gicuitem] [int] null ,
+ [deptid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [deptname] [nvarchar] (70) collate chinese_taiwan_stroke_cs_as not null ,
+ [abbrname] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as null ,
+ [edeptname] [nvarchar] (60) collate chinese_taiwan_stroke_cs_as null ,
+ [eabbrname] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as null ,
+ [orgrank] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [kind] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [depthead] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [inuse] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [tdatacat] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [servphone] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [servaddr] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [servhour] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [eservaddr] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [eservhour] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [parent] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [nodekind] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [plevel] [smallint] null ,
+ [seq] [smallint] null ,
+ [deptcode] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [codename] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [website] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[deptorg] (
+ [verid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [deptid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [deptname] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as not null ,
+ [parent] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [kind] [nvarchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [plevel] [smallint] not null ,
+ [seq] [smallint] not null ,
+ [child] [smallint] not null ,
+ [depthead] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [unicod] [nvarchar] (6) collate chinese_taiwan_stroke_cs_as null ,
+ [unianame] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [uniename] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [unilevel] [nvarchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [uniref] [nvarchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [upunirefdeptid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [staffcat] [nvarchar] (1) collate chinese_taiwan_stroke_cs_as not null 
+) on [primary]
+go
+
+create table [dbo].[eppub] (
+ [epubid] [int] identity (1, 1) not null ,
+ [pubdate] [smalldatetime] not null ,
+ [title] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as not null ,
+ [dbdate] [smalldatetime] not null ,
+ [dedate] [smalldatetime] not null ,
+ [maxno] [int] not null ,
+ [ctrootid] [int] null 
+) on [primary]
+go
+
+create table [dbo].[epsend] (
+ [epubid] [int] not null ,
+ [email] [nvarchar] (60) collate chinese_taiwan_stroke_cs_as not null ,
+ [senddate] [smalldatetime] not null ,
+ [ctrootid] [int] not null 
+) on [primary]
+go
+
+create table [dbo].[epaper] (
+ [email] [nchar] (60) collate chinese_taiwan_stroke_cs_as not null ,
+ [createtime] [datetime] null ,
+ [ctrootid] [int] not null 
+) on [primary]
+go
+
+create table [dbo].[fileup] (
+ [itemid] [nvarchar] (3) collate chinese_taiwan_stroke_cs_as not null ,
+ [parentid] [int] not null ,
+ [ofilename] [nvarchar] (255) collate chinese_taiwan_stroke_cs_as not null ,
+ [nfilename] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as not null 
+) on [primary]
+go
+
+create table [dbo].[forum] (
+ [itemid] [nvarchar] (3) collate chinese_taiwan_stroke_cs_as not null ,
+ [forumid] [int] not null ,
+ [catid] [int] null ,
+ [forumname] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as not null ,
+ [forummaster] [int] not null ,
+ [forumremark] [nvarchar] (4000) collate chinese_taiwan_stroke_cs_as null ,
+ [masterphoto] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [forumshoworder] [int] not null ,
+ [editdate] [smalldatetime] not null ,
+ [edituserid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null 
+) on [primary]
+go
+
+create table [dbo].[forumarticle] (
+ [forumid] [int] not null ,
+ [articleid] [int] not null ,
+ [subject] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as not null ,
+ [content] [nvarchar] (4000) collate chinese_taiwan_stroke_cs_as not null ,
+ [postuserid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [postusername] [nvarchar] (60) collate chinese_taiwan_stroke_cs_as not null ,
+ [postemail] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [postdate] [smalldatetime] not null ,
+ [articlelevel] [int] not null ,
+ [articletop] [int] not null ,
+ [articleparent] [int] not null ,
+ [articlechildcount] [int] not null ,
+ [childrencount] [int] not null ,
+ [lastrearticleid] [int] null ,
+ [lastpostdate] [smalldatetime] null ,
+ [readcount] [int] not null 
+) on [primary]
+go
+
+create table [dbo].[forumessencearticle] (
+ [forumid] [int] not null ,
+ [articleid] [int] not null 
+) on [primary]
+go
+
+create table [dbo].[gipsites] (
+ [gipsiteid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [gipsitename] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as not null ,
+ [gipsitedbconn] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as not null ,
+ [gipsiteurl] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as not null ,
+ [gipsiteurlsys] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as not null ,
+ [gipsiteinnerroot] [int] not null ,
+ [gipsitedefaultroot] [int] not null 
+) on [primary]
+go
+
+create table [dbo].[hfaptform] (
+ [hfaptid] [int] not null ,
+ [hyformid] [int] not null ,
+ [todept] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [aplname] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as not null ,
+ [aplid] [nvarchar] (15) collate chinese_taiwan_stroke_cs_as not null ,
+ [apltype] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [billnum] [nvarchar] (14) collate chinese_taiwan_stroke_cs_as null ,
+ [casenum] [nvarchar] (16) collate chinese_taiwan_stroke_cs_as not null ,
+ [apldate] [smalldatetime] not null ,
+ [status] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [lastdate] [smalldatetime] not null ,
+ [jrcvdate] [smalldatetime] null ,
+ [jrcvno] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as null ,
+ [jdept] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as null ,
+ [juser] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [jexpdate] [smalldatetime] null ,
+ [jdonedate] [smalldatetime] null ,
+ [jmailtext] [nvarchar] (800) collate chinese_taiwan_stroke_cs_as null ,
+ [formxml] [ntext] collate chinese_taiwan_stroke_cs_as null ,
+ [aplcusid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [jrcvphone] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as null ,
+ [transdept] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [jdept2] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null 
+) on [primary] textimage_on [primary]
+go
+
+create table [dbo].[hfaptjob] (
+ [hfaptjobid] [int] not null ,
+ [hfjstatus] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [hfjdate] [smalldatetime] not null ,
+ [hfjuser] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [rtmail] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [hfjaptid] [int] not null ,
+ [hfjorgdept] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[hfdeptset] (
+ [hyformid] [int] not null ,
+ [deptid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [userid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [edituser] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [editdate] [smalldatetime] not null 
+) on [primary]
+go
+
+create table [dbo].[htddb] (
+ [dbid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [dbname] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [dbdesc] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [dbip] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[htdentity] (
+ [dbid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [entityid] [int] identity (1, 1) not null ,
+ [tablename] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [entitydesc] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [entityuri] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [apcatid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[htdfield] (
+ [entityid] [int] not null ,
+ [xfieldname] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as not null ,
+ [xfieldseq] [smallint] null ,
+ [xfieldlabel] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as null ,
+ [xfielddesc] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [xdatatype] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [xdatalen] [int] null ,
+ [xcannull] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [xisprimarykey] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [xidentity] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [xdefaultvalue] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [xinputtype] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [xclientdefault] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [xreflookup] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [xrows] [smallint] null ,
+ [xcols] [smallint] null ,
+ [xinputlen] [smallint] null 
+) on [primary]
+go
+
+create table [dbo].[imagefile] (
+ [newfilename] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as not null ,
+ [oldfilename] [nvarchar] (60) collate chinese_taiwan_stroke_cs_as not null ,
+ [filepath] [nvarchar] (150) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[infouser] (
+ [userid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [password] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [username] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [usertype] [nvarchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [deptid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [jobname] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as null ,
+ [email] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [ugrpid] [nvarchar] (200) collate chinese_taiwan_stroke_cs_as not null ,
+ [lastvisit] [smalldatetime] null ,
+ [visitcount] [smallint] not null ,
+ [ugrpname] [nchar] (500) collate chinese_taiwan_stroke_cs_as null ,
+ [telephone] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as null ,
+ [tdatacat] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [uploadpath] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [lastip] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [modifypassword] [smalldatetime] null 
+) on [primary]
+go
+
+create table [dbo].[joborg] (
+ [verid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [jobid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [titcod] [nvarchar] (4) collate chinese_taiwan_stroke_cs_as null ,
+ [jobname] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [deptid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [deptmanager] [nvarchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [upjobid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [quotatype] [nvarchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [quotaassume] [smallint] null ,
+ [quotaapprove] [smallint] null ,
+ [staffdiv] [nchar] (2) collate chinese_taiwan_stroke_cs_as null ,
+ [staffkind] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [qualification] [nvarchar] (200) collate chinese_taiwan_stroke_cs_as null ,
+ [chfcod] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [i23tittype] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [quotaorg] [smallint] null 
+) on [primary]
+go
+
+create table [dbo].[listconten] (
+ [gicuitem] [int] not null ,
+ [data1] [nvarchar] (512) collate chinese_taiwan_stroke_cs_as null ,
+ [data2] [nvarchar] (512) collate chinese_taiwan_stroke_cs_as null ,
+ [data3] [nvarchar] (512) collate chinese_taiwan_stroke_cs_as null ,
+ [data4] [nvarchar] (512) collate chinese_taiwan_stroke_cs_as null ,
+ [data5] [nvarchar] (512) collate chinese_taiwan_stroke_cs_as null ,
+ [data6] [nvarchar] (512) collate chinese_taiwan_stroke_cs_as null ,
+ [data7] [nvarchar] (512) collate chinese_taiwan_stroke_cs_as null ,
+ [data8] [nvarchar] (512) collate chinese_taiwan_stroke_cs_as null ,
+ [data9] [nvarchar] (512) collate chinese_taiwan_stroke_cs_as null ,
+ [data10] [nvarchar] (512) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[m011] (
+ [m011subjectid] [int] not null ,
+ [m011subject] [nchar] (200) collate chinese_taiwan_stroke_cs_as null ,
+ [m011questno] [int] null ,
+ [m011bdate] [datetime] null ,
+ [m011edate] [datetime] null ,
+ [m011online] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [m011notetype] [nchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [m011questionnote] [ntext] collate chinese_taiwan_stroke_cs_as null ,
+ [m011public] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [m011haveprize] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [m011pflag] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [m011jumpquestion] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [m011onlyonce] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [m011createuser] [nchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [m011createtime] [datetime] null ,
+ [m011modifyuser] [nchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [m011updatetime] [datetime] null ,
+ [m011dept] [nchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [mallid] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null 
+) on [primary] textimage_on [primary]
+go
+
+create table [dbo].[m012] (
+ [m012subjectid] [int] not null ,
+ [m012questionid] [int] not null ,
+ [m012title] [nvarchar] (3000) collate chinese_taiwan_stroke_cs_as null ,
+ [m012answerno] [int] null ,
+ [m012type] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [m012createuser] [nchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [m012createtime] [datetime] null ,
+ [m012modifyuser] [nchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [m012updatetime] [datetime] null 
+) on [primary]
+go
+
+create table [dbo].[m013] (
+ [m013subjectid] [int] not null ,
+ [m013questionid] [int] not null ,
+ [m013answerid] [int] not null ,
+ [m013title] [nvarchar] (3000) collate chinese_taiwan_stroke_cs_as null ,
+ [m013default] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [m013nextord] [int] null ,
+ [m013no] [int] null ,
+ [m013createuser] [nchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [m013createtime] [datetime] null ,
+ [m013modifyuser] [nchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [m013updatetime] [datetime] null 
+) on [primary]
+go
+
+create table [dbo].[m014] (
+ [m014id] [int] not null ,
+ [m014name] [nchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [m014sex] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [m014idnumber] [nchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [m014email] [nchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [m014age] [int] null ,
+ [m014addrarea] [int] null ,
+ [m014familymember] [int] null ,
+ [m014money] [int] null ,
+ [m014job] [nchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [m014edu] [nchar] (2) collate chinese_taiwan_stroke_cs_as null ,
+ [m014pflag] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [m014reply] [ntext] collate chinese_taiwan_stroke_cs_as null ,
+ [m014subjectid] [int] not null ,
+ [m014polldate] [datetime] null 
+) on [primary] textimage_on [primary]
+go
+
+create table [dbo].[m015] (
+ [m015id] [int] not null ,
+ [m015subjectid] [int] not null ,
+ [m015questionid] [int] not null ,
+ [m015answerid] [int] not null ,
+ [m015modifyuser] [nchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [m015updatetime] [datetime] not null 
+) on [primary]
+go
+
+create table [dbo].[m016] (
+ [m016id] [int] not null ,
+ [m016subjectid] [int] not null ,
+ [m016questionid] [int] not null ,
+ [m016answerid] [int] not null ,
+ [m016userid] [int] null ,
+ [m016content] [nchar] (1024) collate chinese_taiwan_stroke_cs_as not null ,
+ [m016updatetime] [datetime] not null 
+) on [primary]
+go
+
+create table [dbo].[m074] (
+ [m074id] [int] not null ,
+ [m074table] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [m074qstr] [nvarchar] (500) collate chinese_taiwan_stroke_cs_as null ,
+ [m074adminid] [nchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [m074action] [nchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [m074time] [datetime] null 
+) on [primary]
+go
+
+create table [dbo].[mall] (
+ [mallid] [nvarchar] (4) collate chinese_taiwan_stroke_cs_as null ,
+ [mallname] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [msortvalue] [nvarchar] (6) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[memcattree] (
+ [memid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [ctnodeid] [int] not null ,
+ [rights] [smallint] not null 
+) on [primary]
+go
+
+create table [dbo].[memepaper] (
+ [memid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [ctnodeid] [int] not null ,
+ [rights] [smallint] not null 
+) on [primary]
+go
+
+create table [dbo].[member] (
+ [account] [nchar] (100) collate chinese_taiwan_stroke_cs_as not null ,
+ [passwd] [nchar] (100) collate chinese_taiwan_stroke_cs_as not null ,
+ [realname] [nchar] (200) collate chinese_taiwan_stroke_cs_as not null ,
+ [homeaddr] [nchar] (500) collate chinese_taiwan_stroke_cs_as null ,
+ [phone] [nchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [mobile] [nchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [email] [nchar] (100) collate chinese_taiwan_stroke_cs_as not null ,
+ [mcode] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [createtime] [datetime] null ,
+ [modifytime] [datetime] null 
+) on [primary]
+go
+
+create table [dbo].[mmofolder] (
+ [mmofolderid] [int] identity (1, 1) not null ,
+ [mmofoldername] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [mmofolderdesc] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [ctunitid] [int] null ,
+ [mmositeid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [uploadsite] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [mmofolderparent] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[mmosite] (
+ [mmositeid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [mmositename] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as not null ,
+ [mmositeurl] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [mmositeurl2] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [mmositedesc] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [mmositeseq] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [mmositeseq2] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [uploadsiteftpip] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [uploadsiteftpport] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [uploadsiteftpid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [uploadsiteftppwd] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [uploadsitehttp] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[orgversion] (
+ [verid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [vertype] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [startdate] [smalldatetime] not null ,
+ [expiredate] [smalldatetime] null ,
+ [approveno] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [remark] [nvarchar] (200) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[poll] (
+ [pollid] [int] not null ,
+ [content] [ntext] collate chinese_taiwan_stroke_cs_as not null ,
+ [answer] [nvarchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [type] [nvarchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [option1] [nvarchar] (250) collate chinese_taiwan_stroke_cs_as not null ,
+ [option2] [nvarchar] (250) collate chinese_taiwan_stroke_cs_as not null ,
+ [option3] [nvarchar] (250) collate chinese_taiwan_stroke_cs_as not null ,
+ [option4] [nvarchar] (250) collate chinese_taiwan_stroke_cs_as not null ,
+ [hint] [nvarchar] (250) collate chinese_taiwan_stroke_cs_as null 
+) on [primary] textimage_on [primary]
+go
+
+create table [dbo].[polluser] (
+ [sid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [username] [nvarchar] (8) collate chinese_taiwan_stroke_cs_as not null ,
+ [address] [nvarchar] (250) collate chinese_taiwan_stroke_cs_as not null ,
+ [phone1] [nvarchar] (3) collate chinese_taiwan_stroke_cs_as null ,
+ [phone2] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [email] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [mobile] [nvarchar] (12) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[rpt6] (
+ [rpt6id] [int] not null ,
+ [userid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [deptid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [odate] [smalldatetime] not null ,
+ [oplace] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [osdate] [smalldatetime] not null ,
+ [oedate] [smalldatetime] not null ,
+ [opurpose] [nvarchar] (200) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[ugrp] (
+ [ugrpid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [ugrpname] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [remark] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [regdate] [smalldatetime] not null ,
+ [signer] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [ispublic] [nchar] (1) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[ugrpap] (
+ [ugrpid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [apcode] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [rights] [smallint] not null ,
+ [regdate] [smalldatetime] not null 
+) on [primary]
+go
+
+create table [dbo].[ugrpcode] (
+ [ugrpid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [codeid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [rights] [smallint] null ,
+ [regdate] [datetime] null ,
+ [startdate] [datetime] null ,
+ [enddate] [datetime] null 
+) on [primary]
+go
+
+create table [dbo].[uploadsite] (
+ [uploadsiteid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [uploadsitename] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as not null ,
+ [uploadsiteftpip] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [uploadsiteftpport] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [uploadsiteftpid] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [uploadsiteftppwd] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [uploadsitehttp] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[workday] (
+ [xday] [smalldatetime] not null ,
+ [offmark] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null ,
+ [xweekday] [tinyint] null ,
+ [xdayno] [int] null 
+) on [primary]
+go
+
+create table [dbo].[x2maintosub] (
+ [id] [int] not null ,
+ [belong] [int] null ,
+ [deptname] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [ename] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as null ,
+ [newdept] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[x9postcat] (
+ [orgpcat] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as not null ,
+ [pcatid] [nchar] (1) collate chinese_taiwan_stroke_cs_as not null 
+) on [primary]
+go
+
+create table [dbo].[x9temp] (
+ [ibasedsd] [int] not null ,
+ [ictunit] [int] null ,
+ [avend] [smalldatetime] null ,
+ [stitle] [nvarchar] (500) collate chinese_taiwan_stroke_cs_as null ,
+ [ieditor] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null ,
+ [idept] [nvarchar] (20) collate chinese_taiwan_stroke_cs_as null ,
+ [topcat] [nchar] (1) collate chinese_taiwan_stroke_cs_as null ,
+ [xkeyword] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [xurl] [nvarchar] (160) collate chinese_taiwan_stroke_cs_as null ,
+ [xpostdate] [smalldatetime] null ,
+ [xbody] [ntext] collate chinese_taiwan_stroke_cs_as null 
+) on [primary] textimage_on [primary]
+go
+
+create table [dbo].[xcatnew] (
+ [orgcat] [smallint] not null ,
+ [newcat] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as not null 
+) on [primary]
+go
+
+create table [dbo].[xdmplist] (
+ [xdmpid] [nvarchar] (6) collate chinese_taiwan_stroke_cs_as not null ,
+ [xdmpname] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [purpose] [nvarchar] (80) collate chinese_taiwan_stroke_cs_as null ,
+ [editdate] [smalldatetime] not null ,
+ [editor] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [deptid] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as null 
+) on [primary]
+go
+
+create table [dbo].[xfupload] (
+ [xfuppath] [nvarchar] (100) collate chinese_taiwan_stroke_cs_as not null ,
+ [xfupname] [nvarchar] (30) collate chinese_taiwan_stroke_cs_as not null ,
+ [xfdesc] [nvarchar] (300) collate chinese_taiwan_stroke_cs_as null ,
+ [xeditor] [nvarchar] (10) collate chinese_taiwan_stroke_cs_as not null ,
+ [xeditdate] [smalldatetime] not null 
+) on [primary]
+go
+
+create table [dbo].[zcustomdbinfo] (
+ [sysid] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [itemid] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [itemname] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [itemvalue] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [updatetime] [datetime] null 
+) on [primary]
+go
+
+create table [dbo].[zcustomdbstatus] (
+ [sysid] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [sysname] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [status] [nvarchar] (50) collate chinese_taiwan_stroke_cs_as null ,
+ [updatetime] [datetime] null 
+) on [primary]
+go
+
+alter table [dbo].[adrotate] with nocheck add 
+ constraint [pk_adrotate] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[ap] with nocheck add 
+ constraint [pk_ap] primary key  clustered 
+ (
+  [apcode]
+ )  on [primary] 
+go
+
+alter table [dbo].[apcat] with nocheck add 
+ constraint [pk_apcat] primary key  clustered 
+ (
+  [apcatid]
+ )  on [primary] 
+go
+
+alter table [dbo].[askout] with nocheck add 
+ constraint [pk_askout] primary key  clustered 
+ (
+  [askoutiid]
+ )  on [primary] 
+go
+
+alter table [dbo].[banner] with nocheck add 
+ constraint [pk_banner] primary key  clustered 
+ (
+  [bannerid]
+ )  on [primary] 
+go
+
+alter table [dbo].[basedsd] with nocheck add 
+ constraint [pk_basedsd] primary key  clustered 
+ (
+  [ibasedsd]
+ )  on [primary] 
+go
+
+alter table [dbo].[basedsdfield] with nocheck add 
+ constraint [pk_basedsdfield] primary key  clustered 
+ (
+  [ibasefield]
+ )  on [primary] 
+go
+
+alter table [dbo].[cattreenode] with nocheck add 
+ constraint [pk_cattreenode] primary key  clustered 
+ (
+  [ctnodeid]
+ )  on [primary] 
+go
+
+alter table [dbo].[cattreeroot] with nocheck add 
+ constraint [pk_cattreeroot] primary key  clustered 
+ (
+  [ctrootid]
+ )  on [primary] 
+go
+
+alter table [dbo].[catalogue] with nocheck add 
+ constraint [pk_catalogue] primary key  clustered 
+ (
+  [catid]
+ )  on [primary] 
+go
+
+alter table [dbo].[cm01] with nocheck add 
+ constraint [pk_cm01] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cm02] with nocheck add 
+ constraint [pk_cm02] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cm03] with nocheck add 
+ constraint [pk_cm03] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cm04] with nocheck add 
+ constraint [pk_cm04] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cm05] with nocheck add 
+ constraint [pk_cm05] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cm06] with nocheck add 
+ constraint [pk_cm06] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cm07] with nocheck add 
+ constraint [pk_cm07] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cm08] with nocheck add 
+ constraint [pk_cm08] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cm09] with nocheck add 
+ constraint [pk_cm09] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cm10] with nocheck add 
+ constraint [pk_cm10] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cm11] with nocheck add 
+ constraint [pk_cm11] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cm12] with nocheck add 
+ constraint [pk_cm12] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cm13] with nocheck add 
+ constraint [pk_cm13] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[codeht] with nocheck add 
+ constraint [pk_codeht] primary key  clustered 
+ (
+  [code],
+  [item]
+ )  on [primary] 
+go
+
+alter table [dbo].[codemain] with nocheck add 
+ constraint [pk_codemain] primary key  clustered 
+ (
+  [codemetaid],
+  [mcode]
+ )  on [primary] 
+go
+
+alter table [dbo].[codemainlong] with nocheck add 
+ constraint [pk_codemainlong] primary key  clustered 
+ (
+  [codemetaid],
+  [mcode]
+ )  on [primary] 
+go
+
+alter table [dbo].[codemetadef] with nocheck add 
+ constraint [pk_codemetadef] primary key  clustered 
+ (
+  [codeid]
+ )  on [primary] 
+go
+
+alter table [dbo].[counter] with nocheck add 
+ constraint [pk_counter] primary key  clustered 
+ (
+  [mp]
+ )  on [primary] 
+go
+
+alter table [dbo].[ctunit] with nocheck add 
+ constraint [pk_ctunit] primary key  clustered 
+ (
+  [ctunitid]
+ )  on [primary] 
+go
+
+alter table [dbo].[ctuserset] with nocheck add 
+ constraint [pk_ctuserset] primary key  clustered 
+ (
+  [ctnodeid],
+  [userid]
+ )  on [primary] 
+go
+
+alter table [dbo].[ctuserset2] with nocheck add 
+ constraint [pk_ctuserset2] primary key  clustered 
+ (
+  [ctnodeid],
+  [userid]
+ )  on [primary] 
+go
+
+alter table [dbo].[ctuserset3] with nocheck add 
+ constraint [pk_ctuserset3] primary key  clustered 
+ (
+  [ctnodeid],
+  [userid]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtx9] with nocheck add 
+ constraint [pk_cudtx9] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtgeneric] with nocheck add 
+ constraint [pk_cudtgeneric] primary key  clustered 
+ (
+  [icuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtattach] with nocheck add 
+ constraint [pk_cudtattach] primary key  clustered 
+ (
+  [ixcuattach]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtkeyword] with nocheck add 
+ constraint [pk_cudtkeyword] primary key  clustered 
+ (
+  [icuitem],
+  [xkeyword]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtkeywordwtp] with nocheck add 
+ constraint [pk_cudtkeywordwtp] primary key  clustered 
+ (
+  [ikeyword]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtpage] with nocheck add 
+ constraint [pk_cudtpage] primary key  clustered 
+ (
+  [ixcupage]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtwimg] with nocheck add 
+ constraint [pk_cudtwimg] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtx2] with nocheck add 
+ constraint [pk_cudtx2] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtx27] with nocheck add 
+ constraint [pk_cudtx27] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtx30] with nocheck add 
+ constraint [pk_cudtx30] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtx4] with nocheck add 
+ constraint [pk_cudtx4] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtx5] with nocheck add 
+ constraint [pk_cudtx5] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtx7] with nocheck add 
+ constraint [pk_cudtx7] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtx8] with nocheck add 
+ constraint [pk_cudtx8] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtxdformspec] with nocheck add 
+ constraint [pk_cudtxdformspec] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtxmmo] with nocheck add 
+ constraint [pk_cudtxmmo] primary key  clustered 
+ (
+  [icuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtxpaper] with nocheck add 
+ constraint [pk_cudtxpaper] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[datacat] with nocheck add 
+ constraint [pk_datacat] primary key  clustered 
+ (
+  [catid]
+ )  on [primary] 
+go
+
+alter table [dbo].[datacontent] with nocheck add 
+ constraint [pk_datacontent] primary key  clustered 
+ (
+  [contentid]
+ )  on [primary] 
+go
+
+alter table [dbo].[dataunit] with nocheck add 
+ constraint [pk_dataunit] primary key  clustered 
+ (
+  [unitid]
+ )  on [primary] 
+go
+
+alter table [dbo].[dept] with nocheck add 
+ constraint [pk_dept] primary key  clustered 
+ (
+  [deptid]
+ )  on [primary] 
+go
+
+alter table [dbo].[deptorg] with nocheck add 
+ constraint [pk_deptorg] primary key  clustered 
+ (
+  [deptid],
+  [verid]
+ )  on [primary] 
+go
+
+alter table [dbo].[eppub] with nocheck add 
+ constraint [pk_eppub] primary key  clustered 
+ (
+  [epubid]
+ )  on [primary] 
+go
+
+alter table [dbo].[epsend] with nocheck add 
+ constraint [pk_epsend] primary key  clustered 
+ (
+  [ctrootid],
+  [email],
+  [epubid]
+ )  on [primary] 
+go
+
+alter table [dbo].[epaper] with nocheck add 
+ constraint [pk_epaper] primary key  clustered 
+ (
+  [ctrootid],
+  [email]
+ )  on [primary] 
+go
+
+alter table [dbo].[forum] with nocheck add 
+ constraint [pk_forum] primary key  clustered 
+ (
+  [forumid]
+ )  on [primary] 
+go
+
+alter table [dbo].[forumarticle] with nocheck add 
+ constraint [pk_forumarticle] primary key  clustered 
+ (
+  [articleid]
+ )  on [primary] 
+go
+
+alter table [dbo].[gipsites] with nocheck add 
+ constraint [pk_gipsites] primary key  clustered 
+ (
+  [gipsiteid]
+ )  on [primary] 
+go
+
+alter table [dbo].[hfaptform] with nocheck add 
+ constraint [pk_hfaptform] primary key  clustered 
+ (
+  [hfaptid]
+ )  on [primary] 
+go
+
+alter table [dbo].[hfaptjob] with nocheck add 
+ constraint [pk_hfaptjob] primary key  clustered 
+ (
+  [hfaptjobid]
+ )  on [primary] 
+go
+
+alter table [dbo].[hfdeptset] with nocheck add 
+ constraint [pk_hfdeptset] primary key  clustered 
+ (
+  [deptid],
+  [hyformid]
+ )  on [primary] 
+go
+
+alter table [dbo].[htddb] with nocheck add 
+ constraint [pk_htddb] primary key  clustered 
+ (
+  [dbid]
+ )  on [primary] 
+go
+
+alter table [dbo].[htdentity] with nocheck add 
+ constraint [pk_htdentity] primary key  clustered 
+ (
+  [entityid]
+ )  on [primary] 
+go
+
+alter table [dbo].[htdfield] with nocheck add 
+ constraint [pk_htdfield] primary key  clustered 
+ (
+  [entityid],
+  [xfieldname]
+ )  on [primary] 
+go
+
+alter table [dbo].[infouser] with nocheck add 
+ constraint [pk_infouser] primary key  clustered 
+ (
+  [userid]
+ )  on [primary] 
+go
+
+alter table [dbo].[joborg] with nocheck add 
+ constraint [pk_joborg] primary key  clustered 
+ (
+  [jobid],
+  [verid]
+ )  on [primary] 
+go
+
+alter table [dbo].[listconten] with nocheck add 
+ constraint [pk_listconten] primary key  clustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[m074] with nocheck add 
+ constraint [pk_m074] primary key  clustered 
+ (
+  [m074id]
+ )  on [primary] 
+go
+
+alter table [dbo].[memcattree] with nocheck add 
+ constraint [pk_memcattree] primary key  clustered 
+ (
+  [ctnodeid],
+  [memid]
+ )  on [primary] 
+go
+
+alter table [dbo].[memepaper] with nocheck add 
+ constraint [pk_memepaper] primary key  clustered 
+ (
+  [ctnodeid],
+  [memid]
+ )  on [primary] 
+go
+
+alter table [dbo].[member] with nocheck add 
+ constraint [pk_member] primary key  clustered 
+ (
+  [account]
+ )  on [primary] 
+go
+
+alter table [dbo].[mmofolder] with nocheck add 
+ constraint [pk_mmofolder] primary key  clustered 
+ (
+  [mmofolderid]
+ )  on [primary] 
+go
+
+alter table [dbo].[mmosite] with nocheck add 
+ constraint [pk_mmosite] primary key  clustered 
+ (
+  [mmositeid]
+ )  on [primary] 
+go
+
+alter table [dbo].[orgversion] with nocheck add 
+ constraint [pk_orgversion] primary key  clustered 
+ (
+  [verid],
+  [vertype]
+ )  on [primary] 
+go
+
+alter table [dbo].[poll] with nocheck add 
+ constraint [pk_poll] primary key  clustered 
+ (
+  [pollid]
+ )  on [primary] 
+go
+
+alter table [dbo].[polluser] with nocheck add 
+ constraint [pk_polluser] primary key  clustered 
+ (
+  [sid]
+ )  on [primary] 
+go
+
+alter table [dbo].[rpt6] with nocheck add 
+ constraint [pk_rpt6] primary key  clustered 
+ (
+  [rpt6id]
+ )  on [primary] 
+go
+
+alter table [dbo].[ugrp] with nocheck add 
+ constraint [pk_ugrp] primary key  clustered 
+ (
+  [ugrpid]
+ )  on [primary] 
+go
+
+alter table [dbo].[ugrpap] with nocheck add 
+ constraint [pk_ugrpap] primary key  clustered 
+ (
+  [apcode],
+  [ugrpid]
+ )  on [primary] 
+go
+
+alter table [dbo].[ugrpcode] with nocheck add 
+ constraint [pk_ugrpcode] primary key  clustered 
+ (
+  [codeid],
+  [ugrpid]
+ )  on [primary] 
+go
+
+alter table [dbo].[uploadsite] with nocheck add 
+ constraint [pk_uploadsite] primary key  clustered 
+ (
+  [uploadsiteid]
+ )  on [primary] 
+go
+
+alter table [dbo].[workday] with nocheck add 
+ constraint [pk_workday] primary key  clustered 
+ (
+  [xday]
+ )  on [primary] 
+go
+
+alter table [dbo].[xdmplist] with nocheck add 
+ constraint [pk_xdmplist] primary key  clustered 
+ (
+  [xdmpid]
+ )  on [primary] 
+go
+
+alter table [dbo].[xfupload] with nocheck add 
+ constraint [pk_xfupload] primary key  clustered 
+ (
+  [xfupname],
+  [xfuppath]
+ )  on [primary] 
+go
+
+alter table [dbo].[basedsd] add 
+ constraint [df__basedsd__inuse__24285db4] default ('y') for [inuse]
+go
+
+alter table [dbo].[basedsdfield] add 
+ constraint [df__basedsdfi__inuse__2704ca5f] default ('y') for [inuse],
+ constraint [df__basedsdfi__xcann__27f8ee98] default ('y') for [xcannull],
+ constraint [df__basedsdfi__xispr__28ed12d1] default ('n') for [xisprimarykey],
+ constraint [df__basedsdfi__xiden__29e1370a] default ('n') for [xidentity]
+go
+
+alter table [dbo].[cattreenode] add 
+ constraint [df__cattreeno__ctnod__336aa144] default ('c') for [ctnodekind],
+ constraint [df__cattreeno__datal__345ec57d] default (0) for [datalevel],
+ constraint [df__cattreeno__child__3552e9b6] default (0) for [childcount],
+ constraint [df__cattreeno__datac__36470def] default (0) for [datacount],
+ constraint [df__cattreeno__inuse__373b3228] default ('y') for [inuse],
+ constraint [df__cattreeno__editd__382f5661] default (getdate()) for [editdate]
+go
+
+alter table [dbo].[cattreeroot] add 
+ constraint [df__cattreero__editd__3b0bc30c] default (getdate()) for [editdate]
+go
+
+alter table [dbo].[catalogue] add 
+ constraint [df__catalogue__datal__2cbda3b5] default (0) for [datalevel],
+ constraint [df__catalogue__datat__2db1c7ee] default (0) for [datatop],
+ constraint [df__catalogue__datap__2ea5ec27] default (0) for [dataparent],
+ constraint [df__catalogue__child__2f9a1060] default (0) for [childcount],
+ constraint [df__catalogue__datac__308e3499] default (0) for [datacount]
+go
+
+alter table [dbo].[codemetadef] add 
+ constraint [df__codemetad__codet__5d60db10] default ('codemain') for [codetblname],
+ constraint [df__codemetad__codes__5e54ff49] default ('codemetaid') for [codesrcfld],
+ constraint [df__codemetad__codev__5f492382] default ('mcode') for [codevaluefld],
+ constraint [df__codemetad__coded__603d47bb] default ('mvalue') for [codedisplayfld],
+ constraint [df__codemetad__codes__61316bf4] default ('msortvalue') for [codesortfld],
+ constraint [df__codemetad__codev__6225902d] default ('代碼值') for [codevaluefldname],
+ constraint [df__codemetad__coded__6319b466] default ('顯示值') for [codedisplayfldname],
+ constraint [df__codemetad__codes__640dd89f] default ('排序值') for [codesortfldname],
+ constraint [df__codemetad__codet__6501fcd8] default ('emb') for [codetype]
+go
+
+alter table [dbo].[counter] add 
+ constraint [df__counter__counts__67de6983] default (0) for [counts]
+go
+
+alter table [dbo].[ctunit] add 
+ constraint [df__ctunit__fctunito__6abad62e] default ('y') for [fctunitonly],
+ constraint [df__ctunit__inuse__6baefa67] default ('y') for [inuse],
+ constraint [df__ctunit__checkyn__6ca31ea0] default ('n') for [checkyn]
+go
+
+alter table [dbo].[ctuserset] add 
+ constraint [df__ctuserset__right__6f7f8b4b] default (1) for [rights]
+go
+
+alter table [dbo].[cudtgeneric] add 
+ constraint [df__cudtgener__fctup__7908f585] default ('p') for [fctupublic],
+ constraint [df__cudtgener__dedit__79fd19be] default (getdate()) for [deditdate],
+ constraint [df__cudtgener__ximpo__7af13df7] default (0) for [ximportant],
+ constraint [df__cudtgener__xneww__7be56230] default ('n') for [xnewwindow],
+ constraint [df__cudtgener__xpost__7cd98669] default (getdate()) for [xpostdate],
+ constraint [df__cudtgener__creat__7dcdaaa2] default (getdate()) for [createddate],
+ constraint [df__cudtgener__showt__7ec1cedb] default ('1') for [showtype]
+go
+
+alter table [dbo].[cudtattach] add 
+ constraint [df__cudtattac__blist__762c88da] default ('y') for [blist]
+go
+
+alter table [dbo].[cudtpage] add 
+ constraint [df__cudtpage__blist__056ecc6a] default ('y') for [blist]
+go
+
+alter table [dbo].[cudtx2] add 
+ constraint [df__cudtx2__cudtx2f9__0a338187] default ('y') for [cudtx2f9]
+go
+
+alter table [dbo].[cudtx3] add 
+ constraint [pk_cudtx3] primary key  nonclustered 
+ (
+  [gicuitem]
+ )  on [primary] 
+go
+
+alter table [dbo].[cudtxdformspec] add 
+ constraint [df__cudtxdfor__expir__1c5231c2] default (5) for [expiredaynum]
+go
+
+alter table [dbo].[dept] add 
+ constraint [df__dept__kind__28b808a7] default ('1') for [kind],
+ constraint [df__dept__inuse__29ac2ce0] default ('y') for [inuse],
+ constraint [df__dept__nodekind__2aa05119] default ('d') for [nodekind]
+go
+
+alter table [dbo].[deptorg] add 
+ constraint [df__deptorg__unileve__2d7cbdc4] default (9) for [unilevel],
+ constraint [df__deptorg__uniref__2e70e1fd] default (0) for [uniref],
+ constraint [df__deptorg__staffca__2f650636] default (0) for [staffcat]
+go
+
+alter table [dbo].[epsend] add 
+ constraint [df__epsend__senddate__361203c5] default (getdate()) for [senddate]
+go
+
+alter table [dbo].[forumarticle] add 
+ constraint [df__forumarti__postd__3bcadd1b] default (getdate()) for [postdate],
+ constraint [df__forumarti__artic__3cbf0154] default (0) for [articlelevel],
+ constraint [df__forumarti__artic__3db3258d] default (0) for [articletop],
+ constraint [df__forumarti__artic__3ea749c6] default (0) for [articleparent],
+ constraint [df__forumarti__artic__3f9b6dff] default (0) for [articlechildcount],
+ constraint [df__forumarti__child__408f9238] default (0) for [childrencount],
+ constraint [df__forumarti__readc__4183b671] default (0) for [readcount]
+go
+
+alter table [dbo].[gipsites] add 
+ constraint [df__gipsites__gipsit__45544755] default (4) for [gipsiteinnerroot],
+ constraint [df__gipsites__gipsit__46486b8e] default (3) for [gipsitedefaultroot]
+go
+
+alter table [dbo].[hfaptform] add 
+ constraint [df__hfaptform__aplty__4924d839] default ('1') for [apltype],
+ constraint [df__hfaptform__aplda__4a18fc72] default (getdate()) for [apldate],
+ constraint [df__hfaptform__statu__4b0d20ab] default ('1') for [status],
+ constraint [df__hfaptform__lastd__4c0144e4] default (getdate()) for [lastdate]
+go
+
+alter table [dbo].[hfaptjob] add 
+ constraint [df__hfaptjob__hfjdat__4eddb18f] default (getdate()) for [hfjdate],
+ constraint [df__hfaptjob__rtmail__4fd1d5c8] default ('n') for [rtmail]
+go
+
+alter table [dbo].[hfdeptset] add 
+ constraint [df__hfdeptset__editd__52ae4273] default (getdate()) for [editdate]
+go
+
+alter table [dbo].[htdfield] add 
+ constraint [df__htdfield__xcannu__595b4002] default ('y') for [xcannull],
+ constraint [df__htdfield__xispri__5a4f643b] default ('n') for [xisprimarykey],
+ constraint [df__htdfield__xident__5b438874] default ('n') for [xidentity]
+go
+
+alter table [dbo].[infouser] add 
+ constraint [df__infouser__userty__5f141958] default ('p') for [usertype],
+ constraint [df__infouser__ugrpid__60083d91] default ('basic') for [ugrpid],
+ constraint [df__infouser__visitc__60fc61ca] default (0) for [visitcount]
+go
+
+alter table [dbo].[memcattree] add 
+ constraint [df__memcattre__right__7226edcc] default (1) for [rights]
+go
+
+alter table [dbo].[memepaper] add 
+ constraint [df__memepaper__right__75035a77] default (1) for [rights]
+go
+
+alter table [dbo].[ugrp] add 
+ constraint [df__ugrp__regdate__035179ce] default (getdate()) for [regdate],
+ constraint [df__ugrp__ispublic__04459e07] default ('y') for [ispublic]
+go
+
+alter table [dbo].[workday] add 
+ constraint [df__workday__offmark__0cdae408] default ('n') for [offmark]
+go
+
+alter table [dbo].[xdmplist] add 
+ constraint [df__xdmplist__editda__1387e197] default (getdate()) for [editdate]
+go
+
+alter table [dbo].[xfupload] add 
+ constraint [df__xfupload__xedito__16644e42] default ('mof') for [xeditor],
+ constraint [df__xfupload__xeditd__1758727b] default (getdate()) for [xeditdate]
+go
+
+alter table [dbo].[zcustomdbinfo] add 
+ constraint [df__zcustomdb__updat__1940baed] default (getdate()) for [updatetime]
+go
+
+alter table [dbo].[zcustomdbstatus] add 
+ constraint [df__zcustomdb__updat__1b29035f] default (getdate()) for [updatetime]
+go
+
+
+ 

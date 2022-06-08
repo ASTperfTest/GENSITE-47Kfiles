@@ -1,0 +1,50 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*--------------------------------------------------------------------- interact 我要發問，以文找文*/
+.interact {
+	clear: both;
+	width: 100%;
+	overflow: hidden;
+}
+.interact ul {
+	margin: 0;
+	padding:0;
+	overflow: hidden;
+	list-style: none;
+	float: right;
+	font-family: "新細明體";
+}
+.interact ul li {
+	margin: 0;
+	padding:0;
+	float: left;
+	margin: 0;
+	letter-spacing: 1px;
+}
+.interact li a {
+	text-decoration: none;
+	display: block;
+	float: left;
+	line-height: 100%;
+	font-family: "新細明體";
+	color: #666;
+}
+.interact li a:hover {
+	color: #000;
+}
+.interact li.ask a {
+	background: url(../images/ia_ask.gif) no-repeat 0 0;
+	padding: 10px 15px 9px 32px;
+}
+.interact li.find a {
+	background: url(../images/ia_find.gif) no-repeat 0 0;
+	padding: 10px 15px 9px 32px;
+}
+
+.interact li.ask a:hover {
+	background: url(../images/ia_ask_hover.gif) no-repeat 0 0;
+}
+.interact li.find a:hover {
+	background: url(../images/ia_find_hover.gif) no-repeat 0 0;
+}

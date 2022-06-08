@@ -1,0 +1,191 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function href____1470241313() {window.history.back();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     function onchange____540455294() {CtRootIdOnChange()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                             function onclick___1111429372() {VBS: popCalendar 'StartDate',''}
+
+                                                            function onclick___811587503() {VBS: popCalendar 'EndDate',''}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           
+ function CtRootIdOnChange()
+ {  
+  if(document.iForm.CtRootId.options[document.iForm.CtRootId.selectedIndex].value == 1) {
+   document.getElementById("CtUnitName").disabled = false;
+  }
+  if(document.iForm.CtRootId.options[document.iForm.CtRootId.selectedIndex].value == 2) {
+   document.getElementById("CtUnitName").disabled = false;
+  }
+  if(document.iForm.CtRootId.options[document.iForm.CtRootId.selectedIndex].value == 3) {   
+   document.getElementById("CtUnitName").value = "";
+   document.getElementById("CtUnitName").disabled = true;
+  }
+  if(document.iForm.CtRootId.options[document.iForm.CtRootId.selectedIndex].value == 4) {
+   document.getElementById("CtUnitName").disabled = false;
+  }
+ }
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

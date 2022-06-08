@@ -1,0 +1,6 @@
+﻿
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+    

@@ -1,0 +1,50 @@
+﻿:  @ codepage = 65001 
+  
+'// purpose: ?? emily ??download engmoe ?any type of files from server.
+'// date: 2006/7/13
+'// test
+
+response.buffer = true
+response.clear
+
+htprogcode = "gc1ap5"
+catalogueframe = "220,*"
+
+   CxMethod_ASP_server_1606199358()
+  
+dim xfile
+dim downfile
+dim s
+dim fso
+dim f
+
+xfile = request("xfile") 
+downfile = server.mappath(xfile)
+
+set s = server.createobject("adodb.stream")
+s.open
+s.type = 1
+
+set fso = server.createobject("scripting.filesystemobject")
+
+if not fso.fileexists(downfile) then
+    response.write("<h1>error:</h1>" & downfile & " does not exist<p>")
+    response.end
+end if
+
+set f = fso.getfile(downfile)
+intfilelength = f.size
+s.loadfromfile(downfile)
+
+response.addheader "content-disposition", "attachment; filename=" & f.name
+response.addheader "content-length", intfilelength
+response.charset = "utf-8"
+response.contenttype = "application/octet-stream"
+response.binarywrite s.read
+response.flush
+
+s.close
+set s = nothing
+set fso = nothing 
+
+ 

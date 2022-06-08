@@ -1,0 +1,235 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="電子報訂閱管理"
+htprogfunc="訂閱者管理"
+htuploadpath="/public/"
+htprogcode="gw1m51"
+htprogprefix="epsub" 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+dim pkey
+dim rsreg
+dim formfunction
+tasklable="編輯" & htprogcap
+
+ apath=server.mappath(htuploadpath) & "\"
+  set xup = server.createobject("updownexpress.fileupload")
+  xup.open 
+
+function xupform(xvar)
+on error resume next
+ xstr = ""
+ arrval = xup.multival(xvar)
+ for i = 1 to ubound(arrval)
+  xstr = xstr & arrval(i) & ", "
+'  response.write arrval(i) & "<br>" & chr(13)
+ next 
+ if xstr = "" then
+  xstr = xup(xvar)
+  xupform = xstr
+ else
+  xupform = left(xstr, len(xstr)-2)
+ end if
+end function
+
+if xupform("submittask") = "update" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  editinbothcase()
+ else
+  doupdatedb()
+  showdonebox("更新資料成功")
+ end if
+
+elseif xupform("submittask") = "delete" then
+ sql = "delete from epaper where email=" & pkstr(request.querystring("email"),"")
+ conn.execute sql
+ showdonebox("刪除資料成功")
+
+else
+ editinbothcase()
+end if
+
+
+sub editinbothcase
+ sqlcom = "select htx.* from epaper as htx where htx.email=" & pkstr(request.querystring("email"),"")
+ set rsreg = conn.execute(sqlcom)
+ pkey = ""
+ pkey = pkey & "&email=" & rsreg("email")
+ if pkey<>"" then  pkey = mid(pkey,2)
+
+ showhtmlhead()
+ if errmsg <> "" then showerrbox()
+ formfunction = "edit"
+ showform()
+ initform()
+ showhtmltail()
+end sub
+
+
+function qqrs(fldname)
+ if request("submittask")="" then
+  xvalue = rsreg(fldname)
+ else
+  xvalue = ""
+  if request("htx_"&fldname) <> "" then
+   xvalue = request("htx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+  sub initform() 
+
+
+
+
+
+
+
+                         =qqrs("email")
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+
+  sub showform()   '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_epsubforme_1805932710()
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '--- showhtmlhead() ------
+
+
+  sub showhtmltail() 
+
+
+
+
+
+  end sub '--- showhtmltail() ------
+
+
+  sub showerrbox() 
+
+              =errmsg
+
+
+  
+    end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- ݸˬd{xbo apuҡaɳ] errmsg="xxx"  exit sub ------
+' if request("tfx_taxid") <> "" then
+'   sql = "select * from client where taxid = n'"& request("tfx_taxid") &"'"
+'   set rsreg = conn.execute(sql)
+'   if not rsreg.eof then
+'  if trim(rsreg("clientid")) <> request("pfx_clientid") then
+'   errmsg = "uτ@sv!!эsjȤτ@s!"
+'   exit sub
+'  end if
+'   end if
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+ sql = "update eppub set "
+  sql = sql & "pubdate=" & pkstr(xupform("htx_pubdate"),",")
+  sql = sql & "title=" & pkstr(xupform("htx_title"),",")
+  sql = sql & "dbdate=" & pkstr(xupform("htx_dbdate"),",")
+  sql = sql & "dedate=" & pkstr(xupform("htx_dedate"),",")
+  sql = sql & "maxno=" & pkstr(xupform("htx_maxno"),",")
+ sql = left(sql,len(sql)-1) & " where epubid=" & pkstr(request.querystring("epubid"),"")
+
+ conn.execute(sql)  
+end sub '---- doupdatedb() ----
+
+  sub showdonebox(lmsg) 
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+                 =lmsg
+                               =htprogprefix:            =session("querypage_no")
+
+
+
+  end sub '---- showdonebox() ----  

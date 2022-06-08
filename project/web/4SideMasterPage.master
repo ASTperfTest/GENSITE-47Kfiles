@@ -1,0 +1,104 @@
+﻿<%@ Master Language="VB" CodeFile="4SideMasterPage.master.vb" Inherits="_4SideMasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<script src="/js/pedia.js" type="text/javascript"></script>
+<!-- Added By Leo  2011-07-07 加入Menu Color Change   Start  -->
+<link rel="stylesheet" type="text/css" href="/css/menu_Selected.css" />
+<!-- Added By Leo  2011-07-07 加入Menu Color Change    End   -->
+<script src="/js/jquery.js" type="text/javascript"></script>
+<?xml version="1.0" encoding="utf-8" ?>
+<%
+    Dim xssTest As String = Request.RawUrl()
+    If WebUtility.checkParam(xssTest) Then
+        Response.Write("<script>alert('網址中包含不正常的參數,頁面將導回首頁!!');window.location.href='/mp.asp';</script>")
+        Response.End()
+    End If
+    Dim xsl As System.Xml.Xsl.XslCompiledTransform = New System.Xml.Xsl.XslCompiledTransform
+    Dim xslpath As String = System.Web.Configuration.WebConfigurationManager.AppSettings("4sidexslpath")
+    Dim showcursoriconid As Integer = Convert.ToInt32(ConfigurationManager.AppSettings("showcursoriconid"))
+    xsl.Load(xslpath)
+
+    Dim sb As System.Text.StringBuilder = New System.Text.StringBuilder
+
+    Dim xmlWriter As System.IO.StringWriter = New System.IO.StringWriter(sb)
+    Dim xdsppath As String = ""
+    Dim redirectUrl As String = Request.RawUrl().Replace("&", ";")
+    redirectUrl = Replace(redirectUrl, "(", "")
+    redirectUrl = Replace(redirectUrl, ")", "")
+    redirectUrl = Replace(redirectUrl, "%22", "")
+    redirectUrl = Replace(redirectUrl, "<", "")
+    xdsppath = System.Web.Configuration.WebConfigurationManager.AppSettings("xdsppath") & "&redirectUrl=" & redirectUrl
+
+    xsl.Transform(xdsppath & "&memID=" & Session("memID") & "&gstyle=" & Session("gstyle"), New System.Xml.XmlTextWriter(xmlWriter))
+
+    Dim head As String
+    Dim tail As String
+
+    Dim index As Integer
+    Dim html As String = Server.HtmlDecode(sb.ToString())
+    Dim spword As String = "___ContentPage___"
+    index = html.IndexOf(spword)
+
+    If index < 0 Then
+        head = html
+        tail = ""
+    Else
+        head = html.Substring(0, index)
+        tail = html.Substring(index + spword.Length)
+    End If
+  
+    Dim ShowCursorIcon As Integer = 2
+    Dim ConnString As String = System.Web.Configuration.WebConfigurationManager.ConnectionStrings("ODBCDSN").ConnectionString
+    Using myConnection As System.Data.SqlClient.SqlConnection = New System.Data.SqlClient.SqlConnection(ConnString)
+        myConnection.Open()
+        If Session("memID") <> "" Then
+            Using myCommand As System.Data.SqlClient.SqlCommand = New System.Data.SqlClient.SqlCommand("select ShowCursorIcon from Member Where account = @subjectid", myConnection)
+                myCommand.Parameters.Add(New System.Data.SqlClient.SqlParameter("@subjectid", Session("memID")))
+                Dim result = myCommand.ExecuteScalar()
+                If Not IsDBNull(result) Then
+                    ShowCursorIcon = Convert.ToInt32(result)
+                End If
+            End Using
+        End If
+  
+        If ShowCursorIcon = 2 Then
+            Using showCursorCommand As System.Data.SqlClient.SqlCommand = New System.Data.SqlClient.SqlCommand(" select stitle from CuDTGeneric where icuitem = @icuitem ", myConnection)
+                showCursorCommand.Parameters.Add(New System.Data.SqlClient.SqlParameter("@icuitem", showcursoriconid))
+                Dim cursorOpen = showCursorCommand.ExecuteScalar()
+                If (Not IsDBNull(cursorOpen)) And cursorOpen.ToString() = "1" Then
+                    ShowCursorIcon = 1
+                Else
+                    ShowCursorIcon = 0
+                End If
+            End Using
+        End If
+  
+        If ShowCursorIcon = 0 Then
+            head = Replace(head, "png.length!=0", "false")
+        End If
+        Response.Write(head)
+    End Using
+%>
+<script type="text/javascript" src="/subject/aspSrc.asp"></script>
+<form id="myform" runat="server">
+<asp:contentplaceholder id="ContentPlaceHolder1" runat="server">
+  </asp:contentplaceholder>
+</form>
+<%
+    Response.Write(tail)
+	Dim StrUrl As String = ""
+    If InStr(Request.RawUrl(), "jigsaw2010/Detail.aspx") > 0 Or InStr(Request.RawUrl(), "jigsaw2010%2fDetail.aspx") > 0 Then
+        
+        If Request.Url.PathAndQuery <> Nothing Then
+            StrUrl = Server.UrlEncode(Request.Url.PathAndQuery.ToString())
+        End If
+        %>
+<script type="text/javascript">    var GB_ROOT_DIR = "/js/greybox/"; var referer_url = "<%=StrUrl %>";</script>
+<script type="text/javascript" src="/js/greybox/greybox.js"></script>
+<script type="text/javascript" src="/js/greybox/AJS.js"></script>
+<script type="text/javascript" src="/js/greybox/gb_scripts.js"></script>
+<script type="text/javascript" src="/TreasureHunt/treasurebox.js"></script>
+
+        <%
+    End If
+%>

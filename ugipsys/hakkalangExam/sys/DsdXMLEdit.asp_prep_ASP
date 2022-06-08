@@ -1,0 +1,1348 @@
+﻿: @ codepage = 65001 
+   codepage=65001
+response.expires = 0
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+htprogcode="gc1ap1"
+htprogprefix="dsdxml" 
+
+
+   CxMethod_ASP_server_1606199358()
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+   CxMethod_ASP_checkgipconfig_1275316133()
+   CxMethod_ASP_htuigen_1591615763()
+   CxMethod_ASP_hyftdgip_754890524()
+  
+function send_email (s_email,r_email,re_sbj,re_body)
+
+ set objnewmail = createobject("cdonts.newmail") 
+ objnewmail.mailformat = 0
+ objnewmail.bodyformat = 0 
+ call objnewmail.send(s_email,r_email,re_sbj,re_body)
+
+ set objnewmail = nothing
+end function 
+function mmopathstr(mmofolderid) '----940407 mmo路徑字串
+ sql = "select mm.mmositeid,mmofolderparent,case mmofolderparent when 'zzz' then mmositename else mmofoldernameshow end mmofoldernameshow " & _ 
+  "from mmofolder mm left join mmosite ms on mm.mmositeid=ms.mmositeid where mmofolderid=" & mmofolderid
+ set rsn = conn.execute(sql)
+ xparent = rsn("mmofolderparent")
+ xpathstr = rsn("mmofoldernameshow")
+ xmmositeid = rsn("mmositeid")
+ while xparent <> "zzz"
+  sql = "select mm.mmositeid,mmofolderparent,case mmofolderparent when 'zzz' then mmositename else mmofoldernameshow end mmofoldernameshow " & _ 
+   "from mmofolder mm left join mmosite ms on mm.mmositeid=ms.mmositeid where mm.mmositeid=" & pkstr(xmmositeid,"") & " and mmofoldername=" & pkstr(xparent,"")
+  set rs = conn.execute(sql)
+  xpathstr = rs("mmofoldernameshow") & " / " & xpathstr
+  xparent = rs("mmofolderparent")
+  xmmositeid = rsn("mmositeid")
+ wend
+ mmopathstr = xpathstr
+end function
+function filmrelated(xfunc,xtable,xtype,xicuitem,xfieldstr)
+ set conn2 = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn2.open session("odbcdsn")
+'set conn2 = server.createobject("hywebdb3.dbexecute")
+conn2.connectionstring = session("odbcdsn")
+conn2.connectiontimeout=0
+conn2.cursorlocation = 3
+conn2.open
+'----------hyweb gip db connection patch----------
+
+     xxicuitem=xicuitem
+     if xtable="corp" then   '----corp處理
+     if xfunc="edit" then 
+      sqld="delete from filmcorpinfo where filmno="&xxicuitem&" and companytype=n'"&xtype&"'"  
+      conn2.execute(sqld)
+     end if
+     xkeywordarray=split(xfieldstr,",")
+     for i=0 to ubound(xkeywordarray)
+         xstr=trim(xkeywordarray(i))
+  sql="select gicuitem from corpinformation ai left join cudtgeneric cdt " & _
+   " on ai.gicuitem=cdt.icuitem where stitle=n'"&xstr&"'"
+  set rsc=conn2.execute(sql)
+  if not rsc.eof then 
+   sqli=sqli+"insert into filmcorpinfo values("&xxicuitem&","&rsc(0)&",'"&xtype&"',null,null,null);"
+  end if
+     next     
+     elseif xtable="actor" then  '----people處理
+     if xfunc="edit" then 
+      sqld="delete from filmpeopleinfo where filmno="&xxicuitem&" and roleinfo=n'"&xtype&"'"  
+      conn2.execute(sqld)
+     end if
+     xkeywordarray=split(xfieldstr,",")
+     for i=0 to ubound(xkeywordarray)
+  '----取最後括號
+  xpos=instrrev(xkeywordarray(i),"(")
+  if xpos<>0 then
+   xstr=left(trim(xkeywordarray(i)),xpos-1)
+   xstrpar="'"+mid(trim(xkeywordarray(i)),xpos)+"'"
+  else
+   xstr=trim(xkeywordarray(i))
+   xstrpar="null"
+  end if
+  sql="select gicuitem from actorinformation ai left join cudtgeneric cdt " & _
+   " on ai.gicuitem=cdt.icuitem where stitle=n'"&xstr&"'"
+  set rsc=conn2.execute(sql)
+  if not rsc.eof then 
+   sqli=sqli+"insert into filmpeopleinfo values("&xxicuitem&","&rsc(0)&",'"&xtype&"',"&xstrpar&",null,null,null);"
+  end if
+     next 
+     end if 
+ if sqli<>"" then conn2.execute(sqli)  
+'     conn2.close
+     filmrelated = ""
+end function
+
+dim hyftdgipstr
+dim pkey
+dim rsreg
+dim formfunction
+dim allmodel2
+dim xshowtypestr,xshowtype
+dim xref5count,xref5yn
+dim orginputtype
+dim xmmofolderid,mmopath,xftpipmmo,xftpportmmo,xftpidmmo,xftppwdmmo,mmoftpfilepath,mmocount
+mmocount=0
+
+tasklable="編輯" & htprogcap
+ cq=chr(34)
+ ct=chr(9)
+ cl="<" & "%"
+ cr="%" & ">"
+ 
+'----ftp參數處理
+ ftperrormsg=""
+ ftpfilepath="public/data"
+ sqlp = "select * from uploadsite where uploadsiteid='file'"
+ set rsp = conn.execute(sqlp)
+ if not rsp.eof  then
+     xftpip = rsp("uploadsiteftpip")
+     xftpport = rsp("uploadsiteftpport")
+     xftpid = rsp("uploadsiteftpid")
+     xftppwd = rsp("uploadsiteftppwd")
+    end if
+'----ftp參數處理end 
+ 
+apath=server.mappath(htuploadpath) & "\"
+'response.write apath
+'response.end
+
+if request.querystring("phase")<>"edit" then
+set xup = server.createobject("tabs.upload")
+xup.codepage=65001
+xup.start apath
+else
+set xup = server.createobject("tabs.upload")
+end if
+
+function xupform(xvar)
+ xupform = xup.form(xvar)
+end function
+
+
+if request.querystring("s")="approve" or request.querystring("s")="ref" then '----由gipapprove或編修參照來源而來,沒有session("codexmlspec")
+ sql = "select u.*,b.sbasetablename from cudtgeneric as n left join ctunit as u on u.ctunitid=n.ictunit" _
+  & " left join basedsd as b on n.ibasedsd=b.ibasedsd" _
+  & " where n.icuitem=" & request.querystring("icuitem")
+ 'response.write "<hr>" & sql & "</hr>"
+ set rs = conn.execute(sql)
+ session("ctunitid") = rs("ctunitid")
+ session("ctunitname") = rs("ctunitname")
+ session("ibasedsd") = rs("ibasedsd")
+ session("fctunitonly") = rs("fctunitonly")
+ if isnull(rs("sbasetablename")) then
+  session("sbasetablename") = "cudtx" & session("ibasedsd")
+ else
+  session("sbasetablename") = rs("sbasetablename")
+ end if 
+ set htpagedom = server.createobject("microsoft.xmldom")
+ htpagedom.async = false
+ htpagedom.setproperty("serverhttprequest") = true  
+     '----找出對應的ctunitx???? xmlspec檔案(若找不到則抓default), 並依fieldseq排序成物件存入session
+    set fso = server.createobject("scripting.filesystemobject")
+ filepath = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx" & cstr(session("ctunitid")) & ".xml")  
+     if fso.fileexists(filepath) then
+      loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx" & cstr(session("ctunitid")) & ".xml")
+     else
+      loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/cudtx" & session("ibasedsd") & ".xml")
+     end if 
+' response.write loadxml & "<hr>"
+' response.end
+ xv = htpagedom.load(loadxml)
+' response.write xv & "<hr>"
+   if htpagedom.parseerror.reason <> "" then 
+      response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+      response.end()
+   end if  
+     set root = htpagedom.selectsinglenode("dataschemadef")
+     '----load xsl樣板
+     set oxsl = server.createobject("microsoft.xmldom")
+    oxsl.async = false
+    xv = oxsl.load(server.mappath("/gipdsd/xmlspec/ctunitxorder.xsl"))      
+     '----複製slave的dstable,並依順序轉換
+ set dsdnode = htpagedom.selectsinglenode("dataschemadef/dstable[tablename='"&session("sbasetablename")&"']").clonenode(true)    
+     set dsdnodexml = server.createobject("microsoft.xmldom")
+    dsdnodexml.appendchild dsdnode
+     set nxml = server.createobject("microsoft.xmldom")
+     nxml.loadxml(dsdnodexml.transformnode(oxsl))
+     set nxmlnewnode = nxml.documentelement    
+     dsdnode.replacechild nxmlnewnode,dsdnode.selectsinglenode("fieldlist")
+     root.replacechild dsdnode,root.selectsinglenode("dstable[tablename='"&session("sbasetablename")&"']")
+     '----複製cudtgeneric的dstable,並依順序轉換
+     set genericnode = htpagedom.selectsinglenode("dataschemadef/dstable[tablename='cudtgeneric']").clonenode(true)    
+     set genericnodexml = server.createobject("microsoft.xmldom")
+     genericnodexml.appendchild genericnode
+    set nxml2 = server.createobject("microsoft.xmldom")
+     nxml2.loadxml(genericnodexml.transformnode(oxsl))
+     set nxmlnewnode2 = nxml2.documentelement    
+     genericnode.replacechild nxmlnewnode2,genericnode.selectsinglenode("fieldlist")
+     root.replacechild genericnode,root.selectsinglenode("dstable[tablename='cudtgeneric']")        
+
+
+   set session("codexmlspec") = htpagedom
+   '----混合field順序
+ set nxml0 = server.createobject("microsoft.xmldom")
+ nxml0.loadxml(htpagedom.transformnode(oxsl))
+ set session("codexmlspec2") = nxml0 
+' response.write nxm10.xml
+' response.end
+'response.write "hello2"
+'response.end
+end if
+
+   set htpagedom = session("codexmlspec")
+
+   set refmodel = htpagedom.selectsinglenode("//dstable")
+   set allmodel = htpagedom.selectsinglenode("//dataschemadef")
+   '----940215film關聯處理session
+ session("filmrelated_corpactor")=nulltext(allmodel.selectsinglenode("filmrelated_corpactor"))   
+   
+    set ideptnode = htpagedom.selectsinglenode("//fieldlist/field[fieldname='idept']")
+    ideptnode.selectsinglenode("inputtype").text = "refselect"  
+    ideptnode.selectsinglenode("reflookup").text = "refdept"  
+    
+if xupform("submittask") = "update" then
+ 
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  editinbothcase()
+ else
+  doupdatedb()
+  showdonebox("資料更新成功！")
+ end if
+
+elseif xupform("submittask") = "delete" then
+ '----940407 mmo上傳路徑/ftp等參數處理
+ sqlcheck="select rdsdcat,sbasetablename from ctunit c left join basedsd b on c.ibasedsd=b.ibasedsd " & _
+  "where c.ctunitid='"&session("ctunitid")&"'"
+ set rscheck=conn.execute(sqlcheck) 
+ if checkgipconfig("mmofolder") and rscheck("rdsdcat")="mmo" then
+  '----ftp所需參數
+  sqlm="select mm.mmositeid+mm.mmofoldername as mmofolderid,mm.mmositeid,mm.mmofoldername,ms.uploadsiteftpip,ms.uploadsiteftpport,ms.uploadsiteftpid,ms.uploadsiteftppwd " & _
+   " from "&rscheck("sbasetablename")&" cm left join mmofolder mm on cm.mmofolderid=mm.mmofolderid " & _
+   " left join mmosite ms on mm.mmositeid=ms.mmositeid " & _
+   "where cm.gicuitem="&request.querystring("icuitem")
+  set rsm=conn.execute(sqlm)
+  if not rsm.eof then 
+   xmmofolderid=rsm("mmofolderid")
+      xftpipmmo = rsm("uploadsiteftpip")
+      xftpportmmo = rsm("uploadsiteftpport")
+      xftpidmmo = rsm("uploadsiteftpid")
+      xftppwdmmo = rsm("uploadsiteftppwd")
+   mmoftpfilepath="public/"&xmmofolderid
+  end if
+  '----上傳路徑
+  mmopath = session("mmopublic") & xmmofolderid
+  if right(mmopath,1)<>"/" then mmopath = mmopath & "/"
+ end if
+ '----940407 mmo上傳路徑/ftp等參數處理完成
+'------- 記錄 異動 log -------- start -------------------------------------------------------- 
+ if checkgipconfig("userlogfile") then
+  sql = "insert into useractionlog(loginsid,xtarget,xaction,recordnumber,objtitle) values(" _
+   & dfn(session("loginlogsid")) & "'0a','3'," _
+   & dfn(request.querystring("icuitem")) _
+   & pkstr(xupform("htx_stitle"),")")
+  conn.execute sql
+ end if 
+'------- 記錄 異動 log -------- end -------------------------------------------------------- 
+ '----刪除圖檔
+ sqldmcheck="select * from cudtgeneric where icuitem=" & pkstr(request.querystring("icuitem"),"")
+ set rsmcheck=conn.execute(sqldmcheck)
+ for each param in allmodel.selectnodes("dstable[tablename='icuitem']/fieldlist/field[formlist!='']") 
+     if lcase(right(nulltext(param.selectsinglenode("inputtype")),4)) = "file" then 
+      if not isnull(rsmcheck(nulltext(param.selectsinglenode("fieldname")))) then
+          processupdate param
+      end if
+     end if
+ next
+ sqldscheck="select * from " & nulltext(refmodel.selectsinglenode("tablename")) & "  where gicuitem=" & pkstr(request.querystring("icuitem"),"")
+ set rsscheck=conn.execute(sqldscheck)
+ for each param in refmodel.selectnodes("fieldlist/field[formlist!='']") 
+     if lcase(right(nulltext(param.selectsinglenode("inputtype")),4)) = "file" then 
+         if not isnull(rsscheck(nulltext(param.selectsinglenode("fieldname")))) then
+          processupdate param
+      end if
+     end if
+ next
+ '----刪除主表
+ sql = "delete from cudtgeneric where icuitem=" & pkstr(request.querystring("icuitem"),"")
+ conn.execute sql
+ '----刪除slave表
+ sql = "delete from " & nulltext(refmodel.selectsinglenode("tablename")) _
+  & " where gicuitem=" & pkstr(request.querystring("icuitem"),"")
+ conn.execute sql
+ '----刪除關鍵字詞
+ sql = "delete from cudtkeyword where icuitem=" & pkstr(request.querystring("icuitem"),"")
+ conn.execute sql
+ '----刪除參照資料
+ userid = session("userid")
+     sqlref5list = "select cdt.icuitem,b.sbasetablename " _
+  & " from cattreenode as t " _
+  & " left join ctuserset as u on u.ctnodeid=t.ctnodeid " _
+  & " left join cudtgeneric cdt on t.ctunitid=cdt.ictunit and cdt.showtype='5' and cdt.refid="&request.querystring("icuitem") _
+  & " left join basedsd b on cdt.ibasedsd = b.ibasedsd " _
+  & " where ctrootid = "& session("itemid") & " and u.userid=" & pkstr(userid,"") & " and cdt.icuitem is not null"
+ set rsref5list=conn.execute(sqlref5list)
+ if not rsref5list.eof then
+     while not rsref5list.eof
+      sql="delete from cudtgeneric where icuitem=" & rsref5list("icuitem") & ";"
+      sql=sql&"delete from " & rsref5list("sbasetablename") & " where gicuitem=" & rsref5list("icuitem")
+      conn.execute(sql)
+      rsref5list.movenext
+     wend
+ end if
+ '----刪除hyftd文章索引
+ if checkgipconfig("hyftdgip") then
+  hyftdgipstr=hyftdgip("delete",request.querystring("icuitem"))
+ end if   
+ '----940215刪除電影網關聯資料
+ if session("filmrelated_corpactor")="y" then
+  conn.execute("delete from filmcorpinfo where filmno="&request.querystring("icuitem"))
+  conn.execute("delete from filmpeopleinfo where filmno="&request.querystring("icuitem"))
+ end if  
+ '----940410 刪除mmo紀錄檔資料
+ if checkgipconfig("mmofolder") then 
+  conn.execute("delete from mmoreferened where mmoid="&request.querystring("icuitem"))
+ end if  
+  
+ showdonebox("資料刪除成功！")
+else
+ editinbothcase()
+end if
+
+sub editinbothcase
+ sqlcom = "select htx.*, ghtx.*, xrefnfilename.oldfilename as fxr_filedownload,rdsdcat,sbasetablename " 
+
+ sqlfrom = " from " & nulltext(refmodel.selectsinglenode("tablename")) _
+  & " as htx join cudtgeneric as ghtx on ghtx.icuitem=htx.gicuitem "_
+  & " left join imagefile as xrefnfilename on xrefnfilename.newfilename = ghtx.filedownload " _
+  & " left join basedsd b on ghtx.ibasedsd=b.ibasedsd "
+
+ for each param in refmodel.selectnodes("fieldlist/field[formlist!='' and (inputtype='file' or inputtype='imgfile')]") 
+  xfname = nulltext(param.selectsinglenode("fieldname"))
+  sqlcom = sqlcom & ",xref" & xfname & ".oldfilename as fxr_" & xfname
+  sqlfrom = sqlfrom & " left join imagefile as xref" & xfname _
+   & " on xref" & xfname & ".newfilename=htx." & xfname
+ next
+
+ sqlcom = sqlcom & sqlfrom & " where ghtx.icuitem=" & pkstr(request.querystring("icuitem"),"")  
+' response.write sqlcom
+'response.end
+ set rsreg = conn.execute(sqlcom)
+ if checkgipconfig("mmofolder") and rsreg("rdsdcat")="mmo" then
+  sqlm="select mm.mmositeid+mm.mmofoldername+'/' as mmofolderpath " & _
+   ",(select count(*) from mmoreferened where mmoid="&pkstr(request.querystring("icuitem"),"") & ") mmocount " & _
+   "from "&rsreg("sbasetablename")&" cm left join mmofolder mm on cm.mmofolderid=mm.mmofolderid " & _
+   "where cm.gicuitem="&pkstr(request.querystring("icuitem"),"")    
+  set rsmmo=conn.execute(sqlm)
+  mmopath=session("mmopublic") & rsmmo("mmofolderpath")
+  mmocount=rsmmo("mmocount")
+ end if
+ xfrom = nulltext(refmodel.selectsinglenode("tablename")) 
+ if rsreg("showtype")="5" then xref5yn="y"
+ pkey = "icuitem=" & rsreg("icuitem")
+ '----被參照個數
+ userid = session("userid")
+     sqlref5count = "select count(cdt.icuitem) " _
+  & " from cattreenode as t " _
+  & " left join ctuserset as u on u.ctnodeid=t.ctnodeid " _
+  & " left join cudtgeneric cdt on t.ctunitid=cdt.ictunit and cdt.showtype='5' and cdt.refid="&request.querystring("icuitem") _
+  & " where ctrootid = "& session("itemid") & " and u.userid=" & pkstr(userid,"") & " and cdt.icuitem is not null"
+' response.write sqlref5count & "<hr/>"
+' response.end
+ set rs5count=conn.execute(sqlref5count)
+ xref5count=rs5count(0)
+' response.write "xx="&xref5count
+' response.end
+    if (request.querystring("s")="edit" and request.querystring("showtype")="") or ((request.querystring("s")="" or request.querystring("s")="approve" or request.querystring("s")="ref") and rsreg("showtype")="1") then '----一般資料
+ set allmodel2 = session("codexmlspec2").documentelement   
+ for each param in allmodel2.selectnodes("//fieldlist/field[showtypestr='4']") 
+  set romovenode=allmodel2.selectsinglenode("field[fieldname='"+param.selectsinglenode("fieldname").text+"']")
+  allmodel2.removechild romovenode
+ next
+   xshowtypestr="一般資料式"
+   xshowtype="1"
+    elseif (request.querystring("s")="edit" and request.querystring("showtype")="2") or ((request.querystring("s")="" or request.querystring("s")="approve" or request.querystring("s")="ref") and rsreg("showtype")="2") then '----url連結
+ set allmodel2 = session("codexmlspec2").documentelement   
+ for each param in allmodel2.selectnodes("//fieldlist/field[showtypestr='4']") 
+  set romovenode=allmodel2.selectsinglenode("field[fieldname='"+param.selectsinglenode("fieldname").text+"']")
+  allmodel2.removechild romovenode
+ next
+   xshowtypestr="url連結式"
+   xshowtype="2"
+    elseif (request.querystring("s")="edit" and request.querystring("showtype")="3") or ((request.querystring("s")="" or request.querystring("s")="approve" or request.querystring("s")="ref") and rsreg("showtype")="3") then '----檔案下載
+ set allmodel2 = session("codexmlspec2").documentelement   
+ for each param in allmodel2.selectnodes("//fieldlist/field[showtypestr='4']") 
+  set romovenode=allmodel2.selectsinglenode("field[fieldname='"+param.selectsinglenode("fieldname").text+"']")
+  allmodel2.removechild romovenode
+ next
+   xshowtypestr="檔案下載式"
+   xshowtype="3"
+    elseif ((request.querystring("s")="" or request.querystring("s")="approve" or request.querystring("s")="ref") and (rsreg("showtype")="4" or rsreg("showtype")="5")) then '----引用資料
+     '----load xsl樣板
+    set htpagedom = session("codexmlspec")
+     set oxsl2 = server.createobject("microsoft.xmldom")
+    oxsl2.async = false
+    xv = oxsl2.load(server.mappath("/gipdsd/xmlspec/ctunitxorder.xsl"))     
+ set nxml2 = server.createobject("microsoft.xmldom")
+ nxml2.loadxml(htpagedom.transformnode(oxsl2))
+ set allmodel2 = nxml2.documentelement  
+ for each param in allmodel2.selectnodes("//fieldlist/field[showtypestr='3']") 
+  set romovenode=allmodel2.selectsinglenode("field[fieldname='"+param.selectsinglenode("fieldname").text+"']")
+  allmodel2.removechild romovenode
+ next
+ if rsreg("showtype")="4" then
+    xshowtypestr="引用資料式(複製)"
+   else
+    xshowtypestr="引用資料式(參照)"   
+   end if
+   xshowtype=rsreg("showtype")
+    end if
+
+'response.write "<xmp>"+allmodel2.xml+"</xmp>"
+'response.end
+
+
+ showhtmlhead()
+ if errmsg <> "" then showerrbox()
+ formfunction = "edit"
+' response.write sqlcom
+ showform()
+ initform()
+ showhtmltail()
+end sub
+
+
+function qqrs(fldname)
+'on error resume next
+ if request("submittask")="" then
+  xvalue = rsreg(fldname)
+ else
+  xvalue = ""
+  if request("htx_"&fldname) <> "" then
+   xvalue = request("htx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+'  xp = instr(xqqrs,vbcrlf&vbcrlf)
+'  while xp > 0
+'   xqqrs = left(xqqrs,xp-1) & mid(xqqrs,xp+4)
+'   xp = instr(xqqrs,vbcrlf&vbcrlf)
+'  wend
+  xqqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+  xqqrs = replace(xqqrs,chr(13),"")
+  qqrs = replace(xqqrs,chr(10),"")
+ end if
+end function 
+
+  sub initform() 
+
+
+
+
+
+
+
+   if session("documentdomain") <> "" then 
+                      =session("documentdomain")
+   end if 
+
+  
+ for each xcode in allmodel.selectnodes("scriptcode")
+  response.write replace(replace(xcode.text,chr(10),chr(13)&chr(10)),"zzzzzzmysiteurl",session("mysitemmourl"))
+ next
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       =xshowtype
+  
+' if xshowtype <> "5" then
+     for each param in allmodel2.selectnodes("//fieldlist/field[formlist!='']") 
+      if not (nulltext(param.selectsinglenode("fieldname"))="fctupublic" and session("checkyn")="y") then
+   editprocessinit param
+      end if
+     next
+' else
+'   for each param in allmodel2.selectnodes("//fieldlist/field[formlist!='']") 
+'    if not (nulltext(param.selectsinglenode("fieldname"))="fctupublic" and session("checkyn")="y") then
+'     if nulltext(param.selectsinglenode("inputtype"))<>"hidden" and nulltext(param.selectsinglenode("fieldrefedityn"))="n" then
+'  orginputtype = param.selectsinglenode("inputtype").text
+'  param.selectsinglenode("inputtype").text = "showtype5"
+'  editprocessinit param
+'  param.selectsinglenode("inputtype").text = orginputtype        
+'     else
+'  editprocessinit param
+'     end if
+'    end if
+'   next
+' end if
+
+
+
+
+                                                     =rsreg("refid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                          =htuploadpath
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                           =mmopath
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                =session("mysitemmourl")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if checkgipconfig("keywordautogen") then 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           =session("mysitemmourl")
+
+
+
+
+   end if 
+
+
+
+
+
+
+
+
+
+
+            =session("mysitemmourl")
+
+
+
+
+
+
+
+
+
+
+
+
+
+  end sub '---- initform() ----
+
+
+  sub showform()   '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ 'for each param in allmodel2.selectnodes("//fieldlist/field[formlist!='' and inputtype!='hidden']") 
+     'if not (nulltext(param.selectsinglenode("fieldname"))="fctupublic" and session("checkyn")="y") then
+  'processvalid param
+     'end if
+ 'next
+
+
+
+
+
+
+                 =xref5count
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                =session("mywwwsiteurl"):                           =rsreg("icuitem"):           =session("itemid"):           =session("userid")
+
+  if checkgipconfig("mmofolder") then 
+
+
+
+
+
+
+  end if
+
+
+
+
+  end sub '--- showform() ------
+
+  sub showhtmlhead() 
+
+
+         =title
+
+
+
+
+       =title
+
+          if (htprogright and 128)=128 then
+                                       =pkey
+          end if
+                                       =pkey
+          if (htprogright and 8)=8 then
+               if rsreg("fctupublic")="p" then
+
+               end if
+                                  =pkey
+           'if session("codeid")="7" then 
+                                  =pkey
+          'end if
+                                    =pkey
+           if trim(session("ctunitname")) = "客語認證線上試題卷" then 
+                                                   =pkey
+           end if 
+          end if
+          if (htprogright and 2)=2 then
+                   =htprogprefix
+          end if
+          if (htprogright and 4)=4 then
+                   =htprogprefix
+          end if
+                                           =session("ibasedsd")
+
+
+
+
+    if xshowtype <> "5" then 
+          if (htprogright and 8)=8 then
+                   =htprogprefix:                           =request.querystring("icuitem")
+                   =htprogprefix:                           =request.querystring("icuitem")
+                   =htprogprefix:                           =request.querystring("icuitem")
+          end if
+          end if 
+   =htprogcap
+                                       =xshowtypestr:                  =session("ctunitname"):           =nulltext(htpagedom.selectsinglenode("//tabledesc"))
+
+  end sub '--- showhtmlhead() ------
+
+
+  sub showhtmltail() 
+
+
+  end sub '--- showhtmltail() ------
+
+
+  sub showerrbox() 
+
+              =errmsg
+
+
+  
+    end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- 後端資料驗證檢查程式碼放在這裡 ，如下例，有錯時設 errmsg="xxx" 並 exit sub ------
+' if request("tfx_taxid") <> "" then
+'   sql = "select * from client where taxid = '"& request("tfx_taxid") &"'"
+'   set rsreg = conn.execute(sql)
+'   if not rsreg.eof then
+'  if trim(rsreg("clientid")) <> request("pfx_clientid") then
+'   errmsg = "「統一編號」重複!!請重新輸入客戶統一編號!"
+'   exit sub
+'  end if
+'   end if
+' end if
+
+end sub '---- checkdbvalid() ----
+
+function d6date(dt)     '轉成民國年  999/99/99 給資料型態為smalldatetime 使用
+ if len(dt)=0 or isnull(dt) then
+      d6date=""
+ else
+                      xy=right("000"+ cstr((year(dt)-1911)),2)     '補零
+                      xm=right("00"+ cstr(month(dt)),2)
+                      xd=right("00"+ cstr(day(dt)),2)
+                      d6date=xy &  xm &  xd
+                  end if
+end function
+
+sub doupdatedb()
+ '----940407 mmo上傳路徑/ftp等參數處理
+ sqlcheck="select rdsdcat,sbasetablename from ctunit c left join basedsd b on c.ibasedsd=b.ibasedsd " & _
+  "where c.ctunitid='"&session("ctunitid")&"'"
+ set rscheck=conn.execute(sqlcheck) 
+ if checkgipconfig("mmofolder") and rscheck("rdsdcat")="mmo" then
+  '----ftp所需參數
+  sqlm="select mm.mmositeid+mm.mmofoldername as mmofolderid,mm.mmositeid,mm.mmofoldername,ms.uploadsiteftpip,ms.uploadsiteftpport,ms.uploadsiteftpid,ms.uploadsiteftppwd " & _
+   " from "&rscheck("sbasetablename")&" cm left join mmofolder mm on cm.mmofolderid=mm.mmofolderid " & _
+   " left join mmosite ms on mm.mmositeid=ms.mmositeid " & _
+   "where cm.gicuitem="&request.querystring("icuitem")
+  set rsm=conn.execute(sqlm)
+  if not rsm.eof then 
+   xmmofolderid=rsm("mmofolderid")
+      xftpipmmo = rsm("uploadsiteftpip")
+      xftpportmmo = rsm("uploadsiteftpport")
+      xftpidmmo = rsm("uploadsiteftpid")
+      xftppwdmmo = rsm("uploadsiteftppwd")
+   mmoftpfilepath="public/"&xmmofolderid
+  end if
+  '----上傳路徑
+  mmopath = session("mmopublic") & xmmofolderid
+  if right(mmopath,1)<>"/" then mmopath = mmopath & "/"
+ end if
+ '----940407 mmo上傳路徑/ftp等參數處理完成
+
+    '----940215 film關聯處理
+    if session("filmrelated_corpactor")="y" then
+        xproductioncompanya="":xdistributorsa="":xdirector="":xscriptwriter="":xproducer="":xactor="":xskill="":xart="":xothers=""
+     sqlf="select * from filminformation where gicuitem=" & pkstr(request.querystring("icuitem"),"")
+     set rsf=conn.execute(sqlf)
+     if not rsf.eof then
+         if not isnull(rsf("productioncompanya")) then xproductioncompanya=rsf("productioncompanya")
+         if not isnull(rsf("distributorsa")) then xdistributorsa=rsf("distributorsa")
+         if not isnull(rsf("director")) then xdirector=rsf("director")
+         if not isnull(rsf("scriptwriter")) then xscriptwriter=rsf("scriptwriter")
+         if not isnull(rsf("producer")) then xproducer=rsf("producer")
+         if not isnull(rsf("actor")) then xactor=rsf("actor")
+         if not isnull(rsf("skill")) then xskill=rsf("skill")
+         if not isnull(rsf("art")) then xart=rsf("art")
+         if not isnull(rsf("others")) then xothers=rsf("others")
+ end if
+     if xupform("htx_productioncompanya")<>xproductioncompanya then filmrelatedstr=filmrelated("edit","corp","製作業",request.querystring("icuitem"),xupform("htx_productioncompanya"))
+     if xupform("htx_distributorsa")<>xdistributorsa then filmrelatedstr=filmrelated("edit","corp","發行業",request.querystring("icuitem"),xupform("htx_distributorsa"))
+     if xupform("htx_director")<>xdirector then filmrelatedstr=filmrelated("edit","actor","1",request.querystring("icuitem"),xupform("htx_director"))
+ if xupform("htx_scriptwriter")<>xscriptwriter then filmrelatedstr=filmrelated("edit","actor","2",request.querystring("icuitem"),xupform("htx_scriptwriter"))
+ if xupform("htx_producer")<>xproducer then filmrelatedstr=filmrelated("edit","actor","3",request.querystring("icuitem"),xupform("htx_producer"))
+ if xupform("htx_actor")<>xactor then filmrelatedstr=filmrelated("edit","actor","4",request.querystring("icuitem"),xupform("htx_actor"))
+ if xupform("htx_skill")<>xskill then filmrelatedstr=filmrelated("edit","actor","6",request.querystring("icuitem"),xupform("htx_skill"))
+ if xupform("htx_art")<>xart then filmrelatedstr=filmrelated("edit","actor","7",request.querystring("icuitem"),xupform("htx_art"))
+ if xupform("htx_others")<>xothers then filmrelatedstr=filmrelated("edit","actor","8",request.querystring("icuitem"),xupform("htx_others"))
+    end if
+    '----940215 film關聯處理結束
+    
+    '----只有一般資料/參照引用方式才要處理slave資料 
+    if xupform("showtype")="1" or xupform("showtype")="4" or xupform("showtype")="5" then  '----1一般資料/45引用資料    
+ xn = 0
+ sql = ""
+ for each param in refmodel.selectnodes("fieldlist/field[formlist!='']") 
+  processupdate param
+  xn = xn + 1
+ next
+
+ 
+ if sql<>"" then
+     sql = "update " & nulltext(refmodel.selectsinglenode("tablename")) & " set " & sql
+     sql = left(sql,len(sql)-1) & " where gicuitem=" & pkstr(request.querystring("icuitem"),"")
+     'response.write sql
+  'response.end
+     conn.execute(sql)
+ end if
+    end if
+
+    '----cudtgeneric處理
+ mailflag=false 
+ sql = "update cudtgeneric set showtype=n'"+xupform("showtype")+"', "
+ for each param in allmodel.selectnodes("dstable[tablename='cudtgeneric']/fieldlist/field[formlist!='' and identity!='y']") 
+  if nulltext(param.selectsinglenode("fieldname")) = "ximportant" _
+     and xupform("xxcheckimportant")="y" then
+   sql = sql & "ximportant=" & pkstr(d6date(date()),",")
+  elseif nulltext(param.selectsinglenode("fieldname"))="fctupublic" and session("checkyn")="y" then 
+   sql = sql & "fctupublic='p',"
+   mailflag=true
+  else
+   processupdate param
+  end if
+ next
+ sql = left(sql,len(sql)-1) & " where icuitem=" & pkstr(request.querystring("icuitem"),"")
+ 'response.write sql & "<hr>"
+ 'response.end
+ conn.execute(sql) 
+
+'------- 記錄 異動 log -------- start -------------------------------------------------------- 
+ if checkgipconfig("userlogfile") then
+  sql = "insert into useractionlog(loginsid,xtarget,xaction,recordnumber,objtitle) values(" _
+   & dfn(session("loginlogsid")) & "'0a','2'," _
+   & dfn(request.querystring("icuitem")) _
+   & pkstr(xupform("htx_stitle"),")")
+  conn.execute sql
+ end if 
+'------- 記錄 異動 log -------- end -------------------------------------------------------- 
+
+    '----參照資料同步更新
+    sqlcdg = "select * from cudtgeneric where icuitem=" & request.querystring("icuitem")
+    set rscdg = conn.execute(sqlcdg)
+    xslavetable = refmodel.selectsinglenode("tablename").text
+    sqlslave = "select * from "&xslavetable&" where gicuitem = " & request.querystring("icuitem")
+    set rsslave = conn.execute(sqlslave)    
+    sqlref="select cdt.icuitem from cudtgeneric cdt " & _
+      "where cdt.showtype='5' and cdt.refid=" & pkstr(request.querystring("icuitem"),"")
+    set rsref=conn.execute(sqlref)
+    if not rsref.eof then
+     while not rsref.eof
+     sql = "select n.*,b.sbasetablename from cudtgeneric as n left join ctunit as u on u.ctunitid=n.ictunit" _
+  & " left join basedsd as b on n.ibasedsd=b.ibasedsd" _
+  & " where n.icuitem=" & rsref(0)
+     set rs = conn.execute(sql)
+     xctunitid = rs("ictunit")
+     xibasedsd = rs("ibasedsd")
+     if isnull(rs("sbasetablename")) then
+  xsbasetablename = "cudtx" & xibasedsd
+     else
+  xsbasetablename = rs("sbasetablename")
+     end if
+     '----更新主表
+     sqlrefupdatemaster="update cudtgeneric set deditdate=getdate(),"  
+     for each param in allmodel.selectnodes("dstable[tablename='cudtgeneric']/fieldlist/field[formlist!='' and fieldname!='icuitem' and fieldname!='ibasedsd' and fieldname!='ictunit' and fieldname!='idept' and fieldname!='refid' and fieldname!='deditdate' and fieldname!='created_date']")      
+         sqlrefupdatemaster=sqlrefupdatemaster&nulltext(param.selectsinglenode("fieldname"))&"=n'"&rscdg(nulltext(param.selectsinglenode("fieldname")))&"',"   
+     next
+     sqlrefupdatemaster = left(sqlrefupdatemaster,len(sqlrefupdatemaster)-1) & " where icuitem=" & rsref(0)
+     conn.execute(sqlrefupdatemaster)
+       '----更新slave表
+     if xslavetable = xsbasetablename then
+  sqlrefupdateslave = "update  " & xsbasetablename & " set gicuitem=gicuitem,"
+  for each param in refmodel.selectnodes("fieldlist/field") 
+      if not isnull(rsslave(param.selectsinglenode("fieldname").text)) then
+          sqlrefupdateslave=sqlrefupdateslave&nulltext(param.selectsinglenode("fieldname"))&"=n'"&rsslave(nulltext(param.selectsinglenode("fieldname")))&"',"   
+      end if
+  next
+      sqlrefupdateslave = left(sqlrefupdateslave,len(sqlrefupdateslave)-1) & " where gicuitem=" & rsref(0)
+'      response.write sqlrefupdateslave
+'      response.end
+      conn.execute(sqlrefupdateslave)
+     end if       
+         rsref.movenext
+     wend
+    end if
+ '----審稿email處理
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true 
+ 
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\syspara.xml"
+  xv = htpagedom.load(loadxml)
+    if htpagedom.parseerror.reason <> "" then 
+       response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+       response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+       response.end()
+    end if
+  set emailnode=htpagedom.selectsinglenode("systemparameter/dsdxmlemail")
+  xemail=nulltext(emailnode)
+  xemailstr=nulltext(emailnode.selectsinglenode("@xdesc")) 
+  fsql="select iu.username,iu.email " & _
+   " from cudtgeneric c " & _
+   " left join cattreenode ctn on c.ictunit=ctn.ctunitid and ctn.ctrootid=" & session("itemid") & _
+   " left join ctuserset2 cus2 on ctn.ctnodeid=cus2.ctnodeid and cus2.userid=n'"&session("userid")&"' " & _
+   " left join ctunit ct on c.ictunit=ct.ctunitid " & _
+   " left join infouser iu on cus2.userid=iu.userid and c.idept=iu.deptid " & _
+   " where c.icuitem=" & pkstr(request.querystring("icuitem"),"")
+  set rs1=conn.execute(fsql)
+  if not rs1.eof then
+          while not rs1.eof
+                 s_email=""""+xemailstr+""" <"+xemail+">"
+          r_email=rs1(1)
+            
+          email_body="【 " & rs1(0) & " 】小姐先生 您好:" & "<br>" & "<br>" & _
+                            "   原上稿資料已有編修, 請至[後台管理網站/資料審稿作業中]審核!"& "<br><br>" & _
+                            "謝謝您!"& "<br>" & "<br>" & _
+                            xemailstr & "<br>"  
+   if not isnull(rs1(1)) then                                
+           call send_email(s_email,r_email, "上稿資料審稿通知" ,email_body)  
+   end if 
+     
+            rs1.movenext  
+          wend
+  end if 
+  
+ '----關鍵字詞處理
+ '----先刪除
+ sqldelete="delete cudtkeyword where icuitem=" & pkstr(request.querystring("icuitem"),"")
+ conn.execute(sqldelete)
+ '----再新增
+ if xupform("htx_xkeyword")<>"" then
+     redim iarray(1,0)
+     xstr=""
+     xreturnvalue=""
+     sqlinsert=""
+     xkeywordarray=split(xupform("htx_xkeyword"),",")
+     weightsum=0
+     for i=0 to ubound(xkeywordarray)
+      redim preserve iarray(1,i)
+  '----分開字詞與權重符號
+  xpos=instr(xkeywordarray(i),"*")
+  if xpos<>0 then
+   xstr=left(trim(xkeywordarray(i)),xpos-1)
+   iarray(0,i)=xstr
+   iarray(1,i)=mid(xkeywordarray(i),xpos+1)
+  else
+   xstr=trim(xkeywordarray(i))
+   iarray(0,i)=xstr
+   iarray(1,i)=1  
+  end if 
+  weightsum=weightsum+iarray(1,i)
+     next   
+     '----串sql字串 
+     for k=0 to ubound(iarray,2)
+      sqlinsert=sqlinsert+"insert into cudtkeyword values("+dfn(request.querystring("icuitem"))+"'"+iarray(0,k)+"',"+cstr(round(iarray(1,k)*100/weightsum))+");"
+     next
+     if sqlinsert<>"" then conn.execute(sqlinsert)
+ end if 
+ '----更新hyftd文章索引
+ if checkgipconfig("hyftdgip") then
+  hyftdgipstr=hyftdgip("update",request.querystring("icuitem"))
+ end if 
+ '----940410 mmo物件引用紀錄處理
+     if checkgipconfig("mmofolder") then
+  mmoreferendsql=""
+  if xupform("htx_xbody") = "" then
+   mmoreferenedsql="delete mmoreferened where icuitem="&pkstr(request.querystring("icuitem"),"")
+  else
+   mmoreferenedsql="delete mmoreferened where icuitem="&pkstr(request.querystring("icuitem"),"")&";"
+   mmoreferenedstr=xupform("htx_xbody")
+   mmorefpos=instr(xupform("htx_xbody"),"mmoid=""")
+   while mmorefpos > 0
+        mmoreferenedstr=mid(mmoreferenedstr,mmorefpos+7)
+        quotepos=instr(mmoreferenedstr,"""")
+        xmmoid=left(mmoreferenedstr,quotepos-1)
+        mmoreferenedsql=mmoreferenedsql&"insert into mmoreferened values("&request.querystring("icuitem")&","&xmmoid&");"
+        mmorefpos=instr(mmoreferenedstr,"mmoid=""")
+   wend
+  end if
+  if mmoreferenedsql<>"" then conn.execute(mmoreferenedsql)
+ end if  
+end sub '---- doupdatedb() ----
+
+  sub showdonebox(lmsg) 
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+  if ftperrormsg="" and hyftdgipstr="" then
+                     =lmsg
+  elseif ftperrormsg<>"" and hyftdgipstr="" then
+          =lmsg:                    =ftperrormsg
+  elseif ftperrormsg="" and hyftdgipstr<>"" then
+          =lmsg:                    =hyftdgipstr
+  elseif ftperrormsg<>"" and hyftdgipstr<>"" then
+          =lmsg:                    =ftperrormsg:                    =hyftdgipstr
+  end if
+              if request.querystring("s")="approve" then
+
+
+              else
+                                =htprogprefix
+       end if
+
+
+
+  end sub '---- showdonebox() ----  

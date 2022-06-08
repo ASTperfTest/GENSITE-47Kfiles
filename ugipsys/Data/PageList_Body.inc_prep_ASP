@@ -1,0 +1,27 @@
+﻿
+
+                            =readmetext
+
+
+
+
+
+
+
+
+
+
+
+                                                              =recno
+                                                       =pno+1:                =pgno+1
+                                                      if pno>0 then :                                                                                                              end if 
+                                                      if pno>0 then :                                                 =pno:                                                               end if 
+                                                      if pno<pgno then :                                                 =pno+2:                                                               end if 
+                                                       if pno<pgno then :                                                 =pgno+1:                                                               end if 
+                                         if recno > setpagecon then 
+
+               for k = 1 to pgno+1 
+                             =k:      if pno+1 = k then :            end if :    =k
+               next 
+
+              end if  

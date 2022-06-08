@@ -1,0 +1,117 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+             
+sub edit()            
+Cx_0dummy                           
+  for i=0 to reg.ugrpid.length-1                           
+    if reg.ugrpid(i).checked then                           
+      radiochk="yes"                           
+      exit for                           
+    end if                           
+  next                           
+Cx_0dummy                           
+  if reg.ugrpid.checked then                           
+    radiochk="yes"                           
+  end if                           
+Cx_0dummy                           
+  if radiochk<>"yes" then                           
+    alert("尚未選定!!")                           
+  else          
+     reg.action="editgroup.asp"    
+     reg.submit                           
+    end if          
+end sub             
+    
+sub redit()                                                                       
+Cx_0dummy                                     
+  for i=0 to reg.ugrpid.length-1                                     
+    if reg.ugrpid(i).checked then                                     
+      radiochk="yes"                                     
+      exit for                                     
+    end if                                     
+  next                                     
+Cx_0dummy                                     
+  if reg.ugrpid.checked then                                     
+    radiochk="yes"                                     
+  end if                                     
+Cx_0dummy                                     
+  if radiochk<>"yes" then                                     
+    alert("尚未選定!!")                                     
+  else                    
+     reg.action="editreggroup.asp"
+     reg.submit                                     
+  end if                    
+end sub    
+                       
+
+ 

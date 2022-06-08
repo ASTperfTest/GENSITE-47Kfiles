@@ -1,0 +1,99 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_server_1606199358()
+
+   unitid = request.querystring("unitid") 
+
+
+
+
+
+
+
+
+
+
+
+                                                         =apcatimagename
+
+
+
+                                   =title
+
+
+
+
+
+
+
+
+
+
+             if (htprogright and 2)=2 then :        menuhtml "menu1" :                                       =language:             =datatype:                   end if 
+
+
+
+
+
+
+
+
+
+
+
+
+                                                             =language:             =datatype:           =unitid
+
+
+
+
+
+           sql="select cc.autoid,cc.c_item from coldefine as cd inner join " & _
+          "colcontain as cc on cd.colid=cc.colid where cd.colid=5 order by cc.sortno"
+           set rsc=conn.execute(sql)
+           while not rsc.eof
+                          =rsc(0):    =rsc(1)
+            rsc.movenext
+           wend
+         
+
+
+
+
+                                     sql="select cc.autoid,cc.c_item from coldefine as cd inner join " & _
+          "colcontain as cc on cd.colid=cc.colid where cd.colid=6 order by cc.sortno"
+           set rs=conn.execute(sql)
+           i=-1
+                  while not rs.eof                 
+                   i=i+1
+                  
+                                                                  =rs(0):                     =i:    = rs(1)
+                        rs.movenext
+                   wend
+
+
+
+
+
+           sql="select cc.autoid,cc.c_item from coldefine as cd inner join " & _
+          "colcontain as cc on cd.colid=cc.colid where cd.colid=7 order by cc.sortno"
+           set rsc=conn.execute(sql)
+           while not rsc.eof
+                          =rsc(0):    =rsc(1)
+            rsc.movenext
+           wend
+         
+
+
+
+
+
+
+     sql="select puserid,chname from personnel where salesyn='y'"
+     set rss=conn.execute(sql)
+     if not rss.eof then
+      while not rss.eof
+                          =rss(0):    =rss(1)
+         rss.movenext
+      wend
+     end if 

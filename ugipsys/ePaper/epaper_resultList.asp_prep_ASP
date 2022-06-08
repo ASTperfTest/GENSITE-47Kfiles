@@ -1,0 +1,639 @@
+﻿: @  codepage="65001" 
+   response.expires = 0
+htprogcap="電子報管理"
+htprogfunc="電子報發行清單"
+htprogcode="gw1m51"
+htprogprefix="epub"
+
+
+
+
+
+
+
+
+   CxMethod_ASP_epublistparam_1087716033()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+    
+ dim title
+ sql = "select title from eppub where (epubid = " & pkstr(request("epubid"), "") & ")"
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  title = rs("title")
+ end if 
+ 
+ if request("ctrootid") = "4" then 
+     
+    '宣告變數
+     dim urls, xml,datatosend,ncntchd,datacount,categorycount
+      
+     '建立物件
+     set xml = server.createobject ("microsoft.xmlhttp")
+     
+     '要檢查的網址
+     tstr = now()
+     if request("stitle") <> "" then
+  datatosend = "keyword=" & request("stitle")
+  else
+     datatosend = "keyword="
+     end if
+     
+  datatosend =  datatosend & "&keywordfield=&folder=&category=2"
+  datatosend =  datatosend & "&docclass=&author=&datetime=&tag=&docclassvalue=公佈日期:[19000101160000 to "
+  datatosend =  datatosend & year(tstr) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) 
+  datatosend =  datatosend & "]and 可閱讀分眾導覽\(前端入口網\):a,b&containchildfolder=false"
+  datatosend =  datatosend & "&containchildcategory=true&enablekeywordsynonyms=false&enabletagsynonyms=false&sort=_l_last_modified_datetime"
+     urls = session("kmapiurl") & "/search/advancedresult?who=" & session("kmapiactor") & "&format=xml"
+     
+     if cint(request.querystring("pagenumber")) > 0 then
+     urls = urls & "&pi=" & cint(request.querystring("pagenumber")) -1
+     else
+     urls = urls & "&pi=0"
+     end if
+    
+  if cint(request.querystring("pagesize")) > 0 then
+  urls = urls & "&ps=" & cint(request.querystring("pagesize"))
+  else
+  urls = urls & "&ps=10"
+  end if
+  urls = urls & "&api_key=" & session("kmapikey")
+     xml.open "post", urls, false
+  xml.setrequestheader "content-type", "application/x-www-form-urlencoded"
+     xml.send datatosend
+
+     if xml.status=404 then
+          response.write "找不到頁面"
+     elseif xml.status=200 then
+      set xmldoc = server.createobject("msxml2.domdocument")
+      xmldoc.loadxml(xml.responsexml.xml)
+   if xmldoc.xml <> "" then
+    set objnodelist = xmldoc.documentelement.selectnodes("//b:anytype")
+    datacount = objnodelist.length
+    dim result(),categoryids
+    redim result(datacount)
+    if datacount > 0 then
+    set onodelist = objnodelist(0).childnodes(4).childnodes
+    for i = 0 to objnodelist.length -1
+     set datalist = server.createobject("scripting.dictionary")
+     categoryids = ""
+     for x = 0 to objnodelist(i).childnodes(4).childnodes.length -1
+      categoryids =  categoryids & objnodelist(i).childnodes(4).childnodes(x).text
+      if x <> objnodelist(i).childnodes(4).childnodes.length -1 then
+       categoryids = categoryids & "|"
+      end if
+     next
+     
+     categoryid = getdetail("category_id",categoryids)
+     categoryname = getdetail("category_name",categoryid)
+     ouname = getdetail("user_ou",objnodelist(i).childnodes(1).text)
+     username = getdetail("user_name",objnodelist(i).childnodes(1).text)
+
+     datalist.add "report_id", objnodelist(i).childnodes(24).text
+     datalist.add "category_name", categoryname
+     datalist.add "category_id", categoryid
+     datalist.add "subject", objnodelist(i).childnodes(23).text
+     datalist.add "publisher", ouname
+     datalist.add "online_date", objnodelist(i).childnodes(10).text
+     datalist.add "actor_detail_name", username
+    
+    set result(i) = datalist
+    next
+    end if
+   end if
+     else
+          response.write "連線發生錯誤，代碼 "&xml.status
+     end if
+      
+     '關閉物件
+     set xml = nothing
+  
+ elseif request("ctrootid") = "3" then  
+  
+  sql = ""
+  sql = sql & " select distinct cattreenode.ctrootid, cudtgeneric.icuitem, cudtgeneric.stitle, cattreeroot.ctrootname, "
+  sql = sql & " ctunit.ctunitname, cudtgeneric.deditdate, member.realname from cudtgeneric inner join cattreenode on "
+  sql = sql & " cudtgeneric.ictunit = cattreenode.ctunitid inner join cattreeroot on cattreenode.ctrootid = cattreeroot.ctrootid "
+  sql = sql & " inner join ctunit on cattreenode.ctunitid = ctunit.ctunitid inner join member on cudtgeneric.ieditor = member.account "
+  sql = sql & " where (cudtgeneric.siteid = n'3') and (cattreeroot.inuse = 'y') and (cudtgeneric.fctupublic = 'y') "
+  sql = sql & " and (ctunit.inuse = 'y') and (cattreenode.inuse = 'y') and (cattreeroot.inuse = 'y') and (cattreenode.ctunitid = 932) "
+  
+  if request("stitle") <> "" then
+   sql = sql & "and (cudtgeneric.stitle like " & pkdate("%" & request("stitle") & "%", "") & ") "
+  end if
+  
+  if request("startdate") <> "" and request("enddate") <> "" then
+   sql = sql & "and (cudtgeneric.deditdate between " & pkstr(request("startdate"), "") & " and " & pkstr(request("enddate"), "") & ") "
+  elseif request("startdate") <> "" then
+   sql = sql & "and (cudtgeneric.deditdate >= " & pkstr(request("startdate"), "") & ") "
+  elseif request("enddate") <> "" then
+   sql = sql & "and (cudtgeneric.deditdate <= " & pkstr(request("enddate"), "") & ") "
+  end if
+  
+  if request("status") = "y" then
+   sql = sql & "and (cudtgeneric.fctupublic = 'y') "
+  else
+   sql = sql & "and (cudtgeneric.fctupublic <> 'y') "
+  end if
+  sql = sql & " order by cudtgeneric.deditdate desc "
+    
+ else
+  
+  sql = "" 
+  sql = sql & "select distinct cattreenode.ctrootid, cudtgeneric.icuitem, cudtgeneric.stitle, cattreeroot.ctrootname, "
+  sql = sql & "ctunit.ctunitname, infouser.username, cudtgeneric.deditdate, dept.deptname from cudtgeneric inner join "
+  sql = sql & "cattreenode on cudtgeneric.ictunit = cattreenode.ctunitid inner join cattreeroot on "
+  sql = sql & "cattreenode.ctrootid = cattreeroot.ctrootid inner join ctunit on "
+  sql = sql & "cattreenode.ctunitid = ctunit.ctunitid inner join infouser on "
+  sql = sql & "cudtgeneric.ieditor = infouser.userid inner join dept on cudtgeneric.idept = dept.deptid "
+  sql = sql & "where (cattreeroot.inuse = 'y') and  (ctunit.inuse = 'y') and (cattreenode.inuse = 'y') "
+  sql = sql & "and (cattreeroot.inuse = 'y') and (dept.inuse = 'y')"
+  
+  if request("ctrootid") <> "" then  
+   if request("ctrootid") = "1" then   
+    sql = sql & "and (cudtgeneric.siteid = " & pkstr(request("ctrootid"), "") & ") and (cattreenode.ctrootid = 34) "   
+   elseif request("ctrootid") = "2" then   
+    sql = sql & "and (cudtgeneric.siteid = " & pkstr(request("ctrootid"), "") & ") and (cattreeroot.vgroup = 'xx')  "        
+   end if
+  end if
+ 
+  if request("ctunitname") <> "" then
+   sql = sql & "and (ctunit.ctunitname like " & pkdate("%" & request("ctunitname") & "%", "") & ") "
+  end if 
+  
+  if request("stitle") <> "" then
+   sql = sql & "and (cudtgeneric.stitle like " & pkdate("%" & request("stitle") & "%", "") & ") "
+  end if
+  
+  if request("startdate") <> "" and request("enddate") <> "" then
+   sql = sql & "and (cudtgeneric.deditdate between " & pkstr(request("startdate"), "") & " and " & pkstr(request("enddate"), "") & ") "
+  elseif request("startdate") <> "" then
+   sql = sql & "and (cudtgeneric.deditdate >= " & pkstr(request("startdate"), "") & ") "
+  elseif request("enddate") <> "" then
+   sql = sql & "and (cudtgeneric.deditdate <= " & pkstr(request("enddate"), "") & ") "
+  end if
+  
+  if request("status") = "y" then
+   sql = sql & "and (cudtgeneric.fctupublic = 'y') "
+  else
+   sql = sql & "and (cudtgeneric.fctupublic <> 'y') "
+  end if
+  
+  sql = sql & " order by cudtgeneric.deditdate desc "
+    
+  'if request("deptid") <> "" then
+  ' sql = sql & "and (cudtgeneric.idept = " & pkstr(request("deptid"), "") & ")"
+  'end if
+ 
+ end if
+ 
+ pagenumber = request.querystring("pagenumber")  '現在頁數
+
+ curreccount = 0
+ 
+ if request("ctrootid") = "4" then  
+ if xmldoc.xml <> "" then
+  set objparentnode = xmldoc.documentelement.selectnodes("//a:anytype")
+     if objparentnode.length = 4 then
+         if int(objparentnode(3).childnodes(0).text) > 0 and datacount > 0 then
+      totrec = int(objparentnode(3).childnodes(0).text) '總筆數
+        
+       if totrec > 0 then 
+          '每頁筆數
+         pagesize = cint(request.querystring("pagesize"))
+
+         if pagesize <= 0 then  
+        pagesize = 10  
+         end if 
+      
+      totalpagecount = int(totrec / pagesize) + 1
+         
+         if cint(pagenumber) < 1 then 
+         pagenumber = 1
+         elseif cint(pagenumber) > totalpagecount then 
+         pagenumber = totrec 
+         end if             
+
+         totpage =  totalpagecount'總頁數      
+         
+         curreccount = totrec - (pagesize * (pagenumber-1) )    
+        if curreccount > pagesize then
+         curreccount = pagesize
+        end if
+       end if    
+     end if
+ end if
+ end if
+ else
+ set rs = server.createobject("adodb.recordset")
+'----------hyweb gip db connection patch----------
+'  rs.open sql,conn,3,1
+ set rs = conn.execute(sql)
+
+'----------hyweb gip db connection patch----------
+  if not rs.eof then 
+  
+   totrec = rs.recordcount       '總筆數
+    
+   if totrec > 0 then 
+     
+     pagesize = cint(request.querystring("pagesize"))
+     
+     if pagesize <= 0 then  
+    pagesize = 10  
+     end if 
+     
+     rs.pagesize = pagesize       '每頁筆數
+
+     if cint(pagenumber) < 1 then 
+     pagenumber = 1
+     elseif cint(pagenumber) > rs.pagecount then 
+     pagenumber = rs.pagecount 
+     end if             
+
+     rs.absolutepage = pagenumber
+     totpage = rs.pagecount       '總頁數      
+     
+     curreccount = totrec - (pagesize * (pagenumber-1) )    
+    if curreccount > pagesize then
+     curreccount = pagesize
+    end if
+     
+   end if    
+  end if   
+ end if
+
+ function checkexist( epubid, articleid, ctrootid, categoryid )
+ 
+  sql = "select * from eppubarticle where epubid = " & epubid & " and articleid = " & articleid & " and ctrootid = " & ctrootid & " and categoryid = '" & categoryid & "'"
+  set rsc = conn.execute(sql)
+  if not rsc.eof then
+   checkexist = true
+  else
+   checkexist = false
+  end if
+  rsc = empty  
+ end function
+ 
+ function getdetail(typeid, key)
+  '建立物件
+   dim xmlhttp
+   set xmlhttp = server.createobject("microsoft.xmlhttp")
+   '要檢查的網址
+   urls = session("mysitemmourl") & "/epaper/epaper_querydetail.asp?typeid=" & typeid & "&key=" & key
+   if typeid = "" or key = "" then
+   response.write "未傳入必要參數"
+   response.write.end()
+   end if
+   'response.write xmlhttp
+   xmlhttp.open "get", urls, false
+   xmlhttp.send
+   
+   if xmlhttp.status=404 then
+     response.write "找不到頁面"
+   elseif xmlhttp.status=200 then
+    getdetail = xmlhttp.responsetext
+   else
+     response.write xmlhttp.status
+   end if
+ end function
+
+
+
+
+
+                                                     =title
+
+                                                     =request("epubid"):             =request("eptreeid")
+                                                                             =request("epubid"):             =request("eptreeid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                  =request("ctrootid")
+                                                                    =request("ctunitname")
+                                                                =request("stitle")
+                                                                   =request("startdate")
+                                                                 =request("enddate")
+                                                                =request("status")
+                                                                =request("deptid")
+
+
+
+
+
+
+
+
+
+                                                      =pagenumber
+                                                       =totpage:                                   =totrec
+
+
+                                                               for i = 1 to totpage 
+                                                                             =i:      if i = cint(pagenumber) then :              end if 
+                                                                  =i
+
+                                                               next 
+
+
+                                                           if cint(pagenumber) <> 1 then 
+
+                                                           end if 
+                                                           if request("ctrootid") = "4" then 
+                                                           if cint(pagenumber) <> totalpagecount and cint(pagenumber) < totalpagecount then 
+
+                                                           end if 
+                                                           else 
+                                                           if cint(pagenumber) <> rs.pagecount and cint(pagenumber) < rs.pagecount then 
+
+                                                           end if 
+                                                           end if 
+
+
+                                                                              if pagesize = 10 then :              end if 
+                                                                              if pagesize = 20 then :              end if 
+                                                                              if pagesize = 30 then :              end if 
+                                                                              if pagesize = 50 then :              end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                       if totrec > 0 then 
+                                                       for i = 1 to pagesize
+
+
+
+                                                                   if request("ctrootid") = "4" then 
+                                                                   if checkexist( request("epubid"), result(i-1)("report_id"), request("ctrootid"), result(i-1)("category_id") ) = true then 
+                                                                                                             =result(i-1)("report_id"):    =request("ctrootid"):    =result(i-1)("category_id")
+
+                                                                   else 
+                                                                                                             =result(i-1)("report_id"):    =request("ctrootid"):    =result(i-1)("category_id")
+                                                                   end if 
+                                                                   else 
+                                                                   if checkexist( request("epubid"), rs("icuitem"), request("ctrootid"), request("ctrootid") ) = true then 
+                                                                                                             =rs("icuitem"):    =request("ctrootid"):    =request("ctrootid")
+
+                                                                   else 
+                                                                                                             =rs("icuitem"):    =request("ctrootid"):    =request("ctrootid")
+                                                                   end if
+                                                                   end if 
+
+
+                                                           if request("ctrootid") = "4" then 
+
+                  if session("mywwwsiteurl") <> "" then 
+
+                                         =session("mywwwsiteurl"):                                           =result(i-1)("report_id"):               =result(i-1)("category_id")
+                  else 
+
+                  end if 
+
+
+
+                                                              =result(i-1)("category_name")
+
+
+                                                              =result(i-1)("subject")
+
+
+                                                              =result(i-1)("actor_detail_name")
+
+
+                                                              =result(i-1)("publisher")
+
+
+                                                              =replace(mid(result(i-1)("online_date"),1,10),"-","/") 
+
+                                                           elseif request("ctrootid") = "3" then 
+
+
+
+
+
+                                                              =rs("ctunitname")
+
+
+                                                              =rs("stitle")
+
+
+                                                              =rs("realname")
+
+
+
+
+                                                              =formatdatetime(rs("deditdate"),2)
+
+                                                           else 
+                                                           if request("ctrootid") = "1" then 
+
+
+
+
+                                                           elseif request("ctrootid") = "2" then 
+
+
+
+
+                                                           end if 
+
+                                                              =rs("ctunitname")
+
+
+                                                              =rs("stitle")
+
+
+                                                              =rs("username")
+
+
+                                                              =rs("deptname")
+
+
+                                                              =formatdatetime(rs("deditdate"),2)
+
+                                                           end if 
+
+                                                      
+              if request("ctrootid") <> "4" then
+              rs.movenext
+              if rs.eof then exit for 
+              else
+              if i >= datacount  then exit for
+              end if
+             next 
+                                                    
+                                                       else 
+
+
+
+
+
+
+                                                       end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                               =request("epubid"):             =request("eptreeid"):                                                                                           =pagesize
+
+
+
+
+
+                                               =request("epubid"):             =request("eptreeid"):               =pagenumber
+
+
+
+
+
+                                               =request("epubid"):             =request("eptreeid"):               =pagenumber-1:             =pagesize
+
+
+
+
+
+                                               =request("epubid"):             =request("eptreeid"):               =pagenumber+1:             =pagesize
+
+
+
+
+
+
+
+         =curreccount
+
+
+
+                          =curreccount
+
+
+
+
+
+
+         =curreccount
+
+
+
+                          =curreccount
+
+
+
+
+
+
+
+
+
+
+                                               =request("epubid"):             =request("eptreeid")
+
+
+
+
+
+
+
+
+        =curreccount
+
+
+
+
+
+                         =curreccount
+
+
+
+
+
+
+
+
+
+
+
+         =curreccount
+
+
+
+
+
+
+
+
+
+
+                          =curreccount
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                   =request("epubid")
+
+
+
+
+
+                                                            =request("epubid"):             =request("eptreeid"):               =pagenumber:             =pagesize 

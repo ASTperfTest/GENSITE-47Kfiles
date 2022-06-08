@@ -1,0 +1,70 @@
+﻿:  CxMethod_ASP_checkgipapconfig_594848678()
+  
+
+sub sendemail( questionid, expertid, mailbody, myrand, icuitem )
+ 
+ 's_email = "km@mail.coa.gov.tw"
+ s_email = """"&getgipapconfigtext("emailfromname")&""" <"&getgipapconfigtext("emailfrom")&">"
+ 's_email = "vincent@hyweb.com.tw"
+ r_email = getexpertemail( expertid )
+ 
+ stitle = "農業知識家專家補充邀請：「" & getstitle( questionid, "") & "」"
+  
+ xbody = getemailbodyfromfile()
+ xbody = replacetag(xbody , mailbody, expertid, questionid, myrand, icuitem)
+
+ call send_email( s_email, r_email, stitle, xbody)
+
+end sub
+
+function send_email( s_email, r_email, re_sbj, re_body )
+    dim smtpusername
+    dim smtppassword
+    dim smtpauthenticate
+
+ smtpusername = getgipapconfigtext("emailsendusername")
+ smtppassword = getgipapconfigtext("emailsendpassword")
+ smtpauthenticate = getgipapconfigtext("emailsmtpauthenticate")
+
+    'smtpusername = "km"
+    'smtppassword = ""
+    'smtpusername = "testemail"
+    'smtppassword = "1q2w3e4r"
+    'smtpauthenticate = "1"
+
+    call send_email_authenticate(s_email,r_email,re_sbj,re_body, smtpusername, smtppassword, smtpauthenticate)
+end function
+
+function send_email_authenticate(s_email,r_email,re_sbj,re_body, smtpusername, smtppassword, smtpauthenticate)
+  dim smtpserver
+  dim smtpserverport
+  dim smtpssendusing
+
+  smtpserver = getgipapconfigtext("emailserverip")
+  smtpserverport = getgipapconfigtext("emailserverport")
+  smtpssendusing = getgipapconfigtext("emailserversendusing")  
+
+  'smtpserver = "mail.coa.gov.tw"    
+  'smtpserver = "mail.hyweb.com.tw"
+  'smtpserverport = 25
+  'smtpssendusing = 2
+  
+    set objemail = createobject("cdo.message")
+    objemail.bodypart.charset = "utf-8"
+    objemail.from       = s_email
+    objemail.to         = r_email
+    objemail.subject    = re_sbj
+    objemail.htmlbody   = re_body
+    objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/sendusing") = smtpssendusing
+    objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/smtpserver") = smtpserver
+    objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/smtpserverport") = smtpserverport
+    if smtpusername <> "" then
+        objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/sendusername") = smtpusername
+        objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/sendpassword") = smtppassword
+        objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/smtpauthenticate") = smtpauthenticate
+    end if
+    objemail.configuration.fields.update
+    objemail.send
+    set objemail=nothing
+end function
+ 

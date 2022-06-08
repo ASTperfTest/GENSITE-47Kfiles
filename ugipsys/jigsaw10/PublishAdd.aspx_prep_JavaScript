@@ -1,0 +1,161 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+function script___374873325() {src("http://ajax.microsoft.com/ajax/jquery/jquery-1.4.2.min.js");}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                             function onchange___1475089776() {page(this.value);}
+
+
+
+
+
+         function href___1615263578() {page(Cx_0dummy)}
+
+
+
+          function href____30559637() {page(Cx_0dummy)}
+
+
+                                         function onchange___1387969499() {pagesize(this.value);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                              function onclick___1706262438() {selectAll()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                              function onclick____128394333() {location.href='Publish.aspx?id=Cx_0dummy'}
+
+
+
+
+
+
+
+
+
+    function page(p) {
+        window.location.href = 'PublishAdd.aspx?pid=Cx_0dummy&id=Cx_0dummy&topCat=Cx_0dummy&CtRootId=Cx_0dummy&CtNodeName=Cx_0dummy&sTitle=Cx_0dummy&Status=Cx_0dummy&pagesize=Cx_0dummy&page=' + (p - 1);
+    }
+    function pagesize(ps) {
+        window.location.href = 'PublishAdd.aspx?pid=Cx_0dummy&id=Cx_0dummy&topCat=Cx_0dummy&CtRootId=Cx_0dummy&CtNodeName=Cx_0dummy&sTitle=Cx_0dummy&Status=Cx_0dummy&pagesize=' + ps;
+    }
+    function selectAll() {
+        $(":checkbox").each(function() {
+            $(this).attr("checked", $("#selected").val() == "0" ? true : false);
+        })
+        $("#selected").val($("#selected").val() == "0" ? "1" : "0");
+    }
+
+
+
+
+
+ 

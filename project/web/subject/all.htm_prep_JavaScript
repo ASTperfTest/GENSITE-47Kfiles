@@ -1,0 +1,120 @@
+﻿
+
+
+
+
+
+
+
+                               AC_FL_RunContent = 0;
+function script___1395800316() {src("../xslgip/style1/AC_RunActiveContent.js");}CxConstr_1412620919();
+
+
+   if (AC_FL_RunContent == 0) {
+    alert("這個頁面必須具備 AC_RunActiveContent.js。");
+   } else {
+    AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0','width','980','height','141','id','banner','align','middle','name','banner','src','../xslgip/style1/images3/bannerNT','quality','high','wmode','transparent','allowscriptaccess','sameDomain','allowfullscreen','false','pluginspage','http://www.macromedia.com/go/getflashplayer','movie','../xslgip/style1/images3/bannerNT' ); //end AC code
+   }
+  
+
+
+
+
+
+
+
+
+
+
+                                
+          
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                           function onchange___1007373933() {setTimeout('__doPostBack(\'ctl00$ContentPlaceHolder1$PageNumberDDL\',\'\')', 0)}
+
+
+
+
+                                                     function onchange____1481964053() {setTimeout('__doPostBack(\'ctl00$ContentPlaceHolder1$PageSizeDDL\',\'\')', 0)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     function onfocus____1731922136() {JSCRIPT: this.value='';}
+
+
+
+
+ 

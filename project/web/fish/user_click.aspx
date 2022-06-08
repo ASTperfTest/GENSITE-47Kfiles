@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="user_click.aspx.cs" Inherits="user_click" %>

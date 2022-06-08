@@ -1,0 +1,125 @@
+﻿: @ codepage = 65001 
+  
+ '-------------------------------------------------------------------------------
+ '---function hyftd initialization----------------------------------------------- 
+ set hyftdobj = server.createobject("hysdk.hyft.1")
+  hyftdobj.hyft_setencoding("big5")
+ if hyftdobj.ret_val = -1 then
+  response.write "set encoding : " & hyftdobj.errmsg
+  response.end
+ end if 
+ hyftdx = hyftdobj.hyft_connect( "127.0.0.1", 2816, "intra", "", "" )
+ if hyftdobj.ret_val = -1 then 
+  response.write "connection : " & hyftdobj.errmsg
+   response.end
+ end if 
+ hyftd_connection = hyftdobj.ret_val 
+
+ 
+ hyftdx = hyftdobj.hyft_initquery( hyftd_connection ) 
+ if hyftdobj.ret_val = -1 then 
+  response.write "initial query : " & hyftdobj.errmsg
+   response.end
+ end if
+ 
+ hyftdx = hyftdobj.hyft_addquery( hyftd_connection, "associatedata", "水稻", "", 0, 0, 0 )
+ if hyftdobj.ret_val = -1 then 
+  response.write "add query : " & hyftdobj.errmsg
+   response.end
+ end if
+ 'hyftdx = hyftdobj.hyft_addquery( hyftd_connection, "actorinfoid", "001", "", 0, 0, 0 )
+ 'if hyftdobj.ret_val = -1 then 
+ ' response.write "add query : " & hyftdobj.errmsg
+ '  response.end
+ 'end if 
+ 'hyftdx = hyftdobj.hyft_addand(hyftd_connection)
+ 'if hyftdobj.ret_val = -1 then
+ ' response.write "add and : " & hyftdobj.errmsg
+ '  response.end
+ 'end if
+ 
+ hyftdx = hyftdobj.hyft_sortquery( hyftd_connection, "subject", 0, 0, 500 ) 
+ if hyftdobj.ret_val = -1 then 
+  response.write "sort query : " & hyftdobj.errmsg
+   response.end
+ end if
+ hyftdsortqueryid= hyftdobj.ret_val  
+ '-------------------------------------------------------------------------------
+ '---get total record count------------------------------------------------------ 
+ hyftdx = hyftdobj.hyft_total_sysid( hyftd_connection, hyftdsortqueryid )
+ if hyftdobj.ret_val = -1 then
+  response.write "total sysid : " & hyftdobj.errmsg
+   response.end
+ end if
+ hyftdtotalrecordcount = hyftdobj.ret_val
+ response.write "hyftdtotalrecordcount : " & hyftdtotalrecordcount & "<hr>"
+ '-------------------------------------------------------------------------------
+ '---get current record count---------------------------------------------------- 
+ hyftdx = hyftdobj.hyft_num_sysid( hyftd_connection, hyftdsortqueryid )
+ if hyftdobj.ret_val = -1 then 
+  response.write "num sysid : " & hyftdobj.errmsg
+   response.end
+ end if
+ hyftdcurrentrecordcount = hyftdobj.ret_val
+ 
+ if hyftdcurrentrecordcount > 0 then  
+  dim index     
+  for index = 0 to hyftdcurrentrecordcount - 1             
+   '---------------------------------------------------------------------------
+   '---fetch current sysid-----------------------------------------------------   
+   hyftdx = hyftdobj.hyft_fetch_sysid( hyftd_connection, hyftdsortqueryid, index )
+   if hyftdobj.ret_val = -1 then 
+    response.write "fetch sysid : " & hyftdobj.errmsg
+     response.end
+   end if
+   hyftddataid = hyftdobj.sysid
+   response.write "hyftddataid : " & hyftddataid & " ~ "
+      '---------------------------------------------------------------------------
+      '---fetch associated data---------------------------------------------------                              
+      hyftdx = hyftdobj.hyft_one_assdata_len( hyftd_connection, "brief", hyftddataid )
+   if hyftdobj.ret_val = -1 then 
+    response.write "one assdata len : " & hyftdobj.errmsg
+     response.end
+   end if
+   hyftdassdatalen = hyftdobj.ret_val
+   hyftdx = hyftdobj.hyft_one_assdata( hyftd_connection, hyftdassdatalen )
+   if hyftdobj.ret_val = -1 then 
+    response.write "one assdata : " & hyftdobj.errmsg
+     response.end
+   end if
+   hyftd_one_assdata = hyftdobj.data     
+      response.write "hyftdassdata : " & hyftd_one_assdata & "<hr>"
+ next     
+ end if   
+ '---get grouping--- 
+ hyftdx = hyftdobj.hyft_query_grouping( hyftd_connection, "actorinfoid", 0 )
+ if hyftdobj.ret_val = -1 then 
+  response.write "query grouping : " & hyftdobj.errmsg
+   response.end
+ end if
+ hyftdquerygroupingid = hyftdobj.ret_val
+ 
+ '---get how many group--- 
+ hyftdx = hyftdobj.hyft_num_grouping( hyftd_connection, hyftdquerygroupingid )
+ if hyftdobj.ret_val = -1 then
+  response.write "num grouping : " & hyftdobj.errmsg
+   response.end
+ end if
+ hyftdgroupingcount1 = hyftdobj.ret_val
+ if hyftdgroupingcount1 > 0 then
+   for index = 0 to hyftdgroupingcount1 - 1
+    '---get the name and number of grouping---
+    hyftdx = hyftdobj.hyft_fetch_grouping( hyftd_connection, hyftdquerygroupingid, index )
+    if hyftdobj.ret_val = -1 then 
+     response.write "fetch grouping : " & hyftdobj.errmsg
+      response.end
+    end if
+    hyftd_fetch_grouping = hyftdobj.ret_val     
+    response.write "hyftd_fetch_grouping : " &  hyftd_fetch_grouping & " ~ "    
+    response.write "hyftd_get_grouping_name : " &  hyftdobj.data & "<hr>"
+   next
+ end if
+ hyftdx = hyftdobj.hyft_close(hyftd_connection)    
+ hyftdobj = empty
+  response.write err.description & " at: " & err.number  
+ 

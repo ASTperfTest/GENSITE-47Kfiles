@@ -1,0 +1,175 @@
+﻿: 
+function serverdate(dt)             'sql server �ݪ��t�τ���a��compare�ɨϥ�
+   if len(dt)=0 or isnull(dt) then
+       serverdate=""
+   else
+       serverdate = year(now()) & "/" & month(now()) & "/" & day(now())
+   end if
+end function
+
+function xstdtime(dt)                   '�ন����~�ήɶ�  999/99/99 10:00 ����ƫ��a��datetime �ϥ�
+   if len(dt)=0 or isnull(dt) then
+      xstdtime=""
+   else
+        xyear = right("000"+ cstr((year(dt)-1911)),3)     '�ɹs
+        xmonth = right("00"+ cstr(month(dt)),2)
+        xday = right("00"+ cstr(day(dt)),2)
+        xhour = right("00" + cstr(hour(dt)),2)
+        xminute = right("00" + cstr(minute(dt)),2)
+        xstdtime = xyear & "/" & xmonth & "/" & xday & " " & xhour & ":" & xminute
+   end if
+end function
+
+function d7date(dt)     '�ন����~  999/99/99 ����ƫ��a��smalldatetime �ϥ�
+ if len(dt)=0 or isnull(dt) then
+      d7date=""
+ else
+                      xy=right("000"+ cstr((year(dt)-1911)),3)     '�ɹs
+                      xm=right("00"+ cstr(month(dt)),2)
+                      xd=right("00"+ cstr(day(dt)),2)
+                      d7date=xy & "/" & xm & "/" & xd
+                  end if
+end function
+
+function s7date(dt)     '�ন����~  999.99.99 ����ƫ��a��smalldatetime �ϥ�
+ if len(dt)=0 or isnull(dt) then
+      s7date=""
+ else
+         s7date=cstr((year(dt)-1911)) & "."  & cstr(month(dt)) & "." & cstr(day(dt))
+ end if
+end function
+
+function ckselect(xs1, xs2)
+  if xs1=xs2 then
+ ckselect = " selected"
+  else
+ ckselect = ""
+  end if
+end function
+
+function ckstr (s, endchar)
+  if s="" then
+ ckstr = "null" & endchar
+  else
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ ckstr="'" & s & "'" & endchar
+  end if
+end function
+
+function pkstr (s, endchar)
+  if s="" then
+ pkstr = "null" & endchar
+  else
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ pkstr="'" & s & "'" & endchar
+  end if
+end function
+
+function pkdate (s, endchar)
+  if s="" then
+ pkdate = "null" & endchar
+  else
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ pkdate="'" & s & "'" & endchar
+  end if
+end function
+
+function dfs (s)
+  if s="" then
+ dfs = "null,"
+  else
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ dfs="'" & s & "',"
+  end if
+end function
+
+function dfd (s)
+  if s="" then
+ dfd = "null,"
+  else
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ dfd="'" & s & "',"
+  end if
+end function
+
+function dfn (s)
+ dfn= s & ","
+end function
+
+function drs (xs)
+  s = request(xs)
+  if s="" then
+ drs = "null,"
+  else
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ drs="'" & s & "',"
+  end if
+end function
+
+function drd (xs)
+  s = request(xs)
+  if s="" then
+ drd = "null,"
+  else
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ drd="'" & s & "',"
+  end if
+end function
+
+function drn (xs)
+s = request(xs)
+  if s="" then
+ drn = "null,"
+  else
+ drn= s & ","
+  end if
+end function
+
+function tagchg(s)                        '�n< > ���n  2000/12/14
+   while instr(s,"<")>0
+         xs=instr(s,"<")
+         if xs>0 then
+            s=left(s,xs-1) + "&lt" + mid(s,xs+1)
+         end if
+         xs=instr(s,">")
+         if xs>0 then
+            s=left(s,xs-1) + "&gt" + mid(s,xs+1)
+         end if
+   wend
+   tagchg=s
+end function
+
+
+
+
+
+
+ 

@@ -1,0 +1,142 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+   htprogcode = "ht001" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+   ugrpid = request("ugrpid") 
+   sqlcom = "select count(*) from infouser" 
+   set rs = conn.execute(sqlcom)
+
+if request("page_no")="" then
+  pno=0
+else
+  pno=request("page_no")-1
+end if
+
+  set rsreg = server.createobject("adodb.recordset")
+  
+if request("page_no")="" then
+ sql = "select * from infouser where ugrpid like n'%"& ugrpid & "%'" 
+ session("querysql") = sql
+else
+ sql = session("querysql")
+end if
+ session("querypage_no") = pno+1
+
+
+'----------hyweb gip db connection patch----------
+'        rsreg.open sql,conn,1,1
+set rsreg = conn.execute(sql)
+
+'----------hyweb gip db connection patch----------
+
+        recno=rsreg.recordcount 
+
+
+
+
+
+
+
+
+
+
+                                                    =title
+
+
+
+
+
+
+
+                                       =remark
+
+
+
+
+
+
+
+
+
+
+
+                                                                          =rs(0)
+       if rsreg.eof then 
+
+       end if 
+
+
+   if not rsreg.eof then 
+
+
+                                                                                                                  =pno+1
+
+
+
+                                  =recno
+
+                               
+  response.write pno*5+1 & "～"                             
+  if pno*5+5 > recno then                             
+    response.write recno                             
+  else                             
+    response.write pno*5+5                             
+  end if                             
+  pgno=int((recno-1)/5)          
+  pointer=pno*5+1                              
+
+
+
+
+                      if pno>0 then :                                                                          =pno:                                      end if 
+      if pno<pgno then :                                                                          =pno+2:                                      end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        
+rsreg.absoluteposition=pointer                      
+for i=1 to 5                      
+    if not rsreg.eof then                      
+
+
+                                        =rsreg("userid")
+
+        =rsreg("username")
+
+                          =d7date(rsreg("lastvisit"))
+
+                         =rsreg("visitcount")
+
+    
+    rsreg.movenext  
+    end if  
+next  
+
+
+
+
+
+
+
+
+
+   end if 
+
+
+                                                                                                      =pgno+1
+                   =pgno+1 

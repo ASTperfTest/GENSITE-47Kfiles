@@ -1,0 +1,35 @@
+.c12{ font-size: 12px ; color:#260e00}
+
+.c12h{ font-size: 12px ; line-height: 160%; color:#260e00}
+   
+.anchor {text-decoration:none; color:darkorange}
+   
+.anchor:hover {text-decoration:none; color:teal}
+   
+.flag {font-family:"Webdings"; color:#0033FF}
+   
+.direction {cursor:default; font-size:10pt; color:navy}
+
+
+
+A:link  {color:#3333cc ; font-style: normal; cursor: hand ; text-decoration: none}
+
+A:visited  {color:#990099 ; font-style: normal ; text-decoration: none}
+
+A:active  {color:#ff0033; font-style: normal}
+
+A:hover {color:#FF0033; font-style: normal; text-decoration: underline}
+
+.c14 { font-size: 12pt; line-height: 140%}
+
+.icon {  }
+
+
+
+
+
+
+
+td {  font-size: 12px; line-height: 140%}
+
+.c16 {  font-size: 12pt; line-height: 140%}

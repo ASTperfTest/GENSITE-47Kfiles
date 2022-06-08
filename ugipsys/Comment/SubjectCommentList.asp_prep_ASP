@@ -1,0 +1,370 @@
+﻿: @ codepage = 65001 
+  
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap = "單元資料維護"
+htprogfunc = "資料清單"
+htprogcode = "scomment"
+htprogprefix = "subjectcomment" 
+
+dim ictunitid : ictunitid = "2752"
+
+
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+
+
+
+
+   sub showdonebox(lmsg, atype) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+       if atype = "1" then 
+
+       else 
+                               =htprogprefix:                           =request.querystring("nowpage"):             =request.querystring("pagesize")
+       end if 
+
+
+
+   end sub 
+  
+ 
+ if request("submittask") = "recover" then
+ 
+  if request("ckbox") = "" then
+   showdonebox "請選擇要恢復的意見", "1"
+   response.end
+  end if
+  dim ckbox1 : ckbox1 = request("ckbox") & ","
+  dim items1 : items1 = split(ckbox1, ",")
+  dim count1 : count1 = 0
+  for each item1 in items1
+   if item1 <> "" then
+    sql = "update cudtgeneric set fctupublic = 'y' where icuitem = " & item1
+    conn.execute(sql)
+    count1 = count1 + 1
+   end if
+  next
+  
+  showdonebox "恢復成功, 共恢復了 " & count1 & " 筆", "2"
+  response.end
+  
+ elseif request("submittask") = "delete" then
+ 
+  if request("ckbox") = "" then
+   showdonebox "請選擇要刪除的意見", "1"
+   response.end
+  end if
+  dim ckbox : ckbox = request("ckbox") & ","
+  dim items : items = split(ckbox, ",")
+  dim count : count = 0
+  for each item in items
+   if item <> "" then
+    sql = "update cudtgeneric set fctupublic = 'n' where icuitem = " & item
+    conn.execute(sql)
+    count = count + 1
+   end if
+  next
+  
+  showdonebox "刪除成功, 共刪除了 " & count & " 筆", "2"
+  response.end
+  
+ elseif request("submittask")= "query" then
+ 
+  dim ctrootname : ctrootname = request("ctrootname")
+  dim stitle : stitle = request("stitle")
+  dim xbody : xbody = request("xbody")
+  dim ieditor : ieditor = request("ieditor")
+  
+  csql = "select count(*) from cudtgeneric inner join member on cudtgeneric.ieditor = member.account "
+  csql = csql & "inner join dbo.subjectforum on dbo.cudtgeneric.icuitem = dbo.subjectforum.gicuitem "
+  csql = csql & "left join cudtgeneric cudtg on cudtg.icuitem = subjectforum.parenticuitem "
+  csql = csql & "left join dbo.cattreenode on cattreenode.ctunitid = cudtg.ictunit "
+  csql = csql & "left join dbo.cattreeroot on cattreeroot.ctrootid = cattreenode.ctrootid "
+  csql = csql & "where cudtgeneric.ictunit = " & ictunitid & " and (cast(cudtgeneric.xbody as nvarchar) <> '') "
+  if ctrootname <> "" then csql = csql & " and cattreeroot.ctrootname like '%" & ctrootname & "%' "
+  if stitle <> "" then csql = csql & " and cudtg.stitle like '%" & stitle & "%' "
+  if xbody <> "" then csql = csql & " and cast(cudtgeneric.xbody as nvarchar) like '%" & xbody & "%' "
+  if ieditor <> "" then csql = csql & " and (member.account like  '%" & ieditor & "%' or dbo.member.nickname like  '%" & ieditor & "%' or member.realname like  '%" & ieditor & "%' ) "
+   
+  fsql =  "cattreeroot.ctrootname,cattreenode.ctrootid,cattreenode.ctnodeid,cudtg.ictunit,"
+  fsql = fsql & "subjectforum.parenticuitem,cudtgeneric.icuitem ,cudtg.stitle ,"
+  fsql = fsql & "cudtgeneric.xbody , cudtgeneric.xpostdate ,"
+  fsql = fsql & "dbo.cudtgeneric.fctupublic,member.account , member.realname ,member.nickname "
+  fsql = fsql & "from cudtgeneric "
+  fsql = fsql & "inner join member on cudtgeneric.ieditor = member.account " 
+  fsql = fsql & "inner join dbo.subjectforum on dbo.cudtgeneric.icuitem = dbo.subjectforum.gicuitem "
+  fsql = fsql & "left join cudtgeneric cudtg on cudtg.icuitem = subjectforum.parenticuitem "
+  fsql = fsql & "left join dbo.cattreenode on cattreenode.ctunitid = cudtg.ictunit "
+  fsql = fsql & "left join dbo.cattreeroot on cattreeroot.ctrootid = cattreenode.ctrootid "
+  fsql = fsql & "where cudtgeneric.ictunit =" & ictunitid & " and ( cast(cudtgeneric.xbody as nvarchar) <> '' ) "
+  
+  if ctrootname <> "" then fsql = fsql & " and cattreeroot.ctrootname like '%" & ctrootname & "%' "
+  if stitle <> "" then fsql = fsql & " and cudtg.stitle like '%" & stitle & "%' "
+  if xbody <> "" then fsql = fsql & " and cast(cudtgeneric.xbody as nvarchar) like '%" & xbody & "%' "
+  if ieditor <> "" then fsql = fsql & " and (member.account like  '%" & ieditor & "%' or dbo.member.nickname like  '%" & ieditor & "%' or member.realname like  '%" & ieditor & "%' ) "
+  
+  fsql = fsql & " order by cudtgeneric.xpostdate desc "
+ 
+  session("basesql") = fsql
+  session("csql") = csql
+    
+  elseif request("keep") = "" then
+    
+  csql = "select count(*) from cudtgeneric inner join member on cudtgeneric.ieditor = member.account "
+  csql = csql & "inner join dbo.subjectforum on dbo.cudtgeneric.icuitem = dbo.subjectforum.gicuitem "
+  csql = csql & "left join cudtgeneric cudtg on cudtg.icuitem = subjectforum.parenticuitem "
+  csql = csql & "left join dbo.cattreenode on cattreenode.ctunitid = cudtg.ictunit "
+  csql = csql & "left join dbo.cattreeroot on cattreeroot.ctrootid = cattreenode.ctrootid "
+  csql = csql & "where cudtgeneric.ictunit = " & ictunitid & " and (cast(cudtgeneric.xbody as nvarchar) <> '') "
+  
+  fsql =  "cattreeroot.ctrootname,cattreenode.ctrootid,cattreenode.ctnodeid,cudtg.ictunit,"
+  fsql = fsql & "subjectforum.parenticuitem,cudtgeneric.icuitem ,cudtg.stitle ,"
+  fsql = fsql & "cudtgeneric.xbody , cudtgeneric.xpostdate ,cudtgeneric.refid ,"
+  fsql = fsql & "dbo.cudtgeneric.fctupublic,member.account , member.realname ,member.nickname "
+  fsql = fsql & "from cudtgeneric "
+  fsql = fsql & "inner join member on cudtgeneric.ieditor = member.account " 
+  fsql = fsql & "inner join dbo.subjectforum on dbo.cudtgeneric.icuitem = dbo.subjectforum.gicuitem "
+  fsql = fsql & "left join cudtgeneric cudtg on cudtg.icuitem = subjectforum.parenticuitem "
+  fsql = fsql & "left join dbo.cattreenode on cattreenode.ctunitid = cudtg.ictunit "
+  fsql = fsql & "left join dbo.cattreeroot on cattreeroot.ctrootid = cattreenode.ctrootid "
+  fsql = fsql & "where cudtgeneric.ictunit =" & ictunitid & " and ( cast(cudtgeneric.xbody as nvarchar) <> '' ) "
+  fsql = fsql & "order by cudtgeneric.xpostdate desc"
+  
+  session("basesql") = fsql
+  session("csql") = csql
+ 
+ end if
+
+ fsql = session("basesql") 
+ csql = session("csql")
+ 
+ 'response.write fsql
+ 
+ nowpage = request.querystring("nowpage")  '現在頁數
+  perpagesize = request.querystring("pagesize")
+ if not isnumeric(perpagesize) then
+  perpagesize = 15
+ else
+  perpagesize = cint(request.querystring("pagesize"))
+ end if
+  if perpagesize <= 0 then  perpagesize = 15  
+
+  set rsc = conn.execute(csql)
+  totrec = rsc(0)       '總筆數
+  totpage = int(totrec / perpagesize + 0.999)
+
+ if not isnumeric(nowpage) then
+  nowpage = 1
+ else
+  nowpage = cint(request.querystring("nowpage"))
+ end if
+ 
+  if cint(nowpage) < 1 then 
+    nowpage = 1
+  elseif cint(nowpage) > totpage then 
+    nowpage = totpage 
+  end if             
+
+ fsql = "select top " & nowpage * perpagesize & fsql
+
+ set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+' rsreg.cachesize = perpagesize
+
+'----------hyweb gip db connection patch----------
+' rsreg.open fsql, conn, 3, 1
+'response.write fsql 'debug
+set rsreg =  conn.execute(fsql)
+ rsreg.cachesize = perpagesize
+'----------hyweb gip db connection patch----------
+
+
+ if not rsreg.eof then
+  if totrec > 0 then 
+      rsreg.pagesize = perpagesize       '每頁筆數
+      rsreg.absolutepage = nowpage      
+  end if    
+ end if   
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                  =htprogprefix:                    =request.querystring("nowpage"):             =request.querystring("pagesize")
+
+
+       if cint(nowpage) <> 1 then 
+
+              =htprogprefix:                           =(nowpage-1):             =perpagesize
+       end if 
+         =totrec
+
+                       if perpagesize=15 then:            end if
+                          if perpagesize=30 then:            end if
+                          if perpagesize=50 then:            end if
+                           if perpagesize=300 then:            end if
+
+
+
+     for ipage=1 to totpage 
+                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+       next 
+
+
+       if cint(nowpage)<>totpage then 
+                 =htprogprefix:                           =(nowpage+1):             =perpagesize
+
+       end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ if not rsreg.eof then   
+  for i = 1 to perpagesize      
+   pkey = "icuitem=" & rsreg("icuitem")
+   weburl = session("mywwwsiteurl") & "/subject/ct.asp?xitem={0}&ctnode={1}&mp={2}&kpi=0"
+   if rsreg("ctnodeid") <> "" and rsreg("ctrootid") <> "" then
+    weburl = replace( weburl, "{0}", rsreg("parenticuitem") )
+    weburl = replace( weburl, "{1}", rsreg("ctnodeid") )
+    weburl = replace( weburl, "{2}", rsreg("ctrootid") )
+   else
+    weburl = ""
+   end if
+
+
+                                                                         =rsreg("icuitem")
+                                  =weburl
+                                           =rsreg("ctrootname")
+                              =rsreg("stitle")
+                              =rsreg("xbody")
+                                           =formattime(rsreg("xpostdate"),1)
+
+      
+      response.write rsreg("account") & "&nbsp; | &nbsp;" & rsreg("realname") & "&nbsp; | &nbsp;" & rsreg("nickname")
+    
+
+
+      
+      if rsreg("fctupublic") = "y" then
+       response.write "開放"
+      else
+       response.write "刪除"
+      end if
+    
+
+
+  
+      rsreg.movenext
+      if rsreg.eof then exit for 
+  next 
+
+
+
+
+
+                                                                                                                               =request.querystring("icuitem")
+
+
+
+
+
+
+
+
+                  =htprogprefix:                           =request.querystring("icuitem"):            =nowpage:             =perpagesize
+
+
+
+
+
+                  =htprogprefix:                           =request.querystring("icuitem"):            =nowpage:             =perpagesize
+
+
+
+
+
+                              =htprogprefix:                                                    =perpagesize
+
+
+
+
+                              =htprogprefix:                           =nowpage
+
+
+   else 
+
+
+
+
+   end if 
+  
+function formattime(s_time, n_flag)
+ dim y, m, d, h, mi, s
+ formattime = ""
+ if isdate(s_time) = false then exit function
+ y = cstr(year(s_time))
+ m = cstr(month(s_time))
+ if len(m) = 1 then m = "0" & m
+ d = cstr(day(s_time))
+ if len(d) = 1 then d = "0" & d
+ h = cstr(hour(s_time))
+ if len(h) = 1 then h = "0" & h
+ mi = cstr(minute(s_time))
+ if len(mi) = 1 then mi = "0" & mi
+ s = cstr(second(s_time))
+ if len(s) = 1 then s = "0" & s
+ select case n_flag
+ case 1
+ ' yyyy-mm-dd hh:mm:ss
+ formattime = y & "-" & m & "-" & d & " " & h & ":" & mi & ":" & s
+ case 2
+ ' yyyy-mm-dd
+ formattime = y & "-" & m & "-" & d
+ case 3
+ ' hh:mm:ss
+ formattime = h & ":" & mi & ":" & s
+ case 4
+ ' yyyy年mm月dd日
+ formattime = y & "年" & m & "月" & d & "日"
+ case 5
+ ' yyyymmdd
+ formattime = y & m & d
+ case 6
+ 'yyyymmddhhmmss
+ formattime= y & m & d & h & mi & s
+ end select
+end function 
+ 

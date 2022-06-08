@@ -1,0 +1,25 @@
+﻿if exists (select * from dbo.sysobjects where id = object_id(n'[dbo].[epaper2]') and objectproperty(id, n'isusertable') = 1)
+drop table [dbo].[epaper2]
+go
+
+create table [dbo].[epaper2] (
+ [email] [char] (60) collate chinese_taiwan_stroke_ci_as not null ,
+ [createtime] [datetime] null 
+) on [primary]
+go
+
+alter table [dbo].[epaper2] with nocheck add 
+ constraint [pk_epaper2] primary key  clustered 
+ (
+  [email]
+ )  on [primary] 
+go
+
+
+insert into epaper2(email) values('frank@hyweb.com.tw');
+
+
+select * from epaper2
+
+
+ 

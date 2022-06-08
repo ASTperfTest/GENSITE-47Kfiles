@@ -1,0 +1,225 @@
+﻿: @ codepage = 65001 
+  response.expires=0
+htprogcap="代碼維護"
+htprogcode="pn90m02"
+htprogprefix="codedata" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+
+  
+tasklable="編輯" & htprogcap
+ sql="select * from codemetadef where codeid='" & session("codeid") & "'"
+ set rscode=conn.execute(sql)
+if request("submittask")="編修存檔" then
+  if request("tfx_value")<>request("orgvalue") then
+   if isnull(rscode("codesrcfld")) then
+ sql="select * from " & rscode("codetblname") & " where " & rscode("codevaluefld") & "=n'" & request("tfx_value") & "'"
+   else 
+ sql="select * from " & rscode("codetblname") & " where " & rscode("codesrcfld") & "=n'" & rscode("codesrcitem") & "' and " & rscode("codevaluefld") & "=n'" & request("tfx_value") & "'"
+   end if
+   set rsvalidate=conn.execute(sql)    
+   if not rsvalidate.eof then 
+
+
+
+
+    response.end
+   end if
+  end if 
+ if isnull(rscode("codesrcfld")) then
+    if isnull(rscode("codesortfld")) then
+  sql="update " & rscode("codetblname") & " set " & rscode("codevaluefld") & "=n'" & request("tfx_value") & "'," & rscode("codedisplayfld") & "=n'" & request("tfx_display") & "' where " & rscode("codevaluefld") & "=n'" & request("orgvalue") & "' and " & rscode("codedisplayfld") & "=n'" & request("orgdisplay") & "'"    
+    else 
+  if request("tfx_fldsort")<>"" then 
+   sql="update " & rscode("codetblname") & " set " & rscode("codevaluefld") & "=n'" & request("tfx_value") & "'," & rscode("codedisplayfld") & "=n'" & request("tfx_display") & "'," & rscode("codesortfld") & "=n'" & request("tfx_fldsort") & "' where " & rscode("codevaluefld") & "=n'" & request("orgvalue") & "' and " & rscode("codedisplayfld") & "=n'" & request("orgdisplay") & "'"
+  else
+   sql="update " & rscode("codetblname") & " set " & rscode("codevaluefld") & "=n'" & request("tfx_value") & "'," & rscode("codedisplayfld") & "=n'" & request("tfx_display") & "'," & rscode("codesortfld") & "=null where " & rscode("codevaluefld") & "=n'" & request("orgvalue") & "' and " & rscode("codedisplayfld") & "=n'" & request("orgdisplay") & "'" 
+  end if  
+    end if
+ else
+    if isnull(rscode("codesortfld")) then
+  sql="update " & rscode("codetblname") & " set " & rscode("codevaluefld") & "=n'" & request("tfx_value") & "'," & rscode("codedisplayfld") & "=n'" & request("tfx_display") & "' where " & rscode("codesrcfld") & "=n'" & rscode("codesrcitem") & "' and " & rscode("codevaluefld") & "=n'" & request("orgvalue") & "' and " & rscode("codedisplayfld") & "=n'" & request("orgdisplay") & "'"     
+    else
+  if request("tfx_fldsort")<>"" then
+   '判斷為"國家與地區"代碼時，新增"地區"至mref欄位 
+   if session("codeid") = "country_edit" then
+    sql="update " & rscode("codetblname") & " set " & rscode("codevaluefld") & "=n'" & request("tfx_value") & "'," & rscode("codedisplayfld") & "=n'" & request("tfx_display") & "'," & rscode("codesortfld") & "=n'" & request("tfx_fldsort") & "', mref=n'" & request("tfx_mref") & "' where " & rscode("codesrcfld") & "=n'" & rscode("codesrcitem") & "' and " & rscode("codevaluefld") & "=n'" & request("orgvalue") & "' and " & rscode("codedisplayfld") & "=n'" & request("orgdisplay") & "'"
+   else
+    sql="update " & rscode("codetblname") & " set " & rscode("codevaluefld") & "=n'" & request("tfx_value") & "'," & rscode("codedisplayfld") & "=n'" & request("tfx_display") & "'," & rscode("codesortfld") & "=n'" & request("tfx_fldsort") & "' where " & rscode("codesrcfld") & "=n'" & rscode("codesrcitem") & "' and " & rscode("codevaluefld") & "=n'" & request("orgvalue") & "' and " & rscode("codedisplayfld") & "=n'" & request("orgdisplay") & "'"
+   end if
+  else
+   sql="update " & rscode("codetblname") & " set " & rscode("codevaluefld") & "=n'" & request("tfx_value") & "'," & rscode("codedisplayfld") & "=n'" & request("tfx_display") & "'," & rscode("codesortfld") & "=null where " & rscode("codesrcfld") & "=n'" & rscode("codesrcitem") & "' and " & rscode("codevaluefld") & "=n'" & request("orgvalue") & "' and " & rscode("codedisplayfld") & "=n'" & request("orgdisplay") & "'" 
+  end if
+    end if
+ end if  
+'response.write sql   
+ conn.execute(sql)
+
+
+                                                   =session("codeid"):             =session("codename")
+
+  
+ response.end 
+elseif request("submittask")="刪除" then
+' sql="select * from codetable where codeid='" & session("codeid") & "'" 
+' set rscode=conn.execute(sql)
+ if isnull(rscode("codesrcfld")) then
+  sql="delete from " & rscode("codetblname") & " where " & rscode("codevaluefld") & "=n'" & request("orgvalue") & "' and " & rscode("codedisplayfld") & "=n'" & request("orgdisplay") & "'" 
+ else 
+  sql="delete from " & rscode("codetblname") & " where " & rscode("codesrcfld") & "=n'" & rscode("codesrcitem") & "' and " & rscode("codevaluefld") & "=n'" & request("orgvalue") & "' and " & rscode("codedisplayfld") & "=n'" & request("orgdisplay") & "'"
+ end if  
+ 'response.write sql
+ conn.execute(sql)
+
+
+                                                   =session("codeid"):             =session("codename")
+
+   response.end
+elseif 1=2 then  
+'---- modified by chris 2006/4/6 -------- begin -------------------------------------------------------------------
+'----  put the actual else part back in order to get data from tables other than codemain -------------------
+ xvalue=request.querystring("value")
+        sql="select * from codemain where codemetaid='" & request("codeid") & "' and mcode='" & xvalue & "'"
+    'response.write sql & "<hr>"
+set rs=conn.execute(sql)
+if not rs.eof then
+ xdisplay=rs("mvalue")
+ xfldsort=rs("msortvalue")
+ if session("codeid") = "country_edit" then
+ xmref=rs("mref")
+ end if
+end if
+ showhtmlhead()
+ formfunction = "edit"
+ showform()
+ initform()
+ showhtmltail()
+else
+   if isnull(rscode("codesrcfld")) then
+ sql="select " & rscode("codevaluefld") & "," & rscode("codedisplayfld")  & "," & rscode("codesortfld") & " from " & rscode("codetblname") & " where " & rscode("codevaluefld") & "='" & request.querystring("value") & "'"
+   else
+ sql="select " & rscode("codevaluefld") & "," & rscode("codedisplayfld")  & "," & rscode("codesortfld") & " from " & rscode("codetblname") & " where " & rscode("codesrcfld") & "='" & rscode("codesrcitem") & "' and " & rscode("codevaluefld") & "='" & request.querystring("value") & "'"
+   end if
+    set rsreg = conn.execute(sql)
+ xvalue=request.querystring("value")
+ if not rsreg.eof then
+  xdisplay=rsreg(1)
+  xfldsort=rsreg(2)
+  if session("codeid") = "country_edit" then xmref=rsreg("mref")
+ end if
+ showhtmlhead()
+ formfunction = "edit"
+ showform()
+ initform()
+ showhtmltail()
+'---- modified by chris 2006/4/6 -------------- end --------------------------------------------------------------
+'----  put the actual else part back in order to get data from tables other than codemain -------------------
+end if 
+
+   sub initform() 
+
+   end sub '---- initform() ----
+
+   sub showform() 
+
+   CxMethod_ASP_codedataform_230473223()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                                                    =title
+
+
+
+
+
+
+
+                                                 =session("codeid"):         =session("codename")
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+   sub showhtmltail() 
+
+
+
+
+
+
+
+
+
+
+
+                       =xvalue
+                         =xdisplay
+                        =xvalue
+                          =xdisplay
+  if session("codeid") = "country_edit" then
+                       =xmref
+  end if
+  if session("sortflag") then
+                         =xfldsort
+                          =xfldsort
+  end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmltail() ------ 

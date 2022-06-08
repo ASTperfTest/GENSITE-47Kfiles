@@ -1,0 +1,89 @@
+﻿: @ codepage = 65001 
+  
+response.expires = 0
+htprogcap="關鍵字詞維護"
+htprogfunc="新增關鍵字詞"
+htprogcode="gc1ap7"
+htprogprefix="keywordwtp" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+if request("task")="新增存檔" then
+ xdate=cstr(date())
+ xkeyword=pkstr(request("xkeyword"),"")
+ sqlact="insert into cudtkeywordwtp values("+xkeyword+",0,null,'a','"+session("userid")+"','"+xdate+"')"
+ set rs = conn.execute(sqlact)
+
+
+
+
+
+
+
+                       =htprogprefix
+
+
+         response.end
+end if
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               if (htprogright and 4)=4 then :                                                                             end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           =session("mysitemmourl") 

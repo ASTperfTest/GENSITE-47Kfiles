@@ -1,0 +1,155 @@
+﻿:  if datedecide = "y" then 
+
+   end if 
+  
+ if catdecide = "y" then
+  sql = "select datacat.catname, datacat.catid, dataunit.* from dataunit, datacat where datacat.catid = dataunit.catid and unitid = "& unitid
+ else
+  sql = "select * from dataunit where unitid = "& unitid
+ end if
+  set rs = conn.execute(sql)
+   edituser = rs("edituserid")
+   editdate = rs("editdate")
+
+
+
+   if catdecide = "y" then 
+
+
+                                             =rs("catname")
+
+   end if 
+                                    =subject
+                                                             =subject
+                                             =rs("subject")
+
+   if datedecide = "y" then 
+
+
+                                             =rs("begindate"):    =rs("enddate")
+
+   end if 
+   if not isnull(extend_1) then 
+                                     =subject
+                                                             =extend_1
+                                                    =rs("extend_1")
+
+   end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       sqlcom = "select * from datacat where language = n'"& language &"' and datatype = n'"& datatype &"' order by catshoworder"
+       set rs2 = conn.execute(sqlcom)
+        if not rs2.eof then
+         do while not rs2.eof 
+                           =rs2("catid"):      if rs2("catid") = rs("catid") then :            end if :    =rs2("catname")
+        rs2.movenext
+      loop
+     end if 
+
+
+
+
+
+
+
+
+
+
+
+                                                                  =rs("begindate")
+                                                               =rs("enddate")
+
+
+
+
+
+
+
+                  =subject
+
+                                                                                   =rs("subject")
+
+
+
+
+
+
+
+                  =extend_1
+
+                                                                                           =rs("extend_1")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     =content
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     =content
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     =content 

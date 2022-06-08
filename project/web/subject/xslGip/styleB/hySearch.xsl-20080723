@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt"
+	xmlns:user="urn:user-namespace-here" version="1.0">
+	<xsl:template match="hpMain" mode="xsSearch">
+
+
+<form method="post" target="hysearch"  action="HTTP://kmsearch.coa.gov.tw/hysearch/cgi/m_query.exe">
+
+<script language="JavaScript" type="text/JavaScript">
+function clearText(x) {
+	if ("請輸入查詢條件"==x.value)	x.value="";
+}
+
+</script>
+<input type="hidden" name="home" value="home"/>
+<input type="hidden" name="dindex" value="1"/>
+<input type="hidden" name="sort_type" value="sort_h"/>
+<input type="hidden" name="template" value="S"/>
+<input type="hidden" name="item_no" value="20"/>
+<input type="hidden" name="check_group" value="yes"/>
+
+<input type="hidden" name="group" value="+" />
+
+		
+<label for="content" accesskey="S">網站搜尋: </label>
+<input id="content" name="content" type="text" class="input" value="請輸入查詢條件" onfocus="clearText(this);" size="18" maxlength="20" />
+<input name="submit" type="submit" value="查詢" class="button"  />
+
+</form>
+	
+	</xsl:template>
+</xsl:stylesheet>

@@ -1,0 +1,178 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="主題單元管理"
+htprogfunc="單元清單"
+htprogcode="ge1t11"
+htprogprefix="ctunit" 
+   CxMethod_ASP_ctunitlistparam_523756266()
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+         =title
+
+   CxMethod_ASP_dbutil_10064021()
+  
+
+ set rsreg = server.createobject("adodb.recordset")
+ 'fsql=request.querystring("strsql")
+ if request.querystring = "" then
+    session("strsql") = ""
+  end if
+  fsql = session("strsql")
+
+if fsql="" then
+ fsql = "select htx.redirecturl, htx.ctunitid, htx.ctunitname, htx.ctunitkind, htx.ibasedsd, htx.fctunitonly, xref1.mvalue as xref1ctunitkind, xref2.sbasedsdname as xref2ibasedsd, xref3.mvalue as xref3fctunitonly, d.deptname" _
+  & " ,(select count(*) from cattreenode where ctunitid=htx.ctunitid) as nodecount " _
+  & " ,(select count(*) from cudtgeneric where ictunit=htx.ctunitid) as itemcount " _
+  & " from (((ctunit as htx left join codemainlong as xref1 on xref1.mcode = htx.ctunitkind and xref1.codemetaid='refctukind') left join basedsd as xref2 on xref2.ibasedsd = htx.ibasedsd and xref2.inuse='y') left join codemain as xref3 on xref3.mcode = htx.fctunitonly and xref3.codemetaid='boolyn')" _
+  & " left join dept as d on d.deptid=htx.deptid " _
+  & " where 1=1 " 
+ fsql = fsql & " and (htx.deptid is null or htx.deptid like '" & session("deptid") & "%')" 
+ xpcondition
+ fsql = fsql & " order by htx.ctunitname, ctunitkind, htx.ibasedsd"
+' response.write fsql
+' response.end
+end if
+nowpage=request.querystring("nowpage")  '現在頁數
+
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,3,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=30  
+      end if 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+      'strsql=server.urlencode(fsql)
+   session("strsql") = fsql
+   end if    
+end if   
+
+
+
+       =title
+
+   if (htprogright and 4)=4 then :                                             end if 
+   if (htprogright and 2)=2 then :                                     end if 
+
+
+
+
+                     =htprogfunc
+                                                  =htprogprefix
+
+
+          if cint(nowpage) <>1 then 
+
+              =htprogprefix:                    =(nowpage-1):           =strsql:             =perpagesize
+         end if
+         =totrec
+
+                                 if perpagesize=15 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+                                  if perpagesize=300 then:            end if
+
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):           =strsql:             =perpagesize
+
+          end if
+
+
+
+
+
+
+
+
+
+
+
+
+                     
+    for i=1 to perpagesize                  
+
+
+  pkey = ""
+pkey = pkey & "&ctunitid=" & rsreg("ctunitid")
+if pkey<>"" then  pkey = mid(pkey,2)
+
+                           =pkey
+  =rsreg("ctunitname")
+
+
+
+  =rsreg("xref1ctunitkind")
+
+
+   if rsreg("xref1ctunitkind") = "url 連結" then 
+   =rsreg("redirecturl")
+   else 
+   =rsreg("xref2ibasedsd")
+   end if 
+
+                       =rsreg("deptname")
+
+                               =pkey
+  =rsreg("nodecount")
+
+
+  =rsreg("itemcount")
+
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

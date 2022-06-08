@@ -1,0 +1,169 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<UseCase>
+	<Name>單元資料定義</Name>
+	<Code>GE1T01</Code>
+	<APCat>GE1</APCat>
+	<Version>
+		<Date>2004/3/11</Date>
+		<Author>hying</Author>
+		<Kind>Expanded</Kind>
+		<ExpandedSpec>
+			<Type>primary</Type>
+			<Type>essential</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<Purpose></Purpose>
+			<PreCondition>
+				<UseCase></UseCase>
+			</PreCondition>
+			<DescriptionList>
+				<Description>
+				</Description>
+			</DescriptionList>
+			<TypicalCourseOfEvents>
+				<Event type="Client" id="0">
+				</Event>
+				<Event type="Client" id="10">
+				</Event>
+				<Event type="Client" id="11">
+				</Event>
+			</TypicalCourseOfEvents>
+		</ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+	<Version>
+		<Date>2003/4/18</Date>
+		<Author>chen</Author>
+		<Kind>Expanded</Kind>
+		<ExpandedSpec>
+			<Type>primary</Type>
+			<Type>essential</Type>
+			<ActorList>
+				<Actor initiator="Y">系統管理者</Actor>
+			</ActorList>
+			<Purpose>設定主題單元的metadata資料定義</Purpose>
+			<PreCondition>
+				<UseCase></UseCase>
+			</PreCondition>
+			<DescriptionList>
+				<Description>定義好基底的資料metadata，供各主題單元選用
+				</Description>
+			</DescriptionList>
+			<TypicalCourseOfEvents>
+				<Event type="Client" id="0" ContractXML="evx_BaseDSDList.xml">
+					[條列] -- 資料定義清單<br/>				
+					1.列出所有資料定義: 類別, 名稱, 說明, 生效, TableName; <br/>
+					2.依類別, 名稱 排序; <br/>
+					3.Anchor在名稱，點選進入編修/刪除此資料定義<br/>
+				</Event>
+				<Event type="Client" id="11" ContractXML="evx_BaseDSDEditList.xml">
+					[MD編修條列] -- 編修資料定義<br/>				
+					1.編修欄位: 類別, 名稱, 說明, 生效; <br/>
+					2.在 sBaseTableName 為NULL時可刪除；否則只能將 生效 欄設為 N 不用; <br/>
+					3.另加『維護資料表』按鈕 (sBaseTableName為NULL時新增Table, 否則Alter Table)<br/>
+					4.Detail列出BaseDSDField的：顯示序, 生效, 標題, 說明, 資料型別, 長度, 輸入型式, 參照代碼<br/>
+				</Event>
+				<Event type="Client" id="12" ContractXML="evx_BaseDSDAdd.xml">
+					[新增] -- 新增資料定義<br/>				
+					1.輸入欄位: 類別, 名稱, 說明, 生效; <br/>
+				</Event>
+				<Event type="Client" id="13" ContractXML="evx_BaseDSDQuery.xml">
+					[查詢] -- 查詢資料定義<br/>				
+					1.條列欄位: 類別, 名稱, 說明, 生效; <br/>
+				</Event>
+				<Event type="Client" id="21" ContractXML="evx_bDSDFieldEdit.xml">
+					[D編修] -- 編修資料欄位<br/>	
+					1.編修欄位: 顯示序, 標題, 說明, 資料型別, 長度, 輸入型式, 參照代碼, 生效; <br/>
+					2.在 BaseDSD.sBaseTableName 為NULL時可刪除；否則只能將 生效 欄設為 N 不用; <br/>
+				</Event>
+				<Event type="Client" id="22" ContractXML="evx_bDSDFieldAdd.xml">
+					[D新增] -- 新增資料欄位<br/>	
+					1.輸入欄位: 顯示序, 標題, 說明, 資料型別, 長度, 輸入型式, 參照代碼, 生效; <br/>
+				</Event>
+			</TypicalCourseOfEvents>
+		</ExpandedSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject></Subject>
+				<Description></Description>
+				<Who></Who>
+				<DueDate></DueDate>
+				<DoneDate></DoneDate>
+				<Conclusion></Conclusion>
+			</TBD>
+		</TBDList>
+	</Version>
+	<Version>
+		<Date>2003/4/17</Date>
+		<Author>chen</Author>
+		<Kind>HighLevel</Kind>
+		<HighLevelSpec>
+			<Type>primary</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<DescriptionList>
+				<Description>
+				</Description>
+			</DescriptionList>
+			<VisitRecordList>
+				<VisitRecord>
+					<Who/>
+					<Date/>
+					<Location/>
+					<comment/>
+				</VisitRecord>
+			</VisitRecordList>
+		</HighLevelSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName></DocName>
+				<Description>
+				</Description>
+				<URL></URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject/>
+				<Description/>
+				<Who/>
+				<DueDate/>
+				<DoneDate/>
+				<Conclusion/>
+			</TBD>
+		</TBDList>
+	</Version>
+</UseCase>

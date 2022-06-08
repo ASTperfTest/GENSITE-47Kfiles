@@ -1,0 +1,118 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="主題館績效統計"
+htprogfunc="查詢清單"
+htprogcode="jigsaw"
+htprogprefix="newkpi" 
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_checkqs_2132519905()
+   
+
+ call checkurl(request.querystring)
+session("jigsql") = ""
+session("jigcheck")=""
+session("jigcheck1")=""
+'response.write request("icuitem")
+
+sql="select stitle from [mgipcoanew].[dbo].[cudtgeneric] where icuitem='"&request("icuitem")&"'"
+set rs = conn.execute(sql)
+sql1="select knowledgejigsaw.gicuitem as gicuitem, cudtgeneric.stitle as stitle, cudtgeneric.fctupublic as fctupublic, knowledgejigsaw.ordersiteunit as ordersiteunit, knowledgejigsaw.ordersubject as ordersubject, knowledgejigsaw.orderknowledgetank as orderknowledgetank, knowledgejigsaw.orderknowledgehome as orderknowledgehome, knowledgejigsaw.parenticuitem as parenticuitem , knowledgejigsaw.gicuitem as gicuitem from  knowledgejigsaw inner join cudtgeneric on knowledgejigsaw.gicuitem = cudtgeneric.icuitem where knowledgejigsaw.parenticuitem='"&request("icuitem")&"'"
+set rs1 = conn.execute(sql1)
+
+'response.write "sql=" & sql & "<br/>"
+'response.write "sql1=" & sql1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        =rs(0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                     =request("icuitem")
+
+
+
+
+
+
+
+
+          
+      do until rs1.eof
+        if rs1("stitle")<>"議題關聯知識文章單元順序設定" then
+  
+
+                                    =rs1("stitle")
+
+
+                     =rs1("gicuitem"):         =rs1("gicuitem")
+
+                         if rs1("fctupublic")="y" then response.write "selected" end if
+                             if rs1("fctupublic")="n" then response.write "selected" end if
+
+
+         select case rs1("stitle") 
+         case "最新議題" 
+                                                                                                                       =request("icuitem"):             =rs1("gicuitem")
+                                                                                                                   =request("icuitem"):             =rs1("gicuitem")
+         case "資源推薦的超連結" 
+                                                                                                                       =request("icuitem"):             =rs1("gicuitem")
+      case "使用者參與討論或分享心得" 
+                                                                                                                =request("icuitem"):             =rs1("gicuitem")
+
+         case else 
+                                                                                                                       =request("icuitem"):             =rs1("gicuitem")
+                                                                                                                   =request("icuitem"):             =rs1("gicuitem")
+         end select 
+
+
+          else
+
+
+      =rs1("stitle")
+                                                  =rs1("ordersiteunit")
+                                            =rs1("ordersubject")
+                                                  =rs1("orderknowledgetank")
+                                                  =rs1("orderknowledgehome")
+
+
+         
+    end if
+    rs1.movenext
+  loop
+ 
+
+
+
+
+
+
+
+                                                                                                           =request("icuitem") 

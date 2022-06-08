@@ -1,0 +1,25 @@
+﻿
+
+
+
+
+                                                                      if request.querystring("codeid") <> "" then :                         end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   if formfunction = "query" then 
+         if (htprogright and 2)=2 then 
+                                                                                 end if 
+   end if  

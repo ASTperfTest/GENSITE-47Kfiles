@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>農業知識入口網</title>
+<style type="text/css">
+<!--
+body {
+	background-repeat: no-repeat;
+	background-position: right 28px;
+	margin: 20px 0;
+	letter-spacing: 1px;
+}
+.mailQuestion {
+	margin: 0 30px 0;
+	padding: 18px 10px 10px;
+	text-align: center;
+	border: 1px solid #bbb;
+	min-width: 430px;
+}
+table.head {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border-collapse: collapse;
+	border-bottom: 3px solid #ccc;
+}
+table.head td {
+	padding: 0 0 3px;
+}
+table.body {
+	width: 100%;
+	margin: 0 0 10px;
+	padding: 0;
+	border-collapse: collapse;
+}
+.body caption {
+}
+.body th {
+	font-weight: normal;
+	font-size: .75em;
+	line-height: 165%;
+	vertical-align: top;
+	text-align: right;
+	padding: 5px 12px .25em 0;
+	border-bottom: 1px solid #cccccc;
+	white-space: nowrap;
+	background-repeat: no-repeat;
+	background-position: right 10px;
+}
+.body td {
+	font-size: .75em;
+	line-height: 165%;
+	text-align: left;
+	vertical-align: top;
+	border-bottom: 1px solid #cccccc;
+	padding: 5px 0 .25em 3px;
+}
+.body td p {
+	font-size: inherit;
+	line-height: inherit;
+	margin: 0 0 .25em;
+	padding:0;
+}
+.note {
+	font-size: .75em;
+	margin: 8px 10px;
+	padding:0;
+}
+a {
+	color: #0e40be;
+}
+a:hover {
+	text-decoration: none;
+	color: #f16c00;
+}
+-->
+</style>
+</head>
+
+<body background="http://kmw.hyweb.com.tw/xslGip/style1/images/body_bg.gif">
+<div class="mailQuestion">
+<table class="head">
+<tr>
+	<td align="left" valign="bottom"><img src="http://kmw.hyweb.com.tw/xslGip/style1/images/logo.gif" alt="農業知識入口網" /></td>
+	<td align="right" valign="bottom"><img src="http://kmw.hyweb.com.tw/xslGip/style1/images/h1.gif" alt="農業知識家 專家補充邀請" /></td>
+</tr>
+</table>
+<table class="body" summary="提問內容">
+<tr>
+<th background="http://kmw.hyweb.com.tw/xslGip/style1/images/th_bg.gif">寄件者</th>
+<td>農業知識入口網服務信箱 km@mail.coa.gov.tw </td>
+</tr>
+<tr>
+<th background="http://kmw.hyweb.com.tw/xslGip/style1/images/th_bg.gif">收件者</th>
+<td>{receiver}</td>
+</tr>
+<tr>
+<th background="http://kmw.hyweb.com.tw/xslGip/style1/images/th_bg.gif">信件內文</th>
+<td>
+<p>親愛的{expertname}，您好：</p>
+<p>{mailbody}</p></td>
+</tr>
+<tr>
+<th background="http://kmw.hyweb.com.tw/xslGip/style1/images/th_bg.gif">問題標題</th>
+<td>{questiontitle}</td>
+</tr>
+<tr>
+<th background="http://kmw.hyweb.com.tw/xslGip/style1/images/th_bg.gif">問題內容</th>
+<td>{questioncontent}</td>
+</tr>
+<tr>
+<th background="http://kmw.hyweb.com.tw/xslGip/style1/images/th_bg.gif">原問題連結</th>
+<td><a href="{questionlink}" target="_blank">{questionlink}</a></td>
+</tr>
+</table>
+<a href="{replylink}">
+	<img title="回覆" src="http://kmw.hyweb.com.tw/xslGip/style1/images/button.gif" border="0" />
+</a>
+<p class="note">請點選此按鈕來回覆此按鈕，當您點選了回覆後，將引導您連結至網際網路進行回覆。</p>
+</div>
+</body>
+</html>

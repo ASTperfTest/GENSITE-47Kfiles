@@ -1,0 +1,44 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="�d�d�]�z�ĳέp"
+htprogfunc="�d�߲m��"
+htprogcode="jigsaw"
+htprogprefix="newkpi" 
+
+   CxMethod_ASP_server_1606199358()
+  
+
+ctrootid=request("ctrootid")
+pagesize=request("pagesize")
+icuitem=request("icuitem")
+pagenumber=request("pagenumber")
+check=request("check")
+uncheck=request("uncheck")
+check1=session("jigcheck")
+a=session("jigcheck")
+b=check
+c=uncheck
+checkarr = split(b, ";")
+uncheckarr = split(c, ";")
+response.write request("gicuitem")
+
+for i = 0 to ubound(checkarr)
+   if (instr(a,checkarr(i))>0) then
+ 
+   else
+    add=checkarr(i)+";"
+    a=a+add
+ end if
+next
+
+for i = 0 to ubound(uncheckarr)-1
+    if (instr(a,uncheckarr(i))>0) then
+    cut=uncheckarr(i)+";"
+       a=replace(a,cut,"")
+    end if
+next
+session("jigcheck")=a
+response.redirect "subject_setlist.asp?icuitem="&icuitem&"&pagenumber="&pagenumber&"&pagesize="&pagesize&"&ctrootid="&ctrootid&"&gicuitem="&request("gicuitem")
+
+
+ 

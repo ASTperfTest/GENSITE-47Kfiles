@@ -1,0 +1,73 @@
+﻿: @ codepage = 65001 
+  
+'-----930910修改xbody datalen/inputlen長度
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+'----檢查cudtgeneric.xbody的欄位型態是否為text,若否,結束
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+goflag = false
+fsql = "sp_columns 'cudtgeneric'"
+set rslist = conn.execute(fsql)
+if not rslist.eof then
+    while not rslist.eof
+ if rslist("column_name") = "xbody" then
+  if rslist("type_name") = "text" then goflag = true
+ end if
+       rslist.movenext
+    wend
+end if
+
+if not goflag then
+ response.write "cudtgeneric資料表的xbody欄位型態請改為text!"
+ response.end
+end if
+
+'----修改dtd/dsd
+set fso = server.createobject("scripting.filesystemobject")
+xpath = "/site/"+session("mysiteid")+"/gipdsd/"
+set fldr = fso.getfolder(server.mappath(xpath))
+ 
+if fldr.files.count > 0 then
+    for each sf in fldr.files
+     if (left(sf.name,5)="cudtx" or left(sf.name,7)="ctunitx") and left(sf.name,12)<>"ctunitxorder" then
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true             
+  loadxml = server.mappath(xpath+sf.name)             
+      xv = htpagedom.load(loadxml)
+    if htpagedom.parseerror.reason <> "" then 
+       response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+       response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+       response.end()
+    end if 
+'----修改datalen/inputlen長度    
+      if nulltext(htpagedom.selectsinglenode("//fieldlist/field[fieldname='xbody']"))<>"" then 
+   set fieldnode = htpagedom.selectsinglenode("//fieldlist/field[fieldname='xbody']")   
+     fieldnode.selectsinglenode("datalen").text = ""
+     fieldnode.selectsinglenode("inputlen").text = ""
+   htpagedom.save(server.mappath(xpath+sf.name))
+   response.write sf.name+"<br>"
+  end if
+
+'----回存    
+    end if
+    next
+end if
+
+response.write "<br>done930903!"
+ 

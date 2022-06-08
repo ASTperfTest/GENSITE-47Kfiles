@@ -1,0 +1,4 @@
+﻿: 
+connhakka.close
+set connhakka = nothing
+ 

@@ -1,0 +1,213 @@
+﻿:  response.expires = 0
+htprogcap="�ҵ{�޲z"
+htprogfunc="�ҵ{�`��"
+htprogcode="pa005"
+htprogprefix="msession" 
+   response.expires = 0 
+   CxMethod_ASP_server_1884692838()
+   CxMethod_ASP_dbutil_251025643()
+  
+
+ set rsreg = server.createobject("adodb.recordset")
+ fsql=request.querystring("strsql")
+
+if fsql="" then
+ fsql = "select htx.*, xref1.mvalue as xrstatus " _
+  & " , xref2.mvalue as xractcat, a.actname, a.acttarget" _
+  & ", (select count(*) from paenroll as e where e.pasid=htx.pasid) as enrollcount" _
+  & " from (pasession as htx left join codemain as xref1 on xref1.mcode = htx.astatus and xref1.codemetaid='classstatus')" _
+  & " left join ppact as a on a.actid=htx.actid " _
+  & " left join codemain as xref2 on xref2.mcode = a.actcat and xref2.codemetaid='ppactcat'" _
+  & " where 2=2"
+ if request.form("htx_coname") <> "" then
+  wherecondition = replace("a.actname like '%{0}%'", "{0}", request.form("htx_coname") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_codates") <> "" then
+  ranges = request.form("htx_codates")
+  rangee = request.form("htx_codatee")
+  if rangee = "" then rangee=ranges
+  wherecondition = replace("(htx.bdate between '{0}' and '{1}')", "{0}", ranges)
+  wherecondition = replace(wherecondition, "{1}", rangee)
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_actcat") <> "" then
+  wherecondition = replace("a.actcat = '{0}'", "{0}", request.form("htx_actcat") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ fsql = fsql & " order by actcat"
+end if
+
+nowpage=request.querystring("nowpage")  '�{�b����
+
+'response.write fsql & "<hr>"
+'response.end
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then
+   totrec=rsreg.recordcount       '�`����
+   if totrec>0 then
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then
+         perpagesize=20
+      end if
+
+      rsreg.pagesize=perpagesize       '�c������
+
+      if cint(nowpage)<1 then
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then
+         nowpage=rsreg.pagecount
+      end if
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '�`����
+      strsql=server.urlencode(fsql)
+   end if
+end if
+
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap
+
+
+
+
+
+
+
+
+
+          if (htprogright and 2)=2 then
+                   =htprogprefix
+          end if
+
+
+
+
+
+
+
+                                       =htprogprefix
+
+  if not rsreg.eof then
+
+                                      =nowpage:    =totpage
+                                           =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+          if cint(nowpage) <>1 then 
+                        =htprogprefix:                    =(nowpage-1):           =strsql:             =perpagesize
+         end if
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):           =strsql:             =perpagesize
+          end if
+
+
+                                 if perpagesize=10 then:            end if
+                                 if perpagesize=20 then:            end if
+                                 if perpagesize=30 then:            end if
+                                 if perpagesize=50 then:            end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    for i=1 to perpagesize
+
+
+  pkey = ""
+pkey = pkey & "&pasid=" & rsreg("pasid")
+if pkey<>"" then  pkey = mid(pkey,2)
+
+  =rsreg("xractcat")
+
+
+                              =pkey:            =rsreg("acttarget")
+  =rsreg("actname")
+
+
+
+  =rsreg("pasnum")
+
+
+                              =pkey:            =rsreg("dtnote")
+  =s7date(rsreg("bdate"))
+
+
+
+  =rsreg("plimit")
+
+
+  =rsreg("xrstatus")
+
+
+                             =pkey:     =rsreg("enrollcount")
+
+
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for
+    next
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+  else
+
+
+
+
+  end if
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

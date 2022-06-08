@@ -1,0 +1,80 @@
+﻿
+
+
+
+
+                                                                     if request.querystring("codeid") <> "" then :                         end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if checkgipconfig("codeml") then 
+
+
+
+
+   end if 
+
+
+
+
+
+
+
+
+
+
+   if formfunction = "edit" then 
+   if (htprogright and 8) <> 0 then 
+
+   end if 
+
+
+
+                                                                                                    =request.querystring("codeid")
+
+   if (htprogright and 16) <> 0 then 
+
+   end if 
+   else '-- add ---
+
+
+   end if  

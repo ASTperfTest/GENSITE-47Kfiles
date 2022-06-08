@@ -1,0 +1,497 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      
+          
+function Send()
+{
+var rege = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9])+$/;
+
+    if (document.Form1.account.value == ""  ) {
+  alert("您忘了填寫帳號了！"); 
+  document.Form1.account.focus(); 
+ return false; 
+ } 
+ if(document.Form1.account.value.length > 30  ) {
+  alert("您所填寫的帳號超過30碼！"); 
+  document.Form1.account.focus(); 
+      return false; 
+  }
+ if (document.Form1.account.value.length < 6){
+        alert("您所填寫的帳號少於6碼！"); 
+     document.Form1.account.focus();
+  return false; 
+       } 
+ if (document.Form1.account.value!=""){
+       
+       var i;
+    var ch;
+    for (i=0;i< document.Form1.account.value.length;i++){
+   ch = document.Form1.account.value.charAt(i);
+   if(ch >= 'a' && ch <= 'z'){
+    //return true;
+   }
+   else if(ch >= 'A' && ch <= 'Z'){
+    //return true;
+   }
+   else if(ch >= '0' && ch <= '9'){
+    //return true;
+   }
+   else if(ch == '-' || ch == '_'){
+    //return true;
+   }
+   else{
+    alert("帳號限用英文與數字，可用『-』或『_』！"); 
+    return false;
+   }
+       }
+ }
+ if (document.Form1.realname.value == ""  ) {
+  alert("請輸入姓名！"); 
+  document.Form1.realname.focus(); 
+ return false; 
+ }  
+ if (document.Form1.passwd.value =="") {
+         alert("您忘了填寫密碼了！"); 
+   document.Form1.passwd.focus(); 
+   return false; 
+  }
+ if(document.Form1.passwd.value!=""){
+              
+              if (document.Form1.passwd.value.length > 16){
+               alert("您所填寫的密碼超過16碼！"); 
+               document.Form1.passwd.focus(); 
+                return false; 
+              }
+              else if(document.Form1.passwd.value.length < 6){
+               alert("您所填寫的密碼少於6碼！"); 
+               document.Form1.passwd.focus(); 
+               return false; 
+              }
+              else if(document.Form1.password2.value==""){
+               alert("您忘了填寫密碼確認了！"); 
+               document.Form1.password2.focus(); 
+               return false; 
+              }
+              else if(document.Form1.passwd.value != document.Form1.password2.value){
+               alert("密碼與密碼確認不符！");
+               document.Form1.password2.focus(); 
+               return false; 
+              }
+              else{
+               var i;
+               var ch;
+               var digits = "0123456789";
+               var digitflag = false;
+               var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+               var charflag = false;
+               for (i=0;i< document.Form1.passwd.value.length;i++){  
+                ch = document.Form1.passwd.value.charAt(i);  
+                if(ch == '\"' || ch == ' ' || ch == '\'' || ch== '\&'){
+                 alert("密碼請勿包含『\"』、『'』、『&』或空白"); 
+                 document.Form1.passwd.focus();
+                 return false; 
+                }
+                if( digits.indexOf(ch) >= 0 ) {
+                 digitflag = true;
+                }     
+                if( chars.indexOf(ch) >= 0 ) {
+                 charflag = true;
+                }
+               }
+               if( !digitflag ) {
+                 alert("密碼請至少包含一數字"); 
+                 document.Form1.passwd.focus();
+                 return false; 
+               }
+               if( !charflag ) {
+                 alert("密碼請至少包含一英文字"); 
+                document.Form1.passwd.focus();
+                return false; 
+               }
+              } 
+ 
+ 
+ }
+ //if (document.Form1.id.value == "" ) {
+ // alert("請輸入身分證字號！"); 
+ // document.Form1.id.focus(); 
+ //return false; 
+ //}
+ 
+ if(document.Form1.id_type2.checked)
+ {
+ 
+ if (document.Form1.member_org.value == ""  ) {
+  alert("請輸入所屬機關名稱！"); 
+  document.Form1.member_org.focus(); 
+ return false; 
+ }
+ if (document.Form1.com_ext.value.length > 4  ) {
+  alert("您所填寫所屬機關電話分機超過4碼！"); 
+  document.Form1.com_ext.focus(); 
+ return false; 
+ } 
+ 
+  if (document.Form1.com_tel.value == ""  ) {
+  alert("請輸入所屬機關電話！"); 
+  document.Form1.com_tel.focus(); 
+ return false; 
+ } 
+ //else if (document.Form1.com_exttext.value == ""  ) {
+  //alert("請輸入所屬機關分機！"); 
+  //document.Form1.com_exttext.focus(); 
+ //return false; 
+ //} 
+ if (document.Form1.ptitle.value == ""  ) {
+  alert("請輸入職稱！"); 
+  document.Form1.ptitle.focus(); 
+ return false; 
+ } 
+ }
+ if (document.Form1.home_ext.value.length > 4  ) {
+  alert("您所填寫電話分機超過4碼！"); 
+  document.Form1.home_ext.focus(); 
+ return false; 
+ } 
+ if (document.Form1.email.value == ""  ) {
+  alert("請輸入E-mail！"); 
+  document.Form1.email.focus(); 
+ return false; 
+ } 
+ 
+ if (rege.exec(document.Form1.email.value) == null) {
+  alert("eMail 格式錯誤！"); 
+  document.Form1.email.focus(); 
+  return false; 
+ }
+ 
+ 
+ //document.getElementsByName("submitTask").value = "UPDATE";
+ //document.Form1.submit();
+  return true;
+}
+
+ function showbutton(id) {
+  
+  if (id == 1) {
+   document.getElementById("orgnamediv").style.display = "none";             
+   document.getElementById("orgtextdiv").style.display = "none";
+            document.getElementById("com_telnamediv").style.display = "none";             
+   document.getElementById("com_teltextdiv").style.display = "none";
+   document.getElementById("com_extnamediv").style.display = "none";             
+   document.getElementById("com_exttextdiv").style.display = "none";
+   document.getElementById("ptitlenamediv").style.display = "none";             
+   document.getElementById("ptitletextdiv").style.display = "none";
+   document.getElementById("KMcatnamediv").style.display = "none";             
+   document.getElementById("KMcattextdiv").style.display = "none";
+  
+  }
+  if (id == 2) {
+   document.getElementById("orgnamediv").style.display = "block";             
+   document.getElementById("orgtextdiv").style.display = "block"; 
+            document.getElementById("com_telnamediv").style.display = "block";             
+   document.getElementById("com_teltextdiv").style.display = "block";
+         document.getElementById("com_extnamediv").style.display = "block";             
+   document.getElementById("com_exttextdiv").style.display = "block"; 
+            document.getElementById("ptitlenamediv").style.display = "block";             
+   document.getElementById("ptitletextdiv").style.display = "block"; 
+            document.getElementById("KMcatnamediv").style.display = "block";             
+   document.getElementById("KMcattextdiv").style.display = "block";          
+  }
+ 
+  }   
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+function href____832135391() {history.go(-1)}
+
+
+
+
+
+                                                        function onsubmit____260426849() {return Send()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                 function onclick___1317426261() {showbutton(1)}
+
+                                               function onclick___1720710788() {showbutton(2)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

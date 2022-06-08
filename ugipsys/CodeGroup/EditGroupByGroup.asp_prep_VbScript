@@ -1,0 +1,272 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    alert("down!")
+    window.navigate "listgroup.asp?pageno=1"
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         
+   
+sub chdisplayall()   
+if document.all("openall").value="全部展開" then   
+ for i=1 to Cx_0dummy          
+  if document.all("m" & i).style.display="none" then         
+    document.all("m" & i).style.display=""         
+    document.all("i" & i).src="images/2.gif"         
+  end if         
+ next    
+    document.all("openall").value="全部關閉"    
+elseif document.all("openall").value="全部關閉" then   
+ for i=1 to Cx_0dummy          
+  if document.all("m" & i).style.display="" then         
+    document.all("m" & i).style.display="none"         
+    document.all("i" & i).src="images/1.gif"         
+  end if         
+ next    
+    document.all("openall").value="全部展開"    
+end if            
+end sub         
+         
+sub chdisplay(k)         
+  if document.all("m" & k).style.display="" then         
+    document.all("m" & k).style.display="none"     
+    document.all("i" & k).src="images/1.gif"         
+  else         
+    document.all("m" & k).style.display=""         
+    document.all("i" & k).src="images/2.gif"         
+  end if         
+end sub         
+     
+sub chkbox(x)     
+ if reg(x & "1").checked then     
+  for i=2 to 8     
+    document.all("x" & x & i).style.display=""         
+  next     
+ else     
+  for i=2 to 8    
+    document.all("x" & x & i).style.display="none"         
+    reg(x & i).checked=false     
+  next     
+ end if     
+end sub     
+     
+sub rightstable_ondblclick     
+ set xobj = window.event.srcelement    
+ if xobj.tagname="input" then 
+ if xobj.type = "checkbox" then     
+  xname=xobj.name     
+  xnpos = cint(right(xname,1))     
+  xname = left(xname, len(xname)-1)     
+  xboolean = xobj.checked     
+  for i=2 to xnpos     
+   document.all(xname&i).checked = xboolean     
+  next     
+ end if     
+ end if
+end sub     
+
+ 

@@ -1,0 +1,260 @@
+@charset "utf-8";
+
+/* cp add jigsaw */
+.jigsaw {
+	margin-right: 10px;
+	margin-left: 10px;
+	border-top: 3px double #F5F5F5;
+	border-bottom: 3px double #F5F5F5;
+	border-right-style: none;
+	border-left-style: none;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.jigsaw .head {
+	background: url(../images1/pantology_head_bg.gif) no-repeat left bottom;
+	height: 16px;
+	width: 38px;
+}
+.jigsaw .body {
+	background: url(../images1/pantology_bg.gif) repeat-y left top;
+	padding: 10px 5px 30px 50px;
+
+}
+.jigsaw .foot {
+	background: url(../images1/pantology_foot_bg.gif) no-repeat left top;
+	height: 16px;
+	width: 38px;
+	margin-top: 0;
+}
+.jigsaw h2 {
+	border-bottom: 3px dotted #E3E3E3;
+	font-size: 130%;
+	margin: 0 0 10px;
+	font-weight: bold;
+	line-height: 140%;
+	color: #666600;
+	background: url(../images1/iocn_h2.gif) no-repeat left bottom;
+	padding: 3px 10px 2px 35px;
+}
+.jigsaw h5 {
+	clear: both;
+	font-weight: normal;
+	font-size: 1.35em;
+	color: #000;
+	letter-spacing: .2em;
+	padding: 14px 5px 6px 38px;
+	margin: 15px 0 0 0;
+	background: url(../images/toScore_h5_bg.gif) no-repeat 5px 5px;
+}
+.jigsawtype02 {
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #CAEB85;
+	margin: 5px 0 0 0;
+	padding: 8px 0;
+	font-size: 100%;
+}
+.jigsawtype02 th {
+	border: 1px solid #CAEB85;
+	padding: 6px 4px 4px 6px;
+	font-size: 1.05em;
+	color: #2C5858;
+	text-align: left;
+	vertical-align: top;
+	line-height: 140%;
+	background-color: #CAEB85;
+}
+.jigsawtype02 td {
+	border: 1px solid #CAEB85;
+	padding: 6px 4px 4px 6px;
+	text-align: left;
+	vertical-align: top;
+	color: #666;
+	line-height: 140%;
+}
+.jigsawtype02 td a {
+	color: #339999;
+}
+.jigsawtype03 {
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #B2EBEF;
+	margin: 5px 0 0 0;
+	padding: 8px 0;
+	font-size: 100%;
+}
+.jigsawtype03 th {
+	border: 1px solid #B2EBEF;
+	padding: 6px 4px 4px 6px;
+	font-size: 1.05em;
+	color: #2C5858;
+	text-align: left;
+	vertical-align: top;
+	line-height: 140%;
+	background-color: #B2EBEF;
+}
+.jigsawtype03 td {
+	border: 1px solid #B2EBEF;
+	padding: 6px 4px 4px 6px;
+	text-align: left;
+	vertical-align: top;
+	color: #666;
+	line-height: 140%;
+}
+.jigsawtype03 td a {
+	color: #339999;
+}
+.jigsawtype04 {
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #DCBBEF;
+	margin: 5px 0 0 0;
+	padding: 8px 0;
+	font-size: 100%;
+}
+.jigsawtype04 th {
+	border: 1px solid #DCBBEF;
+	padding: 6px 4px 4px 6px;
+	font-size: 1.05em;
+	color: #2C5858;
+	text-align: left;
+	vertical-align: top;
+	line-height: 140%;
+	background-color: #DCBBEF;
+}
+.jigsawtype04 td {
+	border: 1px solid #DCBBEF;
+	padding: 6px 4px 4px 6px;
+	text-align: left;
+	vertical-align: top;
+	color: #666;
+	line-height: 140%;
+}
+.jigsawtype04 td a {
+	color: #339999;
+}
+.jigsawtype05 {
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #FFDA79;
+	margin: 5px 0 0 0;
+	padding: 8px 0;
+	font-size: 100%;
+}
+.jigsawtype05 img {
+	vertical-align: middle;
+}
+.jigsawtype05 th {
+	border: 1px solid #FFDA79;
+	padding: 6px 4px 4px 6px;
+	font-size: 1.05em;
+	color: #2C5858;
+	text-align: left;
+	vertical-align: top;
+	line-height: 140%;
+	background-color: #FFDA79;
+}
+.jigsawtype05 td {
+	border: 1px solid #FFDA79;
+	padding: 6px 4px 4px 6px;
+	text-align: left;
+	vertical-align: top;
+	color: #666;
+	line-height: 140%;
+}
+.jigsawtype05 td a {
+	color: #339999;
+}
+.jigsaw a {
+	text-decoration: none;
+	color: #CC9900;
+	line-height: 130%;
+}
+.jigsaw a:hover, .jigsawtype02 td a:hover {
+	color: #990000;
+	text-decoration: underline;
+}
+.jigsawtop {
+	text-align: right;
+	margin-right: 5px;
+	background: url(../images1/iocn_top.gif) no-repeat right center;
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+	padding-right: 5px;
+	height: 14px;
+	margin-top: 10px;
+}
+.jigsaw hr {
+	border-style: none;
+	height: 1px;
+	color: #eeeeee;
+	margin-top: 30px;
+	margin-bottom: 5px;
+}
+
+.jigsaw .s01 {
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+.jigsawnew {
+	clear: both;
+	position: relative;
+	clear: both;
+	margin: 10px 0 10px 0;
+	padding: 0 0 12px;
+	border: 1px solid #ccc;
+	border-top: none;
+}
+.jigsawnew h5 {
+	clear: both;
+	font-weight: normal;
+	font-size: 1.35em;
+	color: #000;
+	letter-spacing: .2em;
+	padding: 14px 5px 6px 38px;
+	margin: 0;
+	background: url(../images/toScore_h5_bg.gif) no-repeat 5px 5px;
+	border-bottom: 1px dashed #ccc;
+	border-top: 1px solid #ccc;
+}
+.jigsawnew ol {
+	clear: both;
+	padding: 10px 0 0 0;
+	margin: 0 15px 0 0;
+	list-style: decimal;
+}
+.jigsawnew ol li {
+	margin: 0 0 5px 38px;
+	padding: 0 0 5px 0;
+	color: #444444;
+	border-bottom: 1px dotted #ccc;
+	line-height: 1.5em;
+	list-style: decimal;
+}
+.jigsawnew ol li a {
+	color: #444444;
+}
+.jigsawnew .content {
+  padding: 10px;
+}
+.jigsawnew .content img {
+  max-width: 200px;
+  _width: 200px;
+  float: left;
+  margin-top: 5px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+.jigsawnew .content h6 {
+	font-weight: normal;
+	font-size: 1.25em;
+	color: #000;
+	letter-spacing: 0.15em;
+}
+.jigsawnew .content p {
+	color: #333;
+	font-size: 1em;
+}

@@ -1,0 +1,129 @@
+﻿
+
+
+
+
+
+
+function script____1574934415() {src("js/jquery.js");}
+function script____1332106670() {src("js/gradening.js");}CxConstr_2016129844();
+function script____1574934415() {src("js/jquery.js");}
+
+function script____1019212710() {src("/ViewCounter.aspx");}
+
+
+
+
+
+
+
+
+
+        function setHref(url) {
+            var isIE = (navigator.appName.indexOf("Microsoft") != -1) ? true : false;
+
+            if (!isIE) {
+                parent.location.href = url;
+            } else {
+                var lha = document.getElementById('_lha');
+                if (!lha) {
+                    lha = document.createElement('a');
+                    lha.id = '_lha';
+                    lha.target = '_parent';  // Set target: for IE
+                    document.body.appendChild(lha);
+                }
+                lha.href = url;
+                lha.click();
+            }
+        }
+        function Login() {
+            var url="Cx_0dummy";
+            setHref(url);
+        }
+
+        function checkSearchForm(value) {
+            if (value == 0) {
+                if (document.SearchForm.Keyword.value == "") {
+                    alert('請輸入查詢值');
+                    event.returnValue = false;
+                }
+                else {
+                    document.SearchForm.action = "/Gardening/SearchResult.aspx";
+                    document.SearchForm.debug.value = false;
+                    document.SearchForm.submit();
+                }
+            }
+        }
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

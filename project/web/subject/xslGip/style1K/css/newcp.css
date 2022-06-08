@@ -1,0 +1,114 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*影音播放版*/
+.video {
+	text-align: center;
+	margin: 0 auto 20px;
+}
+.video embed {
+}
+
+#cp4 table {
+	border-collapse:collapse;
+	border-top: 2px solid #bbb;
+	border-bottom: 2px solid #bbb;
+	margin: 0 0 20px;
+	padding: 0;
+}
+#cp4 table caption {
+	color: #000;
+	font-size: 110%;
+	padding: 4px 0;
+}
+#cp4 table th {
+	text-align: center;
+	border-bottom: 1px solid #bbb;
+	padding: 4px 8px;
+	vertical-align: top;
+	white-space: nowrap;
+}
+#cp4 table td {
+	padding: 4px 8px;
+	border-bottom: 1px dotted #aaa;
+	vertical-align: top;
+}
+
+/*縮圖摘要版*/
+#cp5 .imageY {
+	float: right;
+	padding: 3px;
+	margin: 0 0 5px 10px;
+	border: 1px solid #ccc;
+}
+#cp5 .imageY img {/*文章內大圖寬度*/
+	max-width: 300px;
+	_width: 300px;
+}
+
+.attachmentX {
+	list-style: none;
+	padding: 0 5px 0 3px;
+	clear: both;
+}
+.attachmentX .imageX {
+	float: left;
+	width: 120px;
+	border: 3px solid #999;
+	margin: 0 10px 0 0;
+}
+.attachmentX p {
+  clear: none;
+}
+
+/*縮圖右欄版*/
+#cp6 {
+	overflow: hidden;
+	min-width: 410px;
+}
+#cp6 .column {
+	margin: 0 1em 15px 0;
+	padding: 0 1em 0 0;
+	float: left;
+	width: 75%;
+	border-right: 1px dotted #bbb;
+	overflow: hidden;
+}
+#cp6 .column .imageW {
+	float: left;
+	margin: 5px 10px 5px 0;
+	width: 300px;
+}
+#cp6 .thumb {
+	width: 20%;
+	min-width: 126px;
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+#cp6 .thumb .imageBlock {
+	margin: 0;
+	padding: 0;
+	width: 130px;
+	list-style: none;
+	_text-align: center;
+}
+#cp6 .thumb p { /*縮圖區圖說文字*/
+	clear: both;
+	width: 132px;
+	line-height: 125%;
+	letter-spacing: 1px;
+	text-align: left;
+}
+#cp6 .thumb .imageS {
+	width: 124px;
+	border: 1px solid #bbb;
+	margin: 0 auto 3px;
+	padding: 0;
+	float: left;
+}
+#cp6 .thumb .imageS img {
+	width: 120px;
+	height: 90px;
+	border: 2px solid #fff;
+}

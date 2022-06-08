@@ -1,0 +1,356 @@
+﻿:                     
+   CxMethod_ASP_adovbs_565378559()
+
+
+
+
+
+
+
+
+
+  
+function selectoptionlist(codeid)
+ sql="select * from codetable where codeid='" & codeid & "'"
+        set rslk=conn.execute(sql)
+ str=""
+        if not rslk.eof then
+          if isnull(rslk("codesortfld")) then
+           if isnull(rslk("codesrcfld")) then
+      str=ct&ct&ct&"<option value="""" style=""color:blue"">�п��</option>"&vbcrlf& _
+      ct&ct&ct&cl & "sql=""select " & rslk("codevaluefld") & "," & rslk("codedisplayfld") & " from " & rslk("codetblname") & """" & vbcrlf & _
+      ct&ct&ct&"set rss=conn.execute(sql)" & vbcrlf & _
+      ct&ct&ct&"if not rss.eof then"& vbcrlf & _
+      ct&ct&ct&"while not rss.eof"&cr& vbcrlf & _
+      ct&ct&ct&"<option value="""&cl&"=rss(0)"&cr&""">"&cl&"=rss(1)"&cr&"</option>"& vbcrlf & _
+      ct&ct&ct&cl&ct&"rss.movenext"& vbcrlf & _
+      ct&ct&ct&"wend"& vbcrlf & _
+      ct&ct&ct&"end if"&cr                
+           else 
+      str=ct&ct&ct&"<option value="""" style=""color:blue"">�п��</option>"&vbcrlf& _
+      ct&ct&ct&cl & "sql=""select " & rslk("codevaluefld") & "," & rslk("codedisplayfld") & " from " & rslk("codetblname") & " where " & rslk("codesrcfld") & "='" & rslk("codesrcitem") & "'""" & vbcrlf & _
+      ct&ct&ct&"set rss=conn.execute(sql)" & vbcrlf & _
+      ct&ct&ct&"if not rss.eof then"& vbcrlf & _
+      ct&ct&ct&"while not rss.eof"&cr& vbcrlf & _
+      ct&ct&ct&"<option value="""&cl&"=rss(0)"&cr&""">"&cl&"=rss(1)"&cr&"</option>"& vbcrlf & _
+      ct&ct&ct&cl&ct&"rss.movenext"& vbcrlf & _
+      ct&ct&ct&"wend"& vbcrlf & _
+      ct&ct&ct&"end if"&cr     
+    end if          
+          else
+           if isnull(rslk("codesrcfld")) then
+      str=ct&ct&ct&"<option value="""" style=""color:blue"">�п��</option>"&vbcrlf& _
+      ct&ct&ct&cl & "sql=""select " & rslk("codevaluefld") & "," & rslk("codedisplayfld") & " from " & rslk("codetblname") & " where " & rslk("codesortfld") & " is not null order by " & rslk("codesortfld") & """" & vbcrlf & _
+      ct&ct&ct&"set rss=conn.execute(sql)" & vbcrlf & _
+      ct&ct&ct&"if not rss.eof then"& vbcrlf & _
+      ct&ct&ct&"while not rss.eof"&cr& vbcrlf & _
+      ct&ct&ct&"<option value="""&cl&"=rss(0)"&cr&""">"&cl&"=rss(1)"&cr&"</option>"& vbcrlf & _
+      ct&ct&ct&cl&ct&"rss.movenext"& vbcrlf & _
+      ct&ct&ct&"wend"& vbcrlf & _
+      ct&ct&ct&"end if"&cr                
+           else 
+      str=ct&ct&ct&"<option value="""" style=""color:blue"">�п��</option>"&vbcrlf& _
+      ct&ct&ct&cl & "sql=""select " & rslk("codevaluefld") & "," & rslk("codedisplayfld") & " from " & rslk("codetblname") & " where " & rslk("codesortfld") & " is not null and " & rslk("codesrcfld") & "='" & rslk("codesrcitem") & "' order by " & rslk("codesortfld") & """" & vbcrlf & _
+      ct&ct&ct&"set rss=conn.execute(sql)" & vbcrlf & _
+      ct&ct&ct&"if not rss.eof then"& vbcrlf & _
+      ct&ct&ct&"while not rss.eof"&cr& vbcrlf & _
+      ct&ct&ct&"<option value="""&cl&"=rss(0)"&cr&""">"&cl&"=rss(1)"&cr&"</option>"& vbcrlf & _
+      ct&ct&ct&cl&ct&"rss.movenext"& vbcrlf & _
+      ct&ct&ct&"wend"& vbcrlf & _
+      ct&ct&ct&"end if"&cr     
+    end if
+   end if
+   selectoptionlist=str
+        end if
+end function
+
+for each x in request.form
+' response.write x & "==>" & request(x) & "<br>"
+next
+
+pgprefix = request("programprefix")
+pgpath = request("programpath")
+if right(pgpath,1) <> "\" then pgpath = pgpath & "\"
+   
+
+                   =session("odbcstr"):                      =request("tablename")
+                                 =pgpath:   =pgprefix:                =request("progcapprefix")
+
+
+     
+    set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcstr")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcstr")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+ dim xsearchlistitem(20,2)
+ xitemcount = 0
+
+    set fs = createobject("scripting.filesystemobject")
+'--xxxform.inc--------------------------
+    set xfin = fs.opentextfile(server.mappath("tempform1.inc"))
+    set xfout = fs.createtextfile(pgpath&pgprefix&"form.inc")
+
+ dumptempfile
+    xfin.close
+
+
+'----------hyweb gip db connection patch----------
+' set rs = conn.openschema (adschemacolumns)
+set conn = server.createobject("adodb.connection")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = schema (adschemacolumns)
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+ reginitstr = "" 
+ regorgstr = ""
+ cq=chr(34)
+ ct=chr(9)
+ cl="<" & "%"
+ cr="%" & ">"
+ response.write "<table border>"
+ xfout.writeline "<center><table border=0 class=bluetable cellspacing=1 cellpadding=2 width=""80%"">"
+
+ while not rs.eof
+  if rs("table_name") = request("tablename") then
+      if isnull(rs("description")) then 
+         fdescript=rs("column_name")
+      else    
+      fdescript=rs("description")
+      end if
+      
+   myfldname = rs("column_name")
+      xpre = lcase(trim(request("prefix_" & rs("column_name"))))
+   if request("dolist_"&myfldname) = "on" then
+    xitemcount = xitemcount + 1
+             xsearchlistitem(xitemcount,0) = fdescript
+    xsearchlistitem(xitemcount,1) = myfldname
+    xsearchlistitem(xitemcount,2) = xpre
+   end if
+  '---------------------------------------------------------------------------- 
+            if xpre<>"" then
+       xname = xpre & "fx_" & rs("column_name")
+       xlen=rs("character_maximum_length")
+       if rs("data_type")=135 then 
+        xlen=10
+       elseif rs("data_type")<7 or (rs("data_type")>13 and rs("data_type")<22) or rs("data_type")=131 then
+        xlen=8
+       end if
+       if rs("data_type")=11 then
+        reginitstr = reginitstr & ct & "reg." & xname & ".checked = " & cq & cl & "=qqrs(""" & rs("column_name") & """)" & cr & cq & vbcrlf
+        regorgstr = regorgstr & ct & "reg." & xname & ".checked = " & cq & cl & "=request(""reg." & xname & """)" & cr & cq & vbcrlf
+       else
+        reginitstr = reginitstr & ct & "reg." & xname & ".value = " & cq & cl & "=qqrs(""" & rs("column_name") & """)" & cr & cq & vbcrlf
+        regorgstr = regorgstr & ct & "reg." & xname & ".value = " & cq & cl & "=request(""reg." & xname & """)" & cr & cq & vbcrlf
+       end if
+             xfout.writeline ct & ct & "<tr>"
+              xfout.writeline ct & ct & "  <td class=lightbluetable align=right>" & fdescript & "�g</td>"   
+                
+
+                                                  =fdescript:           if xlen > 255 then 
+                     xfout.writeline ct & ct & "  <td class=whitetablebg><textarea name=" & xname & " rows=7 cols=60></textarea></td>" 
+                                                   =xname
+         elseif rs("data_type")=11 then 
+                xfout.writeline ct & ct & "  <td class=whitetablebg><input type=checkbox name=" & xname & " value=""1""></td>" 
+                                                               =xname
+         elseif xpre = "s" then
+               xfout.writeline ct & ct & "  <td class=whitetablebg><select name=" & xname & " size=1>"
+               xfout.writeline selectoptionlist(request("codeidselect"&rs("column_name")))
+               xfout.writeline ct & ct & ct & "</select></td>" 
+                                                 =xname
+
+         elseif xpre = "p" then
+               xfout.writeline ct & ct & "  <td class=whitetablebg><input type=text name=" & xname & " size=" & xlen & cl & "if request.querystring(""" & myfldname & """) <> """" then " & cr & " class=sedit readonly" & cl & " end if " & cr & "></td>" 
+                                                          =xname:         =xlen
+         elseif xpre = "n" then
+                 xfout.writeline ct & ct & "  <td class=whitetablebg><input type=text name=" & xname & " size=" & xlen & " style=""text-align:right;""></td>" 
+                                                         =xname:         =xlen
+         else
+             xfout.writeline ct & ct & "  <td class=whitetablebg><input type=text name=" & xname & " size=" & xlen & "></td>" 
+                                                         =xname:         =xlen
+         end if 
+
+  
+             xfout.writeline ct & ct & "</tr>"
+    end if
+    
+  end if
+  rs.movenext
+ wend
+ 
+ response.write "</table>"
+ xfout.writeline "</table></center>"
+
+    set xfin = fs.opentextfile(server.mappath("tempform2.inc"))
+ dumptempfile
+    xfin.close
+    xfout.close
+
+
+
+  =reginitstr
+
+
+  =regorgstr
+
+  
+'--xxxquery.asp--------------------------
+    set xfin = fs.opentextfile(server.mappath("tempquery1.asp"))
+    set xfout = fs.createtextfile(pgpath&pgprefix&"query.asp")
+
+ xfout.writeline cl & " htprogcap=""" & request("progcapprefix") & cq
+ xfout.writeline "htprogcode=""" & request("progrightcode") & cq
+ xfout.writeline "htprogprefix=""" & pgprefix & cq & " " & cr
+
+ dumptempfile
+    xfin.close
+
+ xfout.writeline regorgstr
+
+    set xfin = fs.opentextfile(server.mappath("tempquery2.asp"))
+ dumptempfile
+    xfin.close
+
+ xfout.writeline "<" & "!--#include file=""" & pgprefix & "form.inc""--" & ">"
+
+    set xfin = fs.opentextfile(server.mappath("tempquery3.asp"))
+ dumptempfile
+    xfin.close
+    xfout.close
+
+'--xxxadd.asp--------------------------
+    set xfin = fs.opentextfile(server.mappath("tempadd1.asp"))
+    set xfout = fs.createtextfile(pgpath&pgprefix&"add.asp")
+
+ xfout.writeline cl & " htprogcap=""" & request("progcapprefix") & cq
+ xfout.writeline "htprogcode=""" & request("progrightcode") & cq
+ xfout.writeline "htprogprefix=""" & pgprefix & cq & " " & cr
+
+ dumptempfile
+    xfin.close
+
+ xfout.writeline "<" & "!--#include file=""" & pgprefix & "form.inc""--" & ">"
+
+    set xfin = fs.opentextfile(server.mappath("tempadd2.asp"))
+ dumptempfile
+    xfin.close
+
+ xfout.writeline ct & "sql = ""insert into " & request("tablename") & "("""
+
+    set xfin = fs.opentextfile(server.mappath("tempadd3.asp"))
+ dumptempfile
+    xfin.close
+    xfout.close
+
+'--xxxedit.asp--------------------------
+    set xfin = fs.opentextfile(server.mappath("tempedit1.asp"))
+    set xfout = fs.createtextfile(pgpath&pgprefix&"edit.asp")
+
+ xfout.writeline cl & " htprogcap=""" & request("progcapprefix") & cq
+ xfout.writeline "htprogcode=""" & request("progrightcode") & cq
+ xfout.writeline "htprogprefix=""" & pgprefix & cq & " " & cr
+
+ dumptempfile
+    xfin.close
+
+ sqlwhere = ""
+ urlpara = ""
+ chkpara = ""
+ xcount = 0
+ for each x in request.form
+  if (left(x,7) = "prefix_") and request.form(x) = "p" then
+   if xcount <> 0 then  sqlwhere = sqlwhere & " & "" and "
+   if urlpara <> "" then urlpara = urlpara & "&"
+   urlpara = urlpara & mid(x,8) & "=" & cl & "=rsreg(""" & mid(x,8) & """)" & cr
+   chkpara=cl & "=rsreg(""" & mid(x,8) & """)" & cr
+   sqlwhere = sqlwhere & mid(x,8) & "="" & pkstr(request.querystring(""" & mid(x,8) & """),"""")"
+   xcount = xcount + 1
+  end if    
+ next
+ sqlstr = ct & "sql = ""delete from " & request("tablename") & " where " & sqlwhere
+ xfout.writeline sqlstr
+
+    set xfin = fs.opentextfile(server.mappath("tempedit2.asp"))
+ dumptempfile
+    xfin.close
+
+ sqlstr = ct & "sqlcom = ""select * from " & request("tablename") & " where " & sqlwhere
+ xfout.writeline sqlstr
+
+    set xfin = fs.opentextfile(server.mappath("tempedit3.asp"))
+ dumptempfile
+    xfin.close
+
+ xfout.writeline reginitstr
+
+    set xfin = fs.opentextfile(server.mappath("tempedit4.asp"))
+ dumptempfile
+    xfin.close
+
+ xfout.writeline "<" & "!--#include file=""" & pgprefix & "form.inc""--" & ">"
+
+    set xfin = fs.opentextfile(server.mappath("tempedit5.asp"))
+ dumptempfile
+    xfin.close
+
+ xfout.writeline ct & "sql = ""update " & request("tablename") & " set """
+
+    set xfin = fs.opentextfile(server.mappath("tempedit6.asp"))
+ dumptempfile
+    xfin.close
+    xfout.close
+
+'--xxxlist.asp--------------------------
+    set xfin = fs.opentextfile(server.mappath("templist1.asp"))
+    set xfout = fs.createtextfile(pgpath&pgprefix&"list.asp")
+
+ xfout.writeline cl & " htprogcap=""" & request("progcapprefix") & cq
+ xfout.writeline "htprogcode=""" & request("progrightcode") & cq
+ xfout.writeline "htprogprefix=""" & pgprefix & cq & " " & cr
+
+ dumptempfile
+    xfin.close
+
+ xfout.writeline ct & "fsql = ""select * from " & request("tablename") & " where 1=1"""
+
+    set xfin = fs.opentextfile(server.mappath("templist2.asp"))
+ dumptempfile
+    xfin.close
+ for xi=1 to xitemcount
+  xfout.writeline ct & "<td align=center class=lightbluetable>" & xsearchlistitem(xi,0) & "</td>"
+ next
+    '---------------------------------------
+    set xfin = fs.opentextfile(server.mappath("templist3.asp"))
+ dumptempfile
+    xfin.close
+ for xi=1 to xitemcount
+  if lcase(xsearchlistitem(xi,2)) = "p" then
+    xfout.writeline ct & "<td class=whitetablebg><p align=center><font size=2><a href=""" & pgprefix & "edit.asp?" & urlpara & """>" & cl & "=rsreg(""" & xsearchlistitem(xi,1) & """)" & cr & "</a></font></td>"   
+  else
+    xfout.writeline ct & "<td class=whitetablebg><p align=center><font size=2>" & cl & "=rsreg(""" & xsearchlistitem(xi,1) & """)" & cr & "</font></td>"   
+  end if
+ next
+    '---------------------------
+    set xfin = fs.opentextfile(server.mappath("templist4.asp"))
+ dumptempfile
+    xfin.close
+    xfout.close
+    
+    
+sub dumptempfile()
+    do while not xfin.atendofstream
+        xinstr = xfin.readline
+        xfout.writeline xinstr
+    loop
+end sub
+ 

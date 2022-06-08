@@ -1,0 +1,181 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                               
+          
+function send() {
+ var form = document.post;
+ if ( form.name.value == "" ) {
+  alert("請輸入姓名！");
+  form.name.focus();
+  return false;
+ } else if ( form.email.value == "" ) {
+  alert("請輸入email！");
+  form.email.focus();
+  return false;
+ }
+
+ return true;
+}
+     
+
+
+
+
+
+
+
+
+                                                                             function onSubmit___1912918050() {return send();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                             function onFocus____1255520646() {if(this.value=='請輸入姓名')this.value='';}
+
+
+
+
+
+
+
+
+
+
+                                                                                                   function onFocus___1898559230() {if(this.value=='請輸入聯絡方式')this.value='';}
+
+
+
+
+
+
+
+
+
+
+                                                                                               function onFocus___1811533334() {if(this.value=='請輸入電話')this.value='';}
+
+
+
+
+
+
+
+
+                                                                                                    function onFocus___641065747() {if(this.value=='請輸入E-mail')this.value='';}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

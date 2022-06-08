@@ -1,0 +1,258 @@
+﻿: @ codepage=65001 
+   response.expires = 0
+htprogcode="gw1m95"
+htprogprefix="gipdataimport" 
+   CxMethod_ASP_dbutil_10064021()
+  
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+ htuploadpath=session("public")+"data/"
+ targetpath=server.mappath(htuploadpath) & "\" 
+ htuploadpath2=session("public")+"attachment/"
+ targetpath2=server.mappath(htuploadpath2) & "\" 
+ sourcepath=server.mappath("gipdataxml/data") & "\"
+ sourcepath2=server.mappath("gipdataxml/attachment") & "\"
+ inxmlpath = session("public")+"gipdataxml/inxml"
+ logpath = session("public")+"gipdataxml/log"
+'response.write sourcepath & "<br>"
+'response.write sourcepath2 & "<br>"
+'response.end
+ '----處理本站dtd或dsd xml
+ set htpagedom = server.createobject("microsoft.xmldom")
+ htpagedom.async = false
+ htpagedom.setproperty("serverhttprequest") = true  
+    '----找出對應的dsd,若不存在則用dtd
+    set fso = server.createobject("scripting.filesystemobject")
+ filepath = server.mappath("/site/" & session("mysiteid") & "/gipdsd/ctunitx" & request("htx_ctunitid") & ".xml")
+ if fso.fileexists(filepath) then
+  loadxml = filepath
+ else
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd/cudtx" & request("htx_ibasedsd") & ".xml")
+ end if   
+ xv = htpagedom.load(loadxml) 
+   if htpagedom.parseerror.reason <> "" then 
+      response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reason: " &  htpagedom.parseerror.reason)
+      response.end()
+   end if
+ set refmodel = htpagedom.selectsinglenode("//dstable")
+ set allmodel = htpagedom.selectsinglenode("//dataschemadef")    
+ sbasetablename = nulltext(refmodel.selectsinglenode("tablename"))  
+' response.write "<xmp>"+allmodel.xml+"</xmp>" 
+
+'----若匯入方式為overwrite,則先刪除
+ if request("htx_importway") = "overwrite" then   
+  '----刪除主圖/檔案下載式檔案
+  sqldi = "select c.ximgfile,c.filedownload,c.icuitem from gipdataimport g " & _
+    "    left join gipdataimportdetail gd on g.tid=gd.tid " & _
+    "    left join cudtgeneric c on gd.icuitem=c.icuitem " & _
+    "where xmlctunitid=" & request("htx_ctunitid") & " and xmlfile='"&request("htx_xmlfile")&"' and (c.ximgfile is not null or c.filedownload is not null)"
+  set rsi = conn.execute(sqldi)
+  if not rsi.eof then
+   while not rsi.eof
+    if not isnull(rsi("ximgfile")) then
+     if fso.fileexists(targetpath+rsi("ximgfile")) then 
+      fso.deletefile(targetpath+rsi("ximgfile"))
+     end if
+    end if
+    if not isnull(rsi("filedownload")) then
+     if fso.fileexists(targetpath+rsi("filedownload")) then 
+      fso.deletefile(targetpath+rsi("filedownload"))
+      conn.execute("delete i from cudtgeneric c left join imagefile i on c.filedownload=i.newfilename where c.icuitem=" & rsi("icuitem"))
+     end if
+    end if
+    rsi.movenext
+   wend
+  end if
+  '----刪除附件檔案
+  sqlda = "select c.nfilename,c.xicuitem from gipdataimport g " & _
+    "    left join gipdataimportdetail gd on g.tid=gd.tid " & _
+    "    left join cudtattach c on gd.icuitem=c.xicuitem " & _
+    "where xmlctunitid=" & request("htx_ctunitid") & " and xmlfile='"&request("htx_xmlfile")&"' and c.xicuitem is not null"
+  set rsi = conn.execute(sqlda)
+  if not rsi.eof then
+   while not rsi.eof
+    if not isnull(rsi("nfilename")) then
+     if fso.fileexists(targetpath2+rsi("nfilename")) then 
+      fso.deletefile(targetpath2+rsi("nfilename"))
+      conn.execute("delete i from cudtattach c left join imagefile i on c.nfilename=i.newfilename where c.xicuitem=" & rsi("xicuitem"))
+     end if
+    end if
+    rsi.movenext
+   wend
+  end if
+  
+  '----刪除imagefile
+  sqldif = "delete i from gipdataimport g " & _
+    "    left join gipdataimportdetail gd on g.tid=gd.tid " & _
+    "    left join cudtattach c on gd.icuitem=c.xicuitem " & _
+    "    left join imagefile i on c.nfilename=i.newfilename " & _    
+    "where xmlctunitid=" & request("htx_ctunitid") & " and xmlfile='"&request("htx_xmlfile")&"'"
+  conn.execute(sqldif)   
+  '----刪除cudtattach
+  sqldaf = "delete c from gipdataimport g " & _
+    "    left join gipdataimportdetail gd on g.tid=gd.tid " & _
+    "    left join cudtattach c on gd.icuitem=c.xicuitem " & _
+    "where xmlctunitid=" & request("htx_ctunitid") & " and xmlfile='"&request("htx_xmlfile")&"'"
+  conn.execute(sqldaf)  
+  '----刪除detail表
+  sqldl = "delete c from gipdataimport g " & _
+    "    left join gipdataimportdetail gd on g.tid=gd.tid " & _
+    "    left join "&sbasetablename&" c on gd.icuitem=c.gicuitem " & _
+    "where xmlctunitid=" & request("htx_ctunitid") & " and xmlfile='"&request("htx_xmlfile")&"'"
+  conn.execute(sqldl)
+  '----刪除cudtgeneric表
+  sqldm = "delete c from gipdataimport g " & _
+    "    left join gipdataimportdetail gd on g.tid=gd.tid " & _
+    "    left join cudtgeneric c on gd.icuitem=c.icuitem " & _
+    "where xmlctunitid=" & request("htx_ctunitid") & " and xmlfile='"&request("htx_xmlfile")&"'"
+  conn.execute(sqldm)  
+  '----刪除gipdataimportdetail表
+  sqldgl = "delete gd from gipdataimport g " & _
+    "    left join gipdataimportdetail gd on g.tid=gd.tid " & _
+    "where xmlctunitid=" & request("htx_ctunitid") & " and xmlfile='"&request("htx_xmlfile")&"'"
+  conn.execute(sqldgl)
+  '----刪除gipdataimport表
+  sqldgm = "delete gipdataimport where xmlctunitid=" & request("htx_ctunitid") & " and xmlfile='"&request("htx_xmlfile")&"'"
+  conn.execute(sqldgm)
+ end if
+'response.end
+'----新增匯入資料
+ set xfout = fso.createtextfile(server.mappath(logpath) & "\" & request("htx_xmlfile") & ".log")
+ xfout.writeline "匯入記錄檔" + cstr(now())
+ xfout.writeline "---------------------------------------------------------" 
+    xmlcount = 0 : xmlsuccess = 0 : xmlfail = 0
+ '----寫入gipdataimport表  
+ sqlg = "set nocount on;insert into gipdataimport values('"&request("htx_xmlfile")&"','"&session("username")&"','"&date()&"',"&request("htx_ctunitid")&",null,null) select @@identity as newid;"
+ set rsg = conn.execute(sqlg)
+ xtid = rsg(0)
+ '----load匯入xml檔
+ set gipxmldom = server.createobject("microsoft.xmldom")
+ gipxmldom.async = false
+ gipxmldom.setproperty("serverhttprequest") = true
+ xv = gipxmldom.load(server.mappath(inxmlpath) & "\" & request("htx_xmlfile")) 
+   if gipxmldom.parseerror.reason <> "" then 
+  response.write("gipxmldom parseerror on line " &  gipxmldom.parseerror.line)
+  response.write("<br>reason: " &  gipxmldom.parseerror.reason)
+  response.end()
+   end if
+ set gipxmlnode = gipxmldom.selectnodes("gipdataxml/gipdata/fieldlist") 
+ for each xmlnode in gipxmlnode
+  xmlcount = xmlcount + 1
+  err.number=0
+  tranmessage = ""
+  on error resume next
+  '----新增cudtgeneric表
+  conn.begintrans
+  sql = ""
+  sql = "insert into cudtgeneric(ibasedsd,ictunit,"
+  sqlvalue = ") values("&request("htx_ibasedsd")&","&request("htx_ctunitid")&","
+  for each param in allmodel.selectnodes("dstable[tablename='cudtgeneric']/fieldlist/field[fieldname!='icuitem' and fieldname!='ibasedsd' and fieldname!='ictunit']") 
+   if nulltext(xmlnode.selectsinglenode("field[fieldname='"&nulltext(param.selectsinglenode("fieldname"))&"']/fieldvalue")) <> "" then
+    sql = sql & nulltext(param.selectsinglenode("fieldname")) & ","
+    sqlvalue = sqlvalue & "'" & nulltext(xmlnode.selectsinglenode("field[fieldname='"&nulltext(param.selectsinglenode("fieldname"))&"']/fieldvalue")) & "',"  
+   end if
+   if nulltext(param.selectsinglenode("fieldname")) = "stitle" then 
+    tranmessage = nulltext(xmlnode.selectsinglenode("field[fieldname='"&nulltext(param.selectsinglenode("fieldname"))&"']/fieldvalue"))
+   end if
+  next  
+  sqlm = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+  sqlm = "set nocount on;"&sqlm&"; select @@identity as newid" 
+  set rsx = conn.execute(sqlm)
+  xnewidentity = rsx(0) 
+  '----新增slave表
+  sql = "insert into  " & sbasetablename & "(gicuitem,"
+  sqlvalue = ") values(" & xnewidentity & ","
+  for each param in refmodel.selectnodes("fieldlist/field") 
+   if nulltext(xmlnode.selectsinglenode("field[fieldname='"&nulltext(param.selectsinglenode("fieldname"))&"']/fieldvalue"))<>"" then
+    sql = sql & nulltext(param.selectsinglenode("fieldname")) & ","
+    sqlvalue = sqlvalue & "'" & nulltext(xmlnode.selectsinglenode("field[fieldname='"&nulltext(param.selectsinglenode("fieldname"))&"']/fieldvalue")) & "',"  
+   end if
+  next
+  sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"  
+  conn.execute(sql)   
+  '----寫入gipdataimportdetail表  
+  sqlgd = "insert into gipdataimportdetail values("&xtid&","&xnewidentity&")"
+  conn.execute(sqlgd)
+
+     if err.number<>0 then
+      conn.rollbacktrans
+      response.write "[ "+tranmessage+" ] 此筆資料匯入錯誤!<br>錯誤原因:"+err.description+"<br>"
+      response.write sqlm & "<br>"
+      response.write sql & "<hr>"
+      xfout.writeline "[ "+tranmessage+" ] 此筆資料匯入錯誤!"
+      xfout.writeline "錯誤原因:"+err.description
+       xfout.writeline sqlm
+      xfout.writeline sql
+      xfout.writeline "---------------------------------------------------------"
+      xmlfail = xmlfail + 1
+      err.number=0
+     else
+      conn.committrans
+      '----主圖與檔案下載式檔案處理
+      ximgfilevalue = nulltext(xmlnode.selectsinglenode("field[fieldname='ximgfile']/fieldvalue"))
+   if ximgfilevalue <> "" and fso.fileexists(sourcepath+ximgfilevalue) then
+    fso.copyfile sourcepath+ximgfilevalue,targetpath+ximgfilevalue
+   end if
+      filedownloadvalue = nulltext(xmlnode.selectsinglenode("field[fieldname='filedownload']/fieldvalue"))
+   if filedownloadvalue <> "" and fso.fileexists(sourcepath+filedownloadvalue) then
+    fso.copyfile sourcepath+filedownloadvalue,targetpath+filedownloadvalue 
+    conn.execute("insert into imagefile values('"&filedownloadvalue&"','"&filedownloadvalue&"')")  
+   end if      
+      '----附件檔案處理
+   sqlainsert = ""
+   for each attachnode in xmlnode.selectnodes("attachlist/attach")
+    sqlainsert = sqlainsert & "insert into cudtattach (xicuitem,atitle,adesc,ofilename,nfilename,aeditor,aeditdate,blist,listseq) " & _
+      "values(" & xnewidentity & "," & _
+      "'" & nulltext(attachnode.selectsinglenode("atitle")) & "'," & _
+      "'" & nulltext(attachnode.selectsinglenode("adesc")) & "',null," & _
+      "'" & nulltext(attachnode.selectsinglenode("nfilename")) & "'," & _
+      "'" & session("username") & "'," & _
+      "'" & date() & "'," & _
+      "'" & nulltext(attachnode.selectsinglenode("blist")) & "'," & _
+      "'" & nulltext(attachnode.selectsinglenode("listseq")) & "');" & _
+      "insert into imagefile(newfilename, oldfilename) values(" & _
+      "'" & nulltext(attachnode.selectsinglenode("nfilename")) & "'," & _
+      "'" & nulltext(attachnode.selectsinglenode("oldfilename")) & "');"
+      
+         xnfilename = nulltext(attachnode.selectsinglenode("nfilename"))
+      if xnfilename <> "" and fso.fileexists(sourcepath2+xnfilename) then
+       fso.copyfile sourcepath2+xnfilename,targetpath2+xnfilename
+      end if
+   next
+   if sqlainsert<>"" then conn.execute(sqlainsert)
+      
+      response.write "[ "+tranmessage+" ] 此筆資料匯入ok!<hr>"
+      xfout.writeline "[ "+tranmessage+" ] 此筆資料匯入ok!"
+      xfout.writeline "---------------------------------------------------------"
+      xmlsuccess = xmlsuccess + 1
+     end if    
+ next
+ sqlu = "update gipdataimport set xmlsuccess="&xmlsuccess&",xmlfail="&xmlfail&" where tid="&xtid
+ conn.execute(sqlu) 
+
+
+
+
+
+
+
+
+      =xmlcount:              =xmlsuccess:          =xmlfail 

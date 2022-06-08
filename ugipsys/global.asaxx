@@ -1,0 +1,16 @@
+﻿<script language=VBScript runat=server>
+sub session_onstart()
+	session("GIPODBC")="Provider=SQLOLEDB;Data Source=127.0.0.1;User ID=hyGIP;Password=hyweb;Initial Catalog=mGIPhy"
+	session("ODBCDSN")="Provider=SQLOLEDB;Data Source=127.0.0.1;User ID=hyGIP;Password=hyweb;Initial Catalog=mGIPhy"
+	session("mySiteMMOURL") = "http://hywade.hyweb.com.tw"
+	session("mySiteURL") = "http://hywade.hyweb.com.tw"
+	session("myWWWSiteURL") = "http://hygip.hyweb.com.tw"
+	session("myWWWSiteURLBoaf") = "http://coawww.hyweb.com.tw:8080"
+	session("documentDomain") = "hyweb.com.tw"
+    session("Public") = "/public/"
+	session("PageCount") = 10
+    session.Timeout = 240
+
+     	'---
+end sub
+</script>

@@ -1,0 +1,32 @@
+主題單元63資料轉檔(2005/11/9)
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate,ximgFile) VALUES(7,63,'Y','N','0','1',N'E等公務園',N'http://elearning.hrd.gov.tw/TrainingASP3/',N'2003/09/18',N'7',N'sysop',N'2003/09/18 09:31:14',N'2003/09/18 09:31:14',N'20030918093157077.jpg'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(18)
+[htx.linkid = '10'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate,ximgFile) VALUES(7,63,'Y','N','0','1',N'文官e學苑',N'http://ecollege.ncsi.gov.tw/',N'2003/07/21',N'6',N'sysop',N'2003/07/30 11:46:24',N'2003/07/21 16:05:22',N'20030730113813623.gif'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(19)
+[htx.linkid = '8'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate,ximgFile) VALUES(7,63,'Y','N','0','1',N'網路文官學院',N'http://elearning.nat.gov.tw/win/index.jsp',N'2003/06/25',N'5',N'sysop',N'2003/07/21 16:03:58',N'2003/06/25 14:25:18',N'20030721155558560.gif'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(20)
+[htx.linkid = '4'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate,ximgFile) VALUES(7,63,'Y','N','0','1',N'中華民國政府改造工程',N'http://www.reform.nat.gov.tw/',N'2004/08/03',N'4',N'sysop',N'2004/08/03 09:02:58',N'2004/08/03 09:02:58',N'20040803085945483.jpg'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(21)
+[htx.linkid = '14'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate,ximgFile) VALUES(7,63,'Y','N','0','1',N'文化行春，用心體驗新故鄉',N'http://101.cca.gov.tw',N'2005/02/05',N'3',N'sysop',N'2005/02/05 09:09:25',N'2005/02/05 09:09:25',N'20050205090250107.gif'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(22)
+[htx.linkid = '15'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate,ximgFile) VALUES(7,63,'Y','N','0','1',N'全面換發國民身分證',N'http://www.ris.gov.tw/docs/f0a.html',N'2005/05/05',N'2',N'sysop',N'2005/05/05 12:13:40',N'2005/05/05 12:13:40',N'20050505120523153.jpg'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(23)
+[htx.linkid = '16'] 資料轉檔完成!
+----------------------------------------------------------------------------
+set nocount on;INSERT INTO  uGIPwebey.dbo.CuDTGeneric(iBaseDSD,iCtUnit,fCTUPublic,xNewWindow,iDept,showType,stitle,xurl,xpostDate,ximportant,ieditor,deditDate,createdDate,ximgFile) VALUES(7,63,'Y','N','0','1',N'我的e政府',N'http://www.gov.tw/',N'2003/06/25',N'1',N'sysop',N'2003/07/21 16:16:37',N'2003/06/25 14:24:38',N'20030721160838153.gif'); select @@IDENTITY as NewID;
+INSERT INTO  uGIPwebey.dbo.CuDtx7(giCuItem) Values(24)
+[htx.linkid = '3'] 資料轉檔完成!
+----------------------------------------------------------------------------
+===============================================================================
+轉檔 7 筆, 共成功 7 筆!

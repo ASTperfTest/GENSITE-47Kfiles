@@ -1,0 +1,491 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+htprogcode="newmember"
+htprogprefix = "newmember"
+
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_newmembermail_1426012861()
+   CxMethod_ASP_checkgipapconfig_594848678()
+   CxMethod_ASP_xdbutil_1468464061()
+
+
+
+
+
+
+
+
+
+  
+
+'審核狀態
+dim validatetype 
+dim roletype
+othercondition = request("othercondition")
+role = request("role")
+if request.querystring = "" then
+ session("validate")=""
+else
+ session("validate")=request("validate")
+end if
+validate = session("validate")
+'validate=request("validate")
+validatetype = validate
+roletype = role
+
+'---整批通過或不通過-
+if request("submittask") = "allpass" then
+ 
+ dim selecteditems : selecteditems = request("selecteditems")
+ dim items : items = split(selecteditems, ";")
+ 
+ for each item in items
+  if item <> "" then
+   checksql="select id_type1, id_type2, email, realname from member where account = '" & item & "'"
+   set rsreg = conn.execute(checksql)
+   if not rsreg.eof then
+    id_type1 = rsreg("id_type1")
+    id_type2 = rsreg("id_type2")
+    email = rsreg("email")
+    realname = rsreg("realname")
+    if id_type1 = "1" and id_type2 = "1" then
+     sql = "update member set scholarvalidate = 'y' where account = '" & item & "'"
+     conn.execute(sql)
+    end if    
+    if email <> "" then
+     epapertitle = "農業知識入口網學者會員審核狀況通知"
+     body = "親愛的 " & realname & " 您好:<br/><br/>" & vbcrlf & vbcrlf
+     body = body & "感謝您申請「農業知識入口網」的學者會員。<br/>" & vbcrlf
+     body = body & "「農業知識入口網」""通過""您的學者會員申請。<br/>"& vbcrlf
+     body = body & "有了您的參與將使得這個農業知識平台更理想更茁壯。我們熱切期盼您提供寶貴的意見與建議。<br/>" & vbcrlf
+     body = body & "謝謝!<br/>" & vbcrlf
+     body = body & "                                      敬祝平安<br/>" & vbcrlf
+     body = body & "                                                系統管理員 敬上<br/>" & vbcrlf
+
+     's_email = "taft_km@mail.coa.gov.tw"
+     s_email = """"&getgipapconfigtext("emailfromname")&""" <"&getgipapconfigtext("emailfrom")&">"
+     r_email = email
+   
+     call send_email(s_email,r_email,epapertitle,body)
+    end if
+   end if
+  end if
+ next
+ 
+elseif request("submittask") = "allnopass" then
+ 
+ dim selecteditem : selecteditem = request("selecteditems")
+ dim item : items = split(selecteditem, ";")
+ for each item in items
+  if item <> "" then 
+   checksql = "select id_type1, id_type2, email, realname from member where account = '" & item & "'"
+   set rsreg = conn.execute(checksql)
+   if not rsreg.eof then
+    id_type1 = rsreg("id_type1")
+    id_type2 = rsreg("id_type2")
+    email = rsreg("email")
+    realname = rsreg("realname")
+    if id_type1 = "1" and id_type2 = "1" then
+     sql = "update member set scholarvalidate = 'n' where account = '" & item & "'"
+     conn.execute(sql)
+    end if
+    if email <> "" then
+     epapertitle = "農業知識入口網學者會員審核狀況通知"
+     body = "親愛的 " & realname & " 您好:<br/><br/>" & vbcrlf & vbcrlf
+     body = body & "感謝您申請「農業知識入口網」的學者會員。<br/>" & vbcrlf
+     body = body & "「農業知識入口網」""不通過""您的學者會員申請。<br/>"& vbcrlf
+     body = body & "有了您的參與將使得這個農業知識平台更理想更茁壯。我們熱切期盼您提供寶貴的意見與建議。<br/>" & vbcrlf
+     body = body & "謝謝!<br/>" & vbcrlf
+     body = body & "                                      敬祝平安<br/>" & vbcrlf
+     body = body & "                                                系統管理員 敬上<br/>" & vbcrlf
+
+     's_email = "taft_km@mail.coa.gov.tw"
+     s_email = """"&getgipapconfigtext("emailfromname")&""" <"&getgipapconfigtext("emailfrom")&">"
+     r_email = email
+   
+     call send_email(s_email,r_email,epapertitle,body)
+    end if
+   end if
+  end if
+ next
+end if
+
+csql = " select count(*) from member" 
+csql = csql & vbcrlf & " where 1=1 "
+
+fsql = " member.account"
+fsql = fsql & vbcrlf & " , realname"
+fsql = fsql & vbcrlf & " , email"
+fsql = fsql & vbcrlf & " , createtime"
+fsql = fsql & vbcrlf & " , id_type1"
+fsql = fsql & vbcrlf & " , id_type2"
+fsql = fsql & vbcrlf & " , id_type3"
+fsql = fsql & vbcrlf & " , scholarvalidate"
+fsql = fsql & vbcrlf & " , status"
+fsql = fsql & vbcrlf & " , mcode"
+fsql = fsql & vbcrlf & " , validcount"
+fsql = fsql & vbcrlf & " , invitefriends_head.account as inviter "
+fsql = fsql & vbcrlf & " from member"
+fsql = fsql & vbcrlf & " left join invitefriends_detail on invitefriends_detail.inviteaccount = member.account"
+fsql = fsql & vbcrlf & " left join invitefriends_head on invitefriends_detail.invitationcode = invitefriends_head.invitationcode"
+fsql = fsql & vbcrlf & " where 1=1 "
+
+select case request("othercondition")
+    case "invitee"
+        csql =csql & " and member.account in (select inviteaccount from invitefriends_detail)" 
+        fsql =fsql & " and member.account in (select inviteaccount from invitefriends_detail)"         
+end select
+
+
+if request("keep")="y" then
+
+ if validatetype = "ey" then
+  csql =csql & " and mcode='y'" 
+  fsql =fsql & " and mcode='y'" 
+   
+ elseif validatetype = "es" then
+  csql =csql & " and ((mcode <> 'y' or mcode is null) and validcount > 0) " 
+  fsql =fsql & " and ((mcode <> 'y' or mcode is null) and validcount > 0) " 
+
+ elseif validatetype = "ea" then
+  csql =csql & " and ((mcode <> 'y' or mcode is null) and validcount = 0) " 
+  fsql =fsql & " and ((mcode <> 'y' or mcode is null) and validcount = 0) " 
+   
+ elseif validatetype <>"" and validatetype <> "all" then
+       csql =csql & " and scholarvalidate = " &"'"& validatetype & "'" 
+    fsql =fsql & " and scholarvalidate = " &"'"& validatetype & "'" 
+   
+ end if
+  
+   if roletype <> "" and roletype <> "all" then
+        csql =csql & " and id_type" & roletype &  " ='1'"  
+  fsql =fsql & " and id_type" & roletype &  " ='1'"   
+   end if
+   
+end if 
+  nowpage =1
+  if request.querystring("nowpage") <> "" then
+ nowpage = request.querystring("nowpage")  '現在頁數
+  end if
+  nowpagesize = 15
+  if request.querystring("pagesize") <> "" then 
+ nowpagesize = request.querystring("pagesize")
+  end if
+  perpagesize = cint(nowpagesize)
+  if perpagesize <= 0 then  perpagesize = 15 
+
+ set rsc = conn.execute(csql)
+  totrec = rsc(0)       '總筆數
+  totpage = int(totrec / perpagesize + 0.999)
+
+  if cint(nowpage) < 1 then 
+    nowpage = 1
+  elseif cint(nowpage) > totpage then 
+    nowpage = totpage 
+  end if 
+  
+             
+    fsql = "select top " & nowpage * perpagesize & fsql & " order by createtime desc"
+
+
+ set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+' rsreg.cachesize = perpagesize
+
+'----------hyweb gip db connection patch----------
+' rsreg.open fsql,conn, 3, 1
+set rsreg = conn.execute(fsql)
+ rsreg.cachesize = perpagesize
+'----------hyweb gip db connection patch----------
+
+'response.write fsql
+ if not rsreg.eof then
+  if totrec > 0 then 
+      rsreg.pagesize = perpagesize       '每頁筆數
+      rsreg.absolutepage = nowpage      
+  end if    
+ end if 
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       if validate="" then:           end if
+                          if validate="all" then:           end if
+                        if validate="w" then:           end if
+                        if validate="y" then:           end if
+                        if validate="n" then:           end if
+                        if validate="z" then:           end if
+                         if validate="ey" then:           end if
+                         if validate="es" then:           end if
+                         if validate="ea" then:           end if
+
+
+
+                      if role="" then :           end if
+                        if role="all" then:           end if
+                      if role="1" then:           end if
+                      if role="2" then:           end if
+                      if role="3" then:           end if
+
+
+
+                      if othercondition="" then :           end if
+                            if othercondition="invitee" then:           end if
+
+
+
+         =totrec:                    =nowpage:     =totpage
+
+
+
+
+
+
+
+
+                         if perpagesize=15 then:            end if
+                         if perpagesize=30 then:            end if
+                         if perpagesize=50 then:            end if
+
+
+
+
+   if cint(nowpage) <> 1 then 
+
+              =htprogprefix:                           =(nowpage-1):             =perpagesize:             =validate:         =role
+       end if 
+
+     for ipage=1 to totpage 
+                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+       next 
+
+
+    if cint(nowpage)<>totpage then 
+                 =htprogprefix:                           =(nowpage+1):             =perpagesize:             =validate:         =role
+
+       end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+ while not rsreg.eof
+ 
+
+                                                  =trim(rsreg("account"))
+
+                                                         =trim(rsreg("account")):            =nowpage:             =perpagesize:               =checkandreplaceid(rsreg("account"))
+                      =checkandreplaceid(rsreg("realname"))
+
+
+       if rsreg("mcode") = "y" then 
+                         =replaceemailid(rsreg("email"))
+       else 
+                                            =replaceemailid(rsreg("email")):          =rsreg("validcount")
+       end if 
+
+                      =formatdatetime(rsreg("createtime"), 2) + " " + formatdatetime(rsreg("createtime"), 4)
+       
+         if not isnull(rsreg("inviter")) then
+             response.write "(" & rsreg("inviter") & ")"
+         end if
+     
+
+
+    if rsreg("id_type1")="1" then 
+
+    end if
+   if rsreg("id_type2")="1" then 
+
+    end if
+
+
+
+   if  rsreg("scholarvalidate")="w" then
+
+    end if
+   if rsreg("scholarvalidate")="n" then
+
+    end if
+   if rsreg("scholarvalidate")="y" then
+
+    end if
+   if rsreg("scholarvalidate")="z" then
+
+    end if
+
+
+
+    if rsreg("id_type3")="1" then 
+
+    end if
+
+
+
+    if rsreg("status")="y" then
+
+    end if
+    if rsreg("status")="n" then
+
+    end if
+
+
+
+    
+   rsreg.movenext
+  wend
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    =htprogprefix:                           =nowpage:             =perpagesize
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   =htprogprefix:                    =request.querystring("icuitem")
+
+
+
+
+
+
+                                     =htprogprefix:                                                    =perpagesize
+
+
+
+
+
+                                     =htprogprefix:                           =nowpage
+
+
+
+
+                                     =htprogprefix:                           =nowpage:             =perpagesize
+
+
+
+
+
+
+
+
+
+                            =htprogprefix:                           =nowpage:             =perpagesize
+
+
+
+
+                            =htprogprefix:                           =nowpage:             =perpagesize 

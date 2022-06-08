@@ -1,0 +1,24 @@
+﻿: 
+sub xpcondition
+ if request.form("htx_sbasetablename") <> "" then
+  wherecondition = replace("htx.sbasetablename like n'%{0}%'", "{0}", request.form("htx_sbasetablename") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_sbasedsdname") <> "" then
+  wherecondition = replace("htx.sbasedsdname like n'%{0}%'", "{0}", request.form("htx_sbasedsdname") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_tdesc") <> "" then
+  wherecondition = replace("htx.tdesc like n'%{0}%'", "{0}", request.form("htx_tdesc") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_rdsdcat") <> "" then
+  wherecondition = replace("htx.rdsdcat like n'%{0}%'", "{0}", request.form("htx_rdsdcat") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_inuse") <> "" then
+  wherecondition = replace("htx.inuse like n'%{0}%'", "{0}", request.form("htx_inuse") )
+  fsql = fsql & " and " & wherecondition
+ end if
+end sub
+ 

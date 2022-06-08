@@ -1,0 +1,18 @@
+﻿<?xml version="1.0"  encoding="utf-8" ?>
+<DataSchemaField>
+			<field>
+				<fieldName>dbID</fieldName>
+				<fieldLabel>x</fieldLabel>
+				<dataType>varchar</dataType>
+				<dataLen>10</dataLen>
+				<inputLen>10</inputLen>
+				<canNull>Y</canNull>
+				<isPrimaryKey>N</isPrimaryKey>
+				<identity>N</identity>
+				<inputType></inputType>
+				<fieldDesc></fieldDesc>
+				<refLookup></refLookup>
+				<rows></rows>
+				<cols></cols>
+			</field>
+</DataSchemaField>

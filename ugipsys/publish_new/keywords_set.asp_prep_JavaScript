@@ -1,0 +1,72 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                             function onClick____232822791() {redirect('knowledge')}
+
+
+
+                                                               function onClick___207562420() {redirect('news')}
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ function redirect(type) 
+ {
+  window.location.href = "publish_ctNodeset.asp?type=" + type;
+  } 
+
+
+
+
+ 

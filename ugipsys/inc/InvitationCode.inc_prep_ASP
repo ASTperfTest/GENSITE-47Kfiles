@@ -1,0 +1,44 @@
+﻿: 
+ function setinvitationcodeurl()
+  invitecodeurl = ""
+  if request("fcode") <> ""  then
+   invitecodeurl = "&fcode=" & request("fcode")
+  end if
+  if request("ecode") <> ""  then
+   invitecodeurl = "&ecode=" & request("ecode")
+  end if
+  if request("ucode") <> ""  then
+   invitecodeurl = "&ucode=" & request("ucode")
+  end if
+  'response.write(invitecodeurl)
+        setinvitationcodeurl = invitecodeurl
+ end function
+
+ function getinvitationcode()
+  invitecode = ""
+  if request("fcode") <> ""  then
+   invitecode = request("fcode")
+  end if
+  if request("ecode") <> ""  then
+   invitecode = request("ecode")
+  end if
+  if request("ucode") <> ""  then
+   invitecode = request("ucode")
+  end if
+        getinvitationcode = invitecode
+ end function
+
+ function getinvitationcodetype()
+  invitecodetype = ""
+  if request("fcode") <> ""  then
+   invitecodetype = 1
+  end if
+  if request("ecode") <> ""  then
+   invitecodetype = 2
+  end if
+  if request("ucode") <> ""  then
+   invitecodetype = 0
+  end if
+        getinvitationcodetype = invitecodetype
+ end function
+ 

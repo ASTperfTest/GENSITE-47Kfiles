@@ -1,0 +1,6 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<SystemParameter>
+	<SeasonFolder xname="四季版型" xdesc="0:預設，1:端午，2:中秋">1</SeasonFolder>
+	<LastEPaperDate xname="電子報最後發送日" xdesc="yyyy/mm/dd">2003/5/1</LastEPaperDate>
+	<xxx xname="隨便試試" xdesc="青菜打"></xxx>
+</SystemParameter>

@@ -1,0 +1,58 @@
+﻿<script language=VBScript runat=server>
+sub session_onstart()
+	
+	session("ODBCDSN")="Provider=SQLOLEDB;Data Source=127.0.0.1;User ID=hygip;Password=hyweb;Initial Catalog=mGIPcoanew"
+	session("ODBCDSN2")="Provider=SQLOLEDB;Data Source=127.0.0.1;User ID=hyGIP;Password=hyweb;Initial Catalog=coa"
+	session("KMDBConnStr")="Provider=SQLOLEDB;Data Source=127.0.0.1;User ID=hygip;Password=hyweb;Initial Catalog=coa"
+	session("myXDURL") = "http://kwpi-coa-kmwebsys.gss.com.tw/site/coa"
+	session("Public") = "/site/coa/public/"
+	session("KminterSite") = "http://kwpi-coa-kminter.gss.com.tw"
+	session("PageCount") = 10
+	Session.Timeout = 20
+	'---
+	'Set Conn = Server.CreateObject("ADODB.Connection")
+	'Conn.Open session("ODBCDSN")
+	'set RS = conn.execute("select convert(varchar(10), max(dEditDate), 120) from CuDtGeneric")
+	'session("upDate") = left(RS(0),10)
+
+	session("mpTree") = 1
+	'session("myStyle") = "style1"
+	session("myStyle") = "style3"
+	session("myWWWSite")= "http://kwpi-coa-kmweb.gss.com.tw/subject"
+
+	session("KnowledgeQuestionCtUnitId") = "932"
+	session("KnowledgeSiteId") = "3"
+
+	'2010-6-18::Tommy::{
+	session("WebURL") = "http://kwpi-coa-kmweb.gss.com.tw/"		'會員 email 認證網址(最後請以 '/' 結尾)
+	session("WebDESKey") = "F7F741E99D0137"						'加解密金鑰 = 14位十六進位數（0—9,A,B,C,D,E,F）
+	'2010-6-18::Tommy::}
+
+end sub
+
+
+sub Application_OnStart
+
+	Application("HyftdServer") = "127.0.0.1"
+	Application("HyftdPort") = 2816
+	Application("HyftdGroupName") = "Intra"
+	Application("HyftdAssociateDataName") = "brief"
+	
+	Application("SiteUnitId") = "1"
+	Application("KnowledgeTankId") = "0"
+	Application("KnowledgeHomeId") = "3"
+	Application("TopicId") = "2"
+	Application("PediaId") = "4"
+	
+	Application("SiteCatTreeRoot") = "34"
+	
+	Application("KnowledgeTankDatabaseId") = "DB020"
+	
+	Application("ShowCursorIconId") = "249071"
+	
+end sub
+
+Sub Application_OnEnd()
+
+End Sub
+</script>

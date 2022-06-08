@@ -1,0 +1,171 @@
+﻿: @ codepage = 65001 
+   htprogcap="ap"
+htprogcode="ht003"
+htprogprefix="ap" 
+   response.expires = 0 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+
+ set rsreg = server.createobject("adodb.recordset")
+ 'fsql=request.querystring("strsql")
+ if request.querystring = "" then
+    session("strsql") = ""
+  end if
+  fsql = session("strsql")
+
+if fsql="" then
+ fsql = "select ap.*,apcat.apcatcname from ap inner join apcat on ap.apcat=apcat.apcatid where 1=1"
+ for each x in request.form
+     if request(x) <> "" then
+            if mid(x,2,3) = "fx_" then
+         select case left(x,1)
+            case "s"
+               fsql = fsql & " and " & mid(x,5) & "=" & pkstr(request(x),"")
+            case else
+               fsql = fsql & " and " & mid(x,5) & " like n'%" & request(x) & "%'"
+           end select
+         end if
+     end if
+ next 
+ fsql = fsql & " order by apcat,aporder"
+end if
+nowpage=request.querystring("nowpage")  '現在頁數
+
+
+'----------hyweb gip db connection patch----------
+'rsreg.open fsql,conn,1,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+
+if not rsreg.eof then 
+   totrec=rsreg.recordcount       '總筆數
+   if totrec>0 then 
+      perpagesize=cint(request.querystring("pagesize"))
+      if perpagesize <= 0 then  
+         perpagesize=10  
+      end if 
+      
+      rsreg.pagesize=perpagesize       '每頁筆數
+
+      if cint(nowpage)<1 then 
+         nowpage=1
+      elseif cint(nowpage) > rsreg.pagecount then 
+         nowpage=rsreg.pagecount 
+      end if             
+
+      rsreg.absolutepage=nowpage
+      totpage=rsreg.pagecount       '總頁數
+      'strsql=server.urlencode(fsql)
+   session("strsql") = fsql
+   end if    
+end if   
+
+
+
+
+
+
+
+
+
+
+
+                                                    =title:                       =htprogcap
+
+
+
+
+
+
+
+
+          if (htprogright and 2)=2 then
+                   =htprogprefix
+          end if
+
+
+
+
+
+
+
+                                       =htprogprefix
+
+  if not rsreg.eof then
+
+                                      =nowpage:    =totpage
+                                          =totrec
+
+
+               for ipage=1 to totpage
+                                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+               next
+
+
+          if cint(nowpage) <>1 then 
+                        =htprogprefix:                    =(nowpage-1):           =strsql:             =perpagesize
+         end if
+
+           if cint(nowpage)<>rsreg.pagecount and  cint(nowpage)<rsreg.pagecount  then 
+                        =htprogprefix:                    =(nowpage+1):           =strsql:             =perpagesize
+          end if
+
+
+                                 if perpagesize=10 then:            end if
+                                 if perpagesize=20 then:            end if
+                                 if perpagesize=30 then:            end if
+
+
+
+
+
+
+
+
+
+                     
+    for i=1 to perpagesize                  
+
+
+                                                                                  =rsreg("apcode"):     =rsreg("apcode")
+                                                       =rsreg("apnamec")
+                                                       =rsreg("apcatcname")
+
+      
+         rsreg.movenext
+         if rsreg.eof then exit for 
+    next 
+   
+
+
+
+
+
+
+
+
+    CxMethod_ASP_footer_1134060862()
+
+
+
+
+
+  else
+
+
+
+
+  end if
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

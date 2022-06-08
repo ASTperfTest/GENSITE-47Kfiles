@@ -1,0 +1,203 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  dim gpkey
+     sub gopage_onchange      
+           newpage=reg.gopage.value     
+           document.location.href="Cx_0dummylist.asp?nowpage=" & newpage & "&strsql=" & strsql & "&pagesize=Cx_0dummy"    
+     end sub      
+     
+     sub perpage_onchange                
+           newperpage=reg.perpage.value
+           document.location.href="Cx_0dummylist.asp?nowpage=Cx_0dummy" & "&strsql=Cx_0dummy&pagesize=" & newperpage                    
+     end sub 
+
+     sub setpkey(xv)
+      gpkey = xv
+     end sub
+
+ sub butaction(k) 
+   if gpkey = "" then 
+     alert("請先選擇個案!") 
+   else
+     select case k 
+     end select 
+   end if 
+ end sub 
+
+
+ 

@@ -1,0 +1,170 @@
+﻿
+
+
+
+
+
+
+
+
+
+        // 實作全選
+        function Select_All(spanChk) {
+            elm = document.forms[0];
+            for (i = 0; i <= elm.length - 1; i++) {
+                if (elm[i].type == "checkbox" && elm[i].id != spanChk.id) {
+                    if (!elm.elements[i].checked)
+                        elm.elements[i].click();
+                }
+            }
+        }
+    
+
+
+
+
+
+
+
+
+                  function onclick___1030875263() {void(window.open('Tags_Set.aspx','','width=500px,height=600px,toolbar=no,location=no'));}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      function onclick___852747271() {btnSearch_Click}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                   function OnClick___687753492() {PreviousLink_Click}
+
+
+
+
+
+
+
+                                                             function OnClick____1305815084() {NextLink_Click}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                         function onclick____216562207() {Select_All(this)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                    function OnClick____1477970338() {btnYes_Click}
+                                                                             function OnClick____453386414() {btnNo_Click}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

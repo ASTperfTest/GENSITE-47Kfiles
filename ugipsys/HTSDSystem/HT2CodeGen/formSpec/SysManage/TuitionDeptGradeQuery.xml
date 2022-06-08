@@ -1,0 +1,197 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<htPage>
+	<HTProgPrefix>TuitionDeptGrade</HTProgPrefix>
+	<HTProgCode>Pn02M03</HTProgCode>
+	<HTProgPath>/SysManage</HTProgPath>
+	<HTGenPattern>genQuery</HTGenPattern>
+	<htForm>
+		<formModel id="TuitionDeptGradeQuery">
+			<fieldList>
+				<tableName>TuitionDeptGrade</tableName>
+				<masterTable>Y</masterTable><field>
+					<fieldName>rdcyName</fieldName>
+					<fieldLabel>系級名稱</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>40</dataLen>
+					<inputLen>40</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+					<paramKind>value</paramKind>
+					<whereCondition>htx.rdcyName LIKE '%{0}%'</whereCondition>
+				</field>
+				<field>
+					<fieldName>SchDept</fieldName>
+					<fieldLabel>科系</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>2</dataLen>
+					<inputLen>2</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>SchDept</refLookup>
+					<rows></rows>
+					<cols></cols>
+					<paramKind>value</paramKind>
+					<whereCondition>htx.SchDept LIKE '%{0}%'</whereCondition>
+				</field>
+				<field>
+					<fieldName>SchGrade</fieldName>
+					<fieldLabel>年級</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>SchGrade</refLookup>
+					<rows></rows>
+					<cols></cols>
+					<paramKind>value</paramKind>
+					<whereCondition>htx.SchGrade LIKE '%{0}%'</whereCondition>
+				</field>
+				<field>
+					<fieldName>School</fieldName>
+					<fieldLabel>學院</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>2</dataLen>
+					<inputLen>2</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>School</refLookup>
+					<rows></rows>
+					<cols></cols>
+					<paramKind>value</paramKind>
+					<whereCondition>htx.School LIKE '%{0}%'</whereCondition>
+				</field>
+				<field>
+					<fieldName>SchType</fieldName>
+					<fieldLabel>學籍類別</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refCheckbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>SchType</refLookup>
+					<rows></rows>
+					<cols></cols>
+					<paramKind>value</paramKind>
+					<whereCondition>htx.SchType LIKE '%{0}%'</whereCondition>
+				</field>
+				<field>
+					<fieldName>fCreditHour</fieldName>
+					<fieldLabel>是否為學分班</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>boolYN</refLookup>
+					<rows></rows>
+					<cols></cols>
+					<paramKind>value</paramKind>
+					<whereCondition>htx.fCreditHour LIKE '%{0}%'</whereCondition>
+				</field>
+				<field>
+					<fieldName>useMark</fieldName>
+					<fieldLabel>使用註記</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>boolYN</refLookup>
+					<rows></rows>
+					<cols></cols>
+					<paramKind>value</paramKind>
+					<whereCondition>htx.useMark LIKE '%{0}%'</whereCondition>
+				</field>
+			</fieldList>
+			<anchorList>
+				<anchor>
+					<type></type>
+					<funcLabel></funcLabel>
+					<url></url>
+					<action></action>
+				</anchor>
+			</anchorList>
+		</formModel>
+	</htForm>
+	<pageSpec>
+		<pageHead>系級對照表</pageHead>
+		<pageFunction>查詢</pageFunction>
+		<aidLinkList>
+			<Anchor>
+				<AnchorLabel>新增</AnchorLabel>
+				<AnchorType>A</AnchorType>
+				<AnchorDesc>新增</AnchorDesc>
+				<AnchorURI>TuitionDeptGradeAdd.asp</AnchorURI>
+				<checkRight>4</checkRight>
+				<AnchorPos>Top</AnchorPos>
+				<AnchorWPK></AnchorWPK>
+			</Anchor>
+			<Anchor>
+				<AnchorLabel>回前頁</AnchorLabel>
+				<AnchorType>Back</AnchorType>
+				<AnchorDesc>回前頁</AnchorDesc>
+				<AnchorURI></AnchorURI>
+				<checkRight></checkRight>
+				<AnchorPos>Top</AnchorPos>
+			</Anchor>
+		</aidLinkList>
+		<formUI ref="TuitionDeptGradeQuery">
+			<pxHTML>
+				<CENTER>
+					<TABLE border="0" class="eTable" cellspacing="1" cellpadding="2" width="60%">
+						<TR><TD class="eTableLable" align="right">學院：</TD>
+							<TD class="eTableContent"><refField>TuitionDeptGrade/School</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">科系：</TD>
+							<TD class="eTableContent"><refField>TuitionDeptGrade/SchDept</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">學籍類別：</TD>
+							<TD class="eTableContent"><refField>TuitionDeptGrade/SchType</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">年級：</TD>
+							<TD class="eTableContent"><refField>TuitionDeptGrade/SchGrade</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">是否為學分班：</TD>
+							<TD class="eTableContent"><refField>TuitionDeptGrade/fCreditHour</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">使用註記：</TD>
+							<TD class="eTableContent"><refField>TuitionDeptGrade/useMark</refField></TD>
+						</TR>
+					</TABLE>
+				</CENTER>
+			</pxHTML>
+			<scriptCode><![CDATA[
+<SCRIPT LANGUAGE="vbs">
+
+</SCRIPT>
+		]]></scriptCode>
+		</formUI>
+		<UINotes>學籍類別(點選,可複選)。不設查詢條件,則查詢所有資料。動作完成後,進入查詢結果畫面。
+		</UINotes>
+	</pageSpec>
+</htPage>

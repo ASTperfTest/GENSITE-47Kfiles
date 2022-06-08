@@ -1,0 +1,143 @@
+﻿:                                                                           =request.querystring("icuitem") 
+
+
+
+
+  
+'if xshowtype <> "5" then 
+ for each param in allmodel2.selectnodes("//fieldlist/field[formlist!='']") 
+     if not (nulltext(param.selectsinglenode("fieldname"))="fctupublic" and session("checkyn")="y") then
+        if nulltext(param.selectsinglenode("inputtype"))<>"hidden" and nulltext(param.selectsinglenode("fieldname"))<>"idept" and nulltext(param.selectsinglenode("fieldname"))<>"mmofolderid" then
+      response.write "<tr><td class=""label"" align=""right"">"
+      if nulltext(param.selectsinglenode("cannull")) = "n" then _
+   response.write "<span class=""must"">*</span>"
+      response.write nulltext(param.selectsinglenode("fieldlabel")) & "</td>"
+      response.write "<td class=""etablecontent"">"
+        end if
+  if formfunction = "edit" and nulltext(param.selectsinglenode("isprimarykey"))="y" and nulltext(param.selectsinglenode("identity"))<>"y" then 
+   orginputtype = param.selectsinglenode("inputtype").text
+   param.selectsinglenode("inputtype").text = "readonly"
+   processparamfield param
+   param.selectsinglenode("inputtype").text = orginputtype
+  elseif nulltext(param.selectsinglenode("fieldname"))="idept" then
+      if (htprogright and 64) <> 0 then 
+          response.write "<tr><td class=""label"" align=""right"">"
+          if nulltext(param.selectsinglenode("cannull")) = "n" then _
+    response.write "<span class=""must"">*</span>"
+          response.write nulltext(param.selectsinglenode("fieldlabel")) & "</td>"
+          response.write "<td class=""etablecontent"">"       
+   response.write "<select name=""htx_idept"" size=1>" & vbcrlf 
+   sqlcom ="select d.deptid,d.deptname,d.parent,len(d.deptid)-1,d.seq," & _
+    "(select count(*) from dept where parent=d.deptid and nodekind='d') " & _
+    "  from dept as d where d.nodekind='d' " _
+    & " and d.deptid like '" & session("deptid") & "%'" _
+    & " order by len(d.deptid), d.parent, d.seq" 
+   'response.write sqlcom
+   set rss = conn.execute(sqlcom)
+   if not rss.eof then
+    arydept = rss.getrows(300)
+    glastmsglevel = 0
+    genlist 0, 0, 1, 0
+           expandfrom arydept(cid, 0), 0, 0
+   end if
+   response.write "</select>"        
+   response.write "</td></tr>"        
+      else
+   response.write "<input type=""hidden"" name=""htx_idept"">" & vbcrlf
+      end if       
+  elseif nulltext(param.selectsinglenode("fieldname"))="mmofolderid" then
+          response.write "<tr><td class=""label"" align=""right"">"
+          if nulltext(param.selectsinglenode("cannull")) = "n" then _
+    response.write "<span class=""must"">*</span>"
+          response.write nulltext(param.selectsinglenode("fieldlabel")) & "</td>"
+          response.write "<td class=""etablecontent"">"       
+   response.write "<input type=hidden name=""htx_mmofolderid"">" & mmopathstr(rsreg("mmofolderid")) & vbcrlf 
+   response.write "</td></tr>"        
+  else
+       processparamfield param      
+  end if
+'------- checkgipconfig("xxcheckimportant") -------- start -------------------------------------------------------- 
+  if checkgipconfig("keywordautogen") then
+   if session("codeid")<>"7" and nulltext(param.selectsinglenode("fieldname")) = "ximportant" then
+ 
+
+   
+   end if
+  end if 
+'------- checkgipconfig("xxcheckimportant") -------- end -------------------------------------------------------- 
+'------- checkgipconfig("keywordautogen") -------- start -------------------------------------------------------- 
+  if checkgipconfig("keywordautogen") then
+         if nulltext(param.selectsinglenode("fieldname"))="xkeyword" then 
+       response.write "<input type=""button"" value=""自動產生"" class=""cbutton"" onclick=""vbs:keywordmake"">"
+        end if  
+  end if 
+'------- checkgipconfig("keywordautogen") -------- end -------------------------------------------------------- 
+        if nulltext(param.selectsinglenode("inputtype"))<>"hidden" and nulltext(param.selectsinglenode("fieldname"))<>"idept" then 
+      response.write "</td></tr>"
+       end if
+     end if
+ next
+'else
+' for each param in allmodel2.selectnodes("//fieldlist/field[formlist!='']") 
+'     if not (nulltext(param.selectsinglenode("fieldname"))="fctupublic" and session("checkyn")="y") then
+'        if nulltext(param.selectsinglenode("inputtype"))<>"hidden" then
+'      response.write "<tr><td class=""label"" align=""right"">"
+'      if nulltext(param.selectsinglenode("cannull")) = "n" then _
+'   response.write "<span class=""must"">*</span>"
+'      response.write nulltext(param.selectsinglenode("fieldlabel")) & "</td>"
+'      if nulltext(param.selectsinglenode("fieldrefedityn"))="y" then
+'       response.write "<td class=""etablecontent"">"
+'       processparamfield param 
+'       response.write "</td></tr>"                   
+'      else
+'       response.write "<td class=""etablecontent"" id=""x"&nulltext(param.selectsinglenode("fieldname"))&"""></td></tr>" 
+'   orginputtype = param.selectsinglenode("inputtype").text
+'   param.selectsinglenode("inputtype").text = "hidden"
+'   processparamfield param
+'   param.selectsinglenode("inputtype").text = orginputtype            
+'      end if
+'  else
+'       processparamfield param      
+'        end if
+'     end if
+' next
+'end if
+
+
+
+
+  if formfunction = "query" then 
+          if (htprogright and 2) <> 0 then 
+
+
+          end if
+  elseif formfunction = "edit" then 
+      if xshowtype="5" then
+          if (htprogright and 16) <> 0 then 
+
+         end if 
+      else
+
+          if (htprogright and 8) <> 0 then 
+
+           end if 
+
+          if (htprogright and 16) <> 0 then 
+
+         end if 
+
+
+          if xshowtype = "5" then 
+
+         end if 
+      end if
+   else '-- add ---
+            if (htprogright and 4)<>0 then 
+
+            end if
+
+            if (htprogright and 4)<>0  then 
+
+            end if
+
+   end if  

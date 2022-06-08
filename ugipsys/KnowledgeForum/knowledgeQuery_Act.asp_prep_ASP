@@ -1,0 +1,406 @@
+﻿:  
+response.expires = 0
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htuploadpath=session("public")+"data/"
+htprogprefix = "knowledgequery_act"
+response.expires = 0
+htprogcap="主題館績效統計"
+htprogfunc="查詢清單"
+htprogcode="kforumlist"
+
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_client_5214970()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   sub showcantfindbox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+
+
+
+
+   end sub 
+  
+
+'---計算筆數-
+csql = "select count(*) as allcount from member inner join cudtgeneric on member.account = cudtgeneric.ieditor " & _
+"inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem " & _
+"inner join knowledgepicinfo on knowledgeforum.gicuitem = knowledgepicinfo.parenticuitem " & _
+"where ((cudtgeneric.ictunit = 932) or (cudtgeneric.ictunit = 933) or (cudtgeneric.ictunit = 934))"
+
+fsql=" isnull(knowledgeforum.parenticuitem,'0') articleparenticuitem,cudtgeneric.icuitem,cudtgeneric.stitle, knowledgepicinfo.picstatus, member.account, member.realname, member.nickname, " & _
+"knowledgepicinfo.pictitle, knowledgepicinfo.picid,knowledgepicinfo.parenticuitem,cudtgeneric.topcat,knowledgepicinfo.picpath " & _
+"from member inner join cudtgeneric on member.account = cudtgeneric.ieditor " & _
+"inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem " & _
+"inner join knowledgepicinfo on knowledgeforum.gicuitem = knowledgepicinfo.parenticuitem " & _
+"where ((cudtgeneric.ictunit = 932) or (cudtgeneric.ictunit = 933) or (cudtgeneric.ictunit = 934))"
+dim picid:picid=request("picid")
+dim picidterms:picidterms=request("picidterms")
+dim parenticuitem:parenticuitem=request("parenticuitem")
+dim validate:validate=request("validate")
+dim pictitle:pictitle=request("pictitle") 
+dim memberid:memberid=request("memberid")
+' response.write request("picid") & "<br/>"
+' response.write request("picidterms") & "<br/>"
+' response.write request("parenticuitem") & "<br/>"
+' response.write request("validate") & "<br/>"
+' response.write request("pictitle") & "<br/>"
+' response.write request("memberid") & "<br/>"
+  
+  '---更新圖片狀態---
+if request("submittask") = "pass" then
+ if cint(request("totalrecord")) = 1 then 
+  flag="noquery" 'totalrecord若為一筆,當該筆資料審核過後,即不再需要加入查詢條件
+ else
+  flag="1"
+ end if
+ sql = "update knowledgepicinfo set picstatus = 'y' where parenticuitem = "& "'"  & parenticuitem & "'" & " and picid= "& picid 
+ conn.execute(sql)
+elseif request("submittask") = "nopass" then
+ if cint(request("totalrecord")) = 1 then 
+  flag="noquery" 'totalrecord若為一筆,當該筆資料審核過後,即不再需要加入查詢條件
+ else
+  flag="1"
+ end if
+    sql = "update knowledgepicinfo set picstatus = 'n' where parenticuitem = "& "'"  & parenticuitem & "'" & " and picid= "& picid 
+ conn.execute(sql)
+elseif request("submittask") = "allpass" then
+ 
+ dim selecteditems : selecteditems = request("selecteditems")
+ dim items : items = split(selecteditems, ";")
+ for each item in items
+  if item <> "" then 
+   sql = "update knowledgepicinfo set picstatus = 'y' where picid=  " & item
+   conn.execute(sql)
+   
+  end if
+ next
+elseif request("submittask") = "allnopass" then
+ 
+ dim selecteditem : selecteditem = request("selecteditems")
+ dim item : items = split(selecteditem, ";")
+ for each item in items
+  if item <> "" then 
+   sql = "update knowledgepicinfo set picstatus = 'n' where picid=  " & item
+   conn.execute(sql)
+   
+  end if
+ next
+end if
+
+  '---加入搜尋條件-
+if flag="1" then 
+  if validate <> ""   then 
+     fsql = fsql & " and picstatus like '%" & validate & "%' " 
+  csql = csql & " and picstatus like '%" & validate & "%' " 
+  end if
+   if pictitle <> "" then 
+     fsql = fsql & " and pictitle like '%" & pictitle & "%' " 
+     csql = csql & " and pictitle like '%" & pictitle & "%' " 
+   end if
+   if memberid <> "" then 
+   fsql = fsql & " and ( account like '%" & memberid & "%' or realname like '%" & memberid & "%' "
+   fsql = fsql & " or nickname like '%" & memberid & "%') "
+   csql = csql & " and ( account like '%" & memberid & "%' or realname like '%" & memberid & "%' "
+   csql = csql & " or nickname like '%" & memberid & "%') "
+  end if
+    if picidterms <> "" then
+     fsql = fsql & " and picid like '%" & picidterms & "%' " 
+  csql = csql & " and picid like '%" & picidterms & "%' " 
+  end if
+  
+elseif flag="noquery" then
+'do nothing
+else
+
+  if validate <> ""   then 
+     fsql = fsql & " and picstatus like '%" & validate & "%' " 
+  csql = csql & " and picstatus like '%" & validate & "%' " 
+  end if
+  if picidterms <> "" then
+     fsql = fsql & " and picid like '%" & picidterms & "%' " 
+  csql = csql & " and picid like '%" & picidterms & "%' " 
+  end if
+  if pictitle <> "" then 
+     fsql = fsql & " and pictitle like '%" & pictitle & "%' " 
+     csql = csql & " and pictitle like '%" & pictitle & "%' " 
+  end if
+  if memberid <> "" then 
+   fsql = fsql & " and ( account like '%" & memberid & "%' or realname like '%" & memberid & "%' "
+   fsql = fsql & " or nickname like '%" & memberid & "%') "
+   csql = csql & " and ( account like '%" & memberid & "%' or realname like '%" & memberid & "%' "
+   csql = csql & " or nickname like '%" & memberid & "%') "
+  end if
+
+end if
+
+  nowpage = request.querystring("nowpage")  '現在頁數
+  perpagesize = cint(request.querystring("pagesize"))
+  if perpagesize <= 0 then  perpagesize = 15  
+
+  set rsc = conn.execute(csql)
+  totrec = rsc(0)       '總筆數
+  totpage = int(totrec / perpagesize + 0.999)
+
+  if cint(nowpage) < 1 then 
+    nowpage = 1
+  elseif cint(nowpage) > totpage then 
+    nowpage = totpage 
+  end if    
+  
+  fsql = "select top "& nowpage * perpagesize & fsql & " order by xpostdate desc"
+
+
+  set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+' rsreg.cachesize = perpagesize
+
+'----------hyweb gip db connection patch----------
+' rsreg.open fsql,conn, 3, 1
+set rsreg = conn.execute(fsql)
+ rsreg.cachesize = perpagesize
+'----------hyweb gip db connection patch----------
+
+
+ if not rsreg.eof then
+  if totrec > 0 then 
+      rsreg.pagesize = perpagesize       '每頁筆數
+      rsreg.absolutepage = nowpage      
+  end if    
+ end if 
+ 
+ 'response.write fsql
+if  rsreg.eof then
+ showcantfindbox "找不到資料"      
+else
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                        =(nowpage):             =perpagesize:             =request("validate"):             =server.urlencode(pictitle):             =server.urlencode(memberid):               =request("picidterms")
+
+
+
+
+
+
+
+         =totrec:                    =nowpage:     =totpage
+
+
+
+
+                         if perpagesize=15 then:            end if
+                         if perpagesize=30 then:            end if
+                         if perpagesize=50 then:            end if
+
+
+
+
+   if cint(nowpage) <> 1 then 
+
+              =htprogprefix:                       =(nowpage-1):             =perpagesize:             =trim(request("validate")):             =server.urlencode(trim(request("pictitle"))):             =server.urlencode(memberid):               =request("picidterms")
+       end if 
+
+     for ipage=1 to totpage 
+                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+       next 
+
+
+    if cint(nowpage)<>totpage then 
+                 =htprogprefix:                       =(nowpage+1):             =perpagesize:             =trim(request("validate")):             =server.urlencode(trim(request("pictitle"))):             =server.urlencode(memberid):               =request("picidterms")
+
+       end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   while not rsreg.eof 
+ dim articleid
+ if trim(rsreg("articleparenticuitem")) <> "0" then
+  articleid = trim(rsreg("articleparenticuitem"))
+ else
+  articleid = trim(rsreg("icuitem"))
+ end if
+
+
+
+                                                  =rsreg("picid")
+
+
+                      =trim(rsreg("account"))
+                      =trim(rsreg("realname"))
+                      =trim(rsreg("nickname"))
+                                                                                                  =articleid:                                                                   =trim(rsreg("stitle"))
+                                                   =trim(rsreg("picpath")):                               =trim(rsreg("picpath")):          =trim(rsreg("pictitle"))
+                                                                           =trim(rsreg("icuitem")):      =trim(rsreg("parenticuitem"))
+
+
+                                                                          =rsreg("picid"):      =rsreg("parenticuitem"):      =totrec
+                                                                                =rsreg("picid"):      =rsreg("parenticuitem"):      =totrec
+
+
+
+   if rsreg("picstatus")="w" then
+
+   end if
+
+   if rsreg("picstatus")="y" then
+
+   end if
+   if rsreg("picstatus")="n" then
+
+   end if
+
+
+
+   
+ rsreg.movenext 
+  wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   =htprogprefix:                    =request.querystring("icuitem")
+
+
+
+
+
+
+                                     =htprogprefix:                                                =perpagesize
+                    =trim(request("validate")):             =server.urlencode(trim(request("pictitle"))):             =server.urlencode(memberid):               =request("picidterms")
+
+
+
+
+
+                                     =htprogprefix:                       =nowpage
+                    =trim(request("validate")):             =server.urlencode(trim(request("pictitle"))):             =server.urlencode(memberid):               =request("picidterms")
+
+
+
+                                     =htprogprefix:                       =nowpage:             =perpagesize 

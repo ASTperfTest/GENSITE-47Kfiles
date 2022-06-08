@@ -1,0 +1,194 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+function script___1002150790() {src("../js/jquery.js");}
+
+
+
+
+
+
+
+
+
+    function onclick____1142803299() {history.back();}
+
+
+
+
+
+
+
+
+
+                                                function OnClick____2055261120() {ExportToExcel}
+                                                                                                                    function OnClick___1975952686() {Close_all}
+
+
+
+
+
+
+
+
+                                             function onchange___1475089776() {page(this.value);}
+
+
+
+                                         function onchange___1387969499() {pagesize(this.value);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                       function OnClick____1758588100() {RemoveHead}
+                                                                                                          function OnClick____994259563() {Remove_select}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function page(p) {
+        window.location.href = 'InvalidUrldetail.aspx?id=Cx_0dummy&pagesize=Cx_0dummy&page=' + (p - 1);
+    }
+    function pagesize(ps) {
+        window.location.href = 'InvalidUrldetail.aspx?id=Cx_0dummy&pagesize=' + ps;
+    }
+
+
+        var rptListControl = document.getElementById('Cx_0dummy');
+        $('input:checkbox[id$=CheckSelectAll]', rptListControl).click(function(e) {
+            if (this.checked) {
+                $('input:checkbox[id$=CheckSelect]', rptListControl).attr('checked', true);
+            }
+            else {
+                $('input:checkbox[id$=CheckSelect]', rptListControl).removeAttr('checked');
+            }
+        });
+
+        $('input:checkbox[id$=CheckSelect]', rptListControl).click(function(e) {
+            //To uncheck the header checkbox when there are no selected checkboxes in itemtemplate
+            if ($('input:checkbox[id$=CheckSelect]:checked', rptListControl).length == 0) {
+                $('input:checkbox[id$=CheckSelectAll]', rptListControl).removeAttr('checked');
+            }
+            //To check the header checkbox when there are all selected checkboxes in itemtemplate
+            else if ($('input:checkbox[id$=CheckSelect]:checked', rptListControl).length == $('input:checkbox[id$=CheckSelect]', rptListControl).length) {
+                $('input:checkbox[id$=CheckSelectAll]', rptListControl).attr('checked', true);
+            }
+        });
+   
+
+
+ 

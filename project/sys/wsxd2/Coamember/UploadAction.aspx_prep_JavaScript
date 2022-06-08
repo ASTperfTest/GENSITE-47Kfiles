@@ -1,0 +1,44 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function GetReturnValue(str) {
+            document.getElementById('hidFileName').value = str;
+        }  
+    
+
+
+
+
+
+
+
+
+
+
+
+                                                                    function OnClick___439440200() {deleteBtn_Click}
+
+                                 function OnClick____1902851246() {UploadBtn_Click}
+
+
+
+
+
+
+
+
+
+
+
+ 

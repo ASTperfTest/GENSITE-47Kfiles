@@ -1,0 +1,166 @@
+﻿: 
+ response.expires = 0
+ 'htprogcap = "�\��޲z"
+ 'htprogfunc = "�ݨ��լd"
+ htprogcode = "gw1_vote01"
+ 'htprogprefix = "msession"
+ response.expires = 0
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+
+  
+function chgdate(year, month, day)
+ dim newmonth, newday
+
+ if cint(month) < 10 then
+  newmonth = "0" & month
+ else
+  newmonth = month
+ end if
+
+ if cint(day) < 10 then
+  newday = "0" & day
+ else
+  newday = day
+ end if
+
+ chgdate = year & "/" & newmonth & "/" & newday
+
+end function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ curdate = chgdate(year(now), month(now), day(now))
+
+ set rs = conn.execute("select * from m011 where m011_online = '1' order by m011_subjectid desc")
+
+ page = request(page)
+ if page = "" then
+  page = 1
+ end if
+
+ i = 1
+ while not rs.eof
+  if i <= (page * 10) and i > (page - 1) * 10 then
+   if (i mod 2) = 0 then
+    color = "eeeeee"
+   else
+    color = "dddddd"
+   end if
+  
+   bdate = chgdate(year(rs("m011_bdate")), month(rs("m011_bdate")), day(rs("m011_bdate")))
+   edate = chgdate(year(rs("m011_edate")), month(rs("m011_edate")), day(rs("m011_edate")))
+
+                                   = color 
+                                                                = i 
+                                                 = trim(rs("m011_subject")) 
+                                                 = bdate :          = edate 
+  
+   if curdate >= bdate and curdate <=edate then
+    if rs("m011_jumpquestion") = "0" then
+
+                                                                         = rs("m011_subjectid") 
+                                                                         = rs("m011_subjectid") 
+   
+    else 
+
+                                                                              = rs("m011_subjectid") 
+                                                                         = rs("m011_subjectid") 
+  
+    end if
+   else
+
+
+                                                                      = rs("m011_subjectid") 
+  
+   end if
+
+
+  
+  end if
+  i = i + 1
+  rs.movenext
+ wend
+
+ set ts = conn.execute("select count(*) from m011 where m011_online = '1'")
+ if ts(0) > 0 then              'ts�n�����
+  totalpage = ts(0) \ 10
+  if (ts(0) mod 10) <> 0 then
+   totalpage = totalpage + 1
+  end if
+ else
+  totalpage = 1
+ end if
+ 

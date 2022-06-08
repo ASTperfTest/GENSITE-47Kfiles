@@ -1,0 +1,94 @@
+﻿
+
+
+
+
+                                AC_FL_RunContent = 0; 
+                                DetectFlashVer = 0; 
+function script___984656286() {src("AC_RunActiveContent.js");}CxConstr_1746735003();
+                                                      
+          
+// -----------------------------------------------------------------------------
+// 全域
+// 需要 Flash 的主要版本
+var requiredMajorVersion = 9;
+// 需要 Flash 的次要版本
+var requiredMinorVersion = 0;
+// 需要的 Flash 版本
+var requiredRevision = 45;
+// -----------------------------------------------------------------------------
+//    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var gaJsHost=(("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+
+
+try{
+var pageTracker=_gat._getTracker("UA-9195501-1");
+pageTracker._trackPageview();
+}catch(err)
+{}
+
+
+
+
+
+
+
+ 

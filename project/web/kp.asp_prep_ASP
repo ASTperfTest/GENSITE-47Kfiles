@@ -1,0 +1,122 @@
+﻿: @ codepage = 65001 
+  
+ 'response.cachecontrol = "no-cache" 
+ 'response.addheader "pragma", "no-cache" 
+ response.expires = -1
+
+
+   CxMethod_ASP_dbfunc_874801204()
+   CxMethod_ASP_web_sqlinjection_176928617()
+    CxMethod_ASP_checkurl_1283041507()
+
+  
+ call checkurl(request.querystring)
+ mp = getmpvalue() 
+ 
+ qstr = request.querystring
+ if instr(qstr, "mp=") = 0 then qstr = qstr & "&mp=" & mp
+
+ for each xf in request.form
+  if pkstrwithsripthtml( request(xf), "" ) <> "null" then 
+   qstr = qstr & "&" & xf & "=" & server.urlencode( striphtml( request.form(xf) ) )
+  end if
+ next
+ 
+ if left(qstr,1) = "&" then qstr = mid(qstr,2)
+ 
+ call spsqlinjectioncheck()
+
+ memid = session("memid")
+ gstyle = session("gstyle")
+
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty("serverhttprequest") = true 
+ set oxsl = server.createobject("microsoft.xmldom") 
+ xv = oxml.load(session("myxdurl") & "/wsxd2/xdsp.asp?" & qstr & "&memid=" & memid & "&gstyle=" & gstyle)
+ 
+
+  '�o�Ϳ��~�ɡa�۰ʭ���3��=====================================================
+    
+       CxMethod_ASP_onerrorreload3times_1262579889()
+      
+  '=============================================================================
+
+  
+  xmystyle=nulltext(oxml.selectsinglenode("//hpmain/mystyle"))
+  if xmystyle="" then xmystyle=session("mystyle")  
+ oxsl.load(server.mappath("xslgip/" & xmystyle & "/2sidepage.xsl")) 
+
+ response.contenttype = "text/html" 
+ outstring = replace(oxml.transformnode(oxsl),"<meta http-equiv=""content-type"" content=""text/html; charset=utf-8"">","")
+ outstring = replace(outstring," xmlns=""""","")
+ outstring = replace(outstring,"&amp;","&")
+    
+ dim memid, showcursoricon
+ showcursoricon = "1"
+ set conn = server.createobject("adodb.connection")
+ conn.open session("odbcdsn")
+ 
+ memid = nulltext(oxml.selectsinglenode("//hpmain/login/memid"))
+ if (memid <> "") then 
+   sql = "select showcursoricon from member where account = '" & memid & "'"  
+   set loginrs = conn.execute(sql)
+   if not loginrs.eof then
+    if not isnull(loginrs("showcursoricon")) then
+     showcursoricon = loginrs("showcursoricon")
+    else
+     showcursoricon = checcursoropen
+    end if
+   end if
+ else 
+  showcursoricon = checcursoropen
+ end if
+ if showcursoricon = "0" then
+    outstring = replace(outstring,"png.length!=0","false")
+ end if
+
+ response.write outstring
+
+ function nulltext(xnode)
+   on error resume next
+   xstr = ""
+   xstr = xnode.text
+   nulltext = xstr
+ end function
+ 
+ function checcursoropen()
+  sql = " select stitle from cudtgeneric where icuitem = " & application("showcursoriconid")
+  set rs = conn.execute(sql)
+  if (not isnull(rs("stitle")) ) and rs("stitle") = 1 then
+   checcursoropen = "1"
+  else
+   checcursoropen = "0"
+  end if
+ end function
+ 
+ function urlencode(strenc)   
+     dim strchr, intasc, strtmp, strtmp2, strret, lngloop   
+     for lngloop = 1 to len(strenc)   
+         strchr = mid(strenc, lngloop, 1)   
+         intasc = asc(strchr)   
+         if ((intasc < 58) and (intasc > 47)) or ((intasc < 91) and _   
+                (intasc > 64)) or ((intasc < 123) and (intasc > 96)) then  
+             strret = strret & strchr   
+         elseif intasc = 32 then  
+             strret = strret & "+"  
+         else  
+             strtmp = hex(asc(strchr))   
+             strret = strret & "%" & right("00" & left(strtmp, 2), 2)   
+             strtmp2 = mid(strtmp, 3, 2)   
+             if len(strtmp) > 3 then  
+                 if isnumeric(mid(strtmp, 3, 1)) then  
+                     strret = strret & chr(cint("&h" & strtmp2))   
+                 else  
+                     strret = strret & "%" & strtmp2   
+                 end if  
+             end if  
+         end if  
+     next  
+     urlencode = strret   
+ end function
+ 

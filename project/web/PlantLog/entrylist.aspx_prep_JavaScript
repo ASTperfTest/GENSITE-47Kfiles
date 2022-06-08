@@ -1,0 +1,93 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+             function href___276404432() {location.href='vote.aspx';}
+
+
+
+
+
+
+
+
+
+
+           function href____1169493854() {ApproveOwnerInfo();}
+
+
+
+
+
+
+
+
+
+
+            function href____752516011() {HideOwnerInfo();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $(document).ready(function() {
+            //Tab Menu
+            $("#tabInfo").addClass("btnDistrict");
+            $("#tabList").addClass("btnDistrict");
+            $("#tabVote").addClass("btnDistrict now");
+            $("#tabFinal").addClass("btnDistrict");
+        });
+        function ApproveEntry(id) {
+            $('#Action').val('ApproveEntry|' + id);
+            document.forms[0].submit();
+        }
+        function HideOwnerInfo() {
+            $('#Action').val('HideOwnerInfo');
+            document.forms[0].submit();
+        }
+        function ApproveOwnerInfo() {
+            $('#Action').val('ApproveOwnerInfo');
+            document.forms[0].submit();
+        }
+        function HideEntry(id) {
+            $('#Action').val('HideEntry|' + id);
+            document.forms[0].submit();
+        }
+    
+
+
+
+
+ 

@@ -1,0 +1,37 @@
+﻿: @ codepage = 65001 :   
+set conn = server.createobject("adodb.connection")
+xstr = "provider=microsoft.jet.oledb.4.0;data source=" & server.mappath("/0indb/") & "\important.mdb"
+response.write xstr & "<hr>"
+
+'----------hyweb gip db connection patch----------
+'conn.open   xstr
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = xstr
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+
+ sqlcom = "select * from [重要措施]" 
+ set rs = conn.execute(sqlcom)
+
+ response.write "<table border><tr class=etablelable>"
+ for i = 0 to rs.fields.count-1
+  response.write "<th>" & rs.fields(i).name
+ next
+
+ while not rs.eof
+
+  response.write "<tr>"
+  for i = 0 to rs.fields.count-1
+   response.write "<td>" & rs.fields(i)
+  next
+
+  
+  rs.movenext
+ wend
+ response.write "</table>"
+
+ 

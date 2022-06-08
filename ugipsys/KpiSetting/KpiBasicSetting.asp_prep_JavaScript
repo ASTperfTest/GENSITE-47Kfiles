@@ -1,0 +1,141 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              function href____1470241313() {window.history.back();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                    function onClick____30647765() {formSubmit()}
+                                   function onClick____215525736() {resetForm()}
+                                    function onClick___462172287() {window.location.href='/KpiSetting/kpiSettingList.asp'}
+
+
+
+
+
+
+
+
+
+
+ function formSubmit() {
+  if ( document.getElementById("Rank1").value == "" ) {
+   alert("請輸入排行榜名稱");
+   document.getElementById("Rank1").focus();   
+  }
+  else {
+   document.getElementById("submitTask").value = "edit";
+   document.getElementById("reg").submit();
+  }
+ }
+ function resetForm() {
+  window.location.href = "/KpiSetting/KpiBasicSetting.asp?id=Cx_0dummy";
+ }
+
+
+
+
+
+
+ 

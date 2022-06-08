@@ -1,0 +1,21 @@
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2005\Projects\MemberGradeContent\MemberGradeContent\bin\Debug\MemberGradeContent.exe
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2005\Projects\MemberGradeContent\MemberGradeContent\bin\Debug\MemberGradeContent.pdb
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2005\Projects\MemberGradeContent\MemberGradeContent\bin\Debug\MemberGradeContent.xml
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2005\Projects\MemberGradeContent\MemberGradeContent\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2005\Projects\MemberGradeContent\MemberGradeContent\obj\Debug\MemberGradeContent.Resources.resources
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2005\Projects\MemberGradeContent\MemberGradeContent\obj\Debug\MemberGradeContent.vbproj.GenerateResource.Cache
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2005\Projects\MemberGradeContent\MemberGradeContent\obj\Debug\MemberGradeContent.exe
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2005\Projects\MemberGradeContent\MemberGradeContent\obj\Debug\MemberGradeContent.xml
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2005\Projects\MemberGradeContent\MemberGradeContent\obj\Debug\MemberGradeContent.pdb
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2005\Projects\MemberGradeContent\MemberGradeContent\bin\Debug\MemberGradeContent.exe.config
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2005\Projects\MemberGradeContent\MemberGradeContent\bin\Release\MemberGradeContent.exe.config
+D:\Program\Net2005\MemberGradeContent\MemberGradeContent\bin\Debug\MemberGradeContent.exe.config
+D:\Program\Net2005\MemberGradeContent\MemberGradeContent\obj\Debug\MemberGradeContent.exe
+D:\Program\Net2005\MemberGradeContent\MemberGradeContent\obj\Debug\MemberGradeContent.xml
+D:\Program\Net2005\MemberGradeContent\MemberGradeContent\obj\Debug\MemberGradeContent.pdb
+D:\Program\Net2005\MemberGradeContent\MemberGradeContent\bin\Debug\MemberGradeContent.exe
+D:\Program\Net2005\MemberGradeContent\MemberGradeContent\bin\Debug\MemberGradeContent.pdb
+D:\Program\Net2005\MemberGradeContent\MemberGradeContent\bin\Debug\MemberGradeContent.xml
+D:\Program\Net2005\MemberGradeContent\MemberGradeContent\obj\Debug\ResolveAssemblyReference.cache
+D:\Program\Net2005\MemberGradeContent\MemberGradeContent\obj\Debug\MemberGradeContent.Resources.resources
+D:\Program\Net2005\MemberGradeContent\MemberGradeContent\obj\Debug\MemberGradeContent.vbproj.GenerateResource.Cache

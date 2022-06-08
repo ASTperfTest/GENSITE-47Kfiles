@@ -1,0 +1,222 @@
+﻿:                     
+   CxMethod_ASP_adovbs_565378559()
+  
+
+if request("task")="set odbc" then
+ session("odbcstr") ="dsn="&request("odbcstr")&";uid=hometown;pwd=2986648;"
+end if 
+
+
+
+
+
+
+
+
+
+
+                                     =request("odbcstr")
+
+
+   if session("odbcstr") <> "" then 
+
+  
+    set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcstr")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcstr")
+'----------hyweb gip db connection patch----------
+
+ 
+
+'----------hyweb gip db connection patch----------
+' set rs = conn.openschema (adschematables)
+set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = schema (adschematables)
+'----------hyweb gip db connection patch----------
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+ while not rs.eof
+  if rs("table_type") = "table" then
+
+                 =rs("table_name"):      if request("fxtblname")=rs("table_name") then response.write " selected":    =rs("table_name")
+  
+  end if
+  rs.movenext
+ wend
+
+
+
+
+
+  
+  if request("task")="select table" and request("fxtblname")<>"" then
+
+
+
+
+
+
+    
+
+'----------hyweb gip db connection patch----------
+' set rs = conn.openschema (adschemacolumns)
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = schema (adschemacolumns)
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+ 
+ while not rs.eof
+  if rs("table_name") = request("fxtblname") then
+   select case rs("data_type")
+     case 2: dftype = "smallint"
+     case 3: dftype = "integer"
+     case 4: dftype = "single"
+     case 5: dftype = "double"
+     case 6: dftype = "currency"
+     case 7: dftype = "date"
+     case 8: dftype = "bstr"
+     case 9: dftype = "idispatch"
+     case 10: dftype = "error"
+     case 11: dftype = "boolean"
+     case 12: dftype = "variant"
+     case 13: dftype = "iunknown"
+     case 14: dftype = "decimal"
+     case 16: dftype = "tinyint"
+     case 17: dftype = "unsignedtinyint"
+     case 18: dftype = "unsignedsmallint"
+     case 19: dftype = "unsignedint"
+     case 20: dftype = "bigint"
+     case 21: dftype = "unsignedbigint"
+     case 64: dftype = "filetime"
+     case 72: dftype = "guid"
+     case 128: dftype = "binary"
+     case 129: dftype = "char"
+     case 130: dftype = "wchar"
+     case 131: dftype = "numeric"
+     case 132: dftype = "userdefined"
+     case 133: dftype = "dbdate"
+     case 134: dftype = "dbtime"
+     case 135: dftype = "dbtimestamp"
+     case 136: dftype = "chapter"
+     case 137: dftype = "dbfiletime"
+     case 138: dftype = "propvariant"
+     case 139: dftype = "varnumeric"
+     case 200: dftype = "varchar"
+     case 201: dftype = "longvarchar"
+     case 202: dftype = "varwchar"
+     case 203: dftype = "longvarwchar"
+     case 204: dftype = "varbinary"
+     case 205: dftype = "longvarbinary"
+     case else: dftype = "unknown"
+   end select
+
+
+        =rs("column_name")
+    if  isnull(rs("description")) then 
+               =rs("column_name")
+    else
+               =rs("description")
+    end if
+
+        =rs("data_type"):    =dftype
+
+  
+x=rs("character_maximum_length")
+if x > 255 then x = "memo"
+response.write x
+
+ precode = "t" 
+ if rs("data_type")=135 then 
+  precode = "d"
+ elseif rs("data_type")=11 then
+  precode = "b"
+ elseif rs("data_type")<7 or (rs("data_type")>13 and rs("data_type")<22) or rs("data_type")=131 then
+  precode = "n"
+ end if
+
+                          =rs("column_name")
+                    if precode="t" then :           end if
+                    if precode="p" then :           end if
+                    if precode="n" then :           end if
+                    if precode="d" then :           end if
+                    if precode="s" then :           end if
+                    if precode="b" then :           end if
+                   if precode="" then :           end if
+
+                 =rs("column_name"):                                                  =rs("column_name")
+
+                         =rs("column_name"):                 =precode
+                                       =rs("column_name")
+
+  
+  end if
+  rs.movenext
+ wend
+
+
+                                           =request("fxtblname")
+
+
+                                                                    =request("fxtblname")
+
+
+
+
+
+
+
+
+
+  
+sql="select codeid,codename,codetblname from codetable order by codetblname,codeid"
+set rscode=conn.execute(sql)
+while not rscode.eof
+    i=i+1
+                                   =i
+                    =i:      =rscode("codeid")
+                    =i:      =rscode("codename")
+                    =i:      =rscode("codetblname")
+    rscode.movenext
+wend
+
+             =i
+
+
+
+
+
+
+
+
+
+
+                   =i
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  end if
+end if
+ 

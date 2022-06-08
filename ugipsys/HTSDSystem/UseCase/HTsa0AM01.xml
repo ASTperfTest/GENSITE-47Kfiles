@@ -1,0 +1,85 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<UseCase>
+	<Name>問卷流程</Name>
+	<Code>HTsa0AM01</Code>
+	<APCat>HTsa0A</APCat>
+	<Version>
+		<Date>2002/12/19</Date>
+		<Author>chen</Author>
+		<Kind>HighLevel</Kind>
+		<HighLevelSpec>
+			<Type>primary</Type>
+			<ActorList>
+				<Actor initiator="Y"></Actor>
+			</ActorList>
+			<DescriptionList>
+				<Description>
+					<table border="1" width="80%">
+				          <tr>
+					  	<th>模組  \  Actor</th>
+					  	<th width="30%">問卷處理者</th>
+					  	<th width="40%">內部/外部填卷者</th>
+					  </tr>						
+					  <tr>
+					  	<td>答案樣版管理</td>
+					  	<td>編修常用答案組樣版</td>
+					  	<td>　</td>
+					  </tr>
+					  <tr>
+					  	<td>問卷編輯</td>
+					  	<td>各單位問卷編修</td>
+					  	<td>　</td>
+					  </tr>
+					  <tr>
+					  	<td>問卷發送</td>
+					  	<td>各單位問卷發送</td>
+					  	<td>　</td>
+					  </tr>
+					  <tr>
+					  	<td>問卷調查</td>
+					  	<td>　</td>
+					  	<td>線上填寫</td>
+					  </tr>
+					  <tr>
+					  	<td rowspan="2">問卷統計</td>
+					  	<td>問卷統計管理</td>
+					  	<td>　</td>
+					  </tr>		
+					  <tr>
+					  	<td>　</td>
+					  	<td>問卷統計瀏覽</td>
+					  </tr>						  			  					  
+					</table>
+				</Description>	
+			</DescriptionList>
+			<VisitRecordList>
+				<VisitRecord>
+					<Who/>
+					<Date/>
+					<Location/>
+					<comment/>
+				</VisitRecord>
+			</VisitRecordList>
+		</HighLevelSpec>
+		<ReferenceDocumentList>
+			<ReferenceDocument>
+				<Who/>
+				<Date/>
+				<DocName>問卷編輯/管理demo</DocName>
+				<Description>
+				</Description>
+				<URL>questionaire/questionaireList.htm</URL>
+			</ReferenceDocument>
+		</ReferenceDocumentList>
+		<TBDList>
+			<TBD>
+				<Subject/>
+				<Description/>
+				<Who/>
+				<DueDate/>
+				<DoneDate/>
+				<Conclusion/>
+			</TBD>
+		</TBDList>
+	</Version>
+</UseCase>

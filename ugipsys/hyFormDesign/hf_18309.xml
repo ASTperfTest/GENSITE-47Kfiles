@@ -1,0 +1,555 @@
+<?xml version="1.0"?>
+<formSpec>
+	<DataSchemaDef>
+		<dsTable>
+			<tableName>hfAptForm</tableName>
+			<tableDesc>申辦案件</tableDesc>
+			<fieldList>
+				<field>
+					<fieldName>hfAptID</fieldName>
+					<fieldLabel>申辦ID</fieldLabel>
+					<dataType>int</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>hidden</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>hyFormID</fieldName>
+					<fieldLabel>表單ID</fieldLabel>
+					<dataType>int</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>hidden</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>refHfForm</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>toDept</fieldName>
+					<fieldLabel>受理單位</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>deptCode</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>aplName</fieldName>
+					<fieldLabel>申辦人</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>50</dataLen>
+					<inputLen>40</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc>納稅義務人</fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>aplID</fieldName>
+					<fieldLabel>辨識號碼</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>15</dataLen>
+					<inputLen>15</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>aplType</fieldName>
+					<fieldLabel>身份辨識</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>readonly</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>aplIDType</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>billNum</fieldName>
+					<fieldLabel>進口報單號碼</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>14</dataLen>
+					<inputLen>14</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>caseNum</fieldName>
+					<fieldLabel>案號</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>16</dataLen>
+					<inputLen>16</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>aplDate</fieldName>
+					<fieldLabel>申辦日期</fieldLabel>
+					<dataType>smalldatetime</dataType>
+					<dataLen>16</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>readonly</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>status</fieldName>
+					<fieldLabel>辦理進度</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>aplStatus</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>lastDate</fieldName>
+					<fieldLabel>最後註記日</fieldLabel>
+					<dataType>smalldatetime</dataType>
+					<dataLen>16</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>popDate</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+		</dsTable>
+		<dsTable>
+			<tableName>formGeneric</tableName>
+			<tableDesc>共通欄位</tableDesc>
+			<fieldList>
+				<field>
+					<fieldName>aplID1</fieldName>
+					<fieldLabel>營利事業申辦請輸入統一編號</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>8</dataLen>
+					<inputLen>8</inputLen>
+					<canNull>Y</canNull>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>aplID2</fieldName>
+					<fieldLabel>個人申辦請輸入身分證號碼</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>Y</canNull>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>aplID3</fieldName>
+					<fieldLabel>非本國國民申辦請輸入護照號碼</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>Y</canNull>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>fillName</fieldName>
+					<fieldLabel>姓名</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>16</dataLen>
+					<inputLen>16</inputLen>
+					<canNull>Y</canNull>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>email</fieldName>
+					<fieldLabel>聯繫E-mail位址</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>50</dataLen>
+					<inputLen>50</inputLen>
+					<canNull>Y</canNull>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>phoneArea</fieldName>
+					<fieldLabel>聯繫電話</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>Y</canNull>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>telArea</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>phoneNum</fieldName>
+					<fieldLabel>聯繫電話</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>Y</canNull>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>phoneExt</fieldName>
+					<fieldLabel>分機</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>6</dataLen>
+					<inputLen>6</inputLen>
+					<canNull>Y</canNull>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+		</dsTable>
+		<dsTable>
+			<tableName>formUser</tableName>
+			<tableDesc>自訂欄位</tableDesc>
+			<fieldList>
+				<field>
+					<fieldName>xrReason</fieldName>
+					<fieldLabel>申請原因</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>radio</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+					<item><mCode>製造新產品</mCode><mValue>製造新產品</mValue></item><item><mCode>原產品用料變動</mCode><mValue>原產品用料變動</mValue></item><item><mCode>原備查</mCode><mValue>原備查</mValue></item></field>
+				<field>
+					<fieldName>xtDocNum</fieldName>
+					<fieldLabel>核准文號</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>30</dataLen>
+					<inputLen>30</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>aplCusID</fieldName>
+					<fieldLabel>海關監管編號</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>P</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+		</dsTable>
+		<dsTable>
+			<tableName>formList</tableName>
+			<tableDesc>重覆條列欄位</tableDesc>
+			<repeatTimes>30</repeatTimes>
+			<fieldList>
+				<field>
+					<fieldName>lxItemNo</fieldName>
+					<fieldLabel>產品名稱及規格(或代號)</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>30</dataLen>
+					<inputLen>30</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>lxtPeriod</fieldName>
+					<fieldLabel>產製期間</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>lxtNote</fieldName>
+					<fieldLabel>備註</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>10</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+		</dsTable>
+	</DataSchemaDef>
+	<pHTML>P&amp;gt;&lt;BR&gt;&lt;IMG alt=小圖示 src="http://hywade.hyweb.com.tw/hyFormImages/icon_book.gif" align=absMiddle&gt;&amp;nbsp;&lt;LABEL for=htx_toDept&gt;受理單位：&lt;/LABEL&gt; &lt;SELECT title=受理單位 tabIndex=1 size=1 name=htx_toDept&gt; &lt;OPTION value="" selected&gt;請選擇&lt;/OPTION&gt; &lt;OPTION value=""&gt;關稅總局 ()&lt;/OPTION&gt; &lt;OPTION value=X1&gt;財政部關稅總局保稅退稅處 (X1)&lt;/OPTION&gt; &lt;OPTION value=""&gt;進口課 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;出口課 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;臺北關稅局局本部 ()&lt;/OPTION&gt; &lt;OPTION value=AL&gt;桃園分局第二辦公室 (AL)&lt;/OPTION&gt; &lt;OPTION value=AM&gt;馬祖辦事處 (AM)&lt;/OPTION&gt; &lt;OPTION value=AS&gt;花蓮分局蘇澳派出課 (AS)&lt;/OPTION&gt; &lt;OPTION value=AW&gt;五堵分局 (AW)&lt;/OPTION&gt; &lt;OPTION value=AN&gt;六堵分局第二辦公室 (AN)&lt;/OPTION&gt; &lt;OPTION value=AA&gt;基隆關稅局局本部 (AA)&lt;/OPTION&gt; &lt;OPTION value=""&gt;基隆關稅局局本部進口組 ()&lt;/OPTION&gt; &lt;OPTION value=AP&gt;基隆關稅局進口組郵務股 (AP)&lt;/OPTION&gt; &lt;OPTION value=""&gt;&lt;/OPTION&gt; &lt;OPTION value=""&gt;&lt;/OPTION&gt; &lt;OPTION value=""&gt;&lt;/OPTION&gt; &lt;OPTION value=AE&gt;六堵分局第一辦公室 (AE)&lt;/OPTION&gt; &lt;OPTION value=AT&gt;桃園分局第一辦公室 (AT)&lt;/OPTION&gt; &lt;OPTION value=AH&gt;花連分局本部 (AH)&lt;/OPTION&gt; &lt;OPTION value=""&gt;&lt;/OPTION&gt; &lt;OPTION value=""&gt;進口組 ()&lt;/OPTION&gt; &lt;OPTION value=BB&gt;高雄關稅局保稅組 (BB)&lt;/OPTION&gt; &lt;OPTION value=BS&gt;臺南科學工業園區支局 (BS)&lt;/OPTION&gt; &lt;OPTION value=BR&gt;路竹科學工業園區 (BR)&lt;/OPTION&gt; &lt;OPTION value=""&gt;&lt;/OPTION&gt; &lt;OPTION value=""&gt;基隆關稅局局本部出口組 ()&lt;/OPTION&gt; &lt;OPTION value=BC&gt;前鎮分局 (BC)&lt;/OPTION&gt; &lt;OPTION value=BA&gt;高雄關稅局局本部 (BA)&lt;/OPTION&gt; &lt;OPTION value=BE&gt;中興分局第一辦公室 (BE)&lt;/OPTION&gt; &lt;OPTION value=BD&gt;中興分局第二辦公室 (中島) (BD)&lt;/OPTION&gt; &lt;OPTION value=BG&gt;金門辦事處 (BG)&lt;/OPTION&gt; &lt;OPTION value=BM&gt;高雄關稅局稽查組督察課 (BM)&lt;/OPTION&gt; &lt;OPTION value=BP&gt;高雄關稅局進口組國際郵包處理課一股 (BP)&lt;/OPTION&gt; &lt;OPTION value=BK&gt;加工出口區分局（二）（高雄區） (BK)&lt;/OPTION&gt; &lt;OPTION value=BN&gt;加工出口區分局（一）（楠梓區） (BN)&lt;/OPTION&gt; &lt;OPTION value=BF&gt;高雄機場分局 (BF)&lt;/OPTION&gt; &lt;OPTION value=BH&gt;高雄關稅局進口組國際郵包處理課二股 (BH)&lt;/OPTION&gt; &lt;OPTION value=""&gt;出口組 ()&lt;/OPTION&gt; &lt;OPTION value=CG&gt;臺北關稅局進口貨棧組(長榮空運倉儲股份有限公司進口貨棧) (CG)&lt;/OPTION&gt; &lt;OPTION value=CI&gt;臺北關稅局法務室（旅客行李案件） (CI)&lt;/OPTION&gt; &lt;OPTION value=CB&gt;臺北關稅局保稅組 (CB)&lt;/OPTION&gt; &lt;OPTION value=CE&gt;臺北關稅局快遞機放組（快遞貨物專區案件） (CE)&lt;/OPTION&gt; &lt;OPTION value=CF&gt;臺北關稅局快遞機放組（Fedex Transhipment Center） (CF)&lt;/OPTION&gt; &lt;OPTION value=CO&gt;臺北關稅局快遞機放組（出口快遞專差） (CO)&lt;/OPTION&gt; &lt;OPTION value=CU&gt;臺北關稅局快遞機放組（UPS Asia Hub） (CU)&lt;/OPTION&gt; &lt;OPTION value=CR&gt;臺北關稅局快遞機放組(長榮空運倉儲股份有限公司快遞貨物專區) (CR)&lt;/OPTION&gt; &lt;OPTION value=CN&gt;臺北關稅局快遞機放組(長榮空運倉儲股份有限公司機放貨棧) (CN)&lt;/OPTION&gt; &lt;OPTION value=CM&gt;臺北關稅局進口貨棧組(美商聯邦快遞一般貨棧) (CM)&lt;/OPTION&gt; &lt;OPTION value=CA&gt;臺北關稅局進口組 (CA)&lt;/OPTION&gt; &lt;OPTION value=CD&gt;臺北關稅局快遞機放組（機邊驗放案件） (CD)&lt;/OPTION&gt; &lt;OPTION value=CH&gt;臺北關稅局外棧組（駐永儲航空貨物集散站） (CH)&lt;/OPTION&gt; &lt;OPTION value=CL&gt;臺北關稅局外棧組（駐遠翔航空貨物集散站） (CL)&lt;/OPTION&gt; &lt;OPTION value=""&gt;進口組 ()&lt;/OPTION&gt; &lt;OPTION value=CP&gt;臺北郵局支局 (CP)&lt;/OPTION&gt; &lt;OPTION value=CS&gt;新竹科學工業園區支局 (CS)&lt;/OPTION&gt; &lt;OPTION value=""&gt;中興分局 ()&lt;/OPTION&gt; &lt;OPTION value=DA&gt;臺中關稅局局本部 (DA)&lt;/OPTION&gt; &lt;OPTION value=DP&gt;臺中關稅局進口課郵務股 (DP)&lt;/OPTION&gt; &lt;OPTION value=""&gt;臺中關保稅課 ()&lt;/OPTION&gt; &lt;OPTION value=DT&gt;台中加工出口區支局 (DT)&lt;/OPTION&gt; &lt;OPTION value=""&gt;出口組 ()&lt;/OPTION&gt; &lt;OPTION value=DM&gt;麥寮支局 (DM)&lt;/OPTION&gt; &lt;OPTION value=DS&gt;臺中關稅局保稅課 (中部科學工業園區) (DS)&lt;/OPTION&gt; &lt;OPTION value=DB&gt;臺中關稅局保稅課 (保稅工廠) (DB)&lt;/OPTION&gt; &lt;OPTION value=DC&gt;臺中關稅局保稅課 (中港加工出口區) (DC)&lt;/OPTION&gt; &lt;OPTION value=""&gt;快遞機放組 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;緝案處理組 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;各關共用 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;外棧組 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;基隆關稅局 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;六堵分局 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;桃園分局 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;花蓮分局 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;高雄關稅局 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;臺北關稅局 ()&lt;/OPTION&gt; &lt;OPTION value=""&gt;臺中關稅局 ()&lt;/OPTION&gt;&lt;/SELECT&gt; 
+&lt;P&gt;&lt;/P&gt;
+&lt;P&gt;&lt;FONT color=#b9cffc&gt;■ &lt;/FONT&gt;請輸入申辦基本資料&lt;BR&gt;　 &lt;FONT color=#ff9900&gt;◆&lt;/FONT&gt;&amp;nbsp;&lt;LABEL for=htx_aplName&gt;保稅工廠名稱：&lt;/LABEL&gt; &lt;INPUT title=納稅義務人 tabIndex=2 size=50 name=htx_aplName&gt; &amp;nbsp; &lt;BR&gt;　 &lt;FONT color=#ff9900&gt;◆&lt;/FONT&gt;&amp;nbsp;&lt;LABEL for=htx_aplCusID&gt;海關監管編號：&lt;/LABEL&gt; &lt;INPUT title=海關監管編號 tabIndex=3 name=htx_aplCusID&gt; &amp;nbsp; &lt;BR&gt;　 &lt;FONT color=#ff9900&gt;◆&lt;/FONT&gt;&amp;nbsp;&lt;LABEL for=htx_aplID1&gt;營利事業統一編號：&lt;/LABEL&gt; &lt;INPUT title=營利事業申辦請輸入統一編號 tabIndex=4 size=8 name=htx_aplID1&gt; &amp;nbsp; &lt;/P&gt;
+&lt;P&gt;&lt;FONT color=#b9cffc&gt;■ &lt;/FONT&gt;填寫人（或聯絡人）&lt;BR&gt;&lt;FONT color=#ff9900&gt;　◆&lt;/FONT&gt; &lt;LABEL for=htx_fillName&gt;姓名：&lt;/LABEL&gt; &lt;INPUT title=姓名 tabIndex=5 size=16 name=htx_fillName&gt; &lt;BR&gt;　&lt;FONT color=#ff9900&gt;◆&lt;/FONT&gt; &lt;LABEL for=htx_email&gt;聯繫E-mail位址：&lt;/LABEL&gt; &lt;INPUT title=聯繫E-mail位址 tabIndex=6 size=50 name=htx_email&gt; &lt;BR&gt;　&lt;FONT color=#ff9900&gt;◆&lt;/FONT&gt; &lt;LABEL for=htx_phoneArea&gt;聯繫電話：&lt;/LABEL&gt; &lt;SELECT title=聯繫電話 tabIndex=7 size=1 name=htx_phoneArea&gt; &lt;OPTION value="" selected&gt;請選擇&lt;/OPTION&gt; &lt;OPTION value=02&gt;02&lt;/OPTION&gt; &lt;OPTION value=03&gt;03&lt;/OPTION&gt; &lt;OPTION value=037&gt;037&lt;/OPTION&gt; &lt;OPTION value=04&gt;04&lt;/OPTION&gt; &lt;OPTION value=049&gt;049&lt;/OPTION&gt; &lt;OPTION value=05&gt;05&lt;/OPTION&gt; &lt;OPTION value=06&gt;06&lt;/OPTION&gt; &lt;OPTION value=07&gt;07&lt;/OPTION&gt; &lt;OPTION value=08&gt;08&lt;/OPTION&gt; &lt;OPTION value=089&gt;089&lt;/OPTION&gt; &lt;OPTION value=0823&gt;0823&lt;/OPTION&gt; &lt;OPTION value=0826&gt;0826&lt;/OPTION&gt; &lt;OPTION value=0827&gt;0827&lt;/OPTION&gt; &lt;OPTION value=0836&gt;0836&lt;/OPTION&gt;&lt;/SELECT&gt;&amp;nbsp;&amp;nbsp; &lt;INPUT title=聯繫電話 tabIndex=8 size=10 name=htx_phoneNum&gt;&amp;nbsp;&amp;nbsp; &lt;LABEL for=htx_phoneExt&gt;分機：&lt;/LABEL&gt; &lt;INPUT title=分機 tabIndex=9 size=6 name=htx_phoneExt&gt; &lt;/P&gt;
+&lt;P&gt;&lt;BR&gt;&lt;!--申請事項--&gt;&lt;IMG alt=小圖示 hspace=3 src="http://hywade.hyweb.com.tw/hyFormImages/icon_book2.gif" align=absMiddle&gt;申請事項：&lt;/P&gt;
+&lt;P&gt;&lt;FONT color=#ff0000&gt;　　本案請先檢送產品單位用料清表或電子媒體相關資料後始得申辦&lt;BR&gt;&lt;/FONT&gt;　　請准依&lt;A title=海關管理保稅工廠辦法第10條(另開視窗) href="http://law.moj.gov.tw/Scripts/Query4A.asp?Fcode=G0350005&amp;amp;FLNO=10" target=_gipNW&gt;「海關管理保稅工廠辦法」第10條&lt;/A&gt;規定備查表列產品單位用料清表，本案用料清表係：&lt;BR&gt;　　 &lt;INPUT id=htx_xrReason_op1 title="申請原因 圓鈕選項" tabIndex=10 type=radio value=製造新產品 name=htx_xrReason&gt; &lt;LABEL for=htx_xrReason_op1&gt;製造新產品&lt;/LABEL&gt;&amp;nbsp;&lt;BR&gt;　　 &lt;INPUT id=htx_xrReason_op2 title="申請原因 圓鈕選項" tabIndex=11 type=radio value=原產品用料變動 name=htx_xrReason&gt; &lt;LABEL for=htx_xrReason_op2&gt;原產品用料變動&lt;/LABEL&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;BR&gt;　　 &lt;INPUT id=htx_xrReason_op3 title="申請原因 圓鈕選項" tabIndex=14 type=radio value=原備查 name=htx_xrReason&gt; &lt;LABEL for=htx_xrReason_op3&gt;原備查&lt;/LABEL&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;(&lt;LABEL for=htx_xtDocNum&gt;核准文號：&lt;/LABEL&gt; &lt;INPUT title=核准文號 tabIndex=13 size=30 name=htx_xtDocNum&gt; )產品單位用料清表適用期限屆滿 &lt;/P&gt;
+&lt;P&gt;產品單位用料清表：&lt;/P&gt;
+&lt;P&gt;
+&lt;TABLE summary=多列式輸入表格 border=1&gt;
+&lt;CAPTION&gt;(多列式輸入表格，請逐項填寫)&lt;/CAPTION&gt;
+&lt;TBODY&gt;
+&lt;TR&gt;
+&lt;TH scope=col&gt;項次&lt;/TH&gt;
+&lt;TH scope=col&gt;產品名稱及規格(或代號)&lt;/TH&gt;
+&lt;TH scope=col&gt;產製期間&lt;/TH&gt;
+&lt;TH scope=col&gt;備註&lt;/TH&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;1&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=100 size=30 name=htx_lxItemNo_01&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=101 name=htx_lxtPeriod_01&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=102 size=10 name=htx_lxtNote_01&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;2&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=103 size=30 name=htx_lxItemNo_02&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=104 name=htx_lxtPeriod_02&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=105 size=10 name=htx_lxtNote_02&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;3&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=106 size=30 name=htx_lxItemNo_03&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=107 name=htx_lxtPeriod_03&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=108 size=10 name=htx_lxtNote_03&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;4&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=109 size=30 name=htx_lxItemNo_04&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=110 name=htx_lxtPeriod_04&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=111 size=10 name=htx_lxtNote_04&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;5&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=112 size=30 name=htx_lxItemNo_05&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=113 name=htx_lxtPeriod_05&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=114 size=10 name=htx_lxtNote_05&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;6&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=115 size=30 name=htx_lxItemNo_06&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=116 name=htx_lxtPeriod_06&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=117 size=10 name=htx_lxtNote_06&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;7&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=118 size=30 name=htx_lxItemNo_07&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=119 name=htx_lxtPeriod_07&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=120 size=10 name=htx_lxtNote_07&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;8&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=121 size=30 name=htx_lxItemNo_08&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=122 name=htx_lxtPeriod_08&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=123 size=10 name=htx_lxtNote_08&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;9&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=124 size=30 name=htx_lxItemNo_09&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=125 name=htx_lxtPeriod_09&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=126 size=10 name=htx_lxtNote_09&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;10&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=127 size=30 name=htx_lxItemNo_10&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=128 name=htx_lxtPeriod_10&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=129 size=10 name=htx_lxtNote_10&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;11&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=130 size=30 name=htx_lxItemNo_11&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=131 name=htx_lxtPeriod_11&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=132 size=10 name=htx_lxtNote_11&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;12&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=133 size=30 name=htx_lxItemNo_12&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=134 name=htx_lxtPeriod_12&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=135 size=10 name=htx_lxtNote_12&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;13&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=136 size=30 name=htx_lxItemNo_13&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=137 name=htx_lxtPeriod_13&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=138 size=10 name=htx_lxtNote_13&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;14&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=139 size=30 name=htx_lxItemNo_14&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=140 name=htx_lxtPeriod_14&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=141 size=10 name=htx_lxtNote_14&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;15&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=142 size=30 name=htx_lxItemNo_15&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=143 name=htx_lxtPeriod_15&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=144 size=10 name=htx_lxtNote_15&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;16&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=145 size=30 name=htx_lxItemNo_16&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=146 name=htx_lxtPeriod_16&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=147 size=10 name=htx_lxtNote_16&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;17&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=148 size=30 name=htx_lxItemNo_17&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=149 name=htx_lxtPeriod_17&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=150 size=10 name=htx_lxtNote_17&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;18&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=151 size=30 name=htx_lxItemNo_18&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=152 name=htx_lxtPeriod_18&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=153 size=10 name=htx_lxtNote_18&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;19&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=154 size=30 name=htx_lxItemNo_19&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=155 name=htx_lxtPeriod_19&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=156 size=10 name=htx_lxtNote_19&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;20&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=157 size=30 name=htx_lxItemNo_20&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=158 name=htx_lxtPeriod_20&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=159 size=10 name=htx_lxtNote_20&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;21&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=160 size=30 name=htx_lxItemNo_21&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=161 name=htx_lxtPeriod_21&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=162 size=10 name=htx_lxtNote_21&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;22&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=163 size=30 name=htx_lxItemNo_22&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=164 name=htx_lxtPeriod_22&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=165 size=10 name=htx_lxtNote_22&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;23&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=166 size=30 name=htx_lxItemNo_23&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=167 name=htx_lxtPeriod_23&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=168 size=10 name=htx_lxtNote_23&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;24&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=169 size=30 name=htx_lxItemNo_24&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=170 name=htx_lxtPeriod_24&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=171 size=10 name=htx_lxtNote_24&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;25&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=172 size=30 name=htx_lxItemNo_25&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=173 name=htx_lxtPeriod_25&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=174 size=10 name=htx_lxtNote_25&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;26&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=175 size=30 name=htx_lxItemNo_26&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=176 name=htx_lxtPeriod_26&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=177 size=10 name=htx_lxtNote_26&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;27&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=178 size=30 name=htx_lxItemNo_27&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=179 name=htx_lxtPeriod_27&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=180 size=10 name=htx_lxtNote_27&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;28&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=181 size=30 name=htx_lxItemNo_28&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=182 name=htx_lxtPeriod_28&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=183 size=10 name=htx_lxtNote_28&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;29&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=184 size=30 name=htx_lxItemNo_29&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=185 name=htx_lxtPeriod_29&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=186 size=10 name=htx_lxtNote_29&gt; &lt;/TD&gt;&lt;/TR&gt;
+&lt;TR&gt;
+&lt;TD align=middle&gt;30&lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產品名稱及規格(或代號) tabIndex=187 size=30 name=htx_lxItemNo_30&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=產製期間 tabIndex=188 name=htx_lxtPeriod_30&gt; &lt;/TD&gt;
+&lt;TD align=middle&gt;&lt;INPUT title=備註 tabIndex=189 size=10 name=htx_lxtNote_30&gt; &lt;/TD&gt;&lt;/TR&gt;&lt;/TBODY&gt;&lt;/TABLE&gt;&lt;/P&gt;</pHTML>
+</formSpec>

@@ -1,0 +1,107 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcode="gw1m51"
+htprogprefix="epub" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+function send_email (s_email,r_email,re_sbj,re_body)
+   set objnewmail = createobject("cdonts.newmail") 
+   objnewmail.mailformat = 0
+   objnewmail.bodyformat = 0 
+   call objnewmail.send(s_email,r_email,re_sbj,re_body)
+   set objnewmail = nothing
+end function
+
+ eptreeid = 10  '-- 電子報的 tree
+
+ epubid = request.querystring("epubid")
+ formid = "ep" & epubid
+
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty "serverhttprequest", true
+ loadxml = server.mappath("/public/epaper/" & formid & ".xml")
+ xv = oxml.load(loadxml)
+  if oxml.parseerror.reason <> "" then
+    response.write("xml parseerror on line " &  oxml.parseerror.line)
+    response.write("<br>reason: " &  oxml.parseerror.reason)
+    response.end()
+  end if
+  
+   set dxml = oxml.selectsinglenode("epaper")
+   xmbody = ""
+   dxml.selectsinglenode("header//epubdate").text = date()
+ xmbody = xmbody & dxml.selectsinglenode("header").xml
+'  response.write xmbody
+
+ for each xsec in dxml.selectnodes("epsectionlist/epsection")
+'  response.write xsec.selectsinglenode("secbody").text
+  xmbody = xmbody & xsec.selectsinglenode("secbody").text
+ next
+ xmbody = xmbody & dxml.selectsinglenode("footer").xml
+'  response.write xmbody
+
+            s_email="""財政部"" <internet@mail.mof.gov.tw>"
+'            r_email=rs("email")
+'            r_email="cwchen@hyweb.com.tw"
+'            r_email="mjchen@mail.mof.gov.tw"
+           email_body=xmbody
+
+            r_email="mjchen@mail.mof.gov.tw"
+            scount = scount + 1
+            response.write scount & ") " & r_email & "<br>"
+            call send_email(s_email,r_email,"財政部全球資訊網電子報",email_body)
+
+
+            r_email="cwchen@hyweb.com.tw"
+            scount = scount + 1
+            response.write scount & ") " & r_email & "<br>"
+            call send_email(s_email,r_email,"財政部全球資訊網電子報",email_body)
+ response.end
+
+
+ scount = 0
+ sql = "select u.* from member as u left join epsend as s on u.email=s.email" _
+  & " and s.epubid=" & epubid _
+  & " where s.email is null"
+ set rslist = conn.execute(sql)
+ 
+ while not rslist.eof
+            r_email=rslist("email")
+            scount = scount + 1
+            response.write scount & ") " & r_email & "<br>"
+            call send_email(s_email,r_email,"財政部全球資訊網電子報",email_body)
+ 
+   xsql = "insert into epsend(epubid,email) values(" _
+    & epubid & "," & pkstr(r_email,")")
+   conn.execute xsql
+  rslist.movenext
+ wend
+
+ sql = "select u.* from epaper as u left join epsend as s on u.email=s.email" _
+  & " and s.epubid=" & epubid _
+  & " where s.email is null"
+ set rslist = conn.execute(sql)
+ 
+ while not rslist.eof
+            r_email=rslist("email")
+            scount = scount + 1
+            response.write scount & ") " & r_email & "<br>"
+            call send_email(s_email,r_email,"財政部全球資訊網電子報",email_body)
+ 
+   xsql = "insert into epsend(epubid,email) values(" _
+    & epubid & "," & pkstr(r_email,")")
+   conn.execute xsql
+  rslist.movenext
+ wend
+
+
+ 
+ 
+ 
+ response.end
+
+
+
+ 

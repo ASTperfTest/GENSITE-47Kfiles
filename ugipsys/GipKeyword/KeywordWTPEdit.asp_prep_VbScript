@@ -1,0 +1,43 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    alert("已列入關鍵字詞待處理清單中！！")
+    window.navigate "Cx_0dummylist.asp?nowpage=1"
+  <script language=javascript></script>     alert("已列入關鍵字詞待處理清單中！")
+    window.navigate "Cx_0dummylist.asp?nowpage=1"
+  <script language=vbscript>
+ 

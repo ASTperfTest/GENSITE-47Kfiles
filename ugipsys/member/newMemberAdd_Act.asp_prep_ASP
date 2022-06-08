@@ -1,0 +1,101 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+htprogcode="newmember"
+htprogprefix = "newmember"
+
+
+   CxMethod_ASP_client_5214970()
+   
+
+ htuploadpath = session("public")
+ apath = server.mappath(htuploadpath) & "\"
+ 
+  set xup = server.createobject("tabs.upload")
+  xup.codepage = 65001
+  xup.start apath
+  
+function xupform(xvar)
+ xupform = trim(xup.form(xvar))
+end function
+
+account=xupform("account")
+id=xupform("id")
+
+accountsql="select  count(*) as account from member where account="&"'" & account &"'"
+
+set rsreg=conn.execute(accountsql) 
+
+ if  rsreg("account")="1" then
+    response.write "<script>alert('此帳號已註冊');history.back();</script>"
+    end if 
+if id <> "" then
+ idsql="select  count(*) as id from member where id="&"'" & id &"'"
+ set rsreg1=conn.execute(idsql) 
+ if rsreg1("id")="1" then
+   response.write "<script>alert('此身分證帳號已註冊');history.back();</script>"
+ end if
+end if
+for each form in xup.form
+ formname=form.name
+ if xupform ( "" &  formname  & "")<>""  and  formname<>"submit" and formname<>"password2" and formname<>"birthyear"and formname<>"birthmonth"and formname<>"birthday" and formname<>"photo" and formname<>"id_type" then
+ 
+ sql1 = sql1 &  formname  & ","
+ sql2= sql2 &"'"& xupform(""&formname&"")&"'"& ","
+ end if
+ 
+ next 
+ 
+sql1=mid(sql1,1,len(sql1)-1)
+sql2=mid(sql2,1,len(sql2)-1) 
+
+
+
+
+ if xupform ("id_type")="1" then
+ sql1=sql1 & ","& "id_type1" & "," & "scholarvalidate"
+ sql2=sql2 & ","&"'"& 1 &"'" & "," & "'z'"
+ end if
+  if xupform ("id_type")="2" then
+  sql1=sql1 & ","& "id_type1" &","& "id_type2" & "," & "scholarvalidate"
+  sql2=sql2 & ","&"'"& 1 &"'" & ","&"'"& 1 &"'" & "," & "'y'"
+ end if
+ 
+ 
+if xupform ("birthyear")<>"" and xupform ("birthmonth")<>""  and xupform ("birthday")<>"" then
+sql1=sql1 & ","& "birthday"
+sql2=sql2 & ","&"'"& xupform ("birthyear") &xupform ("birthmonth")& xupform ("birthday") &"'"
+end if 
+
+if  xupform ("photo")<>"" then
+nfname = xup.form("photo").filename
+pos = instr(nfname, ".")
+nfname = year(now()) & month(now()) & day(now()) & hour(now())& minute(now()) & second(now()) &"." & mid(nfname, pos + 1)
+route =  "\"& "public" & "\" & nfname
+'xup.form("photo").saveas apath & nfname, true
+sql1=sql1 & ","& "photo" 
+sql2 = sql2 & ","& "'" & route  &"'"
+end if 
+
+sql1=sql1 & "," & "createtime" &","& "modifytime" & "," & "logincount" & ","& " status"
+sql2=sql2 & ", getdate(),getdate()," & 0 & "," & "'y'"
+
+
+
+sql = "insert into member(" & mid(sql1,1,len(sql1)) & ") values(" & mid(sql2,1,len(sql2)) & ")"
+
+
+conn.execute(sql)
+'response.write "<script>alert('此帳號已註冊');history.back();</script>"
+response.write "<script>alert('此帳號註冊成功');location.href='newmemberlist.asp';</script>"
+'response.redirect "newmemberlist.asp"
+
+
+ 

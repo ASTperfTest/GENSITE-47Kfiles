@@ -1,0 +1,6 @@
+﻿: @ codepage = 65001 
+  
+for each x in request.querystring
+ response.write x & "==>" & request(x) & "<br>"
+next
+ 

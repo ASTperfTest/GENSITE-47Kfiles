@@ -1,0 +1,142 @@
+﻿
+
+
+
+
+
+    function resetKW() {
+        var kw = document.getElementById('Cx_0dummy');
+        kw.value='';
+    }
+
+    function DealRecommand() {
+        if ("Cx_0dummy" == "none") {
+            alert("連線逾時或尚未登入，請登入會員");
+        }
+        else {
+            window.location="recommand_Add.aspx";
+        }  
+    }    
+
+
+
+
+
+
+
+
+
+
+                                                             function onclick___1543109681() {DealRecommand()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     function onclick___1446701100() {resetKW()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                           function onclick___687753492() {PreviousLink_Click}
+
+
+
+
+
+
+                                     function onclick____1305815084() {NextLink_Click}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

@@ -1,0 +1,47 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   function onClick____1266536553() {checkSearchForm(0)}
+                                   function onClick____1266536554() {checkSearchForm(1)}
+
+
+function checkSearchForm(value)
+{    
+ if( value == 0 ) {
+  if( document.SearchForm.Keyword.value == "" ) {
+   alert('請輸入查詢值');
+   event.returnValue = false;
+  }
+  else {
+   document.SearchForm.action = "/kp.asp?xdURL=Search/SearchResultList.asp";
+   document.SearchForm.submit();
+  }
+ }
+ else {
+  document.SearchForm.action = "/kp.asp?xdURL=Search/AdvancedSearch.asp";
+  document.SearchForm.submit();
+ }
+}
+
+
+
+
+
+ 

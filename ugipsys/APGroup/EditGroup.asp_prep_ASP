@@ -1,0 +1,136 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+   htprogcode = "ht001" 
+' ============= modified by chris, 2006/09/12, to handle 上稿權限能以使用者設定 聯集 群組設定 ========================'
+'  document: 950912_智庫gip擴充.doc
+'  modified list:
+' 加 include /inc/checkgipconfig.inc '-- 判別是否用 <ctugrpset>
+' 加判別 <ctugrpset> 上方產生『上稿權限』連結
+'  先只產生上稿權限 (atype=a)，審稿或複審需要時可加連結用不同參數
+
+   CxMethod_ASP_server_1606199358()
+
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_checkgipconfig_1275316133()
+  
+if request("ck") = "" then
+   ugrpid = request.form("ugrpid")
+   sqlcom = "select * from ugrp where ugrpid =n'"& ugrpid & "'"
+   set rs = conn.execute(sqlcom)
+elseif request("ck") = "edit" then
+        ugrpid = request("ugrpid")
+  sqlcom = "update ugrp set "
+  sqlcom = sqlcom & "ugrpname=" & pkstr(request("ugrpname"),",")
+  sqlcom = sqlcom & "remark=" & pkstr(request("remark"),",")
+  sqlcom = sqlcom & "ispublic=" & pkstr(request("ispublic"),",")
+  sqlcom = sqlcom & "regdate=n'" & request("regdate") & "' where ugrpid =n'"& ugrpid & "'"
+  conn.execute(sqlcom)
+
+
+
+
+
+    response.end
+        
+elseif request("ck") = "del" then 
+   ugrpid = request("ugrpid") 
+ sql1 = "update infouser set ugrpid = n'basic' where ugrpid=n'" & ugrpid & "'"
+ set rs1 = conn.execute(sql1) 
+
+ sql = "delete from ugrp where ugrpid =n'"& ugrpid & "'"
+ set rs = conn.execute(sql) 
+
+ sql = "delete from ugrpap where ugrpid =n'"& ugrpid & "'"
+ set rs = conn.execute(sql) 
+ 
+
+
+
+
+
+    response.end
+
+end if 
+
+
+
+
+         =title
+
+
+
+
+       =title
+
+  
+' ===begin========== modified by chris, 2006/09/12, to handle 上稿權限能以使用者設定 聯集 群組設定 ========================
+   if checkgipconfig("ctugrpset") then 
+                                         =rs("ugrpid")
+   end if 
+' ===end========== modified by chris, 2006/09/12, to handle 上稿權限能以使用者設定 聯集 群組設定 ========================
+
+       if (htprogright and 4)=4 then :                                 end if 
+    if (htprogright and 2)=2 then 
+
+                                    =rs("ugrpid")
+
+    end if 
+
+
+
+
+
+
+
+                                               =rs("regdate")
+
+
+
+                                                                       =rs("ugrpid")
+
+
+
+                                                                         =rs("ugrpname")
+
+
+
+                                                                                 =rs("remark")
+
+
+
+
+      sql="select mcode,mvalue from codemain where codemetaid=n'boolyn' order by msortvalue"
+    set rss=conn.execute(sql)
+    while not rss.eof
+
+                     =rss(0):     =rss(1)
+       rss.movenext
+    wend
+
+
+
+                                                                                                 =d7date(rs("regdate"))
+
+
+
+                                                                       =rs("signer")
+
+
+      if (htprogright and 8)=8 then :                                                                                         end if 
+
+      if (htprogright and 16)=16 and rs("ugrpid")<>"basic" then :                                                                                   end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        =rs("ispublic") 

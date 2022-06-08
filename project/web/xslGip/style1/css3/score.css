@@ -1,0 +1,181 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*---------------------------------------------------------------------200809 chiung , 態度投票 */
+.toScore {
+	clear: both;
+	background: url(../images/toScore_bg.gif) no-repeat left bottom;
+	margin: 10px 0 20px;
+	padding: 0;
+	position: relative;
+}
+.toScore h5 {
+	font-weight: normal;
+	font-size: 1.25em;
+	color: #000;
+	letter-spacing: .2em;
+	border: 1px solid #ccc;
+	border-bottom: 1px dashed #ccc;
+	padding: 14px 5px 6px 38px;
+	margin: 0;
+	background: url(../images/toScore_h5_bg.gif) no-repeat 5px 5px;
+}
+.toScore form {
+	background: url(../images/toScore_form_bg.gif) no-repeat right bottom;
+	padding: 8px 10px 30px 15px;
+	margin: 0  0 0;
+}
+.toScore input {
+}
+.toScore label {
+	margin: 0 10px 0 0;
+	padding: 0;
+	background: none;
+}
+.toScore img {
+	vertical-align: middle;
+}
+.toScore textarea {
+	display: block;
+	width: 400px;
+	height: 80px;
+	margin: 7px 0 5px 0;
+	padding: 0 0 0 3px;
+	line-height: 1.4em;
+	font-size: .95em;
+}
+.center .toScore .more {
+	position: absolute;
+	right: 0;
+	bottom: 20px;
+	width: 98%;
+	text-align: right;
+}
+.center .toScore .more a, .center .scored .more a {
+	background: url(../images/moreBg2.gif) no-repeat 0 0;
+	padding: 0 0 7px 15px;
+	line-height: 1.2em;
+	text-decoration: none;
+	color: #555555;
+}
+.toScore .more a:hover, .scored .more a:hover  {
+	color: #f37e00;
+}
+.scored .more {
+	margin: 0 0 10px 0;
+}
+
+
+
+.scored {
+	clear: both;
+	position: relative;
+	clear: both;
+	margin: 0 0 30px;
+	padding: 0 0 12px;
+	border: 1px solid #ccc;
+	border-top: none;
+}
+.scored h5 {
+	clear: both;
+	font-weight: normal;
+	font-size: 1.25em;
+	color: #000;
+	letter-spacing: .2em;
+	padding: 14px 5px 6px 38px;
+	margin: 0;
+	background: url(../images/toScore_h5_bg.gif) no-repeat 5px 5px;
+	border-bottom: 1px dashed #ccc;
+	border-top: 1px solid #ccc;
+}
+.scored ul {
+	position: relative;
+	list-style: none;
+	height: 170px;
+	margin: 10px 15px;
+	padding:  0;
+}
+.scored ul li {
+	margin: 0;
+	padding: 0 0 70px 0;
+	text-align: center;
+	width: 60px;
+	position: absolute;
+	bottom: 0;
+}
+.scored ul li img {
+	margin: 0 auto;
+}
+.scored .score1 {
+	background: url(../images/exp1.png) no-repeat center bottom;
+	left: 0;
+}
+.scored .score2 {
+	background: url(../images/exp2.png) no-repeat center bottom;
+	left: 70px;
+}
+.scored .score3 {
+	background: url(../images/exp3.png) no-repeat center bottom;
+	left: 140px;
+}
+.scored .score4 {
+	background: url(../images/exp4.png) no-repeat center bottom;
+	left: 210px;
+}
+.scored .score5 {
+	background: url(../images/exp5.png) no-repeat center bottom;
+	left: 280px;
+}
+
+.score1 img, .score2 img, .score3 img, .score4 img, .score5 img {
+	display: block;
+	width: 22px;
+}
+.score1 img {
+	background: url(../images/exp_bar1.gif) repeat-y center bottom;
+}
+.score2 img {
+	background: url(../images/exp_bar2.gif) repeat-y center bottom;
+}
+.score3 img {
+	background: url(../images/exp_bar3.gif) repeat-y center bottom;
+}
+.score4 img {
+	background: url(../images/exp_bar4.gif) repeat-y center bottom;
+}
+.score5 img {
+	background: url(../images/exp_bar5.gif) repeat-y center bottom;
+}
+
+.scored ol {
+	clear: both;
+	padding: 10px 0 0 0;
+	margin: 0 15px 0 0;
+	list-style: decimal;
+}
+.scored ol li {
+	margin: 0 0 5px 38px;
+	padding: 0 0 5px 0;
+	color: #444444;
+	border-bottom: 1px dotted #ccc;
+	line-height: 1.5em;
+	list-style: decimal;
+}
+.scored ol li a {
+	color: #444444;
+}
+
+.scored .total {
+	text-align: right;
+	margin: -20px 15px 20px 0;
+	color: #444;
+}
+.scored .total em {
+	margin: 0 3px;
+	color: 000;
+	font-style: normal;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+

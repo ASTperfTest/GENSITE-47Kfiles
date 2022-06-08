@@ -1,0 +1,245 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+function script___374873325() {src("http://ajax.microsoft.com/ajax/jquery/jquery-1.4.2.min.js");}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                function onclick___505428623() {addURL()}
+
+
+
+
+
+
+
+
+
+
+                                                     function onchange___1475089776() {page(this.value);}
+
+
+
+                                                 function onchange___1387969499() {pagesize(this.value);}
+
+
+
+
+
+
+
+
+
+
+
+                                                      function onclick___1706262438() {selectAll()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                  function onclick____851676276() {del()}
+
+
+                                   function onclick___736494061() {edit()}
+
+
+
+
+
+
+
+
+
+    function page(p) {
+        window.location.href = 'PublishEdit.aspx?topCat=Cx_0dummy&pid=Cx_0dummy&id=Cx_0dummy&pagesize=Cx_0dummy&page=' + (p - 1);
+    }
+    function pagesize(ps) {
+        window.location.href = 'PublishEdit.aspx?topCat=Cx_0dummy&pid=Cx_0dummy&id=Cx_0dummy&pagesize=' + ps;
+    }
+    function selectAll() {
+        $(":checkbox").each(function() {
+            $(this).attr("checked", $("#selected").val() == "0" ? true : false);
+        })
+        $("#selected").val($("#selected").val() == "0" ? "1" : "0");
+    }
+    function del() {
+        $("#action").val("del");
+        form1.submit();
+    }
+    function edit() {
+        $("#action").val("edit");
+        form1.submit();
+    }
+    function addURL() {
+        $("#action").val("addURL");
+        if ($("#Resource_Title").val() == "") {
+            alert('���D���i���ť�');
+            form1.Resource_Title.focus();
+            return;
+        }
+        if ($("#Resource_Url").val() == "") {
+            alert('��}���i���ť�');
+            form1.Resource_Url.focus();
+            return;
+        }
+        form1.submit();
+    }
+
+
+
+
+
+ 

@@ -1,0 +1,130 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ htprogcap = "單元資料維護"
+ htprogfunc = "查詢"
+ htprogcode="kpi01"
+ htprogprefix="" 
+ response.charset = "utf-8"
+ response.buffer = false
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_client_5214970()
+  
+ dim filename : filename = replace( dateadd("d", 0 , year(now) & "/" & month(now) & "/" & day(now) ), "/" , "")
+ response.addheader "content-disposition", "attachment;filename=" & filename & ".xls" 
+ response.contenttype = "application/vnd.ms-excel" 
+
+ dim memberid:memberid=request("memberid")
+ dim memberidencode:memberidencode=request("memberidencode")
+ dim scores:scores=request("scores")
+ dim scoree:scoree=request("scoree")
+ 
+'response.write chg_uni(memberid)
+'response.write "'" & chg_uni(memberid) & "'"
+'response.write ascw(mid(memberid,1,1)) & "<br/>"
+'response.write "&#" & ascw(mid(memberid,1,1)) & ";"  & "<br/>"
+
+ dim condition : condition = ""
+ 
+ fsql = "select total.memberid,m.nickname,m.realname,sum(total.grade) as grade,m.email,sum(total.questionnum) as questionnum,sum(total.discussnum) as discussnum "
+ fsql=fsql &" from ( select ka.memberid,count(ka.memberid) as  questionnum,'' as discussnum,sum(ka.grade) as grade from dbo.knowledgeactivity ka "
+ fsql=fsql & "where type between 1 and 2 "
+ fsql=fsql & "group by ka.memberid "
+ fsql=fsql & "union all "
+ fsql=fsql & "select temp.memberid,'' as  questionnum,count(temp.memberid)as discussnum,sum(temp.grade) as grade "
+ fsql=fsql & "from( select ka.memberid,case  when sum(ka.grade)>4 then 4 else sum(ka.grade) end as grade  "
+ fsql=fsql & "from dbo.knowledgeactivity ka "
+ fsql=fsql & "inner join dbo.knowledgeforum kf on ka.cuitemid = kf.gicuitem "
+ fsql=fsql & "where ka.state =1 and ka.type between 3 and 4 and kf.status = 'n' "
+ fsql=fsql & "group by kf.parenticuitem, ka.memberid) as temp "
+ fsql=fsql & "group by temp.memberid) total "
+ fsql=fsql & "inner join dbo.member m on total.memberid = m.account "
+ fsql=fsql & "where m.status <> 'n'"
+ 
+ 
+  if memberid <> "" then
+ condition = condition & "會員:" & memberid & ","
+    fsql = fsql & "and ( total.memberid like '%" & memberid & "%' or (m.realname like '%" & memberid & "%' or m.realname like '%" & chg_uni(memberid) & "%') or (m.nickname like '%" & memberid & "%' or m.nickname like '%" & chg_uni(memberid) & "%')) "
+  end if
+  
+ fsql = fsql & "group by total.memberid,m.nickname,m.realname,m.email " 
+  
+  if scores <> "" and scoree <> "" then 
+ condition = condition & "得分:" & scores & "~" & scoree  & ","
+   fsql = fsql &  "having sum(total.grade) between " & scores & " and " & scoree 
+  end if
+  
+  
+  fsql = fsql & " order by grade desc"
+  
+  
+'response.write fsql
+' response.write condition
+ 
+ if len(condition) > 0 then condition = left(condition, len(condition) - 1)
+ 
+ response.write "<table border=""1"">" & vbcrlf
+ response.write "<tr><td colspan=""8""><font face=""新細明體"">匯出日期：" & date() & "</font></td></tr>" & vbcrlf 
+ response.write "<tr><td colspan=""8""><font face=""新細明體"">條件 => " & condition & "</font></td></tr>" & vbcrlf
+ response.write "<tr><td colspan=""8""><font face=""新細明體"">&nbsp;</font></td>"
+ response.write "<tr><td><font face=""新細明體"">&nbsp;</font></td>" & _
+      "<td><font face=""新細明體"">帳號</font></td>" & _
+      "<td><font face=""新細明體"">暱稱</font></td>" & _
+      "<td><font face=""新細明體"">姓名</font></td>" & _
+      "<td><font face=""新細明體"">e-mail</font></td>" & _
+      "<td><font face=""新細明體"">發問數</font></td>" & _
+      "<td><font face=""新細明體"">討論數</font></td>" & _
+      "<td><font face=""新細明體"">得分</font></td></tr>" & vbcrlf
+      
+ 
+ 
+ set rs = conn.execute(fsql) 
+ 
+ dim stracount,strnickname,strrealname,no
+  no=0
+ 
+ 
+  while not rs.eof
+  no = no+1
+  response.write "<tr><td><font face=""新細明體"">&nbsp;" & no & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & rs("memberid") & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & rs("nickname") & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & rs("realname") & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & rs("email") & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & rs("questionnum") & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & rs("discussnum") & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & trim(rs("grade")) & "</font></td></tr>" & vbcrlf
+  rs.movenext
+ wend
+ rs.close
+ set rs = nothing
+ 
+ response.write "</table>" & vbcrlf
+ 
+ 
+function chg_uni(str)        'ascii轉unicode
+ dim old,new_w,istr
+ old = str
+ new_w = ""
+ 
+ for istr = 1 to len(str)
+  'response.write ascw(mid(old,istr,1)) & "<br/>"
+  if ascw(mid(old,istr,1)) < 0 then
+   'response.write "1" & "<br/>"
+   new_w = new_w & "&#" & ascw(mid(old,istr,1))+65536 & ";"
+  elseif        ascw(mid(old,istr,1))>0 and ascw(mid(old,istr,1))<127 then
+   'response.write "2" & "<br/>"
+   new_w = new_w & mid(old,istr,1)
+  else
+   'response.write "3" & "<br/>"
+   new_w = new_w & "&#" & ascw(mid(old,istr,1)) & ";"
+   'response.write new_w & "<br/>"
+  end if
+ next
+ 
+ 'response.write new_w & "<br/>"
+ chg_uni=new_w
+end function
+ 
+ 

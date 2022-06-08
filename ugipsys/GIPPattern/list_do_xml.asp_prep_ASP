@@ -1,0 +1,153 @@
+﻿: @ codepage = 65001 
+
+
+   CxMethod_ASP_client_5214970()
+   
+
+
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+function deamp(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   deamp=""
+   exit function
+  end if
+   deamp = replace(xs,"&","&amp;")
+end function
+
+ specid=request.querystring("specid")
+ set specdom= server.createobject("microsoft.xmldom")
+ specdom.async = false
+ specdom.setproperty("serverhttprequest") = true 
+ xv = specdom.load(server.mappath("xmlspec/"&specid&"list.xml"))
+ if specdom.parseerror.reason <> "" then 
+  response.write("specdom parseerror on line " &  specdom.parseerror.line)
+  response.write("<br>reason: " &  specdom.parseerror.reason)
+  response.end()
+ end if
+ set pagespecnode=specdom.selectsinglenode("//htpage/pagespec")
+ set resultsetnode=specdom.selectsinglenode("//htpage/resultset")
+ response.write "<contextpath></contextpath>"
+ response.write "<headscript></headscript>"
+ response.write "<funcname>"&nulltext(pagespecnode.selectsinglenode("pagehead"))&"</funcname>"
+ response.write "<navlist>"
+ for each anchornode in pagespecnode.selectnodes("aidlinklist/anchor")
+      response.write "<nav href="""&deamp(nulltext(anchornode.selectsinglenode("anchoruri")))&""">"&nulltext(anchornode.selectsinglenode("anchorlabel"))&"</nav>"
+ next
+ response.write "</navlist>"
+ response.write "<formname>"&nulltext(pagespecnode.selectsinglenode("pagefunction"))&"</formname>"
+ response.write "<maincontent>"
+ '----sql recordsets
+ set rsreg = server.createobject("adodb.recordset")
+ '----sql字串
+ xselect=nulltext(resultsetnode.selectsinglenode("sql/selectlist"))
+ xfrom=nulltext(resultsetnode.selectsinglenode("sql/fromlist"))
+ for each colspecnode in pagespecnode.selectnodes("detailrow/colspec")
+     xfieldname=nulltext(colspecnode.selectsinglenode("content/reffield"))
+     xinputtype=nulltext(resultsetnode.selectsinglenode("fieldlist/field[fieldname='"&xfieldname&"']/inputtype"))
+     xreflookup=nulltext(resultsetnode.selectsinglenode("fieldlist/field[fieldname='"&xfieldname&"']/reflookup"))
+     if xreflookup<>"" and xinputtype<>"refcheckbox" and xinputtype<>"refcheckboxother" then    
+  xrcount = xrcount + 1
+  xalias = "xref" & xrcount
+  sql="select * from codemetadef where codeid='" & xreflookup & "'"
+         set rslk=conn.execute(sql)  
+         xafldname = xalias & xfieldname
+  xselect = xselect & ", " & xalias & "." & rslk("codedisplayfld") & " as " & xafldname
+  xfrom = xfrom & " left join " & rslk("codetblname") & " as " & xalias & " on " _
+   & xalias & "." & rslk("codevaluefld") & " = htx." & xfieldname
+  if not isnull(rslk("codesrcfld")) then _
+       xfrom = xfrom & " and " & xalias & "." & rslk("codesrcfld") & "='" & rslk("codesrcitem") & "'"     
+     end if
+ next  
+ fsql=xselect&" "&xfrom&" "&nulltext(resultsetnode.selectsinglenode("sql/wherelist"))
+ fsql=fsql&" "&nulltext(resultsetnode.selectsinglenode("sql/orderlist"))
+ '----sql字串結束
+
+'----------hyweb gip db connection patch----------
+' rsreg.open fsql,conn,3,1
+set rsreg = conn.execute(fsql)
+
+'----------hyweb gip db connection patch----------
+
+ if not rsreg.eof then 
+     totrec=rsreg.recordcount       '總筆數
+     if totrec>0 then 
+  perpagesize=cint(request.querystring("pagesize"))
+  if perpagesize <= 0 then  
+      perpagesize=30  
+  end if        
+         rsreg.pagesize=perpagesize       '每頁筆數 
+  if cint(nowpage)<1 then 
+      nowpage=1
+  elseif cint(nowpage) > rsreg.pagecount then 
+      nowpage=rsreg.pagecount 
+  end if 
+         rsreg.absolutepage=nowpage '目前頁數
+         totpage=rsreg.pagecount       '總頁數
+     end if    
+ end if
+' response.write "<sql>"&fsql&"</sql>"
+ response.write "<page>"
+ response.write "<hiddeninput><listspec>"&specid&"list.xml</listspec><gipdsd></gipdsd><ictunit></ictunit><kpsn></kpsn></hiddeninput>"
+ 
+ response.write "<totaldata>"&totrec&"</totaldata>"
+ response.write "<totalpage>"&totpage&"</totalpage>"
+ response.write "<pagesize>"&perpagesize&"</pagesize>"
+ response.write "<curpage>"&nowpage&"</curpage>"
+ response.write "</page>"
+ response.write "<uiparts></uiparts>"
+ response.write "<topiclist>"
+ response.write "<topicname>"&specid&"</topicname>"
+ '----條列表頭
+ response.write "<columnhead>"
+ colspeccount=0
+ for each colspecnode in pagespecnode.selectnodes("detailrow/colspec")
+  response.write "<column id="""&colspeccount&"""><value>"&nulltext(colspecnode.selectsinglenode("collabel"))&"</value></column>"
+  colspeccount=colspeccount+1
+ next
+ response.write "</columnhead>"
+ '----條列表身
+ if not rsreg.eof then
+     response.write "<group id ="""" name="""">"
+     for i=1 to perpagesize  
+      response.write "<article>"
+  colspeccount=0
+  xrcount2=0
+  '----pkey值
+  pkey=""
+  for each fieldnode in resultsetnode.selectnodes("fieldlist/field[isprimarykey='y']")
+      pkey=pkey&"&amp;" & nulltext(fieldnode.selectsinglenode("fieldname")) & "=" & rsreg(nulltext(fieldnode.selectsinglenode("fieldname")))
+  next 
+'  response.write "<pkey>"&pkey&"</pkey>"
+  for each colspecnode in pagespecnode.selectnodes("detailrow/colspec")  
+      xfieldname=nulltext(colspecnode.selectsinglenode("content/reffield"))
+      xinputtype=nulltext(resultsetnode.selectsinglenode("fieldlist/field[fieldname='"&xfieldname&"']/inputtype"))
+      xreflookup=nulltext(resultsetnode.selectsinglenode("fieldlist/field[fieldname='"&xfieldname&"']/reflookup"))
+      if xreflookup<>"" and xinputtype<>"refcheckbox" and xinputtype<>"refcheckboxother" then   
+   xrcount2 = xrcount2 + 1
+   xalias = "xref" & xrcount2
+          xfieldname = xalias & xfieldname       
+      end if
+      fieldvalue=""
+      if not isnull(rsreg(xfieldname)) then fieldvalue=rsreg(xfieldname)
+      response.write "<column id="""&colspeccount&""">"
+      if nulltext(colspecnode.selectsinglenode("url"))<>"" then _
+       response.write "<url>"&nulltext(colspecnode.selectsinglenode("url"))&pkey&"</url>"
+      response.write "<value>"&fieldvalue&"</value>"
+      response.write "</column>"
+      colspeccount=colspeccount+1
+  next  
+  response.write "</article>"
+                rsreg.movenext
+                if rsreg.eof then exit for 
+     next
+     response.write "</group>"
+ end if 
+ response.write "</topiclist>" 
+ response.write "</maincontent>"
+ 

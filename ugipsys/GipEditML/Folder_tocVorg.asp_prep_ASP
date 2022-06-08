@@ -1,0 +1,116 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "ge1t21" 
+   CxMethod_ASP_index_1800053652()
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbfunc_874801204()
+
+
+  
+ sqlcom = "select * from cattreeroot where ctrootid = "& itemid 
+ set rs = conn.execute(sqlcom)
+
+
+ ftypename = rs("ctrootname")
+
+
+   const cid     = 2 'catid
+   const cname   = 3 'catname
+   const cparent = 7 'dataparent
+   const cchild  = 8 'childcount
+   const clevel  = 6 'datalevel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ if forumtype = "a" or forumtype = "b" then 
+
+   response.write "treeroot = gfld(""forumtoc"", """ & ftypename & """, ""catlist.asp?itemid="& itemid &"&catid=0"")" & vbcrlf
+ nowcount = 0
+
+ sqlcom = "select * from cattreenode where ctrootid = "& pkstr(itemid,"") &" order by datalevel, catshoworder"
+ set rs = conn.execute(sqlcom)
+ while not rs.eof
+  xparent = "treeroot"
+  if rs(clevel) > 1 then xparent = "n" & rs(cparent)
+  if rs("ctnodekind") = "c" then
+   catlink = "catlist.asp?itemid="& itemid &"&catid="& rs("ctnodeid")
+   response.write "n"& rs(cid) &"= insfld(" & xparent &", gfld(""forumtoc"", """& rs(cname) &""", """& catlink &"""))" & vbcrlf
+  else
+      forumlink = "ctxmlin.asp?itemid="& itemid &"&ctnodeid="& rs("ctnodeid")
+      response.write "insdoc(n"& rs(cparent) &", glnk(""forumtoc"", """& rs("catname") &""", """& forumlink &"""))" & vbcrlf
+  end if
+  rs.movenext
+ wend
+
+ sqlcom = "select * from cattreenode where ctnodekind='c' and ctrootid = '"& itemid &"' order by datalevel, catshoworder"
+ set rs = conn.execute(sqlcom)
+ if not rs.eof then 
+    do while not rs.eof
+  nowcount = nowcount + 1
+  if forumtype = "a" then
+   catlink = "catlist.asp?itemid="& itemid &"&catid="& rs("ctnodeid")
+   if rs(clevel) = 1 then
+'    response.write "n"& rs(cid) &"= insfld(treeroot, gfld(""forumtoc"", """& rs(cname) &""", """& catlink &"""))" & vbcrlf
+   else
+'    response.write "n"& rs(cid) &"= insfld(n"& rs(cparent) &", gfld(""forumtoc"", """& rs(cname) &""", """& catlink &"""))" & vbcrlf
+   end if
+  elseif forumtype = "b" then
+    catlink = "catview.asp?itemid="& itemid &"&catid="& rs("ctnodeid")
+'    response.write "n"& rs(cid) &"= insfld(treeroot, gfld(""forumtoc"", """& rs(cname) &""", """& catlink &"""))" & vbcrlf
+  end if
+   sqlforum = "select * from cattreenode where ctnodekind='u' and ctrootid =n'" & itemid & "' and dataparent ="& rs(cid) &" order by catshoworder"
+'   response.write "//" & sqlforum & vbcrlf
+   set rsforum = conn.execute(sqlforum)
+    if not rsforum.eof then
+     do while not rsforum.eof
+      forumlink = "forumview.asp?itemid="& itemid &"&forumid="& rsforum("ctnodeid")
+'      response.write "insdoc(n"& rs(cid) &", glnk(""forumtoc"", """& rsforum("catname") &""", """& forumlink &"""))" & vbcrlf
+     rsforum.movenext
+      loop
+    end if
+  rs.movenext
+     loop
+ end if 
+
+ 
+ 
+
+
+
+  
+ elseif forumtype = "c" then 
+
+      response.write "treeroot = gfld(""forumtoc"", """ & ftypename & """, ""catview.asp?itemid="& itemid &"&catid=0"")" & vbcrlf
+   sqlforum = "select * from cattreenode where itemid =n'"& itemid &"' order by forumshoworder"
+   set rsforum = conn.execute(sqlforum)
+    if not rsforum.eof then 
+       do while not rsforum.eof
+      forumlink = "forumview.asp?itemid="& itemid &"&forumid="& rsforum("forumid")
+      response.write "insdoc(treeroot, glnk(""forumtoc"", """& rsforum("forumname") &""", """& forumlink &"""))" & vbcrlf
+     rsforum.movenext
+      loop
+    end if 
+
+
+  
+ elseif forumtype = "d" then
+    sqlforum = "select * from forum where itemid =n'"& itemid &"'"
+   set rsforum = conn.execute(sqlforum) 
+
+                                                            =rsforum("forumid"):           =itemid
+
+  
+ end if  

@@ -1,0 +1,130 @@
+﻿
+  
+sub aa()
+ set conn = server.createobject("adodb.connection")
+
+ '----------hyweb gip db connection patch----------
+ 'set conn = server.createobject("hywebdb3.dbexecute")
+ conn.connectionstring = session("odbcdsn")
+ conn.connectiontimeout=0
+ conn.cursorlocation = 3
+ conn.open
+ '----------hyweb gip db connection patch----------
+ 'conn.open session("odbcdsn")
+end sub
+
+set conn = server.createobject("adodb.connection")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+
+
+
+ 'cursortype
+      'forwardonly--> 0
+      'openkeyset->1
+      'dynamics-> 2
+      'statics->3
+ 'locktype
+      'readonly --->1
+      'pessim ------>2
+      'optim----->3
+      'batchoptim--->4
+ 'cursorlocation
+      'aduseclient----->1
+      'aduseserver----->2   default
+ 'rs.open sql,conn,1,1
+ 'rs.cursorlocation=3 --> clientbatch
+ 'rs.cursorlocation=2 --> client
+ 'rs.cursorlocation=1 --> server
+
+
+  
+if not session("pwd") then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ response.end
+end if 
+
+  
+progpath = request.servervariables("path_info")
+pospath = instrrev(progpath, "/")
+if pospath > 0 then  progpath = mid(progpath, pospath+1)
+pospath = instr(progpath,".")
+if pospath > 0 then  progpath = left(progpath, pospath-1)
+ xpos=instr(session("ugrpid"),",")
+ if xpos>0 then
+  idstr=replace(session("ugrpid"),", ","','")
+  idstr="'"&idstr&"'"
+ else
+  idstr="'" & session("ugrpid") & "'"
+ end if
+   sql = "select rights from ugrpap inner join infouser on ugrpap.ugrpid in (" & idstr & ")" & _
+         "where infouser.userid=n'" & session("userid") & "' and ugrpap.apcode=n'" & htprogcode & "' order by rights desc"       
+
+  'response.write sql 
+  'response.end
+   set rs=conn.execute (sql)
+if rs.eof then 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+else
+   htprogright=0
+   sql = "select apnamec, apcatcname from ap join apcat on ap.apcat=apcat.apcatid where apcode = '"& htprogcode &"'"
+   set rscom=conn.execute (sql)
+   if not rscom.eof then
+    title = rscom("apcatcname") & "／" & rscom("apnamec") 
+    title2 = rscom("apnamec")
+   end if
+   while not rs.eof
+    htprogright=(htprogright or rs("rights"))
+    rs.movenext
+   wend
+'   htprogright=rs("rights")
+end if
+
+if ((htprogright and 1) = 0) and (lcase(right(progpath,5))="query") then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   response.end
+end if
+ 

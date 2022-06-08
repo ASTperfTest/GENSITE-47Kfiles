@@ -1,0 +1,113 @@
+﻿:  response.expires = 0
+htprogcap="���ʺ޲z"
+htprogfunc="�覸�c��"
+htprogcode="pa001"
+htprogprefix="pasession" 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_453315802()
+  
+dim mpkey, dpkey
+dim rsmaster, rslist
+ sqlcom = "select * from ppact where actid=" & pkstr(request.querystring("actid"),"")
+ set rsmaster = conn.execute(sqlcom)
+ mpkey = ""
+ mpkey = mpkey & "&actid=" & rsmaster("actid")
+ if mpkey<>"" then  mpkey = mid(mpkey,2)
+
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap:                        =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+function qqrs(fldname)
+ xvalue = rsmaster(fldname)
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+
+                                     =qqrs("actid")
+                                       =qqrs("actname")
+                                         =qqrs("acttarget")
+
+  
+ fsql = "select htx.*, xref1.mvalue as xrstatus " _
+  & " from (pasession as htx left join codemain as xref1 on xref1.mcode = htx.astatus and xref1.codemetaid='classstatus')"
+ fsql = fsql & " where htx.actid=" & pkstr(rsmaster("actid"),"")
+ fsql = fsql & " order by bdate"
+ set rslist = conn.execute(fsql)
+
+                                                                              =mpkey
+
+
+
+
+
+
+
+
+
+  
+ while not rslist.eof
+  dpkey = ""
+  dpkey = dpkey & "&pasid=" & rslist("pasid")
+  if dpkey<>"" then  dpkey = mid(dpkey,2)
+
+
+  =rslist("pasid")
+
+
+                              =dpkey
+  =s7date(rslist("bdate"))
+
+
+
+  =rslist("dtnote")
+
+
+  =rslist("plimit"):    =rslist("pbackup")
+
+
+  =rslist("xrstatus")
+
+
+      
+         rslist.movenext
+     wend
+    

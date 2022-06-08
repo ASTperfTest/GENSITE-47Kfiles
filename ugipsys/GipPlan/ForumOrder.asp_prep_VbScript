@@ -1,0 +1,142 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ sub chgorderup(formobjname)
+  set xn = document.orderreg(formobjname)
+  oldopt = xn.options.selectedindex
+
+  if oldopt <> -1 then
+   if oldopt+1 > 1 then
+  oldtext = xn.options(oldopt).text
+  oldvalue = xn.options(oldopt).value
+  oldtext2 = xn.options(oldopt-1).text
+  oldvalue2 = xn.options(oldopt-1).value
+
+   xn.options(oldopt).text = xn.options(oldopt-1).text
+     xn.options(oldopt).value = xn.options(oldopt-1).value
+   xn.options(oldopt-1).text = oldtext
+   xn.options(oldopt-1).value = oldvalue
+   xn.options(oldopt-1).selected = true
+   xn.options(oldopt).selected = false
+   else
+   alert ("已經是最上方了！")
+   end if
+  else
+   alert ("請先選擇..")
+  end if
+ end sub
+
+ sub chgorderdown(formobjname)
+  set xn = document.orderreg(formobjname)
+  rno = xn.options.length
+  oldopt = xn.options.selectedindex
+
+  if oldopt <> -1 then
+  if oldopt+1 < rno then
+   oldtext = xn.options(oldopt).text
+   oldvalue = xn.options(oldopt).value
+   oldtext2 = xn.options(oldopt+1).text
+   oldvalue2 = xn.options(oldopt+1).value
+
+      xn.options(oldopt).text = xn.options(oldopt+1).text
+    xn.options(oldopt).value = xn.options(oldopt+1).value
+    xn.options(oldopt+1).text = oldtext
+    xn.options(oldopt+1).value = oldvalue
+    xn.options(oldopt+1).selected = true
+    xn.options(oldopt).selected = false
+  else
+   alert ("已經是最下方了！")
+  end if
+  else
+   alert ("請先選擇..")
+  end if
+ end sub
+
+ sub document_onkeydown()
+  if window.event.keycode = 16 or window.event.keycode = 17 then
+   document.all.orderreg.forumid.multiple = false
+  end if
+ end sub
+
+ sub document_onkeyup()
+   document.all.orderreg.forumid.multiple = true
+ end sub
+
+ sub formsubmit()
+  optpos = orderreg.forumid.options.length
+  for optcount = 0 to optpos - 1
+    document.all.orderreg.forumid.options(optcount).selected = true
+  next
+  orderreg.submit
+ end sub
+
+ 

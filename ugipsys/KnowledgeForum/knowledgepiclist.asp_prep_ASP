@@ -1,0 +1,124 @@
+﻿: @ codepage = 65001 
+  
+response.expires = 0
+htprogcap=""
+htprogfunc=""
+htprogcode="kforumlist"
+htprogprefix=""
+
+   sub showdonebox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+
+
+
+
+   end sub 
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_client_5214970()
+
+  
+ dim icuitem
+  icuitem = request.querystring("icuitem")
+ picid = request("picid")
+ 
+ if request("submittask") = "pass" then
+  sql = "update knowledgepicinfo set picstatus = 'y' where parenticuitem = " & icuitem & " and picid= " & picid 
+  conn.execute(sql)
+ elseif request("submittask") = "nopass" then
+    sql = "update knowledgepicinfo set picstatus = 'n' where parenticuitem = " & icuitem & " and picid= " & picid 
+  conn.execute(sql)
+ end if
+
+ sql = "select * from cudtgeneric inner join knowledgepicinfo on cudtgeneric.icuitem = knowledgepicinfo.parenticuitem "
+ sql = sql & "where parenticuitem = " & icuitem & " order by xpostdate desc"
+ set rsreg = conn.execute(sql)
+
+ if rsreg.eof then
+  showdonebox "本資料無圖片"
+ else
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        =request.querystring("icuitem")
+
+
+                          =rsreg("stitle")
+
+
+                                                                               =request.querystring("icuitem")
+
+
+
+
+
+
+
+
+
+
+   while not rsreg.eof 
+
+                                          =rsreg("pictitle")
+                                                   =trim(rsreg("picpath")):                               =trim(rsreg("picpath"))
+
+                                                           =rsreg("picid")
+                                                             =rsreg("picid")
+
+
+   if  trim(rsreg("picstatus"))="w" then
+
+    end if
+   if  trim(rsreg("picstatus"))="y" then
+
+    end if
+   if  trim(rsreg("picstatus"))="n" then
+
+    end if
+
+
+
+   
+   rsreg.movenext
+  wend
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+end if
+ 

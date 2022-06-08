@@ -1,0 +1,23 @@
+﻿
+  
+function setssosession(ssoid)
+
+    session("backendsetup") = ""
+    ssoid = replace(ssoid, "'", "aaaaaaaaaaaaaaaa")
+
+    sqlstr = "select * from sso "
+    sqlstr = sqlstr & vbcrlf & "where [user_id] like 'uadm_%' and (creation_datetime>getdate()-1) "
+    sqlstr = sqlstr & vbcrlf & "and [guid] = '" & ssoid & "'"
+    
+    if ssoid <>"" then
+        sqlstr = "select * from sso "
+        sqlstr = sqlstr & vbcrlf & "where [user_id] like 'uadm_%' and (creation_datetime>getdate()-1) "
+        sqlstr = sqlstr & vbcrlf & "and [guid] = '" & ssoid & "'"
+        set rs = conn.execute(sqlstr)      
+        if not rs.eof then
+            session("backendsetup") = ssoid
+        end if
+    end if
+    
+end function
+ 

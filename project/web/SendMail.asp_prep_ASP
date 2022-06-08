@@ -1,0 +1,264 @@
+﻿
+
+
+
+
+  
+
+mailtype = request("type")
+if mailtype <> "2" then mailtype = "1"
+
+select case mailtype
+    case "1"
+        epapertitle="農業知識入口網-系統問題反應"
+    case else
+        epapertitle="農業知識入口網-檢舉信"
+end select
+
+
+
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+function checkgipapconfig(funcname)
+    dim htpagedomcheck
+    dim loadxmlcheck
+    
+ set htpagedomcheck = server.createobject("microsoft.xmldom")
+ htpagedomcheck.async = false
+ htpagedomcheck.setproperty("serverhttprequest") = true
+
+    loadxmlcheck = session("sendmailconfigfile")
+ xv = htpagedomcheck.load(loadxmlcheck)
+ if htpagedomcheck.parseerror.reason <> "" then
+  response.write("sysappara.xml parseerror on line " &  htpagedomcheck.parseerror.line)
+  'response.write("<br>loadxml: " &  loadxml)
+  response.write("<br>reasonxx: " &  htpagedomcheck.parseerror.reason)
+  response.end()
+ end if
+
+   checkgipapconfig = false
+   if ucase(nulltext(htpagedomcheck.selectsinglenode("systemparameter/gipconfig/" &funcname)))="y" then
+  checkgipapconfig = true
+    end if
+end function
+
+function getgipapconfigtext(byval funcname)
+    dim htpagedomcheck
+    dim loadxmlcheck
+    
+ set htpagedomcheck = server.createobject("microsoft.xmldom")
+ htpagedomcheck.async = false
+ htpagedomcheck.setproperty("serverhttprequest") = true
+ if savetext <> "1" or savetext <> "y" then
+     savetext = "n"
+ end if
+
+    loadxmlcheck = session("sendmailconfigfile")
+ xv = htpagedomcheck.load(loadxmlcheck)
+ if htpagedomcheck.parseerror.reason <> "" then
+  response.write("sysappara.xml parseerror on line " &  htpagedomcheck.parseerror.line)
+  'response.write("<br>loadxml: " &  loadxml)
+  response.write("<br>reasonxx: " &  htpagedomcheck.parseerror.reason)
+  response.end()
+ end if
+
+   rtnval = nulltext(htpagedomcheck.selectsinglenode("systemparameter/gipconfig/" &funcname))
+   getgipapconfigtext = rtnval
+end function
+
+
+'// save setting item text from sysappara.xml
+'// modify date: 2006/09/20
+function savegipapconfig(funcname, byval savetext)
+    dim rtnval          '// return value
+    dim htpagedomcheck
+    dim loadxmlcheck
+    dim xvcheck
+ rtnval = ""
+ 
+ set htpagedomcheck = server.createobject("microsoft.xmldom")
+ htpagedomcheck.async = false
+ htpagedomcheck.setproperty("serverhttprequest") = true
+
+ loadxmlcheck = session("sendmailconfigfile")
+ 
+ xvcheck = htpagedomcheck.load(loadxmlcheck)
+ if htpagedomcheck.parseerror.reason <> "" then
+  response.write("sysappara.xml parseerror on line " &  htpagedomcheck.parseerror.line)
+  'response.write("<br>loadxml: " &  loadxml)
+  response.write("<br>reasonxx: " &  htpagedomcheck.parseerror.reason)
+  response.end()
+ end if
+
+   htpagedomcheck.selectsinglenode("systemparameter/gipconfig/" &funcname).text = savetext
+   rtnval = htpagedomcheck.save(loadxmlcheck)
+   savegipapconfig = rtnval
+end function
+
+
+'// get setting item text from sysappara.xml
+'// modify date: 2006/01/06
+function savegipapconfigtext(funcname, savetext)
+    dim rtnval          '// return value
+    dim htpagedomcheck
+    dim loadxmlcheck
+    dim xvcheck
+ rtnval = ""
+ 
+ set htpagedomcheck = server.createobject("microsoft.xmldom")
+ htpagedomcheck.async = false
+ htpagedomcheck.setproperty("serverhttprequest") = true
+
+ loadxmlcheck = session("sendmailconfigfile")
+ xvcheck = htpagedomcheck.load(loadxmlcheck)
+ if htpagedomcheck.parseerror.reason <> "" then
+  response.write("sysappara.xml parseerror on line " &  htpagedomcheck.parseerror.line)
+  'response.write("<br>loadxml: " &  loadxml)
+  response.write("<br>reasonxx: " &  htpagedomcheck.parseerror.reason)
+  response.end()
+ end if
+
+   htpagedomcheck.selectsinglenode("systemparameter/gipconfig/" &funcname).text = savetext
+   
+   rtnval = htpagedomcheck.save(loadxmlcheck)
+   savegipapconfigtext = rtnval
+end function
+
+
+
+   CxMethod_ASP_dbfunc_874801204()
+   CxMethod_ASP_client_1900334733()
+   CxMethod_ASP_web_sqlinjection_176928617()
+    if session("memid")="" then
+
+
+
+
+    response.end
+    else 
+   
+     session("sendmail_txtdiscussion") = request("txtdiscussion")    '視窗關閉後保留輸入內容
+  if (request("checkcodeformail") <> session("checkcodeformail")) then
+ 
+
+
+
+
+  
+        response.end
+  else
+         session("sendmail_txtdiscussion") =""
+   txtdiscussion = request("txtdiscussion")
+   txtdiscussion=replace(txtdiscussion, vbcrlf, " <br />")
+   url=request("urlrecord")
+'response.write "article_id:" & request("article_id")
+'response.end
+'smtpserver = "mail.coa.gov.tw"
+'smtpserverport = 25
+'smtpssendusing = 1
+'smtpssendusing = 2
+
+
+
+function send_email_authenticate(s_email,r_email,re_sbj,re_body, sendusername, sendpassword, smtpauthenticate1)
+smtpserver = getgipapconfigtext("emailserverip")
+smtpserverport = getgipapconfigtext("emailserverport")
+smtpssendusing = getgipapconfigtext("emailserversendusing")
+
+    
+
+ set objemail = createobject("cdo.message")
+    objemail.bodypart.charset = "utf-8"'response.charset
+ objemail.from       = s_email
+    objemail.to         = r_email
+    objemail.subject    = re_sbj
+    objemail.htmlbody   = re_body
+ objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/sendusing") = smtpssendusing
+    objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/smtpserver") = smtpserver
+    objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/smtpserverport") = smtpserverport
+ objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/sendusername") = sendusername
+ objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/sendpassword") = sendpassword
+ objemail.configuration.fields.item("http://schemas.microsoft.com/cdo/configuration/smtpauthenticate") =smtpauthenticate1
+
+    objemail.configuration.fields.update
+    objemail.send
+    set objemail=nothing
+
+end function
+
+articleid = ""
+if request("article_id") <> "" then
+ articleid = request("article_id")
+else
+ articleid = request.form("article_id")
+end if
+
+
+
+sql ="insert into [mgipcoanew].[dbo].[knowledge_report] "
+sql = sql & "(article_id,creator,creation_datetime,[type],source_url,description,response,last_modifier,last_modify_datetime,status)"
+sql= sql & " values"
+if mailtype = "2" then    
+    tmptxtdiscussion=txtdiscussion & "<hr size=''1''/>" & "檢舉對象：" & replace(request("account"),"'","''") & "　" & replace(request("nickname") ,"'","''")
+    sql= sql & " (" & articleid & ",'" & session("memid") & "', getdate() , " & mailtype & ",'" & url & "','" & tmptxtdiscussion & "','','" & session("memid") & "',getdate(),0)"
+else
+    sql= sql & " (" & articleid & ",'" & session("memid") & "', getdate() , " & mailtype & ",'" & url & "','" & txtdiscussion & "','','" & session("memid") & "',getdate(),0)"
+end if
+
+'response.write sql
+'response.end
+conn.execute sql
+
+'問題單回應，http://gssjira.gss.com.tw/browse/coakm-49，寄件者email要讀取user註冊的user
+sql2="select email from  dbo.member where account='" & session("memid") &"'"
+set rs = conn.execute(sql2)
+
+s_email=rs("email")
+r_email=getgipapconfigtext("emailfrom")
+
+body="帳號：" & session("memid") & "<br />"
+body=body & "姓名：" & session("memname") & "<br />"
+body=body & "暱稱：" & session("memnickname") & "<br />" 
+body=body & "email：" & s_email & "<br />" 
+
+if mailtype = "2" then
+    body=body & "檢舉對象：" & request("account") & "　" & request("nickname") & "<br />"
+end if
+
+body=body & "文件來源：<a href='" & url & "'>查看</a><br />"
+
+body=body & "問題描述：<br />" & txtdiscussion
+ dim smtpusername
+    dim smtppassword
+    dim smtpauthenticate
+
+    'smtpusername = "taft_km"
+    'smtppassword = "p@ssw0rd"
+    'smtpauthenticate = "1"
+ 
+ smtpusername = getgipapconfigtext("emailsendusername")
+ smtppassword = getgipapconfigtext("emailsendpassword")
+ smtpauthenticate = getgipapconfigtext("emailsmtpauthenticate")
+ call send_email_authenticate(r_email,r_email,epapertitle,body, smtpusername, smtppassword, smtpauthenticate)
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  end if 
+ end if
+ 

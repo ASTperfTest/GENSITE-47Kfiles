@@ -1,0 +1,24 @@
+﻿: 
+sub xpcondition
+ if request.form("htx_codeid") <> "" then
+  wherecondition = replace("htx.codeid like n'%{0}%'", "{0}", request.form("htx_codeid") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_codename") <> "" then
+  wherecondition = replace("htx.codename like n'%{0}%'", "{0}", request.form("htx_codename") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_codetblname") <> "" then
+  wherecondition = replace("htx.codetblname like n'%{0}%'", "{0}", request.form("htx_codetblname") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_codetype") <> "" then
+  wherecondition = replace("htx.codetype like n'%{0}%'", "{0}", request.form("htx_codetype") )
+  fsql = fsql & " and " & wherecondition
+ end if
+ if request.form("htx_showornot") <> "" then
+  wherecondition = replace("htx.showornot like n'%{0}%'", "{0}", request.form("htx_showornot") )
+  fsql = fsql & " and " & wherecondition
+ end if
+end sub
+ 

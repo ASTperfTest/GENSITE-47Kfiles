@@ -1,0 +1,661 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ htprogcap = "單元資料維護"
+ htprogfunc = "查詢"
+ htuploadpath = session("public") + "data/"
+ htprogcode="kpi01"
+ htprogprefix="" 
+ response.charset = "utf-8"
+
+   CxMethod_ASP_server_1606199358()
+  
+ dim memberid : memberid = request.querystring("memberid")
+ dim memberstr : memberstr = ""
+ dim thisyear : thisyear = request.querystring("thisyear")
+ sql = "select account, realname, nickname from member where account = '" & memberid & "'"
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  memberstr = trim(rs("account")) & "｜" & trim(rs("realname")) & "｜" & trim(rs("nickname"))
+ end if 
+ rs.close
+ set rs = nothing 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if thisyear <> "" then
+
+    else
+
+    end if
+
+     if thisyear <> "" then
+
+     else
+
+     end if
+
+
+
+
+
+
+
+
+                             =memberstr
+
+
+
+
+
+
+   
+ dim calculatetotal, browsetotal, logintotal, sharetotal, contenttotal, additionaltotal
+ dim browseavg,commendavg,discussavg,thisyearbrowsegrade,thisyearcommendgrade,thisyeardiscussgrade
+ if thisyear = "" then
+ sql = "select * from membergradesummary "
+ sql = sql & " where membergradesummary.memberid = '" & memberid & "'"
+ elseif thisyear <> "" then
+ sql = "select isnull(gradebrowse_thisyear.gradebrowse, 0) as gradebrowse, isnull(gradelogin_thisyear.gradelogin, 0) as gradelogin, "
+ sql = sql & " isnull(gradeshare_thisyear.gradeshare, 0) as gradeshare, member.account as memberid , "
+ sql = sql & " isnull(vcb.thisyearbrowsegrade,0) as thisyearbrowsegrade , "
+ sql = sql & " isnull(vcc.thisyearcommendgrade,0) as thisyearcommendgrade , "
+ sql = sql & " isnull(vcd.thisyeardiscussgrade,0) as thisyeardiscussgrade , "
+ sql = sql & " isnull(vcb.browseavg ,0) as browseavg  , "
+ sql = sql & " isnull(vcc.commendavg ,0) as commendavg  , "
+ sql = sql & " isnull(vcd.discussavg ,0) as discussavg  , "
+ sql = sql & " isnull(mgcby.contentiqpoint,0) as contentiqpoint,"
+ sql = sql & " isnull(mgcby.contentiqgrade,0) as contentiqgrade,"
+ sql = sql & " isnull(mgcby.contentraisepoint,0) as contentraisepoint,"
+ sql = sql & " isnull(mgcby.contentraisegrade,0) as contentraisegrade,"
+ sql = sql & " isnull(mgcby.contentlogopoint,0) as contentlogopoint,"
+ sql = sql & " isnull(mgcby.contentplantlogpoint,0) as contentplantlogpoint,"
+ sql = sql & " isnull(mgcby.contentfishbowlpoint,0) as contentfishbowlpoint,"
+ sql = sql & " isnull(mgcby.contentfishbowlgrade,0) as contentfishbowlgrade,"
+ sql = sql & " isnull(mgcby.contentdrpoint,0) as contentdrpoint,"
+ sql = sql & " isnull(mgcby.contentdrgrade,0) as contentdrgrade,"
+ sql = sql & " isnull(mgcby.contentknowledgeqapoint,0) as contentknowledgeqapoint,"
+ sql = sql & " isnull(mgcby.contentknowledgeqagrade,0) as contentknowledgeqagrade,"
+ sql = sql & " isnull(mgcby.contentdr2010point,0) as contentdr2010point,"
+ sql = sql & " isnull(mgcby.contentdr2010grade,0) as contentdr2010grade,"
+ sql = sql & " isnull(mgcby.contenttreasurehuntpoint,0) as contenttreasurehuntpoint,"
+ sql = sql & " isnull(mgcby.contenttreasurehuntgrade,0) as contenttreasurehuntgrade,"
+ 'membergradecontentbyyear 
+ sql = sql & " (isnull(vcb.thisyearbrowsegrade,0)+isnull(vcc.thisyearcommendgrade,0)+isnull(vcd.thisyeardiscussgrade,0) + "
+ sql = sql & " isnull(mgcby.contentiqpoint,0)+isnull(mgcby.contentraisepoint,0)+ "  
+ sql = sql & " isnull(mgcby.contentlogopoint,0)+ isnull(mgcby.contentplantlogpoint,0)+ "  
+ sql = sql & " isnull(mgcby.contentfishbowlpoint,0)+ isnull(mgcby.contentdrpoint,0)+  "  
+ sql = sql & " isnull(mgcby.contentknowledgeqapoint,0)+isnull(mgcby.contentdr2010point,0)+ "  
+ sql = sql & " isnull(mgcby.contenttreasurehuntpoint,0) ) as contenttotal,"
+ 
+ sql = sql & " isnull(viewaddthis.thisyearaddpoint, 0) as additionaltotal ,"
+ sql = sql & " (isnull(gradebrowse_thisyear.gradebrowse, 0) * 0.15 + isnull(gradelogin_thisyear.gradelogin, 0) * 0.2) + isnull(gradeshare_thisyear.gradeshare, 0) * 0.3 "
+ sql = sql & " + isnull(viewconthis.thisyearcpoint,0) * 0.2 + isnull(viewaddthis.thisyearaddpoint, 0) * 0.15 as total "
+ 
+ sql = sql & " from member "
+ sql = sql & " left join gradelogin_thisyear  on member.account = gradelogin_thisyear.memberid "
+ sql = sql & " left join gradeshare_thisyear  on member.account = gradeshare_thisyear.memberid "
+ sql = sql & " left join gradebrowse_thisyear on member.account = gradebrowse_thisyear.memberid "
+    sql = sql & " left join membergradesummary b on member.account = b.memberid  "
+ sql = sql & " left join gradecontentbrowse_thisyear vcb on member.account = vcb.ieditor  "
+ sql = sql & " left join gradecontentcommend_thisyear vcc on member.account = vcc.ieditor  "
+ sql = sql & " left join gradecontentdiscuss_thisyear vcd on member.account = vcd.ieditor "
+ sql = sql & " left join view_membergradeadditional_thisyear viewaddthis on member.account = viewaddthis.memberid "
+ sql = sql & " left join view_membergradecontent_thisyear viewconthis on member.account = viewconthis.memberid "
+ sql = sql & " left join dbo.membergradecontentbyyear mgcby on member.account = mgcby.memberid and (convert(int, convert(varchar(4), getdate(), 120 ) ) - isnull(years,0) = 0) "
+ sql = sql & " where member.account ='"& memberid &"'"
+ 'response.write sql
+ 'response.end
+ end if
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  if thisyear <> "" then '今年度
+   calculatetotal = cint(rs("total"))
+   browsetotal = rs("gradebrowse")
+   logintotal = rs("gradelogin")
+   sharetotal = rs("gradeshare")
+   contenttotal = rs("contenttotal")
+   additionaltotal = rs("additionaltotal")
+   
+   browseavg = rs("browseavg")
+   commendavg = rs("commendavg")
+   discussavg = rs("discussavg")
+   thisyearbrowsegrade = rs("thisyearbrowsegrade")
+   thisyearcommendgrade = rs("thisyearcommendgrade")
+   thisyeardiscussgrade = rs("thisyeardiscussgrade")
+   
+   '新增遊戲欄位
+   contentiqpoint=rs("contentiqpoint")
+   contentiqgrade=rs("contentiqgrade")
+   contentraisepoint=rs("contentraisepoint")
+   contentraisegrade=rs("contentraisegrade")
+   contentlogopoint=rs("contentlogopoint")
+   contentplantlogpoint=rs("contentplantlogpoint")
+   contentfishbowlpoint=rs("contentfishbowlpoint")
+   contentfishbowlgrade=rs("contentfishbowlgrade")
+   contentdrpoint=rs("contentdrpoint")
+   contentdrgrade=rs("contentdrgrade")
+   contentknowledgeqapoint=rs("contentknowledgeqapoint")
+   contentknowledgeqagrade=rs("contentknowledgeqagrade")
+   contentdr2010point=rs("contentdr2010point")
+   contentdr2010grade=rs("contentdr2010grade")
+   contenttreasurehuntpoint=rs("contenttreasurehuntpoint")
+   contenttreasurehuntgrade=rs("contenttreasurehuntgrade")
+   
+   
+  else '總年度
+   calculatetotal = rs("calculatetotal")
+   browsetotal = rs("browsetotal")
+   logintotal = rs("logintotal")
+   sharetotal = rs("sharetotal")
+   contenttotal = rs("contenttotal")
+   additionaltotal = rs("additionaltotal")
+  end if
+ end if 
+ rs.close
+ set rs = nothing
+ 
+
+
+          =calculatetotal
+
+
+
+
+                                               =memberid:             =thisyear:     =browsetotal
+
+
+
+
+
+
+
+
+
+     
+    sql = "select sum(browseintercp) as inter, sum(browsetopiccp) as topic, sum(browsecattreecp) as tank, " & _
+       "sum(browsequestioncp) + sum(browsediscusslp) + sum(browsediscusscp) as knowledge, " & _
+       "sum(browsepediawordcp) + sum(browsepediaexplainlp) + sum(browsepediaexplaincp) as pedia " & _
+       "from membergradebrowse where (memberid = '" & memberid & "') "
+    if thisyear <> "" then
+     sql = sql & " and  (datediff(year, browsedate, getdate()) = 0)"
+    else
+     sql = sql & " and convert(varchar, browsedate, 111) < convert(varchar, getdate(), 111) "
+    end if
+    set brs = conn.execute(sql)
+    if not brs.eof then
+   
+
+              =brs("inter")
+              =brs("topic")
+              =brs("tank")
+              =brs("knowledge")
+              =brs("pedia")
+
+     
+    end if
+    brs.close
+    set brs = nothing
+   
+
+
+
+
+
+                                              =memberid:             =thisyear:     =logintotal
+
+
+
+
+
+
+
+
+
+
+
+     
+    sql = "select sum(loginintergrade) as loginintergrade, sum(loginiqgrade) as loginiqgrade, " & _
+       "sum(loginraisegrade) as loginraisegrade, sum(loginbirthdaygrade) as loginbirthdaygrade, " & _
+                            "sum(loginadditional) as loginadditional, sum(logininvite) as logininvite, sum(loginisinvited) as loginisinvited " & _
+       "from membergradelogin where (memberid = '" & memberid & "') "
+    if thisyear <> "" then
+     sql = sql & " and  (datediff(year, logindate, getdate()) = 0)"
+    else
+     sql = sql & " and convert(varchar, logindate, 111) < convert(varchar, getdate(), 111) "
+    end if
+    set brs = conn.execute(sql)
+    if not brs.eof then
+   
+
+          =brs("loginintergrade")
+              =brs("loginiqgrade")
+              =brs("loginraisegrade")
+              =brs("loginbirthdaygrade")
+              =brs("logininvite")
+              =brs("loginisinvited")
+              =brs("loginadditional")
+
+     
+    end if
+    brs.close
+    set brs = nothing
+   
+
+
+
+
+
+                                              =memberid:             =thisyear:     =sharetotal
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+    sql = "select sum(shareask) as shareask, sum(sharediscuss) as sharediscuss, sum(sharecommend) as sharecommend, " & _
+       "sum(shareopinion) as shareopinion, sum(sharesuggest) as sharesuggest, sum(shareexplain) as shareexplain, " & _
+       "sum(sharevote) as sharevote, sum(sharejigsaw) as sharejigsaw, sum(sharerecommend) as sharerecommend,sum(sharesubjectcommend) as sharesubjectcommend from membergradeshare where (memberid = '" & memberid & "') "
+    if thisyear <> "" then
+     sql = sql & " and  (datediff(year, sharedate, getdate()) = 0)"
+    else
+     sql = sql & " and convert(varchar, sharedate, 111) < convert(varchar, getdate(), 111) "
+    end if
+    set brs = conn.execute(sql)
+    if not brs.eof then
+   
+
+              =brs("shareask")
+              =brs("sharediscuss")
+              =brs("sharecommend")
+              =brs("shareopinion")
+              =brs("sharesuggest")
+              =brs("shareexplain")
+              =brs("sharevote")
+        =brs("sharejigsaw")
+              =brs("sharerecommend")
+        =brs("sharesubjectcommend")
+
+     
+    end if
+    brs.close
+    set brs = nothing
+   
+
+
+
+
+
+          =contenttotal
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+    if thisyear = "" then
+     sql = "select sum(contentiqpoint) as contentiqpoint" & _
+        " ,sum(contentiqgrade) as contentiqgrade" & _
+        " ,sum(contentraisepoint) as contentraisepoint" & _
+        " ,sum(contentraisegrade) as contentraisegrade" & _
+        " ,sum(contentcommendpoint) as contentcommendpoint" & _
+        " ,sum(contentcommendgrade) as contentcommendgrade" & _
+        " ,sum(contentdiscusspoint) as contentdiscusspoint" & _
+        " ,sum(contentdiscussgrade) as contentdiscussgrade" & _
+        " ,sum(contentbrowsepoint) as contentbrowsepoint" & _
+        " ,sum(contentbrowsegrade) as contentbrowsegrade" & _
+        " ,sum(contentlogopoint) as contentlogopoint" & _
+        " ,sum(contentplantlogpoint) as contentplantlogpoint" & _
+        " ,sum(contentfishbowlpoint) as contentfishbowlpoint" & _
+        " ,sum(contentfishbowlgrade) as contentfishbowlgrade" & _
+        " ,sum(contentdrpoint) as contentdrpoint" & _
+        " ,sum(contentdrgrade) as contentdrgrade" & _
+        " ,sum(contentknowledgeqapoint) as contentknowledgeqapoint" & _
+        " ,sum(contentknowledgeqagrade) as contentknowledgeqagrade" & _
+        " ,sum(contentdr2010point) as contentdr2010point" & _
+        " ,sum(contentdr2010grade) as contentdr2010grade" & _
+        " ,sum(contenttreasurehuntpoint) as contenttreasurehuntpoint" & _
+        " ,sum(contenttreasurehuntgrade) as contenttreasurehuntgrade" & _
+        " ,sum(contenthistorypicturepoint) as contenthistorypicturepoint" & _
+        " ,sum(contentpuzzle2011point) as contentpuzzle2011point" & _
+      " from membergradecontentbyyear where (memberid = '" & memberid & "')"
+     set brs = conn.execute(sql)
+    
+     if not brs.eof then
+   
+
+
+          =brs("contentiqgrade")
+          =brs("contentraisegrade")
+          =brs("contentcommendgrade")
+          =brs("contentdiscussgrade")
+          =brs("contentbrowsegrade")
+
+
+          =brs("contentfishbowlgrade")
+          =brs("contentdrgrade")
+          =brs("contentknowledgeqagrade")
+          =brs("contentdr2010grade")
+          =brs("contenttreasurehuntgrade")
+          =brs("contenthistorypicturepoint")
+          =brs("contentpuzzle2011point")
+
+
+
+          =brs("contentiqpoint")
+          =brs("contentraisepoint")
+          =brs("contentcommendpoint")
+          =brs("contentdiscusspoint")
+          =brs("contentbrowsepoint")
+          =brs("contentlogopoint")
+          =brs("contentplantlogpoint")
+          =brs("contentfishbowlpoint")
+          =brs("contentdrpoint")
+          =brs("contentknowledgeqapoint")
+          =brs("contentdr2010point")
+          =brs("contenttreasurehuntpoint")
+
+
+
+     
+     end if
+     brs.close
+     set brs = nothing
+    else
+     sql = "select sum(contentiqpoint) as contentiqpoint" & _
+        " ,sum(contentiqgrade) as contentiqgrade" & _
+        " ,sum(contentraisepoint) as contentraisepoint" & _
+        " ,sum(contentraisegrade) as contentraisegrade" & _
+        " ,sum(contentcommendpoint) as contentcommendpoint" & _
+        " ,sum(contentcommendgrade) as contentcommendgrade" & _
+        " ,sum(contentdiscusspoint) as contentdiscusspoint" & _
+        " ,sum(contentdiscussgrade) as contentdiscussgrade" & _
+        " ,sum(contentbrowsepoint) as contentbrowsepoint" & _
+        " ,sum(contentbrowsegrade) as contentbrowsegrade" & _
+        " ,sum(contentlogopoint) as contentlogopoint" & _
+        " ,sum(contentplantlogpoint) as contentplantlogpoint" & _
+        " ,sum(contentfishbowlpoint) as contentfishbowlpoint" & _
+        " ,sum(contentfishbowlgrade) as contentfishbowlgrade" & _
+        " ,sum(contentdrpoint) as contentdrpoint" & _
+        " ,sum(contentdrgrade) as contentdrgrade" & _
+        " ,sum(contentknowledgeqapoint) as contentknowledgeqapoint" & _
+        " ,sum(contentknowledgeqagrade) as contentknowledgeqagrade" & _
+        " ,sum(contentdr2010point) as contentdr2010point" & _
+        " ,sum(contentdr2010grade) as contentdr2010grade" & _
+        " ,sum(contenttreasurehuntpoint) as contenttreasurehuntpoint" & _
+        " ,sum(contenttreasurehuntgrade) as contenttreasurehuntgrade" & _
+        " ,sum(contenthistorypicturepoint) as contenthistorypicturepoint" & _
+        " ,sum(contentpuzzle2011point) as contentpuzzle2011point" & _
+      " from membergradecontentbyyear where (memberid = '" & memberid & "') " & _ 
+      " and years = year(getdate())"
+     set brs = conn.execute(sql)
+     if not brs.eof then
+   
+
+
+          =contentiqgrade
+          =contentraisegrade
+          =commendavg
+          =discussavg
+          =browseavg
+
+
+          =contentfishbowlgrade
+          =contentdrgrade
+          =contentknowledgeqagrade
+          =contentdr2010grade
+          =contenttreasurehuntgrade
+          =brs("contenthistorypicturepoint")
+          =brs("contentpuzzle2011point")
+
+
+
+          =contentiqpoint
+          =contentraisepoint
+          =thisyearcommendgrade
+          =thisyeardiscussgrade
+          =thisyearbrowsegrade
+          =contentlogopoint
+          =contentplantlogpoint
+          =contentfishbowlpoint
+          =contentdrpoint
+          =contentknowledgeqapoint
+          =contentdr2010point
+          =contenttreasurehuntpoint
+
+
+
+     
+    end if
+     brs.close 
+    end if
+    
+   
+
+
+
+
+
+          =additionaltotal
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+   if thisyear = "" then
+    sql = "select sum(additionalusage)as additionalusage, " & _
+       "sum(additionalknowledge)as additionalknowledge, " & _
+       "sum(additionalpedia)as additionalpedia, " & _
+       "sum(additionalraise)as additionalraise, " & _
+       "sum(additionalsatisfy)as additionalsatisfy, " & _
+       "sum(additionallogo)as additionallogo, " & _
+       "sum(additionalplantlog)as additionalplantlog, " & _
+       "sum(additionalplantlogvote)as additionalplantlogvote, " & _
+       "sum(additionalfishbowl)as additionalfishbowl, " & _
+       "sum(additionalquestion)as additionalquestion, " & _
+       "sum(additionaldr)as additionaldr, " & _
+       "sum(additionalknowledgeqa)as additionalknowledgeqa, " & _
+       "sum(additionaldr2010)as additionaldr2010, " & _
+       "sum(additionaltreasurehunt)as additionaltreasurehunt, " & _
+       "sum(additionalknowledgeadd)as additionalknowledgeadd, " & _
+       "sum(additionalpediaadd)as additionalpediaadd, " & _
+       "sum(additionalraiseadd)as additionalraiseadd, " & _
+       "sum(additionalquestion2010)as additionalquestion2010, " & _
+       "sum(additionalhistorypicture)as additionalhistorypicture, " & _
+       "sum(additionalpuzzle2011)as additionalpuzzle2011 " & _
+       "from membergradeadditional where (memberid = '" & memberid & "')"
+    set brs = conn.execute(sql)
+    if not brs.eof then
+     
+   
+
+
+              =brs("additionalusage")
+              =brs("additionalknowledge")
+              =brs("additionalpedia")
+              =brs("additionalraise")
+              =brs("additionalsatisfy")
+        =brs("additionallogo")
+              =brs("additionalplantlog")
+              =brs("additionalplantlogvote")
+              =brs("additionalfishbowl")
+              =brs("additionalquestion")
+        =brs("additionaldr")
+        =brs("additionalknowledgeqa")
+              =brs("additionaldr2010")
+        =brs("additionaltreasurehunt")
+        =brs("additionalquestion2010")
+        =brs("additionalhistorypicture")
+        =brs("additionalpuzzle2011")
+
+
+
+
+              =brs("additionalknowledgeadd")
+              =brs("additionalpediaadd")
+              =brs("additionalraiseadd")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+     end if
+     brs.close
+     set brs = nothing
+    else
+     sql = "select * " & _
+       "from membergradeadditional where memberid = '" & memberid & "' " & _
+       " and years = year(getdate())"
+     set brs = conn.execute(sql)
+     if not brs.eof then
+   
+
+
+              =brs("additionalusage")
+              =brs("additionalknowledge")
+              =brs("additionalpedia")
+              =brs("additionalraise")
+              =brs("additionalsatisfy")
+        =brs("additionallogo")
+              =brs("additionalplantlog")
+              =brs("additionalplantlogvote")
+              =brs("additionalfishbowl")
+              =brs("additionalquestion")
+        =brs("additionaldr")
+        =brs("additionalknowledgeqa")
+              =brs("additionaldr2010")
+        =brs("additionaltreasurehunt")
+        =brs("additionalquestion2010")
+        =brs("additionalhistorypicture")
+        =brs("additionalpuzzle2011")
+
+
+
+
+              =brs("additionalknowledgeadd")
+              =brs("additionalpediaadd")
+              =brs("additionalraiseadd")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+     else
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+     end if
+     brs.close
+     set brs = nothing
+    end if
+    

@@ -1,0 +1,254 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      alert("Cx_0dummy未能刪除站台！")
+      window.history.back
+    <script language=vbs></script>      alert("ftp同步站台無法連接上, 未能刪除目錄！")
+     window.history.back
+   <script language=vbscript>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sub formreset
+ reg.reset()
+ clientinitform
+end sub
+
+sub window_onload
+ clientinitform
+end sub
+
+sub clientinitform
+ reg.pfx_mmofolderid.value = "Cx_0dummy"
+ reg.tfx_mmofoldername.value = "Cx_0dummy"
+      reg.tfx_mmofolderdesc.value = "Cx_0dummy"
+      reg.tfx_mmofoldernameshow.value = "Cx_0dummy"
+      reg.htx_deptid.value = "Cx_0dummy"
+end sub
+
+sub formedit
+msg4 = "請務必輸入「目錄名稱」，不得為空白！"
+
+  if reg.tfx_mmofoldername.value = empty then
+     msgbox msg4, 64, "sorry!"
+     reg.tfx_mmofoldername.focus
+     exit sub
+  end if
+
+  reg.submittask.value = "編修存檔"
+   reg.submit         
+        
+end sub
+sub formdelsubmit()
+    deletestr = "　你確定刪除嗎？"
+ chky=msgbox("注意！"& vbcrlf & vbcrlf &deletestr& vbcrlf , 48+1, "請注意！！")
+        if chky=vbok then
+  reg.submittask.value = "刪除"
+        reg.submit
+        end if
+end sub
+
+ 

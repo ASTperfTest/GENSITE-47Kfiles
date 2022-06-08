@@ -1,0 +1,43 @@
+﻿: 
+sub xpcondition
+ if request("htx_ctunitid") <> "" then
+  wherecondition = replace("htx.ictunit = {0}", "{0}", request("htx_ctunitid") )
+  fsql = fsql & " and " & wherecondition
+   sql="select ctunitname from ctunit where ctunitid =" & request("htx_ctunitid")
+   set rss=conn.execute(sql)
+  xconstr = xconstr & "<tr><td>主題單元：<td>" & rss(0) & "</tr>"
+ end if
+ if request("htx_ibasedsd") <> "" then
+  wherecondition = replace("htx.ibasedsd  = {0}", "{0}", request("htx_ibasedsd") )
+  fsql = fsql & " and " & wherecondition
+   sql="select sbasedsdname from basedsd where ibasedsd=" & request("htx_ibasedsd")
+   set rss=conn.execute(sql)
+  xconstr = xconstr & "<tr><td>資料類別：<td>" & rss(0) & "</tr>"
+ end if
+ if request("htx_idates") <> "" then
+   ranges = request("htx_idates")
+   rangee = request("htx_idatee")
+   if rangee = "" then rangee=ranges
+   wherecondition = replace("htx.deditdate between '{0}' and '{1}'", "{0}", ranges)
+   wherecondition = replace(wherecondition, "{1}", rangee)
+  fsql = fsql & " and " & wherecondition
+  xconstr = xconstr & "<tr><td>日期範圍：<td>" & ranges & "~" & rangee & "</tr>"
+ end if
+ if request("htx_topcat") <> "" then
+  wherecondition = replace("htx.topcat = '{0}'", "{0}", request("htx_topcat") )
+  fsql = fsql & " and " & wherecondition
+   sql="select mvalue from codemain where codemetaid='topdatacat' and mcode=" _
+    & pkstr(request("htx_topcat"),"")
+   set rss=conn.execute(sql)
+  xconstr = xconstr & "<tr><td>分網：<td>" & rss(0) & "</tr>"
+ end if
+ if request("htx_idept") <> "" then
+  wherecondition = replace("htx.idept = '{0}'", "{0}", request("htx_idept") )
+  fsql = fsql & " and " & wherecondition
+   sql="select deptname from dept where deptid=" _
+    & pkstr(request("htx_idept"),"")
+   set rss=conn.execute(sql)
+  xconstr = xconstr & "<tr><td>單位：<td>" & rss(0) & "</tr>"
+ end if
+end sub
+ 

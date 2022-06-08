@@ -1,0 +1,155 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ 'htprogcap = "功能管理"
+ 'htprogfunc = "問卷調查"
+ htprogcode = "gw1_vote01"
+ 'htprogprefix = "msession"
+ response.expires = 0
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+
+  
+ set ts = conn.execute("select count(*) from m011")
+
+ totalrecord = ts(0)
+ if totalrecord > 0 then              'ts代表筆數
+  totalpage = totalrecord \ 10
+  if (totalrecord mod 10) <> 0 then
+   totalpage = totalpage + 1
+  end if
+ else
+  totalpage = 1
+ end if
+
+ if request("page") = empty then
+  page = 1
+ else
+  page = request("page")
+ end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                 =totalpage :                                            =page 
+
+  
+ n = 1
+ while n <= totalpage
+  response.write "<option value='" & n & "'"
+  if int(n) = int(page) then
+   response.write " selected"
+  end if
+  response.write ">" & n & "</option>"
+  n = n + 1
+ wend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ sql = "" & _
+  " select m011_subjectid, m011_subject, m011_bdate, m011_edate, " & _
+  " isnull(m011_online, '0') m011_online, m011_jumpquestion, " & _
+  " m011_haveprize, isnull(m011_pflag, '0') m011_pflag, " & _
+  " isnull(m011_km_online, '0') m011_km_online " & _
+  " from m011 order by m011_bdate desc "
+ set rs = conn.execute(sql)
+ i = 1
+ kmweburl = session("kmurl") & "coa/vote/previewvote.aspx"
+ function getguid() 
+        set typelib = createobject("scriptlet.typelib") 
+        getguid = left(cstr(typelib.guid), 38) 
+        set typelib = nothing 
+    end function 
+ while not rs.eof
+  if i <= (page * 10) and i > (page - 1) * 10 then
+
+
+                               = i 
+                 =rs("m011_bdate") :       =rs("m011_edate") 
+                                if rs("m011_online") = "1" then :     else :     end if 
+                                if rs("m011_km_online") = "1" then :     else :     end if 
+                                if rs("m011_jumpquestion") = "1" then :      else :      end if 
+                                               =rs("m011_subjectid") :     = trim(rs("m011_subject")) 
+                                                  =rs("m011_subjectid") 
+                         = kmweburl :               =rs("m011_subjectid") :         = getguid() 
+  
+   if rs("m011_haveprize") = "1" then
+    if rs("m011_pflag") = "0" then
+
+
+                                   = rs("m011_subjectid") 
+  
+     for j = 1 to 5
+      response.write "              <option value='" & j & "'>" & j & "</option>" & vbcrlf
+     next
+
+
+                                                                                                          =rs("m011_subjectid") :           = rs("m011_subjectid") :                    = rs("m011_subjectid") 
+
+  
+    else
+
+
+                                                =rs("m011_subjectid") 
+
+  
+    end if
+   else
+    response.write "<td>此題不抽獎</td>"
+   end if
+
+
+  
+  end if
+  i = i + 1
+  rs.movenext
+ wend
+ 

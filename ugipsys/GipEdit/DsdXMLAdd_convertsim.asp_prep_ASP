@@ -1,0 +1,121 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "gc1ap1" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbfunc_1723934251()
+   CxMethod_ASP_checkgipconfig_1275316133()
+
+
+
+
+
+  
+'----950214繁轉簡自動產生機制
+ set oconvert = createobject("convertsim.convert")
+ '----load syspara設定檔
+ set convertsimdom = server.createobject("microsoft.xmldom")
+ convertsimdom.async = false
+ convertsimdom.setproperty("serverhttprequest") = true  
+ loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\syspara.xml"
+ xv = convertsimdom.load(loadxml)
+ if convertsimdom.parseerror.reason <> "" then 
+  response.write("convertsimdom parseerror on line " &  convertsimdom.parseerror.line)
+  response.write("<br>reason: " &  convertsimdom.parseerror.reason)
+  response.end()
+ end if  
+ '----load 自動轉碼對象unit
+ set convertsimnodes = convertsimdom.selectnodes("//convertsimlist/convertsimunit[convertsimfrom='"&session("ctunitid")&"']/convertsimto")
+ if convertsimnodes.length > 0 then
+  '----取得from unit的xml 
+  set htpagedom = session("codexmlspec")
+  set refmodel = htpagedom.selectsinglenode("//dstable")
+  set allmodel = htpagedom.selectsinglenode("//dataschemadef")  
+  '----取得轉碼資料
+  sqlcdg = "select cdg.*,u.checkyn from cudtgeneric cdg " & _
+   "left join ctunit as u on cdg.ictunit=u.ctunitid " & _
+   "where cdg.icuitem=" & pkstr(session("convertsim_icuitem"),"")
+  set rsreg = conn.execute(sqlcdg)
+  xslavetable = refmodel.selectsinglenode("tablename").text
+  sqlslave = "select * from "&xslavetable&" where gicuitem = " & session("convertsim_icuitem")
+  set rsslave = conn.execute(sqlslave)
+  '---loop處理各轉碼對象unit
+  for each convertsimnode in convertsimnodes
+   ctunitidto=nulltext(convertsimnode.selectsinglenode("."))
+   sql = "select u.*,b.sbasetablename from ctunit as u " _
+    & " left join basedsd as b on u.ibasedsd=b.ibasedsd" _
+    & " where u.ctunitid=" & pkstr(ctunitidto,"") 
+   set rs = conn.execute(sql) 
+   if not rs.eof then
+    xctunitid = rs("ctunitid")
+    xibasedsd = rs("ibasedsd")
+    xcheckyn = rs("checkyn")
+    if isnull(rs("sbasetablename")) then
+     xsbasetablename = "cudtx" & xibasedsd
+    else
+     xsbasetablename = rs("sbasetablename")
+    end if
+    if xcheckyn=rsreg("checkyn") then '----主題單元同為須審核或同為不須審核
+     xfctupublic=rsreg("fctupublic")
+    elseif rsreg("checkyn")="y" and xcheckyn="n" then '----parent須審核但child不須審核
+     xfctupublic="y"
+    elseif rsreg("checkyn")="n" and xcheckyn="y" then '----parent不須審核但child須審核
+     xfctupublic="p"
+    end if      
+    '----master table處理
+    sql = "insert into  cudtgeneric(fctupublic,ibasedsd,ictunit,showtype,refid,deditdate,created_date,"
+    sqlvalue = ") values('"&xfctupublic&"',"&xibasedsd&","&xctunitid&",'4',"&session("convertsim_icuitem")&",getdate(),getdate()," 
+    for each param in allmodel.selectnodes("dstable[tablename='cudtgeneric']/fieldlist/field[fieldname!='icuitem' and fieldname!='ibasedsd' and fieldname!='ictunit' and fieldname!='fctupublic' and fieldname!='showtype' and fieldname!='refid' and fieldname!='deditdate' and fieldname!='created_date']") 
+     xdatatype = nulltext(param.selectsinglenode("datatype"))
+     if not isnull(rsreg(param.selectsinglenode("fieldname").text)) then
+      sql = sql & param.selectsinglenode("fieldname").text & ","
+      if xdatatype = "char" or xdatatype = "varchar" or xdatatype = "text" or xdatatype = "nchar" or xdatatype = "nvarchar" or xdatatype = "ntext" then
+       sqlvalue = sqlvalue & "n" & pkstr(rsreg(param.selectsinglenode("fieldname").text),",")  
+      else
+       sqlvalue = sqlvalue & pkstr(rsreg(param.selectsinglenode("fieldname").text),",")  
+      end if
+     end if  
+    next      
+    sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")"
+    sql = "set nocount on;"&sql&"; select @@identity as newid"
+    sql = oconvert.com2sim(sql)
+    set rsx = conn.execute(sql)
+    xnewidentity = rsx(0)
+    '----slave table處理
+    if xslavetable = xsbasetablename then
+     sql = "insert into  " & xsbasetablename & "(gicuitem,"
+     sqlvalue = ") values(" & xnewidentity & ","
+     for each param in refmodel.selectnodes("fieldlist/field") 
+         xdatatype = nulltext(param.selectsinglenode("datatype"))
+         if not isnull(rsslave(param.selectsinglenode("fieldname").text)) then
+      sql = sql & param.selectsinglenode("fieldname").text & ","
+      if xdatatype = "char" or xdatatype = "varchar" or xdatatype = "text" or xdatatype = "nchar" or xdatatype = "nvarchar" or xdatatype = "ntext" then
+       sqlvalue = sqlvalue & "n" & pkstr(rsslave(param.selectsinglenode("fieldname").text),",")  
+      else
+       sqlvalue = sqlvalue & pkstr(rsslave(param.selectsinglenode("fieldname").text),",")  
+      end if
+         end if
+     next
+     sql = left(sql,len(sql)-1) & left(sqlvalue,len(sqlvalue)-1) & ")" 
+    else
+     sql = "insert into  " & xsbasetablename & "(gicuitem) values(" & xnewidentity & ")"
+    end if
+    sql = oconvert.com2sim(sql)
+    conn.execute(sql)   
+    '----關鍵字詞處理
+       sqlk = "select xkeyword,weight from cudtkeyword where icuitem=" & session("convertsim_icuitem")
+       set rsk = conn.execute(sqlk)
+       if not rsk.eof then
+    keywordstr = ""
+    while not rsk.eof
+        keywordstr = keywordstr & "insert into cudtkeyword values(" & xnewidentity & ",n'"&rsk("xkeyword")&"',"&rsk("weight")&");"
+        rsk.movenext
+    wend
+    if keywordstr <> "" then conn.execute(oconvert.com2sim(keywordstr))
+         end if
+   end if
+  next
+ end if
+
+set oconvert = nothing
+ 

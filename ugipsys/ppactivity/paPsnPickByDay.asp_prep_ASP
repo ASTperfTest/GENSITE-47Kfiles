@@ -1,0 +1,31 @@
+﻿:  response.expires = 0
+htprogcap="���ʺ޲z"
+htprogfunc="���w�ǭ��m��"
+htprogcode="pa005"
+htprogprefix="psenroll" 
+   response.expires = 0 
+   CxMethod_ASP_server_2075167351()
+  
+ sql = "select * from pasession where pasid=" & session("pasid")
+ set rs = conn.execute(sql)
+ plimit = rs("plimit")
+ pbackup = rs("pbackup")
+ 
+ sql = "update paenroll set status = 'n'" _
+  & " where pasid=" & session("pasid")
+ conn.execute sql
+  
+   
+ sql = "update paenroll set status = 'b'" _
+  & " where pasid=" & session("pasid") & " and psnid in" _
+  & " (select top " & plimit+pbackup & " psnid from paenroll where pasid=" & session("pasid") _
+  & " order by erdate)"
+ conn.execute sql
+
+ sql = "update paenroll set status = 'y'" _
+  & " where pasid=" & session("pasid") & " and psnid in" _
+  & " (select top " & plimit & " psnid from paenroll where pasid=" & session("pasid") _
+  & " order by erdate)"
+ conn.execute sql
+
+ 

@@ -1,0 +1,74 @@
+﻿: 
+set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+'response.write "**" & session("pwd") & "==<hr>"
+'response.end
+
+if not session("pwd") then
+
+
+
+
+  
+end if
+
+progpath = request.servervariables("path_info")
+pospath = instrrev(progpath, "/")
+if pospath > 0 then  progpath = mid(progpath, pospath+1)
+pospath = instr(progpath,".")
+if pospath > 0 then  progpath = left(progpath, pospath-1)
+ xpos=instr(session("ugrpid"),",")
+ if xpos>0 then
+  idstr=replace(session("ugrpid"),", ","','")
+  idstr="'"&idstr&"'"
+ else
+  idstr="'" & session("ugrpid") & "'"
+ end if
+   sql = "select rights from ugrpap inner join infouser on ugrpap.ugrpid in (" & idstr & ")" & _
+         "where infouser.userid=n'" & session("userid") & "' and ugrpap.apcode=n'" & htprogcode & "'"
+   set rs=conn.execute (sql)
+if rs.eof then 
+
+
+
+
+  
+else
+   htprogright=0
+   sql = "select apnamec from ap where apcode = '"& htprogcode &"'"
+   set rscom=conn.execute (sql)
+   if not rscom.eof then
+    title = rscom("apnamec") & "&nbsp;管理"
+    title2 = rscom("apnamec")
+   end if
+   while not rs.eof
+    htprogright=(htprogright or rs("rights"))
+    rs.movenext
+   wend
+'   htprogright=rs("rights")
+end if
+
+if ((htprogright and 1) = 0) and (lcase(right(progpath,5))="query") then
+
+
+
+
+
+
+
+
+
+
+  
+   response.end
+end if
+ 

@@ -1,0 +1,203 @@
+﻿
+  @ codepage = 65001 
+   response.expires = 0
+htprogcap="主題館績效統計"
+htprogfunc="查詢清單"
+htprogcode="jigsaw"
+htprogprefix="newkpi" 
+
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_client_5214970()
+  
+ 'session("userid")=ieditor
+ 'ieditor=session("userid") 
+  
+ 'idept=session("deptid") 
+ ieditor="hyweb"
+ idept="0"
+ showtype="1"
+ siteid="1"
+ ibasedsd="7"
+ ictunit="2199"
+ 
+ secibasedsd="44"
+ secictunit="2200"
+ sql = ""
+
+ function xupform(xvar)
+  xupform = xup.form(xvar)
+end function
+
+htuploadpath = "/public/data/jigsaw/"
+htuploadpath2 = "jigsaw/"
+'response.write htuploadpath
+ apath = server.mappath(htuploadpath) & "\"
+set xup = server.createobject("tabs.upload")
+  xup.codepage = 65001
+  xup.start apath
+'response.write xupform("htx_title") 
+'response.write xupform("textarea") 
+'response.write xupform("select") 
+'response.write xupform("htx_title22") 
+'response.write xupform("value(startdate)") 
+'response.write xupform("value(enddate)") 
+dim ximportant
+if  xupform("htx_title22")="" then 
+ ximportant = 0 'xupform("htx_title22")=0
+else
+ ximportant = xupform("htx_title22")
+end if
+   'xupform("htx_title22")="0"
+  
+
+if (xupform("htx_title")="" or  xupform("value(startdate)")="" or xupform("value(enddate)")="" ) then
+
+showdonebox "輸入不完整！"
+ '[response.write "<script language='javascript'>alert('輸入不完整！');history.go(-1);</script>"
+response.end
+
+end if
+if (xupform("value(startdate)") > xupform("value(enddate)")) then
+
+showdonebox "時間輸入有誤！"
+ '[response.write "<script language='javascript'>alert('輸入不完整！');history.go(-1);</script>"
+response.end
+
+end if
+if isnumeric(xupform("htx_title22")) or  xupform("htx_title22")="" then
+ else
+ showdonebox "重要性--資料為數字！"
+ 'response.write "<script language='javascript'>alert('(重要性--資料為數字)！');history.go(-1);</script>"
+response.end
+if int(xupform("htx_title22")) < 0 or int(xupform("htx_title22"))  > 100 then
+ showdonebox "重要性--99為最高！"
+ 'response.write "<script language='javascript'>alert('(重要性--99為最高)！');history.go(-1);</script>"
+response.end
+
+end if
+
+
+
+end if
+
+for each form in xup.form
+if form.isfile  then
+     ofname = form.filename
+     fnext = ""
+     if instrrev(ofname, ".") > 0 then fnext = mid(ofname, instrrev(ofname, "."))
+     tstr = now()
+     nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext      
+     xup.form(form.name).saveas apath & nfname, true   
+     sql =  " '" & htuploadpath2 & nfname & "'"
+     
+      ' response.write sql
+    end if 
+  next
+ 
+  if sql="" then
+  sql1="insert into [mgipcoanew].[dbo].[cudtgeneric]([ibasedsd] ,[ictunit],[fctupublic],[stitle],[ieditor],[idept],[ximportant],[xpostdate],[xpostdateend] ,[showtype] ,[siteid],[xbody])"
+        sql1=sql1&"values('"&ibasedsd&"','"&ictunit&"','"&xupform("select")&"','"&xupform("htx_title") &"','"&ieditor&"','"&idept&"',"& ximportant &",'"&xupform("value(startdate)")&"','"&xupform("value(enddate)")&"','"&showtype&"','"&siteid&"','"&xupform("textarea") &"')"
+  sql1 = "set nocount on;" & sql1 & "; select @@identity as newid" 
+  else
+  sql1="insert into [mgipcoanew].[dbo].[cudtgeneric]([ibasedsd] ,[ictunit],[fctupublic],[stitle],[ieditor],[idept],[ximportant],[xpostdate],[xpostdateend] ,[showtype],[ximgfile] ,[siteid],[xbody])"
+        sql1=sql1&"values('"&ibasedsd&"','"&ictunit&"','"&xupform("select")&"','"&xupform("htx_title") &"','"&ieditor&"','"&idept&"',"&ximportant&",'"&xupform("value(startdate)")&"','"&xupform("value(enddate)")&"','"&showtype&"',"&sql&",'"&siteid&"','"&xupform("textarea") &"')"
+  sql1 = "set nocount on;" & sql1 & "; select @@identity as newid" 
+  end if
+ 
+  set rs = conn.execute(sql1)
+  parenticuitem=rs(0)
+   sql6="insert into cudtx7 ([gicuitem]) values('"&parenticuitem&"') "
+        set rs11 = conn.execute(sql6)
+  rs.close
+  set rs = nothing 
+ 
+  sql2="insert into [mgipcoanew].[dbo].[cudtgeneric]([ibasedsd],[ictunit],[fctupublic],[stitle],[ieditor],[idept],[topcat],[showtype],[siteid])values('"&secibasedsd&"','"&secictunit&"','y','最新議題','"&ieditor&"','"&idept&"','a','"&showtype&"','"&siteid&"');"
+  sql2 = "set nocount on;" & sql2 & "; select @@identity as newid" 
+  set rs = conn.execute(sql2)
+  gicuitem=rs(0)
+  sql6="insert into cudtx7 ([gicuitem]) values('"&gicuitem&"') "
+  conn.execute(sql6)
+  rs.close
+  set rs = nothing 
+  sql2i="insert into [mgipcoanew].[dbo].[knowledgejigsaw]([gicuitem],[parenticuitem])values("&gicuitem&","&parenticuitem&")" 
+  conn.execute(sql2i)
+  
+  sql3="insert into [mgipcoanew].[dbo].[cudtgeneric]([ibasedsd],[ictunit],[fctupublic],[stitle],[ieditor],[idept],[topcat],[showtype],[siteid])values('"&secibasedsd&"','"&secictunit&"','y','議題關聯知識文章','"&ieditor&"','"&idept&"','b','"&showtype&"','"&siteid&"');"
+  sql3 = "set nocount on;" & sql3 & "; select @@identity as newid" 
+  set rs = conn.execute(sql3)
+  gicuitem=rs(0)
+  sql6="insert into cudtx7 ([gicuitem]) values('"&gicuitem&"') "
+  conn.execute(sql6)
+  rs.close
+  set rs = nothing 
+  sql3i="insert into [mgipcoanew].[dbo].[knowledgejigsaw]([gicuitem],[parenticuitem])values("&gicuitem&","&parenticuitem&")" 
+  conn.execute(sql3i)
+  
+  sql4="insert into [mgipcoanew].[dbo].[cudtgeneric]([ibasedsd],[ictunit],[fctupublic],[stitle],[ieditor],[idept],[topcat],[showtype],[siteid])values('"&secibasedsd&"','"&secictunit&"','y','議題關聯知識文章單元順序設定','"&ieditor&"','"&idept&"','c','"&showtype&"','"&siteid&"');"
+  sql4 = "set nocount on;" & sql4 & "; select @@identity as newid" 
+  set rs = conn.execute(sql4)
+  gicuitem=rs(0)
+  sql6="insert into cudtx7 ([gicuitem]) values('"&gicuitem&"') "
+  conn.execute(sql6)
+  rs.close
+  set rs = nothing 
+  sql4i="insert into [mgipcoanew].[dbo].[knowledgejigsaw]([gicuitem],[parenticuitem] ,[ordersiteunit] ,[ordersubject],[orderknowledgetank],[orderknowledgehome])values("&gicuitem&","&parenticuitem&",1,2,3,4)" 
+  conn.execute(sql4i)
+  
+  sql5="insert into [mgipcoanew].[dbo].[cudtgeneric]([ibasedsd],[ictunit],[fctupublic],[stitle],[ieditor],[idept],[topcat],[showtype],[siteid])values('"&secibasedsd&"','"&secictunit&"','y','議題關聯影音','"&ieditor&"','"&idept&"','d','"&showtype&"','"&siteid&"')"
+  sql5 = "set nocount on;" & sql5 & "; select @@identity as newid" 
+  set rs = conn.execute(sql5)
+  gicuitem=rs(0)
+  sql6="insert into cudtx7 ([gicuitem]) values('"&gicuitem&"') "
+  conn.execute(sql6)
+  rs.close
+  set rs = nothing 
+  sql5i="insert into [mgipcoanew].[dbo].[knowledgejigsaw]([gicuitem],[parenticuitem])values("&gicuitem&","&parenticuitem&")" 
+  conn.execute(sql5i)
+ 
+    
+
+        '資源推薦的超連結-bob
+        sql5 = " declare @newidentity bigint "
+  sql5 = sql5 & "insert into [mgipcoanew].[dbo].[cudtgeneric]([ibasedsd],[ictunit],[fctupublic],[stitle],[ieditor],[idept],[topcat],[showtype],[siteid])values('"&secibasedsd&"','"&secictunit&"','y','資源推薦的超連結','"&ieditor&"','"&idept&"','e','"&showtype&"','"&siteid&"')"
+  sql5 = sql5 & " set @newidentity = @@identity "
+  sql5 = sql5 & " insert into cudtx7 ([gicuitem]) values( @newidentity )" 
+  sql5 = sql5 & " insert into [mgipcoanew].[dbo].[knowledgejigsaw]([gicuitem],[parenticuitem])values(@newidentity ,"&parenticuitem&")" 
+  conn.execute(sql5)    
+  
+  '使用者參與討論或分享心得 added by joey
+  sql6 = " declare @newidentity bigint "
+  sql6 = sql6 & "insert into [mgipcoanew].[dbo].[cudtgeneric]([ibasedsd],[ictunit],[fctupublic],[stitle],[ieditor],[idept],[topcat],[showtype],[siteid])values('"&secibasedsd&"','"&secictunit&"','y','使用者參與討論或分享心得','"&ieditor&"','"&idept&"','f','"&showtype&"','"&siteid&"')"
+  sql6 = sql6 & " set @newidentity = @@identity "
+  sql6 = sql6 & " insert into cudtx7 ([gicuitem]) values( @newidentity )" 
+  sql6 = sql6 & " insert into [mgipcoanew].[dbo].[knowledgejigsaw]([gicuitem],[parenticuitem])values(@newidentity ,"&parenticuitem&")" 
+  conn.execute(sql6)
+  
+  'sql2=sql2&"insert into [mgipcoanew].[dbo].[cudtgeneric]([ibasedsd],[ictunit],[fctupublic],[stitle],[ieditor],[idept],[showtype],[siteid])values('"&secibasedsd&"','"&secictunit&"','y','議題關聯知識文章','"&ieditor&"','"&idept&"','"&showtype&"','"&siteid&"');"
+  'sql2=sql2&"insert into [mgipcoanew].[dbo].[cudtgeneric]([ibasedsd],[ictunit],[stitle],[ieditor],[idept],[showtype],[siteid])values('"&secibasedsd&"','"&secictunit&"','議題關聯知識文章單元順序設定','"&ieditor&"','"&idept&"','"&showtype&"','"&siteid&"');"
+  'sql2=sql2&"insert into [mgipcoanew].[dbo].[cudtgeneric]([ibasedsd],[ictunit],[fctupublic],[stitle],[ieditor],[idept],[showtype],[siteid])values('"&secibasedsd&"','"&secictunit&"','y','議題關聯影音','"&ieditor&"','"&idept&"','"&showtype&"','"&siteid&"')"
+  'conn.execute(sql2)
+        'response.write sql2
+  
+     response.redirect "index.asp"
+  
+ 
+
+   sub showdonebox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+
+
+
+
+   end sub  

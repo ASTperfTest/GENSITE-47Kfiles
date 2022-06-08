@@ -1,0 +1,41 @@
+/* -----------------------------------------------------------DataTb1--- */
+
+.DataTb1 {
+	font-size: 12px;
+	line-height:150%;
+	border-collapse:collapse;
+	border-top: 3px solid #CCCCCC;
+	border-bottom: 2px solid #CCCCCC;
+	margin: 12px 10px 20px;
+	width: 96%;
+	
+}
+.DataTb1 caption {
+	font-size: 15px;
+	text-align:left;
+	color: #078F7E;
+}
+.DataTb1 th {
+	font-weight: normal;
+	color: #937A40;
+	border-bottom: 1px dashed #CCCCCC;
+	white-space: nowrap;
+	padding: 5px 12px 2px 8px;
+	background: #FFFFFF url(../images3/th_bg.gif) no-repeat right top;
+	text-align: right;
+	vertical-align: top;
+}
+.DataTb1 td {
+	color: #666666;
+	vertical-align: middle;
+	border-bottom: 1px dashed #CCCCCC;
+	padding: 3px 8px 2px 8px;
+	background: #FFFFFF;
+}
+.DataTb1 .modifytd {
+	height: 20px;
+	color: red;
+	border-bottom: 1px dashed #CCCCCC;
+	padding: 3px 8px 2px 8px;
+	background: #FFFFFF;
+}

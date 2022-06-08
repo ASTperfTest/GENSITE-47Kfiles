@@ -1,0 +1,291 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0
+response.cachecontrol = "no-cache"
+response.addheader "pragma", "no-cache"
+response.expires = -1
+response.cachecontrol = "private"
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+htprogcode="pedia01"
+htprogprefix="pediaadditional" 
+
+dim ictunitid : ictunitid = session("pediaadditionalunitid")
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_checkgipconfig_1275316133()
+   CxMethod_ASP_dbutil_10064021()
+
+
+
+
+
+
+
+
+
+  
+ if request("submittask")="delete" then
+  sql = ""
+    for each x in request.form
+   if left(x,4)="dbox" and request(x) <> "" then
+      xn = mid(x, 5)
+    sql = sql & "update pedia set xstatus = 'd' where gicuitem = " & xn & ";"    
+      end if
+    next   
+  conn.execute(sql)
+  
+  dim flag : flag = false
+  sql = "select * from activity where activityid = 'pedia' and getdate() between activitystarttime and activityendtime"
+  set rs = conn.execute(sql)
+  if not rs.eof then
+   flag = true
+  end if
+  
+  if flag then
+   for each x in request.form
+    if left(x,4)="dbox" and request(x) <> "" then
+     xn = mid(x, 5)
+     sql = "select memberid from pedia where gicuitem = " & xn  
+     set rs = conn.execute(sql)
+     if not rs.eof then
+      sql = "update activitypediamember set commendadditionalcount = commendadditionalcount - 1 where memberid = '" & rs("memberid") & "' and commendadditionalcount > 0"
+      conn.execute(sql)    
+     end if
+     rs.close
+     set rs = nothing    
+    end if
+   next   
+  end if  
+  
+
+
+
+                      =htprogprefix:                    =request.querystring("icuitem")
+
+      
+  response.end
+ 
+ elseif request("submittask")= "query" then
+ 
+  csql = "select count(*) from pedia inner join cudtgeneric on cudtgeneric.icuitem = pedia.gicuitem "
+  csql = csql & " inner join member on pedia.memberid = member.account where cudtgeneric.ictunit = " & ictunitid 
+  if request.querystring("icuitem") <> "" then
+   csql = csql & " and pedia.parenticuitem = " & request.querystring("icuitem")
+  end if
+  if request("xbody") <> "" then csql = csql & " and xbody like '%" & request("xbody") & "%' "
+  if request("xpostdates") <> "" then csql = csql & " and commendtime >= '" & request("xpostdates") & " 00:00:00' "
+  if request("xpostdatee") <> "" then csql = csql & " and commendtime <= '" & request("xpostdatee") & " 23:59:59' "
+  if request("fctupublic") <> "" then csql = csql & " and fctupublic = '" & request("fctupublic") & "' "
+  if request("xstatus") <> "" then csql = csql & " and xstatus = '" & request("xstatus") & "' "
+  if request("memberid") <> "" then 
+   csql = csql & " and ( memberid like '%" & request("memberid") & "%' or realname like '" & request("memberid") & "' "
+   csql = csql & " or nickname like '%" & request("memberid") & "%') "
+  end if  
+  
+  fsql = " cudtgeneric.icuitem, cudtgeneric.stitle, pedia.memberid, member.realname, member.nickname, "
+  fsql = fsql & " pedia.xstatus, pedia.parenticuitem, pedia.commendtime from cudtgeneric inner join pedia "
+  fsql = fsql & " on cudtgeneric.icuitem = pedia.gicuitem inner join member on pedia.memberid = member.account "
+  fsql = fsql & " where cudtgeneric.ictunit = " & ictunitid 
+  if request.querystring("icuitem") <> "" then
+   fsql = fsql & " and pedia.parenticuitem = " & request.querystring("icuitem")
+  end if
+  if request("xbody") <> "" then fsql = fsql & " and xbody like '%" & request("xbody") & "%' "
+  if request("xpostdates") <> "" then fsql = fsql & " and commendtime >= '" & request("xpostdates") & " 00:00:00' "
+  if request("xpostdatee") <> "" then fsql = fsql & " and commendtime <= '" & request("xpostdatee") & " 23:59:59' "
+  if request("fctupublic") <> "" then fsql = fsql & " and fctupublic = '" & request("fctupublic") & "' "
+  if request("xstatus") <> "" then fsql = fsql & " and xstatus = '" & request("xstatus") & "' "
+  if request("memberid") <> "" then 
+   fsql = fsql & " and ( memberid like '%" & request("memberid") & "%' or realname like '" & request("memberid") & "' "
+   fsql = fsql & " or nickname like '%" & request("memberid") & "%') "
+  end if
+  
+  session("basesql") = fsql
+  session("csql") = csql
+ 
+ elseif request("keep")="" then
+    
+  csql = "select count(*) from pedia inner join cudtgeneric on cudtgeneric.icuitem = pedia.gicuitem "
+  csql = csql & "where cudtgeneric.ictunit = " & ictunitid 
+  if request.querystring("icuitem") <> "" then
+   csql = csql & " and pedia.parenticuitem = " & request.querystring("icuitem")
+  end if
+  'csql = csql & " order by cudtgeneric.xpostdate desc "
+  
+  fsql = " cudtgeneric.icuitem, cudtgeneric.stitle, pedia.memberid, member.realname, member.nickname, "
+  fsql = fsql & " pedia.xstatus, pedia.parenticuitem, pedia.commendtime from cudtgeneric inner join pedia "
+  fsql = fsql & " on cudtgeneric.icuitem = pedia.gicuitem inner join member on pedia.memberid = member.account "
+  fsql = fsql & " where cudtgeneric.ictunit = " & ictunitid 
+  if request.querystring("icuitem") <> "" then
+   fsql = fsql & " and pedia.parenticuitem = " & request.querystring("icuitem")
+  end if
+  fsql = fsql & " order by cudtgeneric.xpostdate desc "
+  
+  session("basesql") = fsql
+  session("csql") = csql
+ 
+ end if
+ 
+ dim stitle : stitle = ""
+ if request.querystring("icuitem") <> "" then
+  sql = "select stitle from cudtgeneric where icuitem = " & request.querystring("icuitem")
+  set rs = conn.execute(sql)
+  if not rs.eof then
+   stitle = rs("stitle")
+  end if
+  set rs = nothing
+ else
+  stitle = "全部補充解釋"
+ end if
+ 
+ fsql = session("basesql") 
+ csql = session("csql")
+ 
+ nowpage = request.querystring("nowpage")  '現在頁數
+  perpagesize = cint(request.querystring("pagesize"))
+  if perpagesize <= 0 then  perpagesize = 15  
+
+  set rsc = conn.execute(csql)
+  totrec = rsc(0)       '總筆數
+  totpage = int(totrec / perpagesize + 0.999)
+
+  if cint(nowpage) < 1 then 
+    nowpage = 1
+  elseif cint(nowpage) > totpage then 
+    nowpage = totpage 
+  end if             
+
+ fsql = "select top " & nowpage * perpagesize & fsql
+
+ set rsreg = server.createobject("adodb.recordset")
+ rsreg.cursorlocation = 2 ' aduseserver cursorlocationenum
+' rsreg.cachesize = perpagesize
+
+'----------hyweb gip db connection patch----------
+' rsreg.open fsql, conn, 3, 1
+set rsreg =  conn.execute(fsql)
+ rsreg.cachesize = perpagesize
+'----------hyweb gip db connection patch----------
+
+
+ if not rsreg.eof then
+  if totrec > 0 then 
+      rsreg.pagesize = perpagesize       '每頁筆數
+      rsreg.absolutepage = nowpage      
+  end if    
+ end if   
+
+
+
+
+
+
+                                           =ictunitid:             =request.querystring("icuitem")
+
+     if request.querystring("icuitem") <> "" then 
+                                           =request.querystring("icuitem")
+     end if 
+
+
+
+
+        =stitle
+
+
+
+                                                    =htprogprefix:                    =request.querystring("icuitem")
+
+
+       if cint(nowpage) <> 1 then 
+
+              =htprogprefix:                           =(nowpage-1):             =perpagesize
+       end if 
+         =totrec
+
+                       if perpagesize=15 then:            end if
+                          if perpagesize=30 then:            end if
+                          if perpagesize=50 then:            end if
+                           if perpagesize=300 then:            end if
+
+
+
+     for ipage=1 to totpage 
+                    =ipage:    if ipage=cint(nowpage) then :           end if:    =ipage
+       next 
+
+
+       if cint(nowpage)<>totpage then 
+                 =htprogprefix:                           =(nowpage+1):             =perpagesize
+
+       end if 
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ if not rsreg.eof then   
+  for i = 1 to perpagesize
+   pkey = "icuitem=" & rsreg("icuitem")
+
+
+                                                               =rsreg("icuitem")
+                                                                      =pkey:             =rsreg("parenticuitem"):                       =nowpage:             =perpagesize:     =rsreg("stitle")
+                              =rsreg("memberid")
+                              =rsreg("realname")
+                              =rsreg("nickname")
+                              =rsreg("xstatus")
+                              =rsreg("commendtime")
+
+  
+      rsreg.movenext
+      if rsreg.eof then exit for 
+  next 
+
+
+
+
+                                                                                                                               =request.querystring("icuitem")
+
+
+
+
+
+
+
+
+
+                   =htprogprefix:                    =request.querystring("icuitem")
+
+
+
+
+
+
+                                     =htprogprefix:                                                    =perpagesize
+
+
+
+
+                                     =htprogprefix:                           =nowpage
+
+
+
+                                     =htprogprefix:                           =nowpage:             =perpagesize
+
+
+
+   else 
+
+
+
+
+   end if  

@@ -1,0 +1,204 @@
+@charset "utf-8";
+/*農業知識小百科*/
+/* cp add pantology */
+.pantology {
+	/*margin-right: 10px;*/
+	/*margin-left: 10px;*/
+	border-top: 3px double #F5F5F5;
+	border-bottom: 3px double #F5F5F5;
+	border-right-style: none;
+	border-left-style: none;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.pantology .head {
+	background: url(../images/pantology_head_bg.gif) no-repeat left bottom;
+	height: 16px;
+	width: 38px;
+}
+.pantology .body {
+	background: url(../images/pantology_bg.gif) repeat-y left top;
+	padding: 10px 5px 20px 50px;
+
+}
+.pantology .foot {
+	background: url(../images/pantology_foot_bg.gif) no-repeat left top;
+	height: 16px;
+	width: 38px;
+}
+.pantology h2 {
+	border-bottom: 3px dotted #aaa;
+	font-size: 130%;
+	margin: 0 0 5px;
+	font-weight: bold;
+	/*line-height: 140%;*/
+	/*background: url(../images/iocn_h2.gif) no-repeat left bottom;*/
+	/*padding: 3px 10px 2px 35px; remove by chiung 2008/12/19*/
+	padding: 3px 10px 2px 0;
+	font-weight: normal; /*add by chiung 2008/12/19 */
+}
+.type01 {
+	border-collapse: collapse;
+	width: 100%;
+	border-top: 2px solid #bbb;
+	border-bottom: 2px solid #bbb;
+	margin: 0;
+	padding: 8px 0;
+}
+.type01 img {
+	vertical-align: middle;
+}
+.type01 th {
+/*	width: 15%;*/
+	border-bottom: 1px solid #bbb;
+	padding: 4px 4px 4px 6px;
+	text-align: left;
+	vertical-align: top;
+	line-height: 140%;
+	font-weight: normal;
+	color: #111;
+}
+.type01 label {
+	color: #737300;
+	vertical-align: middle;
+}
+.type01 td {
+	border-bottom: 1px dotted #bbb;
+	padding: 6px 4px 4px 6px;
+	text-align: left;
+	vertical-align: top;
+	line-height: 140%;
+}
+.type02 {
+	border-collapse: collapse;
+	width: 100%;
+	border-top: 2px solid #bbb;
+	border-bottom: 2px solid #bbb;
+	margin: 0;
+	padding: 8px 0;
+	font-size: 100%;
+}
+.type02 img {
+	vertical-align: middle;
+}
+.type02 th {
+	border-bottom: 1px solid #bbb;
+	padding: 4px 4px 4px 6px;
+	text-align: left;
+	vertical-align: top;
+	line-height: 140%;
+	font-weight: normal;
+	color: #111;
+}
+.type02 td {
+	border-bottom: 1px dotted #bbb;
+	padding: 6px 4px 4px 6px;
+	text-align: left;
+	vertical-align: top;
+	line-height: 140%;
+}
+.type02 td a {
+}
+.pantology a {
+	text-decoration: none;
+	line-height: 130%;
+}
+.pantology a:hover, .type02 td a:hover {
+}
+.top {
+	text-align: right;
+	margin-right: 5px;
+	background: url(../images/iocn_top.gif) no-repeat right center;
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+	padding-right: 5px;
+	height: 14px;
+	margin-top: 10px;
+}
+.pantology hr {
+	border-style: none;
+	height: 1px;
+	color: #eeeeee;
+	margin-top: 30px;
+	margin-bottom: 5px;
+}
+.pantology textarea {
+	height: 200px;
+	width: 98%;
+	border: 1px solid #F1EBBA;
+	color: #666666;
+	padding: 4px;
+}
+.Function2 a.add {
+	background:  url("../images/func_bg_add.gif") no-repeat 0px 0px;
+}
+.Function2 a.retrieve {
+	background:  url("../images/func_bg_retrieve.gif") no-repeat 0px 0px;
+}
+.Function2 a.word {
+	background:  url("../images/func_bg_word.gif") no-repeat 0px 0px;
+}
+.Function2 a.add_more {
+	background:  url("../images/func_bg_more.gif") no-repeat 0px 0px;
+	padding-right: 20px;
+}
+.Function2 a.Rword {
+	background:  url("../images/func_bg_rword.gif") no-repeat 0px 0px;
+}
+.Function2 a:hover {
+	color: #666666;
+	text-decoration: none;
+}
+.pantology .s01 {
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+.pantology .button01 {
+	background: url(../images/buttona.gif) no-repeat left top;
+	height: 21px;
+	width: 68px;
+	font-size: 13px;
+	color: #006699;
+	border: none;
+	padding-top: 2px;
+	margin-right: 5px;
+	margin-left: 5px;
+	padding-left: 5px;
+}
+.pantology .button02 {
+	background: url(../images/button02.gif) no-repeat left top;
+	height: 21px;
+	width: 68px;
+	font-size: 13px;
+	color: #006600;
+	border: none;
+	padding-top: 2px;
+	margin-right: 5px;
+	margin-left: 5px;
+	padding-left: 5px;
+}
+.pantology .button03 {
+	background: url(../images/button03.gif) no-repeat left top;
+	height: 21px;
+	width: 68px;
+	font-size: 13px;
+	color: #990000;
+	border: none;
+	padding-top: 2px;
+	margin-right: 5px;
+	margin-left: 5px;
+	padding-left: 5px;
+}
+.pantology .browseby {
+	/*padding: 5px 10px;*/
+	/*background: #F5F5F5; remove by chiung 2008/12/19*/
+	padding: 0 0 8px;
+	text-align: right;
+}
+.pantology .input {
+	width: 80%;
+	color: #999999;
+	padding: 3px 3px 1px;
+	border: 1px solid #EAE195;
+}

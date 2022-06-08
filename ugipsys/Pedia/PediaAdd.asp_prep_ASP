@@ -1,0 +1,390 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0
+htprogcap="單元資料維護"
+htprogfunc="編修"
+htuploadpath=session("public")+"data/"
+htprogcode="pedia01"
+htprogprefix="pedia" 
+dim ibasedsdid : ibasedsdid = session("pediabasedsd")
+dim ictunitid : ictunitid = session("pediaunitid")
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_selecttree_859552413()
+   CxMethod_ASP_dbfunc_874801204()
+  
+ 
+ function mypkstr (s, cname, endchar)
+  if s = "" then
+   if cname = "xpostdate" then
+    mypkstr = "getdate()"
+   else
+    mypkstr = "''" & endchar
+   end if
+  else
+   pos = instr(s, "'")
+   while pos > 0
+    s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+    pos = instr(pos + 2, s, "'")
+   wend
+   if cname = "xpostdate" then
+    mypkstr = "'" & s & "'" & endchar
+   else
+    mypkstr = "n'" & s & "'" & endchar
+   end if
+  end if
+ end function
+ 
+
+   sub showerrbox() 
+
+            =errmsg
+
+
+   end sub 
+   sub showdonebox(lmsg, newid) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+       if request.querystring("btype") = "0" then 
+                               =htprogprefix
+       else 
+                               =htprogprefix:                           =newid
+       end if 
+
+
+
+   end sub 
+  
+ function doupdatedb()
+ 
+  sql1 = "" : sql11 = ""
+  sql2 = "" : sql22 = ""
+  
+  sql1 = "ibasedsd,ictunit,siteid,"
+  sql11 = ibasedsdid & "," & ictunitid & ",n'4',"
+
+  for each form in xup.form  
+   if form.name <> "ximgfile" and form.name <> "calendartarget" and form.name <> "submittask" and form.name <> "xstatus" then
+    if form.name = "engtitle" or form.name = "formalname" or form.name = "localname" then
+     sql2 = sql2 & form.name & ","
+     sql22 = sql22 & "'" & form & "',"
+    else 
+     if form.name = "ximportant" then
+      important = form
+      if important = "" then important = "0"
+      sql1 = sql1 & form.name & ","
+      sql11 = sql11 & important & ","
+     elseif form = "null" then
+      sql1 = sql1 & form.name & ","
+      sql11 = sql11 & "'',"
+     else
+      sql1 = sql1 & form.name & ","
+      sql11 = sql11 & mypkstr(form, form.name, "") & ","
+     end if
+    end if
+   end if
+   if form.isfile then
+    ofname = form.filename
+    fnext = ""
+    if instrrev(ofname, ".") > 0 then fnext = mid(ofname, instrrev(ofname, "."))
+    tstr = now()
+    nfname = right(year(tstr),1) & month(tstr) & day(tstr) & hour(tstr) & minute(tstr) & second(tstr) & cint(rnd(second(tstr))*100) & fnext      
+    'nfname = replace(nfname, "/site/coa", "")     
+    xup.form(form.name).saveas apath & nfname, true            
+    sql1 = sql1 & form.name & ","
+    sql11 = sql11 & "'" & htuploadpath & nfname & "',"
+   end if 
+  next  
+  sql = "insert into cudtgeneric(" & left(sql1, len(sql1) - 1) & ") values(" & left(sql11, len(sql11) - 1) & ")"  
+  sql = "set nocount on;" & sql & "; select @@identity as newid"    
+  set rs = conn.execute(sql)
+  xnewidentity = rs(0)  
+  set rs = nothing
+  sql2 = "gicuitem,xstatus,memberid,commendtime," & sql2
+  sql22 = xnewidentity & ",n'y','" & session("userid") & "',getdate()," & sql22
+  sql = "insert into pedia(" & left(sql2, len(sql2) - 1) & ") values(" & left(sql22, len(sql22) - 1) & ")"    
+  conn.execute(sql)
+  
+  doupdatedb = xnewidentity
+ end function 
+
+  
+ dim hyftdgipstr
+ dim pkey
+ dim rsreg
+ dim formfunction
+ dim allmodel2
+ dim xshowtypestr,xshowtype
+ dim xref5count,xref5yn
+ dim orginputtype
+ dim xmmofolderid,mmopath,xftpipmmo,xftpportmmo,xftpidmmo,xftppwdmmo,mmoftpfilepath,mmocount
+ mmocount=0
+
+ tasklable="編輯" & htprogcap
+ cq=chr(34)
+ ct=chr(9)
+ cl="<" & "%"
+ cr="%" & ">"
+  
+ apath = server.mappath(htuploadpath) & "\"
+
+ if request.querystring("phase")="add" or session("batchdphase") = "add" then
+  set xup = server.createobject("tabs.upload")
+ else
+  set xup = server.createobject("tabs.upload")
+  xup.codepage=65001
+  xup.start apath
+ end if
+
+ function xupform(xvar)
+  xupform = xup.form(xvar)
+ end function
+     
+ if xupform("submittask") = "add" then
+  
+  errmsg = ""  
+  if errmsg <> "" then
+   editinbothcase()
+  else
+   xnewid = doupdatedb()
+   showdonebox "資料新增成功！", xnewid
+  end if   
+ else  
+  if errmsg <> "" then showerrbox()
+  formfunction = "edit" 
+  showform()  
+ end if
+ session("batchdicuitem") = ""
+ session("batchdphase") = ""
+ session("batchdsubmittask") = "" 
+
+
+   
+sub showform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            =session("userid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+    sql = "select * from codemain where codemetaid = 'pediacata' order by msortvalue "
+    set cmrs = conn.execute(sql)
+    while not cmrs.eof      
+     response.write "<option value=""" & cmrs("mcode") & """>" & cmrs("mvalue") & "</option>" & vbcrlf          
+     cmrs.movenext
+    wend
+    set cmrs = nothing
+   
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                                         =date
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+    sqlcom = " select d.deptid,d.deptname,d.parent,len(d.deptid)-1,d.seq," & _
+         " (select count(*) from dept where parent=d.deptid and nodekind='d') " & _
+         " from dept as d where d.nodekind='d' " & _
+         " and d.deptid like '" & session("deptid") & "%'" & _
+         " order by len(d.deptid), d.parent, d.seq"    
+    set rss = conn.execute(sqlcom)
+    if not rss.eof then
+     arydept = rss.getrows(300)
+     glastmsglevel = 0
+     genlist 0, 0, 1, 0
+       expandfrom arydept(cid, 0), 0, 0
+   end if
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub  

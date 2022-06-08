@@ -1,0 +1,124 @@
+﻿: @ codepage = 65001 
+
+
+
+
+
+   
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true
+  'response.write session("mysiteid")
+  'response.write server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\xdmp" & request("mp") & ".xml"
+  'response.end
+ 
+  loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\xdmp" & request("mp") & ".xml"
+  xv = htpagedom.load(loadxml)
+'  response.write xv & "<hr>"
+    if htpagedom.parseerror.reason <> "" then 
+      response.write(loadxml & " file parseerror on line " &  htpagedom.parseerror.line)
+      response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+      response.end()
+    end if
+
+   set refmodel = htpagedom.selectsinglenode("//mpdataset")
+ xrootid=nulltext(refmodel.selectsinglenode("menutree"))
+ response.write "<menutitle>"&nulltext(refmodel.selectsinglenode("menutitle"))&"</menutitle>"
+ response.write "<mp>" & request("mp") & "</mp>"   
+ response.write "<mystyle>"&nulltext(refmodel.selectsinglenode("mpstyle"))&"</mystyle>"
+  
+ 
+   CxMethod_ASP_gensite_2005368621()
+   
+   for each xdataset in refmodel.selectnodes("dataset")
+    processxdataset
+ next
+
+  mytreenode = 0
+  upparent = 0
+
+function deamp(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   deamp=""
+   exit function
+  end if
+   deamp = replace(xs,"&","&amp;")
+end function
+'--------------頁尾維護單位---------------------
+footer_sql = "select footer_dept, footer_dept_url from cattreeroot left join nodeinfo on cattreeroot.ctrootid = nodeinfo.ctrootid where cattreeroot.pvxdmp ='"& request("mp") &"'"
+set footer_rs = conn.execute(footer_sql)
+if not footer_rs.eof then
+response.write "<footer_dept>" & footer_rs("footer_dept") & "</footer_dept>"
+response.write "<footer_dept_url>" & footer_rs("footer_dept_url") & "</footer_dept_url>"
+end if
+'--------------頁尾維護單位-end---------------
+
+response.write "<qstr>?site=2&amp;mp=" & request.querystring("mp") & "</qstr>"
+
+
+   CxMethod_ASP_x1menus_1545114555()
+   
+ sql = "select * from counter where mp='" & request("mp") & "'"
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  count = rs("counts") + 1
+  'sql = "update counter set counts = counts + 1  where mp='" & request("mp") & "'"
+ else
+  count = 1
+  'sql="insert into counter (mp, counts) values ('" & request("mp") & "','1')"
+ end if
+ '把count移到viewcounter.aspx 
+ 'set rs = conn.execute(sql)
+ sql = " select a.ctrootid , a.viewcount as allview,b.viewcount as thisyearview, "
+ sql = sql & " c.viewcount as thismonthview from( "
+ sql = sql & " select ctrootid, sum(viewcount) as viewcount "
+ sql = sql & "   from counterforsubjectbydate where ctrootid = '" & request("mp") & "' "
+ sql = sql & "   group by  ctrootid) as a "
+    sql = sql & "     left join (   "
+ sql = sql & " select ctrootid, sum(viewcount) as viewcount "
+ sql = sql & "  from counterforsubjectbydate where ctrootid = '" & request("mp") & "' "
+ sql = sql & "  and year(ymd) = year(getdate()) group by  ctrootid ) b on a.ctrootid = b.ctrootid "
+    sql = sql & "   left join ( "
+    sql = sql & "   select ctrootid, sum(viewcount) as viewcount "
+ sql = sql & "  from counterforsubjectbydate where ctrootid = '" & request("mp") & "' "
+ sql = sql & "  and month(ymd) = month(getdate()) group by  ctrootid )c on a.ctrootid = c.ctrootid " 
+ set rs = conn.execute(sql)
+ if not rs.eof then
+  if not isnull(rs("allview"))  then
+   countall = clng(rs("allview"))
+  end if
+  if not isnull(rs("thisyearview")) then
+   countthisyear =clng(rs("thisyearview"))
+  end if
+  if not isnull(rs("thismonthview"))then
+   countthismoth = clng(rs("thismonthview"))
+  else
+   countthismoth = 1
+  end if
+ else
+  countall = 1
+  countthisyear = 1
+  countthismoth = 1
+ end if
+ response.write "<counterall>" & countall & "</counterall>"
+ response.write "<counterthisyear>" & countthisyear & "</counterthisyear>"
+ response.write "<counterthismonth>" & countthismoth & "</counterthismonth>"
+ response.write "<counter>" & count & "</counter>"
+ 
+ xrootid=nulltext(refmodel.selectsinglenode("menutree"))
+ sql = "select max(xpostdate) from cudtgeneric as htx join cattreenode as n on n.ctunitid=htx.ictunit" _
+  & " and n.ctrootid=" & xrootid
+ set rs = conn.execute(sql)
+ '新增cttreeroot 20070608
+ 
+
+               =year(rs(0)) & "/" & month(rs(0)) &"/" & day(rs(0)) 
+          =date() 

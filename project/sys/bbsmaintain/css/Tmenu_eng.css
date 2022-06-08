@@ -1,0 +1,53 @@
+/*	
+	國工局全球網 - All Rights Reserved.
+	
+	Produicted By 凌網科技 HyWeb Tech. Co., Ltd.2004.
+	http://www.hyweb.com.tw　
+	HyWeb CSS Style(writed by m10/Carol13 Chen) 2004/02/26
+*/
+
+/* --------    Tmenu_eng    英文版左邊主選單  ------- */
+#Tmenu_eng .Top {
+	width:186px;
+	height: 10px;
+	background-image: url(../images/fast_top.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+
+}
+
+#Tmenu_eng .Down {
+	height: 10px;
+	width:186px;
+	background-image: url(../images/fast_down.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin-bottom: 15px;
+
+
+}
+
+#Tmenu_eng .text {
+	text-align: left;
+	margin-left: 15px;
+	width: 96%;
+}
+#Tmenu_eng .text a {
+	font-size: 14px;
+	color: #7E746D;
+	text-decoration: none;
+	font-family: "Arial", "Helvetica", "sans-serif";
+	background-image: url(../images/fast_sep.gif);
+	background-repeat: repeat-x;
+	background-position: bottom;
+	width:90%;
+	padding-top: 5px;
+	padding-bottom: 3px;
+}
+
+#Tmenu_eng .text a:hover {
+	color: #000000;
+	background-color: #FFFFFF;
+
+}
+

@@ -1,0 +1,6 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<SystemParameter>
+	<SeasonFolder xname="四季版型" xdesc="0:預設，1:端午，2:中秋，3:耶誕">1</SeasonFolder>
+	<HeaderCount xname="最新消息則數" xdesc="數值">20</HeaderCount>
+	<HeaderPost xname="首頁快報" xdesc="出現在首頁上緣的文字 (20字以內)">跑馬燈不能過無障礙好同情</HeaderPost>
+</SystemParameter>

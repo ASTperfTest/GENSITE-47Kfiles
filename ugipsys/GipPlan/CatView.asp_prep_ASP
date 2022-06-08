@@ -1,0 +1,99 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+   htprogcode = "ge1t21" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+  catid = request.querystring("catid")
+  if catid <> 0 then
+   sql = "select * from cattreenode where ctnodeid = "& catid
+   set rs = conn.execute(sql)
+   catname = rs("catname")
+   titlename = "目錄名稱："
+   delck = request.querystring("delck")
+  sqlcom = "select * from cattreenode where ctnodekind='u' and dataparent="& catid &" order by catshoworder"
+  set rscom = conn.execute(sqlcom)
+  else
+   catname = "根目錄"
+   titlename = ""
+   delck = "n"
+  sqlcom = "select * from cattreenode where ctnodekind='u' and dataparent="& 0 &" order by catshoworder"
+  set rscom = conn.execute(sqlcom)
+  end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       if catid <> 0 then :                                                                           end if 
+
+        if catid<>0 then :                                                                                                            =itemid:          =rs("dataparent"):       end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                          =titlename
+                                =catname
+
+
+
+
+        if not rscom.eof then 
+
+           do while not rscom.eof 
+
+                               =rscom("catname")
+
+           rscom.movenext
+        loop 
+
+          else 
+
+          end if 
+
+
+
+
+
+
+
+                                                =itemid:          =delck:          =catid
+                                                        =catid
+
+
+
+                                                  =itemid:          =catid
+
+
+
+
+
+
+
+
+
+
+
+                                                     =itemid:          =catid 

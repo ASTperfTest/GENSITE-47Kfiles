@@ -1,0 +1,142 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="點閱統計"
+htprogfunc="點閱統計"
+htprogcode="gw1m22"
+htprogprefix="msession" 
+   response.expires = 0 
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbutil_10064021()
+  
+ set rsreg = server.createobject("adodb.recordset")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  date1 = request("htx_dbdate")
+  date2 = request("htx_dedate")
+  
+  'response.write "date1= "& date1 &"<br>date2= "& date2 &"<br>"
+
+  if cint(isdate(date1))<>0 and cint(isdate(date2))<>0 then
+  sql="select ictunit, max(n.catname), count(*) as hitnumber from giphitunit as u left join cattreenode as n on u.ictnode=n.ctnodeid where hittime between '" & date1 & "' and '" & date2 & "' group by ictunit order by count(*) desc"
+  
+  response.write ""
+  'response.end
+  
+  set rs=conn.execute(sql)
+
+
+
+
+
+
+
+     do while not rs.eof  
+
+                       =rs(0) 
+                       =rs(1) 
+                       =rs(2) 
+
+    rs.movenext
+    loop
+
+
+
+  
+  end if
+ 

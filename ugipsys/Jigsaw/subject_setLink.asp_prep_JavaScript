@@ -1,0 +1,298 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function href____1470241313() {window.history.back();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function PageNumberOnChange(){
+var objSelect =document.reg.select;
+ var doc = document.reg;
+   window.location.href="subject_setList(2).asp?iCUItem=Cx_0dummy&gicuitem=Cx_0dummy&page="+objSelect.options[objSelect.selectedIndex].value+"&PageSize="+ doc.PageSize.options[doc.PageSize.selectedIndex].value;
+}
+function CKBoxSelectAll()
+ {
+  var doc = document.reg;
+  var flag = false;
+  if( doc.flag.value == "0" ) {
+   for( var i = 0; i < Cx_0dummy; i++ ) {   
+    doc.ckbox[i].checked = true;   
+   }
+   doc.flag.value = "1";
+  }
+  else {
+   for( var i = 0; i < Cx_0dummy; i++ ) {   
+    doc.ckbox[i].checked = false;   
+   }
+   doc.flag.value = "0";
+  }
+ }
+function PageSizeOnChange() 
+ {
+  var doc = document.reg;
+  var objSelect =document.reg.select;
+  doc.action = "subject_setList(2).asp?iCUItem=Cx_0dummy&gicuitem=Cx_0dummy&Page="+objSelect.options[objSelect.selectedIndex].value+"&PageSize="+ doc.PageSize.options[doc.PageSize.selectedIndex].value;
+  doc.submit();
+ }
+ function PageNumberOnChange() 
+ {
+ 
+ var objSelect =document.reg.select;
+ var doc = document.reg;
+  
+  var flag = false;
+  var checkitems = "";
+  var uncheckitems = "";
+  for( var i = 0; i < Cx_0dummy; i++ ) {
+    if( doc.ckbox[i].checked ) {
+     checkitems += doc.ckbox[i].value + ";"; 
+    }   
+    else{
+     uncheckitems += doc.ckbox[i].value + ";"; 
+    }
+   }
+  
+ 
+   window.location.href="subject_setList(2)03.asp?iCUItem=Cx_0dummy&gicuitem=Cx_0dummy&page="+objSelect.options[objSelect.selectedIndex].value+"&PageSize="+ doc.PageSize.options[doc.PageSize.selectedIndex].value+"&check=" + checkitems + "&uncheck=" + uncheckitems ;
+   //window.location.href="subject_setList(2).asp?iCUItem=Cx_0dummy&gicuitem=Cx_0dummy&page="+objSelect.options[objSelect.selectedIndex].value+"&PageSize="+ doc.PageSize.options[doc.PageSize.selectedIndex].value;
+   //window.location.href="subject_setList01.asp?iCUItem=Cx_0dummy&gicuitem=Cx_0dummy&PageNumber=" + doc.PageNumber.options[doc.PageNumber.selectedIndex].value + "&PageSize="+ doc.PageSize.options[doc.PageSize.selectedIndex].value+"&CtRootId="+Cx_0dummy+"&check=" + checkitems + "&uncheck=" + uncheckitems ;
+  //doc.action = "subject_setList.asp?iCUItem=Cx_0dummy&PageNumber=" + doc.PageNumber.options[doc.PageNumber.selectedIndex].value + "&PageSize="+ doc.PageSize.options[doc.PageSize.selectedIndex].value+"&CtRootId="+Cx_0dummy;
+  //doc.submit();
+ }
+ function SaveItems()
+ {
+  var objSelect =document.reg.select;
+ 
+  var doc = document.reg;
+  var flag = false;
+  var checkitems = "";
+  var uncheckitems = "";
+  for( var i = 0; i < Cx_0dummy; i++ ) {
+    if( doc.ckbox[i].checked ) {
+     checkitems += doc.ckbox[i].value + ";"; 
+    }   
+    else{
+     uncheckitems += doc.ckbox[i].value + ";"; 
+    }
+   }
+   
+   
+   window.location.href="subject_setList(2)02.asp?iCUItem=Cx_0dummy&gicuitem=Cx_0dummy&check=" + checkitems+ "&uncheck=" + uncheckitems ;  ;
+  
+ }
+
+
+ 

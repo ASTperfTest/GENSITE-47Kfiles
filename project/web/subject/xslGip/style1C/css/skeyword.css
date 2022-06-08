@@ -1,0 +1,16 @@
+@charset "utf-8";
+/* CSS Document */
+
+.skeyword {
+	background:  url(../images/keyword.gif) no-repeat left 4px;
+	padding: 2px 5px 5px 20px;
+	margin: 0 0 10px;
+}
+.skeyword ul {
+	display: inline;
+	margin: 0px 20px;
+}
+.skeyword ul li {
+	display: inline;
+	margin-right: 3px;
+}

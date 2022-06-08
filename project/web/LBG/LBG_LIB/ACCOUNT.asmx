@@ -1,0 +1,1 @@
+﻿<%@ WebService Language="C#" CodeBehind="ACCOUNT.asmx.cs" Class="LBG_AUTH.Service1" %>

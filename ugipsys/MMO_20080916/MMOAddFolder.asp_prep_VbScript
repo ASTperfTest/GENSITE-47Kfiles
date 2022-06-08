@@ -1,0 +1,230 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      alert("Cx_0dummy未能建立目錄！")
+      window.history.back
+    <script language=vbs></script>       alert("ftp同步站台無法連接上, 未能建立目錄！")
+      window.history.back
+    <script language=vbscript>   alert("目錄名稱已建立，無法再次建立！")
+   window.history.back
+ <script language=vbscript>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sub window_onload
+ clientinitform
+end sub
+
+sub clientinitform
+ reg.htx_deptid.value = "Cx_0dummy"
+end sub
+sub formadd
+msg4 = "請務必輸入「目錄名稱(實體路徑用)」，不得為空白！"
+msg5 = "請務必輸入「目錄顯示名稱」，不得為空白！"
+
+  if reg.tfx_mmofoldername.value = empty then
+     msgbox msg4, 64, "sorry!"
+     reg.tfx_mmofoldername.focus
+     exit sub
+  end if
+  if reg.tfx_mmofoldernameshow.value = empty then
+     msgbox msg5, 64, "sorry!"
+     reg.tfx_mmofoldernameshow.focus
+     exit sub
+  end if
+
+  reg.submittask.value = "新增存檔"
+   reg.submit         
+        
+end sub
+
+sub formreset
+ reg.reset
+end sub
+
+ 

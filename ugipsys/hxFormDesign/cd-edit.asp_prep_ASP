@@ -1,0 +1,79 @@
+﻿: @ codepage = 65001 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+topcount = 0
+
+function ckstr (s, endchar)
+ pos = instr(s, "'")
+ while pos > 0
+  s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+  pos = instr(pos + 2, s, "'")
+ wend
+ ckstr="'" & s & "'" & endchar
+end function
+
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("connstring")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("connstring")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+ 
+ 
+ sql = "select max(posleft) from info_hpset where user_id=n'" & session("userid") & "'"
+ set rs = conn.execute(sql)
+ xhdivpos = 350
+ if not rs.eof then
+  if rs(0) <> 40 then
+   xhdivpos = rs(0)
+  end if
+ end if
+
+ sql = "select p.part_name, h.* from info_hpset as h left join info_part as p " _
+  & " on p.part_id=h.part_id where h.user_id=n'" & session("userid") & "'"
+ set rs = conn.execute(sql)
+ 
+ while not rs.eof
+
+             =rs("part_id"):           =rs("posheight"):                                                                                                      =rs("bgcolor")
+                         =rs("postop"):          =rs("posleft"):                                      =rs("posheight")
+  =rs("part_name")
+             =rs("part_id"):                                                      =rs("postop")+rs("posheight")-10
+        =rs("posleft")
+     
+  rs.movenext
+ wend
+
+                                                                              =xhdivpos
+
+
+
+
+
+
+             =xhdivpos 

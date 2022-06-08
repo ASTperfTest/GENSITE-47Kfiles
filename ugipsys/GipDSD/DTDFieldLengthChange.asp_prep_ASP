@@ -1,0 +1,119 @@
+﻿: @ codepage = 65001 
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+set fso = server.createobject("scripting.filesystemobject")
+
+xpath = "/site/tcsafe/gipdsd/"
+
+set fldr = fso.getfolder(server.mappath(xpath))
+ 
+if fldr.files.count > 0 then
+    for each sf in fldr.files
+     if left(sf.name,5)="cudtx" or left(sf.name,7)="ctunitx" then
+'     if sf.name="cudtx4.xml" then
+'      on error resume next
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true             
+  loadxml = server.mappath(xpath+sf.name)             
+      xv = htpagedom.load(loadxml)
+    if htpagedom.parseerror.reason <> "" then 
+       response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+       response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+       response.end()
+    end if  
+'----930417修改xkeyword長度    
+'  set fieldnode = htpagedom.selectsinglenode("//fieldlist/field[fieldname='xkeyword']") 
+'  response.write fieldnode.nodetypestring+"<br>"
+'  
+'     fieldnode.selectsinglenode("datalen").text = 80
+'     fieldnode.selectsinglenode("inputlen").text = 60
+'     htpagedom.save(server.mappath(xpath+sf.name))
+'     response.write sf.name+"<br>"
+
+'----930413gipedit修改
+   set allmodel = htpagedom.selectsinglenode("//dataschemadef") 
+ set cudtgenericnode=htpagedom.selectsinglenode("dataschemadef/dstable[tablename='cudtgeneric']/fieldlist")
+ '----修改stitle之showlistclient/showlist值為空
+     if nulltext(allmodel.selectsinglenode("//fieldlist/field[fieldname='stitle']"))<>"" then      
+  set fieldnode = allmodel.selectsinglenode("//fieldlist/field[fieldname='stitle']")
+    fieldnode.selectsinglenode("showlistclient").text = ""
+    fieldnode.selectsinglenode("showlist").text = ""
+       end if
+ '----修改deditdate(刪除updatedefault/增加dbsave/資料與輸入長度為20)
+     if nulltext(allmodel.selectsinglenode("//fieldlist/field[fieldname='deditdate']"))<>"" then 
+  set deditdatenode=allmodel.selectsinglenode("//fieldlist/field[fieldname='deditdate']")
+  if nulltext(deditdatenode.selectsinglenode("updatedefault"))<>"" then     
+   deditdatenode.removechild deditdatenode.selectsinglenode("updatedefault")  
+  end if
+  deditdatenode.selectsinglenode("datalen").text = 20
+  deditdatenode.selectsinglenode("inputlen").text = 20  
+      set nxml2 = server.createobject("microsoft.xmldom")
+      nxml2.loadxml("<dbsave><type>sqlfunc</type><set>getdate()</set></dbsave>")
+      set nxmlnewnode2 = nxml2.documentelement  
+      deditdatenode.appendchild nxmlnewnode2   
+     end if  
+ '----修改ieditor(刪除updatedefault/增加dbsave)
+     if nulltext(allmodel.selectsinglenode("//fieldlist/field[fieldname='ieditor']"))<>"" then 
+  set ieditornode=allmodel.selectsinglenode("//fieldlist/field[fieldname='ieditor']")
+  if nulltext(ieditornode.selectsinglenode("updatedefault"))<>"" then      
+   ieditornode.removechild ieditornode.selectsinglenode("updatedefault")  
+  end if  
+      set nxml2 = server.createobject("microsoft.xmldom")
+      nxml2.loadxml("<dbsave><type>session</type><set>userid</set></dbsave>")
+      set nxmlnewnode2 = nxml2.documentelement  
+      ieditornode.appendchild nxmlnewnode2   
+     end if  
+ '----修改created_date(刪除updatedefault/inputtype改為hidden/增加clientdefault/增加dbsave/formlistclient與formlist值補上/資料與輸入長度為20)
+     if nulltext(allmodel.selectsinglenode("//fieldlist/field[fieldname='created_date']"))<>"" then 
+  set createddatenode=allmodel.selectsinglenode("//fieldlist/field[fieldname='created_date']")
+  if nulltext(createddatenode.selectsinglenode("updatedefault"))<>"" then   
+   createddatenode.removechild createddatenode.selectsinglenode("updatedefault")  
+  end if  
+  createddatenode.selectsinglenode("datalen").text = 20
+  createddatenode.selectsinglenode("inputlen").text = 20  
+  createddatenode.selectsinglenode("inputtype").text = "hidden"
+  createddatenode.selectsinglenode("formlistclient").text = createddatenode.selectsinglenode("fieldseq").text
+  createddatenode.selectsinglenode("formlist").text = createddatenode.selectsinglenode("fieldseq").text
+      set nxml = server.createobject("microsoft.xmldom")
+      nxml.loadxml("<clientdefault><type>clientfunc</type><set>date()</set></clientdefault>")
+      set nxmlnewnode = nxml.documentelement  
+      createddatenode.appendchild nxmlnewnode   
+      set nxml2 = server.createobject("microsoft.xmldom")
+      nxml2.loadxml("<dbsave><type>donothing</type><set></set></dbsave>")
+      set nxmlnewnode2 = nxml2.documentelement  
+      createddatenode.appendchild nxmlnewnode2   
+     end if  
+ '----加3個field.....
+  set fxml = server.createobject("microsoft.xmldom")
+  fxml.async = false
+  fxml.setproperty "serverhttprequest", true
+  loadxml = server.mappath("/gipdsd/schemafield2.xml")
+  xv = fxml.load(loadxml)
+    if fxml.parseerror.reason <> "" then 
+       response.write("fxml parseerror on line " &  fxml.parseerror.line)
+       response.write("<br>reasonxx: " &  fxml.parseerror.reason)
+       response.end()
+    end if    
+  set xfieldnode = fxml.selectsinglenode("//dataschemafield").clonenode(true)  
+  for each param in xfieldnode.selectnodes("field") 
+   cudtgenericnode.appendchild param
+  next
+  htpagedom.save(server.mappath(xpath+sf.name))       
+     end if
+    next
+end if
+
+'response.write "<xmp>"+htpagedom.xml+"</xmp>"
+'response.end
+
+
+
+response.write "<br>done!"
+ 

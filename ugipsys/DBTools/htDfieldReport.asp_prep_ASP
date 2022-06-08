@@ -1,0 +1,159 @@
+﻿: @ codepage = 65001 
+   response.expires = 0 
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+
+ server.scripttimeout = 2000
+ xmluri = request("xml")
+ formid = request("xml")
+ createschema = request("createschema")
+
+ set rptxmldoc = server.createobject("microsoft.xmldom")
+ rptxmldoc.async = false
+ rptxmldoc.setproperty("serverhttprequest") = true 
+ 
+ loadxml = server.mappath("/htsdsystem/xmlspec") & "\" & xmluri & ".xml"
+ debugprint loadxml & "<hr>"
+ xv = rptxmldoc.load(loadxml)
+ 
+  if rptxmldoc.parseerror.reason <> "" then 
+    response.write("xml parseerror on line " &  rptxmldoc.parseerror.line)
+    response.write("<br>reason: " &  rptxmldoc.parseerror.reason)
+    response.end()
+  end if
+
+' debugprint xv & "<hr>"
+' debugprint rptxmldoc.xml
+' response.end
+
+ set formdom = rptxmldoc.selectsinglenode("dataschemadef/dstable[tablename='" & formid & "']")
+    set ndate = rptxmldoc.createelement("reportdate")
+    ndate.text = date()
+    formdom.insertbefore ndate, formdom.selectsinglenode("tablename")
+
+ 
+ set oxsl = server.createobject("microsoft.xmldom")
+   oxsl.async = false
+  xv = oxsl.load(server.mappath("fieldreport.xsl"))
+' response.write vo.transformnode(oxsl)
+ response.contenttype = "text/html" 
+ response.write replace(formdom.transformnode(oxsl),"<meta http-equiv=""content-type"" content=""text/html; charset=utf-16"">","")
+ response.end
+
+
+' debugprint formdom.xml
+' response.end
+
+
+
+
+
+
+
+
+
+  
+cvbcrlf = "<br>" & vbcrlf
+ctab = ""
+ csql = "create table " & formid & " (" 
+ set paramlist = formdom.selectnodes("fieldlist/field")
+ for each param in paramlist
+  paramcode = param.selectsinglenode("fieldname").text
+  paramtype = param.selectsinglenode("datatype").text
+  paramsize=10
+  if paramtype="varchar" then paramsize = param.selectsinglenode("datalen").text
+  if paramtype="char" then paramsize = param.selectsinglenode("datalen").text
+  select case param.selectsinglenode("datatype").text
+    case "varchar"
+     csql = csql & cvbcrlf & ctab & paramcode & " varchar(" & paramsize & ")"
+    case "char"
+     csql = csql & cvbcrlf & ctab & paramcode & " char(" & paramsize & ")"
+    case else
+     csql = csql & cvbcrlf & ctab & paramcode & " " & paramtype
+  end select
+  if nulltext(param.selectsinglenode("defaultvalue")) <> "" then
+   csql = csql & " default '" & nulltext(param.selectsinglenode("defaultvalue")) & "'"
+  end if
+  if nulltext(param.selectsinglenode("identity")) = "y" then
+   csql = csql & " identity"
+  end if
+  if nulltext(param.selectsinglenode("cannull")) = "n" then
+   csql = csql & " not null,"
+  else
+   csql = csql & " null,"
+  end if
+     caption = nulltext(param.selectsinglenode("fieldlabel"))
+     csql = csql & "  -- " & caption
+ next  
+ csql = left(csql, len(csql)-len(caption)-6) & "  -- " & caption
+ csql = csql & cvbcrlf & ")"
+ response.write csql & "<br><br><br>"
+ if createschema = "y" then   conn.execute csql
+
+ csql = "alter table " & formid & " add constraint [pk_" & formid & "] primary key  nonclustered ("
+ set paramlist = formdom.selectnodes("fieldlist/field[isprimarykey='y']")
+ for each param in paramlist
+  paramcode = param.selectsinglenode("fieldname").text
+  csql = csql & paramcode & cvbcrlf & ","
+ next
+ csql = left(csql, len(csql)-1) & ")"
+ response.write csql & "<hr>"
+ if createschema = "y" then   conn.execute csql
+
+ 
+ set paramlist = formdom.selectnodes("instance/row")
+ for each param in paramlist
+'  response.write formdom.selectsinglenode("fieldlist/field[isprimarykey='y']/fieldname").text & "<hr>"
+   if nulltext(param.selectsinglenode(formdom.selectsinglenode("fieldlist/field[isprimarykey='y']/fieldname").text)) <> "" then
+  ifsql = "insert into " & formid & "("
+  ivsql = " values("
+  for each fldvalue in param.childnodes
+'   response.write fldvalue.nodename & "==>" & fldvalue.text & "<br>"
+   ifsql = ifsql & fldvalue.nodename & ","
+   ivsql = ivsql & "'" & fldvalue.text & "',"
+  next
+  isql = left(ifsql,len(ifsql)-1) & ")" & left(ivsql,len(ivsql)-1) & ")"
+  response.write isql & "<hr>"
+  conn.execute isql
+   end if
+ next
+
+
+
+
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+' if not isnull(xnode) then
+'   if isobject(xnode) then
+'  nulltext = 
+'   end if
+' else
+'  nulltext = "aaa"
+' end if
+end function
+
+function nctabchar(n)
+ if ctabchar = "" then
+  nctabchar = ""
+ else
+  nctabchar = string(n,ctabchar)
+ end if
+end function
+
+sub debugprint(xstr)
+' response.write xstr
+end sub
+ 

@@ -1,0 +1,101 @@
+﻿
+
+  
+'file name : counter.inc
+'author  : will
+'date  : 10/17/1999
+'usage  : counter(0) is for graphic mode otherwise is text mode
+
+'�p���ɪ������|
+
+sub counter(mode,mp)
+ '�p����
+ counterfilename = server.mappath("counter.txt")
+
+ set objfilesystem = createobject("scripting.filesystemobject")
+ on error resume next
+
+ 
+' application("hitcount") = ""
+ hit = clng(application("hitcount"))
+ if not isnumeric(hit) or hit = 0 or hit="" then
+'  response.write isnumeric(hit) & "<hr>&&"
+'  response.write hit & "***<hr>"
+ 
+  'ū�p����
+  set objreadedtextfile = objfilesystem.opentextfile(counterfilename,1,0,0)
+  hit = objreadedtextfile.readline
+  objreadedtextfile.close
+  application("hitcount") = hit
+ end if
+
+ if mp = 1 then
+  hit = clng(hit) + 1
+  application.lock
+   application("hitcount") = application("hitcount") + 1
+     
+  application.unlock
+ end if
+  'add by windjan 2005/11/07
+   updatedb(application("hitcount"))
+
+
+' hit = 293876
+ '�g�j�s�p�ƭ�
+' if hit mod 20 = 0 then
+  set objwritedtextfile = objfilesystem.createtextfile(counterfilename,-1,0)
+  objwritedtextfile.writeline hit
+  objwritedtextfile.close
+' end if
+
+ '�ϧωτ�r�ҧ� 
+ if mode = 0 then
+  for i=1 to cint(len(hit))
+   response.write "<img src=counter/" & mid(hit,i,1) & ".gif alt=" & mid(hit,i,1) & ">"
+  next
+ else
+  response.write hit
+ end if
+end sub
+
+function updatedb(num)
+     tmptimec = year(now()) & "/" & month(now())
+   sqlstring="select  monthperson.id, monthperson.tmptime , monthperson.person from  monthperson  where "
+   sqlstring+=" monthperson.tmptime='" & tmp & "'"
+   set rs=conn.execute(sqlstring) 
+   dim flag=true 
+  
+    if rs.bof=true and rs.eof=true then '�l��Ʀs�b
+      flag=false
+ end if
+ 
+ if flag=false then
+   insertdata(num,tmptimec)
+  else
+   updatedata(num,tmptimec)
+  end if  
+  
+end function
+
+function insertdata(num,tmptimec)
+   sql="insert into monthperson(tmptime,person) values(tmptimec,1)"
+   set  cmd=server.createobject("adodb.command")
+   cmd.commandtext=sql
+   cmd.execute
+      
+end function
+
+
+
+function updatedata(num,tmptimec)
+    sql="update monthperson set person='" &num & "' where tmptime='" & tmptime & "'"
+   set  cmd=server.createobject("adodb.command")
+   cmd.commandtext=sql
+   cmd.execute
+end function
+
+
+
+
+
+ 

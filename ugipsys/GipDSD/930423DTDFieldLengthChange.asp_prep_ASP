@@ -1,0 +1,78 @@
+﻿: @ codepage = 65001 
+  
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+set fso = server.createobject("scripting.filesystemobject")
+
+xpath = "/site/tcsafe/gipdsd/"
+
+set fldr = fso.getfolder(server.mappath(xpath))
+ 
+if fldr.files.count > 0 then
+    for each sf in fldr.files
+     if left(sf.name,5)="cudtx" or left(sf.name,7)="ctunitx" then
+'      on error resume next
+  set htpagedom = server.createobject("microsoft.xmldom")
+  htpagedom.async = false
+  htpagedom.setproperty("serverhttprequest") = true             
+  loadxml = server.mappath(xpath+sf.name)             
+      xv = htpagedom.load(loadxml)
+    if htpagedom.parseerror.reason <> "" then 
+       response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+       response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+       response.end()
+    end if    
+'----930423修改filedownload.seq=05/xpostdatee改成 xpostdateend   
+      if nulltext(htpagedom.selectsinglenode("//fieldlist/field[fieldname='filedownload']"))<>"" then 
+   set fieldnode = htpagedom.selectsinglenode("//fieldlist/field[fieldname='filedownload']")
+     fieldnode.selectsinglenode("fieldseq").text = "05"
+     fieldnode.selectsinglenode("formlist").text = "05"
+    end if
+      if nulltext(htpagedom.selectsinglenode("//fieldlist/field[fieldname='xpostdatee']"))<>"" then    
+   set fieldnode = htpagedom.selectsinglenode("//fieldlist/field[fieldname='xpostdatee']")  
+     fieldnode.selectsinglenode("fieldname").text = "xpostdateend"
+    end if
+'----930426修改showtype/filedownload/refid多組問題  
+  set cudtgenericnode=htpagedom.selectsinglenode("dataschemadef/dstable[tablename='cudtgeneric']/fieldlist")
+  for each param in cudtgenericnode.selectnodes("field[fieldname='showtype']") 
+   cudtgenericnode.removechild param
+  next
+  for each param in cudtgenericnode.selectnodes("field[fieldname='filedownload']") 
+   cudtgenericnode.removechild param
+  next
+  for each param in cudtgenericnode.selectnodes("field[fieldname='refid']") 
+   cudtgenericnode.removechild param
+  next
+  set fxml = server.createobject("microsoft.xmldom")
+  fxml.async = false
+  fxml.setproperty "serverhttprequest", true
+  loadxml = server.mappath("/gipdsd/schemafield2.xml")
+  xv = fxml.load(loadxml)
+    if fxml.parseerror.reason <> "" then 
+       response.write("fxml parseerror on line " &  fxml.parseerror.line)
+       response.write("<br>reasonxx: " &  fxml.parseerror.reason)
+       response.end()
+    end if    
+  set xfieldnode = fxml.selectsinglenode("//dataschemafield").clonenode(true)  
+  for each param in xfieldnode.selectnodes("field") 
+   cudtgenericnode.appendchild param
+  next    
+'----回存    
+  htpagedom.save(server.mappath(xpath+sf.name))
+  response.write sf.name+"<br>"
+    end if
+    next
+end if
+
+'response.write "<xmp>"+htpagedom.xml+"</xmp>"
+'response.end
+
+
+
+response.write "<br>done!"
+ 

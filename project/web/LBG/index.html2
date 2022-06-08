@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-TW" lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>「虛擬種植，知識升值」- 豆仔花園</title>
+<script language="javascript"> AC_FL_RunContent = 0; </script>
+<script language="javascript"> DetectFlashVer = 0; </script>
+<script src="AC_RunActiveContent.js" language="javascript"></script>
+<script language="JavaScript" type="text/javascript">
+<!--
+// -----------------------------------------------------------------------------
+// 全域
+// 需要 Flash 的主要版本
+var requiredMajorVersion = 9;
+// 需要 Flash 的次要版本
+var requiredMinorVersion = 0;
+// 需要的 Flash 版本
+var requiredRevision = 45;
+// -----------------------------------------------------------------------------
+// -->
+</script>
+</head>
+<style type="text/css">
+<!--
+body {
+	background-image: url(bg001.gif);
+}
+#bottom p {
+	margin: 2px 0px 0px;
+	font-size: 12px;
+	color: #333333;
+	padding: 0px;
+	float: left;
+	line-height: 18px;
+	text-align: left;
+}
+#bottom img {
+	margin-left: 100px;
+	float: left;
+	margin-right: 10px;
+	padding-bottom: 20px;
+}
+#bottom {
+	width: 760px;
+	margin-top: 10px;
+}
+#bottom a {
+	font-size: 12px;
+	color: #006666;
+}
+-->
+</style></head>
+<body bgcolor="#ffffff">
+
+<!--影片中使用的 URL-->
+<!--影片中使用的文本-->
+
+<center>
+<script language="JavaScript" type="text/javascript">
+<!--
+if (AC_FL_RunContent == 0 || DetectFlashVer == 0) {
+	alert("這個頁面必須具備 AC_RunActiveContent.js。");
+} else {
+	var hasRightVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
+	if(hasRightVersion) {  // 如果偵測到可接受的版本
+		// 嵌入 flash 影片
+		AC_FL_RunContent(
+			'codebase', 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,45,0',
+			'width', '720',
+			'height', '420',
+			'src', 'LITTLE_BEAN',
+			'quality', 'high',
+			'pluginspage', 'http://www.macromedia.com/go/getflashplayer',
+			'align', 'middle',
+			'play', 'true',
+			'loop', 'false',
+			'scale', 'showall',
+			'wmode', 'window',
+			'devicefont', 'false',
+			'id', 'LITTLE_BEAN',
+			'bgcolor', '#ffffff',
+			'name', 'LITTLE_BEAN',
+			'menu', 'true',
+			'allowNetworking','all',
+			'allowScriptAccess','always',
+			'allowFullScreen','false',
+			'movie', 'LITTLE_BEAN',
+			'salign', '' ,
+			'flashvars' ,'hostIP=kmweb.coa.gov.tw'  
+			); //end AC code
+	} else {  // flash 太舊或我們無法偵測到外掛程式
+		var alternateContent = '替代的 HTML 內容應置於此處。 '
+			+ '這個內容需要 Adobe Flash Player。 '
+			+ '<a href=http://www.macromedia.com/go/getflash/>取得 Flash</a>';
+		document.write(alternateContent);  // 插入不是 Flash 的內容
+	}
+}
+// -->
+</script>
+
+<!--影片中用到 URL-->
+<!--影片中用到文字-->
+
+  <div id="bottom">
+	<span style="color:red;font-size: 12px;">本遊戲排行榜每一小時更新一次</span><br/>
+	<a href="http://www.macromedia.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"><img src="get_flash_player.gif" alt="FLASH PLAYER連接按鈕" border="0" /></a>
+	<p>請使用IE 6.0以上 最佳觀看解析度1024x768．桌面設定以系統預設字型為佳<br/>
+	本網站之著作權為行政院農業委員會所有，非經同意禁止轉載<br/>
+	
+	</p>
+  </div>
+	
+</center>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-1667518-26");
+pageTracker._trackPageview();
+</script>
+
+</body>
+
+</html>

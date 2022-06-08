@@ -1,0 +1,246 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<htPage>
+	<HTProgPrefix>bDSDField</HTProgPrefix>
+	<HTProgCode>GE1T01</HTProgCode>
+	<HTUploadPath>/public/</HTUploadPath>
+	<HTProgPath>/GipDSD</HTProgPath>
+	<HTGenPattern>genMDAdd</HTGenPattern>
+	<doneURI>BaseDSDEditList.asp</doneURI>
+	<htForm>
+		<formModel id="bDSDFieldAdd">
+			<fieldList>
+				<tableName>BaseDSDField</tableName>
+				<masterTable>Y</masterTable><field>
+					<fieldName>iBaseDSD</fieldName>
+					<fieldLabel>單元資料定義ID</fieldLabel>
+					<dataType>int</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>hidden</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+					<clientDefault><type>serverFunc</type><set>request("iBaseDSD")</set></clientDefault>
+				</field>
+				<field>
+					<fieldName>xfieldSeq</fieldName>
+					<fieldLabel>顯示次序</fieldLabel>
+					<dataType>smallint</dataType>
+					<dataLen>2</dataLen>
+					<inputLen>2</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>inUse</fieldName>
+					<fieldLabel>是否生效</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>boolYN</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xfieldLabel</fieldName>
+					<fieldLabel>標題</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>30</dataLen>
+					<inputLen>30</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xfieldDesc</fieldName>
+					<fieldLabel>說明</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>50</dataLen>
+					<inputLen>50</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xdataType</fieldName>
+					<fieldLabel>資料型別</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>htDdataType</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xdataLen</fieldName>
+					<fieldLabel>資料長度</fieldLabel>
+					<dataType>int</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>4</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xcanNull</fieldName>
+					<fieldLabel>允許空值</fieldLabel>
+					<dataType>char</dataType>
+					<dataLen>1</dataLen>
+					<inputLen>1</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refRadio</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>boolYN</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xinputType</fieldName>
+					<fieldLabel>輸入型式</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>20</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>refSelect</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup>htDinputType</refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>xrefLookup</fieldName>
+					<fieldLabel>xrefLookup</fieldLabel>
+					<dataType>varchar</dataType>
+					<dataLen>20</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>Y</canNull>
+					<isPrimaryKey>N</isPrimaryKey>
+					<identity>N</identity>
+					<inputType>textbox</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+				<field>
+					<fieldName>iBaseField</fieldName>
+					<fieldLabel>單元資料欄位ID</fieldLabel>
+					<dataType>int</dataType>
+					<dataLen>4</dataLen>
+					<inputLen>10</inputLen>
+					<canNull>N</canNull>
+					<isPrimaryKey>Y</isPrimaryKey>
+					<identity>Y</identity>
+					<inputType>hidden</inputType>
+					<fieldDesc></fieldDesc>
+					<refLookup></refLookup>
+					<rows></rows>
+					<cols></cols>
+				</field>
+			</fieldList>
+			<anchorList>
+				<anchor>
+					<type></type>
+					<funcLabel></funcLabel>
+					<url></url>
+					<action></action>
+				</anchor>
+			</anchorList>
+		</formModel>
+	</htForm>
+	<pageSpec>
+		<pageHead>單元資料定義</pageHead>
+		<pageFunction>新增欄位</pageFunction>
+		<aidLinkList>
+			<Anchor>
+				<AnchorLabel>回前頁</AnchorLabel>
+				<AnchorType>Back</AnchorType>
+				<AnchorDesc>回前頁</AnchorDesc>
+				<AnchorURI></AnchorURI>
+				<checkRight></checkRight>
+				<AnchorPos>Top</AnchorPos>
+			</Anchor>
+		</aidLinkList>
+		<formUI ref="bDSDFieldAdd">
+			<pxHTML>
+				<CENTER>
+					<TABLE border="0" class="eTable" cellspacing="1" cellpadding="2" width="90%">
+						<TR><TD class="eTableLable" align="right">顯示次序：</TD>
+							<TD class="eTableContent"><refField>BaseDSDField/xfieldSeq</refField><refField>BaseDSDField/iBaseDSD</refField><refField>BaseDSDField/iBaseField</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>是否生效：</TD>
+							<TD class="eTableContent"><refField>BaseDSDField/inUse</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">標題：</TD>
+							<TD class="eTableContent"><refField>BaseDSDField/xfieldLabel</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">說明：</TD>
+							<TD class="eTableContent"><refField>BaseDSDField/xfieldDesc</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>資料型別：</TD>
+							<TD class="eTableContent"><refField>BaseDSDField/xdataType</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">資料長度：</TD>
+							<TD class="eTableContent"><refField>BaseDSDField/xdataLen</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>允許空值：</TD>
+							<TD class="eTableContent"><refField>BaseDSDField/xcanNull</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right"><font color="red">*</font>輸入型式：</TD>
+							<TD class="eTableContent"><refField>BaseDSDField/xinputType</refField></TD>
+						</TR>
+						<TR><TD class="eTableLable" align="right">xrefLookup：</TD>
+							<TD class="eTableContent"><refField>BaseDSDField/xrefLookup</refField></TD>
+						</TR>
+					</TABLE>
+				</CENTER>
+			</pxHTML>
+			<scriptCode><![CDATA[
+<SCRIPT LANGUAGE="vbs">
+
+</SCRIPT>
+		]]></scriptCode>
+		</formUI>
+		<UINotes>
+		</UINotes>
+	</pageSpec>
+</htPage>

@@ -1,0 +1,24 @@
+﻿
+
+  
+ session("odbcdsn")="provider=sqloledb;data source=10.10.5.128;user id=hygip;password=hyweb;initial catalog=gipmof"
+' session("odbcdsn")="provider=sqloledb;data source=210.69.109.16;user id=hymof;password=mof0530;initial catalog=mofgip"
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+'----------hyweb gip db connection patch----------
+
+
+ catcode = request("catcode")
+ sql = "select deptid, eabbrname, xurl from dept as d join cudtgeneric as g" _
+  & " on d.gicuitem=g.icuitem where xurl<>'' and tdatacat like n'%" & catcode & "%'"
+ set rs = conn.execute(sql)
+ while not rs.eof
+  response.write "<row><mcode>" & rs("xurl") & "</mcode><mvalue>" & rs("eabbrname") & "</mvalue></row>" & vbcrlf
+  rs.movenext
+ wend
+ 
+ 

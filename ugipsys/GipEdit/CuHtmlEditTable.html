@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<title>Table Editor</title>
+<link href="/css/editor.css" rel="stylesheet" type="text/css"/>
+<link href="/css/popup.css" rel="stylesheet" type="text/css"/>
+<style type="text/css">
+body {
+	width: expression((parseInt(window.dialogWidth) - 43) + 'px');
+}
+.options input {
+	border: 1px solid black;
+}
+.options input.radio {
+	border: none;
+}
+.options .changed {
+	background-color: yellow;
+}
+.options .error {
+	background-color: red;
+}
+div#editor {
+	position: relative;
+	background-color: #99aadd;
+	width: 100%;
+	margin-bottom: 0.5em;
+	overflow: hidden;
+}
+div#editor table {
+	table-layout: fixed;
+}
+table#editorHorz, table#editorVert {
+	position: absolute;
+	text-align: center;
+}
+table#editorHorz td, table#editorVert td {
+	text-align: center;
+	vertical-align: middle;
+	color: #eeeeee;
+	padding: 0;
+	font-size: 14px;
+}
+table#editorHorz td {
+	border-right: 1px solid blue;
+}
+table#editorHorz td.last {
+	border-right: none;
+}
+table#editorVert td {
+	border-bottom: 1px solid blue;
+}
+table#editorVert td.last {
+	border-bottom: none;
+}
+table#editorHorz {
+	left: 0;
+	height: 30px;
+}
+table#editorVert {
+	top: 0;
+	width: 30px;
+}
+div#editorTopLeft {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 30px;
+	height: 30px;
+	background: url(editor/images/diagblueline.gif) no-repeat;
+}
+table#grid {
+	position: absolute;
+	left: 30px;
+	top: 30px;
+	background-color: white;
+}
+table#grid td {
+	text-align: center;
+	vertical-align: middle;
+	border: 1px solid white;
+	overflow: hidden;
+}
+table#grid td.old-td {
+	background-color: #ffff99;
+}
+table#grid td.new-td {
+	background-color: #ccffcc;
+}
+table#grid td.old-th {
+	background-color: #ffff33;
+}
+table#grid td.new-th {
+	background-color: #99ff99;
+}
+#buttons {
+	float: right;
+}
+#buttons * {
+	width: 80px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+.floatclearer {
+	clear: both;
+}
+</style>
+<script type="text/javascript" src="CuHtmlEditTable.js"></script>
+</head>
+<body>
+<div style="display: none;">
+	<span id="ORIGINAL_VALUE">原始值</span>
+	<span id="NOT_AN_INTEGER">輸入值必須是整數</span>
+	<span id="NOT_A_PERCENTAGE">輸入值必須介於 1 至 100</span>
+	<span id="INVALID_VALUE">不合法的輸入值</span>
+	<span id="INVALID_TABLE_HTML">不正確的 table HTML 指令</span>
+</div>
+<div id="PopFormName">插入表格</div>
+<form action="" method="" id="PopForm">
+	<h1>基本設定</h1>
+	<table class="options" cellspacing="0">
+		<tr id="widthContainer">
+			<td class="Label"><label id="widthLabel" for="width">表格寬度</label></td>
+			<td><input id="width" type="text" class="InputText" size="4"/>%</td>
+			<td id="widthDesc"></td>
+		</tr>
+		<tr id="borderContainer">
+			<td class="Label"><label id="borderLabel" for="border">邊框</label></td>
+			<td><input id="border" type="text" class="InputText" size="4"/>px</td>
+			<td id="borderDesc"></td>
+		</tr>
+		<tr id="cellPaddingContainer">
+			<td class="Label"><label id="cellPaddingLabel" for="cellPadding">內距</label></td>
+			<td><input id="cellPadding" type="text" class="InputText" size="4"/></td>
+			<td id="cellPaddingDesc"></td>
+		</tr>
+		<tr id="cellSpacingContainer">
+			<td class="Label"><label id="cellSpacingLabel" for="cellSpacing">間距</label></td>
+			<td><input id="cellSpacing" type="text" class="InputText" size="4"/></td>
+			<td id="cellSpacingDesc"></td>
+		</tr>
+	</table>
+	<hr/>
+	<h1>資料標題</h1>
+	<table class="options" cellspacing="0">
+		<tr>
+			<td>
+				<input name="layout" id="layoutHTop" type="radio" class="radio" onclick="layoutModeTop();" onchange="layoutModeTop();"/>
+				<label for="layoutHTop"><img src="editor/images/icon_table_HTop.gif" alt="資料標題於上列"/>上</label>
+			</td>
+			<td>
+				<input name="layout" id="layoutHLeft" type="radio" class="radio" onclick="layoutModeLeft();" onchange="layoutModeLeft();"/>
+				<label for="layoutHLeft"><img src="editor/images/icon_table_HLeft.gif" alt="資料標題於左欄"/>左</label>
+			</td>
+			<td>
+				<input name="layout" id="layoutHBoth" type="radio" class="radio" onclick="layoutModeBoth();" onchange="layoutModeBoth();"/>
+				<label for="layoutHBoth"><img src="editor/images/icon_table_HBoth.gif" alt="資料標題於上及左"/>上及左</label>
+			</td>
+			<td>
+				<input name="layout" id="layoutHNone" type="radio" class="radio" onclick="layoutModeNone();" onchange="layoutModeNone();"/>
+				<label for="layoutHNone"><img src="editor/images/icon_table_HNone.gif" alt="無資料標題"/>無</label>
+			</td>
+		</tr>
+	</table>
+	<hr/>
+	<h1>無障礙支援</h1>
+	<table class="options" cellspacing="0">
+		<tr id="captionContainer">
+			<td class="Label"><label id="captionLabel" for="caption">表格標題</label></td>
+			<td><input id="caption" type="text" class="InputText" size="50"/></td>
+			<td id="captionDesc"></td>
+		</tr>
+		<tr id="summaryContainer">
+			<td class="Label"><label id="summaryLabel" for="summary">摘要</label></td>
+			<td><textarea id="summary" cols="50" rows="3" wrap="VIRTUAL" class="InputText"/></textarea></td>
+			<td id="summaryDesc"></td>
+		</tr>
+	</table>
+	<hr/>
+	<div id="editor"></div>
+	<hr/>
+	<div id="buttons">
+		<input type="button" class="InputButton" value="確定" onclick="doOK();"/>
+		<input type="button" class="InputButton" value="取消" onclick="doCancel();"/>
+		<input type="button" class="InputButton" value="套用" onclick="doApply();"/>
+	</div>
+	<div class="floatclearer"></div>
+</form>
+</body>
+</html>

@@ -1,0 +1,132 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="相關連結"
+htprogfunc="條列"
+htprogcode="gc1ap1"
+htprogprefix="cupage" 
+   response.expires = 0 
+   CxMethod_ASP_server_1606199358()
+
+
+
+
+
+
+   CxMethod_ASP_dbutil_10064021()
+  
+dim mpkey, dpkey
+dim rsmaster, rslist
+ sqlcom = "select * from cudtgeneric where icuitem=" & pkstr(request.querystring("icuitem"),"")
+ set rsmaster = conn.execute(sqlcom)
+ mpkey = ""
+ mpkey = mpkey & "&icuitem=" & rsmaster("icuitem")
+ if mpkey<>"" then  mpkey = mid(mpkey,2)
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+                             =mpkey
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+function qqrs(fldname)
+ xvalue = rsmaster(fldname)
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function 
+
+
+                          =qqrs("stitle")
+                           =qqrs("icuitem")
+
+  
+ fsql = "select dhtx.*, r.stitle" _
+  & " from cudtpage as dhtx" _
+  & " left join cudtgeneric as r on r.icuitem=dhtx.npageid" _
+  & " where 1=1" _
+  & " and dhtx.xicuitem=" & pkstr(rsmaster("icuitem"),"") _
+  & ""
+ set rslist = conn.execute(fsql)
+
+                                                                           =mpkey
+
+
+
+
+
+
+
+  
+ while not rslist.eof
+  dpkey = ""
+  dpkey = dpkey & "&ixcupage=" & rslist("ixcupage")
+  if dpkey<>"" then  dpkey = mid(dpkey,2)
+
+
+                           =dpkey
+  =rslist("atitle")
+
+
+
+  =rslist("adesc")
+
+
+  =rslist("stitle")
+
+
+      
+         rslist.movenext
+     wend
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     =htprogprefix:                                                                   =perpagesize
+
+
+
+
+                                     =htprogprefix:                    =nowpage:                =strsql 

@@ -1,0 +1,57 @@
+#title2 {
+	font-size: 12px;
+	color: #333333;
+	margin-top: 150px;
+	margin-left: 20px;
+
+
+
+
+}
+#title2 a.coowd {
+	font-size: 12px;
+	color: #333333;
+	z-index: 2;
+	text-decoration: none;
+}
+#title2 a.coowd:hover {
+	font-size: 12px;
+	color: #009966;
+	z-index: 2;
+	text-decoration: none;
+}
+body {
+	margin: 0px;
+	text-align: center;
+	background-color: #CCCCCC;
+
+
+
+}
+
+
+.time_a{
+	font-size: 12px;
+	color: #004A80;
+	text-align: left;
+	float: right;
+	margin-right: 5px;
+	width: 160px;
+	position: absolute;
+	right: 5px;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

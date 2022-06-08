@@ -1,0 +1,111 @@
+﻿: @ codepage = 65001 
+   
+response.expires = 0
+htprogcode="gc1ap1"
+
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbfunc_1723934251()
+
+
+  
+sub checkallchild (xnodeid)
+ xsql = "select t.* " _
+  & ", (select count(*) from cattreenode as c where c.dataparent=t.ctnodeid " _
+  & " and c.ctnodekind='c') as haschildfolder " _
+  & ", (select count(*) from cattreenode as c join ctuserset as cu on cu.ctnodeid=c.ctnodeid " _
+  & " and cu.userid=" & pkstr(userid,"") _
+  & " where c.dataparent=t.ctnodeid and cu.rights is not null) as haschild " _
+  & " from cattreenode as t where t.dataparent = "& xnodeid
+ set xrs = conn.execute(xsql)
+ while not xrs.eof
+  if xrs("haschild") > 0 then 
+   childcount = childcount + xrs("haschild") 
+  elseif xrs("haschildfolder") > 0 then
+   checkallchild xrs("ctnodeid")
+  end if
+  
+  xrs.movenext
+ wend
+end sub
+
+ itemid = session("exrootid")  '-- 要處理哪個 tree
+ sqlcom = "select * from cattreeroot where ctrootid = "& itemid 
+ set rs = conn.execute(sqlcom)
+
+
+ ftypename = rs("ctrootname")
+ userid = session("userid")
+ session("itemid")=itemid
+
+   const cid     = 2 'catid
+   const cname   = 3 'catname
+   const cparent = 7 'dataparent
+   const cchild  = 8 'childcount
+   const clevel  = 6 'datalevel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  userid = session("userid")
+
+                                              =userid 
+
+
+   response.write "treeroot = gfld(""_self"", """ & ftypename & """, ""#"")" & vbcrlf
+ nowcount = 0
+
+ sqlcom = "select t.*, u.rights " _
+  & ", (select count(*) from cattreenode as c where c.dataparent=t.ctnodeid " _
+  & " and c.ctnodekind='c') as haschildfolder " _
+  & ", (select count(*) from cattreenode as c join ctuserset as cu on cu.ctnodeid=c.ctnodeid " _
+  & " and cu.userid=" & pkstr(userid,"") _
+  & " where c.dataparent=t.ctnodeid and cu.rights is not null) as haschild " _
+  & " from cattreenode as t left join ctuserset as u on u.ctnodeid=t.ctnodeid " _
+  & " and u.userid=" & pkstr(userid,"") _
+  & " where ctrootid = "& pkstr(itemid,"") _
+  &" order by datalevel, catshoworder"
+ set rs = conn.execute(sqlcom)
+ while not rs.eof
+  xparent = "treeroot"
+  if rs(clevel) > 1 then xparent = "n" & rs(cparent)
+  if rs("ctnodekind") = "c" then
+   catlink = "#"
+   if rs("haschild")<> 0 then 
+    response.write "n"& rs(cid) &"= insfld(" & xparent &", gfld(""_self"", """& rs(cname) &""", """& catlink &"""))" & vbcrlf
+   elseif rs("haschildfolder") <> 0 then
+    childcount = 0
+    checkallchild rs("ctnodeid")
+    if childcount > 0 then _
+     response.write "n"& rs(cid) &"= insfld(" & xparent &", gfld(""_self"", """& rs(cname) &""", """& catlink &"""))" & vbcrlf
+   end if
+  else
+      forumlink = "ctxmlin.asp?itemid="& itemid &"&ctnodeid="& rs("ctnodeid")
+      forumlink = "#"
+      if not isnull(rs("rights")) then
+         forumcheck = "<input type=checkbox name='ctnodeid' value='" & cstr(rs("ctnodeid"))+"|||"+rs("catname") & "'>" & rs("catname")      
+       response.write "insdoc("& xparent &", glnk(""_self"", """& forumcheck &""", """& forumlink &"""))" & vbcrlf
+    end if
+  end if
+  rs.movenext
+ wend
+
+ 

@@ -1,0 +1,103 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+            function href___1226440847() {NewTopic();}
+
+           function href____1206670856() {history.go(-1);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $(document).ready(function() {
+            //Tab Menu
+            $("#tabInfo").addClass("btnDistrict");
+            $("#tabList").addClass("btnDistrict");
+            $("#tabVote").addClass("btnDistrict now");
+            $("#tabFinal").addClass("btnDistrict");
+        });
+        function NewTopic() {
+            $('#Action').val('NewTopic');
+            document.aspnetForm.submit();
+        }
+    
+
+
+
+
+ 

@@ -1,0 +1,90 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ 'htprogcap = "功能管理"
+ 'htprogfunc = "問卷調查"
+ htprogcode = "gw1_vote01"
+ 'htprogprefix = "msession"
+ response.expires = 0
+
+
+
+  
+ set rsreg = server.createobject("adodb.recordset")
+
+   
+ 
+ subjectid = request("subjectid")
+ if subjectid = "" then
+  response.write "<body onload='javascript:history.go(-1);'>"
+  response.end
+ end if
+ 
+ sql = "select m011_questno, m011_jumpquestion from m011 where m011_subjectid = " & subjectid
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "<body onload='javascript:history.go(-1);'>"
+  response.end
+ end if
+ questno = rs(0)
+ jumpquestion = rs(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      =subjectid 
+                                                    =questno 
+                                                         =jumpquestion 
+
+
+
+
+
+
+  
+ for i = 1 to questno
+  sql = "select m012_answerno from m012 where m012_subjectid = " & subjectid & _
+   " and m012_questionid = " & i
+  set rs = conn.execute(sql)
+  if rs.eof then
+   answerno = 0
+  else
+   answerno = rs(0)
+  end if
+
+
+                   =i 
+
+                                     =i 
+  
+  for j = 1 to 120
+   if j = answerno then
+    response.write "<option value='" & j & "' selected>" & j & "</option>"
+   else
+    response.write "<option value='" & j & "'>" & j & "</option>"
+   end if
+  next
+
+
+
+
+  
+ next
+
+
+
+
+                                                                                                            =subjectid  

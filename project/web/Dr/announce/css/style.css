@@ -1,0 +1,152 @@
+@charset "utf-8";
+div{
+	margin:0px;
+	padding:0px;
+}
+body {
+	background-color: #EBFF9E;
+	margin: 0px;
+	padding: 0px;
+}
+img{
+	border:0px;
+	vertical-align:middle;
+	}
+.tablestyle01 tr td img {
+	padding: 5px;
+}
+
+#wrap {
+	margin: 0 auto;
+	width: 960px;
+	font-size:80%;
+
+}
+#wrap #header{
+}
+#wrap #menu {
+	background: url(../images/COA_game_menuBg.jpg) no-repeat center;
+	height:53px;
+	position:relative;
+	width:999px;	
+}
+#wrap #menu ul {
+	position:absolute;
+	left:30px;
+	top:0px;
+	+top:13px;
+}
+#wrap #menu ul li a {
+	width: 147px;
+	height: 41px;
+	float: left;
+}
+#wrap #menu ul li {
+	list-style: none;
+	width: 147px;
+	height: 41px;
+	float: left;
+	margin-right: 3px;
+	cursor: hand;
+}
+
+#wrap #menu ul .btnstyle01 {
+	background: url(../images/COA_game_menu.gif) no-repeat 0px -41px;
+}
+#wrap #menu ul .btnstyle01 a:hover {
+	background: url(../images/COA_game_menu.gif) no-repeat 0px 0px;
+}
+#wrap #menu ul .btnstyle01 .now {
+	background: url(../images/COA_game_menu.gif) no-repeat 0px 0px;
+}
+#wrap #menu ul .btnstyle02 {
+	background: url(../images/COA_game_menu.gif) no-repeat -150px -41px;
+}
+#wrap #menu ul .btnstyle02 a:hover {
+	background: url(../images/COA_game_menu.gif) no-repeat -150px 0px;
+}
+#wrap #menu ul .btnstyle02 .now {
+	background: url(../images/COA_game_menu.gif) no-repeat -150px 0px;
+}
+#wrap #menu ul .btnstyle03 {
+	background: url(../images/COA_game_menu.gif) no-repeat -300px -41px;
+}
+#wrap #menu ul .btnstyle03 a:hover {
+	background: url(../images/COA_game_menu.gif) no-repeat -300px 0px;
+}
+#wrap #menu ul .btnstyle03 .now {
+	background: url(../images/COA_game_menu.gif) no-repeat -300px 0px;
+}
+#wrap #menu ul .btnstyle04 {
+	background: url(../images/COA_game_menu.gif) no-repeat -450px -41px;
+}
+#wrap #menu ul .btnstyle04 a:hover {
+	background: url(../images/COA_game_menu.gif) no-repeat -450px 0px;
+}
+#wrap #menu ul .btnstyle04 .now {
+	background: url(../images/COA_game_menu.gif) no-repeat -450px 0px;
+}
+
+#wrap #content {
+	background: url(../images/COA_game_mainBg.jpg) repeat-y center top;
+	padding: 10px 100px;
+	width:799px;
+}
+#wrap #content p{
+	line-height: 1.8em;
+	color: #333;
+	font-size:16px;
+}
+#wrap #content ol li,
+#wrap #content ul li{
+	line-height: 1.8em;
+	color: #333;
+	font-size:16px;
+	border-bottom: 1px dashed #CCC;
+	padding-top:8px;
+	padding-bottom:8px;
+}
+#wrap #content p.home {
+	font-size: 16px;
+	line-height: 1.8em;
+}
+#wrap #content ul li {
+	list-style: square;
+}
+	
+#wrap #content .tablestyle01,
+#wrap #content .tablestyle01 th,
+#wrap #content .tablestyle01 td
+{
+	background: #FFF;
+	border: 1px solid #963;
+	line-height: 1.8em;
+	color: #333;
+	font-size:15px;
+}
+#wrap #content .tablestyle01{
+	width: 100%;
+	border-collapse:collapse;
+	border:double #963;
+}
+#wrap #content .tablestyle01 th,
+#wrap #content .tablestyle01 td{
+	padding:6px;
+}
+#wrap #content .tablestyle01 th{
+	background: #FC9;
+}
+.datestyle {
+	color: #F36;
+	font-weight: bold;
+}
+.center {
+	text-align: center;
+}
+.w20{
+	width:20%}
+#wrap #menudown {
+	background: url(../images/COA_game_menudownBg.jpg) no-repeat center top;
+	height: 18px;
+	width: 999px;
+}

@@ -1,0 +1,209 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ htprogcap = "單元資料維護"
+ htprogfunc = "查詢"
+ htprogcode="kpi01"
+ htprogprefix="" 
+ response.charset = "utf-8"
+ response.buffer = false
+
+   CxMethod_ASP_server_1606199358()
+  
+ dim filename : filename = replace( dateadd("d", 0 , year(now) & "/" & month(now) & "/" & day(now) ), "/" , "")
+ response.addheader "content-disposition", "attachment;filename=" & filename & ".xls" 
+ response.contenttype = "application/vnd.ms-excel" 
+
+ dim xnewwindow:xnewwindow=request("xnewwindow")
+ dim stitle:stitle=trim(request("stitle"))
+ dim memberid:memberid=request("memberid")
+ dim status:status=request("status")
+ dim fctupublic:fctupublic=request("fctupublic")
+ dim vgroup:vgroup=request("vgroup")
+ dim xbody:xbody=trim(request("xbody"))
+ dim xpostdates:xpostdates=request("xpostdates")
+ dim xpostdatee:xpostdatee=request("xpostdatee")
+
+ dim stitlearray:stitlearray = split(stitle," ")
+ dim xbodyarray:xbodyarray = split(xbody," ")
+ dim condition : condition = ""
+ 
+ ' if xnewwindow <> "" then response.write xnewwindow & "<br/>"
+ ' if stitle <> "" then response.write stitle &  "<br/>"
+ ' if memberid <> "" then response.write memberid &  "<br/>"
+ ' if status <> "" then response.write status & "<br/>"
+ ' if fctupublic <> "" then response.write fctupublic & "<br/>"
+ ' if vgroup <> "" then response.write vgroup & "<br/>"
+ ' if xbody <> "" then response.write xbody &  "<br/>"
+ ' if xpostdates <> "" then response.write xpostdates & "<br/>"
+ ' if xpostdatee <> "" then response.write xpostdatee & "<br/>"
+ 
+ fsql= "select distinct cudtgeneric.icuitem, cudtgeneric.xpostdate, cudtgeneric.ibasedsd, cudtgeneric.ictunit, cudtgeneric.fctupublic, cudtgeneric.stitle, cudtgeneric.topcat, "
+  fsql=fsql & "cudtgeneric.ieditor, cudtgeneric.xnewwindow, knowledgeforum.gicuitem, knowledgeforum.discusscount, knowledgeforum.commandcount,"
+  fsql=fsql & "knowledgeforum.browsecount, knowledgeforum.tracecount, knowledgeforum.gradecount, knowledgeforum.parenticuitem, knowledgeforum.status,"
+  fsql=fsql & "member.account, member.nickname, member.realname, isnull(cudtgeneric.vgroup,'') as vgroup from  cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem inner join"
+  fsql=fsql & " member on cudtgeneric.ieditor = member.account where (cudtgeneric.ictunit = 932)"
+  
+  if xpostdates <> "" then 
+    fsql = fsql & " and xpostdate >= '" & xpostdates & " 00:00' " 
+  end if
+
+  if xpostdatee <> "" then 
+    fsql = fsql & " and xpostdate <= '" & xpostdatee & " 23:59' " 
+  end if 
+
+  if xpostdates <> "" and xpostdatee <> "" then
+ condition = condition & "發佈日期:" & xpostdates & "~" & xpostdatee & ","
+  elseif xpostdates <> "" and xpostdatee = "" then
+ condition = condition & "發佈日期:" & xpostdates & "~至今,"
+  elseif xpostdates = "" and xpostdatee <> "" then
+ condition = condition & "發佈日期:至" & xpostdatee & ","
+  end if
+  
+  
+  if xnewwindow <> "" then 
+    fsql = fsql & " and xnewwindow like '%" & xnewwindow & "%' " 
+ if xnewwindow = "n" then 
+  condition = condition & "討論關閉:否," 
+ else
+  condition = condition & "討論關閉:是," 
+ end if
+  end if
+  if stitle <> "" then 
+ if ubound(stitlearray) > -1 then condition = condition & "問題標題:"  & stitle & ","
+    for i = lbound(stitlearray) to ubound(stitlearray)
+    str = right(stitlearray(i),len(stitlearray(i)))
+    if str <> "" then
+      fsql = fsql & " and cudtgeneric.stitle like '%" & str & "%' "
+   
+    end if
+    next
+  
+  end if
+ 
+
+  if xbody <> "" then 
+ if ubound(xbodyarray) > -1 then condition = condition & "內文:"  & xbody & ","
+    for i = lbound(xbodyarray) to ubound(xbodyarray)
+        str = trim(xbodyarray(i))
+        if str <> "" then    
+            fsql = fsql & " and cudtgeneric.xbody like '%" & str & "%' "   
+        end if
+    next  
+  end if  
+  
+  
+  if memberid <> "" then 
+    fsql = fsql & " and ( account like '%" & memberid & "%' or realname like '%" & memberid & "%' "
+    fsql = fsql & " or nickname like '%" & memberid & "%') "
+ condition = condition & "上傳者:" & memberid & ","
+  end if
+  if status <> "" then 
+    fsql = fsql & " and knowledgeforum.status like '%" & status & "%' " 
+ if status = "n" then 
+  condition = condition & "狀態:正常," 
+ else
+  condition = condition & "狀態:刪除," 
+ end if
+  end if
+  if fctupublic <> "" then 
+    fsql = fsql & " and fctupublic like '%" & fctupublic & "%' " 
+ if fctupublic = "n" then 
+  condition = condition & "是否公開:否," 
+ else
+  condition = condition & "是否公開:是," 
+ end if
+  end if
+  if vgroup <> "" then 
+ if vgroup = "n" then
+  fsql = fsql & " and isnull(vgroup,'') = '' " 
+  condition = condition & "活動問題狀態:否," 
+ else
+  fsql = fsql & " and isnull(vgroup,'') like '%" & vgroup & "%' "
+  if vgroup = "a" then 
+   condition = condition & "活動問題狀態:是," 
+  else
+   condition = condition & "活動問題狀態:已下架," 
+  end if
+ end if
+    
+  end if
+  
+  fsql=fsql & " order by cudtgeneric.xpostdate desc, cudtgeneric.icuitem desc"
+  
+'response.write fsql
+' response.write condition
+ 
+ if len(condition) > 0 then condition = left(condition, len(condition) - 1)
+ 
+ response.write "<table border=""1"">" & vbcrlf
+ response.write "<tr><td colspan=""14""><font face=""新細明體"">匯出日期：" & date() & "</font></td></tr>" & vbcrlf 
+ response.write "<tr><td colspan=""14""><font face=""新細明體"">條件 => " & condition & "</font></td></tr>" & vbcrlf
+ response.write "<tr><td colspan=""14""><font face=""新細明體"">&nbsp;</font></td>"
+ response.write "<tr><td><font face=""新細明體"">&nbsp;</font></td>" & _
+          "<td><font face=""新細明體"">編號</font></td>" & _
+      "<td><font face=""新細明體"">活動題目</font></td>" & _
+      "<td><font face=""新細明體"">題目</font></td>" & _
+      "<td><font face=""新細明體"">分類</font></td>" & _
+      "<td><font face=""新細明體"">發佈時間</font></td>" & _
+      "<td><font face=""新細明體"">討論數</font></td>" & _
+      "<td colspan=""7""><font face=""新細明體"">內文</font></td></tr>" & vbcrlf
+ 
+ set rs = conn.execute(fsql) 
+ 
+ dim articlebody,vgroupcode,vgroupname,articletype,articletypeid,no
+ no=0
+ while not rs.eof
+  no = no+1
+  sql = "select xbody from cudtgeneric where icuitem=" & rs("icuitem")
+  set bodyrs = conn.execute(sql) 
+  if not bodyrs.eof then articlebody = trim(bodyrs("xbody"))
+  
+  vgroupcode=""
+  vgroupname=""
+  if trim(rs("vgroup")) <> "" then
+   vgroupcode = trim(rs("vgroup"))
+   if vgroupcode = "a" then
+    vgroupname="是"
+   elseif vgroupcode = "off" then
+    vgroupname="已下架"
+   end if
+  else
+   vgroupname="否"
+  end if
+  
+  articletypeid=""
+  articletype=""
+  if trim(rs("topcat")) <> "" then
+   articletypeid = trim(rs("topcat"))
+   if articletypeid = "a" then
+    articletype="農"
+   elseif articletypeid = "b" then
+    articletype="林"
+   elseif articletypeid = "c" then
+    articletype="漁"
+   elseif articletypeid = "d" then
+    articletype="牧"
+   elseif articletypeid = "e" then
+    articletype="其他"
+   end if
+  end if
+  
+ 
+  response.write "<tr><td><font face=""新細明體"">&nbsp;" & no & "</font></td>" & _
+                   "<td><font face=""新細明體"">&nbsp;" & rs("icuitem") & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & vgroupname & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & trim(rs("stitle")) & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & articletype & "</font></td>" & _
+          "<td><font face=""新細明體"">&nbsp;" & trim(rs("xpostdate")) & "</font></td>" & _
+          "<td><font face=""新細明體"">" & cint(rs("discusscount")) & "</font></td>" & _
+          "<td colspan=""7""><font face=""新細明體"">&nbsp;" & articlebody & "</font></td></tr>" & vbcrlf
+  rs.movenext
+ wend
+ rs.close
+ set rs = nothing
+ 
+ response.write "</table>" & vbcrlf
+ 
+ 
+ 

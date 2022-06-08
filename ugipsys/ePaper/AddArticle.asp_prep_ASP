@@ -1,0 +1,46 @@
+﻿: 
+ response.expires = 0
+ response.expiresabsolute = now() - 1 
+ response.addheader "pragma","no-cache" 
+ response.addheader "cache-control","private" 
+ response.cachecontrol = "no-cache"
+ 
+ on error resume next
+
+ set conn = server.createobject("adodb.connection")
+
+'----------hyweb gip db connection patch----------
+' conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+ 
+ epubid = request("epubid")
+ check = request("check")
+ uncheck = request("uncheck")
+ ctrootid = request("ctrootid")
+ 
+ checkarr = split(check, ";")
+ uncheckarr = split(uncheck, ";")
+ for i = 0 to ubound(checkarr) 
+  arr = empty
+  arr = split(checkarr(i), "-")
+  sql = "insert into eppubarticle values(" & epubid & ", " & arr(0) & ", " & arr(1) & ", '" & arr(2) & "'," & 0 & ")"
+  conn.execute(sql)      
+ next
+
+ for i = 0 to ubound(uncheckarr) 
+  arr = empty
+  arr = split(uncheckarr(i), "-")
+  sql = "delete from eppubarticle where epubid = " & epubid & " and articleid = " & arr(0) & " and ctrootid = " & arr(1) & " and categoryid = '" & arr(2) & "'"
+  conn.execute(sql)      
+ next 
+ 
+'' conn.close
+  response.write 1
+
+ 

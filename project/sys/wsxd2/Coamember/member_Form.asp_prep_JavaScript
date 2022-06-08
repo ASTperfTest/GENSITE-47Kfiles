@@ -1,0 +1,232 @@
+﻿
+
+
+
+
+function send(){
+ var form=document.form1; 
+ if(CheckAccount(form) == false){
+  form.account.focus();
+  return false;
+ }
+ else if(form.realname.value==""){
+  alert("您忘了填寫真實姓名了！"); 
+  form.realname.focus(); 
+  return false;
+ }
+ else if(CheckPasswd(form) == false){
+  return false;
+ }
+ else if(CheckEmail(form) == false){
+  form.email.focus();
+  return false;
+ }
+// else if(CheckIDn(form) == false){
+//  form.idn.focus();
+//  return false;
+// }
+ else if(CheckBirthday(form) == false){
+  form.birthYear.focus();
+  return false;
+ }
+ return true;
+}
+
+function BirthYearKeyPress()
+{
+ //是否Key in數字
+ if(event.keyCode>=48 && event.keyCode<=57)
+  return true; 
+ else
+  return false;
+}  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                              function onSubmit____516022209() {return send()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                 function onkeypress___836006085() {return BirthYearKeyPress()}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

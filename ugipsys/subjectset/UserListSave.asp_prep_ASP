@@ -1,0 +1,182 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+ response.charset="utf-8"
+   htprogcode = "webgeb1" 
+   CxMethod_ASP_index_643909173()
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_1723934251()
+
+  
+if request("ckbox")= "" and request("type") = 1 then
+ response.write "<script language='javascript'>"
+ response.write "alert('請選擇至少一名專家帳號！');"
+ response.write "history.go(-1);"
+ response.write "</script>"
+end if
+'response.write request("ckbox") &"<br>" '使用者帳號
+'response.write request("id")&"<br>" '主題館id
+'response.write request("type")&"<br>" 
+'response.write request("deptid")&"<br>" 
+'response.end
+'原來的使用者
+sql_ch = "select nodeinfo.subject_user,nodeinfo.owner,infouser.deptid from "
+sql_ch = sql_ch & " nodeinfo left outer join infouser on nodeinfo.owner = infouser.userid "
+sql_ch = sql_ch & " where nodeinfo.ctrootid='"&request("id")&"'"
+set rs_ch = conn.execute(sql_ch)
+o_subject_user= rs_ch("subject_user")
+o_owner= rs_ch("owner")
+o_owner_dept = rs_ch("deptid")
+'管理權限
+if request("type") = 1 then
+ new_owner = request("ckbox")
+ '更新管理權限使用者
+ sql_update = "update nodeinfo set owner = '"& new_owner &"' where ctrootid = '"& request("id") &"'"
+ conn.execute(sql_update)
+ '移除原管理者的上稿權限
+ if  not (instr(o_subject_user,o_owner) > 0) then
+  '取主題館所有的nodeid
+  sql2 = "select ctnodeid from cattreenode where ctrootid = '"&request("id")&"'"
+  set rs3 = conn.execute(sql2)
+  while not rs3.eof
+   sql_del = "update ctuserset set rights = '0' where userid = '"& o_owner &"' and ctnodeid = '"&rs3("ctnodeid")&"'"
+   conn.execute(sql_del)
+   rs3.movenext
+  wend
+ end if
+ '轉移文章
+ '取主題館所有的ctunitid
+ sql = "select ctunitid from cattreenode where ctrootid = '"&request("id")&"'"
+ set rs_ctunit = conn.execute(sql)
+ while not rs_ctunit.eof
+  if rs_ctunit("ctunitid") <> "" then
+   sql_update2 = "update cudtgeneric set ieditor = '"& new_owner &"' ,idept ='"& request("deptid")&"' where ictunit = '"& rs_ctunit("ctunitid") &"' and  ieditor ='"& o_owner &"'"
+   conn.execute(sql_update2)
+   'response.write sql_update2&"<br>"
+  end if
+  rs_ctunit.movenext
+ wend
+ '增加上稿權限
+ '取主題館所有的nodeid
+ sql = "select ctnodeid from cattreenode where ctrootid = '"&request("id")&"'"
+ set rs2 = conn.execute(sql)
+ while not rs2.eof
+  '檢查原本有沒有權限
+  sql_check = "select * from ctuserset where userid = '"& new_owner &"' and ctnodeid = '"&rs2("ctnodeid")&"'"
+  set rs_check = conn.execute(sql_check)
+  if not rs_check.eof then
+   sql_del = "update ctuserset set rights = '1' where userid = '"& new_owner &"' and ctnodeid = '"&rs2("ctnodeid")&"'"
+   conn.execute(sql_del)
+  else
+   sql_ins = "insert into ctuserset (userid,ctnodeid,rights) values ('"& new_owner &"','"&rs2("ctnodeid")&"','1')"
+   conn.execute(sql_ins)
+  end if
+  rs2.movenext
+ wend
+ 'response.end
+ response.write "<script language='javascript'>"
+ response.write "alert('主題館管理權限轉移成功！');"
+ response.write "location.href = 'subject_set.asp?id="&request("id")&"';"
+ response.write "</script>"
+'上稿權限
+elseif request("type") = 2 then
+ '加入主題館上稿人員名單
+ '更新主題館上稿人員名單
+ if o_subject_user <> "" then
+  o_users=split(o_subject_user,",")
+  if request("ckbox") <>"" then
+   new_user = request("ckbox")&","
+  end if
+  for i = 0 to ubound(o_users)
+   if not (instr(request("ckbox"),o_users(i))>0) then
+    new_user = new_user & o_users(i) &","
+   end if
+  next
+ else 
+  new_user = request("ckbox") &","
+ end if
+ new_user = left(new_user,len(new_user)-1)
+ sql_update = "update nodeinfo set subject_user = '"& new_user &"' where ctrootid = '"& request("id") &"'"
+ conn.execute(sql_update)
+ '增加新設定人員的上稿權限
+ if request("ckbox") <> "" then
+  users=split(request("ckbox"),",")
+  for i = 0 to ubound(users)
+   '取主題館所有的nodeid
+   sql = "select ctnodeid from cattreenode where ctrootid = '"&request("id")&"'"
+   set rs2 = conn.execute(sql)
+   while not rs2.eof
+    '檢查原本有沒有權限
+    sql_check = "select * from ctuserset where userid = '"&trim(users(i))&"' and ctnodeid = '"&rs2("ctnodeid")&"'"
+    set rs_check = conn.execute(sql_check)
+    if not rs_check.eof then
+     sql_del = "update ctuserset set rights = '1' where userid = '"&trim(users(i))&"' and ctnodeid = '"&rs2("ctnodeid")&"'"
+     conn.execute(sql_del)
+    else
+     sql_ins = "insert into ctuserset (userid,ctnodeid,rights) values ('"&trim(users(i))&"','"&rs2("ctnodeid")&"','1')"
+     conn.execute(sql_ins)
+    end if
+    rs2.movenext
+   wend
+  next
+ end if
+ response.redirect "subject_set.asp?id="&request("id")
+
+'刪除權限
+elseif request("type") = 3 then
+ '更新主題館上稿人員名單
+ users=split(o_subject_user,",")
+ new_user = ""
+ for i = 0 to ubound(users)
+  if not (instr(users(i),request("ckbox"))>0) then
+   new_user = new_user & users(i) &","
+  end if
+ next
+ if new_user <> "" then
+  new_user = left(new_user,len(new_user)-1)
+ else
+  new_user = new_user
+ end if
+ sql_update = "update nodeinfo set subject_user = '"& new_user &"' where ctrootid = '"& request("id") &"'"
+ conn.execute(sql_update)
+ '刪除上稿權限
+ '取主題館所有的nodeid
+ sql = "select ctnodeid from cattreenode where ctrootid = '"&request("id")&"'"
+ set rs = conn.execute(sql)
+ while not rs.eof
+  sql_del = "update ctuserset set rights = '0' where userid = '"&trim(request("ckbox"))&"' and ctnodeid = '"&rs("ctnodeid")&"'"
+  conn.execute(sql_del)
+  rs.movenext
+ wend
+ '轉移上稿文章權限
+ o_dept = request("deptid")
+ '先檢查有無同單位上稿者
+ dim deptcheck
+ deptcheck = false
+ new_users=split(new_user,",")
+ for i=0 to ubound(new_users)
+  sql_checkdept = "select deptid from infouser where userid = '"& trim(new_users(i)) &"'"
+  set re_checkdept = conn.execute(sql_checkdept)
+  if o_dept = trim(re_checkdept("deptid")) and not re_checkdept.eof then
+   deptcheck = true '有同單位上稿者
+  end if
+ next
+ if not deptcheck then
+  '沒有同單位上稿者 文章轉移到主題館管理者
+  '取主題館所有的ctunitid
+  sql = "select ctunitid from cattreenode where ctrootid = '"&request("id")&"'"
+  set rs_ctunit = conn.execute(sql)
+  while not rs_ctunit.eof
+   if rs_ctunit("ctunitid") <> "" then
+    sql_update2 = "update cudtgeneric set ieditor = '"& o_owner &"' ,idept ='"& o_owner_dept &"' where ictunit = '"& rs_ctunit("ctunitid") &"' and  ieditor ='"& request("ckbox") &"'"
+    conn.execute(sql_update2)
+   end if
+   rs_ctunit.movenext
+  wend
+ end if
+ response.write "<script language='javascript'>"
+ response.write "alert('刪除成功！');"
+ response.write "location.href = 'subject_set.asp?id="&request("id")&"';"
+ response.write "</script>"
+end if
+response.end
+ 

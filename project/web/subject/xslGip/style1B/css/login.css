@@ -1,0 +1,48 @@
+@charset "utf-8";
+/* CSS Document */
+
+#login {
+	position: absolute;
+	z-index:999;
+	top: 40px;
+	left: 700px;
+	width: 250px;
+	font-size: 15px;
+	text-align: right;
+	color: #AF037B;
+	border: 1px dashed #AF037B;
+	background-color: #FEE6F7;
+	padding: 7px;
+}
+#login form {
+	margin: 0;
+	padding: 0;
+	display: inline;
+}
+#login label {
+	font-size: 12px;
+	/*display: block;*/
+	margin-right: 5px;
+	display: inline;
+}
+#login .button {
+}
+#login .input {
+	font-size: 12px;
+	margin-left: 2px;
+	display: inline;
+}
+#login a {
+	font-size: 12px;
+	color: #AF037B;
+	white-space: nowrap;
+}
+#login a:hover {
+	color: #FFF;
+}
+#login p {
+	line-height: 150%;
+	padding: 0;
+	margin: 0;
+}
+

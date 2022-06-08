@@ -1,0 +1,43 @@
+﻿: 
+sub expandfrom(lngid, msglevel, prow)
+ childcount = 0
+' response.write lngid & "," & msglevel & "," & prow & "<hr>"
+    for lngrow = 0 to ubound(arydept, 2)
+'     response.write lngrow & ")-" & arydept(0, lngrow) & "," & arydept(1, lngrow) & "," & arydept(2, lngrow) & "<br>"
+      if (arydept(cparent, lngrow) = lngid) then
+  childcount = childcount + 1
+     genlist lngrow, msglevel+1, childcount, prow
+         expandfrom arydept(cid,lngrow), msglevel+1, lngrow
+      end if
+    next
+end sub
+
+sub genlist(introw, intnewmsglevel, cnt, prow)
+ if intnewmsglevel > 0 then
+   if cnt = arydept(cjchild, prow) then
+  leadstr = left(leadstr, intnewmsglevel-1) & "└" & mid(leadstr, intnewmsglevel+1)
+   else
+  leadstr = left(leadstr, intnewmsglevel-1) & "├" & mid(leadstr, intnewmsglevel+1)
+   end if
+   if intnewmsglevel > 1 then
+    if mid(leadstr,intnewmsglevel-1,1) = "└" then
+   leadstr = left(leadstr, intnewmsglevel-2) & "　" & mid(leadstr, intnewmsglevel)
+  elseif mid(leadstr,intnewmsglevel-1,1) = "├" then
+   leadstr = left(leadstr, intnewmsglevel-2) & "│" & mid(leadstr, intnewmsglevel)
+    end if
+   end if
+ end if
+ response.write "<option value=" & arydept(cid,introw) & ">" & left(leadstr, intnewmsglevel) & arydept(cname, introw) & "</option>" & vbcrlf
+ glastmsglevel = intnewmsglevel
+end sub
+
+const cid = 0
+const cname = 1
+const cparent = 2
+const cplevel = 3
+const cseq = 4
+const cjchild=5
+leadstr = "　　　　　　　　　　　　　"
+dim arydept 
+
+ 

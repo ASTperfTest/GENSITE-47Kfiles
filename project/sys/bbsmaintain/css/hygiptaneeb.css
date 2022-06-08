@@ -1,0 +1,521 @@
+/*
+         國工局全球網 - 內容樣板相關設定
+*/
+
+/*------------------------------------------------------內容列表-----------*/
+.ListArticle {
+	border-right: 1px solid #AAAAAA;
+	border-bottom: 3px solid #AAAAAA;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+.contenttitle {
+	font-family: "新細明體";
+	font-size: 15px;
+	line-height: 18px;
+	color: #990033;
+	border-bottom: 1px dashed #AAAAAA;
+	border-left: 6px solid #666666;
+	padding: 5px 5px 3px;
+	text-align: left;
+	letter-spacing: 0.1em;
+}
+.contenttitle a {
+	color: #990033;
+}
+.contenttitle a:hover {
+	color: #CC0000;
+	text-decoration: none;
+}
+
+.contentbody {
+	font-family: "新細明體";
+	font-size: 13px;
+	color: #444444;
+	line-height: 170%;
+	text-align:left;
+	letter-spacing: 0.05em;
+	float: left;
+	padding-top: 5px;
+	padding-left:10px;
+	vertical-align: top;
+	padding-right: 10px;
+}
+.red {
+	font-size: 13px;
+	color: #ff0000;
+}
+.blue {
+	font-size: 13px;
+	color: #0000ff;
+}
+
+.contentImage {
+	vertical-align: top;
+	padding-top: 10px;
+}
+.contentImage img {
+	border: 1px solid #777777;
+	width: 150px;
+}
+/*------------------------------------------------------圖說-----------*/
+.imgdesc {
+	font-family: "新細明體";
+	font-size: 12px;
+	line-height: 160%;
+	color: #9B7937;
+	margin-top: 5px;
+}
+
+/*------------------------------------------------------內容-----------*/
+
+#standarticle {
+	width:550px;
+	text-align:left;
+	margin-top: 15px;
+	margin-left: 8px;
+}
+#standarticle .title {
+	font-size: 15px;
+	color: #990033;
+	border-bottom: 1px dashed #AAAAAA;
+	background: url(../images/bullet_ArtTitle.gif) no-repeat;
+	padding-left: 18px;
+	letter-spacing: 0.1em;
+}
+#standarticle .title2 {
+	font-size: 15px;
+	color: #CE1262;
+	background: url(../images/bullet_Cmenum.gif) no-repeat 2px 4px;
+	padding-left: 18px;
+	margin-top:15px;
+	margin-left:10px;
+}
+#standarticle .title2 a {
+	color: #CE1262;
+	text-decoration:underline;
+}
+#standarticle .title2 a:hover {
+	text-decoration:none;
+	color:#0068C9;
+}
+
+#standarticle .titleList {
+	font-size: 15px;
+	color: #990033;
+	border-bottom: 1px dashed #AAAAAA;
+	background: url(../images/bullet_ArtTitle.gif) no-repeat;
+	padding-left: 18px;
+	margin-top:10px;
+}
+#standarticle .linkList {
+	font-size: 13px;
+	line-height: 150%;
+	color: #0079EA;
+	padding-left: 35px;
+	padding-right: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background: url(../images/arrow2.gif) no-repeat 25px 6px;
+}
+#standarticle .linkList2 {
+	font-size: 13px;
+	line-height: 130%;
+	color: #444444;
+	padding-left: 45px;
+	padding-right: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background: url(../images/arrow3.gif) no-repeat 35px 6px;
+}
+#standarticle .linkList3 {
+	font-size: 13px;
+	line-height: 140%;
+	color: #777777;
+	padding-left: 55px;
+	padding-right: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background: url(../images/arrow4.gif) no-repeat 45px 7px;
+}
+
+
+#standarticle p {
+	font-size: 13px;
+	line-height: 170%;
+	color: #444444;
+	padding-left: 20px;
+	padding-right: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#standarticle .text2 {
+	font-size: 13px;
+	line-height: 170%;
+	color: #444444;
+	padding-left: 28px;
+	padding-right: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#standarticle .text3 {
+	font-size: 13px;
+	line-height: 170%;
+	color: #444444;
+	padding-left: 34px;
+	padding-right: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#standarticle .date {
+	font-size: 12px;
+	color: #000000;
+	padding-left: 34px;
+	padding-right: 10px;
+	margin-bottom: 10px;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align:right;
+}
+
+#standarticle a {
+	color: #006699;
+	text-decoration: none;
+}
+#standarticle a:hover{
+	color: #990000;
+	text-decoration:underline
+	}
+#standarticle table{
+	font-family: "Arial", "新細明體", "標楷體";
+	font-size: 12px;
+	line-height: 18px;
+	font-weight: normal;
+	color: #333333;
+	text-decoration: none;
+	list-style-type: none;
+}
+/*--------文中插圖圖說 左邊----------*/
+#standarticle .picLeft {
+	width: 250px;
+	float:left;
+	padding-left:20px;
+	padding-bottom:4px;
+}
+#standarticle .picLeft img {
+	width: 250px;
+	margin-right: 10px;
+	margin-bottom: 3px;
+	margin-top: 5px;
+	border: 1px solid #999999;
+}
+
+#standarticle .picLeft a:hover img {
+	border: 1px solid #CC0000;
+}
+
+/*--------文中插圖圖說 右邊----------*/
+#standarticle .picRight {
+	width: 250px;
+	float:right;
+	padding-bottom:4px;
+}
+#standarticle .picRight img {
+	width: 250px;
+	margin-right: 10px;
+	margin-bottom: 3px;
+	margin-top: 5px;
+	border: 1px solid #999999;
+}
+
+#standarticle .picRight a:hover img {
+	border: 1px solid #CC0000;
+}
+
+/*--------插圖右邊內容 (列表)----------*/
+#standarticle .RightText {
+	width: 260px;
+	float:right;
+	border: 1px dashed #999999;
+	padding-top:10px;
+	padding-bottom:10px;
+	margin-top:5px;
+}
+
+
+	
+/*------------------------------------------------------附圖-----------*/
+#attachlist {
+	width: 560px;
+	font-size: 12px;
+	line-height: 170px;
+	color: #444444;
+	margin-left: 8px;
+	text-align: left;
+	margin-top: 10px;
+	padding-left: 15px;
+}
+#attachlist img {
+	border: 1px solid #999999;
+	width: 250px;
+	margin: 5px;
+}
+#attachlist a:hover img {
+	border: 1px solid #CC0000;
+}
+#attachlist a,#relatelist a{
+	text-decoration: none;
+	color: #336699;
+}
+#attachlist a:hover,#relatelist a:hover{
+	text-decoration:underline;
+	color: #993300;
+}
+
+/*------------------------------------------------------附圖圖說-----------*/
+/*--------1-3-----------*/
+#picAlt {
+	text-align:left;
+	margin-left:31px;
+}
+#picAlt img {
+	border: 1px solid #999999;
+	width:515px;
+}
+#picAlt a:hover img {
+	border: 1px solid #CC0000;
+}
+
+/*---------1-4-----------*/
+#picAlt2 {
+	margin-top: 15px;
+	text-align:left;
+	margin-left:11px;
+}
+#picAlt2 img {
+	border: 1px solid #999999;
+	width:530px;
+}
+#picAlt2 a:hover img {
+	border: 1px solid #CC0000;
+}
+
+
+
+/*------------------------------------------------------相關連結-----------*/
+#relatelist {
+	margin-top: 20px;
+	margin-left: 8px;
+	width: 550px;
+	text-align: left;
+	border-top: 4px solid #BBBBBB;
+	border-bottom: 2px solid #BBBBBB;
+	background: #F8F8F8;
+}
+
+#relatelist .head {
+	font-size: 15px;
+	text-align: left;
+	color: #333333;
+	background: #EEEEEE;
+	padding: 5px 8px 2px;
+	letter-spacing: 0.1em;
+	border-bottom: 1px solid #CCCCCC;
+}
+#relatelist a {
+	background: url(../images/bullet_related.gif) no-repeat 13px 6px;
+	padding-left: 30px;
+	font-size: 12px;
+	display: block;
+	padding-top: 5px;
+	padding-bottom: 3px;
+	border-bottom: 1px dashed #CCCCCC;
+	width: 100%;
+}
+#relatelist a:hover {
+	background: #FFFFCC url(../images/bullet_related.gif) no-repeat 16px 6px;
+	text-decoration: none;
+}
+#more ,#more a{
+	font-size: 12px;
+	color: #990000;
+	text-decoration: none;
+}
+#more a:hover {
+text-decoration:underline;
+}
+/*---------------------------------------分頁-----*/
+#pageissue {
+	font-size: 12px;
+	color: #006655;
+	text-decoration: none;
+	text-align: right;
+	margin-top: 5px;
+	padding-right: 5px;
+	margin-bottom: 5px;
+}
+#pageissue select{
+	font-size: 12px;
+	color: #555555;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+}
+#pageissue .button{
+	float: left;
+	margin-left: 25px;
+}
+
+
+
+#dividetype {
+	font-family: Arial, "新細明體", "標楷體";
+	font-size: 12px;
+	color: #000000;
+	text-decoration: none;
+	height: 20px;
+	padding-top: 5px;
+}
+
+
+/*------------------------------------path---瀏覽路徑-----*/
+#urlnavbar {
+	font-size: 12px;
+	text-decoration: none;
+	height: 25px;
+	background: url(../images/path_bg.gif) no-repeat 0px bottom;
+	text-align: left;
+	letter-spacing: 0.05em;
+	padding-left: 15px;
+	margin-top: 10px;
+}
+
+#urlnavbar a {
+	text-decoration: none;
+	color: #1D4B9F;
+	margin-right: 2px;
+	margin-left: 4px;
+}
+#urlnavbar a:hover {
+	color: #CC0000;
+	text-decoration: underline;
+}
+
+/*---------------------------------------------列表表格-----*/
+#ListTable {
+	margin-top: 5px;
+	width: 550px;
+	text-align: left;
+	border-bottom: 5px solid #cccccc;
+	margin-bottom: 30px;
+	background-color: #FFFFE1;
+}
+#ListTable th {
+	padding-top: 5px;
+	padding-bottom: 1px;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: #000000;
+	background-color: #DCD8A9;
+	font-size: 13px;
+	border-bottom: 3px double #999900;
+	border-top: 4px solid #999900;
+}
+
+#ListTable td {
+	padding-top: 7px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: #000000;
+	font-size: 13px;
+	border-bottom: 1px dashed #CC9900;
+	line-height: 150%;
+	vertical-align: top;
+}
+
+#ListTable2 {
+	margin-left: 8px;
+	width: 550px;
+	text-align: left;
+	margin-bottom: 30px;
+	border-top: 5px solid #cccccc;
+	border-bottom: 5px solid #cccccc;
+}
+#ListTable2 th {
+	padding-top: 5px;
+	padding-bottom: 1px;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: #000000;
+	background-color: #eeeeee;
+	font-size: 13px;
+	border-left: 4px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+	text-align:right;
+}
+
+#ListTable2 td {
+	padding-top: 7px;
+	padding-bottom: 5px;
+	padding-left: 8px;
+	padding-right: 5px;
+	color: #000000;
+	font-size: 13px;
+	border-bottom: 1px solid #cccccc;
+	border-right: 2px solid #cccccc;
+	line-height: 150%;
+	vertical-align: top;
+}
+
+
+/*---------------------------------------------輸入表格-----*/
+#DataTable {
+	width:500px;
+	font-size: 13px;
+	color: #444444;
+	background: url(../images/bullet_ArtTitle.gif) no-repeat;
+	border-bottom: 1px dashed #AAAAAA;
+	border-right: 1px dashed #AAAAAA;
+	border-left: 1px dashed #AAAAAA;
+	margin-top:20px;
+	text-align:left;
+	padding:25px;
+}
+#DataTable .title {
+	width:100px;
+	text-align:right;
+	font-size: 13px;
+	color: #990033;
+	letter-spacing: 0.1em;
+	vertical-align: top;
+	margin-top:15px;
+}
+#DataTable .con {
+	width:330px;
+	font-size: 13px;
+	color: #444444;
+	letter-spacing: 0.1em;
+	line-height: 20px;
+	margin-top:10px;
+}
+
+
+
+/*---------------------------------------------其他共用設定-----*/
+.width10 {
+	width : 10%;
+}
+.width30 {
+	width : 30%;
+}
+.width5 {
+	width : 5%;
+}
+.textCenter {
+	text-align:center;
+}
+.inputBox {
+	font-size: 12px;
+	color: #444444;
+	border: 1px solid #A7A7A7;
+}

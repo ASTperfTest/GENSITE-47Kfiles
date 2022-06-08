@@ -1,0 +1,19 @@
+﻿: @ codepage = 65001 
+   
+' response.contenttype = "text/plain"
+ response.expires = 0
+   htprogcode = "gc1ap5"
+  catalogueframe = "220,*"
+  xfile = request("xfile")
+
+   CxMethod_ASP_server_1606199358()
+  
+    set fs = createobject("scripting.filesystemobject")
+    set xfin = fs.opentextfile(server.mappath(xfile))
+
+    do while not xfin.atendofstream
+        xinstr = xfin.readline
+        response.write xinstr & vbcrlf
+    loop
+
+ 

@@ -1,0 +1,37 @@
+﻿select  *  from giphitsession
+
+group by ipcat
+
+update giphitsession
+set ipcat = (select top 1 ipcat from giphitipcat where ipnum between ip_from and ip_to)
+where ghitsid >0 and  ghitsid <=23006
+
+select * from giphitipcat where  3544914294 between ip_from and ip_to
+
+*********************�ӷ���o�έp********************************
+select         count(*) as expr1, ipcat
+from             giphitsession
+where         (hitfirst between '2004/6/1' and '2004/6/30')
+group by  ipcat
+
+*********************���o�έp********************************
+select ictunit, max(n.catname), (count(*)*130) as hitnumber
+ from giphitunit as u left join cattreenode as n on u.ictunit=n.ctnodeid
+where hittime between '2004/1/1'  and '2004/6/30' 
+group by ictunit
+order by count(*) desc
+
+*********************��ƴ椸�έp********************************
+select u.icuitem, max(n.stitle) as unitname,( count(*)*130) as hitnumber
+ from giphitpage as u left join cudtgeneric as n on u.icuitem=n.icuitem
+where hittime between '2004/1/1'  and '2004/6/30' 
+group by u.icuitem
+order by count(*) desc
+
+********************�u��gip�����o�έp�έp(�h��km)*************************
+select ictunit, max(n.ctunitname), count(*) as hitnumber
+ from giphitunit as u left join ctunit as n on u.ictunit=n.ctunitid
+where hittime between '2004/1/1'  and '2004/8/30' and u.kmcat is null
+group by ictunit
+order by count(*) desc
+ 

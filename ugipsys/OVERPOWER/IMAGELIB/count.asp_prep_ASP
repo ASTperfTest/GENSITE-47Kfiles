@@ -1,0 +1,43 @@
+﻿: 
+'call <img src="count.asp?id=mypage1"> and change the
+'mypage1 to whatever you want to create another counters
+function barra(pasta)
+barra = pasta
+if mid(barra,len(barra),1) <> "\" then barra = barra + "\"
+end function
+
+set sistema = createobject("scripting.filesystemobject")
+set ilib = server.createobject("overpower.imagelib")
+basefolder = barra(server.mappath("/"))
+counterfile = basefolder + "count"+request.querystring("id") + ".cou"
+contagem = 0
+if sistema.fileexists(counterfile) then
+set arquivo = sistema.getfile(counterfile)
+set texto = arquivo.openastextstream(1, -2)
+contagem = texto.readline
+texto.close
+end if
+contagem = contagem + 1
+
+set texto = sistema.createtextfile(counterfile, true, false)
+texto.writeline contagem
+texto.close
+
+texto = contagem & " visit"
+if contagem > 1 then texto = texto + "s"
+ilib.fontcolor = "clred"
+ilib.brushcolor = "clblack"
+ilib.fontface = "comic sans ms"
+ilib.fontsize = 12
+ilib.fontbold = false
+ilib.width = ilib.gettextwidth(texto)+5
+ilib.height = ilib.gettextheight(texto)+5
+ilib.pencolor = "clred"
+ilib.fbox 1,1,ilib.width,ilib.height
+ilib.textout texto,3,-3
+ilib.fontcolor = "clwhite"
+ilib.fontsize = 7
+tamanho = ilib.gettextwidth("example")
+ilib.textout "example",ilib.width/2 - tamanho/2,10
+ilib.picturebinarywrite 2, 0, ""
+ 

@@ -1,0 +1,24 @@
+﻿body {
+	background-color: white;
+	font-size: 10pt;
+}
+img {
+	/*
+	for some reason, images are displayed higher than adjacent text
+		so I force it to vertically align with the bottom-most element
+		(i.e. the text)
+	*/
+	vertical-align: bottom;
+}
+ul {
+	/*
+	for Mozilla, the default display value works,
+		but for IE, it creates blank lines between li's and li's containing ul's
+		so I set it to inline-block (flows inline outside, flows block-line inside)
+	*/
+	display: inline-block;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	white-space: nowrap;
+}

@@ -1,0 +1,62 @@
+'----941104行政院知識分類網資料轉檔
+1.新增GIPDataTran資料表
+	if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[GIPDataTran]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	drop table [dbo].[GIPDataTran]
+	GO
+	
+	CREATE TABLE [dbo].[GIPDataTran] (
+		[TID] [int] IDENTITY (1, 1) NOT NULL ,
+		[XMLFile] [varchar] (100) NULL ,
+		[XMLEditor] [varchar] (50) NULL ,
+		[XMLDate] [datetime] NULL ,
+		[XMLmySiteID] [varchar] (50) NULL ,
+		[XMLCtUnitID] [int] NULL ,
+		[XMLSuccess] [int] NULL ,
+		[XMLFail] [int] NULL 
+	) ON [PRIMARY]
+	GO
+	
+	ALTER TABLE [dbo].[GIPDataTran] WITH NOCHECK ADD 
+		CONSTRAINT [PK_GIPDataTran] PRIMARY KEY  CLUSTERED 
+		(
+			[TID]
+		)  ON [PRIMARY] 
+	GO
+2.新增GIPDataTranDetail資料表
+	if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[GIPDataTranDetail]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+	drop table [dbo].[GIPDataTranDetail]
+	GO
+	
+	CREATE TABLE [dbo].[GIPDataTranDetail] (
+		[TID] [int] NOT NULL ,
+		[iCuItem] [int] NOT NULL 
+	) ON [PRIMARY]
+	GO
+	
+	ALTER TABLE [dbo].[GIPDataTranDetail] WITH NOCHECK ADD 
+		CONSTRAINT [PK_GIPDataTranDetail] PRIMARY KEY  CLUSTERED 
+		(
+			[TID],
+			[iCuItem]
+		)  ON [PRIMARY] 
+	GO
+3.後台新增GIPDataTran資料夾,其下有:
+   .XML資料夾(轉入資料庫/欄位對照參數檔)
+   .Log資料夾(轉入DB過程log檔,寫入權限請打開)
+   .GIPDataTran.asp(轉檔程式)
+   
+4. .news轉二次newsid<=1300
+   .網路服務/本站公告用GIPDataTran_Cat.asp
+   .本站公告附件改用手動上稿
+   .CuDtGeneric.topCat型態由nchar改為nvarchar
+   .代碼LawtopDataCat改成1碼
+   .CuDTAttach.listSeq改為varchar(3)/NFileName null/aTitle改為varchar(200)/NFileName varchar(80)/OFileName varchar(200)
+   .ImageFile NewFileName varchar(80)/OldFileName varchar(200)
+   .後台CuDTAttach新增編修程式修改/xdCP.attachcount修改
+   .另外update CuDTAttach.AttachKindA
+   .本站公告showType與refID修改(來源非手動者)
+		Update C Set C.showType='5',C.refID=C2.iCuItem from CuDTGeneric C
+		Left Join CuDTGeneric C2 ON C.sTitle=C2.sTitle  and  C2.iCtUnit=???
+		where C.iCtUnit=131 and  C2.iCtUnit=123 and C2.iCuItem is not null
+   
+

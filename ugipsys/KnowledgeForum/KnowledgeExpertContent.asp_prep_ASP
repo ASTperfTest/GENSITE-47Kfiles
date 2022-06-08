@@ -1,0 +1,212 @@
+﻿: 
+response.expires = 0
+htprogcap=""
+htprogfunc=""
+htprogcode="kforumlist"
+htprogprefix=""
+
+   CxMethod_ASP_server_1606199358()
+
+  
+dim questionid : questionid = request.querystring("questionid")
+dim expertaddid : expertaddid = request.querystring("expertaddid")
+ 
+if request("submittask") = "edit" then
+
+ dim stitle : stitle = pkstr(request("stitle"), "")
+ dim xbody : xbody = pkstr(request("xbody"), "")
+ dim fctupublic : fctupublic = pkstr(request("fctupublic"), "")
+ 
+ sql = "update cudtgeneric set stitle = " & stitle & ", xbody = " & xbody & ", fctupublic = " & fctupublic & " where icuitem = " & expertaddid
+ conn.execute(sql)
+ '如果全部專家補充都設為不公開 此篇文章改成沒有專家補充
+ if request("fctupublic") = "n" then
+  sql_ch = "select count(*) from "
+  sql_ch = sql_ch &" cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem "
+  sql_ch = sql_ch &" where cudtgeneric.ictunit = '934' and cudtgeneric.fctupublic = 'y' and knowledgeforum.parenticuitem = " & questionid
+  set rs_ch = conn.execute(sql_ch)
+  if rs_ch(0) = 0 then
+   sql_update = "update knowledgeforum set havepros = 'n' where gicuitem = " & questionid
+   conn.execute(sql_update)
+  end if
+ else
+  sql_update = "update knowledgeforum set havepros = 'y' where gicuitem = " & questionid
+  conn.execute(sql_update)
+ end if
+ 
+ showdonebox "資料更新成功！"
+elseif request("submittask") = "delete" then
+
+ 
+ sql = "update knowledgeforum set status = 'd' where gicuitem = " & expertaddid
+ conn.execute(sql)
+ 
+ showdonebox "資料刪除成功！"
+end if
+function pkstr (s, endchar)
+ if s = "" then
+  pkstr = "''" & endchar  
+ else
+  pos = instr(s, "'")
+  while pos > 0
+   s = mid(s, 1, pos) & "'" & mid(s, pos + 1)
+   pos = instr(pos + 2, s, "'")
+  wend          
+  pkstr = "n'" & s & "'" & endchar  
+ end if
+end function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   sub showdonebox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+                                                                            =questionid
+
+
+
+
+   end sub 
+  
+ 
+ 
+ sql = "select * from cudtgeneric inner join knowledgeforum on cudtgeneric.icuitem = knowledgeforum.gicuitem "
+ sql = sql & "where icuitem = " & expertaddid
+ 
+ set rsreg = conn.execute(sql)
+ if rsreg.eof then
+  'response.write "<script>alert('找不到資料');history.back();</script>"
+  showdonebox "無專家補充資料"  
+ else
+
+                                                                                            =request.querystring("questionid"):                =request.querystring("expertaddid")
+
+
+
+
+
+
+
+
+                                                                                              =rsreg("stitle")
+
+
+
+                                                                                       =trim(rsreg("xbody"))
+
+
+
+
+
+                         if rsreg("fctupublic")="" then:              end if
+                          if rsreg("fctupublic")="y" then:              end if
+                          if rsreg("fctupublic")="n" then:              end if
+
+
+
+     
+   sql = "select account, realname, nickname from member where account = '" & rsreg("expertid") & "'"
+   set rs2 = conn.execute(sql)
+   if not rs2.eof then
+  
+
+
+
+                                                     =trim(rs2("account"))
+                                                    =trim(rs2("realname"))
+                                                    =trim(rs2("nickname"))
+
+
+    
+   end if
+   rs2.close
+   set rs2 = nothing
+   sql = "select discusscount, commandcount, browsecount, tracecount, gradecount, gradepersoncount " & _
+      "from knowledgeforum where gicuitem = " & questionid
+   set rs3 = conn.execute(sql)
+   if not rs3.eof then
+   
+
+
+
+                                                                                =trim(rs3("discusscount"))
+
+                                                                                =trim(rs3("commandcount"))
+
+                                                                               =trim(rs3("browsecount"))
+
+
+
+                                                                              =trim(rs3("tracecount"))
+
+                                                                              =trim(rs3("gradecount"))
+
+                                                                                    =trim(rs3("gradepersoncount"))
+
+     
+   end if
+   rs3.close
+   set rs3 = nothing
+   
+
+
+
+                                                                                 =rsreg("status")
+                                                 =rsreg("status")
+
+
+
+
+
+
+
+
+  
+ end if
+ rsreg.close
+ set rsreg = nothing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                         =questionid 

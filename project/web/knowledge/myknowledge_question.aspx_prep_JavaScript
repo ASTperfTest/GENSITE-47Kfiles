@@ -1,0 +1,97 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                         function onfocus____1011217674() {checkfocus(this);}
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+     function ConfirmDelete() {
+     
+         if(window.confirm("請問您確定要刪除此篇文章?") != true) {
+             event.returnValue = false;
+         }
+     }
+ 
+
+ 
+     function checkfocus(item) {
+     
+         if(item.value == "請在這裡輸入要補充的說明"){
+             item.value = "";
+         }
+     
+     }
+ 
+
+
+
+
+
+ 

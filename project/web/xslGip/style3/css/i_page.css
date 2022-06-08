@@ -1,0 +1,25 @@
+/* CSS Document */
+
+.Page {
+	overflow: hidden;
+	clear: both;
+	margin: 8px 0;
+}
+.Page .Number {
+	letter-spacing: 0;
+	margin: 0 3px;
+}
+.Page a img {
+	display: none;
+}
+.Page a[title="上一頁"] {
+	background: url(../images/arrow_left.gif) no-repeat 0 2px;
+	padding-left: 8px;
+	margin-left: .6em;
+}
+.Page a[title="下一頁"] {
+	background: url(../images/arrow_right.gif) no-repeat right 2px;
+	padding-right: 8px;
+}
+
+

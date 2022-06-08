@@ -1,0 +1,194 @@
+﻿
+
+
+
+
+
+
+function script___2030737461() {src("/subject/js/dozoom.js");}
+
+
+function script___2136706541() {src("../js/jtip.js");}CxConstr_1135572163();
+
+
+
+
+
+
+
+
+function script___1609611933() {src("http://www.google-analytics.com/urchin.js");}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function href____1379276941() {print();}
+
+
+
+
+
+
+function onclick___1498901420() {changeFontSize('article','idx1');}
+
+
+function onclick___235345457() {changeFontSize('article','idx2');}
+
+
+function onclick___1781226422() {changeFontSize('article','idx3');}
+
+
+function onclick____611629549() {changeFontSize('article','idx4');}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                         function onmouseover___1073764714() {checkstar('1')}
+
+
+                                                                              function onmouseover____1392996615() {checkstar('2')}
+
+
+                                                                         function onmouseover___1356089716() {checkstar('3')}
+
+
+                                                                         function onmouseover___2054995675() {checkstar('4')}
+
+
+                                                                          function onmouseover___509114710() {checkstar('5')}
+
+
+
+
+
+
+
+
+
+
+
+                                                                          function onfocus____1011217674() {checkfocus(this);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+     function checkstar(value) {
+         if(value == "5") {
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star1Img.src = "images/icn_star_full_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star2Img.src = "images/icn_star_full_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star3Img.src = "images/icn_star_full_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star4Img.src = "images/icn_star_full_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star5Img.src = "images/icn_star_full_19x20.gif";
+         }
+         if(value == "4") {
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star1Img.src = "images/icn_star_full_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star2Img.src = "images/icn_star_full_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star3Img.src = "images/icn_star_full_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star4Img.src = "images/icn_star_full_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star5Img.src = "images/icn_star_empty_19x20.gif";
+         }
+         if(value == "3") {
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star1Img.src = "images/icn_star_full_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star2Img.src = "images/icn_star_full_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star3Img.src = "images/icn_star_full_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star4Img.src = "images/icn_star_empty_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star5Img.src = "images/icn_star_empty_19x20.gif";
+         }
+         if(value == "2") {
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star1Img.src = "images/icn_star_full_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star2Img.src = "images/icn_star_full_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star3Img.src = "images/icn_star_empty_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star4Img.src = "images/icn_star_empty_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star5Img.src = "images/icn_star_empty_19x20.gif";
+         }
+         if(value == "1") {
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star1Img.src = "images/icn_star_full_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star2Img.src = "images/icn_star_empty_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star3Img.src = "images/icn_star_empty_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star4Img.src = "images/icn_star_empty_19x20.gif";
+             document.aspnetForm.ctl00_ContentPlaceHolder1_Star5Img.src = "images/icn_star_empty_19x20.gif";
+         }         
+         document.aspnetForm.ctl00_ContentPlaceHolder1_StarValue.value = value;
+     }
+ 
+ 
+
+ 
+     function checkfocus(item) {
+     
+         if(item.value == "請在這裡輸入您對本篇討論的意見(限150字)"){
+             item.value = "";
+         }
+     
+     }       
+     function CheckSubmit() {
+       if( document.getElementById("ctl00_ContentPlaceHolder1_PostCommentTBox").value == "請在這裡輸入您對本篇討論的意見(限150字)" )
+       {
+         alert("請輸入您的意見");
+         window.event.returnValue = false;
+       }
+       else if( document.getElementById("ctl00_ContentPlaceHolder1_PostCommentTBox").value == "" )
+       {
+         alert("請輸入您的意見");
+         window.event.returnValue = false;
+       }
+       else
+       {
+         window.event.returnValue = true;
+       }
+     }
+ 
+
+
+
+
+
+ 

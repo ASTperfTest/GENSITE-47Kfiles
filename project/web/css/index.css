@@ -1,0 +1,120 @@
+/* ::::: http://kmweb.coa.gov.tw/subject/xslGIP/style1Q/css/style.css ::::: */
+
+/* ::::: http://kmweb.coa.gov.tw/subject/xslGIP/Common/CommonStyle.css ::::: */
+
+.idx2 { font-size: 14px; vertical-align: middle; line-height: 170%; }
+/* ::::: http://kmweb.coa.gov.tw/subject/xslGIP/style1Q/css/newcp.css ::::: */
+
+/* ::::: http://kmweb.coa.gov.tw/subject/xslGIP/style1Q/css/skeyword.css ::::: */
+
+#header { text-align: right; width: 1003px; font-size: 80%; height: 250px; }
+#header .accesskey { font-size: 10px; float: left; }
+#header .accesskey a { color: rgb(130, 178, 69); }
+#header .logo { float: left; position: absolute; top: 59px; left: -1px; width: 531px; height: 132px; }
+#header .logo img { border-style: none; }
+#header ul { padding-top: 7px; margin: 0px 25px 15px 0px; }
+#header li { display: inline; background-image: url('arrow1.gif'); background-repeat: no-repeat; background-position: left 1px; padding-left: 15px; padding-right: 5px; letter-spacing: 0.05em; }
+html > body #header li { background-position: left 4px; }
+#header li a { color: rgb(255, 255, 255); }
+#header li a:hover { color: rgb(255, 255, 102); }
+#header form { font-size: 12px; background-image: url('searchbg.gif'); background-repeat: no-repeat; background-position: 3px top; text-align: center; width: 242px; height: 35px; padding-top: 7px; color: rgb(51, 51, 51); position: absolute; top: 39px; left: 740px; }
+.image { clear: left; width: 700px; margin-right: auto; margin-left: auto; display: none; }
+.image img { vertical-align: text-bottom; width: 700px; }
+#leftcol { margin-bottom: 30px; background-image: url('menubg.gif'); background-repeat: no-repeat; background-position: 1px top; width: 206px; padding-bottom: 50px; margin-top: 15px; margin-right: 20px; }
+#leftcol .accesskey { font-size: 10px; margin-top: -5px; line-height: 100%; }
+#leftcol .accesskey a { color: rgb(219, 239, 181); }
+.menu { margin: 15px; }
+.menu ul { margin: 0px 0px 8px; list-style-type: none; }
+html > body #leftcol ul { margin-left: -40px; padding-left: 40px; }
+.menu li a { font-size: 80%; line-height: 130%; background-image: url('nav1.gif'); background-repeat: no-repeat; background-position: 6px 4px; display: block; width: 175px; margin: 0px 0px 5px; padding: 7px 5px 6px 35px; color: rgb(51, 51, 51); border-bottom: 1px dotted rgb(153, 153, 153); }
+html > body .menu li a { width: 135px; }
+.menu li a:hover { text-decoration: none; background-image: url('nav1.gif'); color: rgb(165, 42, 42); }
+.menu li li a { font-size: 80%; width: 175px; color: rgb(153, 0, 51); padding: 1px 0px 2px 35px; border-style: none; background: url('nav2.gif') no-repeat scroll 17px 3px transparent; }
+html > body .menu li li a { width: 155px; }
+.menu li li a:hover { text-decoration: underline; color: rgb(165, 42, 42); background-image: url('nav2.gif'); border-style: none; }
+#middle { width: 943px; margin-top: 0pt; margin-bottom: 0pt; }
+#center { font-size: 80%; line-height: 165%; color: rgb(51, 51, 51); text-align: left; width: 100%; padding-right: 30px; padding-bottom: 15px; }
+#center table, #center table b, #center table strong { font-size: 100%; width: 100%; }
+#center .accesskey { font-size: 10px; line-height: 100%; }
+#center .accesskey a { color: rgb(219, 239, 181); }
+#center p { margin-top: 10px; margin-bottom: 15px; }
+#footer { font-size: 80%; text-align: center; width: 1003px; line-height: 180%; color: rgb(51, 51, 51); padding: 15px 0pt 5px; margin: 15px 0pt 0pt; clear: both; background: url('footerbg.jpg') no-repeat scroll left bottom transparent; }
+#footer p { margin-top: 0pt; margin-bottom: 60px; }
+body {  }
+.body { margin: 0pt; padding: 0pt; background: url('bg.jpg') no-repeat scroll left top rgb(232, 250, 228); }
+form { margin: 0pt; padding: 0pt; }
+a { color: rgb(39, 157, 36); text-decoration: none; }
+a:hover { text-decoration: underline; color: rgb(204, 51, 0); }
+h4 { font-size: 125%; color: rgb(51, 51, 51); line-height: 130%; padding-left: 45px; padding-top: 8px; padding-bottom: 6px; background-image: url('topic.gif'); background-repeat: no-repeat; background-position: left top; margin-top: 10px; margin-bottom: 5px; clear: both; font-weight: normal; letter-spacing: 0.05em; border-bottom: 2px dotted rgb(134, 176, 136); }
+hr { clear: both; border: medium none; background-color: rgb(165, 165, 165); color: rgb(165, 165, 165); height: 1px; }
+.input { color: rgb(102, 102, 102); background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); margin-right: 2px; font-size: 100%; padding-top: 2px; padding-bottom: 2px; padding-left: 3px; font-weight: normal; line-height: 150%; }
+.button, .cbutton { background: url('buttonbg.gif') repeat-x scroll left top transparent; font-size: 12px; color: rgb(51, 51, 51); padding: 0pt 3px 2px; height: 22px; border: 1px solid rgb(187, 187, 187); line-height: 150%; margin-right: 3px; }
+.photobox { padding: 15px 20px; width: auto; border: 1px dotted rgb(83, 145, 96); text-align: center; margin-left: 25px; margin-bottom: 25px; background-color: rgb(240, 253, 225); margin-right: 25px; color: rgb(51, 51, 51); }
+.photobox p { text-align: left; color: rgb(51, 51, 51); }
+.path { margin-top: -10px; }
+.friendly { text-align: right; margin: -16px 0px 0px; }
+.friendly .print { background-image: url('print.gif'); background-repeat: no-repeat; background-position: left top; padding-left: 18px; margin-left: 5px; display: inline; }
+.friendly .back { background-image: url('back.gif'); background-repeat: no-repeat; background-position: left top; padding-left: 26px; display: inline; }
+.friendly .email { background-image: url('email.gif'); background-repeat: no-repeat; background-position: left top; padding-left: 26px; display: inline; }
+.layout { border-collapse: collapse; font-size: 100%; line-height: 150%; clear: both; width: 100%; margin: 0pt 30px; }
+.layout td { vertical-align: top; text-align: left; }
+.layout .leftbg { vertical-align: top; }
+/* ::::: http://kmweb.coa.gov.tw/subject/xslgip/style1Q/css/login.css ::::: */
+
+/* ::::: http://kmweb.coa.gov.tw/css/jquery.css ::::: */
+
+.ui-helper-clearfix:after { content: "."; display: block; height: 0pt; clear: both; visibility: hidden; }
+.ui-helper-clearfix { display: inline-block; }
+.ui-helper-clearfix { display: block; }
+.ui-icon { display: block; text-indent: -99999px; overflow: hidden; background-repeat: no-repeat; }
+.ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 1.1em; }
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif; font-size: 1em; }
+.ui-widget-content { border: 1px solid rgb(170, 170, 170); background: url('ui-bg_flat_75_ffffff_40x100.png') repeat-x scroll 50% 50% rgb(255, 255, 255); color: rgb(34, 34, 34); }
+.ui-widget-content a { color: rgb(34, 34, 34); }
+.ui-widget-header { border: 1px solid rgb(170, 170, 170); background: url('ui-bg_highlight-soft_75_cccccc_1x100.png') repeat-x scroll 50% 50% rgb(204, 204, 204); color: rgb(34, 34, 34); font-weight: bold; }
+.ui-widget-header a { color: rgb(34, 34, 34); }
+.ui-state-default, .ui-widget-content .ui-state-default { border: 1px solid rgb(211, 211, 211); background: url('ui-bg_glass_75_e6e6e6_1x400.png') repeat-x scroll 50% 50% rgb(230, 230, 230); font-weight: normal; color: rgb(85, 85, 85); outline: medium none; }
+.ui-icon { width: 16px; height: 16px; background-image: url('ui-icons_222222_256x240.png'); }
+.ui-widget-content .ui-icon { background-image: url('ui-icons_222222_256x240.png'); }
+.ui-widget-header .ui-icon { background-image: url('ui-icons_222222_256x240.png'); }
+.ui-icon-closethick { background-position: -96px -128px; }
+.ui-icon-gripsmall-diagonal-se { background-position: -64px -224px; }
+.ui-icon-grip-diagonal-se { background-position: -80px -224px; }
+.ui-corner-all { border-radius: 4px 4px 4px 4px; }
+.ui-dialog { position: relative; padding: 0.2em; width: 300px; }
+.ui-dialog .ui-dialog-titlebar { padding: 0.5em 0.3em 0.3em 1em; position: relative; }
+.ui-dialog .ui-dialog-title { float: left; margin: 0.1em 0pt 0.2em; }
+.ui-dialog .ui-dialog-titlebar-close { position: absolute; right: 0.3em; top: 50%; width: 19px; margin: -10px 0pt 0pt; padding: 1px; height: 18px; }
+.ui-dialog .ui-dialog-titlebar-close span { display: block; margin: 1px; }
+.ui-dialog .ui-dialog-titlebar-close:hover, .ui-dialog .ui-dialog-titlebar-close:focus { padding: 0pt; }
+.ui-dialog .ui-dialog-content { border: 0pt none; padding: 0.5em 1em; background: none repeat scroll 0% 0% transparent; overflow: auto; }
+.ui-dialog .ui-dialog-buttonpane { text-align: left; border-width: 1px 0pt 0pt; background-image: none; margin: 0.5em 0pt 0pt; padding: 0.3em 1em 0.5em 0.4em; }
+.ui-dialog .ui-dialog-buttonpane button { float: right; margin: 0.5em 0.4em 0.5em 0pt; cursor: pointer; padding: 0.2em 0.6em 0.3em; line-height: 1.4em; width: auto; overflow: visible; }
+.ui-dialog .ui-resizable-se { width: 14px; height: 14px; right: 3px; bottom: 3px; }
+.ui-draggable .ui-dialog-titlebar { cursor: move; }
+.ui-resizable { position: relative; }
+.ui-resizable-handle { position: absolute; font-size: 0.1px; z-index: 99999; display: block; }
+.ui-resizable-n { cursor: n-resize; height: 7px; width: 100%; top: -5px; left: 0px; }
+.ui-resizable-s { cursor: s-resize; height: 7px; width: 100%; bottom: -5px; left: 0px; }
+.ui-resizable-e { cursor: e-resize; width: 7px; right: -5px; top: 0px; height: 100%; }
+.ui-resizable-w { cursor: w-resize; width: 7px; left: -5px; top: 0px; height: 100%; }
+.ui-resizable-se { cursor: se-resize; width: 12px; height: 12px; right: 1px; bottom: 1px; }
+.ui-resizable-sw { cursor: sw-resize; width: 9px; height: 9px; left: -5px; bottom: -5px; }
+.ui-resizable-nw { cursor: nw-resize; width: 9px; height: 9px; left: -5px; top: -5px; }
+.ui-resizable-ne { cursor: ne-resize; width: 9px; height: 9px; right: -5px; top: -5px; }
+/* ::::: http://kmweb.coa.gov.tw/js/greybox/gb_styles.css ::::: */
+
+/* ::::: http://kmweb.coa.gov.tw/TreasureHunt/include/treasureStyle.css ::::: */
+
+#cont { height: 240px; width: 210px; background-image: url('bg.gif'); background-repeat: no-repeat; background-position: left top; }
+#cont #up { height: 85px; padding: 0px; margin-top: 0px; margin-bottom: 0px; }
+#cont #bottom { height: 115px; }
+#cont #bottom ul { list-style-type: none; text-align: left; list-style-image: none; padding: 10px 10px 0px 13px; margin: 0px; }
+#cont #bottom li {  }
+.content { font-size: 12px; color: rgb(51, 51, 51); line-height: 16px; letter-spacing: 2px; }
+/* ::::: http://kmweb.coa.gov.tw/css/pedia.css ::::: */
+
+/* ::::: http://kmweb.coa.gov.tw/js/ui.datepicker.css ::::: */
+
+#datepicker_div, .datepicker_inline { font-family: Arial,Helvetica,sans-serif; font-size: 14px; padding: 0pt; margin: 0pt; background: none repeat scroll 0% 0% rgb(221, 221, 221); width: 185px; }
+#datepicker_div { display: none; border: 1px solid rgb(119, 119, 119); z-index: 9999; }

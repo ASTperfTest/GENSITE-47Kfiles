@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#006E8E" text="#FFFFFF" link="#00FF00" vlink="#00FF00" alink="#00FF00"  cellspacing="0" cellpadding="0">
+<div align="center">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
+    <tr>
+      <td width="10">&nbsp;</td>
+      <td valign="top"> 
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF"><br>
+          <img src="method.gif" width="30" height="30" align="absmiddle"> <b><font size="3">BEGINPATH<br>
+          <br>
+          </font></b>The BeginPath function opens a path bracket in the image 
+          context. <br>
+          <br>
+          <b>Procedure </b>BeginPath()<br>
+          <br>
+          <b>Description<br>
+          </b>After a path bracket is open, an application can begin calling drawing 
+          functions to define the points that lie in the path. You can close an 
+          open path bracket by calling the <a href="endpath.htm">EndPath</a> function. 
+          When an application calls BeginPath for a device context, any previous 
+          paths are discarded from that device context. <br>
+          <br>
+          <b>Example<br>
+          </b></font><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><i><br>
+          &lt;%<img src="ex1.gif" width="200" height="60" align="right"><br>
+          Set ILIB = server.createobject(&quot;Overpower.Imagelib&quot;) <br>
+          ILIB.WIDTH = 200<br>
+          ILIB.Height = 60<br>
+          ILIB.FontFace = &quot;Impact&quot; <br>
+          ILIB.FontSize = 35<br>
+          ILIB.BeginPath<br>
+          ILIB.TextOut &quot;HEY THERE&quot;,1,1<br>
+          ILIB.EndPath<br>
+          ILIB.PenWidth = 2<br>
+          ILIB.BrushColor = &quot;#00AAFF&quot;<br>
+          ILIB.PenColor = &quot;#FFFF00&quot;<br>
+          ILIB.StrokeAndFillPath <br>
+          ILIB.PictureBinaryWrite 2,0, &quot;#FFFFFF&quot; <br>
+          %&gt; </i></font></p>
+        </td>
+    </tr>
+  </table>
+  <p align="left">&nbsp; </p>
+</div>
+</body>
+</html>

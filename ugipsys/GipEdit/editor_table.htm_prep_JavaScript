@@ -1,0 +1,116 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function TableOK(){
+var dotable,tmpcol,tmprow,docol,dorow
+if(tba[0].checked){algn="left";} 
+if(tba[1].checked){algn="center";} 
+if(tba[2].checked){algn="right";} 
+tmpcol="<td align="+algn+"></td>";
+docol=""
+dorow=""
+for ( var i=0; i<tbc.value; i++ ){
+docol=docol+tmpcol;
+}
+docol="<tr>"+docol+"</tr>"
+for ( var j=0; j<tbr.value; j++ ){
+dorow=dorow+docol;
+}
+dotable="<table border="+tbb.value+" cellspacing="+tbs.value+" cellpadding="+tbp.value+">"+dorow+"</table>"
+window.returnValue = dotable;
+window.close();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function onkeypress____1593526281() {if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;}
+
+
+
+
+
+function onkeypress____1593526281() {if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;}
+
+
+
+
+
+function onkeypress____1593526281() {if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;}
+
+
+
+
+
+
+
+
+
+function onkeypress____1593526281() {if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;}
+
+
+
+
+
+function onkeypress____1593526281() {if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;}
+
+
+
+
+
+
+
+
+
+
+
+                         function onclick____2061966580() {window.close();}
+                          function onclick___1920356536() {TableOK();}
+
+window.setTimeout('TabStrip.blur()',100);
+
+
+
+
+ 

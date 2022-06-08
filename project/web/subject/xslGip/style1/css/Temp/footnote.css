@@ -1,0 +1,92 @@
+@charset "utf-8";
+
+/*   CSS Document */
+
+
+
+
+
+/*----------------------------------------------- ... ------------------*/
+
+.Appendix {
+	text-align: left;
+	padding-top: 10px;
+	padding-right: 10px;
+	padding-left: 12px;
+	border: 1px dashed #AAAAAA;
+	background: #F6F6F6;
+	clear: both;
+	float: left;
+	width: 100%;
+	bottom: 600px;
+}
+
+.Appendix a {
+
+	font-size: 12px;
+
+	display: block;
+
+	margin-bottom: 8px;
+
+	color: #005599;
+
+	text-decoration: underline;
+
+}
+
+.Appendix a:hover {
+
+	color: #CC0000;
+
+	text-decoration: none;
+
+}
+
+
+
+/*-----------------------------------------------  ------------------*/
+
+.Footnote {
+	font-size: 12px;
+	color: #003366;
+	padding-top: 10px;
+	border: 1px solid #666666;
+	background: #AFCDDC;
+	clear: both;
+	width: 100%;
+	font-family: Arial, Helvetica, sans-serif;
+	line-height: 130%;
+	padding-bottom: 5px;
+	clip:     rect(auto auto auto auto);
+}
+
+.Footnote p {
+
+	font-size: 12px;
+
+	margin-top: 0px;
+
+	margin-bottom: 8px;
+
+}
+
+.Footnote a {
+
+	font-size: 12px;
+
+	margin-bottom: 8px;
+
+	color: #018990;
+
+	text-decoration: underline;
+
+}
+
+.Footnote a:hover {
+
+	color: #555555;
+
+	text-decoration: none;
+
+}

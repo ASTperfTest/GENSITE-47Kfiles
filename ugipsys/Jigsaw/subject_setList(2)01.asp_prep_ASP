@@ -1,0 +1,91 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="主題館績效統計"
+htprogfunc="查詢清單"
+htprogcode="jigsaw"
+htprogprefix="newkpi" 
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_client_5214970()
+  
+
+orderarticle = "1"
+ieditor = "hyweb"
+idept = "0"
+showtype = "1"
+siteid = "1"
+ibasedsd = "44"
+ictunit = "2201"
+ctrootid = 0
+
+insert1=0   '新增的超連結，沒有原始文章 
+
+select case request("addlinkaction")
+    case "addlink"  '加入資源推薦link
+        
+            parenticuitem=request("gicuitem")    'id : 資源推薦的超連結        
+            title = request("title")            
+            if left(ucase(request("url")), 7) <> "http://" then
+                url = "http://" & request("url")
+            else
+                url  = request("url")
+            end if        
+
+   sql2 = "declare @newidentity bigint"
+   sql2 = sql2 & vbcrlf & "insert into [mgipcoanew].[dbo].[cudtgeneric]([ibasedsd],[ictunit],[stitle],[ieditor],[deditdate],[idept],[showtype],[siteid]) "
+   sql2 = sql2 & vbcrlf & "values(" & ibasedsd & ", " & ictunit & ", '" & title & "', '" & ieditor & "', getdate(), '" & idept & "', '" & showtype & "', '" & siteid & "') "
+   sql2 = sql2 & vbcrlf & "set @newidentity = @@identity "
+   sql2 = sql2 & vbcrlf & ""
+   sql2 = sql2 & vbcrlf & "insert into cudtx7 ([gicuitem]) values(@newidentity)"
+   sql2 = sql2 & vbcrlf & ""
+      sql2 = sql2 & vbcrlf & "insert into [mgipcoanew].[dbo].[knowledgejigsaw]([gicuitem],[ctrootid],[ctunitid],[parenticuitem],[articleid],[status],[orderarticle],[path]) "
+   sql2 = sql2 & vbcrlf & "values(@newidentity, " & ctrootid & ", 1, " & parenticuitem & ", " & insert1 & ", 'y', " & orderarticle & ", '" & url & "')"      
+   
+   conn.execute sql2     
+        'response.clear()
+        'response.write sql2
+        'response.end
+    case else       '編修存檔
+        sql2="select knowledgejigsaw.gicuitem  from cudtgeneric inner join knowledgejigsaw on cudtgeneric.icuitem = knowledgejigsaw.gicuitem where (knowledgejigsaw.status = 'y') and ( knowledgejigsaw.parenticuitem='"&request("gicuitem")&"')"
+
+        set rs2=conn.execute(sql2)
+        while not rs2.eof
+
+        if request(rs2("gicuitem"))<>"" then
+        sql4="select  [orderarticle] from [mgipcoanew].[dbo].[knowledgejigsaw] where gicuitem='"&rs2("gicuitem")&"'"
+        set rs4=conn.execute(sql4)
+
+        if isnumeric(request(rs2("gicuitem"))) then        
+          if int(rs4(0))<> int(request(rs2("gicuitem"))) then
+           sql ="update [mgipcoanew].[dbo].[knowledgejigsaw] set [orderarticle] ="&request(rs2("gicuitem"))&"  where gicuitem='"&rs2("gicuitem")&"'"
+           conn.execute(sql)
+           sql3="update [mgipcoanew].[dbo].[cudtgeneric] set [deditdate] =getdate()  where icuitem ='"&rs2("gicuitem")&"'"
+           conn.execute(sql3)
+          end if 
+        end if
+
+        end if 
+        rs2.movenext
+        wend
+end select
+
+showdonebox "編修成功！"
+'response.redirect "subjectpublist.asp?icuitem="&request("icuitem")
+
+   sub showdonebox(lmsg) 
+
+
+
+
+                                  =htprogprefix
+
+
+
+
+              =lmsg
+                                                                 =request("icuitem")
+
+
+
+   end sub  

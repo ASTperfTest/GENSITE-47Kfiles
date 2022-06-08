@@ -1,0 +1,112 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  alert("Cx_0dummy")
+  document.location.href="catlist.asp?itemid=Cx_0dummy&catid=Cx_0dummy"
+  window.parent.catalogue.location.reload
+  alert("Cx_0dummy")
+  document.location.href="catlist.asp?itemid=Cx_0dummy&catid=Cx_0dummy"
+  window.parent.catalogue.location.reload
+<script language=vbscript></script>Cx_0dummy
+
+
+
+
+
+
+
+
+
+
+
+
+   alert("Cx_0dummy")
+  document.location.href="catview.asp?itemid=Cx_0dummy&catid=Cx_0dummy"
+  window.parent.catalogue.location.reload
+<script language=vbs>  alert("Cx_0dummy")
+  document.location.href="catlist.asp?itemid=Cx_0dummy&catid=Cx_0dummy"
+  window.parent.catalogue.location.reload
+<script language=vbs>
+ 

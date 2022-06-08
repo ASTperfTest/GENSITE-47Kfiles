@@ -1,0 +1,64 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  function onclick____38926129() {btnQuery_Click}
+                                                            function onclick____1426268184() {returnToQuery()}
+
+
+
+
+
+
+
+
+
+
+        
+        function returnToQuery() {
+            window.location.href = "DsdASPXQuery.aspx";
+
+        }
+ 
+
+
+
+ 

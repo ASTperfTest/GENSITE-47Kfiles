@@ -1,0 +1,196 @@
+@charset "utf-8";
+
+/*   CSS Document */
+
+/*----*/
+
+
+
+body {
+	margin: 0px;
+	background-color: #FFFFFF;
+
+}
+
+/*-----------------------------------------------------------------*/
+
+.Title {
+
+	background: url(../images/index.jpg) no-repeat;
+
+	height: 123px;
+
+}
+
+/*-----------------------------------------------------------------*/
+
+.Quickview {
+	color: #FFFFFF;
+	font-size: 13px;
+	width: auto;
+	top: 142px;
+	background-color: #707070;
+	text-align: center;
+	padding-top: 5px;
+	padding-right: 10px;
+	height: 22px;
+}
+
+.Quickview a {
+	text-decoration: none;
+	color: #FFFFFF;
+	font-family: Verdana, "新細明體";
+}
+
+.Quickview a:hover {
+	color: #FFFF99;
+	font-family: Verdana, "新細明體";
+}
+
+/*-----------------------------------------------------------------*/
+
+.About {
+	color: #FFFFFF;
+	font-size: 12px;
+	width: auto;
+	left: 70px;
+	top: 163px;
+	position: relative;
+}
+.About li {
+	color: #FFFFFF;
+	font-size: 12px;
+	line-height: 150%;
+	margin-left: 0px;
+}
+.About a {
+	text-decoration: none;
+	color: #FFFFFF;
+	font-family: Verdana, "新細明體";
+}
+.About a:hover {
+	color: #FFFF99;
+	font-family: Verdana, "新細明體";
+}
+
+/*-----------------------------------------------------------------*/
+
+.Nav {
+	font-size: 12px;
+	text-align: right;
+	padding-top: 4px;
+	padding-right: 10px;
+	height: 15px;
+	margin-bottom: 15px;
+	font-family: Verdana, "新細明體";
+
+}
+
+.Nav a {
+	text-decoration: none;
+	color: #000000;
+	background: url(../images/Bullet1.gif) no-repeat 5px 1px;
+	margin-right: 2px;
+	font-family: Verdana, "新細明體";
+}
+
+.Nav a:hover {
+	color: #CC0000;
+	background: url(../images/Bullet1m.gif) no-repeat 5px 2px;
+	font-family: Verdana, "新細明體";
+	text-decoration: underline;
+}
+
+
+/*-----------------------------------------------------------------*/
+
+.Func {
+	width: 180px;
+	padding-left: 2px;
+	float: left;
+	padding-top: 20px;
+}
+
+
+
+/*-----------------------------------------------------------------*/
+
+.Main {
+	margin-right: 200px;
+	margin-left: 220px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+
+
+/*-----------------------------------------------------------------*/
+
+.Column {
+	width: 170px;
+	position: absolute;
+	right: 0px;
+	margin-bottom: 100px;
+	top: 168px;
+	left: 815px;
+}
+
+/*-----------------------------------------------------------------*/
+
+.Pre a {
+	color: #EB4800;
+	background: url(../images/pre.gif) no-repeat;
+	padding-left: 15px;
+	margin-right: 10px;
+	text-decoration: none;
+	font-size: 11px;
+	margin-top: 0px;
+	text-align: right;
+}
+
+/*-----------------------------------------------------------------*/
+
+.More a {
+	color: #AE5300;
+	background: url(../images/main/more.gif) no-repeat 3px;
+	padding-left: 14px;
+	margin-right: 2px;
+	text-decoration: none;
+	font-size: 12px;
+	padding-top: 5px;
+	margin-top: 0px;
+}
+
+.More a:hover {
+
+	color: #FF0033;
+
+	text-decoration: underline;
+
+}
+
+
+
+.Path {
+	font-size: 13px;
+	margin-bottom: 20px;
+	padding-top: 3px;
+	color: #444444;
+	margin-left: 15px;
+
+}
+
+
+
+a {
+	text-decoration: none;
+	color: #454545;
+}
+
+a:hover {
+
+	color: #D55500;
+
+	text-decoration: underline;
+
+}

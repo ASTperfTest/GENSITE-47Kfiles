@@ -1,0 +1,161 @@
+﻿: 
+if session("login")<>"ok" then
+ session("errnumber")=1
+   session("msg")="�еn�j�b�k�i"
+ response.redirect "login.asp"
+end if
+
+sub message()
+  if session("errnumber")=0 then
+    response.write "<center>"&session("msg")&"</center>"
+  else
+    response.write "<script language='javascript'>alert('"&session("msg")&"')</script>"
+  end if
+  session("msg")=""
+  session("errnumber")=0
+end sub
+
+function submitj (submittype)
+  if submittype="delete" then response.write "if(confirm('�z�o�_�t�w�n�e�x�h')){" & chr(13) & chr(10)
+  response.write "document.form.action.value='"&submittype&"';" & chr(13) & chr(10)
+  response.write "document.form.submit();" & chr(13) & chr(10)
+  if submittype="delete" then response.write "}" & chr(13) & chr(10)
+end function
+
+function getsecureval(param)
+ if isempty(param) or param = "" then
+  getsecureval = param
+  exit function
+ end if
+
+ if isnumeric(param) then
+  getsecureval = clng(param)
+ else
+  getsecureval = replace(cstr(param), "'", "''")
+ end if
+end function
+ 
+set conn = server.createobject("adodb.connection")
+conn.connectionstring = application("connstrpuzzle")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+
+if request("action")="add" then
+  sql="picdata"
+  set rs = server.createobject("adodb.recordset")
+  rs.open sql,conn,1,3
+  rs.addnew
+  rs("pic_no")=request.form("pic_no_new")
+  rs("pic_name")=request.form("pic_name_new")
+  rs("pic_link")=getsecureval(request.form("pic_link_new"))
+  rs("pic_open")=getsecureval(request.form("pic_open_new"))
+  rs.update
+  rs.close
+  set rs=nothing
+  session("errnumber")=1
+  session("msg")="��ʒs�w���\ �i"
+end if
+
+if request("action")="update" then   
+  sql="select * from picdata where ser_no='"&request.form("ser_no")&"'"
+  set rs = server.createobject("adodb.recordset")
+  rs.open sql,conn,1,3
+  rs("pic_no")=request.form("pic_no"&"_"&request("ser_no"))
+  rs("pic_name")=request.form("pic_name"&"_"&request("ser_no"))
+  rs("pic_link")=getsecureval(request.form("pic_link"&"_"&request("ser_no")))
+  rs("pic_open")=getsecureval(request.form("pic_open"&"_"&request("ser_no")))
+  rs.update
+  rs.close
+  set rs=nothing
+  session("errnumber")=1
+  session("msg")="��ƭק令�\ �i"
+end if
+
+if request("action")="delete" then
+  sql="delete from picdata where ser_no='"&getsecureval(request.form("ser_no"))&"' "       
+  set rs=conn.execute(sql)
+  session("errnumber")=1
+  session("msg")="��ƨr�����\ �i"
+end if
+ 
+sql = "select * from picdata order by ser_no"  
+set rs = conn.execute (sql)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+    while not rs.eof
+
+                                                         =rs("pic_no"):    =rs("pic_name")
+                                                              =rs("ser_no"):                           =rs("pic_no")
+                                                                =rs("ser_no"):                           =rs("pic_name")
+                                                                =rs("ser_no"):                            =rs("pic_link")
+                                            =rs("ser_no"):                            if rs("pic_open")="y" then response.write "checked" 
+                                         =rs("ser_no"):                            if rs("pic_open")="n" then response.write "checked" 
+                                                                                                                                       =rs("ser_no")
+                                                                                                                                     'rs("ser_no")
+
+           rs.movenext
+    wend
+
+
+    message()
+
+
+  
+ rs.close
+ conn.close
+
+
+
+    call submitj("add")
+
+
+
+    call submitj("update")
+
+
+
+    call submitj("delete") 

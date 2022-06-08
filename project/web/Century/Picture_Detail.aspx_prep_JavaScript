@@ -1,0 +1,42 @@
+﻿
+
+
+
+
+
+
+
+function script____1060989110() {src("/js/yoxviewPic/jquery.yoxview-2.2.min.js");}
+function script____431260320() {src("/js/yoxviewPic/yoxview-init.js");}
+function script___382564960() {src("/nocopy.js");}
+
+
+
+    $(document).ready(function() {
+        $(".yoxview").yoxview({
+            videoSize: { maxwidth: 720, maxheight: 560 },
+            autoHideInfo: false,
+            autoHideMenu: false,
+            lang: 'zh-tw'
+        });
+        $(".yoxview").show();
+    });    (jQuery)
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

@@ -1,0 +1,17 @@
+﻿: 
+ apcode = request.querystring("apcode")
+
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty("serverhttprequest") = true
+ loadxml = server.mappath("/htsdsystem/usecase/" & apcode & ".xml")
+ xv = oxml.load(loadxml)
+  if oxml.parseerror.reason <> "" then
+    response.write("xml parseerror on line " &  oxml.parseerror.line)
+    response.write("<br>reason: " &  oxml.parseerror.reason)
+    response.end()
+  end if
+
+ oxml.save(response)
+ 
+ 

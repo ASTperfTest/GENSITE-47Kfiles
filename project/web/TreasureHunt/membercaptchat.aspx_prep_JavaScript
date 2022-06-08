@@ -1,0 +1,106 @@
+﻿
+
+
+
+
+
+
+
+
+function script___602562887() {src("../js/jquery-1.3.2.min.js");}
+ 
+    var url = "/TreasureHunt/treasurehuntservices.aspx";
+    var treasreLogId= "Cx_0dummy"; 
+    var targetpage="Cx_0dummy";
+    var documentinfo="Cx_0dummy";
+    var guid = "Cx_0dummy";
+    var refereurl = "Cx_0dummy";
+    function SendMemberCaptChaT(){
+        $("#SendMember").attr("disabled", true);
+        param = "cmd=checkmembrtcaptchat&targetpage=" + targetpage + "&documentinfo=" + encodeURIComponent(documentinfo) + "&code=" + $('#MemberCaptChaTBox').val() + "&treasurelodid=" + treasreLogId + "&guid=" + guid + "&refereurl=" + refereurl;
+     $.getJSON(url,param,function(data){
+            if (data.Success) {
+            if(data.Data){
+                if(data.Data.Read){
+                        $('#tres').hide();
+                        $('#tres2').show();
+                        $('#treasureImage').html("<image src=\"/TreasureHunt/image/big_"+data.Data.Image +"\" class=\"imgbox\" /> ");
+                        $('#treasureName').html(decodeURIComponent(data.Data.TreasureName));
+                        
+                       // ss ="<ul><img src=\"/TreasureHunt/image/"+data.Data.Image +"\" class=\"imgbox\" />";
+                        //ss +=" <li class=\"content\">豆仔名稱:</li>";
+                        //ss += "<li class=\"content\">您已得到...."+decodeURIComponent(data.Data.TreasureName)+"</li>";
+                         //ss += "<li class=\"content\" style=\"text-align:right;\"><input type=\"button\" value=\"關閉視窗\"         \"parent.parent.GB_hide();\" /></li>";
+                        //ss += "</ul>";
+                        //$('#content').html(ss);
+                        //setTimeout("parent.parent.GB_hide();",10000);
+                        
+                        //$('#dialog').dialog('close');
+               }else if(data.Data.Timeout){
+                alert(decodeURIComponent(data.Data.Message));
+    $('#tres').html(" ");
+                parent.parent.GB_hide();
+   }
+               }else{
+                $("#errormessage").html(decodeURIComponent(data.Message));
+                $("#SendMember").attr("disabled", false);
+               }
+            }
+            else {
+                $.showAlert(data.Message, data.Data);
+                return;
+            }
+        });
+     
+ }
+ 
+ function newCode(){
+     var dt = new Date();
+  document.getElementById('treasureimage').src="/CaptchaImage/JpegImage.aspx?guid="+guid +"&t=" + dt; 
+    }
+
+
+
+
+
+
+
+
+
+                      function onclick____1270071123() {newCode(this);}
+
+
+
+
+
+
+
+                                                                   function onclick___244284052() {SendMemberCaptChaT();}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                 function onclick___334010012() {parent.parent.GB_hide();}
+
+
+
+
+
+
+
+
+ 

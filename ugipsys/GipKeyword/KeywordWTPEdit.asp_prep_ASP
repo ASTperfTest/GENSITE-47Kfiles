@@ -1,0 +1,143 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="關鍵字詞維護"
+htprogfunc="編修關鍵字詞"
+htprogcode="gc1ap7"
+htprogprefix="keywordwtp" 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+  
+if request("task")="編修存檔" then
+ xdate=cstr(date())
+ xkeyword=pkstr(request("xkeyword"),"")
+ xkeywordnew=pkstr(request("xkeywordnew"),"") 
+ sqlact="insert into cudtkeywordwtp values("+xkeyword+",0,"+xkeywordnew+",'e','"+session("userid")+"','"+xdate+"')"
+ set rs = conn.execute(sqlact)
+
+
+
+
+
+
+
+                       =htprogprefix
+
+
+         response.end
+elseif request("task")="刪除" then
+ xdate=cstr(date())
+ xkeyword=pkstr(request("xkeyword"),"") 
+ sqlact="insert into cudtkeywordwtp values("+xkeyword+",0,null,'d','"+session("userid")+"','"+xdate+"')"
+ set rs = conn.execute(sqlact)
+
+
+
+
+
+
+
+                       =htprogprefix
+
+
+         response.end
+end if
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     =htprogcap:                       =htprogfunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               if (htprogright and 8)=8 then :                                                                              end if 
+               if (htprogright and 16)=16 then :                                                                              end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           =session("mysitemmourl")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           =session("mysitemmourl")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           =session("mysitemmourl") 

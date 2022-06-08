@@ -1,0 +1,345 @@
+﻿: 
+'#####(autogen) 開始：此段程式碼為自動產生，註解部份請勿刪除 #####
+'下列有設定部份如有需要可自行設定
+'此版本為  ver.0.2
+'此段程式碼產生日期為： 2009/6/10 上午 09:59:37
+'(可修改)未來是否自動更新此程式中的 pattern (y/n) : y
+
+'(可修改)此程式是否記錄 log 檔
+activelog4u=true
+
+'(可修改)錯誤發生時要到那個頁面,未填時直接結束，1. 可以是 / :首頁, 2. http://xxx.xxx.xxx.xxx/ooo.htm
+onerrorpath="/"
+
+'目前程式位置在
+progpath="d:\hyweb\gensite\project\sys\wsxd2\xdform.asp"
+
+'--------- (可修改)要檢查的 request 變數名稱 --------
+genparamsarray=array("mp", "ctnode", "cuitem", "xitem", "spec", "ctunit")
+genparamspattern=array("<", ">", "%3c", "%3e", ";", "%27", "'", "=", "+", "-", "*", "/", "%", "@", "~", "!", "#", "$", "&", "\", "(", ")", "{", "}", "[", "]") '#### 要檢查的 pattern(程式會自動更新):genpat ####
+genparamsmessage=now() & vbtab & "error(1):request變數含特殊字元"
+
+'-------- (可修改)只檢查單引號，如 request 變數未來將要放入資料庫，請一定要設定(防 sql injection) --------
+sqlinjparamsarray=array()
+sqlinjparamspattern=array("'") '#### 要檢查的 pattern(程式會自動更新):db ####
+sqlinjparamsmessage=now() & vbtab & "error(2):request變數含單引號"
+
+'-------- (可修改)只檢查 html標籤符號，如 request 變數未來將要輸出，請設定 (防 cross site scripting)--------
+xssparamsarray=array()
+xssparamspattern=array("<", ">", "%3c", "%3e") '#### 要檢查的 pattern(程式會自動更新):html ####
+xssparamsmessage=now() & vbtab & "error(3):request變數含html標籤符號"
+
+'-------- (可修改)檢查數字格式 --------
+chknumericarray=array()
+chknumericmessage=now() & vbtab & "error(4):request變數不為數字格式"
+
+'-------- (可修改)檢察日期格式 --------
+chkdatearray=array()
+chkdatemessage=now() & vbtab & "error(5):request變數不為日期格式"
+
+'##########################################
+chkpattern genparamsarray, genparamspattern, genparamsmessage
+chkpattern sqlinjparamsarray, sqlinjparamspattern, sqlinjparamsmessage
+chkpattern xssparamsarray, xssparamspattern, xssparamsmessage
+chknumeric chknumericarray, chknumericmessage
+chkdate chkdatearray, chkdatemessage
+'--------- 檢查 request 變數名稱 --------
+sub chkpattern(parray, patern, message)
+ for each str in parray 
+  p=request(str)
+  for each ptn in patern
+   if (instr(p, ptn) >0) then
+    message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+    log4u(message) '寫入到 log
+    onerroraction
+   end if
+  next
+ next
+end sub
+
+'-------- 檢查數字格式 --------
+sub chknumeric(parray, message)
+ for each str in parray
+  p=request(str)
+  if not isnumeric(p) then
+   message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'--------檢察日期格式 --------
+sub chkdate(parray, message)
+ for each str in parray
+  p=request(str)
+  if not isdate(p) then
+   message = message & vbtab & progpath & vbtab & "request(" & str & ")=" & p & vbtab & request.servervariables("remote_addr") & vbtab & request.querystring
+   log4u(message) '寫入到 log
+   onerroraction
+  end if
+ next
+end sub
+
+'onerror
+sub onerroraction()
+ if (onerrorpath<>"") then response.redirect(onerrorpath)
+ response.end
+end sub
+
+'log 放在網站根目錄下的 /logs，檔名： yyyymmdd_log4u.txt
+function log4u(strlog)
+ if (activelog4u) then
+  fldr=server.mappath("/") & "/logs"
+  filename=year(date()) & right("0"&month(date()), 2) & right("0"&day(date()),2)
+  
+  filename = filename & "_log4u.txt"
+  
+  dim fso, f
+  set fso = createobject("scripting.filesystemobject")
+  
+  '產生新的目錄
+  if (not fso.folderexists(fldr)) then
+   set f = fso.createfolder(fldr)
+  else
+   showabsolutepath = fso.getabsolutepathname(fldr)
+  end if
+  
+  const forreading = 1, forwriting = 2, forappending = 8
+  '開啟檔案
+  set fso = createobject("scripting.filesystemobject")
+  set f = fso.opentextfile( fldr & "\" & filename , forappending, true, -1)
+  f.write strlog  & vbcrlf
+ end if
+end function
+'##### 結束：此段程式碼為自動產生，註解部份請勿刪除 #####
+
+
+
+
+
+   
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+function message(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   message=""
+   exit function
+  elseif instr(1,xs,"<p",0)>0 or instr(1,xs,"<br",0)>0 or instr(1,xs,"<td",0)>0 then
+  message=xs
+   exit function
+  end if
+   xs = replace(xs,vbcrlf&vbcrlf,"<p>")
+   xs = replace(xs,vbcrlf,"<br/>")
+   message = replace(xs,chr(10),"<br/>")
+end function
+
+function deamp(tempstr)
+  xs = tempstr
+  if xs="" or isnull(xs) then
+   deamp=""
+   exit function
+  end if
+   deamp = replace(xs,"&","&amp;")
+end function
+
+ set htpagedom = server.createobject("microsoft.xmldom")
+ htpagedom.async = false
+ htpagedom.setproperty("serverhttprequest") = true 
+
+ loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\xdmp" & request("mp") & ".xml"
+ xv = htpagedom.load(loadxml)
+  if htpagedom.parseerror.reason <> "" then 
+    response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+    response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+    response.end()
+  end if
+
+   set refmodel = htpagedom.selectsinglenode("//mpdataset")
+ 
+ if request.querystring("ctnode") = "" and request.querystring("cuitem") <> "" then
+  sql = "select  t.ctnodeid" _
+   & " from cudtgeneric as htx join cattreenode as t " _
+   & " on t.ctunitid=htx.ictunit" _
+   & " where htx.icuitem=" & pkstr(request("cuitem"),"")
+  set rs = conn.execute(sql)
+  ctnode = rs(0)
+  xitem = request("cuitem")
+ else
+  ctnode = request("ctnode")
+  xitem = request("xitem")
+ end if
+ 
+ 
+ if (not isnumeric(ctnode)) then 
+  response.end
+ end if
+ if (not isnumeric(xitem)) then 
+  response.end
+ end if
+
+ 
+
+ mytreenode = ctnode
+ response.write "<menutitle>"&nulltext(refmodel.selectsinglenode("menutitle"))&"</menutitle>" & vbcrlf
+ response.write "<mystyle>"&nulltext(refmodel.selectsinglenode("mpstyle"))&"</mystyle>" & vbcrlf
+ response.write "<mp>"&request("mp")&"</mp>" & vbcrlf
+
+ if xitem <> "" then
+  sql = "select * from cattreenode where ctnodeid=" & pkstr(ctnode,"")
+  set rs = conn.execute(sql)
+  xrootid = rs("ctrootid")
+  xctunitname = rs("catname")
+  xpathstr = "<xpathnode title=""" & deamp(xctunitname) & """ xnode=""" & rs("ctnodeid") & """ />"
+  xparent = rs("dataparent")
+  myxsllist = rs("xsldata")
+  response.write "<xsldata>"&myxsllist&"</xsldata>" & vbcrlf
+  myparent = xparent
+  xlevel = rs("datalevel") - 1
+  if rs("ctnodekind") <> "c" then
+   xlevel = xlevel -1
+   mytreenode = xparent
+  end if
+  upparent = 0
+  
+  while xparent<>0
+   sql = "select * from cattreenode where ctnodeid=" & pkstr(xparent,"")
+   set rs = conn.execute(sql)
+   if rs("datalevel") = xlevel then upparent = xparent
+   xpathstr = "<xpathnode title=""" & deamp(rs("catname")) & """ xnode=""" & rs("ctnodeid") & """ />" & xpathstr
+   xparent = rs("dataparent")
+  wend 
+  docp
+ end if
+ response.write "<xpath><unitname>" & deamp(xctunitname) & "</unitname>" & xpathstr & "</xpath>" & vbcrlf
+ 
+ for each xdataset in refmodel.selectnodes("dataset[contentdata='y']")
+  processxdataset
+ next 
+ 
+ if isnull(xrootid) then _
+  xrootid=nulltext(refmodel.selectsinglenode("menutree"))
+
+ set htpagedom1 = server.createobject("msxml2.domdocument.3.0")
+ htpagedom1.setproperty "selectionlanguage", "xpath" 
+ loadxml = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\" & request("spec") & ".xml"
+ 
+ fxv = htpagedom1.load(loadxml)
+
+ if htpagedom.parseerror.reason <> "" then 
+  response.write("htpagedom parseerror on line " &  htpagedom.parseerror.line)
+  response.write("<br>reasonxx: " &  htpagedom.parseerror.reason)
+  response.end()
+ end if
+
+ set frefmodel = htpagedom1.selectsinglenode("//dataschemadef/language[mp=" & request("mp") & "]")
+ 'response.write "<test>" & frefmodel.xml & "</test>"
+ set list = frefmodel.selectsinglenode("fieldlist")
+ 'set list = frefmodel.selectsinglenode("//fieldlist")
+ 
+' if request.querystring("ctnode") = "" then
+'  sql = "select  t.ctnodeid" _
+'   & " from cudtgeneric as htx join cattreenode as t " _
+'   & " on t.ctunitid=htx.ictunit" _
+'   & " where htx.icuitem=" & pkstr(request("cuitem"),"")
+'  set rs = conn.execute(sql)
+'  ctnode = rs(0)
+'  xitem = request("cuitem")
+' else
+'  ctnode = request("ctnode")
+'  xitem = request("xitem")
+' end if
+
+ mytreenode = ctnode
+ if request("ctunit") <> "" then
+  response.write "<ctunit>"&request("ctunit")&"</ctunit>" & vbcrlf
+ end if
+ response.write "<xitem>"&request("xitem")&"</xitem>" & vbcrlf
+ response.write "<ctnode>"&request("ctnode")&"</ctnode>" & vbcrlf 
+ response.write "<pagetitle>" & nulltext(frefmodel.selectsinglenode("pagetitle")) & "</pagetitle>" & vbcrlf
+ response.write "<topinfo>" & nulltext(frefmodel.selectsinglenode("topinfo")) & "</topinfo>" & vbcrlf
+ response.write "<action>" & nulltext(frefmodel.selectsinglenode("action")) & "</action>" & vbcrlf 
+ set script = frefmodel.selectsinglenode("script")
+ response.write script.xml
+ response.write list.xml
+ 
+ 'response.write "<fieldlist>" & vbcrlf
+ 'for each field in list.selectnodes("//field")
+ ' response.write "<field>" & vbcrlf
+ ' response.write " <fieldtitle>" & nulltext(field.selectsinglenode("title")) & "</fieldtitle>" & vbcrlf
+ ' response.write " <type>" & nulltext(field.selectsinglenode("type")) & "</type>" & vbcrlf
+ ' response.write " <name>" & nulltext(field.selectsinglenode("name")) & "</name>" & vbcrlf  
+ ' response.write " <value>" & nulltext(field.selectsinglenode("value")) & "</value>" & vbcrlf
+ ' response.write " <size>" & nulltext(field.selectsinglenode("size")) & "</size>" & vbcrlf
+ ' response.write " <cols>" & nulltext(field.selectsinglenode("cols")) & "</cols>" & vbcrlf
+ ' response.write " <rows>" & nulltext(field.selectsinglenode("rows")) & "</rows>" & vbcrlf
+ ' response.write "</field>" & vbcrlf
+ 'next
+ 'response.write "</fieldlist>" & vbcrlf
+ 
+ set htpagedom1 = server.createobject("msxml2.domdocument.3.0")
+ htpagedom1.setproperty "selectionlanguage", "xpath"
+ htpagedom1.async = false
+ htpagedom1.setproperty("serverhttprequest") = true  
+ loadxml1 = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\button.xml" 
+ xv1 = htpagedom1.load(loadxml1)
+
+ set b_submit = htpagedom1.selectsinglenode("//submit/language[mp=" & request("mp") & "]")
+ l_submit = nulltext(b_submit.selectsinglenode("label"))
+ set b_reset = htpagedom1.selectsinglenode("//reset/language[mp=" & request("mp") & "]")
+  l_reset = nulltext(b_reset.selectsinglenode("label"))
+  
+
+
+                               =l_submit
+                              =l_reset
+
+   
+ 
+sub docp
+ sql = "select  htx.*, xr1.deptname, u.ctunitname " _
+  & ", (select count(*) from cudtattach as dhtx" _
+  & " where blist='y' and dhtx.xicuitem=htx.icuitem) as attachcount " _
+  & ", (select count(*) from cudtpage as phtx" _
+  & " where blist='y' and phtx.xicuitem=htx.icuitem) as pagecount " _
+  & " from cudtgeneric as htx left join dept as xr1 on xr1.deptid=htx.idept" _
+  & " left join ctunit as u on u.ctunitid=htx.ictunit" _
+  & " where htx.icuitem=" & pkstr(xitem,"")
+
+ set rs = conn.execute(sql)
+ if not rs.eof then
+
+ cpostdate = d7date(rs("xpostdate"))
+ scpostdate = "中華民國 " & mid(cpostdate,1,2) & " 年 " & mid(cpostdate,4,2) & " 月 " & mid(cpostdate,7,2) & " 日" 
+
+                          =rs("icuitem"):                =rs("xnewwindow")
+              =rs("stitle")
+                       =message(rs("xbody"))
+
+  
+ end if
+end sub 
+
+   CxMethod_ASP_x1menus_1545114555()
+  '====== 2006.4.27  
+   set htpagedom1 = server.createobject("msxml2.domdocument.3.0")
+   htpagedom1.setproperty "selectionlanguage", "xpath"
+   
+   htpagedom1.async = false
+   htpagedom1.setproperty("serverhttprequest") = true  
+   loadxml1 = server.mappath("/site/" & session("mysiteid") & "/gipdsd") & "\button.xml" 
+   xv1 = htpagedom1.load(loadxml1)
+   
+   set b_path = htpagedom1.selectsinglenode("//path/language[mp=" & request("mp") & "]")
+   l_path = nulltext(b_path.selectsinglenode("label"))       
+   set b_home = htpagedom1.selectsinglenode("//home/language[mp=" & request("mp") & "]")
+   l_home = nulltext(b_home.selectsinglenode("label")) 
+
+           =l_path
+           =l_home 

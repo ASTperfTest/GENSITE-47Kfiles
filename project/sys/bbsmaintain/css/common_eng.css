@@ -1,0 +1,77 @@
+/*	
+	國工局全球網 - All Rights Reserved.
+	
+	Produicted By 凌網科技 HyWeb Tech. Co., Ltd.2004.
+	http://www.hyweb.com.tw　
+	HyWeb CSS Style(writed by m10/Carol13 Chen) 2004/02/26
+*/
+
+
+/* 共用設定  ---------------- */
+#Body {
+	width: 769px;
+
+}
+
+.more {
+	color: #0030FF;
+	font-size: 11px;
+	float: right;
+	margin-right: 20px;
+	text-decoration: none;
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+
+
+}
+.more:hover {
+	text-decoration: underline;
+}
+ul {
+	margin-top: 0px;
+	margin-bottom: 6px;
+}
+.home {
+	font-size: 13px;
+	color: #000000;
+	text-decoration: none;
+	background-image: url(../images/icn_home.gif);
+	background-repeat: no-repeat;
+	height: 20px;
+	position: relative;
+	top: 58px;
+	right: 10px;
+	padding-top: 2px;
+	padding-left: 20px;
+
+}
+.home:hover {
+	color: #0066CC;
+}
+
+/* Smenu 右上功能選項------- */
+.Smenu {
+	font-size: 13px;
+	color: #8E710E;
+	text-decoration: none;
+	background-image: url(../images/point1.gif);
+	background-repeat: no-repeat;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.Smenu:hover {
+	color: #4950AD;
+}
+/* Cmenu 內頁主選單------- */
+.Cmenu {
+	font-size: 15px;
+	color: #FFFFFF;
+	text-decoration: none;
+	background-image: url(../images/point3.gif);
+	background-repeat: no-repeat;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.Cmenu:hover {
+	color: #FFFC00;
+
+}

@@ -1,0 +1,55 @@
+Version 1.0
+
+* Support to GIF, JPG, BMP formats
+* Functions InsertJPGFromFile, InsertBMPFromFile, InsertGIFFromFile
+  (To insert images from the disk on the current image)
+* SaveBMP to save image to the disk
+* BMPBinary, GIFBinary, JPGBinary to fill response.binarywrite
+* Tools to draw Line, fBox, Box...
+* Properties to change pen (pencolor, brushcolor)....
+* Some more things..
+
+Version 1.2
+
+* SaveGIF, SaveJPG
+* BrushStyle, PenMode
+* Full support to HTML Color codes
+* Tool GetRGBValue to convert from R,G,B values to HTMLColor
+
+Version 1.28
+
+* Replaced InsertBMPFromFile, InsertGIFFromFile and InsertJPGFromFile
+  to insertpicture from file
+* Samething with SaveBMP, SaveGIF, SaveJPG to SavePicture
+* Samething with BMPBinary,GIFBinary,JPGBinary to PictureBInaryWrite
+  (set content-type too)
+* New method PictureSize to retrieve width and height of GIFs,BMPs, and JPGs
+* Transparent GIFs using SavePicture and PictureBinaryWrite
+
+Version 1.35
+
+* Fixed bugs
+* New tools: PolyLine, PolyBezier, Polygon
+* Sidepolygon (Imagelib only) to draw side polygons (Triangle for instance)
+* GradientRect to draw rects filled with gradient 
+* PenAntialiased property to define if line function draw 1 width antialiased line
+
+Version 1.4
+
+* GIF now uses better dithering modes (Floyd Steinberg and optimal palette)
+
+Version 1.51
+
+* Created an installer for the product (48KB)
+* Several bug fixes from previous versions
+* Add methods to create paths BeginPath, EndPath, FillPath,StrokeAndFillPath
+* Crop Methods: CropPicture, CropFromPicture
+* ZoomPicture to zoom the picture (uses antialiased Stretch too)
+* Binary functions: ReadBinaryFile, ReadFromBinary, SetFileTime, FindInBinary, WriteBinary
+* Support to metafiles on insertpicture and picturesize
+
+Version 1.512
+
+* Fixed bugs on FindInBinary
+* Modified FindInBinary
+* New method: version to get current version

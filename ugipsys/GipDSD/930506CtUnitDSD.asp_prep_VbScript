@@ -1,0 +1,173 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sub button1_onclick
+  set xitem=document.all.item("reg")
+    for i=0 to xitem.length-1         
+           if xitem.item(i).tagname = "input" then
+                 if left(xitem.item(i).name,12)="htx_fieldseq" then
+                xn=mid(xitem.item(i).name,13)              
+                 if reg("htx_fieldseq"&xn).value ="" then 
+                                   alert "顯示順序欄位不能空白且須為數字(小於999)"
+                                   reg("htx_fieldseq"&xn).focus
+                                   exit sub
+                              end if
+                 if not isnumeric(reg("htx_fieldseq"&xn).value) then 
+                                   alert "顯示順序欄位不能空白且須為數字"
+                                   reg("htx_fieldseq"&xn).focus
+                                   exit sub
+                              end if                              
+                        end if
+           end if 
+   next   
+    reg.submit   
+end sub
+
+ 

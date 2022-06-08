@@ -1,0 +1,187 @@
+﻿: @ codepage = 65001 
+  
+'// purpose: to send epaper without back side login.
+'// modify date: 2006/01/06
+'// ps: this asp include client.inc instead of server.inc
+'// =========================================
+
+response.charset="utf-8"
+response.expires = 0
+htprogcode="gw1m51"
+htprogprefix="epub" 
+
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+function send_email (s_email,r_email,re_sbj,re_body)
+   set objnewmail = createobject("cdonts.newmail") 
+   objnewmail.mailformat = 0
+   objnewmail.bodyformat = 0 
+'   response.write s_email&"[]"&r_email&"[]"&re_sbj&"[]"&re_body
+'   response.write "<hr>"
+'   response.write re_body
+'   response.end
+   call objnewmail.send(s_email,r_email,re_sbj,re_body)
+   set objnewmail = nothing
+end function
+
+function nulltext(xnode)
+  on error resume next
+  xstr = ""
+  xstr = xnode.text
+  nulltext = xstr
+end function
+
+server.scripttimeout = 2000
+
+  on error resume next
+
+
+ 
+  eptreeid = session("eptreeid")  '-- 電子報的 tree
+
+ epubid = request.querystring("epubid")
+ formid = "ep" & epubid
+ 
+   '----load epaper.xml
+ set oxml = server.createobject("microsoft.xmldom")
+ oxml.async = false
+ oxml.setproperty "serverhttprequest", true
+ loadxml = server.mappath("/site/" & session("mysiteid") & "/public/epaper/" & formid & ".xml")
+ 
+ '----檢查xml檔是否存在
+    set fso = server.createobject("scripting.filesystemobject")
+     if not fso.fileexists(loadxml) then
+
+
+
+
+
+   
+ end if
+ xv = oxml.load(loadxml)
+   if oxml.parseerror.reason <> "" then
+      response.write("xml parseerror on line " &  oxml.parseerror.line)
+      response.write("<br>reason: " &  oxml.parseerror.reason)
+      response.end()
+   end if  
+   set dxml = oxml.selectsinglenode("epaper")
+   
+   '----load epaper.xsl
+ set oxsl = server.createobject("microsoft.xmldom")
+ 
+ 'response.write server.mappath("/site/" & session("mysiteid") & "/public/epaper/epaper"&eptreeid &".xsl")
+ 'response.end
+ 
+ oxsl.load(server.mappath("/site/" & session("mysiteid") & "/public/epaper/epaper"&eptreeid &".xsl"))
+ 
+'response.write "<xmp>"+exml.xml+"</xmp>"
+
+   
+   '----參數處理
+ epapertitle = dxml.selectsinglenode("epapertitle").text
+ epapersemail = dxml.selectsinglenode("epapersemail").text
+ epapersemailname = dxml.selectsinglenode("epapersemailname").text 
+     s_email=""""&epapersemailname&""" <"&epapersemail&">"
+ scount = 0
+
+'---- 1. 送客製化選單元的 mail ---------------------------------------------------------------------
+ sql = "select u.*, p.ctnodeid from member as u join memepaper as p on u.account=p.memid" _
+  & " join cattreenode as n on p.ctnodeid=n.ctnodeid" _
+  & " left join epsend as s on u.email=s.email" & " and s.epubid=" & epubid & " and s.ctrootid=" & session("eptreeid") _
+  & " where s.email is null" _
+  & " order by u.account, n.catshoworder"
+'response.write sql
+ 
+ set rslist = conn.execute(sql)
+ xuser = ""
+ set exml = oxml.clonenode(true) 
+ set epsectionlistnode = oxml.selectsinglenode("epaper/epsectionlist").clonenode(true) 
+ set nxml0 = server.createobject("microsoft.xmldom")
+ nxml0.loadxml("<epsectionlist></epsectionlist>")
+ set newnode = nxml0.documentelement 
+'response.write "<xmp>"+exml.xml+"</xmp>"
+'response.end 
+ if not rslist.eof then
+     while not rslist.eof
+  if rslist("account") <> xuser then
+     if xuser <> "" then
+              scount = scount + 1
+              set epapernode = exml.selectsinglenode("epaper")
+              epapernode.removechild epapernode.selectsinglenode("epsectionlist")
+              epapernode.appendchild newnode
+   response.contenttype = "text/html" 
+   outstring = replace(exml.transformnode(oxsl),"<meta http-equiv=""content-type"" content=""text/html; charset=utf-16"">","")
+   outstring = replace(outstring,"&amp;","&")
+   xmbody = replace(outstring,"&amp;","&")
+                      
+      
+              call send_email(s_email,r_email,epapertitle,xmbody)
+   set exml = oxml.clonenode(true) 
+   set epsectionlistnode = oxml.selectsinglenode("epaper/epsectionlist").clonenode(true) 
+   set nxml0 = server.createobject("microsoft.xmldom")
+   nxml0.loadxml("<epsectionlist></epsectionlist>")
+   set newnode = nxml0.documentelement
+   xsql = "insert into epsend(epubid,email) values(" _
+    & epubid & "," & pkstr(r_email,")")
+   conn.execute xsql
+     end if
+     xuser = rslist("account")
+                r_email=rslist("email")
+  end if
+  
+  newnode.appendchild epsectionlistnode.selectsinglenode("epsection[secid='" & rslist("ctnodeid") & "']")
+  
+  rslist.movenext
+     wend
+     if xuser <> "" then
+             scount = scount + 1
+              set epapernode = exml.selectsinglenode("epaper")
+              epapernode.removechild epapernode.selectsinglenode("epsectionlist")
+              epapernode.appendchild newnode
+   response.contenttype = "text/html" 
+   outstring = replace(exml.transformnode(oxsl),"<meta http-equiv=""content-type"" content=""text/html; charset=utf-16"">","")
+   outstring = replace(outstring,"&amp;","&")
+   xmbody = replace(outstring,"&amp;","&")
+           
+             call send_email(s_email,r_email,epapertitle,xmbody)
+ 
+      xsql = "insert into epsend(epubid,email,ctrootid) values(" _
+    & epubid & ",'" & r_email & "',"&session("eptreeid")&")"
+      conn.execute xsql
+     end if
+ end if
+ '-----客製化email發送完成
+ 
+ response.contenttype = "text/html" 
+ outstring = replace(exml.transformnode(oxsl),"<meta http-equiv=""content-type"" content=""text/html; charset=utf-16"">","")
+ outstring = replace(outstring,"&amp;","&")
+ xmbody = replace(outstring,"&amp;","&")
+
+
+        email_body=xmbody
+'response.end
+
+
+'---- 3. 送 只訂閱 epaper 的 mail ---------------------------------------------------------------------
+ sql = "select u.* from epaper as u left join epsend as s on u.email=s.email and u.ctrootid=s.ctrootid" _
+  & " and s.epubid=" & epubid & " where u.ctrootid=" & session("eptreeid") _
+  & " and s.email is null"
+'response.write sql
+'response.end  
+ set rslist = conn.execute(sql)
+ 
+ while not rslist.eof
+            r_email=rslist("email")
+            scount = scount + 1
+            call send_email(s_email,r_email,epapertitle,email_body)
+ 
+     xsql = "insert into epsend(epubid,email,ctrootid) values(" _
+    & epubid & ",'" & r_email & "',"&session("eptreeid")&")"
+     conn.execute xsql
+     rslist.movenext
+ wend
+
+
+                        =scount
+                                         =epubid 

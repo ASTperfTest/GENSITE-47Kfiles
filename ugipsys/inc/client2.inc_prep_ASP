@@ -1,0 +1,146 @@
+﻿: 
+set conn = server.createobject("adodb.connection")
+conn.connectiontimeout = 20
+conn.commandtimeout = 30
+conn.cursorlocation = 3
+
+'----------hyweb gip db connection patch----------
+'conn.open session("odbcdsn")
+'set conn = server.createobject("hywebdb3.dbexecute")
+conn.connectionstring = session("odbcdsn")
+conn.connectiontimeout=0
+conn.cursorlocation = 3
+conn.open
+'----------hyweb gip db connection patch----------
+
+xrootid=session("xrootid")
+
+'button的id & value
+public const cbtncreateid="btncreate"
+public const cbtncreatename="新增"
+public const cbtnreadid="btnread"
+public const cbtnreadname="查詢"
+public const cbtnupdateid="btnupdate"
+public const cbtnupdatename="儲存"
+public const cbtndeleteid="btndelete"
+public const cbtndeletename="刪除"
+'回上頁
+public const cbtnbackid="btnback"
+public const cbtnbackname="回上頁"
+
+public const csaveok= "資料已儲存成功!!"
+public const cdelok= "資料已刪除成功!!"
+public const ckeydup="輸入之資料已存在!!"
+public const cnodata="很抱歉,目前查無相關資料!!"
+'權限變數名稱(新增/查詢/修改/刪除)
+dim pubauthoritycreate
+dim pubauthorityread
+dim pubauthorityupdate
+dim pubauthoritydelete
+'pubauthoritycreate/pubauthorityread/pubauthorityupdate/pubauthoritydelete
+'新增 getbutton(cbtncreateid,cbtncreatename,pubauthoritycreate,"")
+'查詢 getbutton(cbtnreadid,cbtnreadname,pubauthorityread,"")
+'儲存 getbutton(cbtnupdateid,cbtnupdatename,pubauthorityupdate,"")
+'刪除 getbutton(cbtndeleteid,cbtndeletename,pubauthoritydelete,"")
+'回上頁 getbutton(cbtnbackid,cbtnbackname,"1",get_urlstring("key1"))
+'get button,
+'傳入1.button id 2.button name 3.權限代碼(mid(hextobin(xx),?,1)
+' x111 依序表示 (新增/查詢/修改/刪除) 的權限
+public sub getbutton(byval buttonid,byval buttonname,byval authority,byval url_string)
+ if authority="1" then
+  if trim(url_string) & "" <> "" then
+   response.write "<input type=button value='" & buttonname & "' id='" & buttonid & "' name='" & buttonid & "' language=javascript onclick=""return " & buttonid & "_onclick('" & url_string & "')"">" & vbcrlf
+  else
+   response.write "<input type=button value='" & buttonname & "' id='" & buttonid & "' name='" & buttonid & "' language=javascript onclick=""return " & buttonid & "_onclick()"">" & vbcrlf
+  end if
+ end if
+end sub
+
+'抓出連結字串
+public function get_urlstring(byval str_search)
+ dim pri_i,pri_j,pri_str_search_length
+ '找key1= or 找page=
+ pri_i=instr(1,request.servervariables("query_string"),str_search)
+ pri_str_search_length=len(request.querystring(str_search))
+ if pri_i = 0 then
+  get_urlstring=request.servervariables("query_string")
+ else
+  '從找到str_search的位置開始,再加上page=的長度,及值的長度再加個 & 
+  pri_j=pri_i+len(str_search)+len("=") +pri_str_search_length+1
+  get_urlstring=mid(request.servervariables("query_string"),pri_j)
+ end if
+end function
+
+'題目題型(靜態下拉式選單)
+'a=便民服務
+'b=一般進口海運
+'c=一般進口空運
+'d=一般出口海運
+'e=一般出口空運
+'f=外銷沖退稅‧物流中心
+'g=保稅倉庫‧科學工業園區
+'h=保稅工廠‧加工出口區
+'i=旅客通關
+public function getpolltype(byval id_name,byval id_value)
+  with response
+ .write vbcrlf
+ .write "<select name=" & id_name & " id=" & id_name & " >" & vbcrlf
+ .write "<option " & isselect(id_value,"") & " value=''>　</option>" & vbcrlf
+ .write "<option " & isselect(id_value,"a") & " value='a'>便民服務</option>" & vbcrlf
+ .write "<option " & isselect(id_value,"b") & " value='b'>一般進口海運</option>" & vbcrlf
+ .write "<option " & isselect(id_value,"c") & " value='c'>一般進口空運</option>" & vbcrlf
+ .write "<option " & isselect(id_value,"d") & " value='d'>一般出口海運</option>" & vbcrlf
+ .write "<option " & isselect(id_value,"e") & " value='e'>一般出口空運</option>" & vbcrlf
+ .write "<option " & isselect(id_value,"f") & " value='f'>外銷沖退稅‧物流中心</option>" & vbcrlf
+ .write "<option " & isselect(id_value,"g") & " value='g'>保稅倉庫‧科學工業園區</option>" & vbcrlf
+ .write "<option " & isselect(id_value,"h") & " value='h'>保稅工廠‧加工出口區</option>" & vbcrlf
+ .write "<option " & isselect(id_value,"i") & " value='i'>旅客通關</option>" & vbcrlf
+ .write "</select>" 
+  end with
+end function
+
+'計劃類型
+'將計劃類型轉為名稱
+public function convpolltype(byval id)
+select case ucase(trim(id))
+ case "a" 
+  convpolltype="便民服務"
+ case "b"
+  convpolltype="一般進口海運"
+ case "c"
+  convpolltype="一般進口空運"
+ case "d"
+  convpolltype="一般出口海運"
+ case "e"
+  convpolltype="一般出口空運"
+ case "f"
+  convpolltype="外銷沖退稅‧物流中心"
+ case "g"
+  convpolltype="保稅倉庫‧科學工業園區"
+ case "h"
+  convpolltype="保稅工廠‧加工出口區"
+ case "i"
+  convpolltype="旅客通關"
+ case else
+  convpolltype="&nbsp;"
+end select
+end function
+
+'檢查靜態的 listbox 是否有選擇, 傳入
+'1.s1=所選擇的listbox 的"值"
+'2.s2=option的值
+public function isselect(byval s1,byval s2)
+ dim pri_i
+ 'if ucase(s3)="selected" then
+ ' isselect="selected"
+ 'else
+  if ucase(s1)=ucase(s2) then
+   isselect="selected"
+  else
+   isselect=""
+  end if
+ 'end if
+end function
+
+
+ 

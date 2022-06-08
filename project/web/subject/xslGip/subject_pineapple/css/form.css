@@ -1,0 +1,79 @@
+@charset "utf-8";
+/*    */
+/* CSS Document for form */
+
+form {
+	margin: 0px;
+	padding: 0px;
+}
+form table {
+	border-collapse: collapse;
+	font-size: 80%;
+	margin-bottom: 8px;
+	border-top: none;
+	border-right: none;
+	border-left: none;
+}
+form table th {
+	font-weight: normal;
+	text-align: right;
+	vertical-align: top;
+	padding-top: 5px;
+	white-space: nowrap;
+	padding-left: 1em;
+}
+form table td {
+	vertical-align: top;
+	text-align: left;
+	padding-right: 1em;
+	padding-bottom: 3px;
+}
+
+form textarea {
+	font-size: 12px;
+	line-height: 150%;
+	background: #E4EEFC;
+	border: 1px solid #666666;
+	font-family: Arial, Helvetica, sans-serif;
+}
+form.Contactus {
+	margin: 15px 0px 25px 5px;
+	padding: 0px;
+	width: 560px;
+	text-align: center;
+}
+form.Contactus input.Text {
+	width: 32em;
+}
+form.Contactus textarea {
+	width: 32em;
+}
+form.Contactus table caption {
+	font-size: 120%;
+	color: #BD5F00;
+	padding-bottom: 8px;
+}
+form.Forward {
+	padding: 0px;
+	margin-top: 15px;
+	margin-right: 20px;
+	margin-bottom: 25px;
+	text-align: center;
+}
+form.Forward table caption {
+	font-size: 120%;
+	text-align: left;
+	color: #BD5F00;
+	padding-bottom: 8px;
+}
+form.Forward table td {
+	text-align: right;
+	padding: 4px 7px 3px 7px;
+}
+form.Forward table td.Senter {
+	padding-bottom: 5px;
+	margin-bottom: 10px;
+	background-color: #E4ECF4;
+	border-top: 1px dashed #999999;
+	border-bottom: 1px dashed #999999;
+}

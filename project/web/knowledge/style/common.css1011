@@ -1,0 +1,2476 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+/*----------------------------------------------------------------css reset star*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin:0;
+	padding:0;
+	
+	border:none;
+	outline:0;
+	
+	font:normal normal 100%/100% Verdana, Arial, Helvetica, sans-serif;
+	color:#000;
+	text-align:left;
+	text-decoration:none;
+	vertical-align:baseline;
+}
+
+form {
+	margin:0;
+	padding:0;
+	
+	border:none;
+	outline:0;
+	
+	font:normal normal 100%/100% Verdana, Arial, Helvetica, sans-serif;
+	color:#000;
+	text-decoration:none;
+	vertical-align:baseline;
+}
+
+/* remember to define focus styles! */
+:focus {
+	outline:0;}
+
+ol, ul, li, dt, dd{
+	list-style:none;}
+	
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content:"";}
+blockquote, q {
+	quotes:"" "";}
+/*----------------------------------------------------------------css reset end*/
+
+/*----------------------------------------------------------------base star (style A)*/
+/*font global setting*/
+html{
+	font: normal 75%/2 Verdana, Arial, Helvetica, sans-serif;
+	padding:0;}
+	
+html,
+caption,
+table th,
+table td,
+form{
+	color:#069;}
+
+table td{
+	padding:0;
+	}
+
+/*Title*/
+h1{ 
+	margin:0.5em;
+	font-size:130%;
+	color:; /*保留項，視實際需要設定*/}
+	
+h2{ 
+	margin:0.5em;
+	font-size:;
+	color:;}
+	
+h3{ 
+	font-size:;
+	color:;}
+	
+h4{ 
+	margin:0.5em;
+	font-size:;
+	color:;}
+	
+h5{
+	margin:0.5em;
+	font-size:;
+	color:;}
+	
+h6{ margin:0.5em;
+	color:;}
+
+/*Link*/
+a{
+	text-decoration: underline;
+}
+a:hover{
+	text-decoration: none;
+}
+.Accesskey{
+	position:absolute;
+	filter:alpha(opacity=50);
+	opacity:0.5;
+	text-decoration:none;}
+
+/*Content*/
+p{
+	line-height:1.7em;
+	color:;}
+
+.center .function ul{
+	border-bottom:1px solid #d9d9d9;
+	margin-top:-8px;}	
+
+.center .function li{
+	display:inline;
+	width:100px;
+	background:#f0e9df;
+	padding:3px 1em;
+	margin:2px 2px 1em 2px;}
+
+.center .function li a{
+	color:#8e8e8e;
+	text-decoration: none;
+}
+.center .function li a:hover{
+	color:#333333;
+	text-decoration: none;
+}
+.center .function li.now a{
+	color:#942c2c;
+	font-weight:bold;}
+	
+.center h3{
+	background: url(../images/h3Icon.gif) no-repeat 0.5em 0.4em;
+	padding:5px 0px 2px 1.5em;
+	color:#000;
+	font-size:130%;
+	font-weight:bold;
+	margin: 7px 20px 0.5em;
+	border-bottom:3px solid #d9d9d9;
+	clear: both;
+}
+html>body .center h3{
+	background: url(../images/h3Icon.gif) no-repeat 0.5em 0.6em;
+	padding:5px 0px 5px 1.5em;
+}
+*+html>body .center h3{
+	background: url(../images/h3Icon.gif) no-repeat 0.5em 0.4em;
+	padding:5px 0px 2px 1.5em;
+}
+	
+.center .rss{
+	line-height:1.8em;
+	color:#a3a3a3;
+	padding-left:20px;
+	background: url(../images/rssIcon.gif) no-repeat 0 center;
+	border:none;
+	float: right;
+	margin-top: -32px;
+	margin-right: 30px;
+}
+html>body .center .rss{
+	margin-top: -26px;
+	margin-right: 45px;
+}
+	
+*+html>body .center .rss{
+	margin-top: -25px;
+	margin-right: 45px;}
+
+	
+
+.center .rss a{
+	text-decoration: none;
+}
+	
+.center .more a{
+	position:absolute;
+	top:10px;
+	right:20px;
+	right /**/:0;
+	display:block;
+	width:33px;
+	height:7px;
+	text-indent:-6000px;
+	background:url(../images/moreBg.gif) no-repeat 0 0;
+	margin-right: 20px;
+}
+
+html>body .center .more a{
+	top:14px;
+	right:0px;
+	margin-right: 0px;
+	}
+
+.center .more2 a{
+	position:absolute;
+	top:10px;
+	right:20px;
+	right /**/:0;
+	display:block;
+	width:33px;
+	height:7px;
+	text-indent:-6000px;
+	background:url(../images/moreBg.gif) no-repeat 0 0;
+	margin-right: 20px;
+}
+
+html>body .center .more2 a{
+	top:14px;
+	right:0px;
+	display:block;
+	margin-right: 0px;
+	}
+*+html>body .center .more2 a{
+	top:13px;
+	}
+	
+.center ul.list{
+	background: #fffaf9;
+	margin-top:5px;
+	border-top:1px solid #d9d9d9;
+	clear: both;
+}
+
+.center .list li{
+	background: url(../images/listIcon.gif) no-repeat 4px 1em;
+	line-height:2.5;
+	padding-left:1.2em;
+	color:#787878;
+	border-bottom:1px solid #e9e8e4;}
+
+.center .list li a{
+	margin-right:0.5em;
+	color:#1c1c1c;
+	text-decoration: none;
+}
+
+.center .list li a:hover{
+	color:#CC6600;
+	text-decoration: none;
+}
+.center .list span{
+	color: #9DB020;
+}
+
+.center .list li a img{
+	vertical-align:middle;}
+	
+.center .list li span{
+	padding-left:1em;}
+
+.theme h2,
+.login h2,
+.epaper h2,
+.rbox h2{
+	display:block;
+	background:url(../images/rightTitleBg.gif) no-repeat 0 0;
+	color:#FFF;
+	font-size:125%;
+	height:30px;
+	line-height:30px;
+	margin:0;
+	padding-left:10px;
+	font-weight: bold;
+}
+	
+/*----------------------------------------------------------------base end*/
+
+/*----------------------------------------------------------------header star (style A)*/
+.header{
+	position:relative;
+	background: #e8fff0 url(../images/bannerBg.gif) repeat-x 0 0px;
+	width:100%;
+	height:141px;
+	padding: 0px;
+}
+
+.header h1{
+	position:absolute;}
+	
+.header h1 a{
+	display:block;
+	width:250px;
+	height:141px;
+	margin-left:80px;
+	text-indent:-3000px;
+	}
+	
+@media print{ /*這一段是為了避免列印時無法出現底圖而設定的，請勿刪除*/
+.header h1 a{ text-indent:0;}}
+
+.header #banner{}
+/*----------------------------------------------------------------header End*/
+
+/*----------------------------------------------------------------header 上午 star (style A)*/
+.headerAM{
+	position:relative;
+	background: #e8fff0 url(../images/bannerBgAM.gif) repeat-x 0 0px;
+	width:100%;
+	height:141px;
+	padding: 0px;
+}
+
+.headerAM h1{
+	position:absolute;}
+	
+.headerAM h1 a{
+	display:block;
+	width:250px;
+	height:141px;
+	margin-left:80px;
+	text-indent:-3000px;
+	}
+	
+@media print{ /*這一段是為了避免列印時無法出現底圖而設定的，請勿刪除*/
+.headerAM h1 a{ text-indent:0;}}
+
+.headerAM #banner{}
+/*----------------------------------------------------------------header 上午 End*/
+
+/*----------------------------------------------------------------header 下午 star (style A)*/
+.headerPM{
+	position:relative;
+	background: #e8fff0 url(../images/bannerBgPM.gif) repeat-x 0 0px;
+	width:100%;
+	height:141px;
+	padding: 0px;
+}
+
+.headerPM h1{
+	position:absolute;}
+	
+.headerPM h1 a{
+	display:block;
+	width:250px;
+	height:141px;
+	margin-left:80px;
+	text-indent:-3000px;
+	}
+	
+@media print{ /*這一段是為了避免列印時無法出現底圖而設定的，請勿刪除*/
+.headerPM h1 a{ text-indent:0;}}
+
+.headerPM #banner{}
+/*----------------------------------------------------------------header 下午 End*/
+
+
+/*----------------------------------------------------------------header 夜間 star (style A)*/
+.headerNT{
+	position:relative;
+	background: #e8fff0 url(../images/bannerBgnt.gif) repeat-x 0 0px;
+	width:100%;
+	height:141px;
+	padding: 0px;
+}
+
+.headerNT h1{
+	position:absolute;}
+	
+.headerNT h1 a{
+	display:block;
+	width:250px;
+	height:141px;
+	margin-left:80px;
+	text-indent:-3000px;
+	}
+	
+@media print{ /*這一段是為了避免列印時無法出現底圖而設定的，請勿刪除*/
+.headerNT h1 a{ text-indent:0;}}
+
+.headerNT #banner{}
+/*----------------------------------------------------------------header 夜間 End*/
+
+/*----------------------------------------------------------------layout star (style A)*/
+.layout{
+	border-collapse:collapse;
+	margin:0 34px 20px;
+	width: 93%;
+}
+	
+.left{
+	width:157px;
+	background: #f3f3f3;
+	border-left:1px dotted #212121;
+	vertical-align:top;}
+.right {
+	width:190px;
+	background: #f3f3f3 url(../images/rightBg.gif) repeat-y 0 0;
+	vertical-align:top;
+	padding-top: 7px;
+}
+
+.center{
+/*	background: url(../images/groupBg.gif) repeat-x 0 0;
+*/	border:1px dotted #212121;
+    border-width: 0 1px;
+/*	padding:0 20px 20px;*/
+    padding-top: 5px;
+    vertical-align:top;
+}
+/*----------------------------------------------------------------layout end*/
+/*----------------------------------------------------------------sublayout star (style C)*/
+
+.sublayout{
+	position: relative;
+	border-bottom:3px solid #d9d9d9;
+	margin:0px 25px 12px;
+	padding: 0px;
+}
+
+.sublayout span{
+	border-left:1px solid #ccc;
+	padding:0 0.5em;}
+
+.sublayout h3{
+	margin-left:0px;
+	margin-right:0px;
+}
+
+.sublayout h4{	
+	color:#7acb47;
+	font-weight:bold;
+	font-size:125%;
+	margin:0px 0.5em 6px 0.5em;
+	padding-top:5px;
+}
+	
+.sublayout p{	
+	color:#353535;
+	margin:0 0.5em;
+}
+.sublayout p a{	
+	color:#d77e00;
+	padding-left:2em;
+	background:url(../images/detailIcon.gif) no-repeat 1.0em 0.35em;
+}	
+	
+.sublayout img{
+	display: none;
+	width:117px;
+/*	height:auto;*/
+	float:left;
+	margin: 0px 1em 1em 4px;
+	border:1px solid #666;
+}
+
+/*----------------------------------------------------------------sublayout End*/
+
+/*----------------------------------------------------------------footer star (style A)*/
+.footer{
+ position:relative;
+ padding:10px 0;
+ width:100%;
+ clear:both;
+ border-top:3px solid #000;
+}
+
+ 
+
+.footer img{
+ float:left;
+ margin: 10px 20px 20px 20px;
+ border:none;}
+
+ 
+
+.footer p{
+ color:#545454;}
+/*----------------------------------------------------------------base End*/
+/*----------------------------------------------------------------copyright star*/
+.copyright{
+ position:absolute;
+ right:0;
+ top:5px;
+ color:#f94f00;
+ padding-top: 5px;
+}
+.copyright a{
+ color:#f94f00;}
+/*----------------------------------------------------------------copyright End*/
+/*----------------------------------------------------------------count star*/
+.count{
+ position:absolute;
+ right:0;
+ top:49px;
+ padding-top: 5px;
+ color:#FFFFFF;
+}
+/*----------------------------------------------------------------count End*/
+
+/*----------------------------------------------------------------nav star (style A)*/
+.nav{
+	position:absolute;
+	top:10px;
+	right:10px;}
+
+.nav li{
+	display:inline;
+	list-style:none;}
+	
+.nav li a{
+	background: url(../images/navIcon.gif) no-repeat 0 0.3em;
+	padding: 2px 1em 2px 0.8em;
+	color:#1c1c1c;}
+/*----------------------------------------------------------------nav End*/
+/*----------------------------------------------------------------subnav star (style G)*/
+.subnav{
+	width:100%;
+	background:#000;
+	text-align:right;
+	padding:4px 0;
+	z-index:1;
+	
+	border-bottom:1px dotted #212121;}
+
+.subnav li{
+	display: inline;;
+	margin:0 1px;
+	padding-left:0.5em;}
+
+.subnav a{
+	padding:2px 0.5em 0 1em;;
+	text-align:right;
+	color:#FFF;
+	border-left: 2px solid #FFFF00;}
+
+.subnav a:hover{
+	color:#0F0;}
+/*----------------------------------------------------------------subnav End*/
+/*----------------------------------------------------------------group star (style G)*/
+.group{
+	clear:both;
+/*修正了頁籤連結的位置*/
+	height:37px;
+	margin:0;
+	padding:17px 0 0 20px;
+	background: url(../images/groupBg.gif) repeat-x 0 0;
+}
+
+.group li{
+	display: block;
+	background: url(../images/tableft2.gif) no-repeat top left;
+	float:left;
+	margin:0 1px;
+	padding-left:0.5em;}
+
+.group a{
+	display:block;
+	background: url(../images/tabright2.gif) no-repeat top right;
+	margin-left:1em;
+	padding:6px 1.5em 4px 0;
+	text-align:right;
+	text-decoration:none;
+	color:#666666;}
+
+.group a:hover{
+	color: #003333;}
+	
+.group li.active{
+	background: url(../images/tableft.gif) no-repeat top left;
+}
+.group li.active a{
+	color:#000;
+	background: url(../images/tabright.gif) no-repeat top right;}
+/*----------------------------------------------------------------group End*/
+/*----------------------------------------------------------------season star*/
+/*.season{
+	position:relative;
+	background:#FFF url(../images/seasonBg.gif) repeat-x 0 0;
+	z-index:3;
+	width:155px;
+	margin:-44px 0 10px 0;
+	padding:10px 0;
+	border:1px solid #FFF;}*/
+/*第一段*/	
+.season{
+	position:relative;
+	float:left;
+	background:#FFF url(../images/seasonBg.gif) repeat-x 0 0;
+	z-index:5;
+	width:155px;
+	margin:-44px 0 0 0;
+	padding:10px 0;
+	border:1px solid #FFF;}
+
+/*第二段*/
+html>body .season{
+	position:relative;
+	background:#FFF url(../images/seasonBg.gif) repeat-x 0 0;
+	z-index:3;
+	width:155px;
+	margin:-44px 0 0 0;
+	padding:10px 0;
+	border:1px solid #FFF;}
+
+/*第三段*/
+
+*+html>body .season{
+	float:left;
+	background:#FFF url(../images/seasonBg.gif) repeat-x 0 0;
+	z-index:5;
+	width:155px;
+	margin:-44px 0 0 0;
+	padding:10px 0;
+	border:1px solid #FFF;}
+		
+.season h2{
+	position: absolute;
+	display:block;
+	background:url(../images/seasonH2Bg.gif) no-repeat 0 0;
+	float:left;
+	width:52px;
+	height:54px;
+	font-size:130%;
+	font-weight:bold;
+	text-align:center;
+	line-height:3.5em;
+	z-index:5;}
+	
+.season p{
+	color:#637728;
+	margin: 1em 6px 0.5em 6px;
+	line-height:1.5em;}
+	
+.season p a{
+	color:#ff8932;
+	line-height: 150%;
+}
+	
+.season p span{
+	color:#637728;
+	display:block;
+	line-height:1.5em;
+	padding: 15px 0 3px 0;
+	width:74px;
+	margin-left:68px;}
+	
+
+/*----------------------------------------------------------------season End*/
+/*----------------------------------------------------------------menu star (style C)*/
+.menu{
+	width:157px;
+	text-align:center;
+	margin:0 auto;
+}
+
+.menu li{
+	display:inline;
+}
+
+.menu a{
+	display:block;
+	background: #9eb020 url(../images/menuIcon.gif) no-repeat 110px center;
+	color:#FFF;
+	text-decoration:none;
+	width:107px;
+	margin:0;
+	padding: 10px 24px 6px 24px;
+	border:1px solid #9eb020;
+	border-color:#c7d17e #646f14 #424a0d #b3c14f;}
+
+.menu a:hover{
+	background-color: #bfd524;
+	color:#060;
+}
+.menu li li a{
+	background: #99CC00 url(../images/menuIcon.gif) no-repeat 140px center;
+	padding:6px 12px 6px 36px;}
+
+	 
+/*.menu ul li a{
+	background: #FFF url(../images/menu2_bg.gif) no-repeat center;}
+	
+.menu ul li a:hover{
+	background-image: url(../images/menu2_bg_m.gif);}
+*/
+/*----------------------------------------------------------------menu end*/
+
+/*----------------------------------------------------------------tree star (style C)*/
+.tree{
+	width:157px;
+	text-align:center;
+	margin:0 auto;}
+
+.tree li{
+	display:inline;}
+
+.tree a{
+	display:block;
+	background: #9eb020 url(../images/menuIcon.gif) no-repeat 110px center;
+	color:#FFF;
+	text-decoration:none;
+	width:127px;
+	margin:0;
+	padding:6px 14px;
+	border:1px solid #9eb020;
+	border-color:#c7d17e #646f14 #424a0d #b3c14f;}
+
+.tree a:hover{
+	background-color: #bfd524;
+	color:#060;}
+
+.tree .active{
+	background: #bfd524 url(../images/menuIcon3.gif) no-repeat 110px center;
+	color:#060;} 
+
+.tree li li a{
+	display:block;
+	background: #e3f103 url(../images/menuIcon.gif) no-repeat 120px center;
+	color:#138400;
+	text-decoration:none;
+	width:109px;
+	margin:0;
+	padding:6px 24px;
+	border:1px solid #9eb020;
+	border-width:1px 0;}
+
+.tree li li li a{
+	display:block;
+	background: #e4e28f url(../images/menuIcon.gif) no-repeat 130px center;
+	color:#1b0c00;
+	text-decoration:none;
+	width:89px;
+	margin:0;
+	padding:6px 34px;
+	border:none;}
+
+.tree li li li li a{
+	display:block;
+	background: #eff1c4 url(../images/menuIcon.gif) no-repeat 140px center;
+	color:#738400;
+	text-decoration:none;
+	width:79px;
+	margin:0;
+	padding:6px 39px;
+	border:none;}
+
+
+
+/*.menu ul li a{
+	background: #FFF url(../images/menu2_bg.gif) no-repeat center;}
+	
+.menu ul li a:hover{
+	background-image: url(../images/menu2_bg_m.gif);}
+*/
+/*----------------------------------------------------------------tree end*/
+
+
+/*----------------------------------------------------------------menu2 star (style A)*/
+.menu2{
+	width:157px;
+	text-align:center;
+	margin:13px 0 0;
+	clear: both;
+}
+
+.menu2 h2{
+	background:url(../images/catgBg.gif) no-repeat 0 0;
+	width:157px;
+	height:29px;
+	text-align:center;
+	text-indent:-6000px;
+	margin:0;}
+
+.menu2 li{
+	display:inline;}
+
+.menu2 li a{
+	display:block;
+	background: #9eb020 url(../images/menuIcon.gif) no-repeat 110px center;
+	color:#FFF;
+	text-decoration:none;
+	margin:0;
+	padding:6px 24px;
+	border:1px solid #9eb020;
+	border-color:#c7d17e #646f14 #424a0d #b3c14f;}
+
+.menu2 li a:hover{
+	background-color: #bfd524;
+	color:#060;}
+
+.menu2 .sort{
+	clear: both;
+	padding: 10px;
+}
+.menu2 .sort ul{
+}
+
+.menu2 .sort li{
+	line-height:1.5em;}
+.menu2 .sort li a{
+	color: #009966;
+	text-decoration: underline;
+	background: url(none);
+	width: auto;
+	border-style: none;
+	margin: 0px 0px 5px;
+	padding: 0px 5px 5px 0px;
+	display: inline;
+}
+.menu2 .sort li a:hover{
+	color: #CC6600;
+	text-decoration: none;
+}
+
+
+.menu2 .sort2{
+	clear: both;
+	padding: 10px;
+	background: #FFFFFF;
+}
+.menu2 .sort2 ul{
+}
+.menu2 .sort2 ul ul{
+	margin-left: 1em;
+}
+
+.menu2 .sort2 li{
+	line-height:1.5em;}
+.menu2 .sort2 li a{
+	color: #009966;
+	text-decoration: underline;
+	background: url(../images/listIcon.gif) no-repeat 2px 3px;
+	width: auto;
+	border-style: none;
+	margin: 0px 0px 5px;
+	padding: 0px 5px 5px 12px;
+	line-height: 130%;
+}
+.menu2 .sort2 li a:hover{
+	color: #CC6600;
+	text-decoration: none;
+}
+
+.menu2 .sort2 li li a{
+	color: #646464;
+	text-decoration: underline;
+	background: url(../images/arrow_right.gif) no-repeat 2px 3px;
+	width: auto;
+	border-style: none;
+	margin: 0px 0px 5px;
+	padding: 0px 5px 5px 12px;
+	line-height: 130%;
+}
+
+.active2 a{
+	font-weight: bold;
+}
+
+
+
+	
+/*.menu2 ul li a{
+	background: #e4ecf2;}*/
+/*----------------------------------------------------------------menu2 end*/
+/*----------------------------------------------------------------AD star(style A)*/
+.ad{
+	margin:10px auto;
+}
+.ad img{
+	width:130px;
+}
+	
+.ad li{
+	padding-bottom: 1px;
+	padding-top: 1px;
+}
+	
+.ad a{
+	display:block;
+	text-align:center;
+	margin:4px 0margin-left:60px;}
+/*----------------------------------------------------------------AD End*/
+/*----------------------------------------------------------------rss star*/
+.left .rss a{
+	display:block;
+	background: url(../images/RSS.gif) no-repeat 0 0;
+	text-indent:-6000px;
+	width:157px;
+	height:52px;
+	margin:13px auto 0;}
+/*----------------------------------------------------------------rss end*/
+/*----------------------------------------------------------------search star (style C)*/
+.search{
+	margin:10px 0 0 6px;
+	width:190px;
+	padding:5 0 10px 0;
+	text-align:center;}
+
+.search h2{
+	display:block;
+	background:url(../images/searchTitle.gif) no-repeat 0 0;
+	margin:0;
+	width:190px;
+	height:34px;
+	text-indent:-6000px;}
+
+.search form{
+	text-align:center;}
+
+.search label{
+	display:block;
+	width:170px;
+	font-size:20px;
+	padding:0;
+	position:absolute;
+	color:#6f6f6f;
+	left:-6000px;}
+
+.search input.txt{
+	width:140px;
+	margin: 1em auto 0;
+	border:1px solid #a8a8a8;}
+
+.search input.btn{
+	font-size:12px;
+/*	width:auto;
+	height:auto;*/
+	margin: 5px 2px 8px 2px;
+}
+	
+.search label.ckb{
+	font-size:100%;
+	margin-left:0.5em;
+	float:left;
+	position:relative;
+	left:0;
+	display: block;
+	width: 80px;
+}
+.search label.ckb input{
+	border:none;
+	width:20px;
+	padding:0;
+}
+.search submit{
+	background: #7ABD6F;
+	width: 80px;
+}
+/*----------------------------------------------------------------search end*/
+/*----------------------------------------------------------------theme end*/
+.theme {
+	width:190px;
+	margin: 10px 0 0 5px;
+	text-align:center;
+	padding: 0 0 1.5em 0;
+	background:url(../images/hr.gif) no-repeat center bottom;
+}
+
+.theme .body {
+	text-align:center;
+	background:url(../images/themeBg1.gif) no-repeat center 0px;
+	margin:10px 0 0 0;
+	padding:10px;}
+
+.theme img {
+	border:2px siolid #a6a6a6;
+	width:137px;
+	margin-bottom: 5px; 
+/*	height:auto;*/
+}
+	
+.theme p {
+	margin:0 1em;
+	line-height: 135%;
+}
+.theme a {
+	line-height: 135%;
+}
+.theme .foot {
+	background:url(../images/themeBg2.gif) no-repeat bottom center;
+	height:10px;
+	margin:0 0 0.5em;
+}
+/*----------------------------------------------------------------theme end*/
+/*----------------------------------------------------------------login star*/
+.login {
+	width:190px;
+	margin-top: 13px;
+	margin-left: 6px;
+	padding-bottom:2em;
+	background:url(../images/hr.gif) no-repeat bottom center;
+}
+.login .body {
+	margin: 0 10px;
+}
+
+.login .body p {
+	line-height: 130%;
+	color: #006699;
+	padding-top: 3px;
+	padding-bottom: 2px;
+}
+.login .body form label {
+	display:block;
+	clear:both;
+	width:170px;
+	vertical-align:middle;
+	margin:0.1em 0;}
+
+.login .body form input.txt {
+	margin: 3px;
+	width:125px;}
+
+.login .body form input.btn {
+	display:inline;
+	width: auto;
+	margin: 0px 2px 0px 2px;
+	padding: 0px 0px 0px 0px;
+}
+.login .body img {
+	margin: 3px 0px 3px 0px;
+	padding: 3px 0px 3px 0px;
+}
+.login .foot {}
+/*----------------------------------------------------------------login End*/
+
+
+/*----------------------------------------------------------------epaper star (style B)*/
+.epaper {
+	width:190px;
+	padding-bottom:2em;
+	margin-left:6px;
+	margin-top:1.5em;
+	background:url(../images/hr.gif) no-repeat bottom center;}
+	
+.epaper .body {
+	width:170px;
+	margin:0 auto;}
+
+.epaper .body form {}
+
+.epaper .body form input.txt {
+	display:block;
+	margin:0.5em 0;
+	width:160px;}
+
+.epaper .body form input.btn {
+	display:inline;
+	margin: 0px 2px 0px 2px;
+	padding: 0px 0px 0px 0px;
+}
+.epaper .body img {
+	margin: 3px 0px 3px 0px;
+	padding: 4px 0px 3px 0px;
+}
+.epaper .foot {}
+/*----------------------------------------------------------------epaper End*/
+/*----------------------------------------------------------------more star (style A)*/
+.more a{}
+/*----------------------------------------------------------------more End*/
+/*----------------------------------------------------------------topic star (list style D)*/
+.topic{
+	border-bottom:3px solid #d9d9d9;
+	margin:0px 10px 12px 20px;
+}
+.topic div{
+	border-bottom:1px dotted #ccc;
+	padding: 6px 0px 6px 2px;
+}
+.topic h3{
+	margin-right:0px;
+	margin-left:0px;}
+
+.topic h4{
+	color:#7acb47;
+	font-weight:normal;
+	font-size:110%;
+	margin:0.5em 1.5em 0em 1.5em;
+}
+
+.topic h4 span{
+	color:#f94f00;
+	font-weight:100;
+	font-size:75%;
+	margin-left:1em;}
+
+.topic p{
+	color:#353535;
+	margin:0 1.7em;}
+
+.topic p a{
+	color:#d77e00;
+	padding-left:2em;
+	background:url(../images/detailIcon.gif) no-repeat 1.2em 0.23em;}
+
+.topic .more{}
+
+.topic .more a{}
+/*----------------------------------------------------------------topic end*/
+/*----------------------------------------------------------------hotQa star (list style A)*/
+.hotQa{
+	position: relative;
+	border-bottom:3px solid #d9d9d9;
+	margin:0 20px 12px;}
+	
+.hotQa h3{
+	margin-right:0px;
+	margin-left:0px;}
+
+.hotQa span{
+	border-left:1px solid #ccc;
+	padding:0 0.5em;}
+
+/*----------------------------------------------------------------hotQa end*/
+
+/*----------------------------------------------------------------hotessay star (style A)*/
+.hotessay{
+	position: relative;
+	border-bottom:3px solid #d9d9d9;
+	margin:0 20px 12px;}
+	
+.hotessay h3{
+	margin-right:0px;
+	margin-left:0px;}
+
+.hotessay span{
+	border-left:1px solid #ccc;
+	padding:0 0.5em;}
+/*----------------------------------------------------------------hotessay end*/
+
+/*----------------------------------------------------------------hotessay2 star (style A)*/
+.hotessay2{
+	position: relative;
+	border-bottom:3px solid #d9d9d9;
+	margin:0 20px 12px;}
+
+.hotessay2 h3{
+	margin-right:0;
+	margin-left:0;}
+
+.hotessay2 span{
+	border-left:1px solid #ccc;
+	padding:0 0.5em;}
+/*----------------------------------------------------------------hotessay end*/
+
+
+/*----------------------------------------------------------------知識統計 star*/
+.sta{
+	width:157px;
+	text-align:center;
+	margin:10px auto 0;
+	clear: both;
+}
+
+.sta h2{
+	background:url(../images/staBg.gif) no-repeat 0 0;
+	width:157px;
+	height:29px;
+	text-align:center;
+	text-indent:-6000px;
+	margin:0;}
+	
+.sta p{
+	margin: 1px 10px;
+	}
+	
+/*----------------------------------------------------------------知識統計 end*/
+
+.space {
+	clear: both;
+}
+/*----------------------------------------------------------------我要發問 star*/
+.ask{
+	float: right;
+/*1009修正了發問的位置*/
+	margin-top: -40px;
+	margin-right: 16px;
+}
+html>body .ask{
+/*	margin-top: -65px;*/
+}
+/*1009修正了IE7我要發問*/
+*+html>body .ask {
+	margin-top: -40px;
+	margin-right: 16px;
+}
+
+/*----------------------------------------------------------------我要發問 end*/
+
+
+/*----------------------------------------------------------------rbox star (style B)*/
+.rbox {
+	width:190px;
+	padding-bottom:1.5em;
+	margin-left:6px;
+	margin-top:1em;
+	background:url(../images/hr.gif) no-repeat bottom center;}
+	
+.rbox .body {
+	margin:0 auto;
+	}
+
+.rbox ul{
+	background: #FAFEF5;
+	margin-top:0px;
+	border-top:1px solid #d9d9d9;
+	clear: both;
+}
+
+.rbox li{
+	background: url(../images/navIcon.gif) no-repeat 10px 0.7em;
+	line-height:2em;
+	padding-left:2em;
+	color:#787878;
+	border-bottom:1px dashed #e9e8e4;
+	padding-right: 1em;
+}
+
+.rbox li a{
+	color:#1c1c1c;
+	text-decoration: none;
+}
+
+.rbox li a:hover{
+	color:#CC6600;
+	text-decoration: none;
+}
+
+.rbox .foot {
+	background: #FAFEF5;
+	height: 25px;
+	border-bottom:1px solid #e9e8e4;
+}
+/*----------------------------------------------------------------rbox End*/
+
+/*----------------------------------------------------------------rbox star (style B)*/
+.rbox2 {
+	padding-bottom:1.5em;
+	margin-left:6px;
+	margin-top:1em;
+	background:url(../images/hr.gif) no-repeat bottom center;
+	padding-left: 8px;
+	}
+	
+/*----------------------------------------------------------------rbox End*/
+
+.float {
+	float: right;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+}
+.float a {
+	background: url(../images/detailIcon.gif) no-repeat 2px 3px;
+	padding-left: 10px;
+	color: #009999;
+	text-decoration: underline;
+}
+.float a:hover {
+	text-decoration: none;
+	color: #CC6600;
+}
+
+
+.float2 {
+	float: right;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+	margin-top: -25px;
+}
+.float2 a {
+	background: url(../images/detailIcon.gif) no-repeat 2px 3px;
+	padding-left: 10px;
+	color: #009999;
+	text-decoration: underline;
+}
+.float2 a:hover {
+	text-decoration: none;
+	color: #CC6600;
+}
+
+
+/*----------------------------------------------------------------path star (style B)*/
+.path{
+	padding-left:20px;
+	background: url(../images/home.gif) no-repeat 0px 10px;
+	color: #7ACB47;
+	margin:0 20px 15px;
+	clear: both;
+	padding-top: 10px;
+}
+.path a{
+	color: #6C6C6C;
+	text-decoration: none;
+	padding-right: 3px;
+	padding-left: 3px;
+}
+.path a:hover{
+	color: #CC6600;
+}
+/*----------------------------------------------------------------path End*/
+
+/* --------------------------------------------------------- 最新發問TAB LIST */
+#Magazine {
+	margin:0;
+	background: #FFF;
+	padding-right: 20px;
+	padding-bottom: 5px;
+	padding-left: 20px;
+	clear: both;
+	width:auto;
+}
+
+#Magazine h4 {
+	background: url(../images/h4_bg.gif) no-repeat left top;
+	padding-left: 45px;
+	color: #083D65;
+	clear: both;
+	font-size: 16px;
+	height: 38px;
+	line-height: 190%;
+}
+#Magazine .Event {
+	background-color: #FFFFFA;
+	clear: left;
+	padding: 12px 0px 5px 0px;
+	border-bottom: 1px solid #CCCCCC;
+	width: 100%;
+}
+
+#Magazine .Event h5 {
+	color: #083D65;
+	margin: 0px 0px 10px;
+	padding: 0px;
+	font-size: 125%;
+	font-weight: bold;
+}
+#Magazine .Event h5 img {
+	vertical-align: middle;
+	margin-left: 5px;
+}
+
+#Magazine .Event p {
+	line-height: 160%;
+	margin: 0px 0px 1em;
+	padding: 0px;
+}
+#Magazine .Event .Phoimg {
+	padding: 0px;
+	float: left;
+	margin: 0px 10px 5px 5px;
+	border: 1px solid #666666;
+	height: 120px;
+	width: 90px;
+}
+
+#Magazine .Event .More {
+	text-align: right;
+	padding: 0px;
+	margin: 0px;
+	font-size: 13px;
+}
+#Magazine .Event .More a {
+	font-weight: bold;
+	color: #FF7E00;
+	background: url(../images/icom03.gif) no-repeat 2px 1px;
+	padding-left: 18px;
+}
+#Magazine .Event .More a:hover {
+	color: #800D0D;
+	text-decoration: underline;
+}
+
+
+/*- MagTabs--------------------------- */
+
+#MagTabs {
+	clear:both;
+	width:100%;
+	font-size:100%;
+	line-height:normal;
+	border-bottom:1px solid #083D65;
+	font-weight: bold;
+	font-family: "新細明體", "細明體";
+	background-color: #FFF;
+ }
+html>body #MagTabs {
+	min-height:26px;}
+		  
+    #MagTabs ul {
+	margin:0;
+	padding:0px;
+	list-style:none;
+	font-size: 15px;
+      }
+    #MagTabs li {
+      display:inline;
+      margin:0;
+      padding:0;
+      }
+    #MagTabs a {
+	float:left;
+	background:url("../images/tableft3.gif") no-repeat left top;
+	margin:0;
+	padding:0 0 0 4px;
+	text-decoration:none;
+      }
+    #MagTabs a span {
+	float:left;
+	display:block;
+	background:url("../images/tabright3.gif") no-repeat right top;
+	padding:5px 15px 6px 6px;
+	color: #3E3A39;
+	vertical-align: middle;
+      }
+    *+html>body #MagTabs a span {
+	padding:3px 15px 8px 6px;
+      }
+	  
+    /* Commented Backslash Hack hides rule from IE5-Mac \*/
+    #MagTabs a span {float:none;}
+    /* End IE5-Mac hack */
+    #MagTabs a:hover span {
+      color:#FFFFFF;
+      }
+    #MagTabs a:hover {
+      background-position:0% -42px;
+      color:#FFFFFF;
+      }
+    #MagTabs a:hover span {
+      background-position:100% -42px;
+      }
+	  
+      #MagTabs .current a {
+              background-position:0% -42px;
+      }
+      #MagTabs .current a span {
+              background-position:100% -42px;
+ 		     color:#FFFFFF;
+      }
+	  
+	  
+/* --------------------------------------------------------- 分頁STAR */
+.Page {
+	font-size: 12px;
+	color: #666666;
+	margin-top: 10px;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: center;
+	margin-bottom: 10px;
+}
+.Page a {
+	color: #353535;
+	text-decoration: none;
+	margin-right: 3px;
+	margin-left: 3px;
+}
+.Page a:hover {
+	color: #CC6600;
+	text-decoration: underline;
+}
+.Page .Number {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	color: #006699;
+	margin-right: 2px;
+	margin-left: 2px;
+}
+/* --------------------------------------------------------- 分頁END */
+
+/* --------------------------------------------------------- LP TABLE STAR */
+.lp caption {
+	font-weight: normal;
+	color: #333333;
+	padding-bottom: 3px;
+	font-size: 120%;
+}
+.lp {
+	border-collapse:collapse;
+	margin-top: 10px;
+	width: 100%;
+	font-size: 100%;
+	margin-bottom: 30px;
+}
+.lp img{
+	border: none;
+}
+.lp th {
+	padding: 5px 5px 5px 10px;
+	vertical-align: top;
+	font-weight: normal;
+	background-color: #F2F1EE;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-top-color: #B9B7A6;
+	border-bottom-color: #B9B7A6;
+	white-space: nowrap;
+	color: #353535;
+}
+.lp td {
+	padding: 6px 5px 6px 10px;
+	vertical-align: top;
+	line-height: 145%;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #CCCCCC;
+	color: #353535;
+}
+.lp td a {
+	line-height: 145%;
+	color: #006699;
+}
+.lp .bg {
+	background-color: #F8F8F5;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #E8E7E1;
+}
+
+/* --------------------------------------------------------- LP TABLE END */
+
+/* --------------------------------------------------------- Staricon STAR */
+.staricon {
+	white-space: nowrap;
+	vertical-align: top;
+	display: inline;
+}
+
+.staricon2 {
+	white-space: nowrap;
+	vertical-align: top;
+	display: inline;
+}
+/* --------------------------------------------------------- Staricon END */
+
+/*----------------------------------------------------------------depdate star (style C)*/
+.depdate {
+	margin:2px 2px 2px 20px;
+	float: left;
+	color: #646464;
+	background: url(../images/depdate.gif) no-repeat 0px center;
+	padding-left: 20px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+/*----------------------------------------------------------------depdate end*/
+
+
+/*----------------------------------------------------------------頁面功能 star */
+
+.Function2 {
+	font-size: 12px;
+	line-height: 20px;
+	text-align: right;
+	margin: 0px 20px 15px;
+	padding: 5px 0px 0px;
+	list-style: none;
+}
+.Function2 li {
+	margin-right: 1px;
+	display: inline;
+}
+.Function2 a {
+	padding: 4px 8px 2px 25px;
+	text-decoration: none;
+	color: #646464;
+}
+.Function2 a.Track {
+	background:  url("../images/func_bg_track.gif") no-repeat 0px 0px;
+}
+.Function2 a.Print {
+	background:  url("../images/func_bg_print.gif") no-repeat 0px 0px;
+}
+.Function2 a.Back {
+	background:  url("../images/func_bg_back.gif") no-repeat 0px 0px;
+}
+.Function2 a.Forward {
+	background:  url("../images/func_bg_mail.gif") no-repeat 0px 0px;
+}
+/*----------------------------------------------------------------頁面功能 end */
+
+/*----------------------------------------------------------------cp start */
+
+#cp {
+	margin: 20px 0 0 0;
+/*1009修正了知識家的內容頁面會超出框線*/
+	padding:0px 10px 0px 10px;
+	
+}
+html>body #cp {
+	margin: 20px 0px 0;
+	padding:0;
+	width:auto;
+}
+/*1009修正了IE7知識家的內容頁面會超出框線*/
+*+html>body #cp {
+	margin: 20px 0 0 0;
+	padding:0px 10px 0px 10px;
+}
+
+#cp .subtable {
+}
+#cp .subtable .subleft {
+	padding-right: 10px;
+}
+#cp .subtable .subleft .problem {
+	color: #006699;
+	background: #E8F8FF;
+	padding: 10px;
+	line-height: 150%;
+	margin-bottom: 10px;
+}
+#cp .subtable .subleft .problem2 {
+	color: #006699;
+	background: #EEEEEE;
+	padding: 10px;
+	line-height: 150%;
+	margin-bottom: 10px;
+}
+#cp .subtable .subleft .adddate {
+	padding: 5px 10px;
+	line-height: 150%;
+	margin-bottom: 2px;
+	border: 1px dashed #99CC66;
+	color: #464646;
+}
+#cp .subtable .subright {
+	background-color: #FBFCEB;
+	padding: 10px 10px 5px;
+	border: 3px double #ECECBD;
+	margin: 0px;
+	width: 150px;
+}
+#cp .subtable .subright li {
+	line-height: 150%;
+	color: #464646;
+}
+
+#cp .experts {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background: #F4FCEF;
+	padding: 15px 10px 10px;
+	height:200px;
+}
+
+/*html>body #cp .experts p {
+	clear:both;
+}*/
+html>body #cp .experts {
+	height:auto;
+	min-height:200px;
+}
+
+#cp .experts ol {
+}
+#cp .experts ol li {
+	line-height: 125%;
+	margin-bottom: 1em;
+}
+
+#cp .experts h4 {
+	font-size: 125%;
+	font-weight: bold;
+	color: #009966;
+	background: url(../images/icom_i02.gif) no-repeat 2px 7px;
+	border-bottom: 1px dashed #99CC99;
+	margin: 0px 0px 3px;
+	padding-bottom: 0px;
+	padding-left: 18px;
+}
+#cp .experts .phoimg{
+	float:left;
+	margin-top: 5px;
+	margin-right: 10px;
+	margin-bottom: 3px;
+}
+
+#cp .experts .exphoto {
+	float: left;
+	width: 100px;
+	margin-right: 10px;
+	margin-bottom: 0px;
+	border: 1px solid #C CC;
+	padding: 5px;
+}
+#cp .experts .exphoto p {
+	color: #464646;
+}
+#cp .experts a {
+	color: #069;
+}
+#cp .experts a:hover {
+	color: #C60;
+}
+
+#cp .eva2 {
+	margin-top: 10px;
+	vertical-align: middle;
+	padding: 10px 10px 10px;
+}
+
+#cp form {
+	padding: 10px;
+}
+#cp label {
+	font-size: 125%;
+	color: #333333;
+	background: url(../images/icom_i02.gif) no-repeat 2px 3px;
+	padding-left: 16px;
+	line-height: 150%;
+}
+
+#cp .cptable{
+	width:100%;
+	border-collapse:collapse;
+	border:2px solid #CCC;
+	border-width:2px 0;}
+
+#cp .cptable th{
+	width:100px;
+	text-align:right;
+	padding:5px;
+	background:#FFFFCC;
+	border:1px dotted #CCC;
+	border-weight:1px 1px 1px 0px;}
+
+#cp .cptable td{
+	padding:5px;
+	border:1px dotted #CCC;
+	border-weight:1px 1px 1px 0px;}
+
+#cp .cptable td a{
+	text-decoration:underline;
+	color:#006699;}
+	
+#cp .cptable td a:hover{
+	text-decoration:none;
+	color: #CC6600;}
+
+#cp .cptable col.title{}
+#cp .cptable col.cptablecol2{}
+
+
+/*----------------------------------------------------------------cp end */
+
+/*----------------------------------------------------------------Dis star */
+.Dis {
+	margin-top: 20px;
+	margin-bottom: 10px;
+	border-top: 3px solid #EEEEEE;
+	padding-top: 10px;
+}
+.Dis h4 {
+	color: #006699;
+	background: url(../images/icom_i02.gif) no-repeat 2px 6px;
+	padding-left: 18px;
+}
+.Dis h4 a {
+	color: #006699;
+	font-size: 125%;
+	line-height: 150%;
+}
+.Dis h4 a:hover {
+	color: #CC6600;
+}
+
+/*----------------------------------------------------------------Dis end */
+
+/*----------------------------------------------------------------DisContent star */
+.DisContent {
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+.DisContent h4 {
+	color: #006699;
+	background: url(../images/icom_i02.gif) no-repeat 2px 6px;
+	padding-left: 18px;
+}
+.DisContent h4 a {
+	color: #006699;
+	font-size: 125%;
+	line-height: 150%;
+}
+.DisContent h4 a:hover {
+	color: #CC6600;
+}
+
+/*----------------------------------------------------------------DisContent end */
+
+
+/*----------------------------------------------------------------slider star */
+.slidertable {
+	background: #F4F2EC;
+	text-align: left;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+.slidertable td {
+	vertical-align: middle;
+}
+.slider {
+	background: url(../images/bg_slider.gif) no-repeat center center;
+	height: 29px;
+	width: 80px;
+	white-space: nowrap;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+.slider img {
+}
+/*----------------------------------------------------------------slider end */
+
+/*----------------------------------------------------------------Issued star */
+.Issued {
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background: #FCF8EE;
+}
+.Issued li {
+	display: inline;
+	margin-right: 0.5em;
+}
+
+.Issued2 {
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background: #EEEEEE;
+}
+.Issued2 li {
+	display: inline;
+	margin-right: 0.5em;
+}
+
+
+/*----------------------------------------------------------------Issued end */
+
+/*----------------------------------------------------------------DisList star */
+.DisList {
+	border-bottom: 1px dashed #CCCCCC;
+	padding: 5px 0px;
+}
+.DisList a {
+	color: #006699;
+}
+.DisList a:hover {
+	color: #CC6600;
+}
+.DisList p {
+	padding: 5px;
+}
+
+
+/*----------------------------------------------------------------DisList end */
+
+/*----------------------------------------------------------------DisText star */
+.DisText {
+	border-bottom: 1px dashed #CCCCCC;
+	padding: 5px 0px;
+}
+.DisText a {
+	color: #006699;
+}
+.DisText a:hover {
+	color: #CC6600;
+}
+.DisText p {
+	padding: 5px;
+	font-size: 125%;
+}
+
+
+/*----------------------------------------------------------------DisList end */
+
+
+/*---------------------------------------------------------------評價顯示 star */
+#ratingAndStatsDiv {
+	padding: 10px;
+	background-color: #FBFCEB;
+	border: 3px double #ECECBD;
+}
+#ratingAndStatsDiv #ratingDiv {
+}
+#ratingAndStatsDiv #ratingDiv .footerMessage {
+	MARGIN-LEFT: 47px
+}
+#ratingAndStatsDiv .rating {
+	VERTICAL-ALIGN: middle;
+	HEIGHT: auto;
+}
+#ratingAndStatsDiv .statLabel {
+	FONT-WEIGHT: bold; FONT-SIZE: 16px; MARGIN: 0px 4px 0px 0px; COLOR: #666
+}
+#ratingAndStatsDiv .ratingCount {
+	FONT-SIZE: 11px; MARGIN: 0px 0px 0px 4px; COLOR: #333
+}
+#ratingAndStatsDiv #viewsDiv {
+	PADDING-RIGHT: 80px; FLOAT: right; PADDING-TOP: 3px
+}
+#ratingAndStatsDiv #statsDiv {
+	FONT-SIZE: 11px; FLOAT: right; TEXT-ALIGN: right
+}
+#ratingAndStatsDiv .statsLabel {
+	FONT-WEIGHT: bold; COLOR: #333
+}
+#ratingAndStatsDiv .statsValue {
+	PADDING-LEFT: 2px; FLOAT: right; TEXT-ALIGN: left
+}
+#vrParentDiv {
+	BORDER-RIGHT: #fc3 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #fc3 1px solid; PADDING-LEFT: 5px; FONT-WEIGHT: bold; BACKGROUND: #ffc; PADDING-BOTTOM: 5px; MARGIN: 5px 0px; BORDER-LEFT: #fc3 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #fc3 1px solid
+}
+#videoStatsDiv {
+	BORDER-RIGHT: #ccc 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #ccc 1px solid; PADDING-LEFT: 5px; FONT-SIZE: 11px; PADDING-BOTTOM: 5px; BORDER-LEFT: #ccc 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #ccc 1px solid
+}
+/*---------------------------------------------------------------評價顯示 end */
+
+
+/*---------------------------------------------------------------按鈕 star */
+.btn2 {
+	background: url(../images/btn_bg.gif) repeat-x left center;
+	border: 1px solid #999999;
+	padding-top: 2px;
+	height: 20px;
+	font-size: 12px;
+	color: #333333;
+	margin: 5px 2px;
+	padding-right: 2px;
+	padding-left: 2px;
+}
+
+/*---------------------------------------------------------------按鈕 end */
+
+
+/*---------------------------------------------------------------資料篩選 star */
+
+.info {
+}
+
+/*---------------------------------------------------------------資料篩選 end */
+
+
+/*---------------------------------------------------------------瀏覽排序 star */
+
+.View {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-bottom: 1px dashed #99CC66;
+}
+.View img {
+	vertical-align: middle;
+}
+.View a {
+	margin-right: 5px;
+	margin-left: 5px;
+	color: #353535;
+}
+.View a:hover {
+	color: #CC6600;
+}
+/*---------------------------------------------------------------瀏覽排序 end */
+
+/*---------------------------------------------------------------搜尋我的知識 star */
+
+.mysearch {
+	vertical-align: text-bottom;
+	background: #eeeeee url(../images/mysearch.gif) no-repeat 5px 8px;
+	padding-left: 30px;
+	padding-bottom: 5px;
+	padding-top: 2px;
+}
+
+.mysearch .btn2 {
+	margin-bottom: 1px;
+}
+
+/*---------------------------------------------------------------搜尋我的知識 end */
+
+.number2 {
+	font-weight: bold;
+	color: #FF3300;
+	font-family: Arial, Helvetica, sans-serif;
+	margin-right: 5px;
+}
+
+
+
+.depsort {
+	clear: both;
+	color: #646464;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background: url(../images/folder_01.gif) no-repeat 0px 0px;
+	padding-left: 22px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+.mycp {
+	padding:10px;
+	background: #EDF9FF;
+	margin:0 20px;
+/*1009修正了我的知識的位置會偏掉*/
+/*	width:100%;*/
+}
+
+html>body .mycp {
+	width:auto;
+}
+
+*+html>body .mycp {
+	border:1px solid #F00;
+	margin:0 20px;
+}
+
+.mycp h4 {
+	font-size: 125%;
+	color: #006699;
+	clear: both;
+	background: url(../images/icom_i02.gif) no-repeat 2px 5px;
+	padding-left: 18px;
+	line-height: 150%;
+	border-bottom: 1px dashed #99CC66;
+	padding-bottom: 2px;
+	font-weight: bold;
+	margin: 0px 0px 5px;
+}
+.mycp h5 {
+	font-size: 125%;
+	color: #353535;
+	clear: both;
+	padding-left: 20px;
+	line-height: 150%;
+	border-bottom: 1px dashed #cccccc;
+	padding-bottom: 2px;
+	font-weight: normal;
+	margin: 20px 0px 0px;
+	padding-top: 5px;
+	background: #FFFFFF url(../images/h5_bg.gif) repeat-x left top;
+}
+.mycp .table1 {
+	border-top: 1px solid #99CC99;
+	border-right: 0px solid #99CC99;
+	border-bottom: 0px solid #99CC99;
+	border-left: 1px solid #99CC99;
+	background: #FFFFFF;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 97%;
+}
+html>body .mycp .table1 {
+	width: 100%;
+}
+.mycp .table1 td {
+	padding: 8px;
+	border-top: 0px solid #99CC99;
+	border-right: 1px solid #99CC99;
+	border-bottom: 1px solid #99CC99;
+	border-left: 0px solid #99CC99;
+}
+
+.mycp .problem2 {
+	color: #353535;
+	background: #EEEEEE;
+	line-height: 150%;
+	margin-bottom: 10px;
+	background-color: #FBFCEB;
+	padding: 10px 10px 5px;
+	border: 3px double #ECECBD;
+}
+
+.mycp .problem3 {
+	color: #006699;
+	background: #EEEEEE;
+	padding: 10px;
+	line-height: 150%;
+	margin-bottom: 10px;
+	border: 3px double #CCCCCC;
+}
+.mycp .adddate3 {
+	padding: 5px 10px;
+	line-height: 150%;
+	margin-bottom: 0px;
+	border: 0px dashed #99CC66;
+	color: #464646;
+	background: #FFFFFF;
+}
+
+.mycp .add {
+	padding: 0px 10px 10px;
+	border: 1px dashed #99CC99;
+	background: #FFFFFF;
+}
+
+.mycp .add form {
+	padding: 10px 10px 1px;
+}
+
+.mycp .add textarea {
+	height: 10.2em;
+	width: 100%;
+}
+
+.mycp .add label {
+	color: #353535;
+	line-height: 150%;
+	background: url(../images/ckbBg.gif) no-repeat 2px 3px;
+	padding-left: 18px;
+	font-weight: normal;
+	font-size: 110%;
+	display: block;
+}
+
+
+
+.mycp .mydis {
+	padding: 10px;
+	border: 1px dashed #99CC99;
+	background: #FFFFFF;
+	margin-top: 10px;
+}
+
+.mycp .mydis form {
+}
+
+.mycp .mydis textarea {
+	height: 10.2em;
+	width: 99%;
+}
+
+.mycp .mydis label {
+	color: #353535;
+	line-height: 150%;
+	background: url(../images/ckbBg.gif) no-repeat 2px 3px;
+	padding-left: 18px;
+	font-weight: normal;
+	font-size: 110%;
+	display: block;
+}
+
+.mycp .mydis .title2 {
+	font-size: 115%;
+	color: #006699;
+	font-weight: bold;
+}
+
+.btnCenter {
+	text-align: center;
+}
+
+/*----------------------------------------------------------------Album start (A)*/
+.album{
+	width:100%;}
+
+.album h3{}
+
+.album ul li a{
+	display:block;
+	color:#006699;
+	text-align:center;
+	margin:10px 0 6px;}
+
+.album ul li{
+	display:inline;
+	float:left;
+	text-align:center;
+	border:1px solid #CCC;
+	margin:10px;
+	color:#006699;}
+	
+.album ul li img{
+	display:block;
+	width:100px;
+	height:67px; 
+	margin:4px;
+}
+
+.album .more{
+	clear:both;}
+.album .more a{}
+/*----------------------------------------------------------------Album End*/
+/*----------------------------------------------------------------list start (F)*/
+.lplist{}
+
+.lplist ul{
+	list-style:none;
+	margin:0;
+	padding:0;
+	border-top: 2px solid #CCC;
+	}
+
+.lplist li{
+	list-style:none;
+	line-height:1.5;
+	margin:0 10px;
+	padding:0 0 10px 0;
+	border-bottom:1px solid #CCC;
+	color:#999;
+	clear:both;}
+	
+html>body .lplist li{
+	margin:10px;}
+*+html>body .lplist li{
+	margin:0 10px;}
+	
+.lplist li img{
+	float:left;
+	margin:10px 6px 0 0 ;
+	width:100px;
+/*	height:auto;*/
+}
+	
+html>body .lplist li img{
+	margin-top:0;
+}
+*+html>body .lplist li img{
+	margin:10px 6px 0 0 ;
+}
+
+.lplist li span{
+	display:block;
+	color:#666;
+	padding-left:68px;
+	line-height:130%;}
+
+.lplist li a{
+	display:block;
+	font-weight:bold;
+	color:#069;
+	margin:-3px 0 0 0;
+	padding-bottom:5px;}
+html>body .lplist li a{
+	margin:0;}
+*+html>body .lplist li a{
+	margin:-3px 0 0 0;}
+
+
+.lplist .more{}
+
+.lplist .more a{}
+/*----------------------------------------------------------------list end*/
+/*----------------------------------------------------------------video start (A)*/
+.video{
+	text-align:center;
+	margin:10px;}
+/*----------------------------------------------------------------video end*/
+/*----------------------------------------------------------------download start (B)*/
+.download{
+	background:#f4fcef;
+	border:1px dotted #99cc99;
+	border-width: 1px 0;
+	padding:10px 0 0 10px;}
+
+#Magazine .Event .download h5{
+	font-size:100%;
+	color:#6b82bc;}
+
+.download ul{
+	margin: 4px 0;}
+
+.download ul li{
+	background:url(../images/word.gif) no-repeat left center;
+	margin-left:3em;
+	padding-left:2em;
+	line-height:1.7em;
+	color:#666;}
+	
+.download ul li a{
+	margin-right:1em;
+	color:#333;
+	text-decoration:none;}
+/*----------------------------------------------------------------download end*/
+
+/*----------------------------------------------------------------sitemap start (B)*/
+.sitemap h4{
+	font-size: 125%;
+	font-weight: bold;
+	color: #009966;
+	background: url(../images/icom_i02.gif) no-repeat 2px 0px;
+	padding-left: 18px;
+	border-bottom: 1px dashed #99CC99;
+	margin: 0px 0px 10px;
+	padding-bottom: 3px;}
+
+.sitemap{
+	margin:0 10px;
+	font-size: 110%
+}
+	
+.sitemap ul {
+	margin:20px 0 0 20px;
+}
+
+.sitemap li{
+	background: url('../images/bg.gif') no-repeat left 8px;
+	list-style:none;
+	margin: 0 0 1em 0;
+	padding-left:1.4em;
+	line-height: 2em;
+}
+
+.sitemap a{
+	color:#009966;
+	text-decoration:none;}
+.sitemap a:hover{
+	text-decoration:underline;}
+
+.sitemap ul,
+.sitemap ul ul{
+	margin:0 0 0 1.5em;
+	padding:0;}
+
+.sitemap ul li{
+	margin: 0;}
+/*----------------------------------------------------------------sitemap end*/
+/*----------------------------------------------------------------快速鍵說明 start*/
+.acKeyinfo{
+	margin-bottom:40px;}
+.acKeyinfo li{
+	color:#666666;
+	line-height:1.5em;}
+.acKeyinfo span{
+	padding-right:1em;
+	color:#006666;}
+/*----------------------------------------------------------------快速鍵說明 end*/
+/*----------------------------------------------------------------寫信給我 start*/
+.mail{
+	margin:0 20px;
+	background:#f4fcef;
+	text-align:center;}
+.mail table{}
+.mail table th{
+	width:100px;
+	text-align:right;
+	padding:1em 4px 0 0;
+	vertical-align:top}
+.mail table td{
+	padding:4px;
+	vertical-align:top}
+	
+.mail div.btn{
+	text-align:center;
+	padding-bottom:4px;}
+	
+.mail input.btn{
+	margin:4px;
+	width:80px;
+	border:1px solid #FFFFFF;
+	border-color:#FFF #666 #666 #FFF;
+	background:#90c5d5;
+	color:#FFF;
+	padding-top:4px;}
+	
+.mail input.txt,
+.mail textarea,{
+	width:300px;}
+/*----------------------------------------------------------------寫信給我 end*/
+/*----------------------------------------------------------------subject list start (F)*/
+.subjectlist{
+	margin:0;
+	padding:0;
+}
+
+.subjectlist ul{
+	list-style:none;
+	margin:0;
+	padding:0;
+	border-top: 2px solid #CCC;
+	}
+
+.subjectlist li{
+	list-style:none;
+	line-height:1.5;
+	margin:0 10px;
+	padding:0 0 10px 0;
+	border-bottom:1px solid #CCC;
+	color:#999;
+	clear:both;
+}
+	
+html>body .subjectlist li{
+	margin:10px;
+}
+*+html>body .subjectlist li{
+	margin:0 10px;
+}
+	
+.subjectlist li img{
+	float:left;
+	margin:10px 6px 3px 0px ;
+	width:142px;
+	height:62px;
+	border: 1px solid #DDDCDC;
+}
+	
+html>body .subjectlist li img{
+	margin-top:0;
+}
+*+html>body .subjectlist li img{
+	margin:10px 6px 0 0 ;
+}
+
+.subjectlist li span{
+	display:block;
+	color:#666;
+	padding-left:0px;
+	line-height:130%;
+}
+
+.subjectlist li a{
+	display:block;
+	font-weight:bold;
+	color:#069;
+	margin: -5px 0 0 0;
+	padding-bottom:5px;}
+html>body .subjectlist li a{
+	margin:0;}
+*+html>body .subjectlist li a{
+	margin:-3px 0 0 0;}
+
+
+.subjectlist .more{}
+
+.subjectlist .more a{}
+/*----------------------------------------------------------------list end*/
+/*----------------------------------------------------------------主題館分類 star (style G)*/
+.subjectcata{
+	clear:both;
+	height:23px;
+	margin:0;
+	padding:17px 0 0 10px;
+	background: url(../images/groupBg.gif) repeat-x 0 0;
+}
+
+.subjectcata li{
+	display: block;
+	background: url(../images/tableft2.gif) no-repeat top left;
+	float:left;
+	margin:0 1px;
+	padding-left:0.5em;}
+
+.subjectcata a{
+	display:block;
+	background: url(../images/tabright2.gif) no-repeat top right;
+	margin-left:1em;
+	padding:6px 1.5em 4px 0;
+	text-align:right;
+	text-decoration:none;
+	color:#666666;}
+
+.subjectcata a:hover{
+	color: #003333;}
+	
+.subjectcata li.active{
+	background: url(../images/tableft.gif) no-repeat top left;
+}
+.subjectcata li.active a{
+	color:#000;
+	background: url(../images/tabright.gif) no-repeat top right;}
+/*----------------------------------------------------------------主題館分類 End*/
+/*-新增資料大類格式-*/
+#dividetype {
+	margin: 1em 0px 0.5em 0px;
+	padding: 6px; 3px 6px 3px;
+	background: #EDEDEC;
+	border-top: 2px solid #DCDCDA;
+	border-bottom: 2px solid #DCDCDA;
+	line-height: 120%;
+}
+#dividetype a {
+	color: #4FAD7D;
+}

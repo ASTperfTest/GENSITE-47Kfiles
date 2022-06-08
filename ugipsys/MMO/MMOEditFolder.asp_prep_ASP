@@ -1,0 +1,257 @@
+﻿: @ codepage = 65001 
+  
+'================ 文 件 變 更 履 歷 document amendment ============== $id$ =========================
+' 版號 修改日期  修訂者 變更原因   變更說明
+'---------------------------------------------------------------------------------------------------------------------------------------
+' 002  2008/05/30 ahui  資安修改
+
+htprogcap="多媒體物件上稿"
+htprogcode="gc1ap3"
+htprogprefix="mmo"
+
+   response.expires = 0 
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+  
+dim rsreg
+tasklable="編修" & htprogcap
+dim formfunction
+dim mmodatacount
+dim deptcheck
+
+if request("submittask")="編修存檔" then
+ xpath = request("xxpath")
+ if request("htx_deptid")<>"" then
+  xdeptid="'"&request("htx_deptid")&"'"
+ else
+  xdeptid="null"
+ end if  
+ sql="update mmofolder set deptid="&xdeptid&",mmofoldernameshow=" & pkstr(request("tfx_mmofoldernameshow"),",") & "mmofolderdesc=" & pkstr(request("tfx_mmofolderdesc"),"") _
+  & " where mmofolderid=" & pkstr(request("pfx_mmofolderid"),"")
+ conn.execute(sql)
+
+ response.write "<html><head><meta http-equiv=""content-type"" content=""text/html; charset=utf-8""/></head>" 
+ response.write "<script language='javascript'>"
+ response.write "alert('編修完成！');"
+ response.write "window.parent.navigate('index.asp');"
+ response.write "</script>"
+ response.write  "</html>" 
+
+
+   response.end
+elseif request("submittask")="刪除" then
+ xpath = request("xxpath")
+ '----ftp參數處理
+ ftperrormsg = ""
+ ftpfilepath="public/"&request("mmositeid")&"/"&xpath
+ sqlu="select * from mmosite where mmositeid="&pkstr(request("mmositeid"),"")
+ set rsreg=conn.execute(sqlu)
+ if not rsreg.eof then
+     xftpip = rsreg("uploadsiteftpip")
+     xftpport = rsreg("uploadsiteftpport")
+     xftpid = rsreg("uploadsiteftpid")
+     xftppwd = rsreg("uploadsiteftppwd")
+    end if
+ '----先檢查ftp同步站台是否ok,若不ok,則end
+   if xftpip<>"" and xftpport<>"" and xftpid<>"" and xftppwd<>"" then
+  ftperrormsg = ""
+  fileaction=""
+  ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,ftpfilepath,"","",""    
+  if ftperrormsg<>"" then
+
+
+
+
+
+
+
+
+
+
+      response.end
+  end if
+   end if 
+   '----ftp處理,若刪除ftp同步站台目錄不ok,則end
+ uppath = session("mmopublic") & request("mmositeid") & "/" & xpath
+ set fso = createobject("scripting.filesystemobject")
+ if fso.folderexists(server.mappath(uppath)) then
+    if xftpip<>"" and xftpport<>"" and xftpid<>"" and xftppwd<>"" then
+   ftperrormsg = ""
+   fileaction="deletedir"
+   ftpdo xftpip,xftpport,xftpid,xftppwd,fileaction,"",ftpfilepath,"",""  
+   if ftperrormsg<>"" then
+
+
+
+
+
+
+               =ftperrormsg
+
+
+
+       response.end
+   end if
+       end if    
+  fso.deletefolder(server.mappath(uppath))
+ end if 
+ sql="delete mmofolder where mmositeid="&pkstr(request("mmositeid"),"")&" and substring(mmofoldername, 2, len(mmofoldername) - 1)='"&xpath&"'"   
+ conn.execute(sql)
+ 
+ response.write "<html><head><meta http-equiv=""content-type"" content=""text/html; charset=utf-8""/></head>" 
+ response.write "<script language='javascript'>"
+ response.write "alert('刪除完成！');"
+ response.write "window.parent.navigate('index.asp');"
+ response.write "</script>"
+ response.write  "</html>"  
+
+
+   response.end
+else
+ deptcheck=false
+ mmodatacount=0
+ xpath = request("xpath")
+ xxpath = request("xpath")
+ sql="select * " & _
+  ",(select count(*) from mmofolder where mmofolderparent=m.mmofoldername) mmofolderchildcount,d.deptname " & _
+  "from mmofolder m " & _
+  " left join dept d on m.deptid=d.deptid " & _
+  "where mmositeid="&pkstr(request("mmositeid"),"")&" and substring(mmofoldername, 2, len(mmofoldername) - 1)="&pkstr(xpath,"")
+ set rsreg=conn.execute(sql)
+ if isnull(rsreg("deptid")) or (len(rsreg("deptid")) >= len(session("deptid")) and left(rsreg("deptid"),len(session("deptid")))=session("deptid")) then deptcheck=true 
+ sqlb="select sbasetablename from basedsd where rdsdcat='mmo'"
+ set rsb=conn.execute(sqlb)
+ if not rsb.eof then
+     while not rsb.eof
+  sqlcheckmmodatacount="select count(*) from "&rsb(0)&" where mmofolderid="&rsreg("mmofolderid")
+  set rscheck=conn.execute(sqlcheckmmodatacount)
+  if rscheck(0) > 0 then
+   mmodatacount=rscheck(0)
+  end if
+  rsb.movenext
+     wend
+ end if
+ uppath = session("mmopublic") & request("mmositeid") & "/" & xpath
+ if right(uppath,1)<>"/" then uppath = uppath & "/"
+ if right(xpath,1)<>"/" then xpath = xpath & "/"
+ if left(xpath,1)="/" then xpath = mid(xpath,2)
+ 
+ showhtmlhead()
+ formfunction = "edit"
+ showform()
+ initform()
+ showhtmltail()
+end if 
+
+function qqrs(fldname)
+ if request("submittask")="" then
+  xvalue = rsreg(fldname)
+ else
+  xvalue = ""
+  if request("htx_"&fldname) <> "" then
+   xvalue = request("htx_"&fldname)
+  end if
+ end if
+ if isnull(xvalue) or xvalue = "" then
+  qqrs = ""
+ else
+  xqqrs = replace(xvalue,chr(34),chr(34)&"&chr(34)&"&chr(34))
+  qqrs = replace(xqqrs,vbcrlf,chr(34)&"&vbcrlf&"&chr(34))
+ end if
+end function
+
+
+   sub initform() 
+
+   end sub '---- initform() ----
+
+   sub showform() 
+
+   CxMethod_ASP_mmofolderform_713689379()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                           =title
+
+       if (htprogright and 4)=4 then
+                                                               =rsreg("mmositeid"):          =request.querystring("xpath")
+   end if
+
+
+
+
+
+
+
+
+                                  =uppath
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+   sub showhtmltail() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                =qqrs("mmofolderid")
+                                  =qqrs("mmofoldername")
+                                       =qqrs("mmofolderdesc")
+                                           =qqrs("mmofoldernameshow")
+                                =qqrs("deptid")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmltail() ------ 

@@ -1,0 +1,144 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           Cx_0dummysub chdisplayall()   
+if document.all("openall").value="全部展開" then   
+ for i=1 to Cx_0dummy          
+  if document.all("m" & i).style.display="none" then         
+    document.all("m" & i).style.display=""         
+    document.all("i" & i).src="/images/2.gif"         
+  end if         
+ next    
+    document.all("openall").value="全部關閉"    
+elseif document.all("openall").value="全部關閉" then   
+ for i=1 to Cx_0dummy          
+  if document.all("m" & i).style.display="" then         
+    document.all("m" & i).style.display="none"         
+    document.all("i" & i).src="/images/1.gif"         
+  end if         
+ next    
+    document.all("openall").value="全部展開"    
+end if            
+end sub   
+Cx_0dummy      
+         
+sub chdisplay(k)         
+  if document.all("m" & k).style.display="" then         
+    document.all("m" & k).style.display="none"     
+    document.all("i" & k).src="/images/1.gif"         
+  else         
+    document.all("m" & k).style.display=""         
+    document.all("i" & k).src="/images/2.gif"         
+  end if         
+end sub         
+     
+
+
+ 

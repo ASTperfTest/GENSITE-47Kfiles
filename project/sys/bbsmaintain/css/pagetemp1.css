@@ -1,0 +1,445 @@
+/*	
+	國工局全球網 - All Rights Reserved.
+	
+	Produicted By 凌網科技 HyWeb Tech. Co., Ltd.2004.
+	http://www.hyweb.com.tw　
+	HyWeb CSS Style(writed by m10/Carol13 Chen) 2004/02/26
+*/
+
+
+@import url("Tmenu.css");
+@import url("search.css");
+@import url("common.css");
+@import url("status.css");
+@import url("fast.css");
+
+
+body {
+	margin: 0px;
+	text-align: center;
+}
+
+
+/* 範圍 DIV 設定 */
+#Top {
+	background-image: url(../images/Top_eco1.jpg);
+	background-repeat: no-repeat;
+	height: 80px;
+	text-align: right;
+	padding-top: 3px;
+	padding-right: 10px;
+}
+#Top h1 {
+	font-family:"標楷體";
+	font-size: 24px;
+	font-weight: normal;
+	color:#FFFA70;
+	position:absolute;
+	left: 590px;
+	top: 24px;
+}
+
+#Mid {
+	text-align: left;
+	margin-top: 5px;
+	background: #FFFFCC;
+}
+#Mid .left {
+	float: left;
+	border-top: 2px dashed #B4B4B4;
+	border-bottom: 2px dashed #B4B4B4;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 3px;
+	padding-bottom: 0px;
+	line-height: 23px;
+	width: 590px;
+}
+
+
+#MainLeft {
+	width: 186px;
+	float: left;
+
+}
+
+#MainRight {
+	float: right;
+	width: 583px;
+
+}
+
+
+#IndexDown {
+	background-image: url(../images/index_DownBg.gif);
+	background-repeat: no-repeat;
+	height: 79px;
+	block:bottom;
+	clear:both;
+
+}
+
+
+/* MainLeft--------- ad  廣告連結------- */
+#MainLeft .ad {
+	margin-bottom: 10px;
+
+}
+
+/* MainRight---------con 內頁內容------- */
+#con .Top {
+	width:583px;
+	height: 20px;
+	background-image: url(../images/conTop.gif);
+	background-repeat: no-repeat;
+}
+
+#con .Down {
+	width:583px;
+	height: 8px;
+	background-image: url(../images/buildDown.gif);
+	background-repeat: no-repeat;
+}
+
+#con .Main {
+	width:583px;
+	background-image: url(../images/buildMainBg.gif);
+	background-repeat: repeat-y;
+	text-align: left;
+	padding-right: 20px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+
+
+}
+#con .Title1 {
+	font-size: 15px;
+	font-weight: bold;
+	color: #304E81;
+}
+#con .Title2 {
+	font-size: 15px;
+	color: #AE49B4;
+}
+
+#con .text {
+	font-size: 13px;
+	color: #345D1F;
+	line-height: 20px;
+
+}
+
+#con .List {
+	text-align: left;
+	font-size: 15px;
+	font-weight: bold;
+	color: #304E81;
+	list-style-image: url(../images/point2.gif);
+	text-indent: 20pt;
+	line-height: 22px;
+	margin-top: 10px;
+}
+#con .List a {
+	color: #304E81;
+	text-decoration: none;
+
+}
+#con .List a:hover {
+	color: #6D80AD;
+	text-decoration: none;
+}
+
+
+/* MainRight---------info 其他相關資料區------- */
+#info .Top {
+	width:583px;
+	background-image: url(../images/info_top.gif);
+	background-repeat: no-repeat;
+	margin-top: 15px;
+	height: 12px;
+
+
+}
+
+#info .Down {
+	width:583px;
+	height: 23px;
+	background-image: url(../images/info_down.gif);
+	background-repeat: no-repeat;
+}
+
+#info .Main {
+	width:583px;
+	background-image: url(../images/info_bg.gif);
+	background-repeat: repeat-y;
+	text-align: left;
+	padding-right: 20px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	margin-top: -7px;
+
+
+
+
+}
+#info .Title1 {
+	font-size: 15px;
+	font-weight: bold;
+	color: #304E81;
+}
+#info .Title2 {
+	font-size: 15px;
+	color: #81107A;
+}
+
+#info .text {
+	font-size: 13px;
+	color: #345D1F;
+	line-height: 20px;
+
+}
+#info .text2 {
+	font-size: 13px;
+	color: #1F4B7D;
+	line-height: 20px;
+	margin-top: 5px;
+	margin-left: 13px;
+	margin-bottom: 18px;
+}
+#info a {
+	font-size: 13px;
+	color: #1F4B7D;
+	text-decoration: none;
+}
+#info a:hover {
+	font-size: 13px;
+	color: #0054FF;
+	text-decoration: underline;
+}
+
+
+
+/* MainRight---------other ( other1 主題報導    other2 知識導覽    otherRight 國道工程之美  ) ------- */
+#otherLeft {
+	float: left;
+	width: 358px;
+	margin-top: 10px;
+
+}
+#other1 {
+	background-image: url(../images/other1_Bg.gif);
+	background-repeat: repeat-y;
+	text-align: left;
+}
+#other1 .other1Title {
+	background-image: url(../images/other1_titleBg.jpg);
+	background-repeat: repeat-y;
+	height: 31px;
+	width: 358px;
+	padding-top: 12px;
+	padding-left: 18px;
+}
+#other1 .other1Title .Left {
+	float: left;
+	font-size: 15px;
+	font-weight: bold;
+	color: #755D38;
+}
+#other1 .title {
+	font-size: 15px;
+	color: #81107A;
+	margin-right: 28px;
+	margin-left: 17px;
+	margin-top: 5px;
+}
+
+#other1 .text {
+	font-size: 13px;
+	color: #755D38;
+	margin-right: 28px;
+	margin-left: 17px;
+	margin-top: 5px;
+	line-height: 19px;
+
+}
+#other1 .img {
+	margin-right: 10px;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	float: left;
+}
+#other1 .text a {
+	color: #BC6100;
+	text-decoration: none;
+}
+#other1 .text a:hover {
+	color: #C800B3;
+	text-decoration: underline;
+}
+
+
+
+
+
+#other2 {
+	background-image: url(../images/other2_Bg.gif);
+	background-repeat: repeat-y;
+	text-align: left;
+	font-size: 13px;
+	color: #E66100;
+	margin-top: 5px;
+
+}
+#other2 .other2Title {
+	background-image: url(../images/other2_titleBg.jpg);
+	background-repeat: repeat-y;
+	height: 32px;
+	width: 358px;
+	padding-top: 12px;
+	padding-left: 18px;
+}
+#other2 .other2Title .Left {
+	float: left;
+	font-size: 15px;
+	font-weight: bold;
+	color: #755D38;
+}
+#other2 .title {
+	font-size: 15px;
+	color: #81107A;
+	margin-right: 28px;
+	margin-left: 17px;
+	margin-top: 5px;
+}
+
+#other2 .text {
+	font-size: 13px;
+	color: #755D38;
+	margin-right: 28px;
+	margin-left: 17px;
+	margin-top: 5px;
+	line-height: 19px;
+
+}
+#other2 .img {
+	margin-right: 10px;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	float: left;
+}
+#other2 .text a {
+	color: #BC6100;
+	text-decoration: none;
+}
+#other2 .text a:hover {
+	color: #C800B3;
+	text-decoration: underline;
+}
+
+
+#otherRight {
+	float: right;
+	width: 225px;
+	background-image: url(../images/other3_Bg.jpg);
+	background-repeat: repeat-y;
+	text-align: left;
+	font-size: 13px;
+	color: #E66100;
+	margin-top: 10px;
+
+}
+#otherRight .otherRightTitle {
+	background-image: url(../images/other3_titleBg.jpg);
+	background-repeat: repeat-y;
+	height: 31px;
+	width: 225px;
+	padding-top: 12px;
+	padding-left: 18px;
+	font-size: 15px;
+	font-weight: bold;
+	color: #755D38;
+}
+#otherRight .title {
+	font-size: 15px;
+	color: #81107A;
+	margin-right: 28px;
+	margin-left: 17px;
+	margin-top: 5px;
+}
+#otherRight .img a  {
+	background-image: url(../images/otherRight_picBg.gif);
+	margin-right: 10px;
+	margin-left: 20px;
+	margin-top: 0px;
+	margin-bottom: 8px;
+	background-repeat: no-repeat;
+	padding-top: 0px;
+	padding-right: 8px;
+	padding-bottom: 5px;
+	padding-left: 0px;
+	background-position: right bottom;
+	width: 100px;
+}
+
+#otherRight .img a:hover {
+	background-image: url(../images/otherRight_picBg2.gif);
+}
+
+
+/* IndexDown---------頁底版權資訊 ------- */
+#IndexDown .left {
+	float: left;
+	width: 220px;
+	color: #4A689B;
+	font-size: 13px;
+	margin-top: 33px;
+	margin-left: 3px;
+
+}
+#IndexDown .left a {
+	color: #4A689B;
+	font-size: 13px;
+	text-decoration: none;
+}
+#IndexDown .left a:hover {
+	color: #0C6CE3;
+	text-decoration: underline;
+}
+#IndexDown .right {
+	float: right;
+	text-align: left;
+	width: 515px;
+
+}
+#IndexDown .ie {
+	color: #878787;
+	font-size: 13px;
+	margin-top: 10px;
+	margin-left: 30px;
+
+
+
+}
+#IndexDown .add {
+	color: #ffffff;
+	font-size: 12px;
+	margin-top: 2px;
+
+
+}
+
+#IndexDown .time {
+	color: #4A689B;
+	font-size: 13px;
+	margin-top: 7px;
+}
+#IndexDown .time a {
+	color: #EE5A00;
+	text-decoration: none;
+}
+#IndexDown .time a:hover {
+	color: #17A600;
+	text-decoration: underline;
+}

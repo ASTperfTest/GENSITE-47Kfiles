@@ -1,0 +1,96 @@
+﻿.topmenu {
+	font-family: "新細明體", "標楷體";
+	font-size: 12px;
+	line-height: 18px;
+}
+#function {
+	font-family: "新細明體", "標楷體";
+	font-size: 12px;
+	font-weight: bolder;
+	color: #FFFFFF;
+	line-height: 18px;
+	display: block;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+#functionsub {
+	font-family: "新細明體", "標楷體";
+	font-size: 12px;
+	font-weight: normal;
+	color: #FFFFFF;
+	margin-left: 20px;
+	display: block;
+	line-height: 18px;
+}
+
+#function a {
+	display: block;
+	cursor: hand;
+	text-decoration: none;
+	color: #FFFFFF;
+}
+#function a:hover{
+	background-color: #336600;
+	display: block;
+	cursor: hand;
+	text-decoration: none;#
+}
+
+#logininput {
+	font-family: "新細明體";
+	height: 90px;
+	text-align: center;
+	margin-top: 10px;
+	font-size: 12px;
+}
+.inputtext {
+	border: 1px solid #333333;
+	font-family: "新細明體";
+	font-size: 12px;
+}
+.inputbutton {
+	font-family: "新細明體";
+	font-size: 12px;
+	color: #FFFFFF;
+	background-color: #35421A;
+	background-position: center center;
+	border: 1px solid #000000;
+}
+
+.customername {
+	font-family: Arial, "新細明體";
+	font-size: 12px;
+}
+.copyright {
+	font-family: Arial;
+	font-size: 12px;
+	color: #FFFFFF;
+}
+.doclink a{
+	font-family: "新細明體";
+	font-size: 12px;
+	color: #000000;
+	text-decoration: none;
+}
+.doclink a:hover{
+	font-family: "新細明體";
+	font-size: 12px;
+	color: #FF0000;
+	text-decoration: none;
+}
+.tabletext {
+	font-family: "新細明體";
+	font-size: 12px;
+}
+a {
+	font-family: "新細明體";
+	font-size: 12px;
+	text-decoration: none;
+	color: #006699;
+}
+a:hover {
+	font-family: "新細明體";
+	font-size: 12px;
+	text-decoration: none;
+	color: #FF0000;
+}

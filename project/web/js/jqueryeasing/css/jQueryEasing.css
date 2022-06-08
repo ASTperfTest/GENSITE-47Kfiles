@@ -1,0 +1,33 @@
+﻿#path_menu
+{
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    height: 40px;
+	width: 100%;
+}
+#path_menu li
+{
+    float: left;
+	margin-right:5px;
+    height: 25px;
+    *height: 40px;
+    position: relative;
+    overflow: hidden;
+	text-align: center;
+}
+#path_menu li a
+{
+    position: absolute;
+    top: 10px;
+    display: block;
+    height: inherit; /* fast png fix for ie6 */
+    position: relative;
+    /*
+    behavior: expression((this.runtimeStyle.behavior="none")&&(this.pngSet?this.pngSet=true:(this.nodeName == "IMG" && this.src.toLowerCase().indexOf('.png')>-1?(this.runtimeStyle.backgroundImage = "none",
+   			this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "', sizingMethod='image')",
+			this.src = "transparent.gif"):(this.origBg = this.origBg? this.origBg :this.currentStyle.backgroundImage.toString().replace('url("','').replace('")',''),
+			this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.origBg + "', sizingMethod='crop')",
+			this.runtimeStyle.backgroundImage = "none")),this.pngSet=true));
+    */
+}

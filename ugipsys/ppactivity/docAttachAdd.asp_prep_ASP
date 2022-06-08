@@ -1,0 +1,34 @@
+﻿:  response.expires = 0
+htprogcap="�ҵ{"
+htprogfunc="�s��"
+htprogcode="pa001"
+htprogprefix="paact" 
+   CxMethod_ASP_server_2075167351()
+   CxMethod_ASP_dbutil_453315802()
+
+
+   CxMethod_ASP_dbutil_10064021()
+   CxMethod_ASP_selecttree_859552413()
+   CxMethod_ASP_checkgipconfig_1275316133()
+   CxMethod_ASP_htuigen_1591615763()
+   CxMethod_ASP_hyftdgip_754890524()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        =request("pid")  

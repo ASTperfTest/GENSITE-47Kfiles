@@ -1,0 +1,93 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  function CheckWord() {
+        
+    var data = document.getElementById("WordTitle").value ;
+        
+    data = data.replace(/(^\s*)|(\s*$)/g,"");
+               
+    if ( data != "" ) { 
+      CallServer(data);  
+    }
+    else {
+      alert("不允許空白");
+      return false;
+    }
+  }
+  function ReceiveServerData(rValue) {
+    // Y:重複
+    if ( rValue=="Y" ) { 
+      alert("推薦的詞彙重複");
+      return false; 
+    }
+    else { 
+      alert("推薦的詞彙沒有重複");       
+      return true; 
+    }               
+  }
+  
+
+
+
+
+ 

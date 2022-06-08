@@ -1,0 +1,408 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<hpMain>
+	<contextPath>/javagip</contextPath>
+	<headScript/>
+	<funcName>主題單元管理</funcName>
+	<navList>
+		<nav href="
+				AddShowForm.do?formType=gipadmin/xmlspec/CtUnitAdd.xml				
+				">新增</nav>
+		<nav href="query.do?queryspec=CtUnitQuery.xml&amp;listspec=CtUnitList.xml">查詢</nav>
+		<nav href="javascript:window.history.back();">回前頁</nav>
+	</navList>
+	<formName>單元清單</formName>
+	<mainContent>
+		<page>
+			<hiddenInput>
+				<listspec>CtUnitList.xml</listspec>
+				<gipdsd/>
+				<ictunit/>
+				<kpsn>1</kpsn>
+			</hiddenInput>
+			<totaldata>531</totaldata>
+			<totalPage>36</totalPage>
+			<pageSize>15</pageSize>
+			<curPage>1</curPage>
+		</page>
+		<UIParts/>
+		<TopicList>
+			<TopicName>CtUnit</TopicName>
+			<ColumnHead>
+				<Column id="0">
+					<value>主題單元名稱</value>
+				</Column>
+				<Column id="1">
+					<value>單元類型</value>
+				</Column>
+				<Column id="2">
+					<value>單元資料定義</value>
+				</Column>
+				<Column id="3">
+					<value>單位</value>
+				</Column>
+				<Column id="4">
+					<value>項目節點數</value>
+				</Column>
+				<Column id="5">
+					<value>資料筆數</value>
+				</Column>
+			</ColumnHead>
+			<Group id="0" name="">
+				<Article>
+					<Column id="0">
+						<url>UpdateShowForm.do?formType=gipadmin/xmlspec/CtUnitEdit.xml &amp;pk=ctUnitId&amp;pkvalue=522</url>
+						<value>001歷史沿革</value>
+					</Column>
+					<Column id="1">
+						<value>網頁模組</value>
+					</Column>
+					<Column id="2">
+						<value>純網頁</value>
+					</Column>
+					<Column id="3">
+						<value/>
+					</Column>
+					<Column id="4">
+						<url>list.do?listspec=CtUnitNodeList.xml&amp;pk=ctUnitId&amp;pkvalue=522</url>
+						<target>_blank</target>
+						<value>5</value>
+					</Column>
+					<Column id="5">
+						<value>5</value>
+					</Column>
+				</Article>
+				<Article>
+					<Column id="0">
+						<url>UpdateShowForm.do?formType=gipadmin/xmlspec/CtUnitEdit.xml				
+				&amp;pk=ctUnitId&amp;pkvalue=523</url>
+						<value>002組織圖表</value>
+					</Column>
+					<Column id="1">
+						<value>網頁模組</value>
+					</Column>
+					<Column id="2">
+						<value>純網頁</value>
+					</Column>
+					<Column id="3">
+						<value/>
+					</Column>
+					<Column id="4">
+						<url>list.do?listspec=CtUnitNodeList.xml&amp;pk=ctUnitId&amp;pkvalue=523</url>
+						<target>_blank</target>
+						<value>7</value>
+					</Column>
+					<Column id="5">
+						<value>5</value>
+					</Column>
+				</Article>
+				<Article>
+					<Column id="0">
+						<url>UpdateShowForm.do?formType=gipadmin/xmlspec/CtUnitEdit.xml				
+				&amp;pk=ctUnitId&amp;pkvalue=524</url>
+						<value>003首長介紹</value>
+					</Column>
+					<Column id="1">
+						<value>網頁模組</value>
+					</Column>
+					<Column id="2">
+						<value>3</value>
+					</Column>
+					<Column id="3">
+						<value/>
+					</Column>
+					<Column id="4">
+						<url>list.do?listspec=CtUnitNodeList.xml&amp;pk=ctUnitId&amp;pkvalue=524</url>
+						<target>_blank</target>
+						<value>9</value>
+					</Column>
+					<Column id="5">
+						<value>5</value>
+					</Column>
+				</Article>
+				<Article>
+					<Column id="0">
+						<url>UpdateShowForm.do?formType=gipadmin/xmlspec/CtUnitEdit.xml				
+				&amp;pk=ctUnitId&amp;pkvalue=527</url>
+						<value>004機關簡介</value>
+					</Column>
+					<Column id="1">
+						<value>網頁模組</value>
+					</Column>
+					<Column id="2">
+						<value>純網頁</value>
+					</Column>
+					<Column id="3">
+						<value/>
+					</Column>
+					<Column id="4">
+						<url>list.do?listspec=CtUnitNodeList.xml&amp;pk=ctUnitId&amp;pkvalue=527</url>
+						<target>_blank</target>
+						<value>7</value>
+					</Column>
+					<Column id="5">
+						<value>5</value>
+					</Column>
+				</Article>
+				<Article>
+					<Column id="0">
+						<url>UpdateShowForm.do?formType=gipadmin/xmlspec/CtUnitEdit.xml				
+				&amp;pk=ctUnitId&amp;pkvalue=533</url>
+						<value>009海關燈塔</value>
+					</Column>
+					<Column id="1">
+						<value>網頁模組</value>
+					</Column>
+					<Column id="2">
+						<value>機關新聞</value>
+					</Column>
+					<Column id="3">
+						<value/>
+					</Column>
+					<Column id="4">
+						<url>list.do?listspec=CtUnitNodeList.xml&amp;pk=ctUnitId&amp;pkvalue=533</url>
+						<target>_blank</target>
+						<value>13</value>
+					</Column>
+					<Column id="5">
+						<value>32</value>
+					</Column>
+				</Article>
+				<Article>
+					<Column id="0">
+						<url>UpdateShowForm.do?formType=gipadmin/xmlspec/CtUnitEdit.xml &amp;pk=ctUnitId&amp;pkvalue=534</url>
+						<value>010海關關徽</value>
+					</Column>
+					<Column id="1">
+						<value>網頁模組</value>
+					</Column>
+					<Column id="2">
+						<value>純網頁</value>
+					</Column>
+					<Column id="3">
+						<value/>
+					</Column>
+					<Column id="4">
+						<url>list.do?listspec=CtUnitNodeList.xml&amp;pk=ctUnitId&amp;pkvalue=534</url>
+						<target>_blank</target>
+						<value>2</value>
+					</Column>
+					<Column id="5">
+						<value>1</value>
+					</Column>
+				</Article>
+				<Article>
+					<Column id="0">
+						<url>UpdateShowForm.do?formType=gipadmin/xmlspec/CtUnitEdit.xml				
+				&amp;pk=ctUnitId&amp;pkvalue=535</url>
+						<value>011關艇巡緝艇</value>
+					</Column>
+					<Column id="1">
+						<value>網頁模組</value>
+					</Column>
+					<Column id="2">
+						<value>機關新聞</value>
+					</Column>
+					<Column id="3">
+						<value/>
+					</Column>
+					<Column id="4">
+						<url>list.do?listspec=CtUnitNodeList.xml&amp;pk=ctUnitId&amp;pkvalue=535</url>
+						<target>_blank</target>
+						<value>2</value>
+					</Column>
+					<Column id="5">
+						<value>1</value>
+					</Column>
+				</Article>
+				<Article>
+					<Column id="0">
+						<url>UpdateShowForm.do?formType=gipadmin/xmlspec/CtUnitEdit.xml &amp;pk=ctUnitId&amp;pkvalue=415</url>
+						<value>316 常用問答集</value>
+					</Column>
+					<Column id="1">
+						<value>網頁模組</value>
+					</Column>
+					<Column id="2">
+						<value>類別條列式公告</value>
+					</Column>
+					<Column id="3">
+						<value/>
+					</Column>
+					<Column id="4">
+						<url>list.do?listspec=CtUnitNodeList.xml&amp;pk=ctUnitId&amp;pkvalue=415</url>
+						<target>_blank</target>
+						<value>1</value>
+					</Column>
+					<Column id="5">
+						<value>0</value>
+					</Column>
+				</Article>
+				<Article>
+					<Column id="0">
+						<url>UpdateShowForm.do?formType=gipadmin/xmlspec/CtUnitEdit.xml				
+				&amp;pk=ctUnitId&amp;pkvalue=530</url>
+						<value>006機關特色</value>
+					</Column>
+					<Column id="1">
+						<value>網頁模組</value>
+					</Column>
+					<Column id="2">
+						<value>純網頁</value>
+					</Column>
+					<Column id="3">
+						<value/>
+					</Column>
+					<Column id="4">
+						<url>list.do?listspec=CtUnitNodeList.xml&amp;pk=ctUnitId&amp;pkvalue=530</url>
+						<target>_blank</target>
+						<value>6</value>
+					</Column>
+					<Column id="5">
+						<value>4</value>
+					</Column>
+				</Article>
+				<Article>
+					<Column id="0">
+						<url>UpdateShowForm.do?formType=gipadmin/xmlspec/CtUnitEdit.xml &amp;pk=ctUnitId&amp;pkvalue=531</url>
+						<value>007 轄區地理位置</value>
+					</Column>
+					<Column id="1">
+						<value>網頁模組</value>
+					</Column>
+					<Column id="2">
+						<value>純網頁</value>
+					</Column>
+					<Column id="3">
+						<value/>
+					</Column>
+					<Column id="4">
+						<url>list.do?listspec=CtUnitNodeList.xml&amp;pk=ctUnitId&amp;pkvalue=531</url>
+						<target>_blank</target>
+						<value>6</value>
+					</Column>
+					<Column id="5">
+						<value>14</value>
+					</Column>
+				</Article>
+				<Article>
+					<Column id="0">
+						<url>UpdateShowForm.do?formType=gipadmin/xmlspec/CtUnitEdit.xml				
+				&amp;pk=ctUnitId&amp;pkvalue=549</url>
+						<value>024新近查獲案件快訊</value>
+					</Column>
+					<Column id="1">
+						<value>網頁模組</value>
+					</Column>
+					<Column id="2">
+						<value>純網頁</value>
+					</Column>
+					<Column id="3">
+						<value/>
+					</Column>
+					<Column id="4">
+						<url>list.do?listspec=CtUnitNodeList.xml&amp;pk=ctUnitId&amp;pkvalue=549</url>
+						<target>_blank</target>
+						<value>4</value>
+					</Column>
+					<Column id="5">
+						<value>1</value>
+					</Column>
+				</Article>
+				<Article>
+					<Column id="0">
+						<url>UpdateShowForm.do?formType=gipadmin/xmlspec/CtUnitEdit.xml &amp;pk=ctUnitId&amp;pkvalue=561</url>
+						<value>036基本法規</value>
+					</Column>
+					<Column id="1">
+						<value>網頁模組</value>
+					</Column>
+					<Column id="2">
+						<value>機關新聞</value>
+					</Column>
+					<Column id="3">
+						<value/>
+					</Column>
+					<Column id="4">
+						<url>list.do?listspec=CtUnitNodeList.xml&amp;pk=ctUnitId&amp;pkvalue=561</url>
+						<target>_blank</target>
+						<value>11</value>
+					</Column>
+					<Column id="5">
+						<value>22</value>
+					</Column>
+				</Article>
+				<Article>
+					<Column id="0">
+						<url>UpdateShowForm.do?formType=gipadmin/xmlspec/CtUnitEdit.xml				
+				&amp;pk=ctUnitId&amp;pkvalue=562</url>
+						<value>037貨物通關</value>
+					</Column>
+					<Column id="1">
+						<value>網頁模組</value>
+					</Column>
+					<Column id="2">
+						<value>機關新聞</value>
+					</Column>
+					<Column id="3">
+						<value/>
+					</Column>
+					<Column id="4">
+						<url>list.do?listspec=CtUnitNodeList.xml&amp;pk=ctUnitId&amp;pkvalue=562</url>
+						<target>_blank</target>
+						<value>12</value>
+					</Column>
+					<Column id="5">
+						<value>28</value>
+					</Column>
+				</Article>
+				<Article>
+					<Column id="0">
+						<url>UpdateShowForm.do?formType=gipadmin/xmlspec/CtUnitEdit.xml &amp;pk=ctUnitId&amp;pkvalue=563</url>
+						<value>038查驗</value>
+					</Column>
+					<Column id="1">
+						<value>網頁模組</value>
+					</Column>
+					<Column id="2">
+						<value>機關新聞</value>
+					</Column>
+					<Column id="3">
+						<value/>
+					</Column>
+					<Column id="4">
+						<url>list.do?listspec=CtUnitNodeList.xml&amp;pk=ctUnitId&amp;pkvalue=563</url>
+						<target>_blank</target>
+						<value>14</value>
+					</Column>
+					<Column id="5">
+						<value>5</value>
+					</Column>
+				</Article>
+				<Article>
+					<Column id="0">
+						<url>UpdateShowForm.do?formType=gipadmin/xmlspec/CtUnitEdit.xml				
+				&amp;pk=ctUnitId&amp;pkvalue=564</url>
+						<value>039稅款優待</value>
+					</Column>
+					<Column id="1">
+						<value>網頁模組</value>
+					</Column>
+					<Column id="2">
+						<value>機關新聞</value>
+					</Column>
+					<Column id="3">
+						<value/>
+					</Column>
+					<Column id="4">
+						<url>list.do?listspec=CtUnitNodeList.xml&amp;pk=ctUnitId&amp;pkvalue=564</url>
+						<target>_blank</target>
+						<value>10</value>
+					</Column>
+					<Column id="5">
+						<value>23</value>
+					</Column>
+				</Article>
+			</Group>
+		</TopicList>
+	</mainContent>
+</hpMain>

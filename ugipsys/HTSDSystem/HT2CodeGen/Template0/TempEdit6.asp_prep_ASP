@@ -1,0 +1,20 @@
+﻿
+
+
+
+  sub showdonebox(lmsg) 
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+                 =lmsg
+                               =htprogprefix:            =session("querypage_no")
+
+
+
+  end sub '---- showdonebox() ----  

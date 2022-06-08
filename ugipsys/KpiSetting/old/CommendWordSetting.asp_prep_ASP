@@ -1,0 +1,156 @@
+﻿: @ codepage = 65001 
+  
+ response.expires = 0
+ htprogcap="單元資料維護"
+ htprogfunc="編修"
+ htuploadpath=session("public")+"data/"
+ htprogcode="cw01"
+ htprogprefix="cw01" 
+
+   CxMethod_ASP_server_1606199358()
+   CxMethod_ASP_dbfunc_874801204()
+  
+ if request("actiontype") = "edit" then  
+  doupdatedb()
+  showdonebox("資料更新成功！")  
+ else 
+  showform()
+ end if 
+
+ sub doupdatedb()
+  
+  dim inter : inter = "0"
+  dim tank : tank = "0"
+  dim topic : topic = "0"
+  dim knowledge : knowledge = "0"  
+  
+  inter = request("inter")
+  tank = request("tank")
+  topic = request("topic")
+  knowledge = request("knowledge")
+    
+  sql = "update codemain set mvalue = '" & inter & "' where codemetaid = 'commendword' and mcode = 'inter';"
+  sql = sql & "update codemain set mvalue = '" & tank & "' where codemetaid = 'commendword' and mcode = 'tank';"
+  sql = sql & "update codemain set mvalue = '" & topic & "' where codemetaid = 'commendword' and mcode = 'topic';"
+  sql = sql & "update codemain set mvalue = '" & knowledge & "' where codemetaid = 'commendword' and mcode = 'knowledge';"  
+  conn.execute(sql)
+  
+ end sub  
+
+   sub showdonebox(lmsg) 
+
+
+
+
+                                    =htprogprefix
+
+
+
+
+                 =lmsg
+
+
+
+
+   end sub 
+
+   
+sub showform()
+ 
+ sql = "select * from codemain where codemetaid = 'commendword' order by msortvalue"
+ set rs = conn.execute(sql)
+ if rs.eof then
+  response.write "<script>alert('codemain找不到設定值');history.back();</script>"
+ else
+  dim inter : inter = "0"
+  dim tank : tank = "0"
+  dim topic : topic = "0"
+  dim knowledge : knowledge = "0"  
+  while not rs.eof   
+   if rs("mcode") = "inter" then inter = rs("mvalue")
+   if rs("mcode") = "tank" then tank = rs("mvalue")
+   if rs("mcode") = "topic" then topic = rs("mvalue")
+   if rs("mcode") = "knowledge" then knowledge = rs("mvalue")
+   rs.movenext
+  wend 
+  set rs = nothing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                          if inter = "1" then :              end if 
+                          if inter = "0" then :              end if 
+
+
+
+
+
+
+
+                          if tank = "1" then :              end if 
+                          if tank = "0" then :              end if 
+
+
+
+
+
+
+
+                          if topic = "1" then :              end if 
+                          if topic = "0" then :              end if 
+
+
+
+
+
+
+
+                          if knowledge = "1" then :              end if 
+                          if knowledge = "0" then :              end if 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ end if  
+end sub
+ 

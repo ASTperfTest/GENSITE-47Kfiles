@@ -1,0 +1,93 @@
+﻿: @ codepage = 65001 
+   CxMethod_ASP_client_5214970()
+   CxMethod_ASP_dbfunc_1723934251()
+  
+ account = request("account")
+
+ '取得帳號資料
+ sql = "select * from member where account = n'" & account & "'"
+ set rs = conn.execute(sql)
+
+ passwd = trim(rs("passwd"))
+ realname = trim(rs("realname"))
+ homeaddr = trim(rs("homeaddr"))
+ phone = trim(rs("phone"))
+ mobile = trim(rs("mobile"))
+ email = trim(rs("email"))
+ mcode = trim(rs("mcode"))
+
+
+
+
+
+
+
+
+
+
+
+                                               = account 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        =account
+
+
+
+                                                                                                                =passwd
+
+
+
+                                                                                                                =passwd
+
+
+
+                                                                                                   =realname
+
+
+
+                                                                                                   =homeaddr
+
+
+
+                                                                                                =phone
+
+
+
+                                                                                                 =mobile
+
+
+
+                                                                                                =email
+
+
+
+
+
+  
+ sql2 = "select mcode,mvalue from codemain where codemetaid=n'xvgroup' order by msortvalue"
+ set ts=conn.execute(sql2)
+ while not ts.eof
+  if mcode = trim(ts("mcode")) then
+
+                                     =trim(ts("mcode")):              =trim(ts("mvalue"))
+  
+ else
+
+                                     =trim(ts("mcode")):     =trim(ts("mvalue"))
+  
+  end if
+  ts.movenext
+ wend
+ 

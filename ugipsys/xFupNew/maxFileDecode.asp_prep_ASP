@@ -1,0 +1,228 @@
+﻿: @ codepage = 65001 :   
+'// purpose: bypass firewall check, decode file.
+'// date: 2006/7/13
+'// input:
+'//     xpath , source folder.
+'//     xfile , source filename.
+'//     filemanxpath , redirect ��, �һݭn���ѽ�.
+
+response.charset="utf-8"
+
+   CxMethod_ASP_client_5214970()
+  
+    const myprivatekey = 18     '// decode private key value.
+    dim xfile
+    dim xpath
+    dim filemanxpath
+    dim sourcefile
+    dim fso                     '// check file exist object.
+    dim mystream                '// read file stream
+    dim myfile                  '// get file info
+    dim intfilelength
+    dim outputbyte              '// each byte to output
+    dim totaloutputbyte         '// total byes to output
+    dim outputmessage              '// message
+    dim bhaveerror              '// is error flag.
+
+
+    '// request
+    xfile = request("xfile")
+    xpath = request("xpath")
+    filemanxpath = request("filemanxpath")      '// �� filename �ϊ� path
+
+    '// initial
+    bhaveerror = fasle
+    outputmessage = ""
+    sourcefile = server.mappath(xpath & xfile)
+    outputfilepath = sourcefile & ".bak"
+
+    set mystream = server.createobject("adodb.stream")
+    mystream.open
+    mystream.type = 1
+
+    set fso = server.createobject("scripting.filesystemobject")
+
+
+    '// processing
+
+    '// step 1: check file exist.
+    if isfileexist(sourcefile) = 0 then
+        outputmessage = "error:" & sourcefile & " does not exist!"
+        bhaveerror = true
+    end if
+
+    if not bhaveerror then
+        '// step 2: move data to .bak file.
+        call maxcopyfile(sourcefile,outputfilepath)
+        call maxdeletefile(sourcefile)
+  
+        '// step 3: get file info.
+        set myfile = fso.getfile(outputfilepath)
+        intfilelength = myfile.size
+        mystream.loadfromfile(outputfilepath)
+
+        '// step 4: decode .bak file each byte to source file.
+        totaloutputbyte = ""
+        for i = 1 to intfilelength
+            outputbyte = ""
+            outputbyte = chrb(ascb(mystream.read(1)) xor myprivatekey)
+            'response.binarywrite outputbyte
+            totaloutputbyte=totaloutputbyte & outputbyte
+        next
+
+        outputmessage = savedatatofile(totaloutputbyte, sourcefile)
+    end if
+
+    set mystream = nothing
+    set myfile = nothing
+    set fso = nothing
+
+
+
+                                                              =response.charset
+
+
+
+
+
+
+  
+if outputmessage <> "" then
+    outputmessage = replace(outputmessage,"<br/>","")
+    outputmessage = replace(outputmessage,"\","\\")
+    outputmessage = replace(outputmessage,vbcrlf,"\n")
+    response.write "alert('" & outputmessage & "');" & vbcrlf
+end if
+
+                                              =filemanxpath
+
+
+
+
+  
+
+'//================================================================================
+'//================================================================================
+
+'// purpose: output data to file
+'// ex: ret = savedatatofile(totaloutputbyte, outputfilepath)
+function savedatatofile(byval totaloutputbyte, byval outputfilepath)
+    dim sql
+    dim blob, blobdata          '// process binary file object.
+    dim returnmessage
+
+
+    set blob = server.createobject("tabs.blob")
+    returnmessage = ""
+
+    '// insert binary data to database
+    sql = "insert into tabsuploadfile values('" & ezpkstr(sourcefile) & "',0x" & binarytohex(totaloutputbyte) & "," & session.sessionid & ");"
+    'response.write "<br/>sql: " & sql & vbcrlf
+    conn.execute sql
+
+    '// read binary data from database
+    sql = "select filedata from tabsuploadfile where sessionid=" & session.sessionid
+    'response.write "<br/>sql: " & sql & vbcrlf
+
+    set rs = conn.execute(sql)
+    if not rs.eof then
+        blobdata = blob.loadfromadofield(rs(0))
+        blob.savetofile blobdata, outputfilepath, false
+        returnmessage = "<br/>decode done!" & vbcrlf
+        returnmessage = returnmessage & "<br/>file: " & outputfilepath  & vbcrlf
+
+        '// delete binary data from database
+        sql = "delete from tabsuploadfile where sessionid=" & session.sessionid
+        'response.write "<br/>sql: " & sql & vbcrlf
+        conn.execute sql
+    else
+        returnmessage = "<br/>database recordset not found!"
+        'response.write "<br/>sql: " & sql & vbcrlf
+    end if
+
+    savedatatofile = returnmessage
+end function
+
+function ezpkstr(byval inputstring)
+    ezpkstr = replace(inputstring,"'","''")
+end function
+
+function binarytohex(byval binary)
+  dim c1, out, onebyte
+
+  'for each source byte
+  for c1 = 1 to lenb(binary)
+    'get the byte as hex
+    onebyte = hex(ascb(midb(binary, c1, 1)))
+
+    'append zero for bytes < 0x10
+    if len(onebyte) = 1 then onebyte = "0" & onebyte
+
+    'join the byte to output stream
+    out = out & onebyte
+  next
+
+  'set output value
+  binarytohex = out
+end function
+
+
+'// purpose: delete a file
+'// ex: ret = maxdeletefile(inputfilepath)
+function maxdeletefile(byval inputfilepath)
+    dim deletefso
+    dim returnvalue
+
+    returnvalue = 0
+    set deletefso = server.createobject("scripting.filesystemobject")
+    if deletefso.fileexists(inputfilepath) then
+        on error resume next
+        deletefso.deletefile(inputfilepath)
+    end if
+
+    maxdeletefile = returnvalue
+end function
+
+
+
+'// purpose: copy source filename to target filename
+'// return:
+'//     true: success.
+'//     false: fail.
+'// ex: ret = maxcopyfile(sourcefile,targetfile)
+function maxcopyfile(byval sourcefile, byval targetfile)
+    dim copyfso
+    dim returnvalue
+    
+    returnvalue = fasle
+    if targetfile <> "" and sourcefile <> "" then
+        set copyfso = server.createobject("scripting.filesystemobject")
+
+        if copyfso.fileexists(sourcefile) then
+            copyfso.copyfile sourcefile, targetfile
+        end if
+        set copyfso = nothing
+    end if
+
+    maxcopyfile = returnvalue
+end function
+
+
+'// purpose: check a file is exist.
+'// return: 0: not exist.
+'// return: 1: exist.
+'// ex: ret = isfileexist(inputfilepath)
+function isfileexist(byval inputfilepath)
+    dim returnvalue
+    dim fsocheck
+
+    returnvalue = 0
+    set fsocheck = server.createobject("scripting.filesystemobject")
+    if fsocheck.fileexists(inputfilepath) then
+        returnvalue = 1
+    end if
+    set fsocheck = nothing
+
+    isfileexist = returnvalue
+end function
+ 

@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C# Express 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gardening.Core", "Gardening.Core\Gardening.Core.csproj", "{A85CF5D6-EDC5-40F3-AD63-C633BE084D82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gardening.Core.Test", "Gardening.Core.Test\Gardening.Core.Test.csproj", "{1A9B1E94-47E3-4130-A226-7C723F9FD10B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A85CF5D6-EDC5-40F3-AD63-C633BE084D82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A85CF5D6-EDC5-40F3-AD63-C633BE084D82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A85CF5D6-EDC5-40F3-AD63-C633BE084D82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A85CF5D6-EDC5-40F3-AD63-C633BE084D82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A9B1E94-47E3-4130-A226-7C723F9FD10B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A9B1E94-47E3-4130-A226-7C723F9FD10B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A9B1E94-47E3-4130-A226-7C723F9FD10B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A9B1E94-47E3-4130-A226-7C723F9FD10B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

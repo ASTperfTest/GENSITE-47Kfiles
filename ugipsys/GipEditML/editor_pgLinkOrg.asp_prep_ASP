@@ -1,0 +1,60 @@
+﻿: @ codepage = 65001 
+   response.expires = 0
+htprogcap="資料附件"
+htprogfunc="條列"
+htprogcode="gc1ap1"
+htprogprefix="cuattach" 
+   response.expires = 0 
+   CxMethod_ASP_server_2075167351()
+
+
+
+
+
+
+   CxMethod_ASP_dbfunc_874801204()
+  
+dim mpkey, dpkey
+dim rsmaster, rslist
+ xicuitem = request.querystring("icuitem")
+
+
+
+
+
+
+
+
+  
+ fsql = "select dhtx.*, r.stitle" _
+  & " from cudtpage as dhtx" _
+  & " left join cudtgeneric as r on r.icuitem=dhtx.npageid" _
+  & " where 1=1" _
+  & " and dhtx.xicuitem=" & pkstr(xicuitem,"") _
+  & " order by dhtx.listseq"
+ set rslist = conn.execute(fsql)
+
+
+
+
+
+
+
+  
+ while not rslist.eof
+
+
+                                =rslist("npageid")
+  =rslist("atitle")
+
+
+  =rslist("adesc")
+
+
+  =rslist("stitle")
+
+
+      
+         rslist.movenext
+     wend
+    

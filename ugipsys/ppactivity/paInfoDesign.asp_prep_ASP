@@ -1,0 +1,201 @@
+﻿:  response.expires = 0
+htprogcap="���w��޲z"
+htprogfunc="�s�w"
+htuploadpath="/public/"
+htprogcode="pa001"
+htprogprefix="paact" 
+   CxMethod_ASP_server_2075167351()
+
+
+
+
+                               =htprogprefix
+
+
+
+   CxMethod_ASP_dbutil_453315802()
+  
+ dim xnewidentity
+ apath=server.mappath(htuploadpath) & "\"
+' response.write apath & "<hr>"
+  set xup = server.createobject("updownexpress.fileupload")
+  xup.open 
+
+if xupform("submittask") = "add" then
+
+ errmsg = ""
+ checkdbvalid()
+ if errmsg <> "" then
+  showerrbox()
+ else
+  doupdatedb()
+  showdonebox()
+ end if
+
+else
+
+ showhtmlhead()
+ formfunction = "add"
+ showform()
+ initform()
+ showhtmltail()
+end if
+
+
+function xupform(xvar)
+on error resume next
+ xstr = ""
+ arrval = xup.multival(xvar)
+ for i = 1 to ubound(arrval)
+  xstr = xstr & arrval(i) & ", "
+'  response.write arrval(i) & "<br>" & chr(13)
+ next 
+ if xstr = "" then
+  xstr = xup(xvar)
+  xupform = xstr
+ else
+  xupform = left(xstr, len(xstr)-2)
+ end if
+end function
+
+   sub initform() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '---- initform() ----
+
+   sub showform()  '===================== client side validation put here =========== 
+
+
+
+
+
+
+
+
+
+
+
+   CxMethod_ASP_pppsninfoformdesign_1346018191()
+
+   end sub '--- showform() ------
+
+   sub showhtmlhead() 
+
+
+
+                                                     =htprogcap:                        =htprogfunc
+
+    if (htprogright and 1)=1 then
+
+    end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+   end sub '--- showhtmlhead() ------
+
+
+   sub showhtmltail() 
+
+
+
+
+
+   end sub '--- showhtmltail() ------
+
+
+   sub showerrbox() 
+
+              =errmsg
+
+
+  
+end sub '---- showerrbox() ----
+
+sub checkdbvalid() '===================== server side validation put here =================
+
+'---- ��ݸ�������ˬd�{���x��b�o�� �a�p�u�ҡa�����ɳ] errmsg="xxx" �� exit sub ------
+' sql = "select * from client where clientid = '"& request("pfx_clientid") &"'"
+' set rsvalidate = conn.execute(sql)
+'
+' if not rsvalidate.eof then
+'  errmsg = "�u�Ȥ�s���v����!!�э��s�إ߫Ȥ�s��!"
+'  exit sub
+' end if
+
+end sub '---- checkdbvalid() ----
+
+sub doupdatedb()
+        id=xupform("id")
+        sql="select * from painfodesign where id=" & id 
+        set rs=conn.execute(sql)
+        if rs.eof then
+          sql = "insert into painfodesign values(" & xupform("id") & ",'" & xupform("check1_1")& "','" & xupform("check2_1")& "','" & xupform("check1_2")& "','" & xupform("check2_2")& "','" & xupform("check1_3")& "','" & xupform("check2_3")& "','" & xupform("check1_4")& "','" & xupform("check2_4")& "','" & xupform("check1_5")& "','" & xupform("check2_5")& "','" & xupform("check1_6")& "','" & xupform("check2_6")& "','" & xupform("check1_7")& "','" & xupform("check2_7")& "','" & xupform("check1_8")& "','" & xupform("check2_8")& "','" & xupform("check1_9")& "','" & xupform("check2_9")& "','" & xupform("check1_10")& "','" & xupform("check2_10")& "','" & xupform("check1_11")& "','" & xupform("check2_11")& "','" & xupform("check1_12")& "','" & xupform("check2_12")& "','" & xupform("check1_13")& "','" & xupform("check2_13")& "','" & xupform("check1_14")& "','" & xupform("check2_14")& "','" & xupform("check1_15")& "','" & xupform("check2_15")& "','" & xupform("check1_16")& "','" & xupform("check2_16")& "','" & xupform("check1_17")& "','" & xupform("check2_17")& "','" & xupform("check1_18")& "','" & xupform("check2_18")& "','" & xupform("check1_19")& "','" & xupform("check2_19")& "','" & xupform("check1_20")& "','" & xupform("check2_20")& "')"
+
+          conn.execute(sql)
+        else
+          sql="update painfodesign set check1_1='" & xupform("check1_1")& "',check2_1='" & xupform("check2_1")& "',check1_2='" & xupform("check1_2")& "',check2_2='" & xupform("check2_2")& "',check1_3='" & xupform("check1_3")& "',check2_3='" & xupform("check2_3")& "',check1_4='" & xupform("check1_4")& "',check2_4='" & xupform("check2_4")& "',check1_5='" & xupform("check1_5")& "',check2_5='" & xupform("check2_5")& "',check1_6='" & xupform("check1_6")& "',check2_6='" & xupform("check2_6")& "',check1_7='" & xupform("check1_7")& "',check2_7='" & xupform("check2_7")& "',check1_8='" & xupform("check1_8")& "',check2_8='" & xupform("check2_8")& "',check1_9='" & xupform("check1_9")& "',check2_9='" & xupform("check2_9")& "',check1_10='" & xupform("check1_10")& "',check2_10='" & xupform("check2_10")& "',check1_11='" & xupform("check1_11")& "',check2_11='" & xupform("check2_11")& "',check1_12='" & xupform("check1_12")& "',check2_12='" & xupform("check2_12")& "',check1_13='" & xupform("check1_13")& "',check2_13='" & xupform("check2_13")& "',check1_14='" & xupform("check1_14")& "',check2_14='" & xupform("check2_14")& "',check1_15='" & xupform("check1_15")& "',check2_15='" & xupform("check2_15")& "',check1_16='" & xupform("check1_16")& "',check2_16='" & xupform("check2_16")& "',check1_17='" & xupform("check1_17")& "',check2_17='" & xupform("check2_17")& "',check1_18='" & xupform("check1_18")& "',check2_18='" & xupform("check2_18")& "',check1_19='" & xupform("check1_19")& "',check2_19='" & xupform("check2_19")& "',check1_20='" & xupform("check1_20")& "',check2_20='" & xupform("check2_20")& "' where id=" &  xupform("id")
+   conn.execute(sql)
+ end if
+ 
+
+end sub '---- doupdatedb() ----
+
+sub showdonebox()
+ doneuri= ""
+ if doneuri = "" then doneuri = htprogprefix & "list.asp"
+
+
+
+
+
+                               =htprogprefix
+
+
+
+
+
+
+                             =doneuri
+
+
+
+   end sub '---- showdonebox() ----  
